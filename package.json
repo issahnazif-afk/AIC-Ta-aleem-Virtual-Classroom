@@ -1,0 +1,19 @@
+{
+  "name": "quran-classroom",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "data": "node scripts/build-data.mjs && node scripts/copy-vendor.mjs",
+    "dev": "npm run data && astro dev",
+    "build": "npm run data && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "1.2.0",
+    "astro": "7.3.8"
+  }
+}
