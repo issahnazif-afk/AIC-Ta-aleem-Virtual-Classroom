@@ -23,7 +23,7 @@ const levels = [
   <title>{cfg.appName}</title>
   <meta name="description" content="A virtual classroom where the Sheikh listens to your recitation, for Hifz tests and reading from the mushaf." />
   <meta name="theme-color" content="#0E6B4E" />
-  <link rel="icon" href={u('favicon.svg')} type="image/svg+xml" />
+  <link rel="icon" href={u('favicon-64.png')} type="image/png" />
   <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,7 +36,7 @@ const levels = [
   <!-- 1 · sign in ─────────────────────────────────────────── -->
   <section class="screen signin" id="s-signin" aria-labelledby="si-h">
     <div class="si-brand">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">ق</span><span><b>Qa-af Wal Quran-ul-Majeed</b><small>Virtual classroom</small></span></div>
+      <div class="brand big"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="64" height="64" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
       <div class="si-hero">
         <div class="si-sheikh"><Sheikh /></div>
         <p class="si-title">The Sheikh is ready to listen</p>
@@ -64,7 +64,7 @@ const levels = [
   <!-- 2 · camera and microphone ──────────────────────────── -->
   <section class="screen flow" id="s-check" hidden aria-labelledby="ck-h">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">ق</span><b>Qa-af Wal Quran-ul-Majeed</b></div>
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
       <ol class="steps"><li class="on">1 · Camera and mic</li><li>2 · Session</li><li>3 · Classroom</li></ol>
     </header>
     <div class="flow-main">
@@ -118,7 +118,7 @@ const levels = [
   <!-- 3 · session setup ──────────────────────────────────── -->
   <section class="screen flow" id="s-setup" hidden aria-labelledby="su-h">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">ق</span><b>Qa-af Wal Quran-ul-Majeed</b></div>
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
       <ol class="steps"><li>1 · Camera and mic</li><li class="on">2 · Session</li><li>3 · Classroom</li></ol>
     </header>
     <div class="flow-main">
@@ -159,7 +159,7 @@ const levels = [
   <!-- 4 · the classroom ──────────────────────────────────── -->
   <section class="screen room" id="s-class" hidden aria-label="Classroom">
     <header class="topbar room-bar">
-      <span class="brand-mark" aria-hidden="true">ق</span>
+      <img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="40" height="40" />
       <div class="rb-title"><b id="c-title">Hifz test</b><small id="c-sub"></small></div>
       <div class="dots" id="c-dots" aria-hidden="true"></div>
       <span class="muted small" id="c-q"></span>
@@ -210,7 +210,7 @@ const levels = [
   <!-- 5 · report ─────────────────────────────────────────── -->
   <section class="screen flow" id="s-report" hidden aria-labelledby="r-title">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">ق</span><b>Qa-af Wal Quran-ul-Majeed</b></div>
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
       <div class="row push">
         <button class="btn btn-primary" type="button" id="r-new">New session</button>
         <button class="btn" type="button" id="r-out">Sign out</button>

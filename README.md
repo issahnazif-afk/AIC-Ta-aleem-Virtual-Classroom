@@ -1,6 +1,9 @@
-# Qa-af Wal Quran-ul-Majeed Classroom
+# Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom
 
-A desktop virtual classroom where the automated Sheikh from Qa-af Wal Quran-ul-Majeed listens to a student
+![Al-Huda Islamic Centre](public/logo-160.png)
+
+The Ta'aleem virtual classroom of Al-Huda Islamic Weekend School (Al-Huda Islamic Centre). A desktop classroom where the
+automated Sheikh from the Qa-af Wal Quran-ul-Majeed app listens to a student
 recite, with the student's camera on. Two kinds of session:
 
 - **Hifz test.** The Sheikh recites the opening of a random ayah; the student carries on from memory while the
@@ -25,7 +28,7 @@ Hosted on GitHub Pages, with no server of its own. Built with [Astro](https://as
 5. **Report**: time, mistakes, looks away, most observed mistakes, the Sheikh's review, ayah by ayah, and
    confirmation that the session reached the class log.
 
-The interface design these screens follow is on the design canvas *Qa-af Wal Quran-ul-Majeed virtual classroom*.
+The interface design these screens follow is on the design canvas *Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom*.
 
 ## What the Sheikh checks
 

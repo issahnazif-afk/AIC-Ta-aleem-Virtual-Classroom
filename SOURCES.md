@@ -9,3 +9,4 @@
 | Word audio (the Sheikh's prompts) | [Quran.com](https://quran.com) word-by-word audio | As published | Streamed directly; not stored. |
 | Face Landmarker model and runtime | [Google MediaPipe](https://ai.google.dev/edge/mediapipe) | Apache 2.0 | Runtime from the `@mediapipe/tasks-vision` package; model downloaded at build time. |
 | Speech model `qaaf-asr` (optional) | Qa-af Wal Quran-ul-Majeed | As in the main app | Copied from the main app's GitHub release at build time. |
+| Logo | Al-Huda Islamic Centre | Belongs to Al-Huda Islamic Centre | `public/logo-*.png`, `icon-192.png`, `apple-touch-icon.png`, `favicon-64.png`. |

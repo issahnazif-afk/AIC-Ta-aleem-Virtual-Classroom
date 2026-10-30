@@ -2,7 +2,7 @@
 //  The one file to edit. Everything else reads from here.
 // ─────────────────────────────────────────────────────────────
 export default {
-  appName: 'Qa-af Wal Quran-ul-Majeed Classroom',
+  appName: "Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom",
 
   // GitHub Pages address. The repository is expected to be called "quran-classroom".
   // If you name it differently, change base to '/<repository-name>/'.

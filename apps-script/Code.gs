@@ -1,5 +1,6 @@
 /**
- * Qa-af Wal Quran-ul-Majeed Classroom — class log.
+ * Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom — class log.
+ * (The Sheikh and recitation checking come from the Qa-af Wal Quran-ul-Majeed app.)
  *
  * The classroom website (GitHub Pages) sends every finished session here. This script:
  *   • checks the student's class code and class password against the "Classes" tab,
@@ -8,7 +9,7 @@
  *   • adds one row per session to that class's sheet.
  *
  * Set up once (full steps in apps-script/README.md):
- *   1. Create a Google Sheet called "Classroom admin". Extensions → Apps Script. Paste this file.
+ *   1. Create a Google Sheet called "Ta'aleem classroom admin". Extensions → Apps Script. Paste this file.
  *   2. Put your shared folder's ID in FOLDER_ID below, then run setup() once and allow access.
  *   3. Deploy → New deployment → Web app. Execute as: Me. Who has access: Anyone.
  *   4. Copy the Web app URL into the website settings (CLASS_LOG_URL).

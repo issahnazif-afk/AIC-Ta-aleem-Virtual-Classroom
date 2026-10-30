@@ -1,4 +1,4 @@
-# Class log: one Google Sheet per class
+# Ta'aleem Virtual Classroom: class log, one Google Sheet per class
 
 The classroom website runs on GitHub Pages, which has no server. Each finished session is sent to a small
 Google Apps Script that **you** own. The script checks the class code and password, then adds one row to
@@ -19,7 +19,7 @@ or open it straight from Excel through Google Drive.
 
 1. In Google Drive, create (or choose) the shared folder. Open it and copy its ID: the part of the address
    after `/folders/`.
-2. Create a new Google Sheet called **Classroom admin**. This is where classes and passwords are kept.
+2. Create a new Google Sheet called **Ta'aleem classroom admin**. This is where classes and passwords are kept.
    Do not share it with students.
 3. In that sheet: **Extensions → Apps Script**. Delete what is there and paste the whole of `Code.gs`.
 4. On the line `const FOLDER_ID = 'PASTE_YOUR_FOLDER_ID_HERE';` paste your folder ID between the quotes. Save.
