@@ -36,8 +36,26 @@ jobs:
         run: |
           curl -fsSL --retry 3 -o public/models/face_landmarker.task \
             https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task
+      # The Sheikh's voice for Alif Ba (letters, syllables, phrases). Made with scripts/voice/make_voice.py and
+      # kept in the cache, so it is only made again when that script changes. If clips are committed to
+      # public/audio/voice/ they are used as they are. If this step fails the site still works (browser voice).
+      - name: Restore the Sheikh's voice clips
+        id: voice
+        uses: actions/cache@v4
+        with:
+          path: public/audio/voice
+          key: voice-${{ hashFiles('scripts/voice/make_voice.py') }}
+      - name: Make the Sheikh's voice clips
+        if: steps.voice.outputs.cache-hit != 'true' && hashFiles('public/audio/voice/index.json') == ''
+        continue-on-error: true
+        run: |
+          command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          python3 -m pip install --quiet --break-system-packages onnxruntime numpy || python3 -m pip install --quiet onnxruntime numpy
+          curl -fsSL --retry 3 https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-ar_JO-kareem-medium.tar.bz2 | tar xj -C /tmp
+          python3 scripts/voice/make_voice.py /tmp/vits-piper-ar_JO-kareem-medium
       - name: Build data and site
         env:
+          # Settings → Secrets and variables → Actions → Variables → CLASS_LOG_URL
           CLASS_LOG_URL: ${{ vars.CLASS_LOG_URL }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
