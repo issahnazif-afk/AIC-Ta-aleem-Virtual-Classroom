@@ -1,0 +1,55 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Get the Qaf speech model from the main app (if published)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p public/models
+          gh release download qaaf-asr-model -R issahnazif-afk/Qa-af-Wal-Quran-ul-Majeed -D public/models \
+            -p 'qaaf-asr.onnx' -p 'features.json' -p 'vocab.json' --clobber \
+            || echo "No speech model published yet; the browser's speech recognition will be used"
+      - name: Get the face landmarker model (look-away check)
+        run: |
+          curl -fsSL --retry 3 -o public/models/face_landmarker.task \
+            https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task
+      - name: Build data and site
+        env:
+          CLASS_LOG_URL: ${{ vars.CLASS_LOG_URL }}
+        run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
