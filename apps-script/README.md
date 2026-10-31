@@ -59,8 +59,8 @@ boy or a girl (so the Sheikh addresses them properly), their level,
 the level's **class password** (from the Classes tab — this is how you control who joins which level),
 a username and a password. Accounts appear in the **Students** tab of the admin sheet:
 
-| Username | Full name | Class | Joined | Last sign-in | Reset password | Gender |
-|---|---|---|---|---|---|---|
+| Username | Full name | Class | Joined | Last sign-in | Reset password | Gender | Alif Ba progress |
+|---|---|---|---|---|---|---|---|
 
 Passwords are stored only as salted hashes (in two hidden columns), so nobody can read them. Students whose
 accounts were made before the Gender column existed are asked once, the next time they sign in.
@@ -70,6 +70,13 @@ accounts were made before the Gender column existed are asked once, the next tim
 - **Move a student to another level:** change their **Class** cell (for example to `Level 3`).
 - **Remove a student:** delete their row.
 - **Stop new sign-ups for a level:** change that level's class password. Existing accounts keep working.
+
+## Alif Ba games
+
+Each game a student plays is added to a **Games** tab inside their class's session log (created on first use):
+time, student, username, gender, class, game, lesson, rounds, right first time, accuracy, score, letters to practise,
+letters known (of 28) and minutes. Each student's garden progress is kept in the *Alif Ba progress* column of the
+Students tab; leave it as it is.
 
 ## What each row holds
 

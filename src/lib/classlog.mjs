@@ -95,3 +95,28 @@ export async function flushOutbox() {
   return list.length - left.length;
 }
 export const pendingCount = () => outbox().length;
+
+// ── Alif Ba progress and game results ─────────────────────────
+// Progress lives in the student's row of the admin sheet, so it follows them to any computer.
+// A copy is kept in the browser too, so nothing is lost if the connection drops.
+const localKey = (username) => 'progress-' + username;
+export async function getProgress({ token, username }) {
+  const local = store.get(localKey(username), {});
+  if (isDemo()) return local;
+  try {
+    const r = await post({ action: 'progress', token });
+    if (!r.ok) return local;
+    const remote = r.progress || {};
+    return (remote.updated || 0) >= (local.updated || 0) ? remote : local;
+  } catch { return local; }
+}
+export async function saveProgress({ token, username, progress }) {
+  progress.updated = Date.now();
+  store.set(localKey(username), progress);
+  if (isDemo()) return { ok: true, demo: true };
+  try { return await post({ action: 'save-progress', token, progress }); } catch { return { ok: false }; }
+}
+export async function logGame({ token, game }) {
+  if (isDemo()) { console.info('[classroom] demo mode, game not saved:', game); return { ok: true, demo: true }; }
+  try { return await post({ action: 'game', token, game }); } catch { return { ok: false }; }
+}

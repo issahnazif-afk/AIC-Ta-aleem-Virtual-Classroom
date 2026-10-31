@@ -166,7 +166,7 @@
 .legend .g { color: var(--good); } .legend .r { color: var(--bad); } .legend .a { color: var(--gold); }
 
 /* the mushaf page and its words (from the Hifz test page) */
-@property --ink { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+@property --inkp { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
 .stage .paper { width: 100%; max-width: 680px; height: max-content; min-height: 100%; background: var(--paper); border: 1px solid var(--paper-line); border-radius: 6px; padding: 22px clamp(14px, 3vw, 36px); display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }
 .stage .w { display: inline-block; padding: 0 .08em; margin: 0 -.08em; border-radius: 3px; color: var(--ink); transition: color .8s ease, background-color .6s ease; }
 .stage .w.hidden { color: transparent; }
@@ -182,8 +182,8 @@
 .stage .w.unclear { background-image: radial-gradient(circle, var(--muted) 1px, transparent 1.6px); background-size: 6px 4px; background-repeat: repeat-x; background-position: 0 100%; }
 .stage .w.fresh { color: var(--good); transition: none; }
 .stage .w.replay { background: linear-gradient(transparent 24%, var(--replay) 24%, var(--replay) 84%, transparent 84%); }
-.stage .w.ink { -webkit-mask-image: linear-gradient(to left, #000 calc(var(--ink) - 14%), transparent calc(var(--ink) + 6%)); mask-image: linear-gradient(to left, #000 calc(var(--ink) - 14%), transparent calc(var(--ink) + 6%)); animation: ql-ink var(--dur, 400ms) linear forwards; }
-@keyframes ql-ink { from { --ink: -8%; } to { --ink: 114%; } }
+.stage .w.ink { -webkit-mask-image: linear-gradient(to left, #000 calc(var(--inkp) - 14%), transparent calc(var(--inkp) + 6%)); mask-image: linear-gradient(to left, #000 calc(var(--inkp) - 14%), transparent calc(var(--inkp) + 6%)); animation: ql-ink var(--dur, 400ms) linear forwards; }
+@keyframes ql-ink { from { --inkp: -8%; } to { --inkp: 114%; } }
 .stage .out { color: transparent; }
 .stage .paper.context .out { color: var(--muted); opacity: .45; }
 .stage .mk { color: var(--marker); }
@@ -228,3 +228,105 @@
   .room-left { flex: none; min-width: 0; }
   .stage { min-height: 70vh; }
 }
+
+/* ── Alif Ba: garden home ─────────────────────────────────────── */
+.pill.gold { background: var(--amber); color: var(--amber-ink); }
+.tabs-nav { display: flex; gap: 6px; margin-left: 24px; flex-wrap: wrap; }
+.navb { min-height: 40px; padding: 0 14px; border-radius: 999px; border: none; background: none; font: inherit; font-size: 15px; color: var(--ink); cursor: pointer; }
+.navb.on { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
+.navb:hover { background: var(--accent-soft); }
+.who { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.hub { flex-direction: row; flex-wrap: wrap; align-items: flex-start; max-width: 1320px; }
+.hub-main { flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.hub-side { flex: 1 1 340px; display: flex; flex-direction: column; gap: 14px; }
+.garden { background: #EAF3E6; border-radius: 18px; padding: 18px 22px 16px; border: 10px solid #FFFFFF; box-shadow: inset 0 0 0 2px #C9A24A; }
+.garden-arch { display: block; width: 100%; height: 30px; }
+.garden-dhikr { text-align: center; font-family: var(--font-quran); font-size: 22px; color: var(--accent-strong); margin: -6px 0 12px !important; }
+.plots { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 12px; }
+.plot { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 6px 12px; border-radius: 12px; font: inherit; font-size: 13px; font-weight: 600; line-height: 1.2; cursor: pointer; color: var(--ink); min-height: 110px; background: rgba(255,255,255,.55); border: 1px solid #D6E4CF; text-align: center; }
+.plot.sel { background: #FFFFFF; border: 2px solid var(--accent); }
+.plot.growing { box-shadow: 0 0 0 4px var(--amber); }
+.plot.later span { color: var(--muted); }
+.garden-hadith { margin-top: 14px !important; font-size: 14px; color: var(--muted); text-align: center; }
+.lesson-card { display: flex; flex-direction: column; gap: 8px; padding: 20px; }
+.lesson-card h2 { margin: 0; font-size: 22px; }
+.lesson-go { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.lantern-btn { background: #0F2A24; border-color: #0F2A24; color: #FBE3A6; font-weight: 600; }
+.lantern-btn:hover { color: #FFFFFF; }
+.recite-card { text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; font: inherit; color: var(--ink); cursor: pointer; }
+.recite-card b { font-size: 17px; }
+
+/* ── Alif Ba: the letters, like the booklet's board ───────────── */
+.letters { max-width: 1240px; }
+.lt-wrap { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.board { flex: 999 1 560px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; background: #0E6B4E; border-radius: 16px; padding: 14px; }
+.tile { aspect-ratio: 1; border: none; border-radius: 12px; background: #FFFDF7; font-family: var(--font-quran); font-size: clamp(30px, 3.6vw, 48px); color: var(--ink); cursor: pointer; position: relative; line-height: 1; }
+.tile.known::after { content: '★'; position: absolute; top: 6px; left: 8px; font-family: var(--font-ui); font-size: 14px; color: #C9A24A; }
+.tile.sel { background: #FBE3A6; box-shadow: 0 0 0 3px #C9A24A inset; }
+.tile:focus-visible { outline: 3px solid #FBE3A6; outline-offset: 2px; }
+.lt-card { flex: 1 1 300px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px; }
+.lt-frame { width: 190px; height: 190px; border-radius: 50%; display: grid; place-items: center; background: var(--paper); box-shadow: 0 0 0 3px #C9A24A, 0 0 0 9px var(--paper), 0 0 0 11px #E2C98F; }
+.lt-big { font-family: var(--font-quran); font-size: 110px; line-height: 1; color: var(--ink); }
+.lt-name { font-family: var(--font-quran); font-size: 40px; color: #8A1E1E; margin-top: 10px !important; }
+.lt-latin { font-size: 18px; color: var(--muted); }
+.lt-card .btn { width: 100%; }
+
+/* ── Alif Ba: Noor Lanterns ───────────────────────────────────── */
+.game { position: relative; min-height: 100vh; min-height: 100dvh; background: #0F2A24; color: #FFFFFF; overflow: hidden; display: flex; flex-direction: column; }
+.game .night { position: absolute; inset: 0; width: 100%; height: 100%; }
+.g-bar { position: relative; display: flex; align-items: center; gap: 16px; padding: 14px 26px; flex-wrap: wrap; }
+.g-round { width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(255,255,255,.12); color: #FFFFFF; display: grid; place-items: center; cursor: pointer; }
+.g-round[aria-pressed="true"] { opacity: .55; }
+.g-title { display: flex; flex-direction: column; }
+.g-title b { font-size: 20px; }
+.g-title small { font-size: 13px; color: #A9C7BC; }
+.g-dots { display: flex; gap: 8px; margin-left: 20px; flex-wrap: wrap; }
+.g-dots i { width: 18px; height: 26px; clip-path: polygon(25% 0, 75% 0, 100% 40%, 75% 100%, 25% 100%, 0 40%); background: #2C4A41; }
+.g-dots i.on { background: #FFE9A8; }
+.g-dots i.miss { background: #4A5E57; }
+.g-score { display: flex; gap: 22px; margin-left: 20px; }
+.g-score span { display: flex; flex-direction: column; align-items: flex-end; }
+.g-score small { font-size: 12px; color: #A9C7BC; }
+.g-score b { font-size: 22px; font-variant-numeric: tabular-nums; }
+.gold-t { color: #FBE3A6; }
+.g-timer { position: relative; height: 8px; background: #1D4238; }
+.g-timer i { display: block; height: 8px; background: #C9A24A; transition: width 1s linear; }
+.g-main { position: relative; flex: 1; display: flex; gap: 24px; padding: 10px 40px 30px; align-items: flex-start; }
+.g-sheikh { flex: none; width: 240px; display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 10px; }
+.g-sheikh-art .sheikh { width: 200px; max-width: none; }
+.g-sheikh-art .sheikh .sh-bg { fill: #E6F2EC; }
+.g-bubble { min-height: 54px; font-family: 'Amiri', var(--font-quran); font-size: 30px; color: #FBE3A6; text-align: center; }
+.g-hear { width: 96px; height: 96px; border-radius: 50%; border: 4px solid #C9A24A; background: #FBE3A6; color: #0F2A24; display: grid; place-items: center; cursor: pointer; }
+.g-play { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.g-stage { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px 44px; max-width: 900px; }
+.g-stage[data-count="3"] { gap: 60px; }
+.g-stage[data-type="speak"] { flex-direction: column; align-items: center; gap: 14px; }
+.lantern { position: relative; border: none; background: none; padding: 0; cursor: pointer; color: #FBE3A6; transform-origin: 50% 0; transition: transform .3s ease; }
+.lantern svg { display: block; overflow: visible; }
+.lantern .glass { fill: #2C4A41; transition: fill .4s ease; }
+.lantern .halo { opacity: 0; transition: opacity .5s ease; }
+.lantern .lt { position: absolute; left: 0; right: 0; top: 36%; text-align: center; font-family: var(--font-quran); font-size: var(--fs, 64px); line-height: 1; pointer-events: none; transition: color .4s; }
+.lantern.lit .glass { fill: #FFE9A8; }
+.lantern.lit .halo { opacity: .22; }
+.lantern.lit .lt { color: #0F2A24; }
+.lantern.sway { transform: rotate(7deg); }
+.lantern:disabled { cursor: default; }
+.lantern:disabled:not(.lit) { opacity: .55; }
+.lantern:focus-visible { outline: 3px solid #FBE3A6; outline-offset: 4px; border-radius: 12px; }
+.speak-mic { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,.07); border: 1px solid #24483E; border-radius: 14px; padding: 12px 18px; font-size: 17px; }
+.mic-dot { width: 22px; height: 22px; border-radius: 50%; background: #0E6B4E; box-shadow: 0 0 0 8px rgba(14,107,78,.35); animation: mic-pulse 1.4s ease-in-out infinite; }
+@keyframes mic-pulse { 50% { box-shadow: 0 0 0 14px rgba(14,107,78,.15); } }
+.g-feedback { min-height: 30px; font-size: 19px; text-align: center; color: #CFE3DA; }
+.g-feedback.good { color: #FBE3A6; }
+.g-feedback.bad { color: #F2B8B0; }
+.game[data-level="1"] .g-feedback, .game[data-level="2"] .g-feedback { font-size: 22px; }
+.g-end { position: absolute; inset: 0; background: rgba(8, 20, 16, .72); display: grid; place-items: center; padding: 24px; }
+.g-end-card { background: #FFFDF7; color: var(--ink); border-radius: 22px; padding: 30px 36px; max-width: 560px; width: 100%; text-align: center; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 0 0 3px #C9A24A inset; }
+.g-praise { font-family: 'Amiri', var(--font-quran); font-size: 46px; color: var(--accent-strong); line-height: 1.3; }
+.g-end-card h2 { margin: 0; font-size: 22px; }
+.g-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+.g-stats div { background: var(--accent-soft); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; }
+.g-stats small { font-size: 13px; color: var(--muted); }
+.g-stats b { font-size: 22px; }
+.row.center { justify-content: center; }
+@media (prefers-reduced-motion: reduce) { .lantern, .mic-dot { transition: none; animation: none; } }

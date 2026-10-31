@@ -28,8 +28,8 @@ const FOLDER_ID = 'PASTE_YOUR_FOLDER_ID_HERE';
 const CLASSES_TAB = 'Classes';
 const CLASS_HEADERS = ['Class code', 'Class name', 'Class password', 'Teacher', 'Log sheet'];
 const STUDENTS_TAB = 'Students';
-const STUDENT_HEADERS = ['Username', 'Full name', 'Class', 'Joined', 'Last sign-in', 'Reset password', 'Password hash', 'Salt', 'Gender'];
-const S = { user: 0, name: 1, cls: 2, joined: 3, last: 4, reset: 5, hash: 6, salt: 7, gender: 8 };   // column positions
+const STUDENT_HEADERS = ['Username', 'Full name', 'Class', 'Joined', 'Last sign-in', 'Reset password', 'Password hash', 'Salt', 'Gender', 'Alif Ba progress'];
+const S = { user: 0, name: 1, cls: 2, joined: 3, last: 4, reset: 5, hash: 6, salt: 7, gender: 8, progress: 9 };   // column positions
 const GENDER = { m: 'Male', f: 'Female' };
 const LOG_HEADERS = [
   'Session ID', 'Student name', 'Username', 'Gender', 'Class', 'Login time', 'End time', 'Minutes spent',
@@ -89,6 +89,9 @@ function doPost(e) {
     if (body.action === 'register') return json(register(body));
     if (body.action === 'login') return json(login(body));
     if (body.action === 'profile') return json(profile(body));
+    if (body.action === 'progress') return json(getProgress(body));
+    if (body.action === 'save-progress') return json(saveProgress(body));
+    if (body.action === 'game') return json(logGame(body));
     if (body.action === 'log') return json(logSession(body));
     return json({ ok: false, error: 'unknown-action' });
   } catch (err) {
@@ -132,6 +135,7 @@ function studentsSheet() {
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(STUDENTS_TAB);
   if (!sh) throw new Error('Run setup() first');
   if (String(sh.getRange(1, S.gender + 1).getValue()) !== 'Gender') sh.getRange(1, S.gender + 1).setValue('Gender').setFontWeight('bold');
+  if (String(sh.getRange(1, S.progress + 1).getValue()) !== 'Alif Ba progress') sh.getRange(1, S.progress + 1).setValue('Alif Ba progress').setFontWeight('bold');
   return sh;
 }
 
@@ -316,6 +320,66 @@ function logSession(body) {
       n(s.rightFirstPct), String(s.grade || ''), n(s.mistakesTotal), String(s.topMistakes || ''),
       n(s.wrong), n(s.prompts), n(s.hints), n(s.unclear), n(s.wentBack), n(s.lookAways),
       snap, String(s.review || ''),
+    ]);
+    return { ok: true };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// ── Alif Ba: garden progress and game results ──────────────────
+const GAME_HEADERS = ['Time', 'Student name', 'Username', 'Gender', 'Class', 'Game', 'Lesson', 'Rounds', 'Right first time', 'Accuracy (%)', 'Score', 'Letters to practise', 'Letters known (of 28)', 'Minutes'];
+
+function student(body) {
+  const user = readToken(body.token);
+  if (!user) return { error: 'signed-out' };
+  const sh = studentsSheet();
+  const st = findStudent(sh, user);
+  if (!st) return { error: 'signed-out' };
+  return { sh, st };
+}
+
+function getProgress(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  let progress = {};
+  try { progress = JSON.parse(String(r.st.v[S.progress] || '{}')); } catch (err) { progress = {}; }
+  return { ok: true, progress };
+}
+
+function saveProgress(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const text = JSON.stringify(body.progress || {});
+  if (text.length > 40000) return { ok: false, error: 'too-big' };
+  r.sh.getRange(r.st.row, S.progress + 1).setValue(text);
+  return { ok: true };
+}
+
+// One row per game played, in a "Games" tab of the class's session log.
+function logGame(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const cls = findClass(r.st.v[S.cls]);
+  if (!cls) return { ok: false, error: 'class-removed' };
+  const g = body.game || {};
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    const ss = classLog(cls);
+    let sh = ss.getSheetByName('Games');
+    if (!sh) {
+      sh = ss.insertSheet('Games');
+      sh.appendRow(GAME_HEADERS);
+      sh.getRange(1, 1, 1, GAME_HEADERS.length).setFontWeight('bold').setBackground('#FBE3A6');
+      sh.setFrozenRows(1);
+      sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+    }
+    const n = (v) => (typeof v === 'number' && isFinite(v) ? v : '');
+    sh.appendRow([
+      new Date(), String(r.st.v[S.name]), String(r.st.v[S.user]), GENDER[genderCode(r.st.v[S.gender])] || '', cls.name,
+      String(g.game || ''), String(g.lesson || ''), n(g.rounds), n(g.first), n(g.accuracy), n(g.score),
+      String(g.practise || ''), n(g.known), n(g.minutes),
     ]);
     return { ok: true };
   } finally {

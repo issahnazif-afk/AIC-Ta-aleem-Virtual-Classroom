@@ -20,6 +20,7 @@ Hosted on GitHub Pages, with no server of its own. Built with [Astro](https://as
 
 ## Screens
 
+0. **Jannah Garden** (after signing in): the Alif Ba lessons and games, and the way into the classroom.
 1. **Sign in or create an account.** Each student creates their own username and password once, choosing their
    level (Level 1–4) and entering that level's class password from the teacher. After that they sign in with
    their username and password.
@@ -54,6 +55,71 @@ The speech engine is the Qāf model (`qaaf-asr`) from the main app when it has b
 release `qaaf-asr-model` in `issahnazif-afk/Qa-af-Wal-Quran-ul-Majeed`. It runs on the student's computer.
 Until then the browser's own speech recognition is used (Chrome and Edge send the audio to Google's speech
 service; nothing is stored by this site).
+
+## Alif Ba: Jannah Garden and Noor Lanterns
+
+After signing in, students arrive in their **Jannah Garden**: 17 plots, one for each lesson of the Alif Ba booklet.
+A plot shows a seed, a sprout while the lesson is being learned, and a date palm once it is mastered
+(from the hadith of the date palm planted in Paradise for *SubhanAllahi wa bihamdihi*, At-Tirmidhi).
+
+**Lesson 1, the letters and their names** is ready:
+
+- **Learn the letters**: the 28 letters on a board like the booklet's. Tapping one shows it large with its name
+  (جِيم · Jim) and says the name.
+- **Noor Lanterns**: a night masjid courtyard. The Sheikh says a letter's name; the student lights its lantern.
+  From Level 2, every third round the student says a letter's name to the Sheikh instead.
+
+| | Level 1 (4–6) | Level 2 (7–8) | Level 3 (8–10) | Level 4 (11–16) |
+|---|---|---|---|---|
+| Lanterns | 3, letters that look different | 4 | 6, look-alike letters | 8, look-alike letters |
+| Rounds | 8 | 10 | 12 | 14 |
+| Timer | none | none | 25 s | 15 s |
+| Saying the letter's name | no | yes | yes | yes |
+| Score, streak, best | no | no | yes | yes |
+
+A letter is **known** after it has been lit right the first time on two rounds; letters still being learned come up
+more often. When all 28 are known, the Lesson 1 palm grows. Progress is saved in the student's row of the admin
+sheet (*Alif Ba progress*), so it follows them to any computer, and every game is added to the **Games** tab of
+their class's session log (accuracy, score, letters to practise, letters known).
+
+Sound follows the school's guidance: a soft night breeze and a fountain (made in the browser, no music), a warm
+chime when a lantern lights, praise in the student's gender, and anasheed only at milestones. To add a nasheed for
+the moment a palm grows, upload it as `public/audio/nasheed/milestone.mp3`. There is a mute button on the game.
+
+**Letter names in a teacher's voice.** Until recordings are added, letter names use the browser's Arabic voice.
+For clear, correct pronunciation, record each name (as for the Sheikh's phrases) and upload it to
+`public/audio/letters/` with these file names:
+
+| File | Name |
+|---|---|
+| `alif.mp3` | أَلِف |
+| `ba.mp3` | بَاء |
+| `ta.mp3` | تَاء |
+| `tha.mp3` | ثَاء |
+| `jim.mp3` | جِيم |
+| `ha-hollow.mp3` | حَاء |
+| `kha.mp3` | خَاء |
+| `dal.mp3` | دَال |
+| `dhal.mp3` | ذَال |
+| `ra.mp3` | رَاء |
+| `zay.mp3` | زَاي |
+| `sin.mp3` | سِين |
+| `shin.mp3` | شِين |
+| `sad.mp3` | صَاد |
+| `dad.mp3` | ضَاد |
+| `ta-heavy.mp3` | طَاء |
+| `dha-heavy.mp3` | ظَاء |
+| `ayn.mp3` | عَيْن |
+| `ghayn.mp3` | غَيْن |
+| `fa.mp3` | فَاء |
+| `qaf.mp3` | قَاف |
+| `kaf.mp3` | كَاف |
+| `lam.mp3` | لَام |
+| `mim.mp3` | مِيم |
+| `nun.mp3` | نُون |
+| `ha.mp3` | هَاء |
+| `waw.mp3` | وَاو |
+| `ya.mp3` | يَاء |
 
 ## The Sheikh's voice and praise
 
