@@ -114,7 +114,7 @@ const levels = [
   <section class="screen flow" id="s-check" hidden aria-labelledby="ck-h">
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
-      <ol class="steps"><li class="on">1 · Camera and mic</li><li>2 · Session</li><li>3 · Classroom</li></ol>
+      <ol class="steps"><li class="on">1 · Camera and mic</li><li>2 · Set up</li><li>3 · Recite</li></ol>
     </header>
     <div class="flow-main">
       <div>
@@ -145,6 +145,7 @@ const levels = [
             <div class="check" id="ck-cam"><span class="ck-ic" aria-hidden="true"></span><div><p class="b">Camera</p><p class="muted small" data-t>Starting…</p></div></div>
             <div class="check" id="ck-mic"><span class="ck-ic" aria-hidden="true"></span><div class="grow"><p class="b">Microphone</p><p class="muted small" data-t>Say “Bismillah” to test</p><div class="meter" id="meter" aria-label="Microphone level"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
             <div class="check" id="ck-spk"><span class="ck-ic" aria-hidden="true"></span><div class="grow"><p class="b">Speakers</p><p class="muted small" data-t>So you can hear the Sheikh</p></div><button class="btn small-btn" type="button" id="tone">Play test</button></div>
+            <div class="check" id="ck-fast"><span class="ck-ic" aria-hidden="true"></span><div><p class="b">Fast listening</p><p class="muted small" data-t>Checking…</p></div></div>
             <div class="check" id="ck-face"><span class="ck-ic" aria-hidden="true"></span><div><p class="b">Facing the screen</p><p class="muted small" data-t>Loading face check…</p></div></div>
           </div>
           <div class="card soft">
@@ -168,16 +169,12 @@ const levels = [
   <section class="screen flow" id="s-setup" hidden aria-labelledby="su-h">
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
-      <ol class="steps"><li>1 · Camera and mic</li><li class="on">2 · Session</li><li>3 · Classroom</li></ol>
+      <ol class="steps"><li>1 · Camera and mic</li><li class="on">2 · Set up</li><li>3 · Recite</li></ol>
     </header>
     <div class="flow-main">
       <div>
-        <h1 id="su-h">What would you like to do today?</h1>
-        <p class="muted lead">Choose a session, your level and what to recite.</p>
-      </div>
-      <div class="cards2" role="radiogroup" aria-label="Session type">
-        <button type="button" class="pick" role="radio" aria-checked="true" data-mode="hifz"><b>Hifz test</b><span>The Sheikh recites the opening of an ayah. You carry on from memory until he stops you.</span></button>
-        <button type="button" class="pick" role="radio" aria-checked="false" data-mode="reading"><b>Mujawwadah · read from the mushaf</b><span>The mushaf page is open beside you. Read aloud and the Sheikh follows every word.</span></button>
+        <h1 id="su-h">Hifz test</h1>
+        <p class="muted lead">Choose your level and what to recite.</p>
       </div>
       <div>
         <h2 class="h2">Your level</h2>
@@ -257,14 +254,27 @@ const levels = [
   </section>
 
 
-  <!-- Alif Ba · Jannah Garden (home after sign-in) ───────── -->
-  <section class="screen flow" id="s-hub" hidden aria-labelledby="hub-title">
+
+  <!-- Classroom home (after sign-in): one card per activity ─ -->
+  <section class="screen flow" id="s-home" hidden aria-labelledby="home-h">
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
-      <nav class="tabs-nav" aria-label="Sections">
-        <button type="button" class="navb on" data-go="hub">My garden</button>
-        <button type="button" class="navb" data-go="recite">Recite to the Sheikh</button>
-      </nav>
+      <span class="push who"><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span><button class="btn small-btn" type="button" data-signout>Sign out</button></span>
+    </header>
+    <div class="flow-main">
+      <div>
+        <h1 id="home-h">Assalamu alaikum</h1>
+        <p class="muted lead">Your Classroom. What would you like to do today?</p>
+      </div>
+      <div class="acts" id="acts"></div>
+    </div>
+  </section>
+
+  <!-- Alif Ba · Jannah Garden ─────────────────────────────── -->
+  <section class="screen flow" id="s-hub" hidden aria-labelledby="hub-title">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Alif Ba</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
       <span class="push who"><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span><button class="btn small-btn" type="button" data-signout>Sign out</button></span>
     </header>
     <div class="flow-main hub">
@@ -288,10 +298,6 @@ const levels = [
           </div>
           <p class="muted small" id="lesson-soon" hidden>This lesson's games are coming soon, in sha Allah.</p>
         </div>
-        <button type="button" class="card recite-card" data-go="recite">
-          <b>Recite to the Sheikh</b>
-          <span class="muted small">Hifz test or reading from the mushaf, with your camera on.</span>
-        </button>
       </aside>
     </div>
   </section>
@@ -299,8 +305,8 @@ const levels = [
   <!-- Alif Ba · Lesson 1, the letters and their names ──────── -->
   <section class="screen flow" id="s-letters" hidden aria-labelledby="lt-h">
     <header class="topbar">
-      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Alif Ba · Lesson 1</small></span></div>
-      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="hub">‹ My garden</button></nav>
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Alif Ba · Lesson 1</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="hub">‹ Alif Ba</button></nav>
       <span class="push who"><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
     </header>
     <div class="flow-main letters">
@@ -364,7 +370,7 @@ const levels = [
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
       <div class="row push">
-        <button class="btn" type="button" id="r-home">My garden</button>
+        <button class="btn" type="button" id="r-home">Classroom</button>
         <button class="btn btn-primary" type="button" id="r-new">New session</button>
         <button class="btn" type="button" id="r-out">Sign out</button>
       </div>
@@ -420,7 +426,8 @@ const levels = [
     import { startAmbience, stopAmbience, setMuted, isMuted, nasheed } from '../lib/ambience.mjs';
     import { openCamera, micMeter, snapshot, testTone } from '../lib/media.mjs';
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
-    import { getSpeechRecognition } from '../lib/speech.mjs';
+    import { getSpeechRecognition, prepareFastListening } from '../lib/speech.mjs';
+    import { forLevel, ICONS } from '../lib/activities.mjs';
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
     import { store } from '../lib/client.mjs';
@@ -478,7 +485,7 @@ const levels = [
       store.set('who', { username: r.username });
       document.querySelectorAll('[data-name]').forEach((x) => (x.textContent = me.name.split(' ')[0]));
       $('in-pass').value = ''; $('up-pass').value = ''; $('up-pass2').value = ''; $('up-cpass').value = '';
-      goHub(true);
+      goHome(true);
     }
     function busy(btn, on, label) { btn.disabled = on; btn.textContent = on ? 'Please wait…' : label; }
 
@@ -540,6 +547,7 @@ const levels = [
     async function startCheck() {
       $('ck-err').textContent = '';
       setCheck('ck-cam', null, 'Starting…'); setCheck('ck-mic', null); setCheck('ck-spk', null); setCheck('ck-face', null, 'Loading face check…');
+      checkFast();
       try {
         stream ??= await openCamera();
       } catch (err) {
@@ -596,8 +604,12 @@ const levels = [
     }
     $('retake').addEventListener('click', () => { const v = $('cam'); if (v.readyState >= 2) { snap = snapshot(v); $('snap').src = snap; $('snap-title').textContent = `Login snapshot taken · ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; } });
     $('tone').addEventListener('click', () => { testTone(); setCheck('ck-spk', true, 'Did you hear a tone? If not, check your volume.'); });
-    $('ck-back').addEventListener('click', () => { stopMedia(); goHub(); });
+    $('ck-back').addEventListener('click', () => { stopMedia(); goHome(); });
+    const FAST = { ready: [true, 'On-device, words appear quickly'], downloading: [null, 'Downloading the Arabic speech pack (one time)…'], downloadable: [null, 'The Arabic speech pack downloads when you continue'], unavailable: [false, 'Online listening (this computer has no on-device Arabic)'], unsupported: [false, 'Online listening (use Chrome for the fastest tracking)'] };
+    const fastStatus = (st) => { const [ok, t] = FAST[st] ?? FAST.unsupported; setCheck('ck-fast', ok, t); };
+    function checkFast() { if (localAsr) { setCheck('ck-fast', true, 'The Qāf speech model, on this computer'); return; } prepareFastListening({ onStatus: fastStatus }); }
     $('to-setup').addEventListener('click', () => {
+      if (!localAsr) prepareFastListening({ install: true, onStatus: fastStatus });   // needs this click to start the one-time download
       if (!stream) return;
       if (!snap && $('cam').readyState >= 2) { snap = snapshot($('cam')); }
       show('s-setup');
@@ -615,13 +627,12 @@ const levels = [
     fromSel.addEventListener('change', () => { $('su-a1').value = '1'; $('su-a1').max = String(maxAyah(fromSel)); if (Number(toSel.value) < Number(fromSel.value)) { toSel.value = fromSel.value; toSel.dispatchEvent(new Event('change')); } syncSetup(); });
     toSel.addEventListener('change', () => { $('su-a2').value = String(maxAyah(toSel)); $('su-a2').max = String(maxAyah(toSel)); syncSetup(); });
     ['su-a1', 'su-a2', 'su-q'].forEach((id) => $(id).addEventListener('input', syncSetup));
-    document.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { choice.mode = b.dataset.mode; syncSetup(); }));
     document.querySelectorAll('[data-level]').forEach((b) => b.addEventListener('click', () => { choice.level = b.dataset.level; syncSetup(); }));
     function syncSetup() {
-      document.querySelectorAll('[data-mode]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.mode === choice.mode)));
       document.querySelectorAll('[data-level]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.level === choice.level)));
       document.querySelectorAll('#s-setup [data-hifz-only]').forEach((x) => (x.hidden = choice.mode !== 'hifz'));
       const hifz = choice.mode === 'hifz';
+      $('su-h').textContent = hifz ? 'Hifz test' : 'Mujawwadah · reading from the mushaf';
       $('start').textContent = hifz ? 'Start Hifz test' : 'Open the mushaf';
       const s1 = fromSel.selectedOptions[0].textContent.replace(/^\d+\.\s*/, ''), s2 = toSel.selectedOptions[0].textContent.replace(/^\d+\.\s*/, '');
       const r = s1 === s2 ? `${s1} ${$('su-a1').value}–${$('su-a2').value}` : `${s1} ${$('su-a1').value} to ${s2} ${$('su-a2').value}`;
@@ -729,7 +740,7 @@ const levels = [
             $('c-q').textContent = mode === 'hifz' ? `Question ${qi + 1} of ${n}` : '';
             $('c-dots').hidden = mode !== 'hifz';
           },
-          page: (p) => { $('c-sub').textContent = `${$('su-sum').textContent.split(' · ').slice(2).join(' · ')} · page ${p}${asr === 'qaaf' ? ' · Qāf speech model' : ''}`; },
+          page: (p) => { $('c-sub').textContent = `${$('su-sum').textContent.split(' · ').slice(2).join(' · ')} · page ${p}${asr === 'qaaf' ? ' · Qāf speech model' : asr === 'on-device' ? ' · on-device listening' : ''}`; },
           finished: (res) => endSession(res),
         },
       });
@@ -846,7 +857,7 @@ const levels = [
       show('s-check'); startCheck();
     });
     $('r-out').addEventListener('click', () => signOut());
-    $('r-home').addEventListener('click', () => { stopMedia(); goHub(); });
+    $('r-home').addEventListener('click', () => { stopMedia(); goHome(); });
 
     // ── Alif Ba: Jannah Garden, Lesson 1 and Noor Lanterns ───
     const LESSONS = [
@@ -877,11 +888,35 @@ const levels = [
       if (n === 1) { const st = lessonState(progress); return st.grown ? 'grown' : st.started ? 'growing' : 'seed'; }
       return 'seed';
     }
-    async function goHub(fresh) {
+    // ── the Classroom home: one card per activity (src/lib/activities.mjs) ──
+    async function goHome(fresh) {
       me.level = levelNumber(me.className);
       document.querySelectorAll('[data-level-pill]').forEach((x) => (x.textContent = me.className || 'Level 1'));
       document.querySelectorAll('[data-fullname]').forEach((x) => (x.textContent = me.name));
+      $('home-h').textContent = `Assalamu alaikum, ${me.name.split(' ')[0]}`;
+      const box = $('acts'); box.replaceChildren();
+      for (const a of forLevel(me.level)) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'act act-' + a.id + (a.kind === 'soon' ? ' soon' : '');
+        const ic = document.createElement('span'); ic.className = 'act-ic'; ic.innerHTML = ICONS[a.kind === 'soon' ? 'soon' : a.icon] ?? '';
+        const ar = document.createElement('span'); ar.className = 'act-ar'; ar.lang = 'ar'; ar.dir = 'rtl'; ar.textContent = a.ar ?? '';
+        const t = document.createElement('b'); t.textContent = a.title;
+        const d = document.createElement('span'); d.className = 'act-text'; d.textContent = a.kind === 'soon' ? 'Coming soon, in sha Allah.' : a.text;
+        b.append(ic, ar, t, d);
+        if (a.kind === 'soon') b.disabled = true;
+        else b.addEventListener('click', () => openActivity(a));
+        box.append(b);
+      }
+      show('s-home');
       if (fresh) progress = await getProgress({ token: me.token, username: me.username });
+    }
+    let activity = null;
+    function openActivity(a) {
+      activity = a;
+      if (a.kind === 'recite') { choice.mode = a.mode; show('s-check'); startCheck(); }
+      else if (a.kind === 'alifba') goHub();
+    }
+    function goHub() {
       renderGarden();
       show('s-hub');
     }
@@ -909,7 +944,7 @@ const levels = [
     }
     document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.go === 'hub') { stopGame(); goHub(); }
-      if (b.dataset.go === 'recite') { show('s-check'); startCheck(); }
+      if (b.dataset.go === 'home') { stopGame(); goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
     function signOut() { stopGame(); stopMedia(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }

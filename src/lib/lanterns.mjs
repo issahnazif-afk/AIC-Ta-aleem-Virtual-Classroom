@@ -3,7 +3,7 @@
 import { LETTERS, LEVEL_GAME, lookalikes, heardLetter, hasLetterRecording, letterAudioUrl, MASTERED, lessonState } from './alifba.mjs';
 import { phrase, speak, stopVoice } from './phrases.mjs';
 import { glow, soft } from './ambience.mjs';
-import { tuneRecognition } from './speech.mjs';
+import { tuneRecognition, phrasesRefused } from './speech.mjs';
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -154,10 +154,11 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
   }
   function startRec(onText) {
     try {
-      rec = tuneRecognition(new SR());
+      rec = tuneRecognition(new SR(), { expect: [current.target.name, ...LETTERS.map((l) => l.name)] });
       rec.lang = 'ar-SA'; rec.continuous = true; rec.interimResults = false; rec.maxAlternatives = 3;
       const me = rec;
       rec.onresult = (e) => { if (me !== rec) return; for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i]; const alts = [...Array(r.length)].map((_, k) => r[k].transcript).join(' '); onText(alts.trim()); } };
+      rec.onerror = (e) => { phrasesRefused(e); };
       rec.onend = () => { if (me === rec) { try { rec.start(); } catch {} } };
       rec.start();
       ui.mic?.(true);

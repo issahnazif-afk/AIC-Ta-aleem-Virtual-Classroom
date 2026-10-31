@@ -330,3 +330,18 @@
 .g-stats b { font-size: 22px; }
 .row.center { justify-content: center; }
 @media (prefers-reduced-motion: reduce) { .lantern, .mic-dot { transition: none; animation: none; } }
+
+/* ── Classroom home: activity cards ───────────────────────────── */
+.acts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.act { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; padding: 22px 24px 24px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); font: inherit; color: var(--ink); cursor: pointer; min-height: 220px; transition: border-color .2s, box-shadow .2s; }
+.act:hover { border-color: var(--accent); box-shadow: 0 4px 18px rgba(14, 107, 78, .12); }
+.act:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.act b { font-size: 22px; }
+.act-ar { font-family: var(--font-quran); font-size: 26px; color: var(--accent-strong); line-height: 1.4; }
+.act-text { font-size: 15px; color: var(--muted); line-height: 1.5; }
+.act-ic { width: 64px; height: 64px; border-radius: 16px; background: var(--accent-soft); display: grid; place-items: center; }
+.act-alifba { background: #0F2A24; border-color: #0F2A24; color: #FFFFFF; }
+.act-alifba .act-ar { color: #FBE3A6; }
+.act-alifba .act-text { color: #CFE3DA; }
+.act-alifba .act-ic { background: rgba(251, 227, 166, .15); }
+.act.soon { opacity: .6; cursor: default; }

@@ -20,13 +20,15 @@ Hosted on GitHub Pages, with no server of its own. Built with [Astro](https://as
 
 ## Screens
 
-0. **Jannah Garden** (after signing in): the Alif Ba lessons and games, and the way into the classroom.
+0. **Classroom** (after signing in): one card per activity: **Hifz test**, **Mujawwadah** and **Alif Ba**.
+   Hifz test and Mujawwadah go on to the camera check and set-up below; Alif Ba opens the Jannah Garden with its
+   lessons and games. To add an activity later, add an entry to `src/lib/activities.mjs`.
 1. **Sign in or create an account.** Each student creates their own username and password once, choosing their
    level (Level 1–4) and entering that level's class password from the teacher. After that they sign in with
    their username and password.
 2. **Camera and microphone check**: camera preview, microphone level, speaker test, a face check that records
    the student's normal position, and the login snapshot.
-3. **Session setup**: Hifz test or Mujawwadah, level, surah and ayah range, number of questions, Sheikh's voice.
+3. **Set up**: level, surah and ayah range, number of questions (Hifz test), Sheikh's voice.
 4. **Classroom**: the Sheikh and the student's camera side by side, the Sheikh's notes, and the mushaf page.
 5. **Report**: time, mistakes, looks away, most observed mistakes, the Sheikh's review, ayah by ayah, and
    confirmation that the session reached the class log.
@@ -55,6 +57,22 @@ The speech engine is the Qāf model (`qaaf-asr`) from the main app when it has b
 release `qaaf-asr-model` in `issahnazif-afk/Qa-af-Wal-Quran-ul-Majeed`. It runs on the student's computer.
 Until then the browser's own speech recognition is used (Chrome and Edge send the audio to Google's speech
 service; nothing is stored by this site).
+
+## How quickly the words appear
+
+The words a student recites appear as soon as the speech engine hears them. To keep that fast:
+
+- **On-device listening (Chrome).** On the camera check, *Fast listening* shows whether Chrome can recognise
+  Arabic on the computer itself. If it can, the Arabic speech pack is downloaded once when the student presses
+  Continue, and from then on recognition happens on the computer, with no round trip to a server.
+  Otherwise the browser's online recognition is used.
+- **Expected words.** The recogniser is told the next words of the passage (Chrome's contextual biasing), so it
+  settles on Quranic words sooner and mishears them less.
+- **No animation delay.** Each word is shown the instant it is matched.
+- **The Qāf model**, when published from the main app, now decodes in short pieces (up to 6 s, every 0.15 s)
+  so it keeps pace in long ayahs.
+
+Use **Chrome** on Windows or macOS for the fastest tracking.
 
 ## Alif Ba: Jannah Garden and Noor Lanterns
 

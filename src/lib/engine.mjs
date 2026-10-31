@@ -10,7 +10,7 @@
 import { getJson, pad, audioUrl, wordAudioUrl } from './client.mjs';
 import { tokenize, normalize, matchAt, THRESHOLDS } from './recite.mjs';
 import { createFollower } from './follow.mjs';
-import { tuneRecognition } from './speech.mjs';
+import { tuneRecognition, setExpected, phrasesRefused } from './speech.mjs';
 import { buildPaper, fitPaper } from './mushaf.mjs';
 import { LEVELS, newTally } from './session.mjs';
 import { phrase, praiseFor, speak, stopVoice } from './phrases.mjs';
@@ -301,7 +301,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       if (!w.el?.isConnected) await renderPage(w.page, false);
       const sp = w.el;
       if (!sp) return;
-      const dur = reduceMotion ? 1 : (queue.length > 1 ? 0 : 60);
+      const dur = 0;   // words appear the moment they are heard
       sp.classList.remove('hidden', 'todo', 'hint', 'current', 'wrong', 'missed');
       sp.classList.add(w.helped ? 'helped' : w.mistake ? 'weak' : 'fresh');
       if (w.unclear && !w.mistake && !w.helped) sp.classList.add('unclear');
@@ -329,7 +329,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     if (w.page !== shownPage && !running && mode === 'reading') { renderPage(w.page, true).then(updateCurrent); return; }
     if (w.page === shownPage) { w.el?.classList.add('current'); follow(w.el); }
     const k = `${w.item.s}:${w.item.a}`;
-    if (k !== lastPos) { lastPos = k; ui.where?.({ label: w.item.label, s: w.item.s, a: w.item.a }); }
+    if (k !== lastPos) { lastPos = k; ui.where?.({ label: w.item.label, s: w.item.s, a: w.item.a }); setExpected(rec, upcoming()); }
   }
 
   // kind: undefined (read correctly) | 'help' (hint) | 'prompt' (Sheikh said it) | 'unclear'
@@ -469,6 +469,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
 
   // ── listening ───────────────────────────────────────────────
   let rec = null, listening = false;
+  const upcoming = () => flat.slice(pos, pos + 40).map((w) => w.display);
   const follower = createFollower({
     getFlat: () => flat,
     getPos: () => pos,
@@ -493,7 +494,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   });
   function startListening() {
     if (!SR || listening) return;
-    rec = tuneRecognition(new SR());
+    rec = tuneRecognition(new SR(), { expect: upcoming() });
     rec.lang = 'ar-SA';
     rec.continuous = true;
     rec.interimResults = true;
@@ -502,6 +503,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     const me = rec;
     rec.onresult = (e) => { if (me === rec && phase === 'answer') { armSilence(); follower.handle(e.results, e.resultIndex); } };
     rec.onerror = (e) => {
+      if (phrasesRefused(e)) return;   // biasing not supported here: the restart below carries on without it
       if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { listening = false; ui.mic?.(false); status('Microphone access is blocked. Allow the microphone for this site in the browser settings.', 'bad'); }
       else if (e.error === 'network') status('The speech service could not be reached. Check your internet connection.', 'bad');
     };
