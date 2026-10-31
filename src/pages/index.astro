@@ -52,7 +52,7 @@ const levels = [
         </div>
         <p class="demo-note" id="demo-note" hidden>Demo mode: the class log is not connected yet, so any class code works and sessions are not saved.</p>
         <label class="fld"><span>Full name</span><input id="in-name" type="text" autocomplete="name" placeholder="Maryam Abdullah" required /></label>
-        <label class="fld"><span>School or class code</span><input id="in-class" type="text" autocomplete="off" autocapitalize="characters" placeholder="HIFZ-B-2026" required /></label>
+        <label class="fld"><span>Class level</span><input id="in-class" type="text" autocomplete="off" placeholder="Level 1" required /></label>
         <label class="fld"><span>Class password</span><input id="in-pass" type="password" autocomplete="current-password" required /></label>
         <p class="err" id="in-err" role="alert"></p>
         <button class="btn btn-primary big" type="submit" id="in-go">Sign in</button>
@@ -295,7 +295,7 @@ const levels = [
       const password = $('in-pass').value;
       $('in-err').textContent = '';
       if (!name) return fail('Enter your full name.', 'in-name');
-      if (!classCode) return fail('Enter your class code.', 'in-class');
+      if (!classCode) return fail('Enter your class level, for example Level 1.', 'in-class');
       if (!password && !isDemo()) return fail('Enter the class password.', 'in-pass');
       $('in-go').disabled = true; $('in-go').textContent = 'Signing in…';
       const r = await login({ name, classCode, password });

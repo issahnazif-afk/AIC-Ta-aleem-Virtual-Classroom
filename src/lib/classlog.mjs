@@ -21,7 +21,7 @@ async function post(body, { timeout = 20000 } = {}) {
 }
 
 const MESSAGES = {
-  'unknown-class': 'That class code was not found. Check it with your teacher.',
+  'unknown-class': 'That class was not found. Type your level, for example Level 1.',
   'wrong-password': 'That password is not right for this class.',
   'no-name': 'Enter your full name.',
 };

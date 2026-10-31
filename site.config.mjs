@@ -4,10 +4,10 @@
 export default {
   appName: "Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom",
 
-  // GitHub Pages address. The repository is expected to be called "quran-classroom".
+  // GitHub Pages address. The repository is called "AIC-Ta-aleem-Virtual-Classroom".
   // If you name it differently, change base to '/<repository-name>/'.
   site: 'https://issahnazif-afk.github.io',
-  base: '/quran-classroom/',
+  base: '/AIC-Ta-aleem-Virtual-Classroom/',
 
   // The Google Apps Script web app that writes each session into its class's Google Sheet.
   // Paste the "Web app URL" from Deploy → Manage deployments (see apps-script/README.md).

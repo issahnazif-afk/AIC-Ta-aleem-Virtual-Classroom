@@ -55,13 +55,13 @@ service; nothing is stored by this site).
 
 ## Putting it online
 
-1. Create a GitHub repository called **quran-classroom** and push this folder to `main`.
+1. Create a GitHub repository called **AIC-Ta-aleem-Virtual-Classroom** and push this folder to `main`.
    (Another name works too: change `base` in `site.config.mjs` to `'/<name>/'`.)
 2. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
 3. Set up the class log: follow [`apps-script/README.md`](apps-script/README.md). It ends with adding the
    repository variable `CLASS_LOG_URL`.
 4. Run the **Build and deploy** workflow (Actions tab), or push any change. The site appears at
-   `https://issahnazif-afk.github.io/quran-classroom/`.
+   `https://issahnazif-afk.github.io/AIC-Ta-aleem-Virtual-Classroom/`.
 
 Without `CLASS_LOG_URL` the classroom runs in **demo mode**: any class code works and sessions are not saved.
 
@@ -69,7 +69,7 @@ Without `CLASS_LOG_URL` the classroom runs in **demo mode**: any class code work
 
 ```bash
 npm install
-npm run dev          # builds the data, then opens http://localhost:4321/quran-classroom/
+npm run dev          # builds the data, then opens http://localhost:4321/AIC-Ta-aleem-Virtual-Classroom/
 ```
 
 The look-away check needs the face model. The deploy workflow downloads it; locally, download

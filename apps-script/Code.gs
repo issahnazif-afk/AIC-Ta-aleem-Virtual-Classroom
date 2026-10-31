@@ -4,8 +4,9 @@
  *
  * The classroom website (GitHub Pages) sends every finished session here. This script:
  *   • checks the student's class code and class password against the "Classes" tab,
- *   • keeps ONE Google Sheet per class inside your shared Drive folder (created on first use),
- *   • saves the login snapshot into "<class code> snapshots" in the same folder,
+ *   • keeps ONE folder per class inside your shared Drive folder, named after the class
+ *     (e.g. "Level 1"), holding that class's Google Sheet ("Level 1 · session log")
+ *     and a "Snapshots" folder with the login photos (all created on first use),
  *   • adds one row per session to that class's sheet.
  *
  * Set up once (full steps in apps-script/README.md):
@@ -35,12 +36,19 @@ function setup() {
   if (!sh) sh = ss.insertSheet(CLASSES_TAB, 0);
   if (sh.getLastRow() === 0) {
     sh.appendRow(CLASS_HEADERS);
-    sh.appendRow(['HIFZ-B-2026', 'Hifz group B', 'change-me', 'Teacher name', '']);
+    // the four levels, each with its own starting password (change them as you like)
+    for (let n = 1; n <= 4; n++) sh.appendRow(['LEVEL-' + n, 'Level ' + n, newPassword(), '', '']);
   }
   sh.getRange(1, 1, 1, CLASS_HEADERS.length).setFontWeight('bold');
   sh.setFrozenRows(1);
+  sh.autoResizeColumns(1, CLASS_HEADERS.length);
   DriveApp.getFolderById(FOLDER_ID).getName();   // asks for Drive access and checks the folder ID
-  SpreadsheetApp.getUi().alert('Ready. Add one row per class in the "Classes" tab, then deploy as a web app.');
+  SpreadsheetApp.getUi().alert('Ready. The Classes tab lists Level 1 to Level 4 with their passwords. Change them if you like, then deploy as a web app.');
+}
+
+function newPassword() {
+  const words = ['noor', 'huda', 'iqra', 'sabr', 'ilm', 'amal', 'salam', 'barakah'];
+  return words[Math.floor(Math.random() * words.length)] + (1000 + Math.floor(Math.random() * 9000));
 }
 
 // ── web app ─────────────────────────────────────────────────────
@@ -70,9 +78,11 @@ function findClass(code) {
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CLASSES_TAB);
   if (!sh) throw new Error('Run setup() first');
   const rows = sh.getDataRange().getValues();
-  const want = String(code || '').trim().toUpperCase();
+  // "Level 1", "level-1", "LEVEL1" all find the class LEVEL-1
+  const key = (x) => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const want = key(code);
   for (let r = 1; r < rows.length; r++) {
-    if (String(rows[r][0]).trim().toUpperCase() === want && want) {
+    if (want && (key(rows[r][0]) === want || key(rows[r][1]) === want)) {
       return { row: r + 1, code: String(rows[r][0]).trim(), name: String(rows[r][1] || rows[r][0]), password: String(rows[r][2]), logUrl: String(rows[r][4] || ''), sheet: sh };
     }
   }
@@ -82,7 +92,7 @@ function findClass(code) {
 function checkClass(body) {
   const c = findClass(body.classCode);
   if (!c) return { error: 'unknown-class' };
-  if (String(body.password || '') !== c.password) return { error: 'wrong-password' };
+  if (!c.password || String(body.password || '') !== c.password) return { error: 'wrong-password' };
   return { cls: c };
 }
 
@@ -93,13 +103,20 @@ function login(body) {
   return { ok: true, className: r.cls.name, classCode: r.cls.code };
 }
 
-// One Google Sheet per class, created in the shared folder the first time it is needed.
+// Each class has its own folder in the shared folder, named after the class ("Level 1").
+function classFolder(cls) {
+  const root = DriveApp.getFolderById(FOLDER_ID);
+  const it = root.getFoldersByName(cls.name);
+  return it.hasNext() ? it.next() : root.createFolder(cls.name);
+}
+
+// One Google Sheet per class, inside the class's folder, created the first time it is needed.
 function classLog(cls) {
   if (cls.logUrl) {
     try { return SpreadsheetApp.openByUrl(cls.logUrl); } catch (err) { /* deleted: make a new one */ }
   }
-  const ss = SpreadsheetApp.create(cls.code + ' · session log');
-  DriveApp.getFileById(ss.getId()).moveTo(DriveApp.getFolderById(FOLDER_ID));
+  const ss = SpreadsheetApp.create(cls.name + ' · session log');
+  DriveApp.getFileById(ss.getId()).moveTo(classFolder(cls));
   const sh = ss.getSheets()[0];
   sh.setName('Sessions');
   sh.appendRow(LOG_HEADERS);
@@ -111,10 +128,9 @@ function classLog(cls) {
 }
 
 function snapshotFolder(cls) {
-  const root = DriveApp.getFolderById(FOLDER_ID);
-  const name = cls.code + ' snapshots';
-  const it = root.getFoldersByName(name);
-  return it.hasNext() ? it.next() : root.createFolder(name);
+  const parent = classFolder(cls);
+  const it = parent.getFoldersByName('Snapshots');
+  return it.hasNext() ? it.next() : parent.createFolder('Snapshots');
 }
 
 // ── one finished session ────────────────────────────────────────
@@ -136,7 +152,8 @@ function logSession(body) {
     let snap = '';
     if (body.snapshot && /^data:image\/jpeg;base64,/.test(body.snapshot)) {
       const bytes = Utilities.base64Decode(body.snapshot.split(',')[1]);
-      const file = snapshotFolder(r.cls).createFile(Utilities.newBlob(bytes, 'image/jpeg', s.id + '.jpg'));
+      const stamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd HHmm');
+      const file = snapshotFolder(r.cls).createFile(Utilities.newBlob(bytes, 'image/jpeg', stamp + ' ' + String(s.studentName || 'student') + '.jpg'));
       snap = '=HYPERLINK("' + file.getUrl() + '","View photo")';
     }
     const n = (v) => (typeof v === 'number' && isFinite(v) ? v : '');

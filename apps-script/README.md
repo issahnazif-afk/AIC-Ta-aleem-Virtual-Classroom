@@ -6,10 +6,12 @@ that class's Google Sheet in your shared Drive folder. Students never see the lo
 
 ```
 Shared folder/
-├── HIFZ-B-2026 · session log      ← one Google Sheet per class, a row per session
-├── HIFZ-B-2026 snapshots/         ← the login photo of each session
-├── HIFZ-C-2026 · session log
-└── …
+├── Level 1/
+│   ├── Level 1 · session log      ← one Google Sheet per class, a row per session
+│   └── Snapshots/                 ← the login photo of each session
+├── Level 2/
+├── Level 3/
+└── Level 4/
 ```
 
 To get an Excel copy at any time, open a class sheet and choose **File → Download → Microsoft Excel (.xlsx)**,
@@ -29,7 +31,10 @@ or open it straight from Excel through Google Drive.
 
    | Class code | Class name | Class password | Teacher | Log sheet |
    |---|---|---|---|---|
-   | HIFZ-B-2026 | Hifz group B | a password you give the class | Ustadh … | *(filled in automatically)* |
+   | LEVEL-1 | Level 1 | *(made by setup, change if you like)* | Ustadh … | *(filled in automatically)* |
+   | LEVEL-2 | Level 2 | … | … | |
+   | LEVEL-3 | Level 3 | … | … | |
+   | LEVEL-4 | Level 4 | … | … | |
 
 7. **Deploy → New deployment → Select type: Web app.**
    *Execute as:* **Me**. *Who has access:* **Anyone**. Press **Deploy** and copy the **Web app URL**
