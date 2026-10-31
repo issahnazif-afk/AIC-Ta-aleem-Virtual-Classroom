@@ -30,6 +30,7 @@ const MESSAGES = {
   'username-taken': 'That username is already taken. Try another one.',
   'bad-login': 'The username or password is not right.',
   'class-removed': 'Your class is no longer listed. Ask your teacher.',
+  'bad-gender': 'Choose Boy or Girl.',
   'signed-out': 'Your sign-in has expired. Sign in again to send this session.',
 };
 const OFFLINE = 'The classroom server could not be reached. Check your internet connection and try again.';
@@ -44,7 +45,7 @@ export async function listClasses() {
 async function account(body) {
   if (isDemo()) {
     const cls = DEMO_CLASSES.find((c) => c.code === body.classCode) ?? DEMO_CLASSES[0];
-    return { ok: true, demo: true, username: String(body.username || '').toLowerCase(), name: body.name || body.username, classCode: cls.code, className: cls.name, token: 'demo' };
+    return { ok: true, demo: true, username: String(body.username || '').toLowerCase(), name: body.name || body.username, gender: body.gender || 'm', classCode: cls.code, className: cls.name, token: 'demo' };
   }
   try {
     const r = await post(body);
@@ -56,6 +57,11 @@ async function account(body) {
 }
 export const register = (b) => account({ action: 'register', ...b });
 export const login = (b) => account({ action: 'login', ...b });
+export async function setGender({ token, gender }) {
+  if (isDemo()) return { ok: true };
+  try { const r = await post({ action: 'profile', token, gender }); return r.ok ? r : { ok: false, message: MESSAGES[r.error] ?? 'That did not work. Try again.' }; }
+  catch { return { ok: false, message: OFFLINE }; }
+}
 
 // Sessions that could not be sent yet wait here and are retried.
 const OUTBOX = 'outbox';

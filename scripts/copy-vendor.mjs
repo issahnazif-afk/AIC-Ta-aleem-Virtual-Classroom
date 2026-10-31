@@ -12,3 +12,11 @@ for (const f of ['vision_wasm_internal.js', 'vision_wasm_internal.wasm', 'vision
   await fs.copyFile(path.join(SRC, f), path.join(OUT, f));
 }
 console.log('✓ MediaPipe runtime copied to public/mediapipe/');
+
+// The Sheikh's recorded phrases (public/audio/sheikh/*.mp3): write the list, so the site only asks for
+// recordings that exist.
+const AUD = path.join(ROOT, 'public/audio/sheikh');
+await fs.mkdir(AUD, { recursive: true });
+const clips = (await fs.readdir(AUD)).filter((f) => f.endsWith('.mp3')).map((f) => f.replace(/\.mp3$/, ''));
+await fs.writeFile(path.join(AUD, 'recordings.json'), JSON.stringify(clips));
+console.log(`✓ ${clips.length} recorded Sheikh phrase(s) listed`);

@@ -70,6 +70,14 @@ const levels = [
             <p class="muted">You only do this once. Your teacher gives you your level’s class password.</p>
           </div>
           <label class="fld"><span>Full name</span><input id="up-name" type="text" autocomplete="name" placeholder="Maryam Abdullah" required /></label>
+          <fieldset class="fld gender" id="up-gender">
+            <legend>I am a</legend>
+            <div class="gender-row">
+              <label class="gpick"><input type="radio" name="up-g" value="m" /><span>Boy</span></label>
+              <label class="gpick"><input type="radio" name="up-g" value="f" /><span>Girl</span></label>
+            </div>
+            <small class="hint">So the Sheikh can speak to you properly: أَحْسَنْتَ for a boy, أَحْسَنْتِ for a girl.</small>
+          </fieldset>
           <div class="fld-row">
             <label class="fld"><span>Your level</span><select id="up-class"><option value="">Loading…</option></select></label>
             <label class="fld"><span>Class password</span><input id="up-cpass" type="password" autocomplete="off" required /></label>
@@ -81,6 +89,21 @@ const levels = [
           </div>
           <p class="err" id="up-err" role="alert"></p>
           <button class="btn btn-primary big" type="submit" id="up-go">Create account</button>
+        </form>
+        <form id="ask-gender" class="si-pane" novalidate hidden>
+          <div>
+            <h1>One quick question</h1>
+            <p class="muted">So the Sheikh speaks to you properly, tell us once:</p>
+          </div>
+          <fieldset class="fld gender">
+            <legend>I am a</legend>
+            <div class="gender-row">
+              <label class="gpick"><input type="radio" name="ask-g" value="m" /><span>Boy</span></label>
+              <label class="gpick"><input type="radio" name="ask-g" value="f" /><span>Girl</span></label>
+            </div>
+          </fieldset>
+          <p class="err" id="ask-err" role="alert"></p>
+          <button class="btn btn-primary big" type="submit" id="ask-go">Continue</button>
         </form>
         <p class="fine">When you join a session, a photo is taken from your camera and saved with your session record for your teacher. Video and audio are not recorded.</p>
       </div>
@@ -247,6 +270,7 @@ const levels = [
         <div class="r-head">
           <img id="r-snap" alt="Login snapshot" />
           <div>
+            <p class="r-praise" id="r-praise" lang="ar" dir="rtl" hidden></p>
             <h1 id="r-title">Session complete</h1>
             <p class="muted" id="r-sub"></p>
           </div>
@@ -284,7 +308,8 @@ const levels = [
   </section>
 
   <script>
-    import { configure, isDemo, login, register, listClasses, sendSession, flushOutbox } from '../lib/classlog.mjs';
+    import { configure, isDemo, login, register, listClasses, setGender, sendSession, flushOutbox } from '../lib/classlog.mjs';
+    import { phrase, praiseFor } from '../lib/phrases.mjs';
     import { openCamera, micMeter, snapshot, testTone } from '../lib/media.mjs';
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
     import { getSpeechRecognition } from '../lib/speech.mjs';
@@ -301,7 +326,7 @@ const levels = [
     setInterval(() => flushOutbox().catch(() => {}), 60000);
 
     // ── state ────────────────────────────────────────────────
-    const me = { name: '', username: '', classCode: '', className: '', token: '', loginTime: null };
+    const me = { name: '', username: '', gender: '', classCode: '', className: '', token: '', loginTime: null };
     let stream = null, meter = null, watcher = null, snap = '';
     let choice = { mode: 'hifz', level: 'intermediate', ...store.get('choice', {}) };
     let engine = null, sessionStart = 0, timerT = 0;
@@ -336,7 +361,12 @@ const levels = [
     else if (!saved) setTimeout(() => setTab('new'), 0);
 
     function signedIn(r) {
-      Object.assign(me, { name: r.name, username: r.username, classCode: r.classCode, className: r.className, token: r.token, loginTime: new Date() });
+      Object.assign(me, { name: r.name, username: r.username, gender: r.gender || '', classCode: r.classCode, className: r.className, token: r.token, loginTime: new Date() });
+      if (!me.gender) {   // accounts made before gender was asked: ask once
+        $('signin').hidden = true; $('signup').hidden = true; $('ask-gender').hidden = false;
+        document.querySelector('.si-tabs').hidden = true;
+        return;
+      }
       store.set('who', { username: r.username });
       document.querySelectorAll('[data-name]').forEach((x) => (x.textContent = me.name.split(' ')[0]));
       $('in-pass').value = ''; $('up-pass').value = ''; $('up-pass2').value = ''; $('up-cpass').value = '';
@@ -368,16 +398,29 @@ const levels = [
       const password = $('up-pass').value;
       $('up-err').textContent = '';
       if (name.length < 3) return fail('up-err', 'Enter your full name.', 'up-name');
+      const gender = document.querySelector('input[name="up-g"]:checked')?.value || '';
+      if (!gender) return fail('up-err', 'Choose Boy or Girl.');
       if (!classCode) return fail('up-err', 'Choose your level.', 'up-class');
       if (!classPassword && !isDemo()) return fail('up-err', 'Enter your level’s class password from your teacher.', 'up-cpass');
       if (!USER_RE.test(username)) return fail('up-err', 'Usernames are 3 to 24 letters or numbers, and may use . _ or - (no spaces).', 'up-user');
       if (password.length < 6) return fail('up-err', 'Choose a password of at least 6 characters.', 'up-pass');
       if (password !== $('up-pass2').value) return fail('up-err', 'The two passwords are not the same.', 'up-pass2');
       busy($('up-go'), true);
-      const r = await register({ name, classCode, classPassword, username, password });
+      const r = await register({ name, gender, classCode, classPassword, username, password });
       busy($('up-go'), false, 'Create account');
       if (!r.ok) return fail('up-err', r.message, r.error === 'username-taken' || r.error === 'bad-username' ? 'up-user' : r.error === 'wrong-class-password' ? 'up-cpass' : null);
       signedIn(r);
+    });
+    $('ask-gender').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const g = document.querySelector('input[name="ask-g"]:checked')?.value;
+      if (!g) return fail('ask-err', 'Choose Boy or Girl.');
+      busy($('ask-go'), true);
+      const r = await setGender({ token: me.token, gender: g });
+      busy($('ask-go'), false, 'Continue');
+      if (!r.ok) return fail('ask-err', r.message);
+      $('ask-gender').hidden = true; document.querySelector('.si-tabs').hidden = false; $('signin').hidden = false;
+      signedIn({ ...me, gender: g });
     });
     function fail(where, msg, focus) { $(where).textContent = msg; if (focus) $(focus).focus(); }
 
@@ -529,7 +572,7 @@ const levels = [
         $('away-why').textContent = state === 'noface' ? 'Your face is not visible to the camera.' : `It looked like you were ${why || 'looking away'}.`;
         $('away').hidden = false;
         $('s-class').dataset.away = '1';
-        setSheikh('stop', 'انظر إليّ', 'Look at the screen, then continue.');
+        { const p = phrase('lookatme', me.gender); setSheikh('stop', p.ar, 'Look at the screen, then continue.'); }
         setStatus('Paused. Look at the Sheikh, then press “I’m ready, continue”.', 'bad');
       }
     }
@@ -569,7 +612,7 @@ const levels = [
       sessionStart = Date.now(); clearInterval(timerT); timerT = setInterval(tickTimer, 1000); tickTimer();
 
       engine = createEngine({
-        stage: $('stage'), SR, level: choice.level, reciter: $('su-voice').value,
+        stage: $('stage'), SR, level: choice.level, reciter: $('su-voice').value, gender: me.gender,
         ui: {
           sheikh: setSheikh, status: setStatus, note: addNote,
           where: (w) => { $('where').textContent = w.label; },
@@ -633,6 +676,7 @@ const levels = [
       const id = newSessionId(me.classCode);
 
       $('r-title').textContent = `Session complete, ${me.name.split(' ')[0]}`;
+      { const pr = phrase(t.words ? praiseFor(t.words ? t.first / t.words : 0, t.prompt, t.hint) : 'ahsant', me.gender); $('r-praise').textContent = pr.ar; $('r-praise').hidden = !t.words; }
       const fmt = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       $('r-sub').textContent = `${hifz ? 'Hifz test' : 'Mujawwadah'} · ${passage} · ${LEVELS[choice.level].name} · Hafs · ${endTime.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}, ${fmt(new Date(sessionStart))} to ${fmt(endTime)}`;
       $('r-snap').src = snap || ''; $('r-snap').hidden = !snap;
@@ -667,7 +711,7 @@ const levels = [
       lastEntry = {
         token: me.token, snapshot: snap,
         session: {
-          id, studentName: me.name, username: me.username, className: me.className, loginTime: me.loginTime?.toISOString(), endTime: endTime.toISOString(), minutes,
+          id, studentName: me.name, username: me.username, gender: me.gender, className: me.className, loginTime: me.loginTime?.toISOString(), endTime: endTime.toISOString(), minutes,
           mode: res.mode, level: LEVELS[choice.level].name, surahs: passage, ayahs: res.ayahCount,
           questions: hifz ? res.questions : '', words: t.words, rightFirstPct: t.words ? Math.round((t.first / t.words) * 100) : 0,
           grade, mistakesTotal: total, topMistakes: top.map((x) => `${x.label} ×${x.n}`).join('; '),
@@ -694,7 +738,7 @@ const levels = [
       try { if (stream && !stream.getAudioTracks().some((t) => t.readyState === 'live')) { stream.getTracks().forEach((t) => t.stop()); stream = null; } } catch {}
       show('s-check'); startCheck();
     });
-    $('r-out').addEventListener('click', () => { stopMedia(); Object.assign(me, { token: '', name: '', username: '' }); setTab('in'); show('s-signin'); });
+    $('r-out').addEventListener('click', () => { stopMedia(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); setTab('in'); show('s-signin'); });
     addEventListener('beforeunload', (e) => { if (engine && engine.phase !== 'done') { e.preventDefault(); e.returnValue = ''; } });
   </script>
 </body>

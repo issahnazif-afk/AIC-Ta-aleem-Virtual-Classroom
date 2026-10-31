@@ -13,6 +13,7 @@ import { createFollower } from './follow.mjs';
 import { tuneRecognition } from './speech.mjs';
 import { buildPaper, fitPaper } from './mushaf.mjs';
 import { LEVELS, newTally } from './session.mjs';
+import { phrase, praiseFor, speak, stopVoice } from './phrases.mjs';
 
 const AR = '٠١٢٣٤٥٦٧٨٩';
 const arNum = (n) => String(n).replace(/\d/g, (d) => AR[d]);
@@ -20,7 +21,7 @@ const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls)
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const STANDARD_WORDS = 60;   // roughly half a mushaf page
 
-export function createEngine({ stage, SR, level = 'intermediate', reciter, speakInstructions = true, ui }) {
+export function createEngine({ stage, SR, level = 'intermediate', reciter, gender = '', speakInstructions = true, ui }) {
   const L = LEVELS[level] ?? LEVELS.intermediate;
   const threshold = () => THRESHOLDS[L.checking] ?? THRESHOLDS.normal;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -142,7 +143,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
   function beginReading() {
     phase = 'answer';
     const first = items.find((it) => it.a) ?? items[0];
-    sheikh('listening', 'اقرأ', `Read from ${first.label}. The Sheikh is listening.`);
+    say('listening', 'read', `Read from ${first.label}. The Sheikh is listening.`);
     status('Read aloud from the highlighted word. Each word turns green when it is read correctly.');
     updateCurrent();
     startListening();
@@ -153,23 +154,10 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
   function sheikh(state, ar, en) { ui.sheikh?.(state, ar, en); }
   function status(text, kind = '') { ui.status?.(text, kind); }
 
-  let arVoice = null;
-  function pickVoice() { arVoice = (window.speechSynthesis?.getVoices() ?? []).find((v) => /^ar([-_]|$)/i.test(v.lang)) ?? null; }
-  if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', pickVoice); }
-  function speakAr(text) {
-    return new Promise((resolve) => {
-      if (!arVoice || !speakInstructions) return resolve(false);
-      const ut = new SpeechSynthesisUtterance(text);
-      ut.voice = arVoice; ut.lang = arVoice.lang; ut.rate = 0.9;
-      let done = false;
-      const fin = (ok) => { if (!done) { done = true; resolve(ok); } };
-      ut.onend = () => fin(true);
-      ut.onerror = () => fin(false);
-      speechSynthesis.cancel();
-      speechSynthesis.speak(ut);
-      setTimeout(() => fin(true), 4000);
-    });
-  }
+  // the Sheikh's words, in the student's gender (see phrases.mjs)
+  const P = (key) => phrase(key, gender);
+  const say = (state, key, en) => { const p = P(key); sheikh(state, p.ar, en ?? p.en); return p; };
+  const speakP = (p) => speak(p, { enabled: speakInstructions });
   function openingWords(it) {
     const n = it.words.length;
     if (n <= 2) return n;
@@ -187,20 +175,20 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
     stopListening();
     const first = items[0];
     if (!again) {
-      sheikh('speaking', 'اقرأ من قوله تعالى', 'Recite from where Allah says:');
+      const p = say('speaking', 'recitefrom');
       status('The Sheikh is about to recite an ayah. Listen, then start from that same ayah.');
-      await speakAr('اقرأ من قوله تعالى');
+      await speakP(p);
     }
     if (phase === 'done' || phase === 'paused') return;
     const k = openingWords(first);
-    sheikh('speaking', 'اقرأ من قوله تعالى…', k < first.words.length ? 'Listen to the opening of the ayah.' : 'Listen to the ayah.');
+    sheikh('speaking', P('recitefrom').ar + '…', k < first.words.length ? 'Listen to the opening of the ayah.' : 'Listen to the ayah.');
     const ok = await playAudio(audioUrl(reciter, first.s, first.a), k < first.words.length ? openingShare(first, k) : 1);
     if (phase === 'done' || phase === 'paused') return;
     if (!ok) {
       sheikh('listening', first.words.slice(0, k).map((w) => w.display).join(' ') + ' …', 'The recitation could not be played, so here are the opening words.');
       status('The recitation could not be played. Check your connection.', 'bad');
     } else {
-      sheikh('listening', 'تفضّل، اقرأ', 'Go ahead. Recite that ayah from its start and carry on.');
+      say('listening', 'goahead', 'Go ahead. Recite that ayah from its start and carry on.');
       status('Your turn. Start from the beginning of the ayah you just heard.');
     }
     phase = 'answer';
@@ -326,6 +314,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
       if (w.wi === w.item.words.length - 1) {
         const it = w.item;
         it.done = true;
+        if (it.a && phase === 'answer' && it.words.every((x) => !x.mistake && !x.helped)) { const p = P('ahsant'); sheikh('listening', p.ar, `${p.en} Carry on.`); }
         setTimeout(() => it.mk?.classList.remove('hidden'), dur * 0.6);
       }
     };
@@ -362,7 +351,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
     }
     wrongStreak = 0;
     if (kind !== 'prompt') status(kind === 'help' ? 'Shown. Carry on.' : 'Correct. Keep going.', 'good');
-    if ((!kind || kind === 'unclear') && phase === 'answer') sheikh('listening', 'تفضّل', 'Carry on.');
+    if ((!kind || kind === 'unclear') && phase === 'answer') say('listening', 'carryon');
     updateCurrent();
     armSilence();
   }
@@ -374,8 +363,8 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
     wrongStreak++;
     if (w.el) { w.el.classList.add('current', 'wrong', 'missed'); setTimeout(() => w.el?.classList.remove('wrong'), 800); }
     status(`Heard “${heard}”. That is not the next word.`, 'bad');
-    if (wrongStreak === 1) sheikh('listening', 'انتبه', 'Take care, that is not right.');
-    else if (wrongStreak === 2) sheikh('listening', 'أعد', 'Try that word again.');
+    if (wrongStreak === 1) say('listening', 'takecare');
+    else if (wrongStreak === 2) say('listening', 'again');
     if (wrongStreak >= 3) sheikhPrompts();
   }
 
@@ -400,7 +389,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
     if (phase === 'done' || phase === 'paused') return;
     accept(1, 'prompt');
     phase = 'answer';
-    sheikh('listening', 'تابع', 'Carry on from there.');
+    say('listening', 'carryon', 'Carry on from there.');
     status('Carry on from there.');
     startListening();
     armSilence();
@@ -411,23 +400,26 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
     stopListening();
     const st = q.stats;
     const ratio = st.words ? st.first / st.words : 0;
-    let ar, en;
-    if (ratio === 1 && st.prompts === 0 && st.help === 0) { ar = 'حسبك، أحسنت، بارك الله فيك'; en = 'That is enough. Excellent, may Allah bless you.'; }
-    else if (ratio >= 0.85) { ar = 'حسبك، بارك الله فيك'; en = 'That is enough. May Allah bless you.'; }
-    else { ar = 'حسبك. راجع هذا الموضع'; en = 'That is enough. Revise this passage.'; }
-    if (mode === 'reading') { ar = 'أحسنت، بارك الله فيك'; en = 'You have reached the end of the passage. May Allah bless you.'; }
+    // praise in the student's gender: Mumtaaz(a), Jayyid jiddan or Ahsanta/Ahsanti, then the Sheikh's word
+    const praise = P(praiseFor(ratio, st.prompts, st.help));
+    const tail = mode === 'reading' ? P('barakallah') : ratio >= 0.85 ? P('barakallah') : P('revise');
+    const head = mode === 'reading' ? null : P('enough');
+    const ar = [head?.ar, praise.ar, tail.ar].filter(Boolean).join('، ');
+    const en = [mode === 'reading' ? 'You have reached the end of the passage.' : head.en, praise.en, tail.en].join(' ');
     sheikh('stop', ar, en);
     status(mode === 'reading' ? 'Reading complete.' : 'Question complete.', 'good');
     ui.questionDone?.({ qi, n: questions.length });
     chime();
-    await speakAr(ar);
+    if (head) await speakP(head);
+    await speakP(praise);
+    await speakP(tail);
     if (qi + 1 < questions.length) {
       await wait(2500);
       if (phase === 'stopped' && questions[qi] === q) nextQuestion();
     } else {
       await wait(1500);
       if (phase === 'stopped') {
-        if (mode === 'hifz') { sheikh('stop', 'انتهى الاختبار، جزاك الله خيرا', 'The test is over. May Allah reward you.'); await speakAr('انتهى الاختبار، جزاك الله خيرا'); }
+        if (mode === 'hifz') { const p = say('stop', 'testover'); await speakP(p); }
         if (phase === 'stopped') finish();
       }
     }
@@ -466,7 +458,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
   function finish() {
     if (phase === 'done') return;
     phase = 'done';
-    clearSilence(); stopListening(); voice.pause(); try { speechSynthesis.cancel(); } catch {}
+    clearSilence(); stopListening(); voice.pause(); stopVoice();
     removeEventListener('resize', onResize);
     const asked = questions.filter((x) => x.stats);
     const passage = passageText();
@@ -536,11 +528,11 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
       const w = flat[pos];
       if (!w?.item.a) return;
       clearSilence(); stopListening(); phase = 'sheikh';
-      sheikh('speaking', 'استمع', `Listen to ${w.item.label}.`);
+      say('speaking', 'listen', `Listen to ${w.item.label}.`);
       await playAudio(audioUrl(reciter, w.item.s, w.item.a));
       if (phase !== 'sheikh') return;
       phase = 'answer';
-      sheikh('listening', 'تفضّل، اقرأ', 'Now read it yourself.');
+      say('listening', 'goahead', 'Now read it yourself.');
       startListening(); armSilence();
     },
     restartAyah() {
@@ -559,14 +551,14 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, speak
       if (phase === 'done' || phase === 'paused') return false;
       pausedFrom = phase === 'answer' || phase === 'sheikh' ? 'answer' : phase;
       phase = 'paused';
-      clearSilence(); stopListening(); voice.pause(); try { speechSynthesis.cancel(); } catch {}
+      clearSilence(); stopListening(); voice.pause(); stopVoice();
       if (reason === 'away') { tally.lookAways++; const w = flat[pos]; if (w) markAyah(w, 'away'); note('away', w); }
       return true;
     },
     resume() {
       if (phase !== 'paused') return;
       phase = pausedFrom === 'stopped' ? 'stopped' : 'answer';
-      if (phase === 'answer') { sheikh('listening', 'تابع', 'Carry on from where you stopped.'); status('Carry on from where you stopped.'); updateCurrent(); startListening(); armSilence(); }
+      if (phase === 'answer') { say('listening', 'carryon', 'Carry on from where you stopped.'); status('Carry on from where you stopped.'); updateCurrent(); startListening(); armSilence(); }
     },
     addAwayTime(ms) { tally.awayMs += ms; },
     end() { finish(); },

@@ -54,14 +54,16 @@ The Web app URL stays the same, so the website needs no change.
 
 ## Student accounts
 
-Each student creates their own account on the classroom's **Create account** tab: full name, their level,
+Each student creates their own account on the classroom's **Create account** tab: full name, whether they are a
+boy or a girl (so the Sheikh addresses them properly), their level,
 the level's **class password** (from the Classes tab — this is how you control who joins which level),
 a username and a password. Accounts appear in the **Students** tab of the admin sheet:
 
-| Username | Full name | Class | Joined | Last sign-in | Reset password |
-|---|---|---|---|---|---|
+| Username | Full name | Class | Joined | Last sign-in | Reset password | Gender |
+|---|---|---|---|---|---|---|
 
-Passwords are stored only as salted hashes (in two hidden columns), so nobody can read them.
+Passwords are stored only as salted hashes (in two hidden columns), so nobody can read them. Students whose
+accounts were made before the Gender column existed are asked once, the next time they sign in.
 
 - **A student forgot their password:** type a temporary password in their **Reset password** cell and tell
   them. They sign in with it once; it becomes their password and the cell clears itself.
@@ -71,7 +73,7 @@ Passwords are stored only as salted hashes (in two hidden columns), so nobody ca
 
 ## What each row holds
 
-Session ID, student name, username, class, login and end time, minutes spent, session type (Hifz test or
+Session ID, student name, username, gender, class, login and end time, minutes spent, session type (Hifz test or
 Mujawwadah), difficulty, surahs and ayahs recited, number of questions, words recited, right first time (%),
 grade, total mistakes, most observed mistakes, wrong words, forgotten words (the Sheikh prompted),
 hints used, unclear words, words gone back over, times the student looked away, a link to the login

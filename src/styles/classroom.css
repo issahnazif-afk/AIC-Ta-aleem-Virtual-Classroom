@@ -48,6 +48,15 @@
 .si-pane { display: flex; flex-direction: column; gap: 16px; }
 .fld-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .fld .hint { font-weight: 400; font-size: 13px; color: var(--muted); }
+.gender { border: none; margin: 0; padding: 0; }
+.gender legend { padding: 0; margin-bottom: 6px; }
+.gender-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.gpick { position: relative; display: block; cursor: pointer; }
+.gpick input { position: absolute; opacity: 0; }
+.gpick span { display: flex; align-items: center; justify-content: center; min-height: 52px; border: 1px solid var(--field); border-radius: 10px; background: var(--surface); font-size: 17px; font-weight: 600; }
+.gpick input:checked + span { border: 2px solid var(--accent); background: var(--accent-soft); color: var(--accent-strong); }
+.gpick input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.r-praise { font-family: var(--font-quran); font-size: 30px; color: var(--accent-strong); line-height: 1.3; margin: 0 !important; }
 .demo-note { background: var(--amber); color: var(--amber-ink); padding: 10px 14px; border-radius: 8px; font-size: 14px; }
 
 /* flow screens */

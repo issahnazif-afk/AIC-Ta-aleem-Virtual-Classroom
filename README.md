@@ -55,6 +55,53 @@ release `qaaf-asr-model` in `issahnazif-afk/Qa-af-Wal-Quran-ul-Majeed`. It runs 
 Until then the browser's own speech recognition is used (Chrome and Edge send the audio to Google's speech
 service; nothing is stored by this site).
 
+## The Sheikh's voice and praise
+
+The Sheikh speaks to each student in their own gender, chosen when they create their account:
+أَحْسَنْتَ (*Ahsanta*) to a boy and أَحْسَنْتِ (*Ahsanti*) to a girl, مُمْتَاز / مُمْتَازَة (*Mumtaaz / Mumtaaza*),
+جَيِّدٌ جِدًّا (*Jayyid jiddan*) for both, and every instruction (اقرأ / اقرئي, تابع / تابعي, …) the same way.
+After each passage he praises the student: *Mumtaaz(a)* when every word was right first time, *Jayyid jiddan* at
+85% and above, otherwise *Ahsanta / Ahsanti*. The praise also appears at the top of the report.
+
+**For the calmest, most natural voice, record it.** A teacher with a gentle voice records each phrase below
+(phone voice-memo is fine: quiet room, unhurried, about a hand's width from the mouth), saves it as MP3 with exactly
+the file name shown, and uploads it to `public/audio/sheikh/` in this repository. Any phrase that has a recording is
+played from it; the rest use the browser's best Arabic voice (Edge's natural *Hamed* or *Shakir* voices, or
+Chrome's Google Arabic voice), slowed and softened. You can record some now and the rest later.
+
+| File | Arabic | Meaning |
+|---|---|---|
+| `ahsanta.mp3` | أَحْسَنْتَ | Well done. |
+| `ahsanti.mp3` | أَحْسَنْتِ | Well done. |
+| `mumtaz.mp3` | مُمْتَاز | Excellent. |
+| `mumtazah.mp3` | مُمْتَازَة | Excellent. |
+| `jayyid-jiddan.mp3` | جَيِّدٌ جِدًّا | Very good. |
+| `mashaallah.mp3` | مَا شَاءَ ٱللَّه | Masha'Allah. |
+| `barakallahu-fik.mp3` | بَارَكَ ٱللَّهُ فِيكَ | May Allah bless you. |
+| `barakallahu-fiki.mp3` | بَارَكَ ٱللَّهُ فِيكِ | May Allah bless you. |
+| `iqra-min.mp3` | ٱقْرَأْ مِنْ قَوْلِهِ تَعَالَى | Recite from where Allah says: |
+| `iqrai-min.mp3` | ٱقْرَئِي مِنْ قَوْلِهِ تَعَالَى | Recite from where Allah says: |
+| `tafaddal-iqra.mp3` | تَفَضَّلْ، ٱقْرَأْ | Go ahead, recite. |
+| `tafaddali-iqrai.mp3` | تَفَضَّلِي، ٱقْرَئِي | Go ahead, recite. |
+| `iqra.mp3` | ٱقْرَأْ | Read. |
+| `iqrai.mp3` | ٱقْرَئِي | Read. |
+| `tabi.mp3` | تَابِعْ | Carry on. |
+| `tabii.mp3` | تَابِعِي | Carry on. |
+| `intabih.mp3` | ٱنْتَبِهْ | Take care, that is not right. |
+| `intabihi.mp3` | ٱنْتَبِهِي | Take care, that is not right. |
+| `aid.mp3` | أَعِدْ | Try that word again. |
+| `aidi.mp3` | أَعِيدِي | Try that word again. |
+| `istami.mp3` | ٱسْتَمِعْ | Listen. |
+| `istamii.mp3` | ٱسْتَمِعِي | Listen. |
+| `unzur.mp3` | ٱنْظُرْ إِلَيَّ | Look at the screen. |
+| `unzuri.mp3` | ٱنْظُرِي إِلَيَّ | Look at the screen. |
+| `hasbuka.mp3` | حَسْبُكَ | That is enough. |
+| `hasbuki.mp3` | حَسْبُكِ | That is enough. |
+| `raji.mp3` | رَاجِعْ هَذَا ٱلْمَوْضِعَ | Revise this passage. |
+| `rajii.mp3` | رَاجِعِي هَذَا ٱلْمَوْضِعَ | Revise this passage. |
+| `test-over-m.mp3` | ٱنْتَهَى ٱلِٱخْتِبَارُ، جَزَاكَ ٱللَّهُ خَيْرًا | The test is over. May Allah reward you. |
+| `test-over-f.mp3` | ٱنْتَهَى ٱلِٱخْتِبَارُ، جَزَاكِ ٱللَّهُ خَيْرًا | The test is over. May Allah reward you. |
+
 ## Putting it online
 
 1. Create a GitHub repository called **AIC-Ta-aleem-Virtual-Classroom** and push this folder to `main`.

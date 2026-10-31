@@ -4,7 +4,8 @@
  *
  * The classroom website (GitHub Pages) talks to this script. It:
  *   • lists the classes (Level 1 to Level 4) for the sign-up form,
- *   • creates student accounts: each student picks a unique username and a password; to join a
+ *   • creates student accounts: each student gives their gender (so the Sheikh can address them
+ *     properly) and picks a unique username and a password; to join a
  *     level they also need that level's class password from the teacher ("Classes" tab),
  *   • signs students in with their username and password (passwords are stored only as salted hashes),
  *   • keeps ONE folder per class in your shared Drive folder ("Level 1"), holding that class's
@@ -27,10 +28,11 @@ const FOLDER_ID = 'PASTE_YOUR_FOLDER_ID_HERE';
 const CLASSES_TAB = 'Classes';
 const CLASS_HEADERS = ['Class code', 'Class name', 'Class password', 'Teacher', 'Log sheet'];
 const STUDENTS_TAB = 'Students';
-const STUDENT_HEADERS = ['Username', 'Full name', 'Class', 'Joined', 'Last sign-in', 'Reset password', 'Password hash', 'Salt'];
-const S = { user: 0, name: 1, cls: 2, joined: 3, last: 4, reset: 5, hash: 6, salt: 7 };   // column positions
+const STUDENT_HEADERS = ['Username', 'Full name', 'Class', 'Joined', 'Last sign-in', 'Reset password', 'Password hash', 'Salt', 'Gender'];
+const S = { user: 0, name: 1, cls: 2, joined: 3, last: 4, reset: 5, hash: 6, salt: 7, gender: 8 };   // column positions
+const GENDER = { m: 'Male', f: 'Female' };
 const LOG_HEADERS = [
-  'Session ID', 'Student name', 'Username', 'Class', 'Login time', 'End time', 'Minutes spent',
+  'Session ID', 'Student name', 'Username', 'Gender', 'Class', 'Login time', 'End time', 'Minutes spent',
   'Session type', 'Difficulty', 'Surahs recited', 'Ayahs', 'Questions', 'Words recited',
   'Right first time (%)', 'Grade', 'Total mistakes', 'Most observed mistakes',
   'Wrong words', 'Forgotten (Sheikh prompted)', 'Hints used', 'Unclear', 'Went back over words',
@@ -56,6 +58,7 @@ function setup() {
   let st = ss.getSheetByName(STUDENTS_TAB);
   if (!st) st = ss.insertSheet(STUDENTS_TAB, 1);
   if (st.getLastRow() === 0) st.appendRow(STUDENT_HEADERS);
+  else if (String(st.getRange(1, S.gender + 1).getValue()) !== 'Gender') st.getRange(1, S.gender + 1).setValue('Gender');   // older sheets
   st.getRange(1, 1, 1, STUDENT_HEADERS.length).setFontWeight('bold');
   st.getRange(1, S.reset + 1).setBackground('#FBE3A6').setNote('Teachers: type a temporary password here to reset a student\'s password. It is cleared once the student signs in with it.');
   st.getRange(1, S.hash + 1, 1, 2).setFontColor('#9AA5A0');
@@ -85,6 +88,7 @@ function doPost(e) {
     if (body.action === 'classes') return json(listClasses());
     if (body.action === 'register') return json(register(body));
     if (body.action === 'login') return json(login(body));
+    if (body.action === 'profile') return json(profile(body));
     if (body.action === 'log') return json(logSession(body));
     return json({ ok: false, error: 'unknown-action' });
   } catch (err) {
@@ -127,6 +131,7 @@ function listClasses() {
 function studentsSheet() {
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(STUDENTS_TAB);
   if (!sh) throw new Error('Run setup() first');
+  if (String(sh.getRange(1, S.gender + 1).getValue()) !== 'Gender') sh.getRange(1, S.gender + 1).setValue('Gender').setFontWeight('bold');
   return sh;
 }
 
@@ -182,6 +187,8 @@ function register(body) {
   if (name.length < 3) return { ok: false, error: 'no-name' };
   if (!USERNAME_RE.test(username)) return { ok: false, error: 'bad-username' };
   if (password.length < 6) return { ok: false, error: 'short-password' };
+  const gender = String(body.gender || '');
+  if (!GENDER[gender]) return { ok: false, error: 'bad-gender' };
   const cls = findClass(body.classCode);
   if (!cls) return { ok: false, error: 'unknown-class' };
   if (!cls.password || String(body.classPassword || '') !== cls.password) return { ok: false, error: 'wrong-class-password' };
@@ -192,11 +199,11 @@ function register(body) {
     const sh = studentsSheet();
     if (findStudent(sh, username)) return { ok: false, error: 'username-taken' };
     const salt = Utilities.getUuid();
-    sh.appendRow([username, name, cls.name, new Date(), new Date(), '', hashPassword(password, salt), salt]);
+    sh.appendRow([username, name, cls.name, new Date(), new Date(), '', hashPassword(password, salt), salt, GENDER[gender]]);
   } finally {
     lock.releaseLock();
   }
-  return { ok: true, username, name, classCode: cls.code, className: cls.name, token: makeToken(username) };
+  return { ok: true, username, name, gender, classCode: cls.code, className: cls.name, token: makeToken(username) };
 }
 
 function login(body) {
@@ -217,7 +224,26 @@ function login(body) {
   sh.getRange(st.row, S.last + 1).setValue(new Date());
   const cls = findClass(st.v[S.cls]);
   if (!cls) return { ok: false, error: 'class-removed' };
-  return { ok: true, username: String(st.v[S.user]), name: String(st.v[S.name]), classCode: cls.code, className: cls.name, token: makeToken(st.v[S.user]) };
+  return { ok: true, username: String(st.v[S.user]), name: String(st.v[S.name]), gender: genderCode(st.v[S.gender]), classCode: cls.code, className: cls.name, token: makeToken(st.v[S.user]) };
+}
+
+// "Male" / "Female" in the sheet → "m" / "f" for the website ("" if not set yet)
+function genderCode(v) {
+  const x = String(v || '').trim().toLowerCase();
+  return x.startsWith('f') || x === 'girl' ? 'f' : x.startsWith('m') || x === 'boy' ? 'm' : '';
+}
+
+// Accounts made before gender was asked set it once, after signing in.
+function profile(body) {
+  const user = readToken(body.token);
+  if (!user) return { ok: false, error: 'signed-out' };
+  const gender = String(body.gender || '');
+  if (!GENDER[gender]) return { ok: false, error: 'bad-gender' };
+  const sh = studentsSheet();
+  const st = findStudent(sh, user);
+  if (!st) return { ok: false, error: 'signed-out' };
+  sh.getRange(st.row, S.gender + 1).setValue(GENDER[gender]);
+  return { ok: true, gender };
 }
 
 // ── class folders and sheets ────────────────────────────────────
@@ -240,7 +266,7 @@ function classLog(cls) {
   sh.appendRow(LOG_HEADERS);
   sh.getRange(1, 1, 1, LOG_HEADERS.length).setFontWeight('bold').setBackground('#E6F2EC');
   sh.setFrozenRows(1);
-  sh.getRange('E:F').setNumberFormat('yyyy-mm-dd hh:mm');
+  sh.getRange('F:G').setNumberFormat('yyyy-mm-dd hh:mm');
   cls.sheet.getRange(cls.row, 5).setValue(ss.getUrl());
   return ss;
 }
@@ -267,6 +293,8 @@ function logSession(body) {
   try {
     const ss = classLog(cls);
     const sh = ss.getSheetByName('Sessions') || ss.getSheets()[0];
+    // log sheets made before the Gender column existed get it now
+    if (String(sh.getRange(1, 4).getValue()) !== 'Gender') { sh.insertColumnAfter(3); sh.getRange(1, 4).setValue('Gender').setFontWeight('bold').setBackground('#E6F2EC'); }
     // the website retries when the connection drops; never write the same session twice
     if (sh.getLastRow() > 1 && sh.getRange(2, 1, sh.getLastRow() - 1, 1).createTextFinder(s.id).matchEntireCell(true).findNext()) {
       return { ok: true, duplicate: true };
@@ -281,7 +309,7 @@ function logSession(body) {
     }
     const n = (v) => (typeof v === 'number' && isFinite(v) ? v : '');
     sh.appendRow([
-      s.id, name, String(st.v[S.user]), cls.name,
+      s.id, name, String(st.v[S.user]), GENDER[genderCode(st.v[S.gender])] || '', cls.name,
       s.loginTime ? new Date(s.loginTime) : '', s.endTime ? new Date(s.endTime) : '', n(s.minutes),
       s.mode === 'hifz' ? 'Hifz test' : 'Mujawwadah (reading)', String(s.level || ''),
       String(s.surahs || ''), String(s.ayahs || ''), n(s.questions), n(s.words),
