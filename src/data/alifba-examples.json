@@ -1,0 +1,472 @@
+{
+ "muqattaat": [
+  {
+   "ref": "2:1",
+   "ar": "الٓمٓ",
+   "note": "Alif Lam Mim"
+  },
+  {
+   "ref": "7:1",
+   "ar": "الٓمٓصٓ",
+   "note": "Alif Lam Mim Sad"
+  },
+  {
+   "ref": "10:1",
+   "ar": "الٓر",
+   "note": "Alif Lam Ra"
+  },
+  {
+   "ref": "13:1",
+   "ar": "الٓمٓر",
+   "note": "Alif Lam Mim Ra"
+  },
+  {
+   "ref": "19:1",
+   "ar": "كٓهيعٓصٓ",
+   "note": "Kaf Ha Ya ʿAyn Sad"
+  },
+  {
+   "ref": "20:1",
+   "ar": "طه",
+   "note": "Ta Ha"
+  },
+  {
+   "ref": "26:1",
+   "ar": "طسٓمٓ",
+   "note": "Ta Sin Mim"
+  },
+  {
+   "ref": "27:1",
+   "ar": "طسٓ",
+   "note": "Ta Sin"
+  },
+  {
+   "ref": "36:1",
+   "ar": "يسٓ",
+   "note": "Ya Sin"
+  },
+  {
+   "ref": "38:1",
+   "ar": "صٓ",
+   "note": "Sad"
+  },
+  {
+   "ref": "40:1",
+   "ar": "حمٓ",
+   "note": "Ha Mim"
+  },
+  {
+   "ref": "42:2",
+   "ar": "عٓسٓقٓ",
+   "note": "ʿAyn Sin Qaf"
+  },
+  {
+   "ref": "50:1",
+   "ar": "قٓ",
+   "note": "Qaf"
+  },
+  {
+   "ref": "68:1",
+   "ar": "نٓ",
+   "note": "Nun"
+  }
+ ],
+ "madd-tabii": [
+  {
+   "ref": "1:4",
+   "ar": "مَـٰلِكِ",
+   "note": "One alif"
+  },
+  {
+   "ref": "108:1",
+   "ar": "أَعْطَيْنَـٰكَ",
+   "note": "One alif"
+  },
+  {
+   "ref": "2:30",
+   "ar": "وَإِذْ قَالَ",
+   "note": "qāla"
+  }
+ ],
+ "madd-muttasil": [
+  {
+   "ref": "110:1",
+   "ar": "جَآءَ",
+   "note": "jāʾa"
+  },
+  {
+   "ref": "2:22",
+   "ar": "وَٱلسَّمَآءَ بِنَآءً",
+   "note": "as-samāʾa bināʾan"
+  },
+  {
+   "ref": "2:19",
+   "ar": "كَصَيِّبٍ مِّنَ ٱلسَّمَآءِ",
+   "note": "min as-samāʾ"
+  }
+ ],
+ "madd-munfasil": [
+  {
+   "ref": "108:1",
+   "ar": "إِنَّآ أَعْطَيْنَـٰكَ",
+   "note": "innā aʿṭaynāk"
+  },
+  {
+   "ref": "2:4",
+   "ar": "بِمَآ أُنزِلَ",
+   "note": "bimā unzila"
+  },
+  {
+   "ref": "66:6",
+   "ar": "قُوٓا۟ أَنفُسَكُمْ",
+   "note": "qū anfusakum"
+  }
+ ],
+ "madd-lazim": [
+  {
+   "ref": "1:7",
+   "ar": "ٱلضَّآلِّينَ",
+   "note": "aḍ-ḍāllīn"
+  },
+  {
+   "ref": "69:1",
+   "ar": "ٱلْحَآقَّةُ",
+   "note": "al-ḥāqqah"
+  },
+  {
+   "ref": "79:34",
+   "ar": "ٱلطَّآمَّةُ",
+   "note": "aṭ-ṭāmmah"
+  }
+ ],
+ "madd-arid": [
+  {
+   "ref": "1:2",
+   "ar": "ٱلْعَـٰلَمِينَ",
+   "note": "stopping on al-ʿālamīn"
+  },
+  {
+   "ref": "1:5",
+   "ar": "نَسْتَعِينُ",
+   "note": "stopping on nastaʿīn"
+  },
+  {
+   "ref": "1:3",
+   "ar": "ٱلرَّحِيمِ",
+   "note": "stopping on ar-raḥīm"
+  }
+ ],
+ "madd-leen": [
+  {
+   "ref": "106:1",
+   "ar": "قُرَيْشٍ",
+   "note": "stopping on quraysh"
+  },
+  {
+   "ref": "106:3",
+   "ar": "ٱلْبَيْتِ",
+   "note": "stopping on al-bayt"
+  },
+  {
+   "ref": "106:4",
+   "ar": "خَوْفٍۭ",
+   "note": "stopping on khawf"
+  }
+ ],
+ "ha-long": [
+  {
+   "ref": "112:4",
+   "ar": "لَّهُۥ",
+   "note": "lahū, long"
+  },
+  {
+   "ref": "2:255",
+   "ar": "لَّهُۥ مَا فِى ٱلسَّمَـٰوَٰتِ",
+   "note": "lahū mā"
+  },
+  {
+   "ref": "99:7",
+   "ar": "يَرَهُۥ",
+   "note": "yarahū"
+  }
+ ],
+ "ha-short": [
+  {
+   "ref": "2:2",
+   "ar": "فِيهِ",
+   "note": "fīh, not long"
+  },
+  {
+   "ref": "2:156",
+   "ar": "إِلَيْهِ",
+   "note": "ilayhi"
+  },
+  {
+   "ref": "2:37",
+   "ar": "عَلَيْهِ",
+   "note": "ʿalayh"
+  },
+  {
+   "ref": "2:60",
+   "ar": "مِنْهُ",
+   "note": "minhu"
+  }
+ ],
+ "hidden-alif": [
+  {
+   "ref": "1:3",
+   "ar": "ٱلرَّحْمَـٰنِ",
+   "note": "ar-raḥmān"
+  },
+  {
+   "ref": "2:2",
+   "ar": "ذَٰلِكَ ٱلْكِتَـٰبُ",
+   "note": "dhālika l-kitāb"
+  },
+  {
+   "ref": "1:2",
+   "ar": "ٱلْعَـٰلَمِينَ",
+   "note": "al-ʿālamīn"
+  }
+ ],
+ "allah-heavy": [
+  {
+   "ref": "110:1",
+   "ar": "نَصْرُ ٱللَّهِ",
+   "note": "naṣru llāh"
+  },
+  {
+   "ref": "112:2",
+   "ar": "ٱللَّهُ ٱلصَّمَدُ",
+   "note": "allāhu ṣ-ṣamad"
+  },
+  {
+   "ref": "3:55",
+   "ar": "إِذْ قَالَ ٱللَّهُ",
+   "note": "qāla llāh"
+  },
+  {
+   "ref": "112:1",
+   "ar": "هُوَ ٱللَّهُ",
+   "note": "huwa llāh"
+  }
+ ],
+ "allah-light": [
+  {
+   "ref": "1:1",
+   "ar": "بِسْمِ ٱللَّهِ",
+   "note": "bismi llāh"
+  },
+  {
+   "ref": "1:2",
+   "ar": "ٱلْحَمْدُ لِلَّهِ",
+   "note": "lillāh"
+  },
+  {
+   "ref": "3:26",
+   "ar": "قُلِ ٱللَّهُمَّ",
+   "note": "quli llāhumma"
+  },
+  {
+   "ref": "2:8",
+   "ar": "يَقُولُ ءَامَنَّا بِٱللَّهِ",
+   "note": "billāh"
+  }
+ ],
+ "ra-heavy": [
+  {
+   "ref": "1:2",
+   "ar": "رَبِّ",
+   "note": "rabbi, ra with fat-ha"
+  },
+  {
+   "ref": "2:25",
+   "ar": "رُزِقُوا۟",
+   "note": "ruziqū, ra with dom-ma"
+  },
+  {
+   "ref": "19:16",
+   "ar": "مَرْيَمَ",
+   "note": "maryam, ra with sukun after fat-ha"
+  },
+  {
+   "ref": "2:185",
+   "ar": "ٱلْقُرْءَانُ",
+   "note": "al-qurʾān, after dom-ma"
+  }
+ ],
+ "ra-light": [
+  {
+   "ref": "24:37",
+   "ar": "رِجَالٌ",
+   "note": "rijālun, ra with kes-ra"
+  },
+  {
+   "ref": "89:10",
+   "ar": "وَفِرْعَوْنَ",
+   "note": "firʿawn, ra with sukun after kes-ra"
+  },
+  {
+   "ref": "2:22",
+   "ar": "رِزْقًا لَّكُمْ",
+   "note": "rizqan"
+  },
+  {
+   "ref": "1:7",
+   "ar": "غَيْرِ",
+   "note": "ghayri, ra with kes-ra"
+  }
+ ],
+ "idgham-ghunnah": [
+  {
+   "ref": "2:8",
+   "ar": "مَن يَقُولُ",
+   "note": "man yaqūl"
+  },
+  {
+   "ref": "16:53",
+   "ar": "مِّن نِّعْمَةٍ",
+   "note": "min niʿmah"
+  },
+  {
+   "ref": "13:11",
+   "ar": "مِن وَالٍ",
+   "note": "min wāl"
+  },
+  {
+   "ref": "99:7",
+   "ar": "خَيْرًا يَرَهُۥ",
+   "note": "khayran yarah"
+  },
+  {
+   "ref": "111:5",
+   "ar": "مِّن مَّسَدٍۭ",
+   "note": "min masad"
+  }
+ ],
+ "idgham-plain": [
+  {
+   "ref": "2:5",
+   "ar": "مِّن رَّبِّهِمْ",
+   "note": "min rabbihim"
+  },
+  {
+   "ref": "2:2",
+   "ar": "هُدًى لِّلْمُتَّقِينَ",
+   "note": "hudan lil-muttaqīn"
+  },
+  {
+   "ref": "2:173",
+   "ar": "غَفُورٌ رَّحِيمٌ",
+   "note": "ghafūrun raḥīm"
+  },
+  {
+   "ref": "104:1",
+   "ar": "وَيْلٌ لِّكُلِّ",
+   "note": "waylun li-kulli"
+  }
+ ],
+ "iqlab": [
+  {
+   "ref": "2:27",
+   "ar": "مِنۢ بَعْدِ",
+   "note": "min baʿd"
+  },
+  {
+   "ref": "2:33",
+   "ar": "أَنۢبِئْهُم",
+   "note": "anbiʾhum"
+  },
+  {
+   "ref": "104:4",
+   "ar": "لَيُنۢبَذَنَّ",
+   "note": "layunbadhanna"
+  },
+  {
+   "ref": "22:61",
+   "ar": "سَمِيعٌۢ بَصِيرٌ",
+   "note": "samīʿun baṣīr"
+  }
+ ],
+ "izhar": [
+  {
+   "ref": "2:62",
+   "ar": "مَنْ ءَامَنَ",
+   "note": "man āmana"
+  },
+  {
+   "ref": "1:7",
+   "ar": "أَنْعَمْتَ",
+   "note": "anʿamta"
+  },
+  {
+   "ref": "108:2",
+   "ar": "وَٱنْحَرْ",
+   "note": "wanḥar"
+  },
+  {
+   "ref": "7:43",
+   "ar": "مِّنْ غِلٍّ",
+   "note": "min ghill"
+  },
+  {
+   "ref": "106:4",
+   "ar": "مِّنْ خَوْفٍۭ",
+   "note": "min khawf"
+  },
+  {
+   "ref": "2:10",
+   "ar": "عَذَابٌ أَلِيمٌۢ",
+   "note": "ʿadhābun alīm"
+  }
+ ],
+ "ikhfa": [
+  {
+   "ref": "2:4",
+   "ar": "مِن قَبْلِكَ",
+   "note": "min qablik"
+  },
+  {
+   "ref": "2:22",
+   "ar": "وَأَنتُمْ",
+   "note": "wa antum"
+  },
+  {
+   "ref": "113:2",
+   "ar": "مِن شَرِّ",
+   "note": "min sharr"
+  },
+  {
+   "ref": "2:3",
+   "ar": "يُنفِقُونَ",
+   "note": "yunfiqūn"
+  },
+  {
+   "ref": "107:5",
+   "ar": "عَن صَلَاتِهِمْ",
+   "note": "ʿan ṣalātihim"
+  },
+  {
+   "ref": "111:3",
+   "ar": "نَارًا ذَاتَ",
+   "note": "nāran dhāta"
+  },
+  {
+   "ref": "2:25",
+   "ar": "مِن ثَمَرَةٍ",
+   "note": "min thamarah"
+  }
+ ],
+ "rabbana": [
+  {
+   "ref": "2:201",
+   "ar": "رَبَّنَآ ءَاتِنَا فِى ٱلدُّنْيَا حَسَنَةً وَفِى ٱلْـَٔاخِرَةِ حَسَنَةً وَقِنَا عَذَابَ ٱلنَّارِ",
+   "note": ""
+  },
+  {
+   "ref": "14:41",
+   "ar": "رَبَّنَا ٱغْفِرْ لِى وَلِوَٰلِدَىَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ ٱلْحِسَابُ",
+   "note": ""
+  }
+ ]
+}

@@ -4,8 +4,9 @@
 // Students choose their gender when they create their account. Without one, the neutral form is used.
 //
 // Voice: if a teacher has recorded a phrase, the recording plays (public/audio/sheikh/<file>.mp3;
-// see the list in README). Otherwise the calmest Arabic voice the browser offers is used, slowed a
-// little: Edge's natural voices (Hamed, Shakir) and Chrome's Google Arabic voice sound best.
+// see the list in README). Otherwise the clip made for it plays (public/audio/voice/p-<file>.mp3,
+// from scripts/voice/make_voice.py), so the Sheikh is heard on every computer. Only if neither
+// exists is the browser's own Arabic voice used.
 import { u } from './url.mjs';
 
 export const PHRASES = {
@@ -49,6 +50,11 @@ function hasRecording(file) {
   recordings ??= fetch(u('audio/sheikh/recordings.json')).then((r) => (r.ok ? r.json() : []), () => []).then((xs) => new Set(xs));
   return recordings.then((set) => set.has(file));
 }
+let made = null;
+function hasMade(file) {
+  made ??= fetch(u('audio/voice/index.json')).then((r) => (r.ok ? r.json() : []), () => []).then((xs) => new Set(xs));
+  return made.then((set) => set.has(`p-${file}`));
+}
 
 let voice = null;
 function pickVoice() {
@@ -64,12 +70,13 @@ export function stopVoice() { try { clip?.pause(); } catch {} try { speechSynthe
 // Say a phrase aloud. Resolves when it has finished (or after a safe timeout).
 export async function speak(p, { enabled = true } = {}) {
   if (!enabled || !p?.ar) return false;
-  if (p.file && clip && (await hasRecording(p.file))) {
+  const src = !p.file || !clip ? '' : (await hasRecording(p.file)) ? `audio/sheikh/${p.file}.mp3` : (await hasMade(p.file)) ? `audio/voice/p-${p.file}.mp3` : '';
+  if (src) {
     return new Promise((resolve) => {
       let done = false;
       const fin = (ok) => { if (!done) { done = true; resolve(ok); } };
       clip.onended = () => fin(true); clip.onerror = () => fin(false);
-      clip.src = u(`audio/sheikh/${p.file}.mp3`);
+      clip.src = u(src);
       clip.volume = 0.9;
       clip.play().catch(() => fin(false));
       setTimeout(() => fin(true), 6000);

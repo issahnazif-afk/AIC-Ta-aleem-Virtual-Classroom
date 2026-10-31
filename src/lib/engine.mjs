@@ -255,7 +255,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   async function renderPage(p, animate) {
     const map = new Map(items.map((it) => [it.key, it]));
     const paper = await buildPaper(p, { getJson, pad, items: map, wordSpan, markerSpan, script: 'plain' });
-    paper.classList.add(mode === 'reading' ? 'context' : 'outlines');
+    paper.classList.add(mode === 'reading' ? 'context' : 'outlines', 'mp-fixed');
     await swapPaper(paper, animate);
     shownPage = p;
     ui.page?.(p);

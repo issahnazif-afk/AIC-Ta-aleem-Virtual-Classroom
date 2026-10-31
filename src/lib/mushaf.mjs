@@ -121,11 +121,22 @@ export async function fitPaper(paper) {
   if (!box) return;
   if (paper.classList.contains('mp-flowpage')) { paper.style.setProperty('--mfs', `${Math.min(32, Math.max(18, box.clientWidth / 18))}px`); return; }
   const lines = [...box.querySelectorAll('.mp-line:not(.mp-banner)')];
-  let fs = Math.min(52, Math.max(14, box.clientWidth / 16));
+  // each of the 15 lines has its own row of the page: the text must fit its row's height too
+  const rowH = paper.classList.contains('mp-fixed') ? box.clientHeight / 15 : Infinity;
+  let fs = Math.min(52, Math.max(14, box.clientWidth / 16), rowH / 1.7);
   paper.style.setProperty('--mfs', `${fs}px`);
-  for (let k = 0; k < 30; k++) {
+  // On the fixed pages the words are laid out by flexbox, and a right-to-left line overflows to the left,
+  // which scrollWidth does not count: measure the words themselves.
+  const fixed = paper.classList.contains('mp-fixed');
+  const tooWide = (l) => {
+    if (!fixed) return l.scrollWidth > l.clientWidth + Math.max(2, fs * 0.2);
+    const kids = [...l.children];
+    const gap = parseFloat(getComputedStyle(l).columnGap) || 0;
+    return kids.reduce((a, c) => a + c.getBoundingClientRect().width, 0) + gap * Math.max(0, kids.length - 1) > l.clientWidth;
+  };
+  for (let k = 0; k < 40; k++) {
     // allow for the small padding around each word on the Recite and Hifz pages
-    if (!lines.some((l) => l.scrollWidth > l.clientWidth + Math.max(2, fs * 0.2))) break;
+    if (!lines.some(tooWide)) break;
     fs *= 0.965;
     paper.style.setProperty('--mfs', `${fs}px`);
   }

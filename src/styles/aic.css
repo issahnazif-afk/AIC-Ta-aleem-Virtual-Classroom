@@ -157,3 +157,181 @@ body.cr { font-family: var(--font-ui); background: var(--bg); color: var(--ink);
   .flow > .topbar, .hero > .topbar { width: calc(100% - 24px); border-radius: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { .act, .act-go, .btn-primary.big::after { transition: none; } }
+
+/* ── the mushaf page (Mujawwadah and Hifz) ──────────────────────
+   A real page: printed proportions, the 15 lines of the Madani layout (qpc-v2-15-lines), a double
+   gold frame, the surah cartouche and the page number in a medallion. It always fits the panel. */
+.stage { container-type: size; overflow: hidden; align-items: center; padding: 4px 0; }
+.stage .paper.mp-fixed {
+  --frame: var(--paper-line);
+  width: min(100cqw, 100cqh * .7); height: min(100cqh, 100cqw / .7); max-width: none; min-height: 0;
+  padding: 3.2% 4.6% 2.4%; gap: 0; border: 0; border-radius: 4px; position: relative;
+  background: var(--paper);
+  box-shadow: 0 1px 2px rgba(20, 33, 27, .06), 0 12px 32px rgba(20, 33, 27, .10),
+    inset 0 0 0 7px var(--paper), inset 0 0 0 8px var(--frame), inset 0 0 0 11px var(--paper), inset 0 0 0 13px var(--frame);
+}
+.stage .paper.mp-fixed::before { /* fine inner rule, as on the printed page */
+  content: ''; position: absolute; inset: 17px; border: 1px solid var(--frame); opacity: .45; border-radius: 2px; pointer-events: none;
+}
+.stage .paper.mp-fixed .mp-head { position: relative; padding: 0 1.4% .4%; font-size: clamp(11px, 1.6cqh, 15px); }
+.stage .paper.mp-fixed .mp-lines { flex: 1; min-height: 0; display: grid; grid-auto-rows: calc(100% / 15); align-content: center; }
+.stage .paper.mp-fixed .mp-line { line-height: 1; display: flex; align-items: center; justify-content: space-between; column-gap: .16em; min-width: 0; }
+.stage .paper.mp-fixed .mp-line.c { justify-content: center; gap: .28em; }
+.stage .paper.mp-fixed .mp-line > * { flex: none; }
+.stage .paper.mp-fixed .mp-banner {
+  justify-content: center; margin: .12em 4%; border: 0; border-radius: 999px; line-height: 1; font-size: .86em; color: var(--paper-ink);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--frame) 16%, transparent) 20%, color-mix(in srgb, var(--frame) 16%, transparent) 80%, transparent);
+  box-shadow: inset 0 0 0 1.5px var(--frame), inset 0 0 0 4px var(--paper), inset 0 0 0 5px color-mix(in srgb, var(--frame) 55%, transparent);
+}
+.stage .paper.mp-fixed .mp-folio {
+  position: relative; align-self: center; margin-top: .3%; min-width: 2.6em; padding: .1em .6em; font-size: clamp(11px, 1.5cqh, 15px);
+  border-radius: 999px; box-shadow: inset 0 0 0 1px var(--frame); color: var(--paper-ink);
+}
+
+/* ── page colours: the reader chooses (Mujawwadah, Hifz and Alif Ba) ── */
+body[data-paper] { --q-ink: var(--ink); }
+body[data-paper="cream"] { --paper: #FFFBF0; --paper-line: #C29F4B; --paper-ink: #6E5420; --q-ink: #1A1A17; }
+body[data-paper="white"] { --paper: #FFFFFF; --paper-line: #B8963E; --paper-ink: #5E4A1E; --q-ink: #111111; }
+body[data-paper="sepia"] { --paper: #F3E5CA; --paper-line: #9C7633; --paper-ink: #5B3F17; --q-ink: #2A1C0C; }
+body[data-paper="green"] { --paper: #E8F2EA; --paper-line: #5E8F6C; --paper-ink: #2E5A3C; --q-ink: #12241A; }
+body[data-paper="night"] { --paper: #14201A; --paper-line: #9A7F45; --paper-ink: #D8C38E; --q-ink: #EEE7D4; --marker: #D8B867; }
+body[data-paper="night"] .stage .w.read, body[data-paper="night"] .stage .w.fresh { color: #74D69C; }
+body[data-paper="night"] .stage .w.weak { color: #FF8F84; }
+body[data-paper="night"] .stage .w.helped { color: #E6C672; }
+body[data-paper="night"] .stage .w.current { background: rgba(116, 214, 156, .16); }
+body[data-paper="night"] .stage .paper.context .out { color: #B7C4BC; }
+.stage .w, .stage .w.todo, .stage .paper.outlines .w.read { color: var(--q-ink, var(--ink)); }
+.stage .paper { color: var(--q-ink, var(--ink)); }
+
+.paper-pick { display: inline-flex; align-items: center; gap: 6px; }
+.paper-pick .pp-l { font-size: 13px; font-weight: 600; color: var(--muted); margin-right: 4px; }
+.paper-pick button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(20, 33, 27, .18); background: var(--sw); cursor: pointer; padding: 0; position: relative; }
+.paper-pick button[aria-checked="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--aic-gold); }
+.paper-pick button:focus-visible { outline: 2px solid var(--aic-green); outline-offset: 3px; }
+
+/* ── Alif Ba lesson page ───────────────────────────────────────── */
+.lesson { gap: 22px; }
+.ls-head { display: flex; flex-direction: column; gap: 10px; }
+.ls-title { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+.ls-title h1 { margin: 0; }
+.ls-ar { font-family: var(--font-quran); font-size: 30px; color: var(--aic-gold); }
+.ls-intro { display: flex; flex-direction: column; gap: 6px; max-width: 860px; }
+.ls-intro p { font-size: 16.5px; line-height: 1.6; color: var(--muted); }
+.ls-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: 4px; }
+.mini-sel { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.mini-sel select { height: 40px; border-radius: 999px; border: 1px solid var(--field); padding: 0 14px; font: inherit; font-weight: 600; color: var(--aic-green-2); background: #fff; }
+.ls-wrap { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.ls-board { flex: 999 1 600px; min-width: 0; background: var(--paper); border-radius: 22px; padding: 22px; box-shadow: inset 0 0 0 1px var(--paper-line), inset 0 0 0 5px var(--paper), inset 0 0 0 6px color-mix(in srgb, var(--paper-line) 55%, transparent); color: var(--q-ink, var(--ink)); }
+.ls-side { flex: 1 1 300px; position: sticky; top: 104px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px; text-align: center; }
+.ls-side .lt-frame { background: var(--paper); }
+.ls-side .lt-big { color: var(--q-ink, var(--ink)); }
+.ls-side .lt-big.long { font-size: clamp(30px, 3.4vw, 46px); line-height: 1.5; padding: 0 12px; }
+.ls-side .lt-name { color: var(--aic-green-2); margin: 4px 0 0 !important; }
+.ls-side .btn { width: 100%; }
+.ls-note { min-height: 1em; }
+.ls-game { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+.ls-game b { font-family: var(--font-display); font-size: 22px; font-weight: 600; }
+.lgroup { margin: 18px 0 10px; font-family: var(--font-display); font-weight: 600; font-size: 19px; color: var(--paper-ink); }
+.lgroup:first-child { margin-top: 0; }
+.lgrid { display: grid; gap: 10px; }
+.lgrid.letters { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.lgrid.ex { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.lgrid.surahs { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.lcard { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 84px; padding: 10px 8px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--paper-line) 45%, transparent); background: color-mix(in srgb, var(--paper) 85%, #fff); color: var(--q-ink, var(--ink)); font: inherit; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .15s; }
+body[data-paper="night"] .lcard { background: color-mix(in srgb, var(--paper) 88%, #fff); }
+.lcard:hover { transform: translateY(-2px); border-color: var(--paper-line); box-shadow: 0 6px 16px rgba(10, 23, 18, .10); }
+.lcard.sel { border-color: var(--aic-gold); box-shadow: 0 0 0 2px var(--aic-gold); }
+.lcard:focus-visible { outline: 3px solid var(--aic-gold); outline-offset: 2px; }
+.lcard.known::after { content: '★'; position: absolute; top: 6px; left: 9px; font-size: 13px; color: var(--aic-gold); }
+.lc-ar { font-family: var(--font-quran); font-size: clamp(30px, 3vw, 42px); line-height: 1.35; }
+.ex .lc-ar, .surahs .lc-ar { font-size: 26px; }
+.lc-sub { font-size: 13px; font-weight: 600; color: var(--paper-ink); }
+.lc-small { font-size: 12.5px; color: color-mix(in srgb, var(--q-ink, var(--ink)) 60%, transparent); }
+.ltable { display: grid; gap: 8px; direction: rtl; }
+.ltable.forms { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ltable.syl { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); }
+.ltable.speeds { grid-template-columns: 1.4fr repeat(3, 1fr); direction: ltr; }
+.ltable.stops { grid-template-columns: 1fr 1fr 1.6fr; }
+.lth { position: sticky; top: 92px; z-index: 1; padding: 6px; text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--paper-ink); background: var(--paper); }
+.ltr, .ltd { padding: 12px 10px; border-radius: 12px; background: color-mix(in srgb, var(--paper) 85%, #fff); font-size: 15px; display: flex; align-items: center; }
+.ltr { font-weight: 700; }
+.ltd { justify-content: center; }
+.ltd.why { direction: ltr; justify-content: flex-start; font-size: 14px; color: color-mix(in srgb, var(--q-ink, var(--ink)) 75%, transparent); }
+.lcard.form .lc-ar { font-size: clamp(34px, 3.4vw, 48px); }
+.lcard.stop .lc-ar { color: var(--aic-green-2); }
+body[data-paper="night"] .lcard.stop .lc-ar { color: #74D69C; }
+.dua { padding: 4px 0 16px; border-bottom: 1px solid color-mix(in srgb, var(--paper-line) 35%, transparent); margin-bottom: 8px; }
+.dua-lines p { font-family: var(--font-quran); font-size: 26px; line-height: 1.9; margin: 0; }
+.dua .btn { margin-top: 8px; }
+.pp-fld .paper-pick { min-height: 48px; }
+
+/* ── Alif Ba games (on the night courtyard) ────────────────────── */
+/* Rain of Mercy */
+.g-stage[data-type="rain"] { position: relative; width: min(980px, 100%); height: min(56vh, 520px); display: block; }
+.rain-sky { position: absolute; inset: 0 0 70px; }
+.drop { position: absolute; top: -10px; width: 92px; height: 112px; margin-left: -46px; border: 0; padding: 0; cursor: pointer; background: none; transform: translateY(0); }
+.drop::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 38% 62%, rgba(255,255,255,.55), rgba(163, 214, 235, .5) 40%, rgba(84, 160, 196, .55)); border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; clip-path: path('M46 0 C 46 0 92 52 92 76 A 46 36 0 0 1 0 76 C 0 52 46 0 46 0 Z'); box-shadow: inset 0 0 0 2px rgba(255,255,255,.4); }
+.drop-t { position: relative; display: block; padding-top: 42px; font-family: var(--font-quran); font-size: 40px; line-height: 1; color: #0B2A22; }
+.rain-sky.falling .drop { animation: drop-fall linear forwards; }
+.rain-sky.paused .drop { animation-play-state: paused; }
+@keyframes drop-fall { to { transform: translateY(calc(min(56vh, 520px) - 200px)); } }
+.drop.caught::before { background: radial-gradient(circle, #FFF6D6, #E3C67E); }
+.drop.caught { filter: drop-shadow(0 0 18px rgba(251, 227, 166, .9)); }
+.drop.splash { opacity: .25; transform: scale(.8); transition: opacity .3s, transform .3s; animation: none !important; }
+.drop.shown::before { box-shadow: 0 0 0 4px #FBE3A6; }
+.rain-garden { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; border-top: 2px solid rgba(194, 159, 75, .45); display: flex; align-items: flex-end; justify-content: center; gap: 6px; padding-bottom: 6px; }
+.bloom { width: 26px; height: 40px; background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 40'%3E%3Cpath d='M13 40 V18' stroke='%235CB85C' stroke-width='2.5'/%3E%3Cpath d='M13 30 Q4 26 4 20 Q11 21 13 30Z' fill='%235CB85C'/%3E%3Cg fill='%23FBE3A6'%3E%3Ccircle cx='13' cy='8' r='5'/%3E%3Ccircle cx='7' cy='12' r='5'/%3E%3Ccircle cx='19' cy='12' r='5'/%3E%3Ccircle cx='9' cy='18' r='5'/%3E%3Ccircle cx='17' cy='18' r='5'/%3E%3C/g%3E%3Ccircle cx='13' cy='13' r='4' fill='%23C29F4B'/%3E%3C/svg%3E"); animation: bloom .5s ease-out; }
+@keyframes bloom { from { transform: scale(0); transform-origin: bottom; } }
+
+/* Mosaic Maker */
+.g-stage[data-type="mosaic"] { align-items: center; gap: 40px; flex-wrap: wrap; }
+.mosaic-star { width: min(300px, 32vw); height: auto; }
+.mosaic-star .tile { fill: rgba(255, 255, 255, .05); stroke: rgba(194, 159, 75, .55); stroke-width: 1.5; transition: fill .5s; }
+.mosaic-star .tile.laid.gold { fill: #E3C67E; }
+.mosaic-star .tile.laid.green { fill: #2E8B57; }
+.mosaic-q { flex: 1 1 420px; max-width: 560px; display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; }
+.mq-ask { color: #E8EDE9; font-size: 18px; }
+.mq-prompt { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px 26px; min-width: 240px; border-radius: 20px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .16); color: #fff; }
+.mq-ar { font-family: var(--font-quran); font-size: 64px; line-height: 1.4; color: #FBE3A6; }
+.mq-text { font-size: 18px; color: #E8EDE9; }
+.mq-hear { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.3); color: #fff; min-height: 38px; }
+.mq-opts { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.mq-opt { min-width: 120px; min-height: 64px; padding: 6px 18px; border-radius: 16px; border: 1px solid rgba(194, 159, 75, .6); background: #FFFBF0; color: #14211B; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; }
+.mq-opt.ar { font-family: var(--font-quran); font-size: 34px; font-weight: 400; }
+.mq-opt.right { background: #E3C67E; box-shadow: 0 0 22px rgba(251, 227, 166, .7); }
+.mq-opt.nope { opacity: .35; }
+
+/* Date Baskets */
+.g-stage[data-type="baskets"] { flex-direction: column; align-items: center; gap: 28px; }
+.date-card { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 34px 18px; border-radius: 48% 48% 44% 44% / 60% 60% 40% 40%; background: radial-gradient(circle at 40% 35%, #A0522D, #6B2E14 70%); color: #FFF3D9; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+.date-card.drop-in { animation: date-in .45s ease-out; }
+@keyframes date-in { from { transform: translateY(-40px); opacity: 0; } }
+.date-ar { font-family: var(--font-quran); font-size: 40px; line-height: 1.6; }
+.date-ref { font-size: 13px; opacity: .8; }
+.baskets { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
+.basket { width: 150px; display: flex; flex-direction: column; align-items: center; gap: 4px; border: 0; background: none; cursor: pointer; color: #FBE3A6; font: inherit; }
+.basket svg { width: 120px; height: 70px; transition: transform .2s; }
+.basket:hover svg { transform: translateY(-3px); }
+.basket.right svg { transform: scale(1.08); filter: drop-shadow(0 0 14px rgba(251, 227, 166, .8)); }
+.basket.nope { opacity: .45; }
+.b-label { font-weight: 700; font-size: 15px; text-align: center; }
+.b-count { font-size: 12px; letter-spacing: 2px; color: #E3C67E; min-height: 1em; }
+
+/* String of Pearls */
+.g-stage[data-type="pearls"] { flex-direction: column; align-items: center; gap: 22px; }
+.pearl-title { font-family: var(--font-display); font-size: 24px; color: #FBE3A6; }
+.thread { display: flex; flex-direction: column; gap: 8px; align-items: stretch; width: min(760px, 100%); padding: 14px; border-radius: 20px; border: 1px dashed rgba(194, 159, 75, .5); }
+.slot { height: 50px; border-radius: 999px; background: rgba(255,255,255,.04); }
+.loose { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: min(860px, 100%); }
+.pearl { padding: 8px 22px; border-radius: 999px; border: 0; background: radial-gradient(circle at 30% 30%, #FFFFFF, #EDE6D3 60%, #CFC3A2); color: #14211B; font-family: var(--font-quran); font-size: 24px; line-height: 1.6; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+.pearl.strung { box-shadow: 0 0 0 2px #C29F4B, 0 0 18px rgba(251, 227, 166, .5); cursor: default; }
+.pearl.nope { animation: nope .4s; }
+@keyframes nope { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@media (prefers-reduced-motion: reduce) { .rain-sky.falling .drop { animation-duration: 30s !important; } .bloom, .date-card.drop-in, .pearl.nope { animation: none; } }
+
+/* The alphabet is taught in Amiri, a Naskh font: the Qur'an font draws an isolated ي without its dots,
+   as the mushaf does, which is right for the Qur'an but confusing when learning the letters. */
+.lgrid.letters .lc-ar, .ltable.forms .lc-ar, .ltable.syl .lc-ar, #ls-board[data-kind="letters"] ~ .ls-side .lt-big,
+.ls-wrap:has(#ls-board[data-kind="letters"], #ls-board[data-kind="forms"], #ls-board[data-kind="syllables"]) .lt-big,
+.lantern .lt, .drop-t, .mq-opt.ar, .mq-ar { font-family: 'Amiri', var(--font-quran); }
+.lgrid.letters .lc-ar { font-size: clamp(32px, 3.2vw, 44px); line-height: 1.5; }

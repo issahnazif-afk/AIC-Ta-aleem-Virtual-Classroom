@@ -1,0 +1,16 @@
+---
+// The page colour for the Qur'an text, chosen once and kept on this computer.
+// Used in Mujawwadah, the Hifz test and Alif Ba; index.astro wires up every copy.
+const { label = 'Page colour' } = Astro.props;
+const COLOURS = [
+  ['cream', 'Cream', '#FFFBF0'],
+  ['white', 'White', '#FFFFFF'],
+  ['sepia', 'Sepia', '#F3E5CA'],
+  ['green', 'Soft green', '#E8F2EA'],
+  ['night', 'Night', '#14201A'],
+];
+---
+<div class="paper-pick" role="radiogroup" aria-label={label}>
+  <span class="pp-l" aria-hidden="true">{label}</span>
+  {COLOURS.map(([key, name, sw]) => <button type="button" role="radio" aria-checked="false" data-paper={key} title={name} aria-label={name} style={`--sw:${sw}`}></button>)}
+</div>

@@ -2,7 +2,10 @@
 import { normalize, similarity } from './recite.mjs';
 import { u } from './url.mjs';
 
-// [letter, name with harakat, name in English letters, file name for a recording]
+// the letter's sound in English letters, used under "ba, ta, tha"
+const SOUNDS = ['ʾ', 'b', 't', 'th', 'j', 'ḥ', 'kh', 'd', 'dh', 'r', 'z', 's', 'sh', 'ṣ', 'ḍ', 'ṭ', 'ẓ', 'ʿ', 'gh', 'f', 'q', 'k', 'l', 'm', 'n', 'h', 'w', 'y'];
+
+// [letter, name with harakat, name in English letters, key for its sound clips]
 export const LETTERS = [
   ['ا', 'أَلِف', 'Alif', 'alif'], ['ب', 'بَاء', 'Ba', 'ba'], ['ت', 'تَاء', 'Ta', 'ta'], ['ث', 'ثَاء', 'Tha', 'tha'],
   ['ج', 'جِيم', 'Jim', 'jim'], ['ح', 'حَاء', 'Ḥa', 'ha-hollow'], ['خ', 'خَاء', 'Kha', 'kha'], ['د', 'دَال', 'Dal', 'dal'],
@@ -11,7 +14,7 @@ export const LETTERS = [
   ['ظ', 'ظَاء', 'Ẓa', 'dha-heavy'], ['ع', 'عَيْن', 'ʿAyn', 'ayn'], ['غ', 'غَيْن', 'Ghayn', 'ghayn'], ['ف', 'فَاء', 'Fa', 'fa'],
   ['ق', 'قَاف', 'Qaf', 'qaf'], ['ك', 'كَاف', 'Kaf', 'kaf'], ['ل', 'لَام', 'Lam', 'lam'], ['م', 'مِيم', 'Mim', 'mim'],
   ['ن', 'نُون', 'Nun', 'nun'], ['ه', 'هَاء', 'Ha', 'ha'], ['و', 'وَاو', 'Waw', 'waw'], ['ي', 'يَاء', 'Ya', 'ya'],
-].map(([letter, name, latin, file], i) => ({ i, letter, name, latin, file }));
+].map(([letter, name, latin, file], i) => ({ i, letter, name, latin, file, sound: SOUNDS[i] }));
 
 // Letters that look alike (only the dots differ, or the shape is close): the hard choices.
 const LOOKALIKE = [['ب', 'ت', 'ث', 'ن', 'ي'], ['ج', 'ح', 'خ'], ['د', 'ذ'], ['ر', 'ز'], ['س', 'ش'], ['ص', 'ض'], ['ط', 'ظ'], ['ع', 'غ'], ['ف', 'ق'], ['ك', 'ل'], ['ه', 'و', 'م']];
@@ -27,11 +30,12 @@ export const LEVEL_GAME = {
 };
 export const levelNumber = (className) => Number(/(\d)/.exec(String(className || ''))?.[1]) || 1;
 
-// Did the student say this letter's name? Speech engines write it many ways: «باء», «با», «ب», «الباء».
+// Did the student say this letter, by its name or its sound? Speech engines write it many ways:
+// «باء», «با», «ب», «الباء», «بَ».
 export function heardLetter(transcript, target) {
   const said = normalize(transcript).split(' ').filter(Boolean);
   const name = normalize(target.name).replace(/\s/g, '');
-  const forms = new Set([name, name.replace(/ء$/, ''), name.replace(/ا$/, '') , target.letter]);
+  const forms = new Set([name, name.replace(/ء$/, ''), name.replace(/ا$/, ''), target.letter, target.letter + 'ا']);
   return said.some((w0) => [w0, w0.replace(/^ال/, '')].some((w) => {
     if (forms.has(w)) return true;
     return [...forms].some((f) => f.length >= 3 && similarity(w, f) >= 0.75);

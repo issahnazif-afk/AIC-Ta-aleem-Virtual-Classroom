@@ -24,7 +24,7 @@ export const ACTIVITIES = [
   {
     id: 'alifba', kind: 'alifba', icon: 'lantern',
     title: 'Alif Ba', ar: 'أَلِف بَاء',
-    text: 'Learn the Arabic letters and play Noor Lanterns. Grow your Jannah Garden.',
+    text: 'Eighteen lessons, from the letters to tajweed and the short surahs, each with a game. Grow your Jannah Garden.',
   },
 ];
 

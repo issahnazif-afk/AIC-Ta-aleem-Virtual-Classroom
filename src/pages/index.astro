@@ -7,6 +7,8 @@ import '@fontsource/manrope/500.css';
 import '@fontsource/manrope/600.css';
 import '@fontsource/manrope/700.css';
 import '@fontsource/manrope/800.css';
+import '@fontsource/amiri/400.css';
+import '@fontsource/amiri/700.css';
 import '@fontsource/playfair-display/500.css';
 import '@fontsource/playfair-display/600.css';
 import '@fontsource/playfair-display/500-italic.css';
@@ -15,6 +17,7 @@ import '../styles/global.css';
 import '../styles/classroom.css';
 import '../styles/aic.css';
 import Sheikh from '../components/Sheikh.astro';
+import PaperPick from '../components/PaperPick.astro';
 import cfg from '../../site.config.mjs';
 import { u } from '../lib/url.mjs';
 
@@ -38,11 +41,11 @@ const levels = [
   <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" />
   <link rel="preload" href={u('fonts/UthmanicHafs_V22.ttf')} as="font" type="font/ttf" crossorigin />
   <style is:inline set:html={`@font-face{font-family:"KFGQPC Hafs";src:url("${u('fonts/UthmanicHafs_V22.ttf')}") format("truetype");font-display:swap}`}></style>
 </head>
-<body class="cr" data-log-url={cfg.classLogUrl} data-local-asr={meta.localAsr ? '1' : ''} data-default-reciter={cfg.defaultReciter}>
+<body class="cr" data-paper="cream" data-log-url={cfg.classLogUrl} data-local-asr={meta.localAsr ? '1' : ''} data-default-reciter={cfg.defaultReciter} data-surahs={JSON.stringify(meta.surahs.map(({ n, ar, en, ayahs }) => ({ n, ar, en, ayahs })))}>
 
   <!-- 1 · sign in ─────────────────────────────────────────── -->
   <section class="screen signin" id="s-signin" aria-labelledby="si-h">
@@ -208,6 +211,7 @@ const levels = [
         <label class="fld narrow-f"><span>To ayah</span><input id="su-a2" type="number" min="1" value="30" /></label>
         <label class="fld" data-hifz-only><span>Questions</span><select id="su-q"><option value="">Standard</option><option>1</option><option>2</option><option>3</option><option>5</option><option>8</option></select></label>
         <label class="fld"><span>Sheikh's voice</span><select id="su-voice">{cfg.reciters.map((r) => <option value={r.id}>{r.name}</option>)}</select></label>
+        <div class="fld pp-fld"><span>Page colour</span><PaperPick label="" /></div>
       </div>
       <p class="err" id="su-err" role="alert"></p>
       <div class="row">
@@ -264,6 +268,7 @@ const levels = [
           <span><b class="r">Red</b> mistake or prompted</span>
           <span><b class="a">Gold</b> hint</span>
           <span>Dotted · unclear</span>
+          <PaperPick />
         </div>
       </section>
     </div>
@@ -317,36 +322,49 @@ const levels = [
           <h2 id="lesson-name"></h2>
           <p class="muted" id="lesson-text"></p>
           <div class="lesson-go" id="lesson-go">
-            <button class="btn btn-primary big" type="button" id="go-letters">Learn the letters</button>
-            <button class="btn lantern-btn big" type="button" id="go-lanterns">Play Noor Lanterns</button>
+            <button class="btn btn-primary big" type="button" id="go-lesson">Open the lesson</button>
+            <button class="btn lantern-btn big" type="button" id="go-game">Play Noor Lanterns</button>
           </div>
-          <p class="muted small" id="lesson-soon" hidden>This lesson's games are coming soon, in sha Allah.</p>
+
         </div>
       </aside>
     </div>
   </section>
 
-  <!-- Alif Ba · Lesson 1, the letters and their names ──────── -->
-  <section class="screen flow" id="s-letters" hidden aria-labelledby="lt-h">
+  <!-- Alif Ba · a lesson: the board to learn from, and its game ───── -->
+  <section class="screen flow" id="s-lesson" hidden aria-labelledby="ls-h">
     <header class="topbar">
-      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Alif Ba · Lesson 1</small></span></div>
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small id="ls-crumb">Classroom · Alif Ba</small></span></div>
       <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="hub">‹ Alif Ba</button></nav>
       <span class="push who"><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
     </header>
-    <div class="flow-main letters">
-      <div class="row"><h1 id="lt-h">The Arabic letters and their names</h1><span class="muted push" id="lt-count"></span></div>
-      <div class="lt-wrap">
-        <div class="board" id="board" dir="rtl" role="list" aria-label="The 28 letters"></div>
-        <aside class="lt-card card">
-          <div class="lt-frame"><span class="lt-big" id="lt-big" lang="ar">ا</span></div>
-          <p class="lt-name" id="lt-name" lang="ar" dir="rtl">أَلِف</p>
-          <p class="lt-latin" id="lt-latin">Alif</p>
-          <button class="btn btn-primary big" type="button" id="lt-hear">Hear its name</button>
-          <p class="muted small" id="lt-stars"></p>
-          <button class="btn lantern-btn big" type="button" id="lt-play">Play Noor Lanterns</button>
+    <div class="flow-main lesson">
+      <div class="ls-head">
+        <p class="eyebrow dark"><span class="star" aria-hidden="true"></span><span id="ls-num">Lesson 1</span></p>
+        <div class="ls-title"><h1 id="ls-h">The letters and their names</h1><span class="ls-ar" id="ls-ar" lang="ar" dir="rtl"></span></div>
+        <div class="ls-intro" id="ls-intro"></div>
+        <div class="ls-tools">
+          <label class="mini-sel" id="ls-voice-wrap"><span>How the Sheikh reads the letters</span><select id="ls-voice"></select></label>
+          <PaperPick />
+        </div>
+      </div>
+      <div class="ls-wrap">
+        <div class="ls-board" id="ls-board"></div>
+        <aside class="ls-side card">
+          <div class="lt-frame"><span class="lt-big" id="ls-big" lang="ar" dir="rtl">ا</span></div>
+          <p class="lt-name" id="ls-said" lang="ar" dir="rtl"></p>
+          <p class="lt-latin" id="ls-latin"></p>
+          <p class="muted small ls-note" id="ls-note"></p>
+          <button class="btn btn-primary big" type="button" id="ls-hear">Hear the Sheikh</button>
+          <div class="ls-game">
+            <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Game</p>
+            <b id="ls-game-name">Noor Lanterns</b>
+            <span class="muted small" id="ls-game-text"></span>
+            <button class="btn lantern-btn big" type="button" id="ls-play">Play</button>
+            <p class="muted small" id="ls-stars"></p>
+          </div>
         </aside>
       </div>
-      <p class="muted small">Tap a letter to see its name and hear it. A letter is known once you have lit its lantern right the first time, twice.</p>
     </div>
   </section>
 
@@ -360,7 +378,7 @@ const levels = [
       </svg>
     <header class="g-bar">
       <button type="button" class="g-round" id="g-back" aria-label="Back to my garden"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
-      <span class="g-title"><b>Noor Lanterns</b><small id="g-sub">Lesson 1 · Level 1</small></span>
+      <span class="g-title"><b id="g-name">Noor Lanterns</b><small id="g-sub">Lesson 1 · Level 1</small></span>
       <div class="g-dots" id="g-dots" aria-hidden="true"></div>
       <div class="g-score" id="g-score" hidden><span><small>Score</small><b id="g-pts">0</b></span><span><small>Streak</small><b class="gold-t" id="g-streak">×0</b></span><span><small>Your best</small><b id="g-best">0</b></span></div>
       <button type="button" class="g-round push" id="g-mute" aria-pressed="false" aria-label="Sound on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z" fill="currentColor"></path><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"></path></svg></button>
@@ -445,8 +463,12 @@ const levels = [
     import { configure, isDemo, login, register, listClasses, setGender, sendSession, flushOutbox } from '../lib/classlog.mjs';
     import { phrase, praiseFor, speak } from '../lib/phrases.mjs';
     import { getProgress, saveProgress, logGame } from '../lib/classlog.mjs';
-    import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, hasLetterRecording, letterAudioUrl } from '../lib/alifba.mjs';
+    import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, lookalikes } from '../lib/alifba.mjs';
     import { createLanterns } from '../lib/lanterns.mjs';
+    import { LESSONS, GAMES, SPEEDS, STOPS, DUAS, SURAHS, examples, forms, syllable, syllableItems, basketsFor } from '../lib/lessons.mjs';
+    import { createRain, createMosaic, createBaskets, createPearls, playAyah, shuffle } from '../lib/games.mjs';
+    import { LETTER_VOICES, letterVoice, setLetterVoice, letterSpoken, sayLetter, say, playUrl, stopSound } from '../lib/voice.mjs';
+    import { audioUrl } from '../lib/client.mjs';
     import { startAmbience, stopAmbience, setMuted, isMuted, nasheed } from '../lib/ambience.mjs';
     import { openCamera, micMeter, snapshot, testTone } from '../lib/media.mjs';
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
@@ -628,7 +650,7 @@ const levels = [
     }
     $('retake').addEventListener('click', () => { const v = $('cam'); if (v.readyState >= 2) { snap = snapshot(v); $('snap').src = snap; $('snap-title').textContent = `Login snapshot taken · ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; } });
     $('tone').addEventListener('click', () => { testTone(); setCheck('ck-spk', true, 'Did you hear a tone? If not, check your volume.'); });
-    $('ck-back').addEventListener('click', () => { stopMedia(); goHome(); });
+    $('ck-back').addEventListener('click', () => { stopMedia(); if (reciteLesson) { reciteLesson = null; openLesson(18); } else goHome(); });
     const FAST = { ready: [true, 'On-device, words appear quickly'], downloading: [null, 'Downloading the Arabic speech pack (one time)…'], downloadable: [null, 'The Arabic speech pack downloads when you continue'], unavailable: [false, 'Online listening (this computer has no on-device Arabic)'], unsupported: [false, 'Online listening (use Chrome for the fastest tracking)'] };
     const fastStatus = (st) => { const [ok, t] = FAST[st] ?? FAST.unsupported; setCheck('ck-fast', ok, t); };
     function checkFast() { if (localAsr) { setCheck('ck-fast', true, 'The Qāf speech model, on this computer'); return; } prepareFastListening({ onStatus: fastStatus }); }
@@ -637,6 +659,10 @@ const levels = [
       if (!stream) return;
       if (!snap && $('cam').readyState >= 2) { snap = snapshot($('cam')); }
       show('s-setup');
+      if (reciteLesson) {   // Alif Ba, Lesson 18: open on the chosen short surah
+        fromSel.value = toSel.value = String(reciteLesson.surah);
+        $('su-a1').value = '1'; $('su-a2').value = String(reciteLesson.ayahs);
+      }
       syncSetup();
     });
     function stopMedia() { meter?.stop(); meter = null; watcher?.stop(); stream?.getTracks().forEach((t) => t.stop()); stream = null; }
@@ -849,6 +875,13 @@ const levels = [
       }
       if (!res.perAyah.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = 'No ayahs were recited.'; strip.append(p); }
       show('s-report');
+      if (reciteLesson && !hifz) {   // Alif Ba, Lesson 18: a surah recited well grows the palm
+        if (t.words && t.first / t.words >= 0.7) {
+          progress.surahs = [...new Set([...(progress.surahs ?? []), reciteLesson.surah])];
+          saveProgress({ token: me.token, username: me.username, progress });
+        }
+        reciteLesson = null;
+      }
 
       lastEntry = {
         token: me.token, snapshot: snap,
@@ -883,35 +916,23 @@ const levels = [
     $('r-out').addEventListener('click', () => signOut());
     $('r-home').addEventListener('click', () => { stopMedia(); goHome(); });
 
-    // ── Alif Ba: Jannah Garden, Lesson 1 and Noor Lanterns ───
-    const LESSONS = [
-      ['The letters and their names', 'The 28 Arabic letters and the name of each. Learn them, then light their lanterns.'],
-      ['Huruf Muqatta’at', 'The letters at the start of 29 surahs, read by their names.'],
-      ['Writing the letters', 'How each letter looks at the beginning, middle and end of a word.'],
-      ['Harakat', 'Fat-ha, kes-ra and dom-ma.'],
-      ['Sukun, shadda, tanween', 'Signs that change how a letter is read.'],
-      ['The rules of Madd', 'Primary and secondary Madd.'],
-      ['Madd letters', 'Alif, waw and ya without a vowel.'],
-      ['Speeds of recitation', 'Tahqeeq, tadweer and hadr.'],
-      ['Special pronunciations', 'The pronoun ha and the hidden marks.'],
-      ['Lafzatullah', 'Saying the Name of Allah, heavy or light.'],
-      ['The rule of Ra', 'When Ra is heavy and when it is light.'],
-      ['Stopping', 'How to stop at the end of a word.'],
-      ['Idgham', 'Merging one letter into the next.'],
-      ['Iqlab', 'Nun becoming meem before ba.'],
-      ['Izhar', 'Saying the nun clearly.'],
-      ['Ikhfa', 'The hidden nun.'],
-      ['Supplications and short surahs', 'Duas of the prayer and the short surahs.'],
-    ];
-    let progress = {}, selLesson = 1, game = null, gameStart = 0;
+    // ── Alif Ba: the Jannah Garden, its 18 lessons and their games (src/lib/lessons.mjs) ───
+    const SURAH_META = JSON.parse(document.body.dataset.surahs || '[]');
+    let progress = {}, selLesson = 1, game = null, gameStart = 0, gameLesson = 1, reciteLesson = null;
     const PALM = '<svg viewBox="0 0 60 64" width="54" height="58" aria-hidden="true"><ellipse cx="30" cy="58" rx="20" ry="4" fill="#B9A27A"/><path d="M28 58 Q27 40 30 24 L32 24 Q31 40 33 58 Z" fill="#8A5A12"/><g fill="#2E8B57"><path d="M31 24 Q16 14 6 22 Q18 18 31 26 Z"/><path d="M31 24 Q46 14 56 22 Q44 18 31 26 Z"/><path d="M31 24 Q22 6 12 6 Q24 12 30 25 Z"/><path d="M31 24 Q40 6 50 6 Q38 12 32 25 Z"/><path d="M31 24 Q31 6 31 2 Q33 12 32 25 Z"/></g><g fill="#C9A24A"><circle cx="27" cy="28" r="2.4"/><circle cx="34" cy="28" r="2.4"/><circle cx="30.5" cy="31" r="2.4"/></g></svg>';
     const SPROUT = '<svg viewBox="0 0 60 64" width="54" height="58" aria-hidden="true"><ellipse cx="30" cy="58" rx="20" ry="4" fill="#B9A27A"/><path d="M30 58 V40" stroke="#2E8B57" stroke-width="3"/><path d="M30 44 Q18 36 16 28 Q28 30 30 44 Z" fill="#5CB85C"/><path d="M30 42 Q42 34 44 26 Q32 28 30 42 Z" fill="#5CB85C"/></svg>';
     const SEED = '<svg viewBox="0 0 60 64" width="54" height="58" aria-hidden="true"><ellipse cx="30" cy="56" rx="20" ry="6" fill="#C8B48C"/><ellipse cx="30" cy="52" rx="4" ry="3" fill="#8A6B3A"/></svg>';
 
+    // a lesson's palm grows when its game is won with 80% right first time (Lesson 1: all 28 letters known;
+    // Lesson 18: three short surahs recited to the Sheikh)
     function lessonStatus(n) {
       if (n === 1) { const st = lessonState(progress); return st.grown ? 'grown' : st.started ? 'growing' : 'seed'; }
-      return 'seed';
+      if (n === 18) { const k = (progress.surahs ?? []).length; return k >= 3 ? 'grown' : k ? 'growing' : 'seed'; }
+      const p = progress.lessons?.[n];
+      return p?.grown ? 'grown' : p?.played ? 'growing' : 'seed';
     }
+    const reciter = () => store.get('voice', cfg0.defaultReciter) || cfg0.defaultReciter;
+    const cfg0 = { defaultReciter: document.body.dataset.defaultReciter };
     // ── the Classroom home: one card per activity (src/lib/activities.mjs) ──
     async function goHome(fresh) {
       me.level = levelNumber(me.className);
@@ -941,131 +962,341 @@ const levels = [
     let activity = null;
     function openActivity(a) {
       activity = a;
-      if (a.kind === 'recite') { choice.mode = a.mode; show('s-check'); startCheck(); }
+      if (a.kind === 'recite') { reciteLesson = null; choice.mode = a.mode; show('s-check'); startCheck(); }
       else if (a.kind === 'alifba') goHub();
     }
     function goHub() {
+      stopSound();
       renderGarden();
       show('s-hub');
     }
     function renderGarden() {
       $('hub-title').textContent = `${me.name.split(' ')[0]}'s Jannah Garden`;
-      const grown = LESSONS.filter((_, i) => lessonStatus(i + 1) === 'grown').length;
+      const grown = LESSONS.filter((L) => lessonStatus(L.n) === 'grown').length;
       $('hub-count').textContent = `${grown} of ${LESSONS.length} lessons grown`;
       const box = $('plots'); box.replaceChildren();
-      LESSONS.forEach(([name], i) => {
-        const n = i + 1, st = lessonStatus(n);
+      for (const L of LESSONS) {
+        const st = lessonStatus(L.n);
         const b = document.createElement('button');
-        b.type = 'button'; b.className = 'plot ' + st + (n === selLesson ? ' sel' : '') + (n > 1 ? ' later' : '');
-        b.setAttribute('aria-label', `Lesson ${n}, ${name}, ${st === 'grown' ? 'grown' : st === 'growing' ? 'growing' : 'not started'}`);
+        b.type = 'button'; b.className = 'plot ' + st + (L.n === selLesson ? ' sel' : '');
+        b.setAttribute('aria-label', `Lesson ${L.n}, ${L.name}, ${st === 'grown' ? 'grown' : st === 'growing' ? 'growing' : 'not started'}`);
         b.innerHTML = st === 'grown' ? PALM : st === 'growing' ? SPROUT : SEED;
-        const lab = document.createElement('span'); lab.textContent = `${n} · ${name}`; b.append(lab);
-        b.addEventListener('click', () => { selLesson = n; renderGarden(); });
+        const lab = document.createElement('span'); lab.textContent = `${L.n} · ${L.name}`; b.append(lab);
+        b.addEventListener('click', () => { selLesson = L.n; renderGarden(); });
+        b.addEventListener('dblclick', () => { selLesson = L.n; openLesson(L.n); });
         box.append(b);
-      });
-      const [name, text] = LESSONS[selLesson - 1];
-      const st = lessonStatus(selLesson);
-      const k = lessonState(progress);
-      $('lesson-label').textContent = `Lesson ${selLesson} · ` + (selLesson === 1 ? (st === 'grown' ? 'All 28 letters known, masha’Allah' : `${k.known} of 28 letters known · ${k.lit} lit at least once`) : 'Coming soon');
-      $('lesson-name').textContent = name; $('lesson-text').textContent = text;
-      $('lesson-go').hidden = selLesson !== 1; $('lesson-soon').hidden = selLesson === 1;
+      }
+      const L = LESSONS[selLesson - 1];
+      $('lesson-label').textContent = `Lesson ${L.n} · ` + lessonSummary(L.n);
+      $('lesson-name').textContent = L.name;
+      $('lesson-text').textContent = L.intro[0];
+      $('go-game').textContent = L.game === 'surahs' ? 'Recite to the Sheikh' : `Play ${GAMES[L.game].name}`;
+    }
+    function lessonSummary(n) {
+      const st = lessonStatus(n);
+      if (n === 1) { const k = lessonState(progress); return st === 'grown' ? 'All 28 letters known, masha’Allah' : `${k.known} of 28 letters known · ${k.lit} lit at least once`; }
+      if (n === 18) return `${(progress.surahs ?? []).length} of 3 surahs recited to grow this palm`;
+      const p = progress.lessons?.[n];
+      return st === 'grown' ? `Grown, masha’Allah · best ${p.best}%` : p?.played ? `Best ${p.best}% · 80% grows the palm` : 'Not started';
     }
     document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.go === 'hub') { stopGame(); goHub(); }
-      if (b.dataset.go === 'home') { stopGame(); goHome(); }
+      if (b.dataset.go === 'home') { stopGame(); stopSound(); goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
-    function signOut() { stopGame(); stopMedia(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }
-    $('go-letters').addEventListener('click', () => openLetters());
-    $('go-lanterns').addEventListener('click', () => startGame());
+    function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }
+    $('go-lesson').addEventListener('click', () => openLesson(selLesson));
+    $('go-game').addEventListener('click', () => startLessonGame(selLesson));
 
-    // the letters page, laid out like the booklet
-    let selLetter = LETTERS[0];
-    function openLetters() { renderBoard(); show('s-letters'); }
-    function renderBoard() {
-      const board = $('board'); board.replaceChildren();
-      for (const L of LETTERS) {
-        const n = progress.letters?.[L.letter] ?? 0;
-        const b = document.createElement('button');
-        b.type = 'button'; b.className = 'tile' + (L === selLetter ? ' sel' : '') + (n >= MASTERED ? ' known' : '');
-        b.setAttribute('role', 'listitem'); b.setAttribute('aria-label', `${L.latin}, ${n >= MASTERED ? 'known' : 'still learning'}`);
-        b.textContent = L.letter;
-        b.addEventListener('click', () => { selLetter = L; renderBoard(); hearLetter(L); });
-        board.append(b);
+    // ── page colour (Mujawwadah, Hifz and Alif Ba) ──
+    function setPaper(k) {
+      body.dataset.paper = k; store.set('paper', k);
+      document.querySelectorAll('.paper-pick [data-paper]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.paper === k)));
+    }
+    document.querySelectorAll('.paper-pick [data-paper]').forEach((b) => b.addEventListener('click', () => setPaper(b.dataset.paper)));
+    setPaper(store.get('paper', 'cream') || 'cream');
+
+    // ── how the Sheikh reads the letters ──
+    $('ls-voice').replaceChildren(...LETTER_VOICES.map(([k, t]) => new Option(t, k)));
+    $('ls-voice').value = letterVoice();
+    $('ls-voice').addEventListener('change', () => { setLetterVoice($('ls-voice').value); if (selItem?.letter) showItem(selItem, true); renderLesson(); });
+
+    // ── a lesson's page ──
+    let selItem = null;
+    function openLesson(n) {
+      selLesson = n; selItem = null;
+      renderLesson();
+      show('s-lesson');
+    }
+    const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+    const surahName = (n) => SURAH_META.find((x) => x.n === n) ?? { n, ar: '', en: `Surah ${n}`, ayahs: 1 };
+    function card(item, { ar, sub, small, cls = '' }) {
+      const b = el('button', 'lcard ' + cls);
+      b.type = 'button';
+      const a = el('span', 'lc-ar', ar); a.lang = 'ar'; a.dir = 'rtl'; b.append(a);
+      if (sub) b.append(el('span', 'lc-sub', sub));
+      if (small) b.append(el('span', 'lc-small', small));
+      b.addEventListener('click', () => { document.querySelectorAll('#ls-board .lcard.sel').forEach((x) => x.classList.remove('sel')); b.classList.add('sel'); showItem(item, true); });
+      if (selItem && selItem === item) b.classList.add('sel');
+      return b;
+    }
+    function renderLesson() {
+      const L = LESSONS[selLesson - 1];
+      $('ls-crumb').textContent = `Classroom · Alif Ba · Lesson ${L.n}`;
+      $('ls-num').textContent = `Lesson ${L.n} of ${LESSONS.length}`;
+      $('ls-h').textContent = L.name; $('ls-ar').textContent = L.ar;
+      $('ls-intro').replaceChildren(...L.intro.map((t) => el('p', null, t)));
+      $('ls-voice-wrap').hidden = !L.voice;
+      $('ls-game-name').textContent = L.game === 'surahs' ? 'Recite to the Sheikh' : GAMES[L.game].name;
+      $('ls-game-text').textContent = GAMES[L.game].text;
+      $('ls-play').textContent = L.game === 'surahs' ? 'Choose a surah on the left' : 'Play';
+      $('ls-play').disabled = L.game === 'surahs';
+      $('ls-stars').textContent = lessonSummary(L.n);
+      const board = $('ls-board'); board.replaceChildren(); board.dataset.kind = L.board;
+      const first = [];
+      if (L.board === 'letters') {
+        const grid = el('div', 'lgrid letters'); grid.dir = 'rtl';
+        for (const x of LETTERS) {
+          const n = progress.letters?.[x.letter] ?? 0;
+          const sp = letterSpoken(x);
+          grid.append(card(x, { ar: x.letter, sub: sp.latin, cls: n >= MASTERED ? 'known' : '' }));
+          first.push(x);
+        }
+        board.append(grid);
+      } else if (L.board === 'forms') {
+        const t = el('div', 'ltable forms');
+        t.append(...['Alone', 'Beginning', 'Middle', 'End'].map((h) => el('span', 'lth', h)));
+        for (const x of LETTERS) {
+          const f = forms(x);
+          for (const k of ['alone', 'start', 'middle', 'end']) { const it = { ...x, show: f[k], pos: k }; t.append(card(it, { ar: f[k], cls: 'form' })); first.push(it); }
+        }
+        board.append(t);
+      } else if (L.board === 'syllables') {
+        const HEAD = { a: 'Fat-ha', i: 'Kes-ra', u: 'Dom-ma', an: 'Two fat-ha', in: 'Two kes-ra', un: 'Two dom-ma', aa: 'Alif madd', ii: 'Ya madd', uu: 'Waw madd', sk: 'Sukun', sh: 'Shadda' };
+        const t = el('div', 'ltable syl'); t.style.setProperty('--cols', L.vowels.length);
+        t.append(...L.vowels.map((v) => el('span', 'lth', HEAD[v])));
+        for (const x of LETTERS) for (const v of L.vowels) { const it = { ...syllable(x, v), L: x, v }; t.append(card(it, { ar: it.ar, sub: it.latin })); first.push(it); }
+        board.append(t);
+      } else if (L.board === 'examples') {
+        for (const g of examples(L)) {
+          board.append(el('h3', 'lgroup', g.title));
+          const grid = el('div', 'lgrid ex');
+          for (const it of g.items) { grid.append(card(it, { ar: it.ar, sub: `${surahName(+it.ref.split(':')[0]).en} ${it.ref}`, small: it.note })); first.push(it); }
+          board.append(grid);
+        }
+      } else if (L.board === 'speeds') {
+        const t = el('div', 'ltable speeds');
+        t.append(el('span', 'lth', ''), ...SPEEDS.cols.map((c) => el('span', 'lth', c)));
+        for (const r of SPEEDS.rows) { t.append(el('span', 'ltr', r[0]), ...r.slice(1).map((v) => el('span', 'ltd', v))); }
+        board.append(t);
+      } else if (L.board === 'stops') {
+        const t = el('div', 'ltable stops');
+        t.append(...['Written', 'When you stop', 'Why'].map((h) => el('span', 'lth', h)));
+        for (const x of STOPS) { const it = { ...x }; t.append(card(it, { ar: x.written }), card(it, { ar: x.stop, cls: 'stop' }), el('span', 'ltd why', x.rule)); first.push(it); }
+        board.append(t);
+      } else if (L.board === 'duas') {
+        for (const d of DUAS) {
+          const box = el('div', 'dua');
+          box.append(el('h3', 'lgroup', d.name + (d.fromQuran ? ` · Qur’an ${d.ref}` : '')));
+          const lines = el('div', 'dua-lines'); lines.dir = 'rtl'; lines.lang = 'ar';
+          d.lines.forEach((ln) => lines.append(el('p', null, ln)));
+          box.append(lines);
+          if (d.fromQuran) { const h = el('button', 'btn', 'Hear the ayah'); h.type = 'button'; h.addEventListener('click', () => playAyah(d.ref, reciter())); box.append(h); }
+          board.append(box);
+        }
+        board.append(el('p', 'muted small', 'Rabbana atina and Rabbanaghfir li are ayahs of the Qur’an and play the reciter. Learn the other supplications with your teacher, who can also add recordings of them.'));
+      } else if (L.board === 'surahs') {
+        const grid = el('div', 'lgrid surahs');
+        for (const n of SURAHS) {
+          const m = surahName(n); const it = { surah: n, ...m };
+          const done = (progress.surahs ?? []).includes(n);
+          grid.append(card(it, { ar: m.ar, sub: `${n}. ${m.en}`, small: `${m.ayahs} ayahs${done ? ' · recited ✓' : ''}`, cls: done ? 'known' : '' }));
+          first.push(it);
+        }
+        board.append(grid);
       }
-      const n = progress.letters?.[selLetter.letter] ?? 0;
-      $('lt-big').textContent = selLetter.letter; $('lt-name').textContent = selLetter.name; $('lt-latin').textContent = selLetter.latin;
-      $('lt-stars').textContent = n >= MASTERED ? 'Known, masha’Allah ★★' : n === 1 ? 'Lit once ★ · once more to know it' : 'Not lit yet';
-      { const k = lessonState(progress); $('lt-count').textContent = `${k.known} of 28 known · ${k.lit} lit once`; }
+      if (!selItem || !first.includes(selItem)) selItem = first[0] ?? null;
+      showItem(selItem, false);
+      board.querySelectorAll('.lcard').forEach((c, i) => c.classList.toggle('sel', first[i] === selItem && L.board !== 'stops'));
     }
-    async function hearLetter(L) {
-      if (await hasLetterRecording(L.file)) { new Audio(letterAudioUrl(L.file)).play().catch(() => {}); return; }
-      speak({ ar: L.name, file: '' });
+    function showItem(it, speakIt) {
+      const L = LESSONS[selLesson - 1];
+      selItem = it;
+      const big = $('ls-big'), said = $('ls-said'), lat = $('ls-latin'), note = $('ls-note'), hear = $('ls-hear');
+      hear.hidden = false; hear.textContent = 'Hear the Sheikh'; note.textContent = '';
+      $('ls-big').parentElement.hidden = false;
+      if (!it) {
+        big.textContent = ''; said.textContent = ''; lat.textContent = ''; big.parentElement.hidden = true; hear.hidden = true;
+        if (L.board === 'speeds') lat.textContent = 'Tahqeeq · Tadweer · Hadr';
+        if (L.board === 'duas') lat.textContent = 'Read each supplication with your teacher, a line at a time.';
+        return;
+      }
+      big.classList.toggle('long', false);
+      if (L.board === 'letters') {
+        const sp = letterSpoken(it);
+        big.textContent = it.letter; said.textContent = sp.ar; lat.textContent = `${it.latin} · ${LETTER_VOICES.find(([k]) => k === letterVoice())[1].split(' (')[0]}`;
+        const n = progress.letters?.[it.letter] ?? 0;
+        note.textContent = n >= MASTERED ? 'Known, masha’Allah ★★' : n === 1 ? 'Lit once ★ · once more to know it' : 'Not lit yet';
+        if (speakIt) sayLetter(it);
+      } else if (L.board === 'forms') {
+        const sp = letterSpoken(it);
+        big.textContent = it.show; said.textContent = it.letter; lat.textContent = `${it.latin} · ${{ alone: 'on its own', start: 'at the beginning', middle: 'in the middle', end: 'at the end' }[it.pos]}`;
+        hear.textContent = 'Hear the letter';
+        if (speakIt) say(sp.id, sp.ar);
+      } else if (L.board === 'syllables') {
+        big.textContent = it.ar; said.textContent = ''; lat.textContent = it.latin;
+        if (speakIt) say(it.id, it.ar);
+      } else if (L.board === 'examples') {
+        big.textContent = it.ar; big.classList.toggle('long', it.ar.length > 6);
+        said.textContent = ''; lat.textContent = `${surahName(+it.ref.split(':')[0]).en} ${it.ref}`; note.textContent = it.note;
+        hear.textContent = 'Hear the ayah';
+        if (speakIt) playAyah(it.ref, reciter());
+      } else if (L.board === 'stops') {
+        big.textContent = it.stop; big.classList.add('long'); said.textContent = ''; lat.textContent = `Written ${it.written}`; note.textContent = it.rule; hear.hidden = true;
+      } else if (L.board === 'surahs') {
+        big.textContent = it.ar; big.classList.add('long'); said.textContent = ''; lat.textContent = `${it.n}. ${it.en} · ${it.ayahs} ayahs`;
+        hear.textContent = 'Listen to the Sheikh';
+        $('ls-play').disabled = false; $('ls-play').textContent = `Recite ${it.en} to the Sheikh`;
+      }
     }
-    $('lt-hear').addEventListener('click', () => hearLetter(selLetter));
-    $('lt-play').addEventListener('click', () => startGame());
+    $('ls-hear').addEventListener('click', async () => {
+      const L = LESSONS[selLesson - 1], it = selItem;
+      if (!it) return;
+      if (L.board === 'surahs') { for (let a = 1; a <= it.ayahs; a++) { const ok = await playUrl(audioUrl(reciter(), it.n, a), 60000); if (!ok || selItem !== it || !$('s-lesson').checkVisibility?.()) break; } return; }
+      showItem(it, true);
+    });
+    $('ls-play').addEventListener('click', () => {
+      const L = LESSONS[selLesson - 1];
+      if (L.game === 'surahs') { if (selItem?.surah) reciteSurah(selItem); return; }
+      startLessonGame(L.n);
+    });
 
-    // Noor Lanterns
+    // Lesson 18: recite a short surah in the Mujawwadah classroom; the camera check comes first as usual.
+    function reciteSurah(m) {
+      stopSound();
+      reciteLesson = { surah: m.n, ayahs: m.ayahs };
+      choice.mode = 'reading';
+      show('s-check'); startCheck();
+    }
+
+    // ── the games ──
     function setGameSheikh(state, ar, en) {
       const sh = document.querySelector('#s-game .sheikh'); if (sh) sh.dataset.state = state;
       $('g-bubble').textContent = ar || '';
       $('g-bubble').title = en || '';
     }
-    function startGame() {
-      stopGame();
+    function gameUi() {
+      return {
+        sheikh: setGameSheikh,
+        feedback: (t, kind) => { const f = $('g-feedback'); f.textContent = t; f.className = 'g-feedback ' + (kind || ''); },
+        timer: (t) => { const bar = $('g-timer'); bar.hidden = !t; if (t) bar.firstElementChild.style.width = `${(t.left / t.total) * 100}%`; },
+        status: (st) => {
+          if (st.showScore) { $('g-pts').textContent = st.score.toLocaleString(); $('g-streak').textContent = `×${st.streak}`; }
+          else { const d = $('g-dots'); d.replaceChildren(...Array.from({ length: st.rounds }, (_, i) => { const x = document.createElement('i'); x.className = i < st.first ? 'on' : i < st.round - 1 ? 'miss' : ''; return x; })); }
+        },
+        mic: () => {},
+        finished: (r) => endGame(r),
+      };
+    }
+    // Lesson 2: hear an opening, find it. Lesson 3: a letter's shape, find the letter. Lesson 8: speeds. Lesson 12: stopping.
+    function mosaicQuestions(L) {
+      if (L.n === 2) {
+        const all = examples(L)[0].items;
+        return all.map((x) => ({ prompt: { ref: x.ref }, ask: 'Which opening did the Sheikh recite?', answer: x.ref, label: `${x.ar} · ${x.note}`,
+          choices: all.map((y) => ({ show: y.ar, key: y.ref })) }));
+      }
+      if (L.n === 3) {
+        return shuffle(LETTERS).map((x) => {
+          const pos = shuffle(['start', 'middle', 'end'])[0];
+          const near = [...lookalikes(x.letter), ...shuffle(LETTERS.map((y) => y.letter))].filter((l, i, a) => l !== x.letter && a.indexOf(l) === i);
+          return { prompt: { ar: forms(x)[pos], text: { start: 'at the beginning of a word', middle: 'in the middle of a word', end: 'at the end of a word' }[pos] },
+            ask: 'Which letter is this?', answer: x.letter, label: `${x.latin} ${forms(x)[pos]}`, say: letterSpoken(x),
+            choices: [x.letter, ...near.slice(0, 7)].map((l) => ({ show: l, key: l })) };
+        });
+      }
+      if (L.n === 8) {
+        const qs = [];
+        SPEEDS.rows.forEach((r) => SPEEDS.cols.forEach((c, k) => {
+          const vals = [...new Set(SPEEDS.rows.flatMap((x) => x.slice(1)))];
+          qs.push({ prompt: { text: `${r[0]} in ${c}` }, ask: 'How long is it held?', answer: r[k + 1], label: `${r[0]}, ${c}: ${r[k + 1]}`, choices: vals.map((v) => ({ show: v, key: v })) });
+        }));
+        return qs;
+      }
+      return STOPS.map((x) => ({ prompt: { ar: x.written }, ask: 'How is it read when you stop on it?', answer: x.stop, label: x.rule, hint: x.rule,
+        choices: [x.stop, ...x.wrong].map((v) => ({ show: v, key: v })) }));
+    }
+    function startLessonGame(n) {
+      stopGame(); stopSound();
+      const L = LESSONS[n - 1];
+      if (L.game === 'surahs') { openLesson(n); return; }
+      gameLesson = n;
       const lv = me.level || 1, cfg = LEVEL_GAME[lv];
-      const { SR } = getSpeechRecognition({ localAsr });
-      $('g-sub').textContent = `Lesson 1 · ${me.className || 'Level 1'} · ${cfg.label}`;
+      $('g-name').textContent = GAMES[L.game].name;
+      $('g-sub').textContent = `Lesson ${n} · ${L.name} · ${me.className || 'Level 1'}`;
       $('g-end').hidden = true; $('g-feedback').textContent = '';
       $('g-score').hidden = !cfg.score; $('g-dots').hidden = cfg.score;
-      $('g-best').textContent = String(progress.best ?? 0);
-      $('s-game').dataset.level = String(lv);
+      $('g-best').textContent = String(n === 1 ? progress.best ?? 0 : progress.lessons?.[n]?.bestScore ?? 0);
+      $('g-hear').hidden = L.game === 'pearls';
+      $('s-game').dataset.level = String(lv); $('s-game').dataset.game = L.game;
       show('s-game');
       if (!isMuted()) startAmbience();
       gameStart = Date.now();
-      game = createLanterns({
-        stage: $('g-stage'), level: lv, gender: me.gender, SR, progress,
-        ui: {
-          sheikh: setGameSheikh,
-          feedback: (t, kind) => { const f = $('g-feedback'); f.textContent = t; f.className = 'g-feedback ' + (kind || ''); },
-          timer: (t) => { const bar = $('g-timer'); bar.hidden = !t; if (t) bar.firstElementChild.style.width = `${(t.left / t.total) * 100}%`; },
-          status: (st) => {
-            if (st.showScore) { $('g-pts').textContent = st.score.toLocaleString(); $('g-streak').textContent = `×${st.streak}`; }
-            else { const d = $('g-dots'); d.replaceChildren(...Array.from({ length: st.rounds }, (_, i) => { const x = document.createElement('i'); x.className = i < st.first ? 'on' : i < st.round - 1 ? 'miss' : ''; return x; })); }
-          },
-          mic: () => {},
-          finished: (r) => endGame(r),
-        },
-      });
+      const common = { stage: $('g-stage'), level: lv, gender: me.gender, ui: gameUi(), reciter: reciter() };
+      if (L.game === 'lanterns') { const { SR } = getSpeechRecognition({ localAsr }); game = createLanterns({ ...common, SR, progress }); }
+      else if (L.game === 'rain') game = createRain({ ...common, items: syllableItems(L) });
+      else if (L.game === 'mosaic') game = createMosaic({ ...common, questions: mosaicQuestions(L) });
+      else if (L.game === 'baskets') game = createBaskets({ ...common, ...basketsFor(L) });
+      else if (L.game === 'pearls') game = createPearls({ ...common, duas: DUAS });
       game.start();
     }
+    function startGame() { startLessonGame(1); }
     function stopGame() { game?.stop(); game = null; stopAmbience(); }
-    $('g-back').addEventListener('click', () => { stopGame(); goHub(); });
+    $('g-back').addEventListener('click', () => { stopGame(); openLesson(gameLesson); });
     $('g-hear').addEventListener('click', () => game?.replay());
     $('g-mute').addEventListener('click', () => {
       const m = !isMuted(); setMuted(m);
       $('g-mute').setAttribute('aria-pressed', String(m)); $('g-mute').setAttribute('aria-label', m ? 'Sound off' : 'Sound on');
       if (!m) startAmbience();
     });
+    function statBoxes(stats) { return stats.map(([k, v]) => { const d = document.createElement('div'); const a = document.createElement('small'); a.textContent = k; const b = document.createElement('b'); b.textContent = v; d.append(a, b); return d; }); }
     async function endGame(r) {
       stopAmbience();
-      const before = progress.lessonGrown;
-      if (r.grown) progress.lessonGrown = true;
+      const n = gameLesson, L = LESSONS[n - 1];
       const pr = phrase(r.accuracy >= 95 ? 'mumtaz' : r.accuracy >= 80 ? 'jayyid' : 'ahsant', me.gender);
       $('g-praise').textContent = pr.ar;
-      $('g-end-h').textContent = `${r.first} of ${r.rounds} lanterns lit first time`;
-      const stats = [['Letters known', `${r.known} of 28`], ['Time', `${r.minutes} min`]];
-      if (r.score != null) stats.unshift(['Score', r.score.toLocaleString()], ['Your best', String(r.best ?? r.score)]);
-      $('g-stats').replaceChildren(...stats.map(([k, v]) => { const d = document.createElement('div'); const a = document.createElement('small'); a.textContent = k; const b = document.createElement('b'); b.textContent = v; d.append(a, b); return d; }));
-      $('g-garden').textContent = r.grown ? (before ? 'Your Lesson 1 palm is fully grown. Keep its lanterns bright.' : 'Masha’Allah! You know all 28 letters. Your first date palm has grown in your garden.') : `Your Lesson 1 sprout is growing: you have lit ${r.lit} of the 28 letters and know ${r.known}. Light each letter right the first time, twice, to know it.`;
+      let grewNow = false, gardenText = '';
+      if (n === 1) {
+        const before = progress.lessonGrown;
+        if (r.grown) progress.lessonGrown = true;
+        grewNow = r.grown && !before;
+        $('g-end-h').textContent = `${r.first} of ${r.rounds} lanterns lit first time`;
+        const stats = [['Letters known', `${r.known} of 28`], ['Time', `${r.minutes} min`]];
+        if (r.score != null) stats.unshift(['Score', r.score.toLocaleString()], ['Your best', String(r.best ?? r.score)]);
+        $('g-stats').replaceChildren(...statBoxes(stats));
+        gardenText = r.grown ? (before ? 'Your Lesson 1 palm is fully grown. Keep its lanterns bright.' : 'Masha’Allah! You know all 28 letters. Your first date palm has grown in your garden.') : `Your Lesson 1 sprout is growing: you have lit ${r.lit} of the 28 letters and know ${r.known}. Light each letter right the first time, twice, to know it.`;
+      } else {
+        progress.lessons ??= {};
+        const p = progress.lessons[n] ??= { played: 0, best: 0 };
+        const before = !!p.grown;
+        p.played++; p.best = Math.max(p.best, r.accuracy);
+        if (r.score != null) p.bestScore = Math.max(p.bestScore ?? 0, r.score);
+        if (r.accuracy >= 80) p.grown = true;
+        grewNow = p.grown && !before;
+        $('g-end-h').textContent = `${r.first} of ${r.rounds} right first time`;
+        const stats = [['Right first time', `${r.accuracy}%`], ['Your best', `${p.best}%`], ['Time', `${r.minutes} min`]];
+        if (r.score != null) stats.unshift(['Score', r.score.toLocaleString()]);
+        $('g-stats').replaceChildren(...statBoxes(stats));
+        gardenText = grewNow ? `Masha’Allah! Your Lesson ${n} palm has grown in your garden.` : p.grown ? `Your Lesson ${n} palm is grown. Play again to keep it strong.` : `Your Lesson ${n} sprout is growing. Get 80% right first time to grow its palm.`;
+      }
+      $('g-garden').textContent = gardenText;
       $('g-practise').textContent = r.practise.length ? `Practise these: ${r.practise.join('  ')}` : '';
       $('g-end').hidden = false;
       speak(pr);
-      if (r.grown && !before) nasheed('milestone');
+      if (grewNow) nasheed('milestone');
       await saveProgress({ token: me.token, username: me.username, progress });
-      logGame({ token: me.token, game: { game: 'Noor Lanterns', lesson: 'Lesson 1 · Letters', rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: r.score ?? '', practise: r.practise.join(' '), known: r.known, minutes: r.minutes } });
+      logGame({ token: me.token, game: { game: GAMES[L.game].name, lesson: `Lesson ${n} · ${L.name}`, rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: r.score ?? '', practise: r.practise.join(' '), known: n === 1 ? r.known : '', minutes: r.minutes } });
     }
-    $('g-again').addEventListener('click', () => startGame());
+    $('g-again').addEventListener('click', () => startLessonGame(gameLesson));
     $('g-home').addEventListener('click', () => { stopGame(); goHub(); });
     addEventListener('beforeunload', (e) => { if (engine && engine.phase !== 'done') { e.preventDefault(); e.returnValue = ''; } });
   </script>

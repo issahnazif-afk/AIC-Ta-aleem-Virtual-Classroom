@@ -10,3 +10,7 @@
 | Face Landmarker model and runtime | [Google MediaPipe](https://ai.google.dev/edge/mediapipe) | Apache 2.0 | Runtime from the `@mediapipe/tasks-vision` package; model downloaded at build time. |
 | Speech model `qaaf-asr` (optional) | Qa-af Wal Quran-ul-Majeed | As in the main app | Copied from the main app's GitHub release at build time. |
 | Logo | Al-Huda Islamic Centre | Belongs to Al-Huda Islamic Centre | `public/logo-*.png`, `icon-192.png`, `apple-touch-icon.png`, `favicon-64.png`. |
+| Arabic voice *Kareem* (ar_JO, medium) | [Piper](https://github.com/rhasspy/piper) voices, via the [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) release `tts-models`; trained on the [arabicttstrain](https://github.com/AliMokhammad/arabicttstrain) dataset | As published with the voice (see its model card) | Used once, offline, by `scripts/voice/make_voice.py` to make the clips in `public/audio/voice/`. The voice itself is not shipped. |
+| Amiri font | [Amiri](https://www.amirifont.org), via `@fontsource/amiri` | SIL Open Font Licence 1.1 | The alphabet boards and games (it always dots ي). |
+| Playfair Display and Manrope fonts | Google Fonts, via `@fontsource` | SIL Open Font Licence 1.1 | Headings and text, matching alhudaislamiccentre.ca. |
+| Alif Ba lessons | The school's booklet *Alif Ba, Your Road to Reading Qur'an Al-Kerim* | Belongs to the school | Lesson order, rules and the reading-speed table in `src/lib/lessons.mjs`. |

@@ -1,6 +1,7 @@
 // Noor Lanterns: hear a letter's name and light its lantern; from Level 2, also say a letter's name to the Sheikh.
 // Builds its lanterns inside `stage`; the rest of the screen (Sheikh, bubble, score) is in index.astro.
-import { LETTERS, LEVEL_GAME, lookalikes, heardLetter, hasLetterRecording, letterAudioUrl, MASTERED, lessonState } from './alifba.mjs';
+import { LETTERS, LEVEL_GAME, lookalikes, heardLetter, MASTERED, lessonState } from './alifba.mjs';
+import { sayLetter as voiceLetter, letterSpoken } from './voice.mjs';
 import { phrase, speak, stopVoice } from './phrases.mjs';
 import { glow, soft } from './ambience.mjs';
 import { tuneRecognition, phrasesRefused } from './speech.mjs';
@@ -46,14 +47,9 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
     return shuffle(out);
   }
 
-  async function sayLetter(L) {
-    if (await hasLetterRecording(L.file)) {
-      const a = new Audio(letterAudioUrl(L.file));
-      await new Promise((r) => { a.onended = r; a.onerror = r; a.play().catch(r); setTimeout(r, 4000); });
-      return;
-    }
-    await speak({ ar: L.name, file: '' });
-  }
+  // the Sheikh says the letter the way the student chose: its sound (default), pure sound, or name
+  const sayLetter = (L) => voiceLetter(L);
+  const spoken = (L) => letterSpoken(L);
 
   function clearTimer() { clearInterval(timer); timer = null; ui.timer?.(null); }
   function startTimer(onOut) {
@@ -81,10 +77,11 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
       stage.append(b);
       return b;
     });
-    ui.sheikh?.('speaking', target.name, 'Which lantern is this letter?');
+    if (/[?&]test=1\b/.test(location.search)) stage.dataset.answer = target.letter;   // for the automated tests only
+    ui.sheikh?.('speaking', spoken(target).ar, 'Which lantern is this letter?');
     await sayLetter(target);
     if (done || current?.target !== target) return;
-    ui.sheikh?.('listening', target.name, 'Light its lantern.');
+    ui.sheikh?.('listening', spoken(target).ar, 'Light its lantern.');
     startTimer(() => { if (!done && current?.target === target) reveal(buttons, letters, target); });
 
     async function choose(b, letter) {
@@ -101,7 +98,7 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
         setTimeout(() => b.classList.remove('sway'), 500);
         streak = 0; practise.add(target.letter);
         const other = LETTERS.find((l) => l.letter === letter);
-        ui.feedback?.(level <= 2 ? 'Listen again…' : `That is ${other.latin} (${other.name}). Listen again and look at the dots.`, 'bad');
+        ui.feedback?.(level <= 2 ? 'Listen again…' : `That is ${other.latin} (${other.letter}). Listen again and look at the dots.`, 'bad');
         status();
         if (level <= 2) await sayLetter(target);
       }
@@ -110,7 +107,7 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
   async function reveal(buttons, letters, target) {
     buttons.forEach((x, i) => { x.disabled = true; if (letters[i] === target.letter) x.classList.add('lit', 'shown'); });
     streak = 0; practise.add(target.letter);
-    ui.feedback?.(`Time is up. This is ${target.latin}, ${target.name}.`, 'bad');
+    ui.feedback?.(`Time is up. This is ${target.latin}, ${spoken(target).ar}.`, 'bad');
     status();
     await sayLetter(target);
     await wait(1200);
@@ -126,10 +123,10 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
     b.append(lanternSvg(220), el('span', 'lt', target.letter));
     b.style.setProperty('--fs', '120px');
     const mic = el('div', 'speak-mic');
-    mic.innerHTML = '<span class="mic-dot" aria-hidden="true"></span><span class="mic-t">Say this letter’s name</span>';
+    mic.innerHTML = '<span class="mic-dot" aria-hidden="true"></span><span class="mic-t">Say this letter</span>';
     stage.append(b, mic);
-    ui.sheikh?.('listening', P('read').ar, 'Say the name of this letter.');
-    ui.feedback?.('Say the name of this letter, clearly.', '');
+    ui.sheikh?.('listening', P('read').ar, 'Say this letter.');
+    ui.feedback?.('Say this letter clearly: its sound or its name.', '');
     let settled = false;
     const finish = async (ok) => {
       if (settled) return; settled = true;
@@ -137,7 +134,7 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
       if (ok) await correct(target);
       else {
         streak = 0; practise.add(target.letter);
-        ui.feedback?.(`This is ${target.latin}: ${target.name}. Listen.`, 'bad');
+        ui.feedback?.(`This is ${target.latin}: ${spoken(target).ar}. Listen.`, 'bad');
         status();
         await sayLetter(target);
         await wait(1000);
@@ -173,7 +170,7 @@ export function createLanterns({ stage, level = 1, gender = '', SR = null, progr
     if (cfg.score) score += firstTry ? 100 + 25 * Math.min(streak, 8) : 40;
     const praise = P(streak >= 3 && firstTry ? 'mumtaz' : 'ahsant');
     ui.sheikh?.('stop', praise.ar, praise.en);
-    ui.feedback?.(firstTry ? `${praise.en} ${target.latin}, ${target.name}.` : `${target.latin}, ${target.name}.`, 'good');
+    ui.feedback?.(firstTry ? `${praise.en} ${target.latin}, ${spoken(target).ar}.` : `${target.latin}, ${spoken(target).ar}.`, 'good');
     status();
     ui.lit?.(target);
     if (level <= 2) await speak(praise); else await wait(900);
