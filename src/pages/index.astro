@@ -45,19 +45,45 @@ const levels = [
       <p class="muted small">Works on a desktop or laptop with a camera and microphone, in Chrome or Edge.</p>
     </div>
     <div class="si-form-wrap">
-      <form class="si-form" id="signin" novalidate>
-        <div>
-          <h1 id="si-h">Sign in</h1>
-          <p class="muted">Use the details your school gave you.</p>
+      <div class="si-form">
+        <div class="si-tabs" role="tablist" aria-label="Sign in or create an account">
+          <button type="button" role="tab" id="tab-in" aria-selected="true" aria-controls="signin">Sign in</button>
+          <button type="button" role="tab" id="tab-new" aria-selected="false" aria-controls="signup">Create account</button>
         </div>
-        <p class="demo-note" id="demo-note" hidden>Demo mode: the class log is not connected yet, so any class code works and sessions are not saved.</p>
-        <label class="fld"><span>Full name</span><input id="in-name" type="text" autocomplete="name" placeholder="Maryam Abdullah" required /></label>
-        <label class="fld"><span>Class level</span><input id="in-class" type="text" autocomplete="off" placeholder="Level 1" required /></label>
-        <label class="fld"><span>Class password</span><input id="in-pass" type="password" autocomplete="current-password" required /></label>
-        <p class="err" id="in-err" role="alert"></p>
-        <button class="btn btn-primary big" type="submit" id="in-go">Sign in</button>
-        <p class="fine">When you join, a photo is taken from your camera and saved with your session record for your teacher. Video and audio are not recorded.</p>
-      </form>
+        <p class="demo-note" id="demo-note" hidden>Demo mode: the class log is not connected yet, so any username works and sessions are not saved.</p>
+
+        <form id="signin" class="si-pane" role="tabpanel" aria-labelledby="tab-in" novalidate>
+          <div>
+            <h1 id="si-h">Assalamu alaikum</h1>
+            <p class="muted">Sign in with your own username and password.</p>
+          </div>
+          <label class="fld"><span>Username</span><input id="in-user" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="maryam.a" required /></label>
+          <label class="fld"><span>Password</span><input id="in-pass" type="password" autocomplete="current-password" required /></label>
+          <p class="err" id="in-err" role="alert"></p>
+          <button class="btn btn-primary big" type="submit" id="in-go">Sign in</button>
+          <p class="fine">New here? Choose <b>Create account</b> above. Forgot your password? Ask your teacher to reset it.</p>
+        </form>
+
+        <form id="signup" class="si-pane" role="tabpanel" aria-labelledby="tab-new" novalidate hidden>
+          <div>
+            <h1>Create your account</h1>
+            <p class="muted">You only do this once. Your teacher gives you your level’s class password.</p>
+          </div>
+          <label class="fld"><span>Full name</span><input id="up-name" type="text" autocomplete="name" placeholder="Maryam Abdullah" required /></label>
+          <div class="fld-row">
+            <label class="fld"><span>Your level</span><select id="up-class"><option value="">Loading…</option></select></label>
+            <label class="fld"><span>Class password</span><input id="up-cpass" type="password" autocomplete="off" required /></label>
+          </div>
+          <label class="fld"><span>Choose a username</span><input id="up-user" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="maryam.a" required /><small class="hint">3 to 24 letters or numbers; you may use . _ or - but no spaces.</small></label>
+          <div class="fld-row">
+            <label class="fld"><span>Choose a password</span><input id="up-pass" type="password" autocomplete="new-password" required /><small class="hint">At least 6 characters.</small></label>
+            <label class="fld"><span>Type it again</span><input id="up-pass2" type="password" autocomplete="new-password" required /></label>
+          </div>
+          <p class="err" id="up-err" role="alert"></p>
+          <button class="btn btn-primary big" type="submit" id="up-go">Create account</button>
+        </form>
+        <p class="fine">When you join a session, a photo is taken from your camera and saved with your session record for your teacher. Video and audio are not recorded.</p>
+      </div>
     </div>
   </section>
 
@@ -258,7 +284,7 @@ const levels = [
   </section>
 
   <script>
-    import { configure, isDemo, login, sendSession, flushOutbox } from '../lib/classlog.mjs';
+    import { configure, isDemo, login, register, listClasses, sendSession, flushOutbox } from '../lib/classlog.mjs';
     import { openCamera, micMeter, snapshot, testTone } from '../lib/media.mjs';
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
     import { getSpeechRecognition } from '../lib/speech.mjs';
@@ -275,7 +301,7 @@ const levels = [
     setInterval(() => flushOutbox().catch(() => {}), 60000);
 
     // ── state ────────────────────────────────────────────────
-    const me = { name: '', classCode: '', className: '', password: '', loginTime: null };
+    const me = { name: '', username: '', classCode: '', className: '', token: '', loginTime: null };
     let stream = null, meter = null, watcher = null, snap = '';
     let choice = { mode: 'hifz', level: 'intermediate', ...store.get('choice', {}) };
     let engine = null, sessionStart = 0, timerT = 0;
@@ -286,28 +312,74 @@ const levels = [
     }
 
     // ── 1 · sign in ──────────────────────────────────────────
+    const USER_RE = /^[a-z0-9][a-z0-9._-]{2,23}$/;
+    function setTab(which) {
+      const up = which === 'new';
+      $('tab-in').setAttribute('aria-selected', String(!up)); $('tab-new').setAttribute('aria-selected', String(up));
+      $('signin').hidden = up; $('signup').hidden = !up;
+      (up ? $('up-name') : $('in-user')).focus();
+      if (up) loadClasses();
+    }
+    $('tab-in').addEventListener('click', () => setTab('in'));
+    $('tab-new').addEventListener('click', () => setTab('new'));
+    let classesLoaded = false;
+    async function loadClasses() {
+      if (classesLoaded) return;
+      const r = await listClasses();
+      const sel = $('up-class');
+      if (!r.ok) { sel.replaceChildren(new Option('Could not load the levels', '')); $('up-err').textContent = r.message; return; }
+      classesLoaded = true;
+      sel.replaceChildren(new Option('Choose your level', ''), ...r.classes.map((c) => new Option(c.name, c.code)));
+    }
     const saved = store.get('who', null);
-    if (saved) { $('in-name').value = saved.name ?? ''; $('in-class').value = saved.classCode ?? ''; }
-    $('signin').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = $('in-name').value.trim().replace(/\s+/g, ' ');
-      const classCode = $('in-class').value.trim().toUpperCase();
-      const password = $('in-pass').value;
-      $('in-err').textContent = '';
-      if (!name) return fail('Enter your full name.', 'in-name');
-      if (!classCode) return fail('Enter your class level, for example Level 1.', 'in-class');
-      if (!password && !isDemo()) return fail('Enter the class password.', 'in-pass');
-      $('in-go').disabled = true; $('in-go').textContent = 'Signing in…';
-      const r = await login({ name, classCode, password });
-      $('in-go').disabled = false; $('in-go').textContent = 'Sign in';
-      if (!r.ok) return fail(r.message);
-      Object.assign(me, { name, classCode: r.classCode || classCode, className: r.className || classCode, password, loginTime: new Date() });
-      store.set('who', { name, classCode: me.classCode });
-      document.querySelectorAll('[data-name]').forEach((x) => (x.textContent = name.split(' ')[0]));
+    if (saved?.username) $('in-user').value = saved.username;
+    else if (!saved) setTimeout(() => setTab('new'), 0);
+
+    function signedIn(r) {
+      Object.assign(me, { name: r.name, username: r.username, classCode: r.classCode, className: r.className, token: r.token, loginTime: new Date() });
+      store.set('who', { username: r.username });
+      document.querySelectorAll('[data-name]').forEach((x) => (x.textContent = me.name.split(' ')[0]));
+      $('in-pass').value = ''; $('up-pass').value = ''; $('up-pass2').value = ''; $('up-cpass').value = '';
       show('s-check');
       startCheck();
+    }
+    function busy(btn, on, label) { btn.disabled = on; btn.textContent = on ? 'Please wait…' : label; }
+
+    $('signin').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = $('in-user').value.trim().toLowerCase();
+      const password = $('in-pass').value;
+      $('in-err').textContent = '';
+      if (!username) return fail('in-err', 'Enter your username.', 'in-user');
+      if (!password) return fail('in-err', 'Enter your password.', 'in-pass');
+      busy($('in-go'), true);
+      const r = await login({ username, password });
+      busy($('in-go'), false, 'Sign in');
+      if (!r.ok) return fail('in-err', r.message, 'in-pass');
+      signedIn(r);
     });
-    function fail(msg, focus) { $('in-err').textContent = msg; if (focus) $(focus).focus(); }
+
+    $('signup').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('up-name').value.trim().replace(/\s+/g, ' ');
+      const classCode = $('up-class').value;
+      const classPassword = $('up-cpass').value;
+      const username = $('up-user').value.trim().toLowerCase();
+      const password = $('up-pass').value;
+      $('up-err').textContent = '';
+      if (name.length < 3) return fail('up-err', 'Enter your full name.', 'up-name');
+      if (!classCode) return fail('up-err', 'Choose your level.', 'up-class');
+      if (!classPassword && !isDemo()) return fail('up-err', 'Enter your level’s class password from your teacher.', 'up-cpass');
+      if (!USER_RE.test(username)) return fail('up-err', 'Usernames are 3 to 24 letters or numbers, and may use . _ or - (no spaces).', 'up-user');
+      if (password.length < 6) return fail('up-err', 'Choose a password of at least 6 characters.', 'up-pass');
+      if (password !== $('up-pass2').value) return fail('up-err', 'The two passwords are not the same.', 'up-pass2');
+      busy($('up-go'), true);
+      const r = await register({ name, classCode, classPassword, username, password });
+      busy($('up-go'), false, 'Create account');
+      if (!r.ok) return fail('up-err', r.message, r.error === 'username-taken' || r.error === 'bad-username' ? 'up-user' : r.error === 'wrong-class-password' ? 'up-cpass' : null);
+      signedIn(r);
+    });
+    function fail(where, msg, focus) { $(where).textContent = msg; if (focus) $(focus).focus(); }
 
     // ── 2 · camera, microphone, snapshot, face ───────────────
     function setCheck(id, ok, text) {
@@ -593,9 +665,9 @@ const levels = [
       show('s-report');
 
       lastEntry = {
-        classCode: me.classCode, password: me.password, name: me.name, snapshot: snap,
+        token: me.token, snapshot: snap,
         session: {
-          id, studentName: me.name, loginTime: me.loginTime?.toISOString(), endTime: endTime.toISOString(), minutes,
+          id, studentName: me.name, username: me.username, className: me.className, loginTime: me.loginTime?.toISOString(), endTime: endTime.toISOString(), minutes,
           mode: res.mode, level: LEVELS[choice.level].name, surahs: passage, ayahs: res.ayahCount,
           questions: hifz ? res.questions : '', words: t.words, rightFirstPct: t.words ? Math.round((t.first / t.words) * 100) : 0,
           grade, mistakesTotal: total, topMistakes: top.map((x) => `${x.label} ×${x.n}`).join('; '),
@@ -612,7 +684,7 @@ const levels = [
       const r = await sendSession(lastEntry);
       const at = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       if (r.ok && r.demo) { card.dataset.state = 'demo'; $('r-sent-h').textContent = 'Not saved (demo mode)'; $('r-sent-t').textContent = 'The class log is not connected yet. See apps-script/README.md.'; }
-      else if (r.ok) { card.dataset.state = 'ok'; $('r-sent-h').textContent = 'Sent to your teacher'; $('r-sent-t').textContent = `This session was added to the ${me.classCode} class log at ${at}.`; }
+      else if (r.ok) { card.dataset.state = 'ok'; $('r-sent-h').textContent = 'Sent to your teacher'; $('r-sent-t').textContent = `This session was added to the ${me.className} class log at ${at}.`; }
       else if (r.queued) { card.dataset.state = 'queued'; $('r-sent-h').textContent = 'Waiting to send'; $('r-sent-t').textContent = 'The class log could not be reached. It will be sent automatically when you are back online.'; $('r-retry').hidden = false; }
       else { card.dataset.state = 'fail'; $('r-sent-h').textContent = 'Not sent'; $('r-sent-t').textContent = r.message ?? 'Ask your teacher to check the class settings.'; }
     }
@@ -622,7 +694,7 @@ const levels = [
       try { if (stream && !stream.getAudioTracks().some((t) => t.readyState === 'live')) { stream.getTracks().forEach((t) => t.stop()); stream = null; } } catch {}
       show('s-check'); startCheck();
     });
-    $('r-out').addEventListener('click', () => { stopMedia(); Object.assign(me, { password: '' }); $('in-pass').value = ''; show('s-signin'); });
+    $('r-out').addEventListener('click', () => { stopMedia(); Object.assign(me, { token: '', name: '', username: '' }); setTab('in'); show('s-signin'); });
     addEventListener('beforeunload', (e) => { if (engine && engine.phase !== 'done') { e.preventDefault(); e.returnValue = ''; } });
   </script>
 </body>

@@ -52,10 +52,27 @@ Nobody can read the sheets through it.
 After editing `Code.gs`, use **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy**.
 The Web app URL stays the same, so the website needs no change.
 
+## Student accounts
+
+Each student creates their own account on the classroom's **Create account** tab: full name, their level,
+the level's **class password** (from the Classes tab — this is how you control who joins which level),
+a username and a password. Accounts appear in the **Students** tab of the admin sheet:
+
+| Username | Full name | Class | Joined | Last sign-in | Reset password |
+|---|---|---|---|---|---|
+
+Passwords are stored only as salted hashes (in two hidden columns), so nobody can read them.
+
+- **A student forgot their password:** type a temporary password in their **Reset password** cell and tell
+  them. They sign in with it once; it becomes their password and the cell clears itself.
+- **Move a student to another level:** change their **Class** cell (for example to `Level 3`).
+- **Remove a student:** delete their row.
+- **Stop new sign-ups for a level:** change that level's class password. Existing accounts keep working.
+
 ## What each row holds
 
-Session ID, student name, class code, login and end time, minutes spent, session type (Hifz test or
-Mujawwadah), level, surahs and ayahs recited, number of questions, words recited, right first time (%),
+Session ID, student name, username, class, login and end time, minutes spent, session type (Hifz test or
+Mujawwadah), difficulty, surahs and ayahs recited, number of questions, words recited, right first time (%),
 grade, total mistakes, most observed mistakes, wrong words, forgotten words (the Sheikh prompted),
 hints used, unclear words, words gone back over, times the student looked away, a link to the login
 photo, and the Sheikh's short review.

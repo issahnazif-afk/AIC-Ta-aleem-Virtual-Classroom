@@ -20,7 +20,9 @@ Hosted on GitHub Pages, with no server of its own. Built with [Astro](https://as
 
 ## Screens
 
-1. **Sign in** with full name, class code and class password (checked against the Classes list in Google Sheets).
+1. **Sign in or create an account.** Each student creates their own username and password once, choosing their
+   level (Level 1–4) and entering that level's class password from the teacher. After that they sign in with
+   their username and password.
 2. **Camera and microphone check**: camera preview, microphone level, speaker test, a face check that records
    the student's normal position, and the login snapshot.
 3. **Session setup**: Hifz test or Mujawwadah, level, surah and ayah range, number of questions, Sheikh's voice.
@@ -84,7 +86,9 @@ Troubleshooting the face check: add `?debug=1` to the address and read `window._
 
 - Video and audio are never recorded or uploaded. The face check runs in the browser.
 - One small photo per session (about 15 KB) is saved to the class's snapshots folder in your Google Drive.
-- The class password is checked by your Apps Script; it is not stored in the site.
+- Student passwords are stored in the admin sheet only as salted hashes, never as text. Class passwords are
+  checked by your Apps Script and are not part of the site.
+- After signing in, the browser holds a signed token (valid 30 days) used to send that student's session logs.
 
 ## Project layout
 

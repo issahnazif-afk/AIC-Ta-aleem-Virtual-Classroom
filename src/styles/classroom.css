@@ -40,8 +40,14 @@
 .si-title { font-size: 28px; font-weight: 700; }
 .si-text { font-size: 17px; color: var(--muted); max-width: 440px; line-height: 1.55; }
 .si-form-wrap { flex: 1 1 480px; display: flex; align-items: center; justify-content: center; padding: 48px; }
-.si-form { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 18px; }
+.si-form { width: 100%; max-width: 460px; display: flex; flex-direction: column; gap: 18px; }
 .si-form .fine { font-size: 13px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 16px; }
+.si-tabs { display: flex; gap: 4px; background: var(--line); padding: 4px; border-radius: 10px; }
+.si-tabs button { flex: 1; min-height: 44px; border: none; border-radius: 8px; background: transparent; font: inherit; font-size: 15px; color: var(--ink); cursor: pointer; }
+.si-tabs button[aria-selected="true"] { background: var(--surface); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.si-pane { display: flex; flex-direction: column; gap: 16px; }
+.fld-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.fld .hint { font-weight: 400; font-size: 13px; color: var(--muted); }
 .demo-note { background: var(--amber); color: var(--amber-ink); padding: 10px 14px; border-radius: 8px; font-size: 14px; }
 
 /* flow screens */

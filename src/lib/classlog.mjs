@@ -1,9 +1,10 @@
-// Talks to the class log (the Google Apps Script web app in apps-script/Code.gs).
+// Talks to the class log (the Google Apps Script web app in apps-script/Code.gs):
+// the list of classes, student accounts, sign-in, and saving finished sessions.
 // Requests are sent as text/plain so the browser makes a simple request with no preflight,
 // which Apps Script web apps accept from any website.
 //
-// With no web app address set, the classroom runs in demo mode: any class code works and
-// sessions are not saved anywhere.
+// With no web app address set, the classroom runs in demo mode: any username works,
+// accounts are not kept and sessions are not saved anywhere.
 import { store } from './client.mjs';
 
 let URL_ = '';
@@ -21,21 +22,40 @@ async function post(body, { timeout = 20000 } = {}) {
 }
 
 const MESSAGES = {
-  'unknown-class': 'That class was not found. Type your level, for example Level 1.',
-  'wrong-password': 'That password is not right for this class.',
+  'unknown-class': 'That class was not found. Choose your level from the list.',
+  'wrong-class-password': 'That class password is not right. Ask your teacher for your level’s class password.',
   'no-name': 'Enter your full name.',
+  'bad-username': 'Usernames are 3 to 24 letters or numbers, and may use . _ or - (no spaces).',
+  'short-password': 'Choose a password of at least 6 characters.',
+  'username-taken': 'That username is already taken. Try another one.',
+  'bad-login': 'The username or password is not right.',
+  'class-removed': 'Your class is no longer listed. Ask your teacher.',
+  'signed-out': 'Your sign-in has expired. Sign in again to send this session.',
 };
+const OFFLINE = 'The classroom server could not be reached. Check your internet connection and try again.';
+const DEMO_CLASSES = [1, 2, 3, 4].map((n) => ({ code: `LEVEL-${n}`, name: `Level ${n}` }));
 
-export async function login({ name, classCode, password }) {
-  if (isDemo()) return { ok: true, className: classCode, classCode, demo: true };
+export async function listClasses() {
+  if (isDemo()) return { ok: true, classes: DEMO_CLASSES };
+  try { const r = await post({ action: 'classes' }); return r.ok ? r : { ok: false, message: OFFLINE }; }
+  catch { return { ok: false, message: OFFLINE }; }
+}
+
+async function account(body) {
+  if (isDemo()) {
+    const cls = DEMO_CLASSES.find((c) => c.code === body.classCode) ?? DEMO_CLASSES[0];
+    return { ok: true, demo: true, username: String(body.username || '').toLowerCase(), name: body.name || body.username, classCode: cls.code, className: cls.name, token: 'demo' };
+  }
   try {
-    const r = await post({ action: 'login', name, classCode, password });
+    const r = await post(body);
     if (r.ok) return r;
-    return { ok: false, message: MESSAGES[r.error] ?? 'Sign in did not work. Try again.' };
+    return { ok: false, error: r.error, message: MESSAGES[r.error] ?? 'That did not work. Try again.' };
   } catch {
-    return { ok: false, message: 'The class log could not be reached. Check your internet connection and try again.' };
+    return { ok: false, message: OFFLINE };
   }
 }
+export const register = (b) => account({ action: 'register', ...b });
+export const login = (b) => account({ action: 'login', ...b });
 
 // Sessions that could not be sent yet wait here and are retried.
 const OUTBOX = 'outbox';
@@ -46,7 +66,7 @@ export async function sendSession(entry) {
   try {
     const r = await post({ action: 'log', ...entry }, { timeout: 45000 });
     if (r.ok) return r;
-    if (r.error === 'wrong-password' || r.error === 'unknown-class') return { ok: false, final: true, message: MESSAGES[r.error] };
+    if (r.error === 'signed-out' || r.error === 'class-removed') return { ok: false, final: true, message: MESSAGES[r.error] };
     throw new Error(r.error || 'failed');
   } catch {
     const list = outbox().filter((x) => x.session.id !== entry.session.id);
@@ -62,7 +82,7 @@ export async function flushOutbox() {
   if (!list.length) return 0;
   const left = [];
   for (const entry of list) {
-    try { const r = await post({ action: 'log', ...entry }, { timeout: 45000 }); if (!r.ok && !['wrong-password', 'unknown-class'].includes(r.error)) left.push(entry); }
+    try { const r = await post({ action: 'log', ...entry }, { timeout: 45000 }); if (!r.ok && !['signed-out', 'class-removed'].includes(r.error)) left.push(entry); }
     catch { left.push(entry); }
   }
   store.set(OUTBOX, left);
