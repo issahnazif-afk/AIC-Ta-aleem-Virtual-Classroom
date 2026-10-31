@@ -1,8 +1,19 @@
 ---
 import fs from 'node:fs';
 import path from 'node:path';
+import '@fontsource/manrope/300.css';
+import '@fontsource/manrope/400.css';
+import '@fontsource/manrope/500.css';
+import '@fontsource/manrope/600.css';
+import '@fontsource/manrope/700.css';
+import '@fontsource/manrope/800.css';
+import '@fontsource/playfair-display/500.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/500-italic.css';
+import '@fontsource/playfair-display/600-italic.css';
 import '../styles/global.css';
 import '../styles/classroom.css';
+import '../styles/aic.css';
 import Sheikh from '../components/Sheikh.astro';
 import cfg from '../../site.config.mjs';
 import { u } from '../lib/url.mjs';
@@ -27,7 +38,7 @@ const levels = [
   <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" />
   <link rel="preload" href={u('fonts/UthmanicHafs_V22.ttf')} as="font" type="font/ttf" crossorigin />
   <style is:inline set:html={`@font-face{font-family:"KFGQPC Hafs";src:url("${u('fonts/UthmanicHafs_V22.ttf')}") format("truetype");font-display:swap}`}></style>
 </head>
@@ -38,11 +49,16 @@ const levels = [
     <div class="si-brand">
       <div class="brand big"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="64" height="64" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
       <div class="si-hero">
-        <div class="si-sheikh"><Sheikh /></div>
-        <p class="si-title">The Sheikh is ready to listen</p>
-        <p class="si-text">Recite from memory for a Hifz test, or read from the mushaf. The Sheikh follows every word and corrects you as you go.</p>
+        <p class="eyebrow"><span class="star" aria-hidden="true"></span>Al-Huda Islamic Centre (AIC)</p>
+        <p class="display">Recite, read and <em>learn</em> with the Sheikh</p>
+        <p class="si-text">Recite from memory for a Hifz test, read from the mushaf, or learn the Arabic letters. The Sheikh follows every word and corrects you as you go.</p>
+        <div class="stats">
+          <div class="stat"><b>3</b><span>Classroom activities</span></div>
+          <div class="stat"><b>4</b><span>Levels, ages 4 to 16</span></div>
+          <div class="stat"><b>604</b><span>Pages of the mushaf</span></div>
+        </div>
       </div>
-      <p class="muted small">Works on a desktop or laptop with a camera and microphone, in Chrome or Edge.</p>
+      <p class="si-foot">Works on a desktop or laptop with a camera and microphone, in Chrome or Edge.</p>
     </div>
     <div class="si-form-wrap">
       <div class="si-form">
@@ -257,15 +273,23 @@ const levels = [
 
   <!-- Classroom home (after sign-in): one card per activity ─ -->
   <section class="screen flow" id="s-home" hidden aria-labelledby="home-h">
-    <header class="topbar">
+   <div class="hero">
+    <header class="topbar on-dark">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Ta'aleem Virtual Classroom</small></span></div>
       <span class="push who"><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span><button class="btn small-btn" type="button" data-signout>Sign out</button></span>
     </header>
-    <div class="flow-main">
-      <div>
-        <h1 id="home-h">Assalamu alaikum</h1>
-        <p class="muted lead">Your Classroom. What would you like to do today?</p>
+    <div class="hero-body">
+      <p class="eyebrow"><span class="star" aria-hidden="true"></span>Ta'aleem Virtual Classroom</p>
+      <h1 class="display" id="home-h">Assalamu alaikum, <em data-first></em></h1>
+      <p class="hero-lead">Your Classroom. What would you like to do today?</p>
+      <div class="stats">
+        <div class="stat"><b data-level-pill>Level 1</b><span>Your class</span></div>
+        <div class="stat"><b id="h-hijri">—</b><span id="h-greg"></span></div>
       </div>
+    </div>
+   </div>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Choose an activity</p>
       <div class="acts" id="acts"></div>
     </div>
   </section>
@@ -893,7 +917,10 @@ const levels = [
       me.level = levelNumber(me.className);
       document.querySelectorAll('[data-level-pill]').forEach((x) => (x.textContent = me.className || 'Level 1'));
       document.querySelectorAll('[data-fullname]').forEach((x) => (x.textContent = me.name));
-      $('home-h').textContent = `Assalamu alaikum, ${me.name.split(' ')[0]}`;
+      document.querySelectorAll('[data-first]').forEach((x) => (x.textContent = me.name.split(' ')[0]));
+      const now = new Date();
+      try { $('h-hijri').textContent = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(now).replace(/\s*AH$/, ''); } catch { $('h-hijri').textContent = ''; }
+      $('h-greg').textContent = now.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
       const box = $('acts'); box.replaceChildren();
       for (const a of forLevel(me.level)) {
         const b = document.createElement('button');
@@ -902,7 +929,8 @@ const levels = [
         const ar = document.createElement('span'); ar.className = 'act-ar'; ar.lang = 'ar'; ar.dir = 'rtl'; ar.textContent = a.ar ?? '';
         const t = document.createElement('b'); t.textContent = a.title;
         const d = document.createElement('span'); d.className = 'act-text'; d.textContent = a.kind === 'soon' ? 'Coming soon, in sha Allah.' : a.text;
-        b.append(ic, ar, t, d);
+        const go = document.createElement('span'); go.className = 'act-go'; go.setAttribute('aria-hidden', 'true');
+        b.append(ic, ar, t, d, go);
         if (a.kind === 'soon') b.disabled = true;
         else b.addEventListener('click', () => openActivity(a));
         box.append(b);
