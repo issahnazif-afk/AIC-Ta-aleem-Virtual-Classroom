@@ -59,8 +59,8 @@ boy or a girl (so the Sheikh addresses them properly), their level,
 the level's **class password** (from the Classes tab — this is how you control who joins which level),
 a username and a password. Accounts appear in the **Students** tab of the admin sheet:
 
-| Username | Full name | Class | Joined | Last sign-in | Reset password | Gender | Alif Ba progress |
-|---|---|---|---|---|---|---|---|
+| Username | Full name | Class | Joined | Last sign-in | Reset password | Gender | Progress | Stars | Badges | Day streak | Last activity |
+|---|---|---|---|---|---|---|---|---|---|---|---|
 
 Passwords are stored only as salted hashes (in two hidden columns), so nobody can read them. Students whose
 accounts were made before the Gender column existed are asked once, the next time they sign in.
@@ -71,12 +71,51 @@ accounts were made before the Gender column existed are asked once, the next tim
 - **Remove a student:** delete their row.
 - **Stop new sign-ups for a level:** change that level's class password. Existing accounts keep working.
 
-## Alif Ba games
+## Games, stars and badges
 
-Each game a student plays is added to a **Games** tab inside their class's session log (created on first use):
-time, student, username, gender, class, game, lesson, rounds, right first time, accuracy, score, letters to practise,
-letters known (of 28) and minutes. Each student's garden progress is kept in the *Alif Ba progress* column of the
-Students tab; leave it as it is.
+Each game a student plays (Alif Ba and Play & Learn) is added to a **Games** tab inside their class's session log
+(created on first use): time, student, username, gender, class, game, lesson or topic, rounds, right first time,
+accuracy, score, letters to practise, letters known (of 28) and minutes.
+
+The Students tab shows each student's **Stars**, **Badges**, **Day streak** (days in a row with learning) and
+**Last activity**, so teachers can follow effort and consistency. Students never see each other's stars: there is
+no class ranking. The *Progress* column holds the details the app needs; leave it as it is.
+
+## The Question bank (Match the Deen, Journey to Knowledge, Salah Master, Akhlaq Heroes, daily missions)
+
+`setup()` adds a **Question bank** tab with a starter set of questions. **Every starter row is marked
+`Review`, and students only ever see rows marked `Yes`.** So nothing appears in those four games until a teacher
+has read the questions and approved them. Letter Detective and Build the Ayah do not use the bank: their letters
+and Qur'an text come from the app itself.
+
+| Column | What to put |
+|---|---|
+| ID | Any short label (Q001, …). |
+| Approved | `Yes` to show it to students; `Review` or `No` to hide it. |
+| Game | `match`, `journey`, `salah`, `akhlaq`, or `daily` (character missions). |
+| Kind | `pair` (two cards that match), `choice` (a question with one right answer), `order` (steps in order), `deed` (a good deed for the daily character mission). |
+| Topic | Groups the questions. Match the Deen offers one topic per group (*Names of Allah*, *Prophets*, …). Journey to Knowledge uses the four places: *Knowledge Garden*, *Arabic Valley*, *Seerah Library*, *Garden of Good Manners*. |
+| Levels | Which classes see it: `1-4`, `2-4`, `3`, or `1,3`. |
+| Question / card A | The question, the first card, or the deed. |
+| Answer / card B | The right answer or the matching card. For `order`, all the steps in order, separated by `\|`. |
+| Wrong answers | For `choice`: the wrong answers, separated by `\|`. |
+| Explanation | A short, kind explanation shown after the answer. |
+| Teacher notes | Anything for the other teachers; never shown. |
+
+To add a question, add a row; to change one, edit it; to hide one, set Approved to `No`. Changes reach students
+the next time they open the classroom; no redeployment is needed. A Match the Deen topic needs at least three
+approved pairs for the level; Journey to Knowledge needs four questions, Salah Master and Akhlaq Heroes three.
+
+To approve many rows at once, select the Approved cells and type `Yes`, or copy one `Yes` down the column.
+
+## Updating an existing set-up (for this version)
+
+1. Open the admin sheet → **Extensions → Apps Script**, replace everything with the new `Code.gs` (keep your folder
+   ID on the `FOLDER_ID` line), and save.
+2. Run **setup** once. It adds the Question bank tab and the new Students columns. It never changes your classes,
+   students or class logs, and it never overwrites a Question bank that already has rows.
+3. **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy.** The URL stays the same.
+4. Ask a teacher to review the Question bank and set **Approved** to `Yes` on the rows to use.
 
 ## What each row holds
 

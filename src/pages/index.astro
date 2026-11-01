@@ -290,12 +290,77 @@ const levels = [
       <div class="stats">
         <div class="stat"><b data-level-pill>Level 1</b><span>Your class</span></div>
         <div class="stat"><b id="h-hijri">—</b><span id="h-greg"></span></div>
+        <div class="stat"><b data-stars-n>0</b><span>Ta'aleem Stars</span></div>
+        <div class="stat"><b data-streak>0</b><span>Days in a row</span></div>
       </div>
+      <nav class="dest" aria-label="My dashboard">
+        <a href="#sec-lessons" data-dest="lessons"><span aria-hidden="true">📖</span>My Lessons</a>
+        <a href="#sec-play" data-dest="play"><span aria-hidden="true">🎯</span>Play &amp; Learn</a>
+        <a href="#sec-hifz" data-dest="hifz"><span aria-hidden="true">🕌</span>My Hifz</a>
+        <button type="button" data-dest="awards"><span aria-hidden="true">⭐</span>My Achievements</button>
+        <button type="button" data-dest="garden"><span aria-hidden="true">🌴</span>My Jannah Garden</button>
+      </nav>
     </div>
    </div>
+    <div class="flow-main home-main">
+      <p class="preview-note" data-preview hidden>Preview: the Islamic Studies questions are the starter set and are waiting for a teacher's review.</p>
+      <section class="daily card" aria-labelledby="daily-h">
+        <div class="daily-head"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Today's Ta'aleem Challenge</p><h2 class="h2" id="daily-h">Three missions for today</h2></div>
+        <ol class="missions" data-missions></ol>
+      </section>
+      <section id="sec-hifz" class="home-sec"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Hifz</p><div class="acts" id="acts-hifz"></div></section>
+      <section id="sec-lessons" class="home-sec"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Lessons</p><div class="acts" id="acts-lessons"></div></section>
+      <section id="sec-play" class="home-sec"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Play &amp; Learn</p><div class="acts" id="acts-play"></div></section>
+    </div>
+  </section>
+
+  <!-- My Achievements ───────────────────────────────────── -->
+  <section class="screen flow" id="s-awards" hidden aria-labelledby="aw-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · My Achievements</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
     <div class="flow-main">
-      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Choose an activity</p>
-      <div class="acts" id="acts"></div>
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Achievements</p>
+      <h1 id="aw-h">Your stars and badges</h1>
+      <p class="muted lead">Stars are for finishing, for doing better than last time, and for practising often. They are yours alone: there is no class ranking.</p>
+      <div class="aw-stats" id="aw-stats"></div>
+      <section class="daily card"><div class="daily-head"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Today's Ta'aleem Challenge</p></div><ol class="missions" data-missions></ol></section>
+      <h2 class="h2">Badges</h2>
+      <div class="badges" id="aw-badges"></div>
+    </div>
+  </section>
+
+  <!-- My Jannah Garden: a picture of the student's learning ─ -->
+  <section class="screen flow" id="s-garden" hidden aria-labelledby="gd-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · My Jannah Garden</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Jannah Garden</p>
+      <h1 id="gd-h">Your learning garden</h1>
+      <p class="muted lead">Your garden grows as you learn: a flower for every game, a tree for every Qur'an activity, a date palm for every Alif Ba lesson, a lantern for every badge, and the kindness garden for good character. It is a picture of your learning, to remind you to keep going.</p>
+      <div class="lg-wrap"><svg class="lg" id="lg" viewBox="0 0 1200 520" role="img" aria-label="Your learning garden"></svg></div>
+      <div class="lg-key" id="lg-key"></div>
+    </div>
+  </section>
+
+  <!-- A chooser: the surah for Build the Ayah, the topic for Match the Deen ─ -->
+  <section class="screen flow" id="s-pick" hidden aria-labelledby="pk-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Play &amp; Learn</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span><span id="pk-game">Play &amp; Learn</span></p>
+      <h1 id="pk-h">Choose</h1>
+      <p class="muted lead" id="pk-text"></p>
+      <p class="preview-note" data-preview hidden>Preview: the Islamic Studies questions are the starter set and are waiting for a teacher's review.</p>
+      <div class="pk-grid" id="pk-grid"></div>
     </div>
   </section>
 
@@ -313,7 +378,7 @@ const levels = [
           <svg class="garden-arch" viewBox="0 0 800 46" aria-hidden="true"><g fill="none" stroke="#C9A24A" stroke-width="2"><path d="M0 40 H300 M500 40 H800"></path><path d="M300 40 Q300 6 400 6 Q500 6 500 40"></path><path d="M330 40 Q330 18 400 18 Q470 18 470 40"></path></g></svg>
           <p class="garden-dhikr" lang="ar" dir="rtl">سُبْحَانَ ٱللَّهِ وَبِحَمْدِهِ</p>
           <div class="plots" id="plots"></div>
-          <p class="garden-hadith">The Prophet ﷺ said: whoever says <i>SubhanAllahi wa bihamdihi</i>, a date palm is planted for him in Paradise. (At-Tirmidhi)</p>
+          <p class="garden-hadith">Each lesson you complete grows a date palm in your learning garden. Keep remembering Allah: <i>SubhanAllahi wa bihamdihi</i>.</p>
         </div>
       </section>
       <aside class="hub-side">
@@ -402,7 +467,8 @@ const levels = [
         <div class="g-stats" id="g-stats"></div>
         <p id="g-garden"></p>
         <p class="muted small" id="g-practise"></p>
-        <div class="row center"><button class="btn btn-primary big" type="button" id="g-again">Play again</button><button class="btn big" type="button" id="g-home">Back to my garden</button></div>
+        <div class="earned" id="g-earned" hidden></div>
+        <div class="row center"><button class="btn btn-primary big" type="button" id="g-again">Play again</button><button class="btn big" type="button" id="g-recite" hidden>Recite it to the Sheikh</button><button class="btn big" type="button" id="g-home">Back to my garden</button></div>
       </div>
     </div>
   </section>
@@ -447,6 +513,7 @@ const levels = [
         </div>
       </div>
       <aside class="r-side">
+        <div class="card earned" id="r-earned" hidden></div>
         <div class="card sent" id="r-sent" data-state="sending">
           <span class="sent-ic" aria-hidden="true"></span>
           <div>
@@ -468,7 +535,10 @@ const levels = [
     import { LESSONS, GAMES, SPEEDS, STOPS, DUAS, SURAHS, examples, forms, syllable, syllableItems, basketsFor } from '../lib/lessons.mjs';
     import { createRain, createMosaic, createBaskets, createPearls, playAyah, shuffle } from '../lib/games.mjs';
     import { LETTER_VOICES, letterVoice, setLetterVoice, letterSpoken, sayLetter, say, playUrl, stopSound } from '../lib/voice.mjs';
-    import { audioUrl } from '../lib/client.mjs';
+    import { audioUrl, getJson } from '../lib/client.mjs';
+    import { createDetective, createBuildAyah, createMatch, createJourney, createSalah, createAkhlaq, AYAH_SURAHS, PLACES } from '../lib/play.mjs';
+    import { loadBank, questions, topics, isPreview } from '../lib/questions.mjs';
+    import { BADGES, record, deedDone, rewardsOf, todaysMissions } from '../lib/rewards.mjs';
     import { startAmbience, stopAmbience, setMuted, isMuted, nasheed } from '../lib/ambience.mjs';
     import { openCamera, micMeter, snapshot, testTone } from '../lib/media.mjs';
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
@@ -875,6 +945,9 @@ const levels = [
       }
       if (!res.perAyah.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = 'No ayahs were recited.'; strip.append(p); }
       show('s-report');
+      if (t.words) showEarned($('r-earned'), record(progress, { kind: res.mode, key: `${res.mode}:${passage}`, score: Math.round((t.first / t.words) * 100), gardenPalms: palms() }));
+      else $('r-earned').hidden = true;
+      saveProgress({ token: me.token, username: me.username, progress });
       if (reciteLesson && !hifz) {   // Alif Ba, Lesson 18: a surah recited well grows the palm
         if (t.words && t.first / t.words >= 0.7) {
           progress.surahs = [...new Set([...(progress.surahs ?? []), reciteLesson.surah])];
@@ -942,7 +1015,7 @@ const levels = [
       const now = new Date();
       try { $('h-hijri').textContent = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(now).replace(/\s*AH$/, ''); } catch { $('h-hijri').textContent = ''; }
       $('h-greg').textContent = now.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
-      const box = $('acts'); box.replaceChildren();
+      for (const g of ['hifz', 'lessons', 'play']) $('acts-' + g).replaceChildren();
       for (const a of forLevel(me.level)) {
         const b = document.createElement('button');
         b.type = 'button'; b.className = 'act act-' + a.id + (a.kind === 'soon' ? ' soon' : '');
@@ -952,18 +1025,24 @@ const levels = [
         const d = document.createElement('span'); d.className = 'act-text'; d.textContent = a.kind === 'soon' ? 'Coming soon, in sha Allah.' : a.text;
         const go = document.createElement('span'); go.className = 'act-go'; go.setAttribute('aria-hidden', 'true');
         b.append(ic, ar, t, d, go);
+        if (a.suggested?.includes(me.level)) { const sg = document.createElement('span'); sg.className = 'act-tag'; sg.textContent = 'Suggested for your level'; b.append(sg); }
         if (a.kind === 'soon') b.disabled = true;
         else b.addEventListener('click', () => openActivity(a));
-        box.append(b);
+        $('acts-' + (a.group || 'play')).append(b);
       }
       show('s-home');
-      if (fresh) progress = await getProgress({ token: me.token, username: me.username });
+      if (fresh) {
+        progress = await getProgress({ token: me.token, username: me.username });
+        await loadBank(me.token);
+      }
+      renderDashboard();
     }
     let activity = null;
     function openActivity(a) {
       activity = a;
       if (a.kind === 'recite') { reciteLesson = null; choice.mode = a.mode; show('s-check'); startCheck(); }
       else if (a.kind === 'alifba') goHub();
+      else if (a.kind === 'play') openPlay(a);
     }
     function goHub() {
       stopSound();
@@ -1185,7 +1264,7 @@ const levels = [
       $('g-bubble').textContent = ar || '';
       $('g-bubble').title = en || '';
     }
-    function gameUi() {
+    function gameUi(finished = endGame) {
       return {
         sheikh: setGameSheikh,
         feedback: (t, kind) => { const f = $('g-feedback'); f.textContent = t; f.className = 'g-feedback ' + (kind || ''); },
@@ -1195,7 +1274,7 @@ const levels = [
           else { const d = $('g-dots'); d.replaceChildren(...Array.from({ length: st.rounds }, (_, i) => { const x = document.createElement('i'); x.className = i < st.first ? 'on' : i < st.round - 1 ? 'miss' : ''; return x; })); }
         },
         mic: () => {},
-        finished: (r) => endGame(r),
+        finished: (r) => finished(r),
       };
     }
     // Lesson 2: hear an opening, find it. Lesson 3: a letter's shape, find the letter. Lesson 8: speeds. Lesson 12: stopping.
@@ -1229,7 +1308,8 @@ const levels = [
       stopGame(); stopSound();
       const L = LESSONS[n - 1];
       if (L.game === 'surahs') { openLesson(n); return; }
-      gameLesson = n;
+      gameLesson = n; playCtx = null;
+      $('g-home').textContent = 'Back to my garden'; $('g-recite').hidden = true;
       const lv = me.level || 1, cfg = LEVEL_GAME[lv];
       $('g-name').textContent = GAMES[L.game].name;
       $('g-sub').textContent = `Lesson ${n} · ${L.name} · ${me.className || 'Level 1'}`;
@@ -1250,8 +1330,8 @@ const levels = [
       game.start();
     }
     function startGame() { startLessonGame(1); }
-    function stopGame() { game?.stop(); game = null; stopAmbience(); }
-    $('g-back').addEventListener('click', () => { stopGame(); openLesson(gameLesson); });
+    function stopGame() { game?.stop(); game = null; stopAmbience(); delete $('g-stage').dataset.answer; $('g-stage').replaceChildren(); }
+    $('g-back').addEventListener('click', () => { stopGame(); if (playCtx) goHome(); else openLesson(gameLesson); });
     $('g-hear').addEventListener('click', () => game?.replay());
     $('g-mute').addEventListener('click', () => {
       const m = !isMuted(); setMuted(m);
@@ -1290,14 +1370,201 @@ const levels = [
       }
       $('g-garden').textContent = gardenText;
       $('g-practise').textContent = r.practise.length ? `Practise these: ${r.practise.join('  ')}` : '';
+      showEarned($('g-earned'), record(progress, { kind: 'alifba', key: `alifba:${n}`, score: r.accuracy, good: r.accuracy >= 80, gardenPalms: palms() }));
       $('g-end').hidden = false;
       speak(pr);
       if (grewNow) nasheed('milestone');
       await saveProgress({ token: me.token, username: me.username, progress });
       logGame({ token: me.token, game: { game: GAMES[L.game].name, lesson: `Lesson ${n} · ${L.name}`, rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: r.score ?? '', practise: r.practise.join(' '), known: n === 1 ? r.known : '', minutes: r.minutes } });
     }
-    $('g-again').addEventListener('click', () => startLessonGame(gameLesson));
-    $('g-home').addEventListener('click', () => { stopGame(); goHub(); });
+    $('g-again').addEventListener('click', () => { if (playCtx) startPlay(playCtx); else startLessonGame(gameLesson); });
+    $('g-home').addEventListener('click', () => { stopGame(); if (playCtx) goHome(); else goHub(); });
+    $('g-recite').addEventListener('click', () => { const n = playCtx?.surah?.n; stopGame(); if (n) reciteSurah({ n, ayahs: surahName(n).ayahs }); });
+
+    // ── Ta'aleem Stars, the dashboard, My Achievements and My Jannah Garden ──
+    const palms = () => LESSONS.filter((L) => lessonStatus(L.n) === 'grown').length;
+    function showEarned(box, e) {
+      if (!e || !e.stars) { box.hidden = true; return; }
+      box.replaceChildren();
+      const h = document.createElement('p'); h.className = 'earned-h'; h.textContent = `+${e.stars} Ta'aleem Star${e.stars === 1 ? '' : 's'}`;
+      const ul = document.createElement('ul'); e.notes.forEach((n) => { const li = document.createElement('li'); li.textContent = n; ul.append(li); });
+      box.append(h, ul);
+      for (const b of e.badges) { const p = document.createElement('p'); p.className = 'earned-badge'; p.textContent = `${b.icon} New badge: ${b.name}`; box.append(p); }
+      box.hidden = false;
+      renderStars();
+    }
+    function renderStars() {
+      const r = rewardsOf(progress);
+      document.querySelectorAll('[data-stars]').forEach((x) => (x.textContent = `★ ${r.stars}`));
+      document.querySelectorAll('[data-stars-n]').forEach((x) => (x.textContent = String(r.stars)));
+      document.querySelectorAll('[data-streak]').forEach((x) => (x.textContent = String(r.streak)));
+    }
+    function renderMissions() {
+      const deeds = questions({ game: 'daily', kind: 'deed', level: me.level });
+      const ms = todaysMissions(progress, deeds, me.username);
+      document.querySelectorAll('[data-missions]').forEach((ol) => {
+        ol.replaceChildren(...ms.map((m) => {
+          const li = document.createElement('li'); li.className = 'mission' + (m.done ? ' done' : '');
+          const tick = document.createElement('span'); tick.className = 'm-tick'; tick.setAttribute('aria-hidden', 'true'); tick.textContent = m.done ? '✓' : '';
+          const body = document.createElement('div');
+          const b = document.createElement('b'); b.textContent = m.title;
+          const p = document.createElement('p'); p.textContent = m.text;
+          body.append(b, p);
+          li.append(tick, body);
+          if (m.key === 'character' && !m.done) {
+            const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'btn small-btn';
+            btn.textContent = 'I did it, alhamdulillah';
+            btn.addEventListener('click', async () => { const e = deedDone(progress); renderDashboard(); flash(e); await saveProgress({ token: me.token, username: me.username, progress }); });
+            li.append(btn);
+          }
+          return li;
+        }));
+      });
+    }
+    function flash(e) {
+      if (!e?.stars) return;
+      const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status');
+      t.textContent = `+${e.stars} Ta'aleem Star${e.stars === 1 ? '' : 's'}` + (e.badges.length ? ` · New badge: ${e.badges.map((b) => b.name).join(', ')}` : '');
+      document.body.append(t); setTimeout(() => t.remove(), 3800);
+    }
+    function renderDashboard() {
+      renderStars(); renderMissions();
+      document.querySelectorAll('[data-preview]').forEach((x) => (x.hidden = !isPreview()));
+    }
+    document.querySelectorAll('.dest [data-dest]').forEach((x) => x.addEventListener('click', (e) => {
+      const d = x.dataset.dest;
+      if (d === 'awards') openAwards();
+      else if (d === 'garden') openGarden();
+      else { e.preventDefault(); $('sec-' + d)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    }));
+    function openAwards() {
+      const r = rewardsOf(progress);
+      $('aw-stats').replaceChildren(...[['Ta’aleem Stars', r.stars], ['Days in a row', r.streak], ['Badges', `${Object.keys(r.badges).length} of ${BADGES.length}`], ['Activities finished', r.counts.all ?? 0]].map(([k, v]) => {
+        const d = document.createElement('div'); d.className = 'aw-stat'; const b = document.createElement('b'); b.textContent = String(v); const s2 = document.createElement('span'); s2.textContent = k; d.append(b, s2); return d;
+      }));
+      $('aw-badges').replaceChildren(...BADGES.map((b) => {
+        const got = r.badges[b.id];
+        const d = document.createElement('div'); d.className = 'badge' + (got ? ' got' : '');
+        const i = document.createElement('span'); i.className = 'b-ic'; i.textContent = b.icon; i.setAttribute('aria-hidden', 'true');
+        const n = document.createElement('b'); n.textContent = b.name;
+        const t = document.createElement('span'); t.textContent = got ? `Earned ${got}` : b.text;
+        d.append(i, n, t); return d;
+      }));
+      renderDashboard();
+      show('s-awards');
+    }
+    // the garden, drawn from the student's own progress
+    function openGarden() {
+      const r = rewardsOf(progress), c = r.counts;
+      const nPalms = palms(), trees = Math.min(12, c.quran ?? 0), kindness = Math.min(12, c.kindness ?? 0);
+      const flowers = Math.min(30, Math.max(0, (c.all ?? 0) - (c.quran ?? 0))), lanterns = Object.keys(r.badges).length;
+      const rnd = (k) => ((Math.sin(k * 999.7) + 1) / 2);
+      let svg = '<defs><linearGradient id="lgsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F231B"/><stop offset="1" stop-color="#1D3A2C"/></linearGradient></defs>'
+        + '<rect width="1200" height="520" fill="url(#lgsky)"/><circle cx="1080" cy="80" r="34" fill="#FBE3A6"/><circle cx="1096" cy="70" r="32" fill="#0F231B"/>'
+        + '<path d="M0 380 Q300 350 600 372 T1200 360 V520 H0 Z" fill="#2E5A3C"/><path d="M0 430 Q300 410 600 428 T1200 420 V520 H0 Z" fill="#3B6E4A"/>';
+      // decorations for steady practice
+      if (r.streak >= 3) svg += '<g transform="translate(600 392)"><ellipse rx="70" ry="16" fill="#9FCFE0"/><ellipse rx="70" ry="16" fill="none" stroke="#C29F4B" stroke-width="3"/><path d="M0 0 V-46" stroke="#C29F4B" stroke-width="5"/><ellipse cy="-48" rx="22" ry="7" fill="#C29F4B"/></g>';
+      if (r.streak >= 7) svg += '<path d="M520 380 V260 Q600 170 680 260 V380" fill="none" stroke="#C29F4B" stroke-width="7"/>';
+      for (let i = 0; i < nPalms; i++) { const x = 60 + i * 62; svg += `<g transform="translate(${x} 300)"><path d="M-3 80 Q-6 40 0 0 L4 0 Q2 40 5 80Z" fill="#8A5A12"/><g fill="#2E8B57"><path d="M2 0 Q-26 -18 -44 -2 Q-20 -8 2 4Z"/><path d="M2 0 Q30 -18 48 -2 Q24 -8 2 4Z"/><path d="M2 0 Q-12 -32 -30 -32 Q-10 -20 0 4Z"/><path d="M2 0 Q16 -32 34 -32 Q14 -20 4 4Z"/></g><g fill="#C9A24A"><circle cx="-4" cy="6" r="4"/><circle cx="7" cy="6" r="4"/></g></g>`; }
+      for (let i = 0; i < trees; i++) { const x = 760 + (i % 6) * 70, y = 330 + Math.floor(i / 6) * 40; svg += `<g transform="translate(${x} ${y})"><rect x="-4" y="0" width="8" height="40" fill="#6E4A22"/><circle cy="-10" r="28" fill="#3E8E5A"/><circle cx="-14" cy="0" r="18" fill="#357A4D"/><circle cx="14" cy="-2" r="18" fill="#4BA36A"/></g>`; }
+      for (let i = 0; i < flowers; i++) { const x = 40 + rnd(i + 1) * 1120, y = 440 + rnd(i + 50) * 60; svg += `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><path d="M0 0 V-16" stroke="#5CB85C" stroke-width="2"/><g fill="${['#FBE3A6', '#F4B6C2', '#FFFFFF', '#C9B6F4'][i % 4]}"><circle cy="-20" r="5"/><circle cx="-5" cy="-16" r="5"/><circle cx="5" cy="-16" r="5"/></g><circle cy="-17" r="3" fill="#C29F4B"/></g>`; }
+      if (kindness) { svg += '<rect x="40" y="250" width="300" height="40" rx="20" fill="rgba(255,255,255,.06)" stroke="rgba(244,182,194,.5)"/><text x="190" y="242" text-anchor="middle" fill="#F4B6C2" font-size="16" font-family="Manrope, sans-serif">Kindness garden</text>'; for (let i = 0; i < kindness; i++) svg += `<g transform="translate(${62 + i * 23} 282)"><path d="M0 0 V-12" stroke="#5CB85C" stroke-width="2"/><circle cy="-16" r="6" fill="#F4B6C2"/><circle cy="-16" r="2.5" fill="#C29F4B"/></g>`; }
+      for (let i = 0; i < lanterns; i++) { const x = 120 + i * 120; svg += `<g transform="translate(${x} 40)"><path d="M0 0 V24" stroke="#C29F4B" stroke-width="2"/><circle cx="0" cy="44" r="30" fill="#FBE3A6" opacity=".15"/><path d="M-8 24 H8 L14 44 L8 64 H-8 L-14 44 Z" fill="#FBE3A6" stroke="#C29F4B" stroke-width="2"/></g>`; }
+      if (!nPalms && !trees && !flowers && !kindness && !lanterns) svg += '<text x="600" y="250" text-anchor="middle" fill="#E8EDE9" font-size="26" font-family="Manrope, sans-serif">Your garden is ready. Finish an activity to plant your first flower.</text>';
+      $('lg').innerHTML = svg;
+      $('lg-key').replaceChildren(...[['🌸', 'Flowers', flowers], ['🌳', 'Qur’an trees', trees], ['🌴', 'Alif Ba palms', nPalms], ['🏮', 'Badge lanterns', lanterns], ['💗', 'Kindness flowers', kindness], ['⛲', r.streak >= 3 ? 'Fountain (3 days in a row)' : 'Fountain: learn 3 days in a row', r.streak >= 3 ? '✓' : '']].map(([i, k, v]) => {
+        const d = document.createElement('div'); d.textContent = `${i} ${k}${v !== '' ? ' · ' + v : ''}`; return d;
+      }));
+      show('s-garden');
+    }
+
+    // ── Play & Learn ──
+    let playCtx = null;
+    function pickScreen(title, game, text, items, onPick, empty) {
+      $('pk-game').textContent = game; $('pk-h').textContent = title; $('pk-text').textContent = text;
+      const grid = $('pk-grid'); grid.replaceChildren();
+      if (!items.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = empty; grid.append(p); }
+      for (const it of items) {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'lcard pk';
+        if (it.ar) { const a = document.createElement('span'); a.className = 'lc-ar'; a.lang = 'ar'; a.dir = 'rtl'; a.textContent = it.ar; b.append(a); }
+        const s1 = document.createElement('span'); s1.className = 'lc-sub'; s1.textContent = it.label; b.append(s1);
+        if (it.small) { const s2 = document.createElement('span'); s2.className = 'lc-small'; s2.textContent = it.small; b.append(s2); }
+        b.addEventListener('click', () => onPick(it));
+        grid.append(b);
+      }
+      renderDashboard();
+      show('s-pick');
+    }
+    const NOT_READY = 'Your teachers are still preparing these questions. Please check again soon, in sha Allah.';
+    function openPlay(a) {
+      const lv = me.level || 1;
+      if (a.game === 'ayah') {
+        return pickScreen('Choose a surah', 'Build the Ayah', 'Choose a surah you are learning. Put its ayahs together word by word, then listen to the Sheikh.',
+          AYAH_SURAHS[lv].map((n) => ({ n, ar: surahName(n).ar, label: `${n}. ${surahName(n).en}`, small: `${surahName(n).ayahs} ayahs` })),
+          async (it) => { const data = await getJson(`surah/${String(it.n).padStart(3, '0')}.json`); startPlay({ a, surah: data }); }, '');
+      }
+      if (a.game === 'match') {
+        const ts = topics('match', lv, 'pair').filter((t) => t.n >= 3);
+        return pickScreen('Choose a topic', 'Match the Deen', 'Turn over two cards at a time and find the matching pairs.',
+          ts.map((t) => ({ label: t.topic, small: `${t.n} pairs`, topic: t.topic })), (it) => startPlay({ a, topic: it.topic }), NOT_READY);
+      }
+      const need = { journey: questions({ game: 'journey', level: lv }).length >= 4, salah: questions({ game: 'salah', level: lv }).length >= 3, akhlaq: questions({ game: 'akhlaq', level: lv }).length >= 3, detective: true };
+      if (!need[a.game]) return pickScreen(a.title, a.title, '', [], () => {}, NOT_READY);
+      startPlay({ a });
+    }
+    function startPlay(ctx) {
+      stopGame(); stopSound();
+      playCtx = ctx;
+      const { a } = ctx, lv = me.level || 1, cfg = LEVEL_GAME[lv];
+      $('g-name').textContent = a.title;
+      $('g-sub').textContent = (ctx.surah ? `Surah ${ctx.surah.en} · ` : ctx.topic ? `${ctx.topic} · ` : '') + (me.className || 'Level 1');
+      $('g-end').hidden = true; $('g-feedback').textContent = '';
+      $('g-score').hidden = true; $('g-dots').hidden = false;
+      $('g-hear').hidden = !['detective', 'ayah'].includes(a.game);
+      $('g-home').textContent = 'Back to my Classroom';
+      $('g-recite').hidden = true;
+      $('s-game').dataset.level = String(lv); $('s-game').dataset.game = a.game;
+      show('s-game');
+      if (!isMuted()) startAmbience();
+      const common = { stage: $('g-stage'), level: lv, gender: me.gender, ui: gameUi(endPlay), reciter: reciter() };
+      if (a.game === 'detective') game = createDetective({ ...common, progress });
+      else if (a.game === 'ayah') game = createBuildAyah({ ...common, surah: ctx.surah });
+      else if (a.game === 'match') game = createMatch({ ...common, pairs: questions({ game: 'match', kind: 'pair', topic: ctx.topic, level: lv }) });
+      else if (a.game === 'journey') game = createJourney({ ...common, items: questions({ game: 'journey', level: lv }) });
+      else if (a.game === 'salah') game = createSalah({ ...common, items: questions({ game: 'salah', level: lv }) });
+      else if (a.game === 'akhlaq') game = createAkhlaq({ ...common, items: questions({ game: 'akhlaq', level: lv }) });
+      game.start();
+    }
+    async function endPlay(r) {
+      stopAmbience();
+      const ctx = playCtx, a = ctx.a;
+      const pr = phrase(r.accuracy >= 95 ? 'mumtaz' : r.accuracy >= 80 ? 'jayyid' : 'ahsant', me.gender);
+      $('g-praise').textContent = pr.ar;
+      const H = {
+        detective: `${r.first} of ${r.rounds} letters found first time`,
+        ayah: `Surah ${ctx.surah?.en}: ${r.first} of ${r.rounds} right first time`,
+        match: `All ${r.rounds} pairs found in ${r.moves} tries`,
+        journey: `You travelled ${r.reached} of 20 steps`,
+        salah: `${r.first} of ${r.rounds} right first time`,
+        akhlaq: `${r.first} of ${r.rounds} good choices first time`,
+      };
+      $('g-end-h').textContent = H[a.game];
+      $('g-stats').replaceChildren(...statBoxes([['Right first time', `${r.accuracy}%`], ['Time', `${r.minutes} min`]]));
+      let note = '';
+      if (a.game === 'detective') { const opened = game?.unlock?.(r.accuracy); note = opened ? `Masha’Allah! A new part of the alphabet garden is open: ${opened}` : (progress.detective?.part ?? 1) < 4 ? 'Get 80% right first time to open the next part of the alphabet garden.' : 'You have the whole alphabet garden open.'; }
+      if (a.game === 'ayah') note = 'Now recite it to the Sheikh: he will listen and follow every word.';
+      if (a.game === 'journey') note = r.reached >= 20 ? 'You reached the end of the journey. Masha’Allah!' : `You reached ${PLACES[Math.min(3, Math.floor(r.reached / 5))]}.`;
+      if (a.game === 'akhlaq') note = `${r.kindness} flower${r.kindness === 1 ? '' : 's'} grew in your kindness garden.`;
+      $('g-garden').textContent = note;
+      $('g-practise').textContent = a.game === 'detective' && r.practise.length ? `Practise these: ${r.practise.join('  ')}` : '';
+      $('g-recite').hidden = a.game !== 'ayah';
+      const key = a.game + (ctx.topic ? `:${ctx.topic}` : ctx.surah ? `:${ctx.surah.n}` : '');
+      showEarned($('g-earned'), record(progress, { kind: a.game, key, score: r.accuracy, good: r.accuracy >= 80, gardenPalms: palms() }));
+      $('g-end').hidden = false;
+      speak(pr);
+      await saveProgress({ token: me.token, username: me.username, progress });
+      logGame({ token: me.token, game: { game: a.title, lesson: ctx.topic || (ctx.surah ? `Surah ${ctx.surah.en}` : 'Play & Learn'), rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: '', practise: r.practise.join(' '), known: '', minutes: r.minutes } });
+    }
     addEventListener('beforeunload', (e) => { if (engine && engine.phase !== 'done') { e.preventDefault(); e.returnValue = ''; } });
   </script>
 </body>

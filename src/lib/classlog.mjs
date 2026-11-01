@@ -120,3 +120,12 @@ export async function logGame({ token, game }) {
   if (isDemo()) { console.info('[classroom] demo mode, game not saved:', game); return { ok: true, demo: true }; }
   try { return await post({ action: 'game', token, game }); } catch { return { ok: false }; }
 }
+
+// The approved questions from the "Question bank" tab of the admin sheet.
+export async function fetchQuestions({ token }) {
+  if (isDemo()) return { ok: true, demo: true, questions: null };
+  try {
+    const r = await post({ action: 'questions', token });
+    return r.ok ? { ok: true, questions: r.questions || [] } : { ok: false, questions: [] };
+  } catch { return { ok: false, questions: [] }; }
+}

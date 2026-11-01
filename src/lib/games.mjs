@@ -10,13 +10,13 @@ import { glow, soft } from './ambience.mjs';
 import { say, playUrl, stopSound } from './voice.mjs';
 import { audioUrl } from './client.mjs';
 
-const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+export const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+export const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 export const shuffle = (xs) => { const a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 // with ?test=1 in the address, the answer is marked on the page for the automated tests
 const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.search);
-const mark = (node, v) => { if (TEST) node.dataset.answer = String(v); };
-const pick = (xs, n, not = []) => shuffle(xs.filter((x) => !not.includes(x))).slice(0, n);
+export const mark = (node, v) => { if (TEST) node.dataset.answer = String(v); };
+export const pick = (xs, n, not = []) => shuffle(xs.filter((x) => !not.includes(x))).slice(0, n);
 
 // play the reciter's ayah for a Qur'an example (refs look like "2:27")
 export function playAyah(ref, reciter) {
@@ -25,7 +25,7 @@ export function playAyah(ref, reciter) {
 }
 
 // What every game shares: rounds, first-try answers, praise, and the end.
-function round0({ level, gender, ui, rounds }) {
+export function round0({ level, gender, ui, rounds }) {
   const cfg = LEVEL_GAME[level] ?? LEVEL_GAME[1];
   const g = { cfg, n: rounds ?? cfg.rounds, round: 0, first: 0, score: 0, streak: 0, done: false, attempts: 0, practise: new Set(), t0: Date.now() };
   g.status = () => ui.status?.({ round: g.round, rounds: g.n, first: g.first, score: g.score, streak: g.streak, showScore: cfg.score });

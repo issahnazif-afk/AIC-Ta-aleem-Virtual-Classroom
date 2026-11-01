@@ -1,0 +1,1794 @@
+[
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلرَّحْمَٰن · Ar-Rahman",
+"answer": "The Most Gracious",
+"wrong": [],
+"explain": "",
+"id": "Q001"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلرَّحِيم · Ar-Rahim",
+"answer": "The Most Merciful",
+"wrong": [],
+"explain": "",
+"id": "Q002"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلْمَلِك · Al-Malik",
+"answer": "The King",
+"wrong": [],
+"explain": "",
+"id": "Q003"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلْقُدُّوس · Al-Quddus",
+"answer": "The Most Holy",
+"wrong": [],
+"explain": "",
+"id": "Q004"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلسَّلَام · As-Salam",
+"answer": "The Source of Peace",
+"wrong": [],
+"explain": "",
+"id": "Q005"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلْخَالِق · Al-Khaliq",
+"answer": "The Creator",
+"wrong": [],
+"explain": "",
+"id": "Q006"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلرَّزَّاق · Ar-Razzaq",
+"answer": "The Provider",
+"wrong": [],
+"explain": "",
+"id": "Q007"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلْعَلِيم · Al-ʿAlim",
+"answer": "The All-Knowing",
+"wrong": [],
+"explain": "",
+"id": "Q008"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلسَّمِيع · As-Samiʿ",
+"answer": "The All-Hearing",
+"wrong": [],
+"explain": "",
+"id": "Q009"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلْبَصِير · Al-Basir",
+"answer": "The All-Seeing",
+"wrong": [],
+"explain": "",
+"id": "Q010"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلْغَفُور · Al-Ghafur",
+"answer": "The Most Forgiving",
+"wrong": [],
+"explain": "",
+"id": "Q011"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Names of Allah",
+"levels": "1-4",
+"prompt": "ٱلْوَدُود · Al-Wadud",
+"answer": "The Most Loving",
+"wrong": [],
+"explain": "",
+"id": "Q012"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "كِتَاب",
+"answer": "book",
+"wrong": [],
+"explain": "",
+"id": "Q013"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "قَلَم",
+"answer": "pen",
+"wrong": [],
+"explain": "",
+"id": "Q014"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "بَيْت",
+"answer": "house",
+"wrong": [],
+"explain": "",
+"id": "Q015"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "مَسْجِد",
+"answer": "masjid, place of prayer",
+"wrong": [],
+"explain": "",
+"id": "Q016"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "شَمْس",
+"answer": "sun",
+"wrong": [],
+"explain": "",
+"id": "Q017"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "قَمَر",
+"answer": "moon",
+"wrong": [],
+"explain": "",
+"id": "Q018"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "مَاء",
+"answer": "water",
+"wrong": [],
+"explain": "",
+"id": "Q019"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "بَاب",
+"answer": "door",
+"wrong": [],
+"explain": "",
+"id": "Q020"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "وَلَد",
+"answer": "boy",
+"wrong": [],
+"explain": "",
+"id": "Q021"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "بِنْت",
+"answer": "girl",
+"wrong": [],
+"explain": "",
+"id": "Q022"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "أُمّ",
+"answer": "mother",
+"wrong": [],
+"explain": "",
+"id": "Q023"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Arabic words",
+"levels": "1-4",
+"prompt": "أَب",
+"answer": "father",
+"wrong": [],
+"explain": "",
+"id": "Q024"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Adam (AS)",
+"answer": "The first human, created by Allah",
+"wrong": [],
+"explain": "",
+"id": "Q025"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Nuh (AS)",
+"answer": "Built the Ark",
+"wrong": [],
+"explain": "",
+"id": "Q026"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Ibrahim (AS)",
+"answer": "Built the Kaʿbah with his son Ismaʿil",
+"wrong": [],
+"explain": "",
+"id": "Q027"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Yusuf (AS)",
+"answer": "Was thrown into a well by his brothers",
+"wrong": [],
+"explain": "",
+"id": "Q028"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Musa (AS)",
+"answer": "Was given the Tawrah",
+"wrong": [],
+"explain": "",
+"id": "Q029"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Dawud (AS)",
+"answer": "Was given the Zabur",
+"wrong": [],
+"explain": "",
+"id": "Q030"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Sulayman (AS)",
+"answer": "Understood the speech of birds and ants",
+"wrong": [],
+"explain": "",
+"id": "Q031"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Yunus (AS)",
+"answer": "Was swallowed by a great fish",
+"wrong": [],
+"explain": "",
+"id": "Q032"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet ʿIsa (AS)",
+"answer": "Spoke as a baby in the cradle",
+"wrong": [],
+"explain": "",
+"id": "Q033"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Prophets",
+"levels": "2-4",
+"prompt": "Prophet Muhammad ﷺ",
+"answer": "The last Prophet, given the Qurʾan",
+"wrong": [],
+"explain": "",
+"id": "Q034"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "بِسْمِ ٱللَّهِ",
+"answer": "Before eating",
+"wrong": [],
+"explain": "",
+"id": "Q035"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "ٱلْحَمْدُ لِلَّهِ",
+"answer": "After eating",
+"wrong": [],
+"explain": "",
+"id": "Q036"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "بِٱسْمِكَ ٱللَّهُمَّ أَمُوتُ وَأَحْيَا",
+"answer": "Before sleeping",
+"wrong": [],
+"explain": "",
+"id": "Q037"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "ٱلْحَمْدُ لِلَّهِ ٱلَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ ٱلنُّشُورُ",
+"answer": "On waking up",
+"wrong": [],
+"explain": "",
+"id": "Q038"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "بِسْمِ ٱللَّهِ تَوَكَّلْتُ عَلَى ٱللَّهِ",
+"answer": "Leaving the house",
+"wrong": [],
+"explain": "",
+"id": "Q039"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "ٱللَّهُمَّ ٱفْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+"answer": "Entering the masjid",
+"wrong": [],
+"explain": "",
+"id": "Q040"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "رَبِّ زِدْنِي عِلْمًا",
+"answer": "Asking for more knowledge",
+"wrong": [],
+"explain": "",
+"id": "Q041"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "ٱلسَّلَامُ عَلَيْكُمْ",
+"answer": "Greeting a Muslim",
+"wrong": [],
+"explain": "",
+"id": "Q042"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Duas and when we say them",
+"levels": "1-4",
+"prompt": "جَزَاكَ ٱللَّهُ خَيْرًا",
+"answer": "Thanking someone",
+"wrong": [],
+"explain": "",
+"id": "Q043"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Salah",
+"answer": "The five daily prayers",
+"wrong": [],
+"explain": "",
+"id": "Q044"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Zakah",
+"answer": "Giving part of our wealth to people in need",
+"wrong": [],
+"explain": "",
+"id": "Q045"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Sawm",
+"answer": "Fasting in Ramadan",
+"wrong": [],
+"explain": "",
+"id": "Q046"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Hajj",
+"answer": "The pilgrimage to Makkah",
+"wrong": [],
+"explain": "",
+"id": "Q047"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Shahadah",
+"answer": "Declaring that there is no god but Allah and Muhammad ﷺ is His Messenger",
+"wrong": [],
+"explain": "",
+"id": "Q048"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Wudu",
+"answer": "Washing before prayer",
+"wrong": [],
+"explain": "",
+"id": "Q049"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Qiblah",
+"answer": "The direction of the Kaʿbah, which we face in prayer",
+"wrong": [],
+"explain": "",
+"id": "Q050"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Sunnah",
+"answer": "The way of the Prophet ﷺ",
+"wrong": [],
+"explain": "",
+"id": "Q051"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Hadith",
+"answer": "A report of what the Prophet ﷺ said or did",
+"wrong": [],
+"explain": "",
+"id": "Q052"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Iman",
+"answer": "Faith",
+"wrong": [],
+"explain": "",
+"id": "Q053"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Adhan",
+"answer": "The call to prayer",
+"wrong": [],
+"explain": "",
+"id": "Q054"
+},
+{
+"game": "match",
+"kind": "pair",
+"topic": "Islamic words",
+"levels": "2-4",
+"prompt": "Sadaqah",
+"answer": "Charity we give freely",
+"wrong": [],
+"explain": "",
+"id": "Q055"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "1-4",
+"prompt": "How many pillars of Islam are there?",
+"answer": "5",
+"wrong": [
+"3",
+"6",
+"10"
+],
+"explain": "The five pillars are the Shahadah, Salah, Zakah, Sawm and Hajj.",
+"id": "Q056"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "1-4",
+"prompt": "How many obligatory prayers do Muslims pray each day?",
+"answer": "5",
+"wrong": [
+"3",
+"2",
+"7"
+],
+"explain": "Fajr, Dhuhr, ʿAsr, Maghrib and ʿIsha.",
+"id": "Q057"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "2-4",
+"prompt": "Which pillar is the declaration of faith?",
+"answer": "Shahadah",
+"wrong": [
+"Sawm",
+"Hajj",
+"Zakah"
+],
+"explain": "The Shahadah is saying, and believing, that there is no god but Allah and that Muhammad ﷺ is His Messenger.",
+"id": "Q058"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "1-4",
+"prompt": "In which month do Muslims fast?",
+"answer": "Ramadan",
+"wrong": [
+"Shawwal",
+"Muharram",
+"Rajab"
+],
+"explain": "Fasting in Ramadan is one of the five pillars.",
+"id": "Q059"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "2-4",
+"prompt": "Where do Muslims go for Hajj?",
+"answer": "Makkah",
+"wrong": [
+"Madinah",
+"Jerusalem",
+"Cairo"
+],
+"explain": "Hajj is the pilgrimage to the Kaʿbah in Makkah.",
+"id": "Q060"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "2-4",
+"prompt": "Which pillar means giving part of your wealth to people in need?",
+"answer": "Zakah",
+"wrong": [
+"Salah",
+"Hajj",
+"Shahadah"
+],
+"explain": "Zakah purifies our wealth and helps those in need.",
+"id": "Q061"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "1-4",
+"prompt": "What is the first surah of the Qurʾan?",
+"answer": "Al-Fatihah",
+"wrong": [
+"Al-Baqarah",
+"An-Nas",
+"Al-Ikhlas"
+],
+"explain": "Al-Fatihah, “The Opening”, begins the Qurʾan and is recited in every rakʿah.",
+"id": "Q062"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "2-4",
+"prompt": "How many surahs are in the Qurʾan?",
+"answer": "114",
+"wrong": [
+"99",
+"30",
+"120"
+],
+"explain": "The Qurʾan has 114 surahs.",
+"id": "Q063"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "1-4",
+"prompt": "What is the last surah of the Qurʾan?",
+"answer": "An-Nas",
+"wrong": [
+"Al-Falaq",
+"Al-Fatihah",
+"Al-Ikhlas"
+],
+"explain": "An-Nas, “Mankind”, is the 114th surah.",
+"id": "Q064"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "1-4",
+"prompt": "To which Prophet was the Qurʾan revealed?",
+"answer": "Muhammad ﷺ",
+"wrong": [
+"Musa (AS)",
+"ʿIsa (AS)",
+"Ibrahim (AS)"
+],
+"explain": "The Qurʾan was revealed to the Prophet Muhammad ﷺ.",
+"id": "Q065"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "2-4",
+"prompt": "Which angel brought the revelation to the Prophet ﷺ?",
+"answer": "Jibril (AS)",
+"wrong": [
+"Mikaʾil (AS)",
+"Israfil (AS)",
+"Malik"
+],
+"explain": "The angel Jibril brought the revelation.",
+"id": "Q066"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "3-4",
+"prompt": "In which month did the revelation of the Qurʾan begin?",
+"answer": "Ramadan",
+"wrong": [
+"Dhul-Hijjah",
+"Muharram",
+"Shaʿban"
+],
+"explain": "The Qurʾan began to be revealed in Ramadan.",
+"id": "Q067"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "3-4",
+"prompt": "Which is the longest surah of the Qurʾan?",
+"answer": "Al-Baqarah",
+"wrong": [
+"Al-Fatihah",
+"Ya-Sin",
+"Al-Kahf"
+],
+"explain": "Al-Baqarah, the second surah, is the longest.",
+"id": "Q068"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "2-4",
+"prompt": "How many ayahs are in Surah Al-Fatihah?",
+"answer": "7",
+"wrong": [
+"5",
+"6",
+"10"
+],
+"explain": "Al-Fatihah has seven ayahs.",
+"id": "Q069"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Knowledge Garden",
+"levels": "1-4",
+"prompt": "Which surah begins “Say, He is Allah, the One”?",
+"answer": "Al-Ikhlas",
+"wrong": [
+"Al-Falaq",
+"An-Nas",
+"Al-Kawthar"
+],
+"explain": "Surah Al-Ikhlas, the 112th surah.",
+"id": "Q070"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Arabic Valley",
+"levels": "1-4",
+"prompt": "How many letters are in the Arabic alphabet?",
+"answer": "28",
+"wrong": [
+"26",
+"30",
+"24"
+],
+"explain": "There are 28 letters, from Alif to Ya.",
+"id": "Q071"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Arabic Valley",
+"levels": "1-4",
+"prompt": "What does كِتَاب mean?",
+"answer": "Book",
+"wrong": [
+"Pen",
+"House",
+"Door"
+],
+"explain": "كِتَاب (kitab) means book. The Qurʾan is called al-Kitab, the Book.",
+"id": "Q072"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Arabic Valley",
+"levels": "1-4",
+"prompt": "What does مَسْجِد mean?",
+"answer": "Place of prayer",
+"wrong": [
+"School",
+"Market",
+"Garden"
+],
+"explain": "مَسْجِد (masjid) is the place where Muslims pray together.",
+"id": "Q073"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Arabic Valley",
+"levels": "1-4",
+"prompt": "What does مَاء mean?",
+"answer": "Water",
+"wrong": [
+"Moon",
+"Sun",
+"Tree"
+],
+"explain": "مَاء (maʾ) means water.",
+"id": "Q074"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Arabic Valley",
+"levels": "2-4",
+"prompt": "Which sign makes a letter sound “i”?",
+"answer": "Kes-ra",
+"wrong": [
+"Fat-ha",
+"Dom-ma",
+"Sukun"
+],
+"explain": "Kes-ra is written below the letter and gives the sound “i”.",
+"id": "Q075"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Arabic Valley",
+"levels": "2-4",
+"prompt": "Which letters are the Madd letters?",
+"answer": "ا و ي",
+"wrong": [
+"ب ت ث",
+"ر ز س",
+"ل م ن"
+],
+"explain": "Alif, waw and ya without a vowel of their own lengthen the sound.",
+"id": "Q076"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Arabic Valley",
+"levels": "3-4",
+"prompt": "Which letter comes after nun with sukun in Iqlab?",
+"answer": "ب",
+"wrong": [
+"ل",
+"م",
+"ع"
+],
+"explain": "Before ب, the nun becomes a meem sound with ghunnah.",
+"id": "Q077"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "1-4",
+"prompt": "In which city was the Prophet Muhammad ﷺ born?",
+"answer": "Makkah",
+"wrong": [
+"Madinah",
+"Taʾif",
+"Jerusalem"
+],
+"explain": "The Prophet ﷺ was born in Makkah.",
+"id": "Q078"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "2-4",
+"prompt": "What was the name of the Prophet’s mother?",
+"answer": "Aminah",
+"wrong": [
+"Khadijah",
+"Fatimah",
+"Halimah"
+],
+"explain": "His mother was Aminah bint Wahb.",
+"id": "Q079"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "2-4",
+"prompt": "To which city did the Prophet ﷺ make the Hijrah?",
+"answer": "Madinah",
+"wrong": [
+"Taʾif",
+"Jerusalem",
+"Damascus"
+],
+"explain": "The Prophet ﷺ migrated from Makkah to Madinah.",
+"id": "Q080"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "2-4",
+"prompt": "Who was the first wife of the Prophet ﷺ?",
+"answer": "Khadijah (RA)",
+"wrong": [
+"ʿAʾishah (RA)",
+"Hafsah (RA)",
+"Sawdah (RA)"
+],
+"explain": "Khadijah (RA) was his first wife and the first to believe in him.",
+"id": "Q081"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "3-4",
+"prompt": "In which cave did the first revelation come?",
+"answer": "Hira",
+"wrong": [
+"Thawr",
+"Uhud",
+"ʿArafat"
+],
+"explain": "The first revelation came in the cave of Hira, on Jabal an-Nur.",
+"id": "Q082"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "1-4",
+"prompt": "Which Prophet built the Ark?",
+"answer": "Nuh (AS)",
+"wrong": [
+"Musa (AS)",
+"Yunus (AS)",
+"ʿIsa (AS)"
+],
+"explain": "Allah commanded Prophet Nuh to build the Ark.",
+"id": "Q083"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "1-4",
+"prompt": "Which Prophet was swallowed by a great fish?",
+"answer": "Yunus (AS)",
+"wrong": [
+"Yusuf (AS)",
+"Nuh (AS)",
+"Adam (AS)"
+],
+"explain": "Prophet Yunus called on Allah from inside the fish, and Allah saved him.",
+"id": "Q084"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "1-4",
+"prompt": "Who was the first human and the first Prophet?",
+"answer": "Adam (AS)",
+"wrong": [
+"Nuh (AS)",
+"Ibrahim (AS)",
+"Idris (AS)"
+],
+"explain": "Adam (AS) was the first human, created by Allah.",
+"id": "Q085"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "2-4",
+"prompt": "Which Prophet built the Kaʿbah with his son Ismaʿil?",
+"answer": "Ibrahim (AS)",
+"wrong": [
+"Musa (AS)",
+"Dawud (AS)",
+"Nuh (AS)"
+],
+"explain": "Prophet Ibrahim and his son Ismaʿil raised the foundations of the Kaʿbah.",
+"id": "Q086"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "2-4",
+"prompt": "Which Prophet was thrown into a well by his brothers?",
+"answer": "Yusuf (AS)",
+"wrong": [
+"Yunus (AS)",
+"Ayyub (AS)",
+"Harun (AS)"
+],
+"explain": "Prophet Yusuf was patient, and Allah raised him to honour in Egypt.",
+"id": "Q087"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "3-4",
+"prompt": "Which Prophet is known for his patience through a long illness?",
+"answer": "Ayyub (AS)",
+"wrong": [
+"Yusuf (AS)",
+"Lut (AS)",
+"Hud (AS)"
+],
+"explain": "Prophet Ayyub stayed patient and thankful to Allah.",
+"id": "Q088"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Seerah Library",
+"levels": "3-4",
+"prompt": "Which Prophet’s brother Harun helped him?",
+"answer": "Musa (AS)",
+"wrong": [
+"Ismaʿil (AS)",
+"Yahya (AS)",
+"Shuʿayb (AS)"
+],
+"explain": "Prophet Musa asked Allah to make his brother Harun his helper.",
+"id": "Q089"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "1-4",
+"prompt": "What do we say before we start eating?",
+"answer": "Bismillah",
+"wrong": [
+"Alhamdulillah",
+"SubhanAllah",
+"Allahu Akbar"
+],
+"explain": "We begin in the Name of Allah.",
+"id": "Q090"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "1-4",
+"prompt": "Which hand do we eat with?",
+"answer": "The right hand",
+"wrong": [
+"The left hand"
+],
+"explain": "The Prophet ﷺ taught us to eat with the right hand.",
+"id": "Q091"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "1-4",
+"prompt": "How do we greet another Muslim?",
+"answer": "Assalamu ʿalaykum",
+"wrong": [
+"Good luck",
+"Jazakallahu khayran",
+"Bismillah"
+],
+"explain": "Spreading salam brings people closer together.",
+"id": "Q092"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "2-4",
+"prompt": "Someone sneezes and says “Alhamdulillah”. What do we reply?",
+"answer": "Yarhamukallah",
+"wrong": [
+"Bismillah",
+"Allahu Akbar",
+"Inshaʾ Allah"
+],
+"explain": "We say “Yarhamukallah”, may Allah have mercy on you.",
+"id": "Q093"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "1-4",
+"prompt": "What do we say about something we plan to do later?",
+"answer": "Inshaʾ Allah",
+"wrong": [
+"Mashaʾ Allah",
+"SubhanAllah",
+"Astaghfirullah"
+],
+"explain": "Inshaʾ Allah: if Allah wills.",
+"id": "Q094"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "1-4",
+"prompt": "What do we say when we see something beautiful?",
+"answer": "Mashaʾ Allah",
+"wrong": [
+"Astaghfirullah",
+"Bismillah",
+"Inshaʾ Allah"
+],
+"explain": "Mashaʾ Allah: it is what Allah has willed.",
+"id": "Q095"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "2-4",
+"prompt": "What do we say when we ask Allah to forgive us?",
+"answer": "Astaghfirullah",
+"wrong": [
+"Alhamdulillah",
+"Mashaʾ Allah",
+"Inshaʾ Allah"
+],
+"explain": "Astaghfirullah: I seek Allah’s forgiveness.",
+"id": "Q096"
+},
+{
+"game": "journey",
+"kind": "choice",
+"topic": "Garden of Good Manners",
+"levels": "1-4",
+"prompt": "What must we do before we pray?",
+"answer": "Make wudu",
+"wrong": [
+"Eat a meal",
+"Go for a run",
+"Sleep"
+],
+"explain": "Wudu, washing in the way we are taught, comes before Salah.",
+"id": "Q097"
+},
+{
+"game": "salah",
+"kind": "order",
+"topic": "The steps",
+"levels": "1-4",
+"prompt": "The first rakʿah, in order",
+"answer": "Make the intention (niyyah) | Say “Allahu Akbar” (takbir) | Stand and recite Subhanaka and Al-Fatihah, then a surah | Bow (rukuʿ): “Subhana Rabbiyal ʿAzim” | Rise: “Samiʿ Allahu liman hamidah” | Prostrate (sujud): “Subhana Rabbiyal Aʿla” | Sit between the two sujud | Prostrate a second time",
+"wrong": [],
+"explain": "Please check the order and wording with your teacher’s method of teaching Salah.",
+"id": "Q098"
+},
+{
+"game": "salah",
+"kind": "order",
+"topic": "The steps",
+"levels": "2-4",
+"prompt": "The end of a two-rakʿah prayer, in order",
+"answer": "Second rakʿah: Al-Fatihah and a surah | Bow (rukuʿ) | Rise from rukuʿ | Two sujud | Sit and recite At-Tahiyyat | Recite the Salat Ibrahimiyya | Make a duʿa | Salam to the right | Salam to the left",
+"wrong": [],
+"explain": "",
+"id": "Q099"
+},
+{
+"game": "salah",
+"kind": "pair",
+"topic": "What we say, and when",
+"levels": "1-4",
+"prompt": "Allahu Akbar",
+"answer": "Starting the prayer (takbir)",
+"wrong": [],
+"explain": "",
+"id": "Q100"
+},
+{
+"game": "salah",
+"kind": "pair",
+"topic": "What we say, and when",
+"levels": "1-4",
+"prompt": "Al-Fatihah",
+"answer": "Standing (qiyam)",
+"wrong": [],
+"explain": "",
+"id": "Q101"
+},
+{
+"game": "salah",
+"kind": "pair",
+"topic": "What we say, and when",
+"levels": "1-4",
+"prompt": "Subhana Rabbiyal ʿAzim",
+"answer": "Bowing (rukuʿ)",
+"wrong": [],
+"explain": "",
+"id": "Q102"
+},
+{
+"game": "salah",
+"kind": "pair",
+"topic": "What we say, and when",
+"levels": "1-4",
+"prompt": "Samiʿ Allahu liman hamidah",
+"answer": "Rising from rukuʿ",
+"wrong": [],
+"explain": "",
+"id": "Q103"
+},
+{
+"game": "salah",
+"kind": "pair",
+"topic": "What we say, and when",
+"levels": "1-4",
+"prompt": "Subhana Rabbiyal Aʿla",
+"answer": "Prostration (sujud)",
+"wrong": [],
+"explain": "",
+"id": "Q104"
+},
+{
+"game": "salah",
+"kind": "pair",
+"topic": "What we say, and when",
+"levels": "1-4",
+"prompt": "At-Tahiyyat",
+"answer": "Sitting at the end",
+"wrong": [],
+"explain": "",
+"id": "Q105"
+},
+{
+"game": "salah",
+"kind": "pair",
+"topic": "What we say, and when",
+"levels": "1-4",
+"prompt": "Assalamu ʿalaykum wa rahmatullah",
+"answer": "Ending the prayer",
+"wrong": [],
+"explain": "",
+"id": "Q106"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "1-4",
+"prompt": "How many obligatory (fard) rakʿahs are in Fajr?",
+"answer": "2",
+"wrong": [
+"3",
+"4"
+],
+"explain": "Fajr has two fard rakʿahs.",
+"id": "Q107"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "1-4",
+"prompt": "How many obligatory (fard) rakʿahs are in Dhuhr?",
+"answer": "4",
+"wrong": [
+"2",
+"3"
+],
+"explain": "Dhuhr has four fard rakʿahs.",
+"id": "Q108"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "2-4",
+"prompt": "How many obligatory (fard) rakʿahs are in ʿAsr?",
+"answer": "4",
+"wrong": [
+"2",
+"3"
+],
+"explain": "ʿAsr has four fard rakʿahs.",
+"id": "Q109"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "1-4",
+"prompt": "How many obligatory (fard) rakʿahs are in Maghrib?",
+"answer": "3",
+"wrong": [
+"2",
+"4"
+],
+"explain": "Maghrib has three fard rakʿahs.",
+"id": "Q110"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "2-4",
+"prompt": "How many obligatory (fard) rakʿahs are in ʿIsha?",
+"answer": "4",
+"wrong": [
+"2",
+"3"
+],
+"explain": "ʿIsha has four fard rakʿahs.",
+"id": "Q111"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "1-4",
+"prompt": "Which prayer is prayed before sunrise?",
+"answer": "Fajr",
+"wrong": [
+"Dhuhr",
+"ʿIsha"
+],
+"explain": "Fajr is the dawn prayer.",
+"id": "Q112"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "1-4",
+"prompt": "Which prayer is prayed just after sunset?",
+"answer": "Maghrib",
+"wrong": [
+"ʿAsr",
+"Fajr"
+],
+"explain": "Maghrib comes right after the sun sets.",
+"id": "Q113"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "1-4",
+"prompt": "Which direction do we face when we pray?",
+"answer": "The Qiblah, towards the Kaʿbah",
+"wrong": [
+"Any direction",
+"Towards the sunrise"
+],
+"explain": "Muslims everywhere face the Kaʿbah in Makkah.",
+"id": "Q114"
+},
+{
+"game": "salah",
+"kind": "choice",
+"topic": "Prayer facts",
+"levels": "1-4",
+"prompt": "What do we do before Salah to be clean?",
+"answer": "Wudu",
+"wrong": [
+"Eat",
+"Sleep"
+],
+"explain": "Wudu is the washing we do before prayer.",
+"id": "Q115"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "Your friend falls over in the playground. What do you do?",
+"answer": "Help them up and check they are okay",
+"wrong": [
+"Laugh with the others",
+"Walk away",
+"Tell them to watch where they go"
+],
+"explain": "Muslims look after one another, like one body.",
+"id": "Q116"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "You find a wallet on the floor at the masjid. What do you do?",
+"answer": "Give it to the imam or a teacher so it can be returned",
+"wrong": [
+"Keep it",
+"Take the money and leave the wallet",
+"Hide it somewhere"
+],
+"explain": "Returning what belongs to someone else is keeping an amanah, a trust.",
+"id": "Q117"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "Your mother asks for help setting the table while you are playing. What do you do?",
+"answer": "Stop and help her with a smile",
+"wrong": [
+"Pretend you did not hear",
+"Say “later” and forget",
+"Complain loudly"
+],
+"explain": "Allah tells us to be kind and good to our parents.",
+"id": "Q118"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "A classmate gives a wrong answer and others laugh. What do you do?",
+"answer": "Encourage them kindly",
+"wrong": [
+"Laugh too",
+"Tell everyone about it later",
+"Make a joke about it"
+],
+"explain": "Making fun of others hurts them; a kind word lifts them up.",
+"id": "Q119"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "A new student is sitting alone at lunch. What do you do?",
+"answer": "Invite them to sit with you",
+"wrong": [
+"Leave them alone",
+"Whisper about them",
+"Take their seat"
+],
+"explain": "Welcoming others and making them feel included is good character.",
+"id": "Q120"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "2-4",
+"prompt": "Someone is calling another child names. What do you do?",
+"answer": "Speak up kindly and tell a teacher",
+"wrong": [
+"Join in",
+"Laugh along",
+"Film it on a phone"
+],
+"explain": "We stand up for others and never take part in bullying.",
+"id": "Q121"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "You broke your sister’s toy by accident. What do you do?",
+"answer": "Tell the truth and say sorry",
+"wrong": [
+"Hide it",
+"Blame someone else",
+"Say nothing"
+],
+"explain": "Honesty is part of a Muslim’s character, even when it is hard.",
+"id": "Q122"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "An elderly neighbour is carrying heavy shopping. What do you do?",
+"answer": "Offer to help carry it",
+"wrong": [
+"Watch from the window",
+"Hurry past",
+"Ask to be paid first"
+],
+"explain": "Islam teaches us to honour our elders and be good to our neighbours.",
+"id": "Q123"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "You have sweets and your brother has none. What do you do?",
+"answer": "Share with him",
+"wrong": [
+"Eat them all quickly",
+"Hide them",
+"Show them off"
+],
+"explain": "Sharing brings love between family members.",
+"id": "Q124"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "2-4",
+"prompt": "You hear the adhan while you are playing a game. What do you do?",
+"answer": "Pause the game and get ready to pray",
+"wrong": [
+"Turn up the volume",
+"Keep playing until it ends",
+"Say you will pray much later"
+],
+"explain": "Answering the call to prayer shows our love for Allah.",
+"id": "Q125"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "2-4",
+"prompt": "Someone is rude to you. What do you do?",
+"answer": "Stay calm and answer kindly",
+"wrong": [
+"Shout back",
+"Push them",
+"Be rude to them next time"
+],
+"explain": "Controlling our anger and answering with kindness is strength.",
+"id": "Q126"
+},
+{
+"game": "akhlaq",
+"kind": "choice",
+"topic": "What would you do?",
+"levels": "1-4",
+"prompt": "You want to use something that belongs to your friend. What do you do?",
+"answer": "Ask permission first",
+"wrong": [
+"Take it while they are not looking",
+"Hide it for later",
+"Use it and say nothing"
+],
+"explain": "We respect what belongs to others and ask before we take.",
+"id": "Q127"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Say salam to everyone in your family today",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q128"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Help at home without being asked",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q129"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Say Bismillah before every meal today",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q130"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Make duʿa for your parents",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q131"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Smile at someone and say something kind",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q132"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Thank someone and say “Jazakallahu khayran”",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q133"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Tidy your room",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q134"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Listen to or read a short surah",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q135"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Give something to someone who needs it",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q136"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Say “Alhamdulillah” for three blessings you have",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q137"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Help a younger brother, sister or friend",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q138"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Speak kindly all day",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q139"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Make wudu carefully before a prayer",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q140"
+},
+{
+"game": "daily",
+"kind": "deed",
+"topic": "Character mission",
+"levels": "1-4",
+"prompt": "Forgive someone who upset you",
+"answer": "",
+"wrong": [],
+"explain": "",
+"id": "Q141"
+}
+]

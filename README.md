@@ -178,6 +178,58 @@ ta-heavy (ط), dha-heavy (ظ), ayn, ghayn, fa, qaf, kaf, lam, mim, nun, ha (ه),
 Mujawwadah, the Hifz test and every Alif Ba page have a **Page colour** choice: cream (the default), white, sepia,
 soft green, or night. It is remembered on that computer.
 
+## Play & Learn, Ta'aleem Stars and the daily challenge
+
+From the **AICWIS Ta'aleem Virtual Classroom Interactive Learning Proposal** (Phases 1 and 2). After signing in,
+the dashboard has the proposal's five destinations: **My Lessons** (Alif Ba), **Play & Learn**, **My Hifz**
+(Hifz test, Mujawwadah), **My Achievements** and **My Jannah Garden**, with **Today's Ta'aleem Challenge** above
+them.
+
+| Game | What the student does | Content from |
+|---|---|---|
+| Arabic Letter Detective | Hear a letter and find it; find a letter by its name; name a letter; find the missing letter in a row; tell look-alike letters apart. Letters the student misses come back more often. The alphabet garden opens in four parts of seven letters: 80% right first time opens the next part (Levels 3–4 start with all 28). | The app (letters and their clips) |
+| Build the Ayah | Choose a short surah, then put each ayah's words in order, find a missing word, choose which ayah comes next (Level 3+), or put ayahs in order (Level 4). After each ayah the reciter recites it, and at the end the student can recite the surah to the Sheikh. | The Tanzil text, never typed by hand |
+| Match the Deen | Memory cards: Names of Allah, Arabic words, Prophets, duas and when we say them, Islamic words. | Question bank |
+| Journey to Knowledge | A 20-step journey through the Knowledge Garden, Arabic Valley, Seerah Library and the Garden of Good Manners; each right answer moves one step, with a bonus step at each place. | Question bank |
+| Salah Master | Put the steps of the prayer in order, say when each recitation is said, answer prayer facts. | Question bank |
+| Akhlaq Heroes | Everyday situations: what would you do? Good choices grow a kindness garden. | Question bank |
+
+All of them use the student's level for difficulty and content, explain every answer kindly, show the answer after
+two tries, and have a **Read it to me** button for young readers. None of them use the camera, and none is a speed
+race: there are no timers on Qur'an or dhikr content.
+
+**The Question bank** lives in the admin sheet, where teachers approve, edit and add questions. Only approved rows
+reach students. The starter set (141 rows) is in `src/data/question-bank.json`, written by
+`scripts/questions/starter.py`; every row starts as *Review*. See `apps-script/README.md`. Without a class log
+connected (demo mode) the starter set is shown with a *Preview* note.
+
+**Ta'aleem Stars** are one reward system for every activity: a star for finishing, one for a strong result, one for
+doing better than your last try, one for each daily mission, and two more for finishing all three missions in a day.
+Hifz and Mujawwadah sessions earn stars for finishing and for improving, never for being compared with anyone.
+There is no class ranking.
+
+| Badge | How |
+|---|---|
+| First Steps | Complete your first activity |
+| Quran Explorer | Five Qur'an activities (Hifz, Mujawwadah, Build the Ayah) |
+| Lantern Keeper | Ten activities |
+| Kindness Champion | Five Akhlaq Heroes games or character missions |
+| Daily Achiever | All three missions in one day |
+| Steady Steps | Seven days in a row |
+| Garden Grower | Five Alif Ba palms |
+| Rising Star | Doing better than your last try three times |
+
+**Today's Ta'aleem Challenge**: a Qur'an mission (recite to the Sheikh, or Build the Ayah), a knowledge mission (any
+knowledge game or Alif Ba game) and a character mission (a good deed from the Question bank's `daily` rows, marked
+by the student, or a game of Akhlaq Heroes). Missions tick themselves off as the student plays.
+
+**My Jannah Garden** is a picture of the student's learning, not a picture of Jannah: a flower for every game, a
+tree for every Qur'an activity, a date palm for every Alif Ba lesson, a lantern for every badge, a kindness garden,
+and a fountain and an arch for learning several days in a row.
+
+Teachers see each student's stars, badges and day streak in the Students tab, and every game in the Games tab of the
+class log.
+
 ## The Sheikh's voice and praise
 
 The Sheikh speaks to each student in their own gender, chosen when they create their account:
@@ -275,6 +327,10 @@ src/styles/aic.css           the Al-Huda look (alhudaislamiccentre.ca), the mush
 src/lib/lessons.mjs          the 18 Alif Ba lessons; src/data/alifba-examples.json, their Qur'an examples
 src/lib/games.mjs            Rain of Mercy, Mosaic Maker, Date Baskets, String of Pearls (lanterns.mjs: Noor Lanterns)
 src/lib/voice.mjs            the Sheikh's voice for letters: teacher recording, else clip, else browser voice
+src/lib/play.mjs             Play & Learn: Letter Detective, Build the Ayah, Match the Deen, Journey, Salah Master, Akhlaq Heroes
+src/lib/questions.mjs        the teachers' Question bank (approved rows only); src/data/question-bank.json, the starter set
+src/lib/rewards.mjs          Ta'aleem Stars, badges and the daily challenge
+scripts/questions/starter.py writes the starter Question bank (and its copy in apps-script/Code.gs)
 src/lib/engine.mjs           the Sheikh: questions, listening, prompting, marking (from the Hifz test page)
 src/lib/recite.mjs, follow.mjs, mushaf.mjs, asr-local.mjs   shared with the main app, unchanged
 src/lib/gaze.mjs             look-away check (MediaPipe Face Landmarker)
