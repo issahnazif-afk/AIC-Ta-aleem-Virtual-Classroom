@@ -454,6 +454,16 @@ const levels = [
           <p class="lt-name" id="ls-said" lang="ar" dir="rtl"></p>
           <p class="lt-latin" id="ls-latin"></p>
           <p class="muted small ls-note" id="ls-note"></p>
+          <figure class="mk" id="ls-mk" hidden>
+            <div id="ls-mk-svg"></div>
+            <figcaption>
+              <span class="mk-k">Where the sound comes from</span>
+              <b id="ls-mk-where"></b>
+              <span class="mk-ar" lang="ar" dir="rtl" id="ls-mk-ar"></span>
+              <span class="mk-how" id="ls-mk-how"></span>
+              <span class="mk-heavy" id="ls-mk-heavy" hidden>A heavy letter: the back of the tongue rises, so the sound is full and deep.</span>
+            </figcaption>
+          </figure>
           <button class="btn btn-primary big" type="button" id="ls-hear">Hear the Sheikh</button>
           <div class="ls-game">
             <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Game</p>
@@ -580,6 +590,7 @@ const levels = [
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
     import { getSpeechRecognition, prepareFastListening } from '../lib/speech.mjs';
     import { forLevel, ICONS } from '../lib/activities.mjs';
+    import { makhrajOf, makhrajSvg } from '../lib/makhraj.mjs';
     import { EPISODES as SQ_EPISODES, LATER as SQ_LATER } from '../lib/seerah/episodes.mjs';
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
@@ -1244,11 +1255,22 @@ const levels = [
       showItem(selItem, false);
       board.querySelectorAll('.lcard').forEach((c, i) => c.classList.toggle('sel', first[i] === selItem && L.board !== 'stops'));
     }
+    function showMakhraj(it) {
+      const m = makhrajOf(it.file);
+      if (!m) return;
+      $('ls-mk-svg').innerHTML = makhrajSvg(it.file);
+      $('ls-mk-where').textContent = m.place.en.charAt(0).toUpperCase() + m.place.en.slice(1) + (m.nose ? ', and the nose' : '');
+      $('ls-mk-ar').textContent = m.place.ar;
+      $('ls-mk-how').textContent = m.how;
+      $('ls-mk-heavy').hidden = !m.heavy;
+      $('ls-mk').hidden = false;
+    }
     function showItem(it, speakIt) {
       const L = LESSONS[selLesson - 1];
       selItem = it;
       const big = $('ls-big'), said = $('ls-said'), lat = $('ls-latin'), note = $('ls-note'), hear = $('ls-hear');
       hear.hidden = false; hear.textContent = 'Hear the Sheikh'; note.textContent = '';
+      $('ls-mk').hidden = true;
       $('ls-big').parentElement.hidden = false;
       if (!it) {
         big.textContent = ''; said.textContent = ''; lat.textContent = ''; big.parentElement.hidden = true; hear.hidden = true;
@@ -1263,6 +1285,7 @@ const levels = [
         lat.textContent = letterVoice() === 'first' ? `Say: ${sp.latin}  ·  ${it.latin}` : `${it.latin} · ${LETTER_VOICES.find(([k]) => k === letterVoice())[1].split(' (')[0]}`;
         const n = progress.letters?.[it.letter] ?? 0;
         note.textContent = n >= MASTERED ? 'Known, masha’Allah ★★' : n === 1 ? 'Lit once ★ · once more to know it' : 'Not lit yet';
+        showMakhraj(it);
         if (speakIt) sayLetter(it);
       } else if (L.board === 'forms') {
         const sp = letterSpoken(it);

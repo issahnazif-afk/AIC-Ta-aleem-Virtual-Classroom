@@ -154,6 +154,14 @@ On the letter pages a drop-down chooses how the Sheikh says each letter. It is r
 - **Pure sound, with sukun**: *ab, at, ath*, the letter held on its own point of articulation.
 - **Letter names**: *Alif, Ba, Ta*.
 
+### Where the sound comes from (makhraj)
+
+When a student picks a letter in Lesson 1, the side card shows a simple drawing of the mouth and throat with the
+letter's place lit up (the nose too, for the humming of ن and م), its name in Arabic (e.g. طَرَفُ اللِّسَان), and one
+sentence on how to make the sound. Heavy letters (خ ص ض غ ط ق ظ) say that the back of the tongue rises. The places
+follow the 17 makharij of Ibn al-Jazari's *Muqaddimah*; the drawing and the words are our own
+(`src/lib/makhraj.mjs`), so a teacher can change any sentence there.
+
 ### The Sheikh's voice for letters and syllables
 
 So the Sheikh is heard on every computer (Chrome on Windows has no Arabic voice of its own), every letter sound,
@@ -377,6 +385,7 @@ src/lib/play.mjs             Play & Learn: Letter Detective, Build the Ayah, Mat
 src/lib/questions.mjs        the teachers' Question bank (approved rows only); src/data/question-bank.json, the starter set
 src/lib/rewards.mjs          Ta'aleem Stars, badges and the daily challenge
 src/lib/studio.mjs           the Voice Studio, where teachers record the Sheikh's voice
+src/lib/makhraj.mjs          where each letter's sound comes from: the 17 makharij, the drawing and how-to sentences
 src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley), episodes.mjs (the steps), quest.mjs (the player)
 scripts/questions/starter.py writes the starter Question bank (and its copy in apps-script/Code.gs)
 src/lib/engine.mjs           the Sheikh: questions, listening, prompting, marking (from the Hifz test page)
