@@ -108,11 +108,20 @@ approved pairs for the level; Journey to Knowledge needs four questions, Salah M
 
 To approve many rows at once, select the Approved cells and type `Yes`, or copy one `Yes` down the column.
 
+## The Voice Studio (teachers record the Sheikh's voice)
+
+`setup` adds a **Settings** tab with the **Voice Studio password** (a random word; change it in the sheet whenever
+you like) and the alert at the end of `setup` shows it. Teachers sign in to the Studio in the classroom with their
+name and that password. Each recording is saved to a **Sheikh voice** folder inside the classroom's Drive folder and
+listed in the **Voice** tab (clip, file, when, by whom, size). To take a recording away, use *Remove recording* in
+the Studio (or delete its row). Students cannot record or change anything: they only play the recordings.
+
 ## Updating an existing set-up (for this version)
 
 1. Open the admin sheet → **Extensions → Apps Script**, replace everything with the new `Code.gs` (keep your folder
    ID on the `FOLDER_ID` line), and save.
-2. Run **setup** once. It adds the Question bank tab and the new Students columns. It never changes your classes,
+2. Run **setup** once. It adds the Question bank, Settings and Voice tabs and the new Students columns, and shows
+   the Voice Studio password. It never changes your classes,
    students or class logs, and it never overwrites a Question bank that already has rows.
 3. **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy.** The URL stays the same.
 4. Ask a teacher to review the Question bank and set **Approved** to `Yes` on the rows to use.

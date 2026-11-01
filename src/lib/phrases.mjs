@@ -8,6 +8,7 @@
 // from scripts/voice/make_voice.py), so the Sheikh is heard on every computer. Only if neither
 // exists is the browser's own Arabic voice used.
 import { u } from './url.mjs';
+import { studioUrl } from './voice.mjs';
 
 export const PHRASES = {
   // praise
@@ -70,13 +71,14 @@ export function stopVoice() { try { clip?.pause(); } catch {} try { speechSynthe
 // Say a phrase aloud. Resolves when it has finished (or after a safe timeout).
 export async function speak(p, { enabled = true } = {}) {
   if (!enabled || !p?.ar) return false;
-  const src = !p.file || !clip ? '' : (await hasRecording(p.file)) ? `audio/sheikh/${p.file}.mp3` : (await hasMade(p.file)) ? `audio/voice/p-${p.file}.mp3` : '';
+  const studio = p.file && clip ? await studioUrl(`p-${p.file}`) : null;   // a teacher's Voice Studio recording comes first
+  const src = studio ? studio : !p.file || !clip ? '' : (await hasRecording(p.file)) ? u(`audio/sheikh/${p.file}.mp3`) : (await hasMade(p.file)) ? u(`audio/voice/p-${p.file}.mp3`) : '';
   if (src) {
     return new Promise((resolve) => {
       let done = false;
       const fin = (ok) => { if (!done) { done = true; resolve(ok); } };
       clip.onended = () => fin(true); clip.onerror = () => fin(false);
-      clip.src = u(src);
+      clip.src = src;
       clip.volume = 0.9;
       clip.play().catch(() => fin(false));
       setTimeout(() => fin(true), 6000);

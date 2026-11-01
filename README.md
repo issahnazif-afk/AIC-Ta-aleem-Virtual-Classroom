@@ -139,39 +139,46 @@ Sound follows the school's guidance: a soft night breeze and a fountain (made in
 chime for a right answer, praise in the student's gender, and anasheed only at milestones. To add a nasheed for
 the moment a palm grows, upload it as `public/audio/nasheed/milestone.mp3`. There is a mute button on every game.
 
-### How the Sheikh reads the letters
+### How the Sheikh reads the letters: sound-first
+
+Reading is blending sounds, not reciting letter names. A child who knows *nnn + a + sss* can sound out نَسَ; a child
+who only knows *noon, alif, seen* cannot. So the Sheikh teaches the **sound** of each letter first.
 
 On the letter pages a drop-down chooses how the Sheikh says each letter. It is remembered on that computer.
 
-- **Letter sounds** (the default): the letter with a fat-ha, *ba, ta, tha*, as the booklet teaches the sounds.
+- **Sound-first (nnn, mmm, sss)**, the default: the letter's own sound. Letters that can be held are held for about
+  a second (ن *nnn*, م *mmm*, س *sss*, ف *fff*, ش, ص, ز, ر, ل, ه, ح, خ, ع, غ, ث, ذ, ظ); letters that stop
+  (ب ت د ط ق ك ج ض أ) are said as a short clean burst with the lightest vowel, because they cannot be held. Lesson 1's
+  cards show what to say: *Say: nnn · Nun*.
+- **With fat-ha**: *ba, ta, tha*, as the booklet teaches the sounds.
 - **Pure sound, with sukun**: *ab, at, ath*, the letter held on its own point of articulation.
 - **Letter names**: *Alif, Ba, Ta*.
 
 ### The Sheikh's voice for letters and syllables
 
 So the Sheikh is heard on every computer (Chrome on Windows has no Arabic voice of its own), every letter sound,
-name and syllable has a clip in `public/audio/voice/`: 28 letters × (sound, pure sound, name, kes-ra, dom-ma, the
-three tanween, the three madd, shadda), and the Sheikh's phrases. They are made with an open neural Arabic voice
-(Piper *Kareem*) by `scripts/voice/make_voice.py`, from hand-checked phonemes rather than from text, and each letter
-is spoken inside a carrier phrase and cut out, so it is articulated as in real speech.
+name and syllable has a clip in `public/audio/voice/`. They are made with an open neural Arabic voice (Piper
+*Kareem*) by `scripts/voice/make_voice.py`, from hand-checked phonemes rather than from text. This version makes the
+voice calmer and more natural: the sing-song rise and fall is halved and the pitch is lowered slightly (with the
+WORLD vocoder), and the held sound-first letters are steady in loudness and pitch, so a child who is not a native
+Arabic speaker hears one clear, unbroken sound. GitHub makes the clips during each deploy; nothing to do by hand.
 
-They are clear, but they are a computer voice, and the hardest letters (ع غ ص ض ط ظ ق) are where a teacher is
-better. **A teacher's recording always replaces a clip**: record it and upload it to `public/audio/letters/` with the
-clip's file name. The names follow one pattern:
+They are still a computer voice. **The realistic voice is a teacher's**, and the classroom now has a place to record
+it:
 
-| Clip | Says | Example |
-|---|---|---|
-| `s-<letter>-a.mp3` | the sound with fat-ha | `s-ba-a.mp3` بَ |
-| `s-<letter>-i.mp3`, `s-<letter>-u.mp3` | with kes-ra, dom-ma | `s-ba-i.mp3` بِ |
-| `s-<letter>-sk.mp3` | the pure sound, with sukun | `s-ba-sk.mp3` أَبْ |
-| `n-<letter>.mp3` | the letter's name | `n-ba.mp3` بَاء |
-| `s-<letter>-an/in/un.mp3` | tanween | `s-ba-an.mp3` بًا |
-| `s-<letter>-aa/ii/uu.mp3` | madd | `s-ba-aa.mp3` بَا |
-| `s-<letter>-sh.mp3` | shadda | `s-ba-sh.mp3` أَبَّ |
+#### The Voice Studio (for teachers)
 
-`<letter>` is one of: alif, ba, ta, tha, jim, ha-hollow (ح), kha, dal, dhal, ra, zay, sin, shin, sad, dad,
-ta-heavy (ط), dha-heavy (ظ), ayn, ghayn, fa, qaf, kaf, lam, mim, nun, ha (ه), waw, ya. Start with the 28
-`s-<letter>-a.mp3` sounds: those are what the youngest students hear most.
+On the sign-in page, choose **Teachers: record the Sheikh's voice (Voice Studio)** (or add `#studio` to the
+address). Sign in with your name and the **Voice Studio password** (it is in the *Settings* tab of the admin sheet).
+The Studio lists every clip by group: sound-first letters (with what to say, e.g. "hold nnn for about a second"),
+the Sheikh's words, names, fat-ha / kes-ra / dom-ma, sukun and shadda, tanween and madd. For each one:
+**Hear now** → **Record** → **My take** → **Save**. The recording is trimmed, levelled and saved to the *Sheikh voice*
+folder in Google Drive, listed in the *Voice* tab, and from then on **every student hears your recording instead of
+the computer voice**, with no redeploy. **Remove recording** brings back the computer voice.
+Start with the 28 sound-first letters: they are what the youngest students hear most.
+
+(Uploading files to `public/audio/letters/` with the clip's name, e.g. `f-nun.mp3`, `s-ba-a.mp3`, `n-ba.mp3`, still
+works too, and is used when there is no Studio recording.)
 
 ### Page colour
 
@@ -229,6 +236,44 @@ and a fountain and an arch for learning several days in a row.
 
 Teachers see each student's stars, badges and day streak in the Students tab, and every game in the Games tab of the
 class log.
+
+## The Seerah Quest (Levels 3 and 4)
+
+*From Darkness to Light*: a first-person 3D journey through Makkah in the years before the Prophet ﷺ was born.
+It is under Play & Learn for Levels 3 and 4. This first prototype has two connected episodes:
+
+1. **The Secret of Zamzam**: ʿAbd al-Muttalib's dream, the search by the House, the digging, the dispute with
+   Quraysh, the journey north to the judge and the water that came out under his camel.
+2. **The Year of the Elephant** (opens after Episode 1): Abraha's church in Sanaʿa, the march north, the camels,
+   ʿAbd al-Muttalib's words *"I am the lord of the camels, and the House has a Lord who will protect it"*, Quraysh
+   going up into the mountains, the elephant that knelt, the birds, and Surah al-Fil from the reciter.
+
+Each episode mixes the modes in the design: story (narration), adventure (walking to the lights), discovery
+(search, dig, the map of the march), knowledge (a six-question challenge, every answer from the passages) and
+reflection (a question with no wrong answer). Stars, the Knowledge mission and the game log work as for the other
+games, and a student can leave and carry on later. **Picture quality** (low, medium, high) is on the episode page.
+
+### The source policy
+
+- **One source only**: Ibn Kathir, *al-Bidaya wa'l-Nihaya*, ed. ʿAli Shiri (Dar Ihyaʾ al-Turath al-ʿArabi,
+  1408/1988), from the OpenITI digital text. Every historical sentence the student reads is a translation of a
+  passage from it, shown with its volume and page; **Show the source** opens Ibn Kathir's Arabic.
+- Nothing is invented: no events, no dialogue. The explorer's guide only gives instructions; it never tells history.
+- Where Ibn Kathir himself marks a report as uncertain or as an addition, the game shows it as **A report**, in grey.
+  Passages that are disputed or that only describe details the design excludes (e.g. the arrows of the lots,
+  ʿAbd al-Muttalib's offer to Abraha) are kept out of the game and listed as *excluded* in the source record.
+- The Prophet ﷺ, the Companions and the people of the time are **never portrayed**: people appear only as lanterns.
+  The elephant kneeling and the birds are **non-interactive scenes**, with nothing graphic.
+- Every passage, with its Arabic, translation, page and classification, is in `docs/seerah-source-record.md`
+  (made by `scripts/seerah/sources.py`, which stops if any quoted Arabic cannot be found word for word in the
+  book). **The English translations are marked "pending" until an Islamic Studies teacher reviews them**; please
+  have one go through that file before the Quest is used in class.
+
+Later episodes (the birth of the Messenger ﷺ, the first revelation, the Hijrah, …) are shown as "coming after source
+review": each will be built the same way, from al-Bidaya only, after its passages have been chosen and checked.
+
+The 3D world is made of simple shapes (no photographs or models of real people or places), drawn with three.js.
+On older computers choose *Low*; on a computer without WebGL the Quest says so instead of starting.
 
 ## The Sheikh's voice and praise
 
@@ -318,7 +363,8 @@ Troubleshooting the face check: add `?debug=1` to the address and read `window._
 site.config.mjs              settings: site address, class log URL, Sheikh's voices
 scripts/build-data.mjs       builds public/data from sources/ (works offline)
 scripts/copy-vendor.mjs      copies the face-check runtime into public/mediapipe
-scripts/voice/make_voice.py  makes the Sheikh's letter and phrase clips (run by hand, not in CI)
+scripts/voice/make_voice.py  makes the Sheikh's letter and phrase clips (run by the deploy workflow)
+scripts/seerah/sources.py    checks and writes the Seerah Quest's passages from al-Bidaya (sources.json + docs/seerah-source-record.md)
 scripts/lessons/examples.py  copies the Alif Ba Qur'an examples from the Tanzil text
 sources/                     Tanzil text, QUL mushaf layout, surah names (never edited)
 src/pages/index.astro        every screen
@@ -330,6 +376,8 @@ src/lib/voice.mjs            the Sheikh's voice for letters: teacher recording, 
 src/lib/play.mjs             Play & Learn: Letter Detective, Build the Ayah, Match the Deen, Journey, Salah Master, Akhlaq Heroes
 src/lib/questions.mjs        the teachers' Question bank (approved rows only); src/data/question-bank.json, the starter set
 src/lib/rewards.mjs          Ta'aleem Stars, badges and the daily challenge
+src/lib/studio.mjs           the Voice Studio, where teachers record the Sheikh's voice
+src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley), episodes.mjs (the steps), quest.mjs (the player)
 scripts/questions/starter.py writes the starter Question bank (and its copy in apps-script/Code.gs)
 src/lib/engine.mjs           the Sheikh: questions, listening, prompting, marking (from the Hifz test page)
 src/lib/recite.mjs, follow.mjs, mushaf.mjs, asr-local.mjs   shared with the main app, unchanged

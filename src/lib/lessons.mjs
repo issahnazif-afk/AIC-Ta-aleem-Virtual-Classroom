@@ -37,7 +37,8 @@ const ex = (group) => (EX[group] ?? []).map((x) => ({ ...x, group }));
 // The 18 lessons. `board` says how the learning page is laid out; `game` which game it opens.
 export const LESSONS = [
   { n: 1, name: 'The letters and their names', ar: 'الحُرُوفُ الهِجَائِيَّة', board: 'letters', game: 'lanterns', voice: true,
-    intro: ['The Qur’an is written with 28 letters. Tap a letter to hear the Sheikh say it. Choose above whether he says its sound or its name.'] },
+    intro: ['The Qur’an is written with 28 letters. Tap a letter to hear its sound. The Sheikh says each letter the way you will blend it when you read: ن is “nnn”, م is “mmm”, س is “sss”, ف is “fff”, and a short letter like ب is a quick “b”.',
+      'Reading is blending sounds: “nnn + a + sss” makes نَسَ. You can also choose to hear the letters with a fat-ha, with a sukun, or by their names.'] },
   { n: 2, name: 'Huruf Muqatta’at', ar: 'الحُرُوفُ المُقَطَّعَة', board: 'examples', groups: [['muqattaat', 'Openings of the surahs']], game: 'mosaic',
     intro: ['In the Qur’an, 29 surahs begin with letters on their own. These letters are read by their names, not with vowel sounds.', 'Tap an opening to hear Sheikh Husary recite it.'] },
   { n: 3, name: 'Writing the letters', ar: 'كِتَابَةُ الحُرُوف', board: 'forms', game: 'mosaic', voice: true,

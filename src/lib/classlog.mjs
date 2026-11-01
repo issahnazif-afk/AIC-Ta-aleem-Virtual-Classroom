@@ -129,3 +129,16 @@ export async function fetchQuestions({ token }) {
     return r.ok ? { ok: true, questions: r.questions || [] } : { ok: false, questions: [] };
   } catch { return { ok: false, questions: [] }; }
 }
+
+// ── the Voice Studio: the teachers' recordings of the Sheikh's voice ──
+export async function voiceList() {
+  if (isDemo()) return {};
+  try { const r = await post({ action: 'voice-list' }, { timeout: 15000 }); return r.ok ? r.clips || {} : {}; } catch { return {}; }
+}
+export async function voiceClip(id) {
+  const r = await post({ action: 'voice-clip', id }, { timeout: 20000 });
+  return r.ok ? r : null;
+}
+export const voiceCheck = (password) => post({ action: 'voice-check', password }).catch(() => ({ ok: false, error: 'network' }));
+export const voiceSave = (b) => post({ action: 'voice-save', ...b }, { timeout: 60000 }).catch(() => ({ ok: false, error: 'network' }));
+export const voiceDelete = (b) => post({ action: 'voice-delete', ...b }).catch(() => ({ ok: false, error: 'network' }));

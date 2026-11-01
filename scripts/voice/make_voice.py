@@ -2,10 +2,15 @@
 
 Run once on a developer machine (not in CI). The clips are committed to public/audio/voice/.
 
-    pip install onnxruntime numpy
+    pip install onnxruntime numpy pyworld
     # voice: Piper "ar_JO-kareem-medium", from the sherpa-onnx release "tts-models":
     #   https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-ar_JO-kareem-medium.tar.bz2
     python scripts/voice/make_voice.py /path/to/vits-piper-ar_JO-kareem-medium
+
+Sound-first letters (f-<letter>): the letters that can be held are held for about a second and a quarter
+(ن "nnn", م "mmm", س "sss", ف "fff"), made from the voice's own sound and steadied; the letters that cannot be
+held (ب ت د ق ك …) are said short and crisp. Every other clip is reshaped to a calmer, deeper delivery
+(half the pitch movement, a semitone and a half lower).
 
 Every clip is written from hand-checked phonemes (IPA, the same notation the voice was trained on),
 not from Arabic text, so each letter is articulated exactly as listed below. A teacher's own
@@ -16,6 +21,7 @@ Needs ffmpeg on the PATH.
 import json, os, subprocess, sys, wave
 import numpy as np
 import onnxruntime as ort
+import pyworld as pw
 
 LETTER_PACE = float(os.environ.get('LETTER_PACE', '1.4'))  # a little slower than speech
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -51,6 +57,9 @@ def syllables():
         out[f's-{key}-sh'] = f'ʔˈa{d}{pure}ːa{d}'                    # أَبَّ (shadda: the letter held, then read again)
         out[f'n-{key}'] = NAMES[key]
     return out
+
+# Sound-first: which letters are held (continuous sounds) and which are short (stops).
+HELD = {'tha', 'ha-hollow', 'kha', 'dhal', 'ra', 'zay', 'sin', 'shin', 'sad', 'dha-heavy', 'ayn', 'ghayn', 'fa', 'lam', 'mim', 'nun', 'ha'}
 
 # The Sheikh's phrases (src/lib/phrases.mjs), written out by hand.
 PHRASES = {
@@ -119,6 +128,43 @@ def main(model_dir):
         w[:a] *= np.linspace(0, 1, a); w[-b:] *= np.linspace(1, 0, b)
         return w
 
+    # ── calmer, deeper delivery: keep half of the pitch movement, 1.5 semitones lower ──
+    def calm(audio, keep=0.5, shift=-1.5):
+        x = audio.astype(np.float64)
+        f0, t = pw.harvest(x, rate, f0_floor=60, f0_ceil=300, frame_period=5)
+        sp = pw.cheaptrick(x, f0, t, rate); ap = pw.d4c(x, f0, t, rate)
+        v = f0 > 0
+        if v.any():
+            med = np.median(f0[v])
+            f0[v] = med * 2 ** ((12 * np.log2(f0[v] / med) * keep + shift) / 12)
+        return pw.synthesize(f0, sp, ap, rate, frame_period=5).astype(np.float32)
+
+    # ── a held sound ("nnn"): the voice says the consonant many times in a row, which it renders as one
+    #    continuous sound; its loudness and pitch are then steadied, with a soft start and a gentle fade ──
+    def held(c, secs=1.25):
+        k = 30
+        for _ in range(6):
+            a = synth(c * k, 1.3, 0.3, 0.33).astype(np.float64)
+            if abs(len(a) / rate - secs) < 0.12: break
+            k = max(6, int(k * secs / max(0.2, len(a) / rate)))
+        f0, t = pw.harvest(a, rate, f0_floor=60, f0_ceil=300, frame_period=5)
+        sp = pw.cheaptrick(a, f0, t, rate); ap = pw.d4c(a, f0, t, rate)
+        en = sp.sum(axis=1); on = np.where(en > 0.03 * en.max())[0]
+        sp, ap, f0 = sp[on[0]:on[-1] + 1], ap[on[0]:on[-1] + 1], f0[on[0]:on[-1] + 1]
+        en = sp.sum(axis=1); n = len(en); i = np.arange(n)
+        target = np.median(en) * np.maximum(np.minimum(1, i / 16) * np.minimum(1, (n - i) / 40), 1e-3)
+        sp = sp * (target / np.maximum(en, 1e-12))[:, None]
+        v = f0 > 0
+        if v.sum() > n * 0.3: f0[:] = np.median(f0[v]) * 2 ** (-1.5 / 12)
+        return pw.synthesize(f0, np.ascontiguousarray(sp), np.ascontiguousarray(ap), rate, frame_period=5).astype(np.float32)
+
+    # ── a short sound ("b"): the consonant with only the first breath of its vowel ──
+    def short(ph):
+        w = synth_alone(ph, 1.3)
+        keep = int(0.16 * rate); w = w[:keep].copy()
+        f = int(0.06 * rate); w[-f:] *= np.linspace(1, 0, f) ** 2
+        return w
+
     def write(name, audio, before=0.18, after=0.32):
         audio = np.concatenate([np.zeros(int(rate * before)), audio, np.zeros(int(rate * after))])
         fade = int(rate * 0.012)
@@ -134,9 +180,18 @@ def main(model_dir):
     made = []
     # letters and syllables: slower and clearer, so each sound is easy for a child to hear
     for name, ph in syllables().items():
-        write(name, synth_alone(ph, LETTER_PACE)); made.append(name)
+        write(name, calm(synth_alone(ph, LETTER_PACE))); made.append(name)
+    # sound-first letters
+    for key, c, heavy in CONS:
+        d = '.' if heavy else ''
+        if key in HELD: audio = held(c)
+        elif key == 'alif': audio = calm(synth_alone('ʔˈa', 1.4))[: int(0.35 * rate)]
+        else:
+            cons = {'waw': 'w', 'ya': 'j'}.get(key, c)
+            audio = short(f'{cons}ˈa{d}')
+        write(f'f-{key}', audio); made.append(f'f-{key}')
     for name, ph in PHRASES.items():
-        audio = synth(ph, 1.15) if ' ' in ph.strip() else synth_alone(ph, 1.2)
+        audio = calm(synth(ph, 1.15) if ' ' in ph.strip() else synth_alone(ph, 1.2))
         write(f'p-{name}', audio, 0.08, 0.2); made.append(f'p-{name}')
     json.dump(sorted(made), open(os.path.join(OUT, 'index.json'), 'w'))
     print(f'{len(made)} clips in {os.path.relpath(OUT)}')

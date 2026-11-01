@@ -71,11 +71,13 @@ function setup() {
   st.hideColumns(S.hash + 1, 2);
 
   setupQuestionBank(ss);
+  const teacherPassword = setupSettings(ss);
   secret();                                       // creates the signing key used for sign-ins
   DriveApp.getFolderById(FOLDER_ID).getName();   // asks for Drive access and checks the folder ID
   SpreadsheetApp.getUi().alert('Ready. The Classes tab lists Level 1 to Level 4 with their class passwords; students need these once, to create their accounts. ' +
     'The Question bank tab holds the questions for Match the Deen, Journey to Knowledge, Salah Master, Akhlaq Heroes and the daily missions: ' +
-    'a teacher checks each row and sets Approved to Yes. Only approved rows are shown to students.');
+    'a teacher checks each row and sets Approved to Yes. Only approved rows are shown to students. ' +
+    'Voice Studio teacher password: ' + teacherPassword + ' (kept in the Settings tab; change it there).');
 }
 
 function newPassword() {
@@ -100,6 +102,11 @@ function doPost(e) {
     if (body.action === 'save-progress') return json(saveProgress(body));
     if (body.action === 'game') return json(logGame(body));
     if (body.action === 'questions') return json(listQuestions(body));
+    if (body.action === 'voice-list') return json(voiceList());
+    if (body.action === 'voice-clip') return json(voiceClip(body));
+    if (body.action === 'voice-check') return json(voiceCheck(body));
+    if (body.action === 'voice-save') return json(voiceSave(body));
+    if (body.action === 'voice-delete') return json(voiceDelete(body));
     if (body.action === 'log') return json(logSession(body));
     return json({ ok: false, error: 'unknown-action' });
   } catch (err) {
@@ -398,6 +405,87 @@ function logGame(body) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// ── the Voice Studio: teachers record the Sheikh's voice ──────────────
+// A teacher signs in with the Voice Studio password (Settings tab) and records clips in the browser. Each clip is a
+// small WAV file in a "Sheikh voice" folder inside the shared folder, listed in the "Voice" tab. The classroom
+// plays a teacher's recording instead of the computer voice wherever one exists. The files stay private: the app
+// fetches them through this script, so nothing needs to be shared publicly.
+const SETTINGS_TAB = 'Settings';
+const VOICE_TAB = 'Voice';
+const VOICE_HEADERS = ['Clip', 'File ID', 'Recorded', 'Recorded by', 'Size (KB)'];
+const CLIP_RE = /^[a-z0-9][a-z0-9-]{1,47}$/;
+
+function setupSettings(ss) {
+  let st = ss.getSheetByName(SETTINGS_TAB);
+  if (!st) st = ss.insertSheet(SETTINGS_TAB);
+  if (st.getLastRow() === 0) {
+    st.appendRow(['Setting', 'Value', 'Notes']);
+    st.appendRow(['Voice Studio password', newPassword(), 'Teachers use this to record the Sheikh\'s voice in the classroom (Voice Studio). Change it any time.']);
+    st.getRange(1, 1, 1, 3).setFontWeight('bold');
+  }
+  let v = ss.getSheetByName(VOICE_TAB);
+  if (!v) { v = ss.insertSheet(VOICE_TAB); v.appendRow(VOICE_HEADERS); v.getRange(1, 1, 1, VOICE_HEADERS.length).setFontWeight('bold'); v.setFrozenRows(1); }
+  return String(st.getRange(2, 2).getValue());
+}
+function studioPasswordOk(pw) {
+  const st = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SETTINGS_TAB);
+  if (!st || !pw) return false;
+  return String(st.getRange(2, 2).getValue()).trim() !== '' && String(pw).trim() === String(st.getRange(2, 2).getValue()).trim();
+}
+function voiceSheet() { return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(VOICE_TAB); }
+function voiceFolder() {
+  const root = DriveApp.getFolderById(FOLDER_ID);
+  const it = root.getFoldersByName('Sheikh voice');
+  return it.hasNext() ? it.next() : root.createFolder('Sheikh voice');
+}
+function voiceRows() {
+  const v = voiceSheet();
+  if (!v) return [];
+  return v.getDataRange().getValues().slice(1).map(function (r, i) { return { row: i + 2, id: String(r[0]), file: String(r[1]), at: r[2] }; }).filter(function (x) { return x.id && x.file; });
+}
+function voiceList() {
+  const out = {};
+  voiceRows().forEach(function (x) { out[x.id] = x.at instanceof Date ? x.at.getTime() : String(x.at); });
+  return { ok: true, clips: out };
+}
+function voiceClip(body) {
+  const id = String(body.id || '');
+  const x = voiceRows().filter(function (r) { return r.id === id; })[0];
+  if (!x) return { ok: false, error: 'not-found' };
+  const blob = DriveApp.getFileById(x.file).getBlob();
+  return { ok: true, mime: blob.getContentType() || 'audio/wav', data: Utilities.base64Encode(blob.getBytes()) };
+}
+function voiceCheck(body) { return studioPasswordOk(body.password) ? { ok: true } : { ok: false, error: 'password' }; }
+function voiceSave(body) {
+  if (!studioPasswordOk(body.password)) return { ok: false, error: 'password' };
+  const id = String(body.id || '');
+  if (!CLIP_RE.test(id)) return { ok: false, error: 'bad-id' };
+  const data = String(body.data || '');
+  if (!data || data.length > 3000000) return { ok: false, error: 'too-big' };
+  const bytes = Utilities.base64Decode(data);
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    const old = voiceRows().filter(function (r) { return r.id === id; })[0];
+    const file = voiceFolder().createFile(Utilities.newBlob(bytes, 'audio/wav', id + '.wav'));
+    const row = [id, file.getId(), new Date(), String(body.by || '').slice(0, 60), Math.round(bytes.length / 1024)];
+    const v = voiceSheet();
+    if (old) {
+      v.getRange(old.row, 1, 1, row.length).setValues([row]);
+      try { DriveApp.getFileById(old.file).setTrashed(true); } catch (err) { /* already gone */ }
+    } else v.appendRow(row);
+    return { ok: true };
+  } finally { lock.releaseLock(); }
+}
+function voiceDelete(body) {
+  if (!studioPasswordOk(body.password)) return { ok: false, error: 'password' };
+  const x = voiceRows().filter(function (r) { return r.id === String(body.id || ''); })[0];
+  if (!x) return { ok: true };
+  try { DriveApp.getFileById(x.file).setTrashed(true); } catch (err) { /* already gone */ }
+  voiceSheet().getRange(x.row, 1, 1, VOICE_HEADERS.length).setValues([['', '', '', '', '']]);
+  return { ok: true };
 }
 
 // ── the question bank (Match the Deen, Journey to Knowledge, Salah Master, Akhlaq Heroes, daily missions) ──

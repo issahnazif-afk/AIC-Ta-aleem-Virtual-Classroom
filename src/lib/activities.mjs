@@ -6,7 +6,7 @@
 // An entry with  kind: 'soon'  shows as "Coming soon" until it is ready.
 //
 //   id      unique name
-//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'soon'
+//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'soon'
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
 //   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
@@ -42,6 +42,9 @@ export const ACTIVITIES = [
     title: 'Salah Master', ar: 'ٱلصَّلَاة', text: 'The steps of the prayer in order, what we say, and when.' },
   { id: 'akhlaq', kind: 'play', game: 'akhlaq', icon: 'akhlaq', group: 'play', suggested: [1, 2, 3, 4],
     title: 'Akhlaq Heroes', ar: 'أَبْطَالُ ٱلْأَخْلَاق', text: 'What would you do? Good choices grow your kindness garden.' },
+  // The Seerah Quest: a 3D journey through the history before the Prophet ﷺ, from Ibn Kathir's al-Bidaya wa'l-Nihaya only.
+  { id: 'seerah', kind: 'seerah', icon: 'seerah', group: 'play', levels: [3, 4], suggested: [3, 4],
+    title: 'The Seerah Quest', ar: 'رِحْلَةُ ٱلسِّيرَة', text: 'Walk through Makkah before the Prophet ﷺ: the well of Zamzam and the Year of the Elephant, told only from Ibn Kathir.' },
 ];
 
 export const ICONS = {
@@ -54,6 +57,7 @@ export const ICONS = {
   journey: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M8 52 Q20 30 32 40 T56 14" fill="none" stroke="#C9A24A" stroke-width="3" stroke-dasharray="3 6" stroke-linecap="round"/><circle cx="8" cy="52" r="5" fill="#0E6B4E"/><circle cx="32" cy="40" r="5" fill="#0E6B4E"/><path d="M50 6 L58 6 L58 20 L54 16 L50 20 Z" fill="#8A5A12"/></svg>',
   salah: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M10 54 H54 V50 Q32 42 10 50 Z" fill="#0E6B4E"/><path d="M14 50 V22 Q32 8 50 22 V50" fill="#E6F2EC" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 14 V8 M29 10 H35" stroke="#C9A24A" stroke-width="2"/></svg>',
   akhlaq: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 54 C 10 40 6 26 16 18 C 24 12 30 18 32 22 C 34 18 40 12 48 18 C 58 26 54 40 32 54 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 46 V30 M32 36 Q24 32 24 26 M32 34 Q40 30 40 24" stroke="#0E6B4E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+  seerah: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M2 50 L18 30 L28 40 L40 22 L62 50 Z" fill="#E8D6B0" stroke="#C9A24A" stroke-width="2"/><rect x="24" y="36" width="16" height="16" fill="#0F2A24"/><path d="M24 40 H40" stroke="#C9A24A" stroke-width="2.5"/><circle cx="50" cy="12" r="6" fill="#FBE3A6"/><path d="M2 56 H62" stroke="#0E6B4E" stroke-width="3"/></svg>',
   soon: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#F7F8F6" stroke="#B9C3BE" stroke-width="2.5"/><path d="M32 20 V33 L40 38" fill="none" stroke="#4F5B56" stroke-width="2.5" stroke-linecap="round"/></svg>',
 };
 
