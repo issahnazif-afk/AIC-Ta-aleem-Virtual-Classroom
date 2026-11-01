@@ -50,7 +50,7 @@ jobs:
         continue-on-error: true
         run: |
           command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
-          python3 -m pip install --quiet --break-system-packages onnxruntime numpy || python3 -m pip install --quiet onnxruntime numpy
+          python3 -m pip install --quiet --break-system-packages onnxruntime numpy pyworld || python3 -m pip install --quiet onnxruntime numpy pyworld
           curl -fsSL --retry 3 https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-ar_JO-kareem-medium.tar.bz2 | tar xj -C /tmp
           python3 scripts/voice/make_voice.py /tmp/vits-piper-ar_JO-kareem-medium
       - name: Build data and site
