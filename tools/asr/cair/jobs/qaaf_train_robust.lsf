@@ -1,0 +1,12 @@
+#BSUB -J qaaf_robust
+#BSUB -q gpu
+#BSUB -gpu "num=1"
+#BSUB -n 4
+#BSUB -W 8:00
+#BSUB -o qaaf_asr/logs/robust.%J.out
+#BSUB -e qaaf_asr/logs/robust.%J.out
+# Stage 2: from the best model so far, train for phones and rooms (tempo, band-limit, noise).
+# Writes to ~/qaaf_asr/ckpt_robust. Resubmit until ROBUST stage says TRAINING COMPLETE.
+source ~/qaaf_asr/env.sh
+cd ~/qaaf_asr/code
+python3 train.py --hours 7.4 --epochs 5 --lr 2e-4 --max-frames 32000 --robust --ckpt-dir ckpt_robust --init ckpt/best_stage1.pt
