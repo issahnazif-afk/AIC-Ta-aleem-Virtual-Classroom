@@ -507,7 +507,14 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { listening = false; ui.mic?.(false); status('Microphone access is blocked. Allow the microphone for this site in the browser settings.', 'bad'); }
       else if (e.error === 'network') status('The speech service could not be reached. Check your internet connection.', 'bad');
     };
-    rec.onend = () => { if (listening && me === rec) { follower.reset(); try { rec.start(); } catch {} } };
+    // Chrome ends a session every so often: restart at once, re-aimed at the words now expected,
+    // and retry straight away if the browser was not quite ready (so no recitation is lost)
+    rec.onend = () => {
+      if (!listening || me !== rec) return;
+      follower.reset();
+      setExpected(rec, upcoming());
+      try { rec.start(); } catch { setTimeout(() => { try { if (listening && me === rec) rec.start(); } catch {} }, 60); }
+    };
     try { rec.start(); listening = true; ui.mic?.(true); } catch { status('Could not start the microphone. Reload the page and try again.', 'bad'); }
   }
   function stopListening() {

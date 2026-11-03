@@ -103,12 +103,10 @@ export class LocalRecognition {
   async start() {
     try { this.m = await loadModel(); } catch (e) { this.onerror?.({ error: 'network', message: String(e) }); this.onend?.(); return; }
     try {
-      // raw voice (no noise suppression, which smears recitation), with automatic gain so quiet readers are heard
-      this.stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: false, noiseSuppression: false, autoGainControl: true } });
+      this.stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
     } catch { this.onerror?.({ error: 'not-allowed' }); this.onend?.(); return; }
     const AC = window.AudioContext || window.webkitAudioContext;
     try { this.ctx = new AC({ sampleRate: 16000 }); } catch { this.ctx = new AC(); }
-    if (this.ctx.state === 'suspended') { try { await this.ctx.resume(); } catch {} }
     this.ratio = this.ctx.sampleRate / 16000;
     const src = this.ctx.createMediaStreamSource(this.stream);
     this.proc = this.ctx.createScriptProcessor(2048, 1, 1);
@@ -128,7 +126,7 @@ export class LocalRecognition {
     } else x = Float32Array.from(input);
     let e = 0; for (let i = 0; i < x.length; i++) e += x[i] * x[i];
     const rms = Math.sqrt(e / x.length);
-    const loud = rms > Math.max(0.0035, this.floor * 2.5);      // sensitive enough for a quiet voice
+    const loud = rms > Math.max(0.008, this.floor * 3);
     if (!loud) this.floor = 0.95 * this.floor + 0.05 * rms;
     const ms = (x.length / 16000) * 1000;
     if (loud) { if (!this.speaking) { this.seg = [...this.pre]; this.segLen = this.seg.reduce((t, c) => t + c.length, 0); } this.speaking = true; this.silent = 0; }
@@ -138,10 +136,11 @@ export class LocalRecognition {
   }
 
   async tick() {
-    if (!this.running || this.busy || !this.speaking || this.segLen < 4000) return;
+    if (!this.running || this.busy || !this.speaking || this.segLen < 3200) return;
     this.busy = true;
     try {
-      const final = this.silent > 650 || this.segLen > 16000 * 14;
+      // shorter pieces decode faster, so words keep up with the reciter (was 14 s)
+      const final = this.silent > 500 || this.segLen > 16000 * 6;
       const audio = new Float32Array(this.segLen);
       let o = 0; for (const c of this.seg) { audio.set(c, o); o += c.length; }
       const { ort, sess, featurize, vocab } = this.m;
@@ -153,7 +152,6 @@ export class LocalRecognition {
       const lp = out.logprobs, [, steps, classes] = lp.dims;
       const used = Number(out.out_length.data[0]);
       const text = greedy(lp.data, Math.min(steps, used), classes, vocab);
-      window.dispatchEvent(new CustomEvent('ql:asr', { detail: { text, seconds: audio.length / 16000 } }));
       if (this.cur < 0) this.cur = this.results.length;
       const res = [{ transcript: text }]; res.isFinal = final;
       this.results[this.cur] = res;
