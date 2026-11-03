@@ -382,6 +382,24 @@ const levels = [
   </section>
   <section class="screen sq-screen" id="s-seerah-play" hidden aria-label="The Seerah Quest"><div id="sq-root"></div></section>
 
+  <!-- Story Time: the shelf, then the book ─────────────── -->
+  <section class="screen flow" id="s-stories" hidden aria-labelledby="sh-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Story Time</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Story Time · وَقْتُ الْقِصَّة</p>
+      <h1 id="sh-h">Choose a story</h1>
+      <p class="muted lead" id="sh-lead">Each story teaches a good manner, and ends with a saying of the Prophet <span class="saw">ﷺ</span> or an ayah of the Qurʾan. Tap the pictures when the story asks you to!</p>
+      <p class="preview-note" id="sh-level" hidden></p>
+      <div class="st-shelf" id="st-shelf"></div>
+      <p class="preview-note">For teachers: the hadith translations are simple meanings for young children. Please check them before class.</p>
+    </div>
+  </section>
+  <section class="screen st-screen" id="s-story" hidden aria-label="Story"><div id="st-root"></div></section>
+
   <!-- A chooser: the surah for Build the Ayah, the topic for Match the Deen ─ -->
   <section class="screen flow" id="s-pick" hidden aria-labelledby="pk-h">
     <header class="topbar">
@@ -591,6 +609,8 @@ const levels = [
     import { getSpeechRecognition, prepareFastListening } from '../lib/speech.mjs';
     import { forLevel, ICONS } from '../lib/activities.mjs';
     import { makhrajOf, makhrajSvg } from '../lib/makhraj.mjs';
+    import { STORIES as LEVEL1_STORIES } from '../lib/stories/level1.mjs';
+    import { mountShelf, openStory } from '../lib/stories/reader.mjs';
     import { EPISODES as SQ_EPISODES, LATER as SQ_LATER } from '../lib/seerah/episodes.mjs';
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
@@ -1100,6 +1120,7 @@ const levels = [
       else if (a.kind === 'alifba') goHub();
       else if (a.kind === 'play') openPlay(a);
       else if (a.kind === 'seerah') openSeerah();
+      else if (a.kind === 'stories') openStories();
     }
     function goHub() {
       stopSound();
@@ -1137,7 +1158,7 @@ const levels = [
     }
     document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.go === 'hub') { stopGame(); goHub(); }
-      if (b.dataset.go === 'home') { stopGame(); stopSound(); goHome(); }
+      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
     function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }
@@ -1636,6 +1657,42 @@ const levels = [
       logGame({ token: me.token, game: { game: a.title, lesson: ctx.topic || (ctx.surah ? `Surah ${ctx.surah.en}` : 'Play & Learn'), rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: '', practise: r.practise.join(' '), known: '', minutes: r.minutes } });
     }
 
+
+    // ── Story Time ──
+    let storyBook = null;
+    const STORY_SHELVES = { 1: LEVEL1_STORIES };
+    function openStories() {
+      stopSound();
+      document.querySelectorAll('.st-earned').forEach((x) => x.remove());
+      const lv = me.level || 1, shelf = STORY_SHELVES[lv] ?? LEVEL1_STORIES;
+      $('sh-level').hidden = !!STORY_SHELVES[lv];
+      $('sh-level').textContent = `Stories for ${me.className || 'your level'} are being written, in sha Allah. Until then, here are the Level 1 stories.`;
+      mountShelf($('st-shelf'), { stories: shelf, progress: progress.stories, onOpen: readStory });
+      renderDashboard();
+      show('s-stories');
+    }
+    function readStory(st) {
+      show('s-story');
+      const t0 = Date.now();
+      storyBook = openStory($('st-root'), st, {
+        reciter: reciter(),
+        onExit: () => { storyBook = null; openStories(); },
+        onDone: async ({ right }) => {
+          storyBook = null;
+          const sp = (progress.stories ??= {}), was = sp[st.id];
+          sp[st.id] = { done: true, times: (was?.times ?? 0) + 1 };
+          const e = record(progress, { kind: 'story', key: `story:${st.id}`, score: right ? 100 : 50, good: right, gardenPalms: palms() });
+          openStories();
+          const box = document.createElement('div'); box.className = 'card st-earned';
+          const h = document.createElement('h2'); h.className = 'h2'; h.textContent = `Masha’Allah! You finished “${st.title}”.`;
+          const er = document.createElement('div'); box.append(h, er); showEarned(er, e);
+          $('st-shelf').before(box);
+          setTimeout(() => box.remove(), 12000);
+          await saveProgress({ token: me.token, username: me.username, progress });
+          logGame({ token: me.token, game: { game: 'Story Time', lesson: st.title, rounds: 1, first: right ? 1 : 0, accuracy: right ? 100 : 50, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+        },
+      });
+    }
     // ── The Seerah Quest ──
     let quest = null;
     const SQ_KEY = 'seerahQuality';

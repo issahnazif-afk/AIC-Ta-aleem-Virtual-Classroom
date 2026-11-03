@@ -245,6 +245,26 @@ and a fountain and an arch for learning several days in a row.
 Teachers see each student's stars, badges and day streak in the Students tab, and every game in the Games tab of the
 class log.
 
+## Story Time (Level 1 first)
+
+**Story Time** is under *My Lessons*: a shelf of twenty-two picture stories for ages 4–8, each teaching one good manner
+(smiling, saying Bismillah, kindness to animals, telling the truth, salam, sharing, helping, saying thank you, staying
+calm, respecting elders, helping our mother, not wasting, keeping clean, neighbours, patience, a little every day,
+kind words, giving, bedtime, being thankful, helping others, a good heart).
+
+- Each story is 6 pages: a picture with the words laid over it. The classroom reads it aloud (the words light up as they
+  are read), or the child can switch to "I’ll read myself". Swipe, or tap the big arrows, to turn the page.
+- On one page in every story the child **does something**: taps Maryam to smile at the bus driver, moves the stone off
+  the path, gives Misk the cat her water, turns off the tap, says the sleeping dua with Adam.
+- Then a question about the story, and the hadith of the Prophet ﷺ or the ayah it teaches, in Arabic with its meaning
+  and source. Ayahs come word for word from the Tanzil text (`scripts/stories/quran.mjs`), and the reciter can play them.
+- Finishing a story gives Ta'aleem Stars and counts as the day's **Character mission**; it appears in the Games tab.
+
+The stories, the characters and every picture are the school's own: the pictures are drawn in code
+(`src/lib/stories/art.mjs`), so there is nothing to license. Prophets and Companions are never shown.
+**Please have a teacher check `docs/story-time-level1.md`** (every story, page by page, with each hadith and its source).
+Other levels see the Level 1 shelf until their own stories are added (`STORY_SHELVES` in `src/pages/index.astro`).
+
 ## The Seerah Quest (Levels 3 and 4)
 
 *From Darkness to Light*: a first-person 3D journey through Makkah in the years before the Prophet ﷺ was born.
@@ -386,6 +406,8 @@ src/lib/questions.mjs        the teachers' Question bank (approved rows only); s
 src/lib/rewards.mjs          Ta'aleem Stars, badges and the daily challenge
 src/lib/studio.mjs           the Voice Studio, where teachers record the Sheikh's voice
 src/lib/makhraj.mjs          where each letter's sound comes from: the 17 makharij, the drawing and how-to sentences
+src/lib/stories/             Story Time: art.mjs (the pictures), level1.mjs (the 22 stories), reader.mjs (shelf and book)
+scripts/stories/             quran.mjs (ayah words from Tanzil), review.mjs (docs/story-time-level1.md)
 src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley), episodes.mjs (the steps), quest.mjs (the player)
 scripts/questions/starter.py writes the starter Question bank (and its copy in apps-script/Code.gs)
 src/lib/engine.mjs           the Sheikh: questions, listening, prompting, marking (from the Hifz test page)

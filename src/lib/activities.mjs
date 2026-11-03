@@ -6,7 +6,7 @@
 // An entry with  kind: 'soon'  shows as "Coming soon" until it is ready.
 //
 //   id      unique name
-//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'soon'
+//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'soon'
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
 //   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
@@ -27,6 +27,12 @@ export const ACTIVITIES = [
     id: 'alifba', kind: 'alifba', icon: 'lantern', group: 'lessons',
     title: 'Alif Ba', ar: 'أَلِف بَاء',
     text: 'Eighteen lessons, from the letters to tajweed and the short surahs, each with a game.',
+  },
+  // Story Time: picture stories with good manners, each ending with a hadith or an ayah (src/lib/stories/).
+  {
+    id: 'stories', kind: 'stories', icon: 'stories', group: 'lessons', suggested: [1],
+    title: 'Story Time', ar: 'وَقْتُ الْقِصَّة',
+    text: 'Twenty-two picture stories about good manners. Tap the pictures, listen, and learn a hadith with each one.',
   },
   // Play & Learn (the AICWIS Interactive Learning Proposal). `suggested`: the levels the proposal suggests it for;
   // every level can play, and the game adjusts to the student's level.
@@ -57,6 +63,7 @@ export const ICONS = {
   journey: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M8 52 Q20 30 32 40 T56 14" fill="none" stroke="#C9A24A" stroke-width="3" stroke-dasharray="3 6" stroke-linecap="round"/><circle cx="8" cy="52" r="5" fill="#0E6B4E"/><circle cx="32" cy="40" r="5" fill="#0E6B4E"/><path d="M50 6 L58 6 L58 20 L54 16 L50 20 Z" fill="#8A5A12"/></svg>',
   salah: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M10 54 H54 V50 Q32 42 10 50 Z" fill="#0E6B4E"/><path d="M14 50 V22 Q32 8 50 22 V50" fill="#E6F2EC" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 14 V8 M29 10 H35" stroke="#C9A24A" stroke-width="2"/></svg>',
   akhlaq: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 54 C 10 40 6 26 16 18 C 24 12 30 18 32 22 C 34 18 40 12 48 18 C 58 26 54 40 32 54 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 46 V30 M32 36 Q24 32 24 26 M32 34 Q40 30 40 24" stroke="#0E6B4E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+  stories: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M6 14 Q19 9 32 15 Q45 9 58 14 V50 Q45 45 32 51 Q19 45 6 50 Z" fill="#FFF9EC" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 15 V51" stroke="#C9A24A" stroke-width="2"/><circle cx="19" cy="26" r="6" fill="#F6C64B"/><path d="M10 42 Q18 32 26 40" fill="#6CBF5A"/><path d="M38 38 C34 34 36 28 40 31 C44 28 46 34 42 38 L40 40 Z" fill="#E85A71"/><path d="M38 24 h14 M38 29 h12" stroke="#7A8C84" stroke-width="2" stroke-linecap="round"/></svg>',
   seerah: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M2 50 L18 30 L28 40 L40 22 L62 50 Z" fill="#E8D6B0" stroke="#C9A24A" stroke-width="2"/><rect x="24" y="36" width="16" height="16" fill="#0F2A24"/><path d="M24 40 H40" stroke="#C9A24A" stroke-width="2.5"/><circle cx="50" cy="12" r="6" fill="#FBE3A6"/><path d="M2 56 H62" stroke="#0E6B4E" stroke-width="3"/></svg>',
   soon: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#F7F8F6" stroke="#B9C3BE" stroke-width="2.5"/><path d="M32 20 V33 L40 38" fill="none" stroke="#4F5B56" stroke-width="2.5" stroke-linecap="round"/></svg>',
 };

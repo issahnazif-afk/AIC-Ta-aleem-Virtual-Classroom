@@ -19,7 +19,7 @@ export const BADGES = [
 const KIND = {
   hifz: 'quran', reading: 'quran', ayah: 'quran',
   journey: 'knowledge', match: 'knowledge', salah: 'knowledge', detective: 'knowledge', alifba: 'knowledge', seerah: 'knowledge',
-  akhlaq: 'character',
+  akhlaq: 'character', story: 'character',
 };
 
 export function rewardsOf(progress) {
@@ -40,7 +40,7 @@ function markDay(r) {
   r.streak = n;
 }
 
-// Record a finished activity. kind: hifz | reading | ayah | journey | match | salah | detective | alifba | akhlaq | seerah
+// Record a finished activity. kind: hifz | reading | ayah | journey | match | salah | detective | alifba | akhlaq | seerah | story
 // key: what "your last try" means (e.g. "match:Prophets"); score: higher is better (accuracy %, or fewer mistakes as a negative).
 // Returns what was earned, for the end screen.
 export function record(progress, { kind, key, score = null, good = false, gardenPalms = 0 }) {
@@ -60,7 +60,7 @@ export function record(progress, { kind, key, score = null, good = false, garden
   markDay(r);
   const mission = KIND[kind];
   if (mission && mission !== 'character' && !r.daily.done[mission]) { r.daily.done[mission] = true; give(1, `${mission === 'quran' ? 'Qurʾan' : 'Knowledge'} mission done`); }
-  if (kind === 'akhlaq' && !r.daily.done.character) { r.daily.done.character = true; give(1, 'Character mission done'); }
+  if (KIND[kind] === 'character' && !r.daily.done.character) { r.daily.done.character = true; give(1, 'Character mission done'); }
   dailyBonus(r, give);
   earned.badges = checkBadges(r, gardenPalms);
   return earned;
