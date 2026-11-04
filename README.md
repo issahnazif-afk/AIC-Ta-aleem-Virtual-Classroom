@@ -252,8 +252,8 @@ class log.
 calm, respecting elders, helping our mother, not wasting, keeping clean, neighbours, patience, a little every day,
 kind words, giving, bedtime, being thankful, helping others, a good heart).
 
-- Each story is 6 pages: a picture with the words laid over it. The classroom reads it aloud (the words light up as they
-  are read), or the child can switch to "I’ll read myself". Swipe, or tap the big arrows, to turn the page.
+- Each story is 6 pages: a picture with the words laid over it. The classroom reads it aloud in a warm, natural voice
+  (the words light up as they are read), or the child can switch to "I’ll read myself". Swipe, or tap the big arrows.
 - On one page in every story the child **does something**: taps Maryam to smile at the bus driver, moves the stone off
   the path, gives Misk the cat her water, turns off the tap, says the sleeping dua with Adam.
 - Then a question about the story, and the hadith of the Prophet ﷺ or the ayah it teaches, in Arabic with its meaning
@@ -261,9 +261,25 @@ kind words, giving, bedtime, being thankful, helping others, a good heart).
 - Finishing a story gives Ta'aleem Stars and counts as the day's **Character mission**; it appears in the Games tab.
 
 The stories, the characters and every picture are the school's own: the pictures are drawn in code
-(`src/lib/stories/art.mjs`), so there is nothing to license. Prophets and Companions are never shown.
+(`src/lib/stories/art.mjs`), so there is nothing to license, and they stay sharp at any size (on a phone or a classroom
+projector). Each picture has outlines, light and shade on faces and clothes, soft shadows, window light, and textured
+floors and grass. Prophets and Companions are never shown.
 **Please have a teacher check `docs/story-time-level1.md`** (every story, page by page, with each hadith and its source).
 Other levels see the Level 1 shelf until their own stories are added (`STORY_SHELVES` in `src/pages/index.astro`).
+
+### The reading voice (Story Time and the Seerah Quest)
+
+Every English line the classroom reads aloud is recorded by **Kokoro** (an open neural voice, Apache 2.0): a warm
+storyteller (*af_heart*) for Story Time and a calm narrator (*bm_george*) for the Seerah Quest. GitHub makes the clips
+during the deploy (`scripts/voice/narration-list.mjs` lists the lines, `scripts/voice/make_narration.py` records them
+into `public/audio/narration/`), sentence by sentence with natural pauses, levelled so every page is equally loud.
+They are cached, so after the first deploy (about 20–30 minutes) only new or changed sentences are recorded. A line
+without a clip uses the browser's voice. To change how a word is said (for example an Arabic name), add it to `SAY`
+in `src/lib/narration-text.mjs`.
+
+The Sheikh's **Arabic** voice is unchanged: Kokoro and the other natural voices do not speak Arabic, and no open
+Arabic voice better than *Kareem* is available. A teacher's recording in the Voice Studio is still the way to make the
+Sheikh sound fully human.
 
 ## The Seerah Quest (Levels 3 and 4)
 

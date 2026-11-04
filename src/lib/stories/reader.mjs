@@ -5,36 +5,17 @@ import { scene } from './art.mjs';
 import QURAN from '../../data/stories-quran.json';
 import { audioUrl } from '../client.mjs';
 import { qpc } from '../recite.mjs';
+import { narrate, hush as stopNarration } from '../narration.mjs';
+import { STORY_LINES } from '../narration-text.mjs';
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.search);
 
-// ── reading aloud (the browser's English voice), with the words lighting up ──
-let voice = null;
-function pickVoice() {
-  const vs = (globalThis.speechSynthesis?.getVoices() ?? []).filter((v) => /^en/i.test(v.lang));
-  const rank = (v) => (/natural|neural|online/i.test(v.name) ? 3 : 0) + (/female|samantha|jenny|aria|libby|sonia|google uk english female/i.test(v.name) ? 2 : 0) + (/en-GB|en-US/i.test(v.lang) ? 1 : 0);
-  voice = vs.sort((a, b) => rank(b) - rank(a))[0] ?? null;
-}
-if (typeof window !== 'undefined' && 'speechSynthesis' in window) { pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', pickVoice); }
-const hush = () => { try { speechSynthesis.cancel(); } catch {} };
-// spoken forms of the Arabic phrases, so the English voice says them properly
-const SAY = [[/Assalamu alaykum/gi, 'Assalaamu alaikum'], [/Wa alaykum assalam/gi, 'Wa alaikum assalaam'], [/Jazakallahu khayran/gi, 'Jazaakallaahu khairan'], [/A‘udhu billahi minash-shaytanir-rajim/g, 'Aoodhu billaahi minash shaitaanir rajeem'], [/A‘udhu billah/g, 'Aoodhu billaah'], [/Masha’Allah/g, 'Maashaa Allah'], [/In sha Allah/g, 'In shaa Allah'], [/Alhamdulillah/gi, 'Alhamdu lillaah'], [/SubhanAllah/g, 'Subhaan Allah'], [/Bismika Allahumma amutu wa ahya/g, 'Bismika Allaahumma amootu wa ahyaa'], [/Allahumma sayyiban nafi‘a/g, 'Allaahumma sayyiban naafiaa'], [/ﷺ/g, ', peace be upon him,'], [/Ustadha/g, 'Ustaadha'], [/Jiddo/g, 'Jiddoh'], [/Teta/g, 'Tayta']];
-function speak(text, words, onEnd) {
-  if (!('speechSynthesis' in window)) { onEnd?.(); return; }
-  hush();
-  let said = text; for (const [a, b] of SAY) said = said.replace(a, b);
-  const u = new SpeechSynthesisUtterance(said);
-  if (voice) u.voice = voice; u.lang = voice?.lang ?? 'en-GB'; u.rate = 0.88; u.pitch = 1.05;
-  // light the words in turn: by the voice's word events where it gives them, else by time
-  let timer = null, k = 0;
-  const light = (i) => words.forEach((w, j) => w.classList.toggle('on', j === i));
-  u.onboundary = (e) => { if (e.name !== 'word') return; clearInterval(timer); timer = null; const ratio = e.charIndex / Math.max(1, said.length); light(Math.min(words.length - 1, Math.floor(ratio * words.length))); };
-  u.onstart = () => { timer = setInterval(() => light(k++), 360); };
-  u.onend = () => { clearInterval(timer); light(-1); onEnd?.(); };
-  u.onerror = u.onend;
-  speechSynthesis.speak(u);
-}
+// ── reading aloud: the recorded natural voice (src/lib/narration.mjs), one line after another ──
+let queue = 0;
+function speak(text, words, onEnd) { queue++; narrate(text, { voice: 'story', words, onEnd }); }
+async function speakAll(lines) { const q = ++queue; for (const [text, words] of lines) { if (q !== queue) return; await new Promise((r) => narrate(text, { voice: 'story', words: words ?? [], onEnd: r })); } }
+const hush = () => { queue++; stopNarration(); };
 
 // a tappable thing gets an invisible box around it, so a small finger anywhere on it counts
 function hitArea(g) {
@@ -180,12 +161,13 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
       b.addEventListener('click', () => {
         if (i === q.answer) {
           b.classList.add('right'); opts.querySelectorAll('button').forEach((x) => (x.disabled = true));
-          const why = el('p', 'st-why', `${tries ? 'Yes!' : 'Masha’Allah, that’s right!'} ${q.why}`);
+          const lead = tries ? STORY_LINES.yes : STORY_LINES.right;
+          const why = el('p', 'st-why', `${lead} ${q.why}`);
           box.append(why);
           st._right = tries === 0;
           next.disabled = false; next.classList.remove('wait');
-          if (readAloud) speak(why.textContent, []);
-        } else { tries++; b.classList.add('nope'); b.disabled = true; if (readAloud) speak('Not quite. Try again!', []); }
+          if (readAloud) speakAll([[lead], [q.why]]);
+        } else { tries++; b.classList.add('nope'); b.disabled = true; if (readAloud) speak(STORY_LINES.again, []); }
       });
       opts.append(b);
     });
@@ -200,12 +182,12 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
     cur = null;
     const box = el('div', 'st-card lesson');
     if (st.hadith) {
-      box.append(el('p', 'st-kicker', 'The Prophet Muhammad ﷺ said:'));
+      box.append(el('p', 'st-kicker', STORY_LINES.prophet));
       const ar = el('p', 'st-ar', st.hadith.ar); ar.lang = 'ar'; ar.dir = 'rtl';
       box.append(ar, el('p', 'st-en', `“${st.hadith.en}”`), el('p', 'st-src', `Reported by ${st.hadith.src.replace(/, /g, ' and ')}`));
     } else {
       const q = QURAN[`${st.quran.s}:${st.quran.a}:${st.quran.w[0]}-${st.quran.w[1]}`];
-      box.append(el('p', 'st-kicker', 'Allah says in the Qurʾan:'));
+      box.append(el('p', 'st-kicker', STORY_LINES.quran));
       const ar = el('p', 'st-ar quran', qpc(q.ar)); ar.lang = 'ar'; ar.dir = 'rtl';
       const listen = el('button', 'btn st-listen', '▶ Listen to the ayah'); listen.type = 'button';
       let a = null;
@@ -218,7 +200,7 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
     box.append(end);
     art.innerHTML = ''; words.replaceChildren(box);
     next.disabled = true; next.classList.add('wait');
-    if (readAloud) speak((st.hadith ? 'The Prophet Muhammad, peace be upon him, said: ' + st.hadith.en : 'Allah says in the Quran: ' + st.quran.en), []);
+    if (readAloud) speakAll([[st.hadith ? STORY_LINES.prophet : STORY_LINES.quran], [st.hadith ? st.hadith.en : st.quran.en]]);
   }
 
   next.addEventListener('click', () => { if (at < total + 1) showPage(at + 1); });

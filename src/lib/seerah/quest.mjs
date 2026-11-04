@@ -4,6 +4,7 @@ import SRC from '../../data/seerah/sources.json';
 import { createWorld } from './world.mjs';
 import { EPISODES } from './episodes.mjs';
 import { audioUrl } from '../client.mjs';
+import { narrate, hush as stopNarration } from '../narration.mjs';
 
 const SOURCES = Object.fromEntries(SRC.passages.map((p) => [p.id, p]));
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
@@ -12,16 +13,10 @@ const shuffle = (xs) => { const a = [...xs]; for (let i = a.length - 1; i > 0; i
 const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.search);
 export const cite = (p) => `al-Bidaya wa'l-Nihaya ${p.vol}/${p.page}`;
 
-// the narrator: subtitles always; read aloud in English if the student keeps narration on
-let narrator = true, enVoice = null;
-const pickEn = () => { enVoice = (globalThis.speechSynthesis?.getVoices() ?? []).filter((v) => /^en/i.test(v.lang)).sort((a, b) => (/natural|google|online/i.test(b.name) ? 1 : 0) - (/natural|google|online/i.test(a.name) ? 1 : 0))[0] ?? null; };
-if (typeof window !== 'undefined' && 'speechSynthesis' in window) { pickEn(); speechSynthesis.addEventListener?.('voiceschanged', pickEn); }
-function speakEn(text) {
-  if (!narrator || !('speechSynthesis' in window)) return;
-  const u = new SpeechSynthesisUtterance(text.replace(/ﷺ/g, ', peace be upon him,')); if (enVoice) u.voice = enVoice; u.lang = enVoice?.lang ?? 'en-GB'; u.rate = 0.93; u.pitch = 0.95;
-  speechSynthesis.cancel(); speechSynthesis.speak(u);
-}
-const hush = () => { try { speechSynthesis.cancel(); } catch {} };
+// the narrator: subtitles always; read aloud by the recorded narrator voice if the student keeps narration on
+let narrator = true;
+function speakEn(text) { if (narrator) narrate(text, { voice: 'seerah' }); }
+const hush = () => stopNarration();
 
 export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, onStep, onDone, onExit }) {
   const ep = EPISODES.find((e) => e.n === n);
