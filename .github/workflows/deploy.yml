@@ -50,12 +50,13 @@ jobs:
         continue-on-error: true
         run: |
           command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
-          python3 -m pip install --quiet --break-system-packages onnxruntime numpy pyworld || python3 -m pip install --quiet onnxruntime numpy pyworld
+          python3 -m pip install --quiet --break-system-packages onnxruntime numpy pyworld "setuptools<81" || python3 -m pip install --quiet onnxruntime numpy pyworld "setuptools<81"
           curl -fsSL --retry 3 https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-ar_JO-kareem-medium.tar.bz2 | tar xj -C /tmp
           python3 scripts/voice/make_voice.py /tmp/vits-piper-ar_JO-kareem-medium
       # The storyteller voice for Story Time and the Seerah Quest (Kokoro, Apache 2.0, directed sentence by sentence).
       # Every English line is recorded once and kept in the cache; on later deploys only new or changed lines are
-      # recorded. The first run takes about 30–40 minutes. If this step fails the site still works (the browser's own voice is used).
+      # recorded. The first run takes about 30–40 minutes. sherpa-onnx is pinned: version 2 reads Kokoro differently
+      # (it skips every English word), and the recorder stops if a clip comes out without its words. If this step fails the site still works (the browser's own voice is used).
       - name: List the lines the classroom reads aloud
         run: node scripts/voice/narration-list.mjs
       - name: Restore the narration clips
@@ -63,14 +64,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: public/audio/narration
-          key: narration-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py') }}
-          restore-keys: narration-
+          key: narration3-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py') }}
+          restore-keys: narration3-
       - name: Record the narration with the natural voice
         if: steps.narration.outputs.cache-hit != 'true'
         continue-on-error: true
         run: |
           command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
-          python3 -m pip install --quiet --break-system-packages sherpa-onnx onnxruntime numpy soundfile pyworld scipy || python3 -m pip install --quiet sherpa-onnx onnxruntime numpy soundfile pyworld scipy
+          python3 -m pip install --quiet --break-system-packages sherpa-onnx==1.12.40 onnxruntime numpy soundfile pyworld scipy "setuptools<81" || python3 -m pip install --quiet sherpa-onnx==1.12.40 onnxruntime numpy soundfile pyworld scipy "setuptools<81"
           curl -fsSL --retry 3 https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2 | tar xj -C /tmp
           python3 scripts/voice/make_narration.py /tmp/kokoro-multi-lang-v1_0
       - name: Build data and site
