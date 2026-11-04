@@ -1,17 +1,23 @@
 // Lists every English line the classroom reads aloud (Story Time and the Seerah Quest), for make_narration.py.
-// Writes scripts/voice/narration.json: [{ key, voice, text (as shown), say (as spoken) }]
+// Writes scripts/voice/narration.json: [{ key, reader, text (as shown), parts: [[who, words as spoken]] }]
 import fs from 'node:fs';
-import { VOICES, SPEED, spoken, clipKey, STORY_LINES } from '../../src/lib/narration-text.mjs';
+import { VOICES, spoken, clipKey, parts, STORY_LINES } from '../../src/lib/narration-text.mjs';
 import { STORIES } from '../../src/lib/stories/level1.mjs';
 import { EPISODES } from '../../src/lib/seerah/episodes.mjs';
 
 const SRC = JSON.parse(fs.readFileSync(new URL('../../src/data/seerah/sources.json', import.meta.url)));
 const out = new Map();
-const add = (voice, text) => { if (!text) return; const v = VOICES[voice], key = clipKey(v, text); if (!out.has(key)) out.set(key, { key, voice: v, speed: SPEED[voice], text, say: spoken(text) }); };
+const add = (reader, text, where) => {
+  if (!text) return;
+  const key = clipKey(VOICES[reader], text);
+  if (out.has(key)) return;
+  const ps = reader === 'story' ? parts(text, where) : [['narrator', text]];
+  out.set(key, { key, reader, text, parts: ps.map(([who, w]) => [who, spoken(w)]) });
+};
 
 // Story Time: every page, every tap, the question and answers, the hadith or ayah
 for (const st of STORIES) {
-  for (const p of st.pages) { add('story', p.t); add('story', p.tap?.say); }
+  st.pages.forEach((p, i) => { add('story', p.t, `${st.id}:${i}`); add('story', p.tap?.say, `${st.id}:${i}:say`); });
   add('story', `${st.ask.q} ${st.ask.options.join('? ')}?`);
   add('story', st.ask.why);
   add('story', st.hadith ? st.hadith.en : st.quran.en);
@@ -31,5 +37,5 @@ for (const ep of EPISODES) for (const s of ep.steps) {
 }
 const list = [...out.values()];
 fs.writeFileSync(new URL('./narration.json', import.meta.url), JSON.stringify(list, null, 1) + '\n');
-const words = list.reduce((n, x) => n + x.say.split(' ').length, 0);
-console.log(`${list.length} lines (${words} words): ${list.filter((x) => x.voice === VOICES.story).length} story, ${list.filter((x) => x.voice === VOICES.seerah).length} seerah`);
+const words = list.reduce((n, x) => n + x.parts.reduce((m, [, w]) => m + w.split(' ').length, 0), 0);
+console.log(`${list.length} lines (${words} words): ${list.filter((x) => x.reader === 'story').length} story, ${list.filter((x) => x.reader === 'seerah').length} seerah`);

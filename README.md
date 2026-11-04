@@ -269,13 +269,19 @@ Other levels see the Level 1 shelf until their own stories are added (`STORY_SHE
 
 ### The reading voice (Story Time and the Seerah Quest)
 
-Every English line the classroom reads aloud is recorded by **Kokoro** (an open neural voice, Apache 2.0): a warm
-storyteller (*af_heart*) for Story Time and a calm narrator (*bm_george*) for the Seerah Quest. GitHub makes the clips
-during the deploy (`scripts/voice/narration-list.mjs` lists the lines, `scripts/voice/make_narration.py` records them
-into `public/audio/narration/`), sentence by sentence with natural pauses, levelled so every page is equally loud.
-They are cached, so after the first deploy (about 20–30 minutes) only new or changed sentences are recorded. A line
-without a clip uses the browser's voice. To change how a word is said (for example an Arabic name), add it to `SAY`
-in `src/lib/narration-text.mjs`.
+**The most human voice is a real one.** In the Voice Studio there is now a **Story Time** tab: a teacher or parent
+reads each page (slowly, warmly, with expression) and saves it, and every student then hears that recording for that
+page. Pages not yet recorded use the computer storyteller.
+
+The computer storyteller is made at build time from **Kokoro** (an open neural voice, Apache 2.0), directed sentence by
+sentence by `scripts/voice/make_narration.py`: a slow pace with real pauses; the melody widened so the voice rises and
+falls like a storyteller's; exclamations brighter, questions lifted at the end, quiet moments ("slowly… slowly…",
+bedtime) lower and softer; and the characters' words in their own voices (Yusuf, Maryam and friends lighter and higher,
+Mama, Teta, Baba, Jiddo, Ustadha Huda). Who says each line is worked out from the text, with corrections in
+`SPEAKERS` in `src/lib/narration-text.mjs`. The Seerah Quest is read by a calm male narrator. GitHub records the clips
+during the deploy (`scripts/voice/narration-list.mjs` lists the lines) and keeps them in its cache: the first deploy
+takes about 30–40 minutes, later ones only record new or changed sentences. To change how a word is said (for example
+an Arabic name), add it to `SAY` in the same file.
 
 The Sheikh's **Arabic** voice is unchanged: Kokoro and the other natural voices do not speak Arabic, and no open
 Arabic voice better than *Kareem* is available. A teacher's recording in the Voice Studio is still the way to make the

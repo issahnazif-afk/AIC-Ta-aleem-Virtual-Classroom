@@ -6,6 +6,11 @@ import { PHRASES } from './phrases.mjs';
 import { isHeld, say, studioUrl, forgetStudio, loadStudio, stopSound } from './voice.mjs';
 import { syllable } from './lessons.mjs';
 import { voiceCheck, voiceSave, voiceDelete } from './classlog.mjs';
+import { STORIES } from './stories/level1.mjs';
+import { narrate, hush } from './narration.mjs';
+
+// the id of a teacher's reading of a Story Time page (and of what the page says after the child's tap)
+export const storyClipId = (story, page, tap) => `st-${story}-${page + 1}${tap ? 't' : ''}`;
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const FIRST = { alif: 'a', ba: 'b', ta: 't', tha: 'th', jim: 'j', 'ha-hollow': 'ḥ', kha: 'kh', dal: 'd', dhal: 'dh', ra: 'r', zay: 'z', sin: 's', shin: 'sh', sad: 'ṣ', dad: 'ḍ', 'ta-heavy': 'ṭ', 'dha-heavy': 'ẓ', ayn: 'ʿ', ghayn: 'gh', fa: 'f', qaf: 'q', kaf: 'k', lam: 'l', mim: 'm', nun: 'n', ha: 'h', waw: 'w', ya: 'y' };
@@ -29,6 +34,11 @@ export function catalogue() {
   syl('sukun', 'Sukun and shadda', ['sk', 'sh'], 'As written: أَبْ, then أَبَّ.');
   syl('tanween', 'Tanween', ['an', 'in', 'un'], 'One syllable with its nun sound.');
   syl('madd', 'Madd', ['aa', 'ii', 'uu'], 'Hold the vowel for the length of one alif.');
+  // Story Time: a real voice reading each page replaces the computer storyteller for that page
+  groups.push({ key: 'stories', title: 'Story Time (Level 1)', why: 'Read each page as you would to a child on your lap: slowly, warmly, with expression, and a little pause between sentences. Give the characters their own voices if you like. A page you record replaces the computer storyteller for every student.', clips: STORIES.flatMap((st, n) => st.pages.flatMap((p, i) => [
+    { id: storyClipId(st.id, i), story: true, text: p.t, label: `${n + 1}. ${st.title} · page ${i + 1}`, how: '' },
+    ...(p.tap ? [{ id: storyClipId(st.id, i, true), story: true, text: p.tap.say, label: `${n + 1}. ${st.title} · page ${i + 1}, after the tap`, how: '' }] : []),
+  ])) });
   return groups;
 }
 
@@ -90,7 +100,7 @@ export function mountStudio(root, { onExit }) {
     renderStudio();
   });
 
-  function stop() { stream?.getTracks().forEach((t) => t.stop()); stream = null; stopSound(); }
+  function stop() { stream?.getTracks().forEach((t) => t.stop()); stream = null; stopSound(); hush(); }
 
   function renderStudio() {
     root.replaceChildren();
@@ -114,11 +124,11 @@ export function mountStudio(root, { onExit }) {
 
   function row(c) {
     const r = el('div', 'st-row' + (list[c.id] != null ? ' has' : ''));
-    const ar = el('span', 'st-ar', c.ar); ar.lang = 'ar'; ar.dir = 'rtl';
-    const info = el('div', 'st-info'); info.append(el('b', null, c.label), el('span', 'muted small', c.how));
-    const state = el('span', 'st-state', list[c.id] != null ? 'Teacher’s voice ✓' : 'Computer voice');
+    const ar = c.story ? el('span', 'st-ar st-book', '📖') : el('span', 'st-ar', c.ar); if (!c.story) { ar.lang = 'ar'; ar.dir = 'rtl'; }
+    const info = el('div', 'st-info'); info.append(el('b', null, c.label), c.story ? el('span', 'st-line', c.text) : el('span', 'muted small', c.how));
+    const state = el('span', 'st-state', list[c.id] != null ? 'Teacher’s voice ✓' : c.story ? 'Storyteller (computer)' : 'Computer voice');
     const hear = el('button', 'btn small-btn', 'Hear now'); hear.type = 'button';
-    hear.addEventListener('click', () => say(c.id, c.ar));
+    hear.addEventListener('click', () => (c.story ? narrate(c.text, { voice: 'story', studio: c.id }) : say(c.id, c.ar)));
     const rec = el('button', 'btn small-btn st-rec', '● Record'); rec.type = 'button';
     const take = el('button', 'btn small-btn', '▶ My take'); take.type = 'button'; take.hidden = true;
     const save = el('button', 'btn btn-primary small-btn', 'Save'); save.type = 'button'; save.hidden = true;
@@ -153,7 +163,7 @@ export function mountStudio(root, { onExit }) {
     });
     del.addEventListener('click', async () => {
       const r2 = await voiceDelete({ password, id: c.id });
-      if (r2.ok) { forgetStudio(c.id); list = await loadStudio(true); state.textContent = 'Computer voice'; r.classList.remove('has'); del.hidden = true; msg.textContent = 'Removed'; }
+      if (r2.ok) { forgetStudio(c.id); list = await loadStudio(true); state.textContent = c.story ? 'Storyteller (computer)' : 'Computer voice'; r.classList.remove('has'); del.hidden = true; msg.textContent = 'Removed'; }
     });
     const btns = el('div', 'st-btns'); btns.append(hear, rec, take, save, del, msg);
     r.append(ar, info, state, btns);

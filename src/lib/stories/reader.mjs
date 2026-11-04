@@ -13,7 +13,7 @@ const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.sea
 
 // ── reading aloud: the recorded natural voice (src/lib/narration.mjs), one line after another ──
 let queue = 0;
-function speak(text, words, onEnd) { queue++; narrate(text, { voice: 'story', words, onEnd }); }
+function speak(text, words, onEnd, studio) { queue++; narrate(text, { voice: 'story', words, onEnd, studio }); }
 async function speakAll(lines) { const q = ++queue; for (const [text, words] of lines) { if (q !== queue) return; await new Promise((r) => narrate(text, { voice: 'story', words: words ?? [], onEnd: r })); } }
 const hush = () => { queue++; stopNarration(); };
 
@@ -91,7 +91,7 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
 
   function readPage(extra) {
     if (!readAloud || !cur) return;
-    speak(extra ?? cur.text, extra ? cur.extraWords : cur.words);
+    speak(extra ?? cur.text, extra ? cur.extraWords : cur.words, null, `st-${st.id}-${at + 1}${extra ? 't' : ''}`);
   }
   function setDots() { [...dots.children].forEach((d, i) => d.classList.toggle('on', i === at)); }
 

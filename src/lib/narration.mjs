@@ -3,7 +3,8 @@
 // (for example a sentence a teacher has just changed) falls back to the browser's own voice.
 //   narrate(text, { voice: 'story' | 'seerah', words, onEnd }) → { stop() }
 import { u } from './url.mjs';
-import { VOICES, SPEED, spoken, clipKey } from './narration-text.mjs';
+import { VOICES, spoken, clipKey } from './narration-text.mjs';
+import { studioUrl } from './voice.mjs';
 
 let index = null;
 const load = () => (index ??= fetch(u('audio/narration/index.json')).then((r) => (r.ok ? r.json() : {}), () => ({})));
@@ -43,16 +44,21 @@ function browserSay(text, words, onEnd) {
   return { stop() { clearInterval(timer); u2.onend = null; speechSynthesis.cancel(); words.forEach((w) => w.classList.remove('on')); } };
 }
 
-export async function narrate(text, { voice = 'story', words = [], onEnd } = {}) {
+// studio: the id of a teacher's recording of this line in the Voice Studio (st-<story>-<page>), used first
+export async function narrate(text, { voice = 'story', words = [], onEnd, studio } = {}) {
   hush();
   const mine = {};
   current = mine;
-  const idx = await load();
+  const [idx, own] = await Promise.all([load(), studio ? studioUrl(studio).catch(() => null) : null]);
   if (current !== mine) return mine;     // something else started while we were loading
-  const clip = idx[clipKey(VOICES[voice], text)];
+  const made = idx[clipKey(VOICES[voice], text)];
+  const clip = own ? { src: own } : made ? { src: u(`audio/narration/${made.f}.mp3`), d: made.d } : null;
   if (clip) {
-    const a = new Audio(u(`audio/narration/${clip.f}.mp3`));
-    const light = words.length ? lighter(words, clip.d) : null;
+    const a = new Audio(clip.src);
+    a.addEventListener('loadedmetadata', () => { if (!clip.d && isFinite(a.duration)) clip.d = a.duration; });
+    let light = null;
+    const relight = () => { light = words.length ? lighter(words, clip.d || a.duration || 5) : null; };
+    relight(); a.addEventListener('loadedmetadata', relight);
     let ended = false;
     const finish = () => { if (ended) return; ended = true; words.forEach((w) => w.classList.remove('on')); onEnd?.(); };
     a.addEventListener('timeupdate', () => light?.(a.currentTime));
@@ -64,4 +70,3 @@ export async function narrate(text, { voice = 'story', words = [], onEnd } = {})
   mine.stop = b.stop;
   return mine;
 }
-export { SPEED };
