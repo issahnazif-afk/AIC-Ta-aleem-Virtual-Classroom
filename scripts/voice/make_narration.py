@@ -5,7 +5,8 @@
 
 Writes public/audio/narration/<key>.mp3 and public/audio/narration/index.json ({ key: { f, d } }).
 Lines that already have a clip are skipped, so only new or changed sentences are recorded.
-Needs: pip install sherpa-onnx onnxruntime numpy soundfile pyworld scipy, and ffmpeg.
+Needs: pip install sherpa-onnx==1.12.40 onnxruntime numpy soundfile pyworld scipy, and ffmpeg.
+(sherpa-onnx 2.x reads Kokoro differently and skips English words; the script stops if that happens.)
 
 The voice is Kokoro v1.0 (Apache 2.0). It reads quickly and evenly on its own, so each sentence is directed:
   - slow, with real pauses: after a sentence, longer after a question or an exclamation, longest after "…"
@@ -118,8 +119,17 @@ def main(model_dir):
     index = {k: v for k, v in index.items() if os.path.exists(os.path.join(OUT, v['f'] + '.mp3'))}
     todo = [x for x in lines if x['key'] not in index]
     print(f'{len(lines)} lines, {len(todo)} to record')
+    def check(x, s):
+        # a clip must be long enough for its words (about 0.2 s a word at the least): if the speech library could not
+        # read the words it gives a second or two of noise, and that must never reach the classroom
+        words = sum(len(w.split()) for _, w in x['parts'])
+        if len(s) / SR < 0.2 * words + 0.4:
+            raise SystemExit(f'The voice did not read this line (got {len(s) / SR:.1f} s for {words} words): {x["text"][:80]!r}. '
+                             f'Check the sherpa-onnx version (this script is tested with 1.12.40).')
+
     for n, x in enumerate(todo, 1):
         s = read(x)
+        check(x, s)
         with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as t:
             sf.write(t.name, s, SR)
             subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', t.name, '-ac', '1', '-ar', '24000', '-b:a', '64k',
