@@ -53,6 +53,26 @@ jobs:
           python3 -m pip install --quiet --break-system-packages onnxruntime numpy pyworld || python3 -m pip install --quiet onnxruntime numpy pyworld
           curl -fsSL --retry 3 https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-ar_JO-kareem-medium.tar.bz2 | tar xj -C /tmp
           python3 scripts/voice/make_voice.py /tmp/vits-piper-ar_JO-kareem-medium
+      # The natural reading voice for Story Time and the Seerah Quest (Kokoro, Apache 2.0). Every English line is
+      # recorded once and kept in the cache; on later deploys only new or changed lines are recorded. The first run
+      # takes about 20–30 minutes. If this step fails the site still works (the browser's own voice is used).
+      - name: List the lines the classroom reads aloud
+        run: node scripts/voice/narration-list.mjs
+      - name: Restore the narration clips
+        id: narration
+        uses: actions/cache@v4
+        with:
+          path: public/audio/narration
+          key: narration-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py') }}
+          restore-keys: narration-
+      - name: Record the narration with the natural voice
+        if: steps.narration.outputs.cache-hit != 'true'
+        continue-on-error: true
+        run: |
+          command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          python3 -m pip install --quiet --break-system-packages sherpa-onnx onnxruntime numpy soundfile || python3 -m pip install --quiet sherpa-onnx onnxruntime numpy soundfile
+          curl -fsSL --retry 3 https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2 | tar xj -C /tmp
+          python3 scripts/voice/make_narration.py /tmp/kokoro-multi-lang-v1_0
       - name: Build data and site
         env:
           # Settings → Secrets and variables → Actions → Variables → CLASS_LOG_URL
