@@ -400,6 +400,22 @@ const levels = [
   </section>
   <section class="screen st-screen" id="s-story" hidden aria-label="Story"><div id="st-root"></div></section>
 
+  <!-- The Reading Library: the reading journey; books open in the Story Time reader (#s-story) ─── -->
+  <section class="screen flow" id="s-library" hidden aria-labelledby="lb-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Reading Library</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Reading Library · مَكْتَبَةُ ٱلْقِرَاءَة</p>
+      <h1 id="lb-h">My reading journey</h1>
+      <p class="muted lead" id="lb-lead"></p>
+      <div id="lb-root"></div>
+      <p class="preview-note">For teachers: every book ends with a hadith or an ayah. The hadith translations are simple meanings for young readers. Please check them before class.</p>
+    </div>
+  </section>
+
   <!-- A chooser: the surah for Build the Ayah, the topic for Match the Deen ─ -->
   <section class="screen flow" id="s-pick" hidden aria-labelledby="pk-h">
     <header class="topbar">
@@ -611,6 +627,7 @@ const levels = [
     import { makhrajOf, makhrajSvg } from '../lib/makhraj.mjs';
     import { STORIES as LEVEL1_STORIES } from '../lib/stories/level1.mjs';
     import { mountShelf, openStory } from '../lib/stories/reader.mjs';
+    import { mountLibrary, openBook, noteRead } from '../lib/library/library.mjs';
     import { EPISODES as SQ_EPISODES, LATER as SQ_LATER } from '../lib/seerah/episodes.mjs';
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
@@ -1121,6 +1138,7 @@ const levels = [
       else if (a.kind === 'play') openPlay(a);
       else if (a.kind === 'seerah') openSeerah();
       else if (a.kind === 'stories') openStories();
+      else if (a.kind === 'library') openLibrary();
     }
     function goHub() {
       stopSound();
@@ -1158,7 +1176,7 @@ const levels = [
     }
     document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.go === 'hub') { stopGame(); goHub(); }
-      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; goHome(); }
+      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
     function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }
@@ -1690,6 +1708,39 @@ const levels = [
           setTimeout(() => box.remove(), 12000);
           await saveProgress({ token: me.token, username: me.username, progress });
           logGame({ token: me.token, game: { game: 'Story Time', lesson: st.title, rounds: 1, first: right ? 1 : 0, accuracy: right ? 100 : 50, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+        },
+      });
+    }
+    // ── The Reading Library ──
+    let libBook = null, libLevel = null;
+    function openLibrary(level) {
+      stopSound();
+      document.querySelectorAll('.lb-earned-card').forEach((x) => x.remove());
+      const mine = me.level || 1;
+      libLevel = level ?? libLevel ?? Math.min(2, mine);
+      $('lb-lead').textContent = mine > 2 ? `Books for ${me.className} are coming, in sha Allah. Until then, enjoy Levels 1 and 2.` : 'Follow the path. Each book is a new adventure. Read it, play its games and collect your stars.';
+      mountLibrary($('lb-root'), { level: libLevel, progress, onOpen: readBook, onLevel: (n) => openLibrary(n) });
+      renderDashboard();
+      show('s-library');
+    }
+    function readBook(book) {
+      show('s-story');
+      const t0 = Date.now();
+      libBook = openBook($('st-root'), book, {
+        reciter: reciter(),
+        onExit: () => { libBook = null; openLibrary(); },
+        onDone: async ({ stars, right }) => {
+          libBook = null;
+          noteRead(progress, book, stars);
+          const e = record(progress, { kind: 'library', key: `library:${book.id}`, score: Math.round((stars / 3) * 100), good: stars >= 2, gardenPalms: palms() });
+          openLibrary();
+          const box = document.createElement('div'); box.className = 'card st-earned lb-earned-card';
+          const h = document.createElement('h2'); h.className = 'h2'; h.textContent = `Masha’Allah! “${book.title}”: ${'★'.repeat(stars)}`;
+          const er = document.createElement('div'); box.append(h, er); showEarned(er, e);
+          $('lb-root').before(box);
+          setTimeout(() => box.remove(), 12000);
+          await saveProgress({ token: me.token, username: me.username, progress });
+          logGame({ token: me.token, game: { game: 'Reading Library', lesson: book.title, rounds: 1, first: right ? 1 : 0, accuracy: Math.round((stars / 3) * 100), score: `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },
       });
     }

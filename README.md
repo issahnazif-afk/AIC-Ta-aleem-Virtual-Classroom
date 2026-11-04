@@ -267,6 +267,15 @@ floors and grass. Prophets and Companions are never shown.
 **Please have a teacher check `docs/story-time-level1.md`** (every story, page by page, with each hadith and its source).
 Other levels see the Level 1 shelf until their own stories are added (`STORY_SHELVES` in `src/pages/index.astro`).
 
+## The Reading Library (Levels 1 and 2)
+
+**Reading Library** is under *My Lessons*: a reading journey of forty books, twenty First Readers for Level 1 and twenty
+Adventure Readers for Level 2. A book is read in the Story Time reader (with its tap page and the read-aloud voice), then
+the child plays its story games (word game, quiz, fill the gap for Level 2, story order) and earns 1 to 3 stars, a
+passport stamp and a Ta'aleem Star. There is a day streak and a badge every five books. The books, the games, the
+writing rules and how a teacher adds a book (including pages exported from Canva) are in
+[docs/reading-library.md](docs/reading-library.md). Check new or changed books with `npm run books`.
+
 ### The reading voice (Story Time and the Seerah Quest)
 
 **The most human voice is a real one.** In the Voice Studio there is now a **Story Time** tab: a teacher or parent
@@ -429,6 +438,7 @@ src/lib/rewards.mjs          Ta'aleem Stars, badges and the daily challenge
 src/lib/studio.mjs           the Voice Studio, where teachers record the Sheikh's voice
 src/lib/makhraj.mjs          where each letter's sound comes from: the 17 makharij, the drawing and how-to sentences
 src/lib/stories/             Story Time: art.mjs (the pictures), level1.mjs (the 22 stories), reader.mjs (shelf and book)
+src/lib/library/             Reading Library: level1.mjs, level2.mjs (the 40 books), added.mjs (teachers' books), library.mjs (journey and games)
 scripts/stories/             quran.mjs (ayah words from Tanzil), review.mjs (docs/story-time-level1.md)
 src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley), episodes.mjs (the steps), quest.mjs (the player)
 scripts/questions/starter.py writes the starter Question bank (and its copy in apps-script/Code.gs)

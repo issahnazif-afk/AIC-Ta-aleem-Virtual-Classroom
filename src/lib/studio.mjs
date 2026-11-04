@@ -7,6 +7,9 @@ import { isHeld, say, studioUrl, forgetStudio, loadStudio, stopSound } from './v
 import { syllable } from './lessons.mjs';
 import { voiceCheck, voiceSave, voiceDelete } from './classlog.mjs';
 import { STORIES } from './stories/level1.mjs';
+import { LEVEL1 as LIB1 } from './library/level1.mjs';
+import { LEVEL2 as LIB2 } from './library/level2.mjs';
+import { ADDED as LIB_ADDED } from './library/added.mjs';
 import { narrate, hush } from './narration.mjs';
 
 // the id of a teacher's reading of a Story Time page (and of what the page says after the child's tap)
@@ -39,6 +42,14 @@ export function catalogue() {
     { id: storyClipId(st.id, i), story: true, text: p.t, label: `${n + 1}. ${st.title} · page ${i + 1}`, how: '' },
     ...(p.tap ? [{ id: storyClipId(st.id, i, true), story: true, text: p.tap.say, label: `${n + 1}. ${st.title} · page ${i + 1}, after the tap`, how: '' }] : []),
   ])) });
+  // The Reading Library: the same idea, one tab per level
+  const lib = (books) => books.flatMap((st, n) => st.pages.flatMap((p, i) => [
+    { id: storyClipId(st.id, i), story: true, text: p.t, label: `${n + 1}. ${st.title} · page ${i + 1}`, how: '' },
+    ...(p.tap ? [{ id: storyClipId(st.id, i, true), story: true, text: p.tap.say, label: `${n + 1}. ${st.title} · page ${i + 1}, after the tap`, how: '' }] : []),
+  ]));
+  const lv = (n) => (b) => b.level === n || b.id.startsWith(`l${n}-`);
+  groups.push({ key: 'lib1', title: 'Library Level 1', why: 'First readers, ages 4–6. Read slowly and clearly, so a young child can follow each word as it lights up.', clips: lib([...LIB1, ...LIB_ADDED.filter(lv(1))]) });
+  groups.push({ key: 'lib2', title: 'Library Level 2', why: 'Adventure readers, ages 7–8. Read with energy and suspense, like telling an adventure.', clips: lib([...LIB2, ...LIB_ADDED.filter(lv(2))]) });
   return groups;
 }
 

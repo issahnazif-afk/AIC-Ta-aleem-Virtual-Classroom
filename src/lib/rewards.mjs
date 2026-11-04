@@ -19,7 +19,7 @@ export const BADGES = [
 const KIND = {
   hifz: 'quran', reading: 'quran', ayah: 'quran',
   journey: 'knowledge', match: 'knowledge', salah: 'knowledge', detective: 'knowledge', alifba: 'knowledge', seerah: 'knowledge',
-  akhlaq: 'character', story: 'character',
+  akhlaq: 'character', story: 'character', library: 'character',
 };
 
 export function rewardsOf(progress) {
@@ -40,7 +40,7 @@ function markDay(r) {
   r.streak = n;
 }
 
-// Record a finished activity. kind: hifz | reading | ayah | journey | match | salah | detective | alifba | akhlaq | seerah | story
+// Record a finished activity. kind: hifz | reading | ayah | journey | match | salah | detective | alifba | akhlaq | seerah | story | library
 // key: what "your last try" means (e.g. "match:Prophets"); score: higher is better (accuracy %, or fewer mistakes as a negative).
 // Returns what was earned, for the end screen.
 export function record(progress, { kind, key, score = null, good = false, gardenPalms = 0 }) {

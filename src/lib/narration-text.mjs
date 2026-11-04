@@ -59,3 +59,16 @@ export function clipKey(voice, text) {
 
 // The fixed lines the story reader says
 export const STORY_LINES = { right: 'Masha’Allah, that’s right!', yes: 'Yes!', again: 'Not quite. Try again!', prophet: 'The Prophet Muhammad ﷺ said:', quran: 'Allah says in the Qurʾan:' };
+
+// The Reading Library games (src/lib/library/library.mjs). Each line is recorded once and reused by every book.
+export const LIBRARY_LINES = {
+  right: 'Masha’Allah, that’s right!',
+  again: 'Not quite. Try again!',
+  pictureWord: 'Look at the picture. Which word goes with it?',
+  wordMeaning: 'Read the word. Which meaning is right?',
+  gap: 'One word is missing. Which word fits?',
+  order: 'What happened first? Tap the pictures in order.',
+  three: 'Three stars! You are a super reader.',
+  two: 'Two stars! Great reading. Try again for three.',
+  one: 'One star! Every book makes you a better reader.',
+};

@@ -1,9 +1,12 @@
-// Lists every English line the classroom reads aloud (Story Time and the Seerah Quest), for make_narration.py.
+// Lists every English line the classroom reads aloud (Story Time, the Reading Library and the Seerah Quest), for make_narration.py.
 // Writes scripts/voice/narration.json: [{ key, reader, text (as shown), parts: [[who, words as spoken]] }]
 import fs from 'node:fs';
-import { VOICES, spoken, clipKey, parts, STORY_LINES } from '../../src/lib/narration-text.mjs';
+import { VOICES, spoken, clipKey, parts, STORY_LINES, LIBRARY_LINES } from '../../src/lib/narration-text.mjs';
 import { STORIES } from '../../src/lib/stories/level1.mjs';
 import { EPISODES } from '../../src/lib/seerah/episodes.mjs';
+import { LEVEL1 } from '../../src/lib/library/level1.mjs';
+import { LEVEL2 } from '../../src/lib/library/level2.mjs';
+import { ADDED } from '../../src/lib/library/added.mjs';
 
 const SRC = JSON.parse(fs.readFileSync(new URL('../../src/data/seerah/sources.json', import.meta.url)));
 const out = new Map();
@@ -23,6 +26,18 @@ for (const st of STORIES) {
   add('story', st.hadith ? st.hadith.en : st.quran.en);
 }
 for (const k of Object.values(STORY_LINES)) add('story', k);
+
+// The Reading Library: the same as Story Time, plus (Level 1 only) the quiz questions and the picture words.
+// Level 2 games are read by the child, so they are not narrated.
+for (const b of [...LEVEL1, ...LEVEL2, ...ADDED]) {
+  const L1 = b.level === 1 || /^l1-/.test(b.id);
+  b.pages.forEach((p, i) => { add('story', p.t, `${b.id}:${i}`); add('story', p.tap?.say, `${b.id}:${i}:say`); });
+  add('story', `${b.choose.q} ${b.choose.options.join('? ')}?`);
+  add('story', b.choose.why);
+  add('story', b.hadith ? b.hadith.en : b.quran.en);
+  if (L1) { for (const q of b.quiz) add('story', q.q); for (const w of b.words) add('story', w.w); }
+}
+for (const k of Object.values(LIBRARY_LINES)) add('story', k);
 
 // The Seerah Quest: the passages from al-Bidaya, the explorer's guide, the questions and the reflections
 for (const p of SRC.passages) if (p.class !== 'excluded') add('seerah', p.en);

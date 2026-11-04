@@ -1,6 +1,9 @@
 // Story Time: the shelf of books and the reader.
 //   mountShelf(root, { stories, progress, onOpen })
-//   openStory(root, story, { reciter, onDone, onExit })  → onDone({ right }) when the child reaches the end
+//   openStory(root, story, { reciter, onDone, onExit, glossary, finish })  → onDone({ right }) when the child reaches the end
+//     glossary: [{ w, m }] words to underline; a tap shows the meaning (Reading Library, Level 2)
+//     finish:   the label of the last button
+//   A page may have `img` (a picture file under public/, e.g. 'library/my-book/01.jpg') instead of `art`.
 import { scene } from './art.mjs';
 import QURAN from '../../data/stories-quran.json';
 import { audioUrl } from '../client.mjs';
@@ -27,12 +30,24 @@ function hitArea(g) {
   } catch {}
 }
 
-function wordsOf(text) {
+function wordsOf(text, glossary) {
   const p = el('p', 'st-text');
   const words = text.split(/(\s+)/).map((w) => { if (/^\s+$/.test(w)) return document.createTextNode(w); const s = el('span', 'w', w); return s; });
   p.append(...words);
+  if (glossary?.length) for (const s of words) {
+    if (s.nodeType !== 1) continue;
+    const k = s.textContent.toLowerCase().replace(/[^a-z]/g, '');
+    const g = glossary.find((x) => !x.w.includes(' ') && (k === x.w || (k.startsWith(x.w) && k.length - x.w.length <= 2)));
+    if (!g) continue;
+    s.classList.add('gl'); s.tabIndex = 0; s.setAttribute('role', 'button'); s.setAttribute('aria-label', `${g.w}: ${g.m}`);
+    const tip = () => { p.querySelectorAll('.gl-tip').forEach((t) => t.remove()); const t = el('span', 'gl-tip', `${g.w}: ${g.m}`); s.append(t); setTimeout(() => t.remove(), 4000); };
+    s.addEventListener('click', (e) => { e.stopPropagation(); tip(); });
+    s.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tip(); } });
+  }
   return { p, words: words.filter((w) => w.nodeType === 1) };
 }
+const BASE = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || '/';
+export const picture = (p) => p.img ? `<img class="st-photo" src="${BASE.replace(/\/?$/, '/')}${p.img}" alt="">` : scene(p.art);
 
 // ── the shelf ───────────────────────────────────────────────
 export function mountShelf(root, { stories, progress, onOpen }) {
@@ -41,7 +56,7 @@ export function mountShelf(root, { stories, progress, onOpen }) {
     const done = progress?.[st.id]?.done;
     const b = el('button', 'st-cover' + (done ? ' done' : '')); b.type = 'button'; b.dataset.story = st.id;
     b.style.setProperty('--book', st.color);
-    const art = el('div', 'st-cover-art'); art.innerHTML = scene(st.pages[0].art);
+    const art = el('div', 'st-cover-art'); art.innerHTML = picture(st.pages[0]);
     const n = el('span', 'st-cover-n', String(i + 1));
     const t = el('b', null, st.title);
     const th = el('span', 'st-cover-theme', st.theme);
@@ -53,7 +68,7 @@ export function mountShelf(root, { stories, progress, onOpen }) {
 }
 
 // ── the reader ──────────────────────────────────────────────
-export function openStory(root, st, { reciter, onDone, onExit }) {
+export function openStory(root, st, { reciter, onDone, onExit, glossary, finish }) {
   hush();
   st._right = undefined;
   root.replaceChildren();
@@ -108,8 +123,8 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
 
   function page(p) {
     stage.className = 'st-stage';
-    art.innerHTML = scene(p.art);
-    const { p: para, words: ws } = wordsOf(p.t);
+    art.innerHTML = picture(p);
+    const { p: para, words: ws } = wordsOf(p.t, glossary);
     words.replaceChildren(para);
     cur = { text: p.t, words: ws };
     const needsTap = p.tap && !tapped.has(at);
@@ -126,7 +141,7 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
           e.stopPropagation();
           tapped.add(at);
           if (p.tap.after) art.innerHTML = scene(p.tap.after);
-          const extra = wordsOf(p.tap.say);
+          const extra = wordsOf(p.tap.say, glossary);
           extra.p.classList.add('said');
           words.append(extra.p);
           cur.extraWords = extra.words;
@@ -142,7 +157,7 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
         target.setAttribute('tabindex', '0'); target.setAttribute('role', 'button'); target.setAttribute('aria-label', p.tap.prompt);
       } else if (tapped.has(at) && p.tap.after) {
         art.innerHTML = scene(p.tap.after);
-        const extra = wordsOf(p.tap.say); extra.p.classList.add('said'); words.append(extra.p);
+        const extra = wordsOf(p.tap.say, glossary); extra.p.classList.add('said'); words.append(extra.p);
       }
     }
     readPage();
@@ -153,7 +168,7 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
     cur = null;
     const q = st.ask;
     const box = el('div', 'st-card');
-    box.append(el('p', 'st-kicker', 'Think about the story'), el('h2', 'st-q', q.q));
+    box.append(el('p', 'st-kicker', st.askKicker ?? 'Think about the story'), el('h2', 'st-q', q.q));
     const opts = el('div', 'st-opts');
     let tries = 0;
     q.options.forEach((o, i) => {
@@ -195,7 +210,7 @@ export function openStory(root, st, { reciter, onDone, onExit }) {
       root._stopAudio = () => a?.pause();
       box.append(ar, el('p', 'st-en', `“${st.quran.en}”`), el('p', 'st-src', `Surah ${q.surah} ${q.s}:${q.a}`), listen);
     }
-    const end = el('button', 'btn btn-primary big st-finish', 'I finished the story! ★'); end.type = 'button';
+    const end = el('button', 'btn btn-primary big st-finish', finish ?? 'I finished the story! ★'); end.type = 'button';
     end.addEventListener('click', () => { hush(); root._stopAudio?.(); onDone?.({ right: st._right !== false }); });
     box.append(end);
     art.innerHTML = ''; words.replaceChildren(box);
