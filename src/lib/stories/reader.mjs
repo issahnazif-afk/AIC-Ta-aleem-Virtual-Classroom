@@ -6,10 +6,11 @@
 //   A page may have `img` (a picture file under public/, e.g. 'library/my-book/01.jpg') instead of `art`.
 import { scene } from './art.mjs';
 import QURAN from '../../data/stories-quran.json';
-import { audioUrl } from '../client.mjs';
+import { audioUrl, wordAudioUrl } from '../client.mjs';
+import { studioUrl, playUrl, stopSound as stopClip } from '../voice.mjs';
 import { qpc } from '../recite.mjs';
 import { narrate, hush as stopNarration } from '../narration.mjs';
-import { STORY_LINES } from '../narration-text.mjs';
+import { STORY_LINES, hadithClipId } from '../narration-text.mjs';
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.search);
@@ -18,7 +19,8 @@ const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.sea
 let queue = 0;
 function speak(text, words, onEnd, studio) { queue++; narrate(text, { voice: 'story', words, onEnd, studio }); }
 async function speakAll(lines) { const q = ++queue; for (const [text, words] of lines) { if (q !== queue) return; await new Promise((r) => narrate(text, { voice: 'story', words: words ?? [], onEnd: r })); } }
-const hush = () => { queue++; stopNarration(); };
+const hush = () => { queue++; stopNarration(); stopClip(); };
+const said = (text) => new Promise((r) => narrate(text, { voice: 'story', onEnd: r }));
 
 // a tappable thing gets an invisible box around it, so a small finger anywhere on it counts
 function hitArea(g) {
@@ -192,30 +194,48 @@ export function openStory(root, st, { reciter, onDone, onExit, glossary, finish 
     if (readAloud) speak(q.q + ' ' + q.options.join('? ') + '?', []);
   }
 
+  // The hadith or ayah page. Read aloud: "The Prophet ﷺ said:" / "Allah says in the Qurʾan:", then the Arabic in a
+  // real voice (a teacher's Voice Studio recording of the hadith; for an ayah, a Qari reading the words shown, from the
+  // quran.com word-by-word recordings), then the meaning in English. No computer voice ever reads the Arabic.
   function lesson() {
     stage.className = 'st-stage card-page';
     cur = null;
     const box = el('div', 'st-card lesson');
+    let ar, arabic;
     if (st.hadith) {
       box.append(el('p', 'st-kicker', STORY_LINES.prophet));
-      const ar = el('p', 'st-ar', st.hadith.ar); ar.lang = 'ar'; ar.dir = 'rtl';
+      ar = el('p', 'st-ar', st.hadith.ar); ar.lang = 'ar'; ar.dir = 'rtl';
       box.append(ar, el('p', 'st-en', `“${st.hadith.en}”`), el('p', 'st-src', `Reported by ${st.hadith.src.replace(/, /g, ' and ')}`));
+      arabic = async () => { const url = await studioUrl(hadithClipId(st.hadith.ar)).catch(() => null); return url ? [url] : []; };
     } else {
       const q = QURAN[`${st.quran.s}:${st.quran.a}:${st.quran.w[0]}-${st.quran.w[1]}`];
       box.append(el('p', 'st-kicker', STORY_LINES.quran));
-      const ar = el('p', 'st-ar quran', qpc(q.ar)); ar.lang = 'ar'; ar.dir = 'rtl';
-      const listen = el('button', 'btn st-listen', '▶ Listen to the ayah'); listen.type = 'button';
-      let a = null;
-      listen.addEventListener('click', () => { hush(); a?.pause(); a = new Audio(audioUrl(reciter, q.s, q.a)); a.play().catch(() => {}); });
-      root._stopAudio = () => a?.pause();
+      ar = el('p', 'st-ar quran', qpc(q.ar)); ar.lang = 'ar'; ar.dir = 'rtl';
+      const listen = el('button', 'btn st-listen', q.whole ? '▶ Listen to the ayah' : '▶ Listen to the whole ayah'); listen.type = 'button';
+      listen.addEventListener('click', () => { hush(); playUrl(audioUrl(reciter, q.s, q.a), 90000); });
       box.append(ar, el('p', 'st-en', `“${st.quran.en}”`), el('p', 'st-src', `Surah ${q.surah} ${q.s}:${q.a}`), listen);
+      arabic = async () => q.whole ? [audioUrl(reciter, q.s, q.a)] : Array.from({ length: q.wbw[1] - q.wbw[0] + 1 }, (_, i) => wordAudioUrl(q.s, q.a, q.wbw[0] + i));
     }
     const end = el('button', 'btn btn-primary big st-finish', finish ?? 'I finished the story! ★'); end.type = 'button';
-    end.addEventListener('click', () => { hush(); root._stopAudio?.(); onDone?.({ right: st._right !== false }); });
+    end.addEventListener('click', () => { hush(); onDone?.({ right: st._right !== false }); });
     box.append(end);
     art.innerHTML = ''; words.replaceChildren(box);
     next.disabled = true; next.classList.add('wait');
-    if (readAloud) speakAll([[st.hadith ? STORY_LINES.prophet : STORY_LINES.quran], [st.hadith ? st.hadith.en : st.quran.en]]);
+    if (!readAloud) return;
+    const q = ++queue;
+    (async () => {
+      await said(st.hadith ? STORY_LINES.prophet : STORY_LINES.quran);
+      if (q !== queue) return;
+      const urls = await arabic();
+      if (urls.length) {
+        ar.classList.add('playing'); if (TEST) root.dataset.arabic = String(urls.length);
+        for (const u of urls) { if (q !== queue) return; await playUrl(u, urls.length > 1 ? 6000 : 60000); }
+        ar.classList.remove('playing');
+        await new Promise((r) => setTimeout(r, 350));
+      }
+      if (q !== queue) return;
+      said(st.hadith ? st.hadith.en : st.quran.en);
+    })();
   }
 
   next.addEventListener('click', () => { if (at < total + 1) showPage(at + 1); });
@@ -227,5 +247,5 @@ export function openStory(root, st, { reciter, onDone, onExit, glossary, finish 
   const onKey = (e) => { if (!root.isConnected) return removeEventListener('keydown', onKey); if (e.key === 'ArrowRight' && !next.disabled) next.click(); if (e.key === 'ArrowLeft' && !back.disabled) back.click(); };
   addEventListener('keydown', onKey);
   showPage(0);
-  return { stop() { hush(); root._stopAudio?.(); removeEventListener('keydown', onKey); } };
+  return { stop() { hush(); removeEventListener('keydown', onKey); } };
 }

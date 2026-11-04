@@ -17,7 +17,38 @@ export const SAY = [
   [/ﷺ/g, ', peace be upon him,'], [/Ustadha/g, 'Ustaadha'], [/Jiddo/g, 'Jiddoh'], [/Teta/g, 'Tayta'], [/Qurʾan/g, 'Quran'],
   [/ʿAbd al-Muttalib/g, 'Abdul Muttalib'], [/ʿ/g, ''], [/ʾ/g, ''], [/Ka‘bah|Kaʿbah/g, 'Kaaba'], [/Sanaʿa/g, 'Sanaa'], [/Khathʿam/g, 'Khathaam'],
 ];
-export function spoken(text) { let s = text; for (const [a, b] of SAY) s = s.replace(a, b); return s.replace(/\s+/g, ' ').trim(); }
+// How the recorded storyteller says Muslim names and Islamic words: as a Muslim English speaker would, close to the
+// Arabic, not as English guesses them ("MEH-ree-am", "EYE-dris", "AL-uh"). Written in the IPA the voice (Kokoro) uses.
+// make_narration.py sends these sounds straight to the voice. Longest phrases first. Changing a sound re-records the
+// lines that use it (the sound is part of each clip's key).
+export const NAMES = [
+  ['Assalamu alaykum', 'assalˈɑːmu alˈaɪkum'], ['Wa alaykum assalam', 'wa alˈaɪkum assalˈɑːm'], ['Jazakallahu khayran', 'dʒazˈɑːkallˌɑːhu xˈaɪɹan'],
+  ['Jazakillahu khayran', 'dʒazˈɑːkillˌɑːhu xˈaɪɹan'], ['In sha’ Allah', 'inʃˈɑːllˌɑːh'], ['In sha Allah', 'inʃˈɑːllˌɑːh'], ['Masha’Allah', 'mˌɑːʃɑːllˈɑːh'],
+  ['SubhanAllah', 'sˌʊbhɑːnallˈɑːh'], ['Alhamdulillah', 'alhˌamdulillˈɑːh'], ['Allahu Akbar', 'allˌɑːhu ˈakbaɹ'], ['Bismillah', 'bismillˈɑːh'],
+  ['Eid Mubarak', 'ˈiːd mubˈɑːɹak'], ['Ramadan Mubarak', 'ɹamadˈɑːn mubˈɑːɹak'], ['Hajj Musa', 'hˈadʒ mˈuːsa'], ['Abdul Muttalib', 'ˈabdul muttˈɑlib'],
+  ['Allah', 'allˈɑːh'], ['Muhammad', 'muhˈammad'], ['Ibrahim', 'ibɹɑːhˈiːm'], ['Ismail', 'ismɑːˈiːl'], ['Jibril', 'dʒibɹˈiːl'],
+  ['Maryam', 'mˈaɹjam'], ['Idris', 'idɹˈiːs'], ['Yusuf', 'jˈuːsuf'], ['Bilal', 'bilˈɑːl'], ['Omar', 'ˈʊmaɹ'], ['Zara', 'zˈɑːɹa'], ['Huda', 'hˈuːda'],
+  ['Salma', 'sˈalma'], ['Sami', 'sˈɑːmi'], ['Hamza', 'hˈamza'], ['Safiya', 'sˈafijja'], ['Layla', 'lˈaɪla'], ['Rashid', 'ɹˈɑːʃid'], ['Khadija', 'xadˈiːdʒa'],
+  ['Musa', 'mˈuːsa'], ['Amira', 'amˈiːɹa'], ['Misk', 'mˈisk'], ['Jiddo', 'dʒˈiddo'], ['Teta', 'tˈɛta'], ['Ustadha', 'ustˈɑːða'], ['Imam', 'imˈɑːm'],
+  ['Hashim', 'hˈɑːʃim'], ['Jurhum', 'dʒˈuɹhum'], ['ibn', 'ˈibn'], ['Quraysh', 'kuɹˈaɪʃ'], ['Abraha', 'ˈabɹaha'], ['Makkah', 'mˈakka'], ['Zamzam', 'zˈamzam'], ['Kaaba', 'kˈɑːba'], ['Ishaq', 'ishˈɑːk'],
+  ['Mahmud', 'mahmˈuːd'], ['Thaqif', 'θakˈiːf'], ['Kinanah', 'kinˈɑːna'], ['Tihama', 'tihˈɑːma'],
+  ['masjid', 'mˈasdʒid'], ['salam', 'salˈɑːm'], ['salah', 'salˈɑːh'], ['wudu', 'wʊdˈuː'], ['dua', 'dˈuːɑː'], ['miswak', 'miswˈɑːk'], ['adhan', 'aðˈɑːn'],
+  ['Fajr', 'fˈadʒɹ'], ['Dhuhr', 'ðˈuhɹ'], ['Asr', 'ˈasɹ'], ['Maghrib', 'mˈaɣɹib'], ['Isha', 'iʃˈɑː'], ['Jumuah', 'dʒˈumuːa'], ['taraweeh', 'taɹaːwˈiːh'],
+  ['Ramadan', 'ɹamadˈɑːn'], ['iftar', 'iftˈɑːɹ'], ['Eid', 'ˈiːd'], ['Jannah', 'dʒˈanna'], ['Hajj', 'hˈadʒ'], ['sadaqah', 'sˈadaka'], ['nasheed', 'naʃˈiːd'],
+  ['hadith', 'hadˈiːθ'], ['surah', 'sˈuːɹa'], ['ayah', 'ˈɑːja'], ['Qurʾan', 'kʊɹˈɑːn'], ['Quran', 'kʊɹˈɑːn'],
+];
+const NAME_RE = new RegExp(`(?<![\\p{L}])(${NAMES.map(([w]) => w.replace(/[’']/g, "['’]").replace(/ /g, '\\s+')).join('|')})([’']s)?(?![\\p{L}])`, 'giu');
+const NAME_KEY = new Map(NAMES.map(([w, ipa]) => [w.toLowerCase().replace(/’/g, "'"), ipa]));
+// spoken(text): what the browser's own voice is given. spoken(text, true): what the recorded voice reads, with each
+// name as {its sounds} (also used for the clip keys)
+export function spoken(text, sounds = false) {
+  let s = text;
+  const names = (t) => t.replace(NAME_RE, (m, w, pos) => { const ipa = NAME_KEY.get(w.toLowerCase().replace(/’/g, "'").replace(/\s+/g, ' ')); return ipa ? `{${ipa}${pos ? 'z' : ''}}` : m; });
+  if (sounds) s = names(s);
+  for (const [a, b] of SAY) s = s.replace(a, b);
+  if (sounds) s = names(s);
+  return s.replace(/\s+/g, ' ').trim();
+}
 
 // Who says the words in “quotes” on a page. Found from the words around them ("said Mama", "Baba asked"), or the
 // first person named in the sentence before; these pages say it outright where that guess would be wrong.
@@ -53,7 +84,7 @@ export function parts(text, where) {
 
 export function clipKey(voice, text) {
   let h = 0x811c9dc5;
-  for (const b of new TextEncoder().encode(`${voice}|${spoken(text)}`)) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
+  for (const b of new TextEncoder().encode(`${voice}|${spoken(text, true)}`)) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
   return h.toString(16).padStart(8, '0');
 }
 
@@ -72,3 +103,10 @@ export const LIBRARY_LINES = {
   two: 'Two stars! Great reading. Try again for three.',
   one: 'One star! Every book makes you a better reader.',
 };
+
+// The Voice Studio id of a teacher's recording of a hadith in Arabic: one recording serves every book with that hadith
+export function hadithClipId(ar) {
+  let h = 0x811c9dc5;
+  for (const b of new TextEncoder().encode(ar.replace(/\s+/g, ' ').trim())) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
+  return 'ha-' + h.toString(16).padStart(8, '0');
+}

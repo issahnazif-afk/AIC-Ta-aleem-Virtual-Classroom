@@ -289,12 +289,33 @@ bedtime) lower and softer; and the characters' words in their own voices (Yusuf,
 Mama, Teta, Baba, Jiddo, Ustadha Huda). Who says each line is worked out from the text, with corrections in
 `SPEAKERS` in `src/lib/narration-text.mjs`. The Seerah Quest is read by a calm male narrator. GitHub records the clips
 during the deploy (`scripts/voice/narration-list.mjs` lists the lines) and keeps them in its cache: the first deploy
-takes about 30–40 minutes, later ones only record new or changed sentences. To change how a word is said (for example
-an Arabic name), add it to `SAY` in the same file.
+takes about 30–40 minutes, later ones only record new or changed sentences.
 
-The Sheikh's **Arabic** voice is unchanged: Kokoro and the other natural voices do not speak Arabic, and no open
-Arabic voice better than *Kareem* is available. A teacher's recording in the Voice Studio is still the way to make the
-Sheikh sound fully human.
+**Muslim names and Islamic words** (Maryam, Idris, Khadija, Masha’Allah, In sha’ Allah, Assalamu alaykum, Fajr, Jannah…)
+are said as a Muslim English speaker says them, close to the Arabic, not as English guesses them ("MEH-ree-am",
+"EYE-dris"). Their sounds are written once in `NAMES` in `src/lib/narration-text.mjs`, and the recorder
+(`scripts/voice/kokoro_direct.py`) gives those sounds straight to the voice. To add a name or change how one is said,
+edit that list: every line with that word is re-recorded on the next deploy. (`SAY` in the same file is only for the
+browser's own voice, used when there is no clip.)
+
+### The Arabic on the hadith and ayah pages
+
+The last page of every book is read in three steps: "The Prophet Muhammad ﷺ said:" (or "Allah says in the Qurʾan:"),
+then **the Arabic in a real human voice**, then the meaning in English with the storyteller.
+
+- **An ayah** is read by a Qari: the words shown, word by word, from the quran.com word recordings; a whole ayah by
+  the class's chosen reciter. *Listen to the whole ayah* plays the full ayah.
+- **A hadith** is read by the Sheikh or a teacher: the Voice Studio has a **Hadith in Arabic** tab with each of the 43
+  hadith, recorded once and used by every book that has it. Until a hadith is recorded, the page goes straight from
+  "The Prophet ﷺ said:" to the English.
+
+No computer voice reads the Arabic of a hadith. The open Arabic voices were tested on these hadith with a speech
+recogniser, and every one of them changed words (for example الرحمن heard as الروحمن), which is not acceptable for the
+words of the Prophet ﷺ.
+
+The Sheikh's **Arabic** voice for Alif Ba is still the computer voice *Kareem*: the newer open Arabic voices (Piper
+dii and miro, 2025) were no clearer. A teacher's recording in the Voice Studio is the way to make the Sheikh fully
+human: every letter, syllable and phrase recorded there replaces the computer voice for every student.
 
 ## The Seerah Quest (Levels 3 and 4)
 

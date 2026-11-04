@@ -15,7 +15,7 @@ const add = (reader, text, where) => {
   const key = clipKey(VOICES[reader], text);
   if (out.has(key)) return;
   const ps = reader === 'story' ? parts(text, where) : [['narrator', text]];
-  out.set(key, { key, reader, text, parts: ps.map(([who, w]) => [who, spoken(w)]) });
+  out.set(key, { key, reader, text, parts: ps.map(([who, w]) => [who, spoken(w, true)]) });
 };
 
 // Story Time: every page, every tap, the question and answers, the hadith or ayah

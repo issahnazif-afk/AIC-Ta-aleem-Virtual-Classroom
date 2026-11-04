@@ -5,8 +5,10 @@
 
 Writes public/audio/narration/<key>.mp3 and public/audio/narration/index.json ({ key: { f, d } }).
 Lines that already have a clip are skipped, so only new or changed sentences are recorded.
-Needs: pip install sherpa-onnx==1.12.40 onnxruntime numpy soundfile pyworld scipy, and ffmpeg.
-(sherpa-onnx 2.x reads Kokoro differently and skips English words; the script stops if that happens.)
+Needs: pip install kokoro-onnx onnxruntime numpy soundfile pyworld scipy "setuptools<81", and ffmpeg.
+The model files come from the sherpa-onnx release (kokoro-multi-lang-v1_0); the model is run directly
+(scripts/voice/kokoro_direct.py) so that Muslim names and Islamic words are said with their real sounds
+(NAMES in src/lib/narration-text.mjs) instead of English guesses.
 
 The voice is Kokoro v1.0 (Apache 2.0). It reads quickly and evenly on its own, so each sentence is directed:
   - slow, with real pauses: after a sentence, longer after a question or an exclamation, longest after "…"
@@ -50,15 +52,11 @@ def kind_of(s):
 
 
 def main(model_dir):
-    import sherpa_onnx, soundfile as sf, pyworld as pw, scipy.signal as ss
-    d = model_dir.rstrip('/') + '/'
-    tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(
-        kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
-            model=d + 'model.onnx', voices=d + 'voices.bin', tokens=d + 'tokens.txt', data_dir=d + 'espeak-ng-data',
-            dict_dir=d + 'dict', lexicon=d + 'lexicon-us-en.txt,lexicon-zh.txt', lang='en-us'),
-        num_threads=max(2, os.cpu_count() or 2))))
-    import onnxruntime as ort
-    names = ort.InferenceSession(d + 'model.onnx', providers=['CPUExecutionProvider']).get_modelmeta().custom_metadata_map['speaker_names'].split(',')
+    import soundfile as sf, pyworld as pw, scipy.signal as ss
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from kokoro_direct import Kokoro
+    tts = Kokoro(model_dir.rstrip('/') + '/')
+    PACE = 1.09   # run directly, Kokoro reads a little slower than through sherpa-onnx; this keeps the pace the voices were tuned at
     SR = tts.sample_rate
 
     def trim(s, thr=0.01):
@@ -100,8 +98,8 @@ def main(model_dir):
             voice, speed, shift, live = cast.get(who, cast['narrator'])
             for s in [t for t in re.split(r'(?<=[.!?…])\s+', words) if t.strip()]:
                 k = kind_of(s)
-                a = tts.generate(s, sid=names.index(voice), speed=speed * (0.9 if k == 'soft' else 1.0))
-                out.append(shape(trim(np.asarray(a.samples, np.float32)), k, shift, live))
+                a, _ = tts.generate(s, voice, speed=PACE * speed * (0.9 if k == 'soft' else 1.0))
+                out.append(shape(trim(a), k, shift, live))
                 out.append(np.zeros(int(SR * (0.95 if '…' in s else 0.7 if k in '!?' else 0.6)), np.float32))
             out.append(np.zeros(int(SR * 0.12), np.float32))
         return warm(np.concatenate(out))
@@ -125,7 +123,7 @@ def main(model_dir):
         words = sum(len(w.split()) for _, w in x['parts'])
         if len(s) / SR < 0.2 * words + 0.4:
             raise SystemExit(f'The voice did not read this line (got {len(s) / SR:.1f} s for {words} words): {x["text"][:80]!r}. '
-                             f'Check the sherpa-onnx version (this script is tested with 1.12.40).')
+                             f'Check that kokoro-onnx (espeak-ng) is installed.')
 
     for n, x in enumerate(todo, 1):
         s = read(x)

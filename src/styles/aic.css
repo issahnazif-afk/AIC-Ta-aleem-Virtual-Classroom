@@ -715,3 +715,4 @@ body[data-paper="night"] .lcard.stop .lc-ar { color: #74D69C; }
 .lb-earned { font-size: clamp(48px, 9vw, 80px); color: #F6C64B; letter-spacing: 6px; margin: 6px 0; text-shadow: 0 3px 0 #C9A24A; }
 @media (max-width: 560px) { .lb-path { grid-template-columns: repeat(2, minmax(0, 1fr)); } .lb-stop::after { display: none; } .lb-order { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .lb-flag { animation: none; } }
+.st-card .st-ar.playing { color: #0E6B4E; text-shadow: 0 0 18px rgba(246, 198, 75, .7); transition: color .3s, text-shadow .3s; }

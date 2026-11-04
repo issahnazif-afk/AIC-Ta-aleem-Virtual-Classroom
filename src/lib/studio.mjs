@@ -3,11 +3,12 @@
 // on the classroom plays the teacher's voice instead of the computer voice for that clip.
 import { LETTERS } from './alifba.mjs';
 import { PHRASES } from './phrases.mjs';
-import { isHeld, say, studioUrl, forgetStudio, loadStudio, stopSound } from './voice.mjs';
+import { isHeld, say, studioUrl, forgetStudio, loadStudio, stopSound, playUrl } from './voice.mjs';
 import { syllable } from './lessons.mjs';
 import { voiceCheck, voiceSave, voiceDelete } from './classlog.mjs';
 import { STORIES } from './stories/level1.mjs';
 import { LEVEL1 as LIB1 } from './library/level1.mjs';
+import { hadithClipId } from './narration-text.mjs';
 import { LEVEL2 as LIB2 } from './library/level2.mjs';
 import { ADDED as LIB_ADDED } from './library/added.mjs';
 import { narrate, hush } from './narration.mjs';
@@ -48,6 +49,15 @@ export function catalogue() {
     ...(p.tap ? [{ id: storyClipId(st.id, i, true), story: true, text: p.tap.say, label: `${n + 1}. ${st.title} · page ${i + 1}, after the tap`, how: '' }] : []),
   ]));
   const lv = (n) => (b) => b.level === n || b.id.startsWith(`l${n}-`);
+  // Every hadith in Story Time and the Reading Library, in Arabic: read once, used by every book that has it
+  const seen = new Set();
+  const hadith = [...STORIES, ...LIB1, ...LIB2, ...LIB_ADDED].filter((b) => b.hadith).flatMap((b) => {
+    const id = hadithClipId(b.hadith.ar);
+    if (seen.has(id)) return [];
+    seen.add(id);
+    return [{ id, ar: b.hadith.ar, label: `${b.hadith.src} · ${b.title}`, how: b.hadith.en, hadith: true }];
+  });
+  groups.push({ key: 'hadith', title: 'Hadith in Arabic', why: 'The Sheikh or a teacher reads each hadith once, slowly and clearly, with every vowel. The children hear it before the English meaning, in every book that has it. Until a hadith is recorded, the page goes straight to the English: a computer voice never reads the Prophet’s words.', clips: hadith });
   groups.push({ key: 'lib1', title: 'Library Level 1', why: 'First readers, ages 4–6. Read slowly and clearly, so a young child can follow each word as it lights up.', clips: lib([...LIB1, ...LIB_ADDED.filter(lv(1))]) });
   groups.push({ key: 'lib2', title: 'Library Level 2', why: 'Adventure readers, ages 7–8. Read with energy and suspense, like telling an adventure.', clips: lib([...LIB2, ...LIB_ADDED.filter(lv(2))]) });
   return groups;
@@ -137,9 +147,9 @@ export function mountStudio(root, { onExit }) {
     const r = el('div', 'st-row' + (list[c.id] != null ? ' has' : ''));
     const ar = c.story ? el('span', 'st-ar st-book', '📖') : el('span', 'st-ar', c.ar); if (!c.story) { ar.lang = 'ar'; ar.dir = 'rtl'; }
     const info = el('div', 'st-info'); info.append(el('b', null, c.label), c.story ? el('span', 'st-line', c.text) : el('span', 'muted small', c.how));
-    const state = el('span', 'st-state', list[c.id] != null ? 'Teacher’s voice ✓' : c.story ? 'Storyteller (computer)' : 'Computer voice');
+    const state = el('span', 'st-state', list[c.id] != null ? 'Teacher’s voice ✓' : c.story ? 'Storyteller (computer)' : c.hadith ? 'Not recorded yet' : 'Computer voice');
     const hear = el('button', 'btn small-btn', 'Hear now'); hear.type = 'button';
-    hear.addEventListener('click', () => (c.story ? narrate(c.text, { voice: 'story', studio: c.id }) : say(c.id, c.ar)));
+    hear.addEventListener('click', async () => { if (c.story) return narrate(c.text, { voice: 'story', studio: c.id }); if (c.hadith) { const u = await studioUrl(c.id); if (u) playUrl(u, 60000); else msg.textContent = 'Not recorded yet.'; return; } say(c.id, c.ar); });
     const rec = el('button', 'btn small-btn st-rec', '● Record'); rec.type = 'button';
     const take = el('button', 'btn small-btn', '▶ My take'); take.type = 'button'; take.hidden = true;
     const save = el('button', 'btn btn-primary small-btn', 'Save'); save.type = 'button'; save.hidden = true;
