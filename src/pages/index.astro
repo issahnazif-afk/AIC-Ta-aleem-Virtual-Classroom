@@ -232,6 +232,15 @@ const levels = [
       <span class="muted small" id="c-q"></span>
       <span class="pill push" id="c-level">Intermediate</span>
       <span class="timer" id="c-timer">00:00</span>
+      <div class="room-tools" role="group" aria-label="View">
+        <div class="seg" role="radiogroup" aria-label="Text size" id="c-size">
+          <button type="button" role="radio" data-size="page" aria-checked="true" title="The printed page (15 lines)">Page</button>
+          <button type="button" role="radio" data-size="large" aria-checked="false" title="Large text">A<sup>+</sup></button>
+          <button type="button" role="radio" data-size="xl" aria-checked="false" title="Extra large text">A<sup>++</sup></button>
+        </div>
+        <button class="btn icon-btn" type="button" id="c-notes" aria-pressed="false" title="Sheikh's notes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 4h14v16H5z"></path><path d="M9 9h6M9 13h6M9 17h3"></path></svg><span>Notes <b id="c-notes-n"></b></span></button>
+        <button class="btn icon-btn" type="button" id="c-full" aria-pressed="false" title="Full screen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg><span>Full screen</span></button>
+      </div>
       <button class="btn danger" type="button" id="c-end">End session</button>
     </header>
     <div class="away" id="away" role="alert" hidden>
@@ -249,10 +258,18 @@ const levels = [
         <section class="card notes">
           <div class="notes-h"><h2>Sheikh's notes</h2><span class="muted small" id="notes-n">None yet</span></div>
           <ol id="notes" class="notes-list"></ol>
+          <div class="legend">
+          <span><b class="g">Green</b> read correctly</span>
+          <span><b class="r">Red</b> mistake or prompted</span>
+          <span><b class="a">Gold</b> hint</span>
+          <span>Dotted · unclear</span>
+          <PaperPick />
+        </div>
         </section>
       </aside>
       <section class="room-right">
         <div class="stage" id="stage"></div>
+        <div class="room-dock">
         <p class="status" id="status" aria-live="polite"></p>
         <p class="where" id="where"></p>
         <div class="controls">
@@ -264,12 +281,7 @@ const levels = [
           <button class="btn" type="button" id="skip" data-hifz-only>Skip question</button>
           <button class="btn" type="button" id="camtoggle" aria-pressed="true">Camera</button>
         </div>
-        <div class="legend">
-          <span><b class="g">Green</b> read correctly</span>
-          <span><b class="r">Red</b> mistake or prompted</span>
-          <span><b class="a">Gold</b> hint</span>
-          <span>Dotted · unclear</span>
-          <PaperPick />
+
         </div>
       </section>
     </div>
@@ -622,7 +634,7 @@ const levels = [
     import { startAmbience, stopAmbience, setMuted, isMuted, nasheed } from '../lib/ambience.mjs';
     import { openCamera, micMeter, snapshot, testTone } from '../lib/media.mjs';
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
-    import { getSpeechRecognition, prepareFastListening } from '../lib/speech.mjs';
+    import { getSpeechRecognition, prepareFastListening, preloadQaaf } from '../lib/speech.mjs';
     import { forLevel, ICONS } from '../lib/activities.mjs';
     import { makhrajOf, makhrajSvg } from '../lib/makhraj.mjs';
     import { STORIES as LEVEL1_STORIES } from '../lib/stories/level1.mjs';
@@ -772,7 +784,7 @@ const levels = [
       const v = $('cam');
       v.srcObject = stream;
       await v.play().catch(() => {});
-      const vt = stream.getVideoTracks()[0];
+      const vt = stream?.getVideoTracks()[0];
       $('cam-name').textContent = vt?.label || 'Camera';
       setCheck('ck-cam', true, 'Camera is on');
       meter?.stop();
@@ -816,7 +828,7 @@ const levels = [
     $('ck-back').addEventListener('click', () => { stopMedia(); if (reciteLesson) { reciteLesson = null; openLesson(18); } else goHome(); });
     const FAST = { ready: [true, 'On-device, words appear quickly'], downloading: [null, 'Downloading the Arabic speech pack (one time)…'], downloadable: [null, 'The Arabic speech pack downloads when you continue'], unavailable: [false, 'Online listening (this computer has no on-device Arabic)'], unsupported: [false, 'Online listening (use Chrome for the fastest tracking)'] };
     const fastStatus = (st) => { const [ok, t] = FAST[st] ?? FAST.unsupported; setCheck('ck-fast', ok, t); };
-    function checkFast() { if (localAsr) { setCheck('ck-fast', true, 'The Qāf speech model, on this computer'); return; } prepareFastListening({ onStatus: fastStatus }); }
+    function checkFast() { if (localAsr) { preloadQaaf(); setCheck('ck-fast', true, 'The Qāf speech model, on this computer'); return; } prepareFastListening({ onStatus: fastStatus }); }
     $('to-setup').addEventListener('click', () => {
       if (!localAsr) prepareFastListening({ install: true, onStatus: fastStatus });   // needs this click to start the one-time download
       if (!stream) return;
@@ -876,6 +888,7 @@ const levels = [
     function addNote(n) {
       notesN++;
       $('notes-n').textContent = `${notesN} so far`;
+      $('c-notes-n').textContent = String(notesN);
       const li = document.createElement('li');
       li.className = 'note k-' + n.kind;
       const dot = document.createElement('i'); dot.className = 'dot';
@@ -917,7 +930,7 @@ const levels = [
 
     async function startSession() {
       $('su-err').textContent = '';
-      const { SR, engine: asr } = getSpeechRecognition({ localAsr });
+      const { SR, engine: asr } = getSpeechRecognition({ localAsr, track: true });
       if (!SR) { $('su-err').textContent = 'This browser cannot check speech. Open the classroom in Chrome or Edge.'; return; }
       const s1 = Number(fromSel.value), s2 = Number(toSel.value);
       const a1 = Math.max(1, parseInt($('su-a1').value, 10) || 1);
@@ -933,7 +946,7 @@ const levels = [
       document.querySelectorAll('#s-class [data-reading-only]').forEach((x) => (x.hidden = hifz));
       $('c-title').textContent = hifz ? 'Hifz test' : 'Mujawwadah · reading from the mushaf';
       $('c-level').textContent = LEVELS[choice.level].name;
-      $('notes').replaceChildren(); notesN = 0; $('notes-n').textContent = 'None yet';
+      $('notes').replaceChildren(); notesN = 0; $('notes-n').textContent = 'None yet'; $('c-notes-n').textContent = '';
       $('where').textContent = ''; setStatus('', ''); $('stage').replaceChildren(); $('c-sub').textContent = '';
       $('away').hidden = true; delete $('s-class').dataset.away;
       $('cam2').srcObject = stream; $('cam2').play().catch(() => {});
@@ -953,7 +966,8 @@ const levels = [
             $('c-q').textContent = mode === 'hifz' ? `Question ${qi + 1} of ${n}` : '';
             $('c-dots').hidden = mode !== 'hifz';
           },
-          page: (p) => { $('c-sub').textContent = `${$('su-sum').textContent.split(' · ').slice(2).join(' · ')} · page ${p}${asr === 'qaaf' ? ' · Qāf speech model' : asr === 'on-device' ? ' · on-device listening' : ''}`; },
+          page: (p) => { $('c-sub').textContent = `${$('su-sum').textContent.split(' · ').slice(2).join(' · ')} · page ${p}${asr === 'qaaf-track' ? ' · Qāf tracker' : asr === 'qaaf' ? ' · Qāf speech model' : asr === 'on-device' ? ' · on-device listening' : ''}`; },
+          textSize: () => textSize,
           finished: (res) => endSession(res),
         },
       });
@@ -975,6 +989,29 @@ const levels = [
         show('s-setup');
       }
     }
+    // ── the room's view: text size, the Sheikh's notes, full screen ──
+    let textSize = store.get('textSize') ?? 'page';
+    const showSize = () => document.querySelectorAll('#c-size [data-size]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.size === textSize)));
+    showSize();
+    $('c-size').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-size]'); if (!b || b.dataset.size === textSize) return;
+      textSize = b.dataset.size; store.set('textSize', textSize); showSize(); engine?.relayout();
+    });
+    $('c-notes').addEventListener('click', () => {
+      const on = $('s-class').toggleAttribute('data-notes');
+      $('c-notes').setAttribute('aria-pressed', String(on));
+    });
+    const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+    $('c-full').addEventListener('click', async () => {
+      try {
+        if (fsEl()) await (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        else await (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen).call(document.documentElement, { navigationUI: 'hide' });
+      } catch {}
+    });
+    for (const ev of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(ev, () => {
+      $('c-full').setAttribute('aria-pressed', String(!!fsEl()));
+      $('c-full').querySelector('span').textContent = fsEl() ? 'Exit full screen' : 'Full screen';
+    });
     $('mic').addEventListener('click', () => engine?.toggleMic());
     $('hint').addEventListener('click', () => engine?.hint());
     $('repeat').addEventListener('click', () => engine?.repeatOpening());

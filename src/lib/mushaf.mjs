@@ -36,7 +36,8 @@ export async function buildPaper(p, opts) {
     return toks.get(k);
   };
 
-  if (riwayah !== 'hafs') return buildFlowPaper(p, layout, suras, opts);
+  // a flowing page: other riwayat, or large text (layout: 'flow'), where the 15 printed lines would be too small
+  if (riwayah !== 'hafs' || opts.layout === 'flow') return buildFlowPaper(p, layout, suras, opts);
   const paper = el('article', 'paper mp');
   paper.lang = 'ar'; paper.dir = 'rtl';
   paper.setAttribute('aria-label', `Mushaf page ${p}`);
@@ -73,10 +74,16 @@ export async function buildPaper(p, opts) {
   return paper;
 }
 
-async function buildFlowPaper(p, layout, suras, { getJson, pad, items = new Map(), wordSpan, markerSpan, riwayah }) {
+async function buildFlowPaper(p, layout, suras, { getJson, pad, items = new Map(), wordSpan, markerSpan, riwayah = 'hafs' }) {
   const rw = new Map();
-  await Promise.all([...suras.keys()].map(async (s) => rw.set(s, await getJson(`riwayah/${riwayah}/${pad(s)}.json`))));
-  const fatiha = await getJson(`riwayah/${riwayah}/001.json`);
+  let fatiha;
+  if (riwayah === 'hafs') {        // the Hafs text is already loaded with the surahs
+    for (const [s, sura] of suras) rw.set(s, Object.fromEntries(sura.ayahs.map((x) => [x.a, x.ar])));
+    fatiha = { 1: [...suras.values()][0]?.bismillah ?? 'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ' };
+  } else {
+    await Promise.all([...suras.keys()].map(async (s) => rw.set(s, await getJson(`riwayah/${riwayah}/${pad(s)}.json`))));
+    fatiha = await getJson(`riwayah/${riwayah}/001.json`);
+  }
   const paper = el('article', 'paper mp mp-flowpage');
   paper.lang = 'ar'; paper.dir = 'rtl';
   paper.setAttribute('aria-label', `Mushaf page ${p}`);
@@ -119,7 +126,13 @@ export async function fitPaper(paper) {
   try { await document.fonts.load('24px "KFGQPC Hafs"'); } catch {}
   const box = paper.querySelector('.mp-lines');
   if (!box) return;
-  if (paper.classList.contains('mp-flowpage')) { paper.style.setProperty('--mfs', `${Math.min(32, Math.max(18, box.clientWidth / 18))}px`); return; }
+  if (paper.classList.contains('mp-flowpage')) {
+    // large text for young readers: about 14 (large) or 10 (extra large) words of width per line
+    const size = paper.dataset.size, w = box.clientWidth;
+    const fs = size === 'xl' ? Math.min(72, Math.max(30, w / 10)) : size === 'large' ? Math.min(54, Math.max(24, w / 14)) : Math.min(32, Math.max(18, w / 18));
+    paper.style.setProperty('--mfs', `${fs}px`);
+    return;
+  }
   const lines = [...box.querySelectorAll('.mp-line:not(.mp-banner)')];
   // each of the 15 lines has its own row of the page: the text must fit its row's height too
   const rowH = paper.classList.contains('mp-fixed') ? box.clientHeight / 15 : Infinity;

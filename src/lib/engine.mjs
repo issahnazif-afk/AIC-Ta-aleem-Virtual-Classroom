@@ -252,24 +252,55 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     it.mk = mk;
     return mk;
   }
-  async function renderPage(p, animate) {
+  // The page the reader is about to reach is built ahead of time (preparePage), so turning the page is instant:
+  // the new page is already laid out and slides in over the old one, which then fades away.
+  const ready = new Map();      // page → Promise<paper>, for the current question
+  let readyFor = null;
+  const sizeNow = () => ui.textSize?.() ?? 'page';
+  function makePaper(p) {
     const map = new Map(items.map((it) => [it.key, it]));
-    const paper = await buildPaper(p, { getJson, pad, items: map, wordSpan, markerSpan, script: 'plain' });
-    paper.classList.add(mode === 'reading' ? 'context' : 'outlines', 'mp-fixed');
+    const size = sizeNow();
+    return buildPaper(p, { getJson, pad, items: map, wordSpan, markerSpan, script: 'plain', layout: size === 'page' ? 'fixed' : 'flow' }).then((paper) => {
+      paper.classList.add(mode === 'reading' ? 'context' : 'outlines', size === 'page' ? 'mp-fixed' : 'mp-big');
+      if (size !== 'page') paper.dataset.size = size;
+      return paper;
+    });
+  }
+  function preparePage(p) {
+    if (readyFor !== items) { ready.clear(); readyFor = items; }
+    if (p === shownPage || ready.has(p)) return;
+    ready.set(p, makePaper(p).catch(() => null));
+  }
+  async function renderPage(p, animate) {
+    if (readyFor !== items) { ready.clear(); readyFor = items; }
+    const made = ready.get(p); ready.delete(p);
+    const paper = (made && (await made)) || (await makePaper(p));
     await swapPaper(paper, animate);
     shownPage = p;
     ui.page?.(p);
   }
   async function swapPaper(paper, animate) {
-    stage.replaceChildren(paper);
-    await fitPaper(paper);
-    if (animate && !reduceMotion && typeof paper.animate === 'function') {
-      try { paper.animate([{ opacity: 0, transform: 'translateX(-40px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'cubic-bezier(.2,.7,.2,1)' }); } catch {}
+    const old = stage.querySelector('.paper');
+    if (animate && old && !reduceMotion && typeof paper.animate === 'function') {
+      paper.classList.add('turning');
+      stage.append(paper);
+      await fitPaper(paper);
+      try {
+        old.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, fill: 'forwards' });
+        await paper.animate([{ opacity: 0, transform: 'translateX(-24px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'cubic-bezier(.2,.7,.2,1)' }).finished;
+      } catch {}
+      old.remove();
+      paper.classList.remove('turning');
+    } else {
+      stage.replaceChildren(paper);
+      await fitPaper(paper);
     }
     stage.scrollTop = 0;
   }
+  // a different text size: lay the page out again (keeping where the reader is)
+  async function relayout() { ready.clear(); if (shownPage) { await renderPage(shownPage, false); updateCurrent(); } }
   let fitT;
-  const onResize = () => { clearTimeout(fitT); fitT = setTimeout(() => fitPaper(stage.querySelector('.paper')), 150); };
+  const onResize = () => { clearTimeout(fitT); fitT = setTimeout(() => { ready.clear(); fitPaper(stage.querySelector('.paper')); }, 150); };
   addEventListener('resize', onResize);
 
   let lastFollow = 0;
@@ -460,12 +491,33 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     phase = 'done';
     clearSilence(); stopListening(); voice.pause(); stopVoice();
     removeEventListener('resize', onResize);
+    removeEventListener('ql:align', onAlign);
     const asked = questions.filter((x) => x.stats);
     const passage = passageText();
     const perAyah = [...ayahMarks.values()].sort((a, b) => a.s - b.s || a.a - b.a).map((x) => ({ ...x, marks: [...x.marks] }));
     const weakAyahs = perAyah.filter((x) => x.marks.some((m) => m === 'wrong' || m === 'prompt')).map((x) => `${x.s}:${x.a}`);
     ui.finished?.({ mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, ms: Date.now() - startedAt });
   }
+
+  // ── the live cursor ─────────────────────────────────────────
+  // With the Qāf tracker the page knows, several times a second, which word the reader is in and how far into
+  // it: that word fills as it is said, before it is confirmed. A hidden word (Hifz) shows only its outline filling.
+  let liveEl = null, lastAt = '';
+  const clearLive = () => { if (liveEl) { liveEl.classList.remove('live'); liveEl.style.removeProperty('--p'); liveEl = null; } };
+  const onAlign = (e) => {
+    if (phase !== 'answer' || !listening) return clearLive();
+    const d = e.detail, w = flat[pos + d.offset];
+    const elw = w && w.state !== 'shown' && w.page === shownPage && w.el?.isConnected ? w.el : null;
+    if (elw !== liveEl) { clearLive(); if (elw) { elw.classList.add('live'); liveEl = elw; } }
+    if (liveEl) liveEl.style.setProperty('--p', Math.min(1, Math.max(0.1, d.frac)).toFixed(3));
+    // the reader is still reciting (the cursor is moving through the text): the Sheikh does not step in
+    const at = `${d.offset}:${d.frac.toFixed(2)}`;
+    if (at !== lastAt && !d.filler) { lastAt = at; armSilence(); }
+    // nearing the end of the page: get the next page ready, so turning it is instant
+    const k = flat.findIndex((x, i) => i >= pos && x.page !== shownPage);
+    if (k > 0 && k - pos <= 6) preparePage(flat[k].page);
+  };
+  addEventListener('ql:align', onAlign);
 
   // ── listening ───────────────────────────────────────────────
   let rec = null, listening = false;
@@ -495,6 +547,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   function startListening() {
     if (!SR || listening) return;
     rec = tuneRecognition(new SR(), { expect: upcoming() });
+    rec.getExpected = () => flat.slice(pos, pos + 40).map((w) => w.plain);   // the Qāf tracker follows these
     rec.lang = 'ar-SA';
     rec.continuous = true;
     rec.interimResults = true;
@@ -519,13 +572,14 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   }
   function stopListening() {
     listening = false;
+    clearLive();
     try { rec?.stop(); } catch {}
     ui.mic?.(false);
   }
 
   // ── controls the page can call ──────────────────────────────
   return {
-    startHifz, startReading,
+    startHifz, startReading, relayout,
     get phase() { return phase; },
     get mode() { return mode; },
     get hintsAllowed() { return L.hints; },

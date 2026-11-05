@@ -5,14 +5,21 @@
 //    checks for it and installs it (a one-time download) when the student continues from the camera check.
 // 2. Contextual biasing (Chrome 140+): the recogniser is told which words to expect next (the next words of the
 //    passage), so it hears Quranic words more reliably and settles on them sooner.
-// 3. The Qāf model from the main app (public/models/qaaf-asr.onnx), when published, runs on the computer too.
+// 3. The Qāf model from the main app (public/models/qaaf-asr.onnx) runs on the computer too: for recitation it drives
+//    the Qāf tracker, which follows the reader through the text with no network round trip and a live position.
 // Anything missing falls back quietly to the browser's normal (online) speech recognition.
 import { LocalRecognition } from './asr-local.mjs';
+import { TrackRecognition, preloadTracker } from './track-recognition.mjs';
 
 const LANG = 'ar-SA';
 const Native = () => (typeof window !== 'undefined' ? window.SpeechRecognition || window.webkitSpeechRecognition : null);
 
-export function getSpeechRecognition({ localAsr = false } = {}) {
+// track: the reader recites a known text (Mujawwadah, Hifz). With the Qāf model that is followed by the Qāf
+// tracker (track-recognition.mjs), on the device, word by word, with a live position. Free speech (a letter's
+// name in the games) uses the Qāf recogniser or the browser's own.
+export const canTrack = () => typeof window !== 'undefined' && typeof Worker === 'function' && typeof WebAssembly === 'object' && !!(window.AudioContext || window.webkitAudioContext) && !!navigator.mediaDevices?.getUserMedia;
+export function getSpeechRecognition({ localAsr = false, track = false } = {}) {
+  if (localAsr && track && canTrack()) return { SR: TrackRecognition, engine: 'qaaf-track' };
   if (localAsr && navigator.mediaDevices?.getUserMedia) return { SR: LocalRecognition, engine: 'qaaf' };
   const SR = Native();
   return { SR, engine: SR ? (onDevice ? 'on-device' : 'browser') : null };
@@ -40,6 +47,8 @@ export async function prepareFastListening({ install = false, onStatus = () => {
   } catch { onStatus('unsupported'); return false; }
 }
 prepareFastListening().catch(() => {});
+// start loading the Qāf model in the background (a one-time download, then cached by the browser)
+export function preloadQaaf() { if (canTrack()) preloadTracker().catch(() => {}); }
 
 // Arabic as a speech engine writes it: no harakat or Quranic marks, plain alif for alif wasla.
 export function plainArabic(s) {

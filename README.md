@@ -60,19 +60,27 @@ service; nothing is stored by this site).
 
 ## How quickly the words appear
 
-The words a student recites appear as soon as the speech engine hears them. To keep that fast:
+With the Qāf model (published from the main app and downloaded by the deploy), Mujawwadah and the Hifz test use
+the **Qāf tracker**:
 
-- **On-device listening (Chrome).** On the camera check, *Fast listening* shows whether Chrome can recognise
-  Arabic on the computer itself. If it can, the Arabic speech pack is downloaded once when the student presses
-  Continue, and from then on recognition happens on the computer, with no round trip to a server.
-  Otherwise the browser's online recognition is used.
-- **Expected words.** The recogniser is told the next words of the passage (Chrome's contextual biasing), so it
-  settles on Quranic words sooner and mishears them less.
-- **No animation delay.** Each word is shown the instant it is matched.
-- **The Qāf model**, when published from the main app, now decodes in short pieces (up to 6 s, every 0.15 s)
-  so it keeps pace in long ayahs.
+- It follows the student through the expected text on the computer, in a background worker.
+- A word turns green about half a second after it is said, two to three seconds at worst on a slow laptop.
+- The word being recited fills as it is said.
+- The Sheikh waits while the student is still reciting.
+- The next page is prepared in advance and slides in.
 
-Use **Chrome** on Windows or macOS for the fastest tracking.
+How it works, what was wrong before, and how to measure it on real reciters: [docs/qaaf-tracker.md](docs/qaaf-tracker.md).
+Browsers that cannot run the model (old Safari, Firefox) use the browser's speech recognition, as before.
+
+**The room's view.** In the session bar:
+
+- **Page · A⁺ · A⁺⁺**: the printed 15-line page, or large and extra-large flowing text for young readers.
+- **Notes**: the Sheikh's notes, the colour key and the page colour.
+- **Full screen**.
+
+The Sheikh, the camera and his words sit in a narrow rail; the controls float over the foot of the page.
+
+Use **Chrome** or **Edge** on Windows or macOS.
 
 ## Alif Ba: the Jannah Garden and its 18 lessons
 

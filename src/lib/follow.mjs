@@ -8,6 +8,8 @@
 //  • it ignores a stray word that is followed by the right one,
 //  • it recognises the reader stepping back over words already written,
 //  • and it only calls a word wrong when the engine is sure of it and it really is not the next word.
+// With the Qāf tracker (track-recognition.mjs) each result already says which words were read and how,
+// so those are taken as they are.
 import { normalize, matchAt, similarity } from './recite.mjs';
 
 const words = (alt) => normalize(alt.transcript).split(' ').filter(Boolean);
@@ -74,6 +76,18 @@ export function createFollower(o) {
     const th = o.threshold();
     for (let r = from; r < results.length; r++) {
       const res = results[r];
+      // the Qāf tracker already knows which words were read and how: take its verdicts as they are
+      if (res.track) {
+        if (used[r] === -1) continue;
+        used[r] = -1;
+        for (const t of res.track) {
+          if (o.getPos() >= o.getFlat().length) break;
+          clearBack(); misses = 0;
+          if (t.kind === 'missed') { o.wrong('something else'); o.accept(1, 'unclear'); }
+          else o.accept(1, t.kind === 'weak' ? 'unclear' : undefined);
+        }
+        continue;
+      }
       const spoken = words(res[0]);
       let i = realign(r, spoken);
       while (i < spoken.length) {
