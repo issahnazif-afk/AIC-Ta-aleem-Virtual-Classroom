@@ -9185,6 +9185,866 @@
   ]
  },
  {
+  "key": "38f64cbe",
+  "reader": "story",
+  "text": "In a small village with dusty lanes lived a boy called Ibrahim. People called him the boy who never lies.",
+  "parts": [
+   [
+    "narrator",
+    "In a small village with dusty lanes lived a boy called {ibɹɑːhˈiːm}. People called him the boy who never lies."
+   ]
+  ]
+ },
+ {
+  "key": "a600dfa9",
+  "reader": "story",
+  "text": "Every morning his mother held his hands. “Speak only the truth, Ibrahim, even when it is hard.”",
+  "parts": [
+   [
+    "narrator",
+    "Every morning his mother held his hands."
+   ],
+   [
+    "boy",
+    "Speak only the truth, {ibɹɑːhˈiːm}, even when it is hard."
+   ]
+  ]
+ },
+ {
+  "key": "bd51eadd",
+  "reader": "story",
+  "text": "One windy day at Madrasa, CRASH! A clay vase fell off the shelf and smashed right beside Ibrahim’s desk.",
+  "parts": [
+   [
+    "narrator",
+    "One windy day at Madrasa, CRASH! A clay vase fell off the shelf and smashed right beside {ibɹɑːhˈiːmz} desk."
+   ]
+  ]
+ },
+ {
+  "key": "f4d931ed",
+  "reader": "story",
+  "text": "Everyone stared at him. “It was the wind, teacher. I saw it fall.” The teacher believed him at once.",
+  "parts": [
+   [
+    "narrator",
+    "Everyone stared at him."
+   ],
+   [
+    "boy",
+    "It was the wind, teacher. I saw it fall."
+   ],
+   [
+    "narrator",
+    "The teacher believed him at once."
+   ]
+  ]
+ },
+ {
+  "key": "26bf60e3",
+  "reader": "story",
+  "text": "On the way home, something shiny lay in the dust. It was a leather pouch, heavy with gold coins!",
+  "parts": [
+   [
+    "narrator",
+    "On the way home, something shiny lay in the dust. It was a leather pouch, heavy with gold coins!"
+   ]
+  ]
+ },
+ {
+  "key": "69c372ed",
+  "reader": "story",
+  "text": "“This is not mine,” Ibrahim said. So he knocked on door after door. “Did you lose a pouch?”",
+  "parts": [
+   [
+    "boy",
+    "This is not mine,"
+   ],
+   [
+    "narrator",
+    "{ibɹɑːhˈiːm} said. So he knocked on door after door."
+   ],
+   [
+    "boy",
+    "Did you lose a pouch?"
+   ]
+  ]
+ },
+ {
+  "key": "c063f9dc",
+  "reader": "story",
+  "text": "At the very last house, an old woman opened the door and gasped. “My pouch! I lost it this morning!”",
+  "parts": [
+   [
+    "narrator",
+    "At the very last house, an old woman opened the door and gasped."
+   ],
+   [
+    "boy",
+    "My pouch! I lost it this morning!"
+   ]
+  ]
+ },
+ {
+  "key": "14954cf4",
+  "reader": "story",
+  "text": "She pressed some coins into his hand as a reward. Ibrahim gave them back. “I didn’t do it for coins, Aunty.”",
+  "parts": [
+   [
+    "narrator",
+    "She pressed some coins into his hand as a reward. {ibɹɑːhˈiːm} gave them back."
+   ],
+   [
+    "boy",
+    "I didn’t do it for coins, Aunty."
+   ]
+  ]
+ },
+ {
+  "key": "fcfae48d",
+  "reader": "story",
+  "text": "That evening his elbow knocked Baba’s favourite cup to the floor. Nobody saw. He could blame the cat…",
+  "parts": [
+   [
+    "narrator",
+    "That evening his elbow knocked Baba’s favourite cup to the floor. Nobody saw. He could blame the cat…"
+   ]
+  ]
+ },
+ {
+  "key": "c90e77e0",
+  "reader": "story",
+  "text": "“Baba, I broke your cup. I’m sorry.” Baba hugged him tight. “A cup can be replaced. Your honesty can’t.”",
+  "parts": [
+   [
+    "boy",
+    "Baba, I broke your cup. I’m sorry."
+   ],
+   [
+    "narrator",
+    "Baba hugged him tight."
+   ],
+   [
+    "man",
+    "A cup can be replaced. Your honesty can’t."
+   ]
+  ]
+ },
+ {
+  "key": "4c6fee83",
+  "reader": "story",
+  "text": "You break something and nobody saw. What do you do? Say what happened? Hide the pieces? Blame the cat?",
+  "parts": [
+   [
+    "narrator",
+    "You break something and nobody saw. What do you do? Say what happened? Hide the pieces? Blame the cat?"
+   ]
+  ]
+ },
+ {
+  "key": "b012b74d",
+  "reader": "story",
+  "text": "The truth leads to goodness, and goodness leads to Jannah.",
+  "parts": [
+   [
+    "narrator",
+    "The truth leads to goodness, and goodness leads to {dʒˈanna}."
+   ]
+  ]
+ },
+ {
+  "key": "2347dc18",
+  "reader": "story",
+  "text": "Truthfulness leads to goodness, and goodness leads to Paradise.",
+  "parts": [
+   [
+    "narrator",
+    "Truthfulness leads to goodness, and goodness leads to Paradise."
+   ]
+  ]
+ },
+ {
+  "key": "c082048f",
+  "reader": "story",
+  "text": "Aminah loved mornings on the farm. She fed the hens, swung her basket and said, “Alhamdulillah!”",
+  "parts": [
+   [
+    "narrator",
+    "Aminah loved mornings on the farm. She fed the hens, swung her basket and said,"
+   ],
+   [
+    "boy",
+    "{alhˌamdulillˈɑːh}!"
+   ]
+  ]
+ },
+ {
+  "key": "a5daf8a4",
+  "reader": "story",
+  "text": "One year the rain came early and would not stop. Day after day it drummed on the roof.",
+  "parts": [
+   [
+    "narrator",
+    "One year the rain came early and would not stop. Day after day it drummed on the roof."
+   ]
+  ]
+ },
+ {
+  "key": "166c67d1",
+  "reader": "story",
+  "text": "When it slowed at last, Baba walked out to the fields. “The crops are gone,” he said quietly.",
+  "parts": [
+   [
+    "narrator",
+    "When it slowed at last, Baba walked out to the fields."
+   ],
+   [
+    "man",
+    "The crops are gone,"
+   ],
+   [
+    "narrator",
+    "he said quietly."
+   ]
+  ]
+ },
+ {
+  "key": "cef17259",
+  "reader": "story",
+  "text": "Aminah sat on the wet step with her chin in her hands. “We worked so hard. Why us?”",
+  "parts": [
+   [
+    "narrator",
+    "Aminah sat on the wet step with her chin in her hands."
+   ],
+   [
+    "boy",
+    "We worked so hard. Why us?"
+   ]
+  ]
+ },
+ {
+  "key": "8771ed5e",
+  "reader": "story",
+  "text": "That night Mama sat on her bed. “Sabr means trusting Allah, even before we can see His plan.”",
+  "parts": [
+   [
+    "narrator",
+    "That night Mama sat on her bed."
+   ],
+   [
+    "mama",
+    "Sabr means trusting {allˈɑːh}, even before we can see His plan."
+   ]
+  ]
+ },
+ {
+  "key": "11e896f9",
+  "reader": "story",
+  "text": "In the morning Mama filled a pot with soup. “Take some to Aunty Khadijah. She lives all alone.”",
+  "parts": [
+   [
+    "narrator",
+    "In the morning Mama filled a pot with soup."
+   ],
+   [
+    "mama",
+    "Take some to Aunty Khadijah. She lives all alone."
+   ]
+  ]
+ },
+ {
+  "key": "9268c2a0",
+  "reader": "story",
+  "text": "The roads flooded and Madrasa closed. So Aminah brought Madrasa home and taught the little ones their letters.",
+  "parts": [
+   [
+    "narrator",
+    "The roads flooded and Madrasa closed. So Aminah brought Madrasa home and taught the little ones their letters."
+   ]
+  ]
+ },
+ {
+  "key": "8af088a6",
+  "reader": "story",
+  "text": "Then one morning there was no drip, drip, drip. Aminah ran outside. A rainbow stretched across the sky!",
+  "parts": [
+   [
+    "narrator",
+    "Then one morning there was no drip, drip, drip. Aminah ran outside. A rainbow stretched across the sky!"
+   ]
+  ]
+ },
+ {
+  "key": "af1eb3a7",
+  "reader": "story",
+  "text": "Baba planted again, and the new crops grew faster than ever in the rich, soaked soil. “SubhanAllah!”",
+  "parts": [
+   [
+    "narrator",
+    "Baba planted again, and the new crops grew faster than ever in the rich, soaked soil."
+   ],
+   [
+    "man",
+    "{sˌʊbhɑːnallˈɑːh}!"
+   ]
+  ]
+ },
+ {
+  "key": "4376d8b9",
+  "reader": "story",
+  "text": "At their first full meal in weeks, the whole family thanked Allah. Aminah even thanked Him for the rain.",
+  "parts": [
+   [
+    "narrator",
+    "At their first full meal in weeks, the whole family thanked {allˈɑːh}. Aminah even thanked Him for the rain."
+   ]
+  ]
+ },
+ {
+  "key": "9da6decb",
+  "reader": "story",
+  "text": "Your trip to the park is cancelled because of rain. What do you do? Say Alhamdulillah and find something good to do? Sulk all day? Shout at the window?",
+  "parts": [
+   [
+    "narrator",
+    "Your trip to the park is cancelled because of rain. What do you do? Say {alhˌamdulillˈɑːh} and find something good to do? Sulk all day? Shout at the window?"
+   ]
+  ]
+ },
+ {
+  "key": "df389f51",
+  "reader": "story",
+  "text": "For a believer, everything can be good: thankful in good times, patient in hard ones.",
+  "parts": [
+   [
+    "narrator",
+    "For a believer, everything can be good: thankful in good times, patient in hard ones."
+   ]
+  ]
+ },
+ {
+  "key": "64175da2",
+  "reader": "story",
+  "text": "How wonderful is the affair of the believer: all of it is good for him.",
+  "parts": [
+   [
+    "narrator",
+    "How wonderful is the affair of the believer: all of it is good for him."
+   ]
+  ]
+ },
+ {
+  "key": "76b52b7d",
+  "reader": "story",
+  "text": "Yusuf was the fastest runner in the village. Nobody could kick a football as far as he could.",
+  "parts": [
+   [
+    "narrator",
+    "{jˈuːsuf} was the fastest runner in the village. Nobody could kick a football as far as he could."
+   ]
+  ]
+ },
+ {
+  "key": "3fa5613c",
+  "reader": "story",
+  "text": "One afternoon he heard a tiny “cheep, cheep”. A little bird lay by the path with a bent wing.",
+  "parts": [
+   [
+    "narrator",
+    "One afternoon he heard a tiny"
+   ],
+   [
+    "boy",
+    "cheep, cheep"
+   ],
+   [
+    "narrator",
+    ". A little bird lay by the path with a bent wing."
+   ]
+  ]
+ },
+ {
+  "key": "9b2b54d8",
+  "reader": "story",
+  "text": "“Leave it, Yusuf! Come and play!” called his friends. Yusuf knelt down. “It’s hurt. I can’t leave it.”",
+  "parts": [
+   [
+    "boy",
+    "Leave it, {jˈuːsuf}! Come and play!"
+   ],
+   [
+    "narrator",
+    "called his friends. {jˈuːsuf} knelt down."
+   ],
+   [
+    "boy",
+    "It’s hurt. I can’t leave it."
+   ]
+  ]
+ },
+ {
+  "key": "92e44364",
+  "reader": "story",
+  "text": "He carried the bird home, step by careful step. It was the slowest walk of his life.",
+  "parts": [
+   [
+    "narrator",
+    "He carried the bird home, step by careful step. It was the slowest walk of his life."
+   ]
+  ]
+ },
+ {
+  "key": "c4005a96",
+  "reader": "story",
+  "text": "Mama helped him line a box with soft cloth. Yusuf named the bird Noor, which means light.",
+  "parts": [
+   [
+    "narrator",
+    "Mama helped him line a box with soft cloth. {jˈuːsuf} named the bird Noor, which means light."
+   ]
+  ]
+ },
+ {
+  "key": "ef7d1026",
+  "reader": "story",
+  "text": "One day the neighbour’s cat crept in. Yusuf jumped in front of the box. “No! Stay away!”",
+  "parts": [
+   [
+    "narrator",
+    "One day the neighbour’s cat crept in. {jˈuːsuf} jumped in front of the box."
+   ],
+   [
+    "boy",
+    "No! Stay away!"
+   ]
+  ]
+ },
+ {
+  "key": "47343d8d",
+  "reader": "story",
+  "text": "Then one morning Noor fluttered! A hop, a flap, and then a wobbly flight across the room.",
+  "parts": [
+   [
+    "narrator",
+    "Then one morning Noor fluttered! A hop, a flap, and then a wobbly flight across the room."
+   ]
+  ]
+ },
+ {
+  "key": "7090433e",
+  "reader": "story",
+  "text": "At school a new boy called Bilal sat alone on a bench. He looked as frightened as Noor had.",
+  "parts": [
+   [
+    "narrator",
+    "At school a new boy called {bilˈɑːl} sat alone on a bench. He looked as frightened as Noor had."
+   ]
+  ]
+ },
+ {
+  "key": "e1818e45",
+  "reader": "story",
+  "text": "“Assalamu alaykum! Do you want to share my lunch?” Bilal smiled shyly, and they shared bread and dates.",
+  "parts": [
+   [
+    "boy",
+    "{assalˈɑːmu alˈaɪkum}! Do you want to share my lunch?"
+   ],
+   [
+    "narrator",
+    "{bilˈɑːl} smiled shyly, and they shared bread and dates."
+   ]
+  ]
+ },
+ {
+  "key": "97f90144",
+  "reader": "story",
+  "text": "When Noor was strong again, Yusuf opened his hands in the field. Up, up she flew into the blue.",
+  "parts": [
+   [
+    "narrator",
+    "When Noor was strong again, {jˈuːsuf} opened his hands in the field. Up, up she flew into the blue."
+   ]
+  ]
+ },
+ {
+  "key": "015d02c3",
+  "reader": "story",
+  "text": "A new child is sitting alone at lunch. What do you do? Say salam and sit with them? Pretend you didn’t see? Laugh with your friends?",
+  "parts": [
+   [
+    "narrator",
+    "A new child is sitting alone at lunch. What do you do? Say {salˈɑːm} and sit with them? Pretend you didn’t see? Laugh with your friends?"
+   ]
+  ]
+ },
+ {
+  "key": "670d0472",
+  "reader": "story",
+  "text": "Be merciful to those on earth, and Allah will be merciful to you.",
+  "parts": [
+   [
+    "narrator",
+    "Be merciful to those on earth, and {allˈɑːh} will be merciful to you."
+   ]
+  ]
+ },
+ {
+  "key": "1b431fc0",
+  "reader": "story",
+  "text": "Be merciful to those on earth, and the One above the heavens will be merciful to you.",
+  "parts": [
+   [
+    "narrator",
+    "Be merciful to those on earth, and the One above the heavens will be merciful to you."
+   ]
+  ]
+ },
+ {
+  "key": "2e7dd099",
+  "reader": "story",
+  "text": "“Hassan! Time for school!” “Five more minutes!” Every morning was the same battle.",
+  "parts": [
+   [
+    "boy",
+    "Hassan! Time for school!"
+   ],
+   [
+    "boy",
+    "Five more minutes!"
+   ],
+   [
+    "narrator",
+    "Every morning was the same battle."
+   ]
+  ]
+ },
+ {
+  "key": "9596fe98",
+  "reader": "story",
+  "text": "Hassan never noticed that Mama woke at Fajr. She prayed, cooked breakfast and ironed his clothes.",
+  "parts": [
+   [
+    "narrator",
+    "Hassan never noticed that Mama woke at {fˈadʒɹ}. She prayed, cooked breakfast and ironed his clothes."
+   ]
+  ]
+ },
+ {
+  "key": "d1fd077e",
+  "reader": "story",
+  "text": "One morning he grabbed his bag and stomped out of the door. No goodbye. No thank you.",
+  "parts": [
+   [
+    "narrator",
+    "One morning he grabbed his bag and stomped out of the door. No goodbye. No thank you."
+   ]
+  ]
+ },
+ {
+  "key": "a284e597",
+  "reader": "story",
+  "text": "At school the teacher told them a hadith. Someone asked who deserves our best kindness. “Your mother,” three times, “then your father.”",
+  "parts": [
+   [
+    "narrator",
+    "At school the teacher told them a {hadˈiːθ}. Someone asked who deserves our best kindness."
+   ],
+   [
+    "boy",
+    "Your mother,"
+   ],
+   [
+    "narrator",
+    "three times,"
+   ],
+   [
+    "boy",
+    "then your father."
+   ]
+  ]
+ },
+ {
+  "key": "8b145398",
+  "reader": "story",
+  "text": "That evening Hassan really looked at Mama. Her eyes were tired and her shoulders drooped.",
+  "parts": [
+   [
+    "narrator",
+    "That evening Hassan really looked at Mama. Her eyes were tired and her shoulders drooped."
+   ]
+  ]
+ },
+ {
+  "key": "8cb80c43",
+  "reader": "story",
+  "text": "The next morning he woke first and made his bed. Nobody had to ask him.",
+  "parts": [
+   [
+    "narrator",
+    "The next morning he woke first and made his bed. Nobody had to ask him."
+   ]
+  ]
+ },
+ {
+  "key": "43272cc9",
+  "reader": "story",
+  "text": "He poured breakfast for his little sister. “You made it for me?” giggled Maryam.",
+  "parts": [
+   [
+    "narrator",
+    "He poured breakfast for his little sister."
+   ],
+   [
+    "boy",
+    "You made it for me?"
+   ],
+   [
+    "narrator",
+    "giggled {mˈaɹjam}."
+   ]
+  ]
+ },
+ {
+  "key": "a43b65e8",
+  "reader": "story",
+  "text": "Then he folded the whole basket of laundry. His arms ached. “Mama does this every day,” he thought.",
+  "parts": [
+   [
+    "narrator",
+    "Then he folded the whole basket of laundry. His arms ached."
+   ],
+   [
+    "boy",
+    "Mama does this every day,"
+   ],
+   [
+    "narrator",
+    "he thought."
+   ]
+  ]
+ },
+ {
+  "key": "c0358551",
+  "reader": "story",
+  "text": "When Mama came downstairs, she stopped and stared. “Hassan… did you do all of this?”",
+  "parts": [
+   [
+    "narrator",
+    "When Mama came downstairs, she stopped and stared."
+   ],
+   [
+    "mama",
+    "Hassan… did you do all of this?"
+   ]
+  ]
+ },
+ {
+  "key": "3af69a9e",
+  "reader": "story",
+  "text": "That evening Hassan brought Baba a glass of water and his slippers. Baba’s eyes filled with happy tears.",
+  "parts": [
+   [
+    "narrator",
+    "That evening Hassan brought Baba a glass of water and his slippers. Baba’s eyes filled with happy tears."
+   ]
+  ]
+ },
+ {
+  "key": "771a9c68",
+  "reader": "story",
+  "text": "Mama asks you to tidy up while you are playing. What do you do? Help her straight away? Say “uff” and carry on? Pretend you didn’t hear?",
+  "parts": [
+   [
+    "narrator",
+    "Mama asks you to tidy up while you are playing. What do you do? Help her straight away? Say"
+   ],
+   [
+    "boy",
+    "uff"
+   ],
+   [
+    "narrator",
+    "and carry on? Pretend you didn’t hear?"
+   ]
+  ]
+ },
+ {
+  "key": "0646452e",
+  "reader": "story",
+  "text": "The Prophet ﷺ said our mother deserves our best kindness, then our father.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said our mother deserves our best kindness, then our father."
+   ]
+  ]
+ },
+ {
+  "key": "18ae2f98",
+  "reader": "story",
+  "text": "A man asked who most deserves his kindness. The Prophet ﷺ said: your mother, then your mother, then your mother, then your father.",
+  "parts": [
+   [
+    "narrator",
+    "A man asked who most deserves his kindness. The Prophet , peace be upon him, said: your mother, then your mother, then your mother, then your father."
+   ]
+  ]
+ },
+ {
+  "key": "7b46d934",
+  "reader": "story",
+  "text": "Amina had shelves full of toys and twelve dolls. Still, every week she asked for a new one.",
+  "parts": [
+   [
+    "narrator",
+    "Amina had shelves full of toys and twelve dolls. Still, every week she asked for a new one."
+   ]
+  ]
+ },
+ {
+  "key": "9ee656a3",
+  "reader": "story",
+  "text": "On the way to the market she saw a family with no shoes. The little girl held a doll with one arm.",
+  "parts": [
+   [
+    "narrator",
+    "On the way to the market she saw a family with no shoes. The little girl held a doll with one arm."
+   ]
+  ]
+ },
+ {
+  "key": "1e5b1522",
+  "reader": "story",
+  "text": "“Mama, why don’t they have anything?” Mama knelt down. “Allah tests some people with less, and some with more.”",
+  "parts": [
+   [
+    "boy",
+    "Mama, why don’t they have anything?"
+   ],
+   [
+    "narrator",
+    "Mama knelt down."
+   ],
+   [
+    "mama",
+    "{allˈɑːh} tests some people with less, and some with more."
+   ]
+  ]
+ },
+ {
+  "key": "5eb86a35",
+  "reader": "story",
+  "text": "That night Amina looked at her twelve dolls. A small, selfish voice whispered, “They’re YOURS.”",
+  "parts": [
+   [
+    "narrator",
+    "That night Amina looked at her twelve dolls. A small, selfish voice whispered,"
+   ],
+   [
+    "boy",
+    "They’re YOURS."
+   ]
+  ]
+ },
+ {
+  "key": "2728836f",
+  "reader": "story",
+  "text": "In the morning she packed a box. In went three dolls, two dresses and five books she had read.",
+  "parts": [
+   [
+    "narrator",
+    "In the morning she packed a box. In went three dolls, two dresses and five books she had read."
+   ]
+  ]
+ },
+ {
+  "key": "15f0e5d8",
+  "reader": "story",
+  "text": "Her hands shook a little as she carried it. “What if I miss them?” she asked Mama.",
+  "parts": [
+   [
+    "narrator",
+    "Her hands shook a little as she carried it."
+   ],
+   [
+    "mama",
+    "What if I miss them?"
+   ],
+   [
+    "narrator",
+    "she asked Mama."
+   ]
+  ]
+ },
+ {
+  "key": "c635297e",
+  "reader": "story",
+  "text": "She knelt down and held out a doll. The little girl hugged it as if she would never let go.",
+  "parts": [
+   [
+    "narrator",
+    "She knelt down and held out a doll. The little girl hugged it as if she would never let go."
+   ]
+  ]
+ },
+ {
+  "key": "277a05d6",
+  "reader": "story",
+  "text": "At school, Bilal had forgotten his lunch. Amina split her sandwich and gave him the bigger half.",
+  "parts": [
+   [
+    "narrator",
+    "At school, {bilˈɑːl} had forgotten his lunch. Amina split her sandwich and gave him the bigger half."
+   ]
+  ]
+ },
+ {
+  "key": "64f574a2",
+  "reader": "story",
+  "text": "On the way home she carried Aunty Khadijah’s heavy shopping right to her front door.",
+  "parts": [
+   [
+    "narrator",
+    "On the way home she carried Aunty Khadijah’s heavy shopping right to her front door."
+   ]
+  ]
+ },
+ {
+  "key": "8e59f1ba",
+  "reader": "story",
+  "text": "Then all the children planted a Giving Garden, and shared its tomatoes from door to door.",
+  "parts": [
+   [
+    "narrator",
+    "Then all the children planted a Giving Garden, and shared its tomatoes from door to door."
+   ]
+  ]
+ },
+ {
+  "key": "e33a3382",
+  "reader": "story",
+  "text": "You have two snacks and your friend has none. What do you do? Give one to your friend? Eat both quickly? Hide them in your bag?",
+  "parts": [
+   [
+    "narrator",
+    "You have two snacks and your friend has none. What do you do? Give one to your friend? Eat both quickly? Hide them in your bag?"
+   ]
+  ]
+ },
+ {
+  "key": "fd250472",
+  "reader": "story",
+  "text": "The giving hand is better than the taking hand.",
+  "parts": [
+   [
+    "narrator",
+    "The giving hand is better than the taking hand."
+   ]
+  ]
+ },
+ {
   "key": "44ac7455",
   "reader": "story",
   "text": "Look at the picture. Which word goes with it?",

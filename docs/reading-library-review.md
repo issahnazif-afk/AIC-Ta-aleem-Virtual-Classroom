@@ -53,6 +53,11 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 | 18 | Three Days of Silence | Making up | لَا يَحِلُّ لِمُسْلِمٍ أَنْ يَهْجُرَ أَخَاهُ فَوْقَ ثَلَاثِ لَيَالٍ | It is not allowed for a Muslim to stay away from his brother for more than three nights. | Bukhari 6077, Muslim 2560 | |
 | 19 | Get Well, Jiddo | Visiting the sick | مَنْ عَادَ مَرِيضًا لَمْ يَزَلْ فِي خُرْفَةِ الْجَنَّةِ | Whoever visits someone who is ill stays in the fruit garden of Paradise until he returns. | Muslim 2568 | |
 | 20 | The Night of the Lanterns | Welcoming others | وَجَعَلْنَـٰكُمْ شُعُوبًا وَقَبَآئِلَ لِتَعَارَفُوٓا۟ | We made you into nations and tribes so that you may get to know one another. | Qurʾan 49:13 (Tanzil text) | |
+| 21 | The Boy Who Never Lied | Honesty | إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ، وَإِنَّ الْبِرَّ يَهْدِي إِلَى الْجَنَّةِ | Truthfulness leads to goodness, and goodness leads to Paradise. | Bukhari 6094, Muslim 2607 | |
+| 22 | Aminah and the Long Rain | Patience and thankfulness | عَجَبًا لِأَمْرِ الْمُؤْمِنِ، إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ | How wonderful is the affair of the believer: all of it is good for him. | Muslim 2999 | |
+| 23 | Yusuf and the Little Bird | Mercy to creatures | ارْحَمُوا مَنْ فِي الْأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ | Be merciful to those on earth, and the One above the heavens will be merciful to you. | Tirmidhi 1924, Abu Dawud 4941 | |
+| 24 | Hassan’s Grumpy Mornings | Honouring parents | مَنْ أَحَقُّ النَّاسِ بِحُسْنِ صَحَابَتِي؟ قَالَ: أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أَبُوكَ | A man asked who most deserves his kindness. The Prophet ﷺ said: your mother, then your mother, then your mother, then your father. | Bukhari 5971, Muslim 2548 | |
+| 25 | Amina’s Twelve Dolls | Giving | الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى | The upper hand (the one that gives) is better than the lower hand (the one that takes). | Bukhari 1429, Muslim 1033 | |
 
 ## The books, page by page
 
@@ -655,4 +660,89 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 **Words:** lantern (a light inside a case you can carry or hang), shy (a little nervous with new people), glowed (shone with a soft, warm light), neighbours (people who live near you)
 **Quiz:** What night was it? **The night before Eid** · What did Maryam and Yusuf make? **Paper lanterns** · What was the new girl’s name? **Amira**
 **What would you do?** A new child joins your class and sits alone. What do you do? (**Say salam and invite them to play** / Stare at them / Ignore them)
+
+### Level 2, 21. The Boy Who Never Lied (Honesty)
+
+1. In a small village with dusty lanes lived a boy called Ibrahim. People called him the boy who never lies.
+2. Every morning his mother held his hands. “Speak only the truth, Ibrahim, even when it is hard.”
+3. One windy day at Madrasa, CRASH! A clay vase fell off the shelf and smashed right beside Ibrahim’s desk.
+4. Everyone stared at him. “It was the wind, teacher. I saw it fall.” The teacher believed him at once.
+5. On the way home, something shiny lay in the dust. It was a leather pouch, heavy with gold coins!
+6. “This is not mine,” Ibrahim said. So he knocked on door after door. “Did you lose a pouch?”
+7. At the very last house, an old woman opened the door and gasped. “My pouch! I lost it this morning!”
+8. She pressed some coins into his hand as a reward. Ibrahim gave them back. “I didn’t do it for coins, Aunty.”
+9. That evening his elbow knocked Baba’s favourite cup to the floor. Nobody saw. He could blame the cat…
+10. “Baba, I broke your cup. I’m sorry.” Baba hugged him tight. “A cup can be replaced. Your honesty can’t.”
+
+**Words:** pouch (a small bag for keeping money), reward (something given to say thank you), smashed (broke into many pieces), honesty (always telling the truth)
+**Quiz:** What fell off the shelf at Madrasa? **A clay vase** · What was inside the pouch? **Gold coins** · Whose cup did Ibrahim break? **Baba’s**
+**What would you do?** You break something and nobody saw. What do you do? (**Say what happened** / Hide the pieces / Blame the cat)
+
+### Level 2, 22. Aminah and the Long Rain (Patience and thankfulness)
+
+1. Aminah loved mornings on the farm. She fed the hens, swung her basket and said, “Alhamdulillah!”
+2. One year the rain came early and would not stop. Day after day it drummed on the roof.
+3. When it slowed at last, Baba walked out to the fields. “The crops are gone,” he said quietly.
+4. Aminah sat on the wet step with her chin in her hands. “We worked so hard. Why us?”
+5. That night Mama sat on her bed. “Sabr means trusting Allah, even before we can see His plan.”
+6. In the morning Mama filled a pot with soup. “Take some to Aunty Khadijah. She lives all alone.”
+7. The roads flooded and Madrasa closed. So Aminah brought Madrasa home and taught the little ones their letters.
+8. Then one morning there was no drip, drip, drip. Aminah ran outside. A rainbow stretched across the sky!
+9. Baba planted again, and the new crops grew faster than ever in the rich, soaked soil. “SubhanAllah!”
+10. At their first full meal in weeks, the whole family thanked Allah. Aminah even thanked Him for the rain.
+
+**Words:** crops (plants grown on a farm for food), flooded (covered with too much water), sabr (patience: trusting Allah and not giving up), soaked (very, very wet)
+**Quiz:** Why did Madrasa close? **The roads flooded** · Who did Aminah take soup to? **Aunty Khadijah** · What did she see when the rain stopped? **A rainbow**
+**What would you do?** Your trip to the park is cancelled because of rain. What do you do? (**Say Alhamdulillah and find something good to do** / Sulk all day / Shout at the window)
+
+### Level 2, 23. Yusuf and the Little Bird (Mercy to creatures)
+
+1. Yusuf was the fastest runner in the village. Nobody could kick a football as far as he could.
+2. One afternoon he heard a tiny “cheep, cheep”. A little bird lay by the path with a bent wing.
+3. “Leave it, Yusuf! Come and play!” called his friends. Yusuf knelt down. “It’s hurt. I can’t leave it.”
+4. He carried the bird home, step by careful step. It was the slowest walk of his life.
+5. Mama helped him line a box with soft cloth. Yusuf named the bird Noor, which means light.
+6. One day the neighbour’s cat crept in. Yusuf jumped in front of the box. “No! Stay away!”
+7. Then one morning Noor fluttered! A hop, a flap, and then a wobbly flight across the room.
+8. At school a new boy called Bilal sat alone on a bench. He looked as frightened as Noor had.
+9. “Assalamu alaykum! Do you want to share my lunch?” Bilal smiled shyly, and they shared bread and dates.
+10. When Noor was strong again, Yusuf opened his hands in the field. Up, up she flew into the blue.
+
+**Words:** frightened (very scared), fluttered (moved its wings quickly and lightly), shyly (in a quiet, nervous way), mercy (being gentle and kind to those who need it)
+**Quiz:** What did Yusuf name the bird? **Noor** · What was wrong with the bird? **It had a bent wing** · Who did Yusuf share his lunch with? **Bilal**
+**What would you do?** A new child is sitting alone at lunch. What do you do? (**Say salam and sit with them** / Pretend you didn’t see / Laugh with your friends)
+
+### Level 2, 24. Hassan’s Grumpy Mornings (Honouring parents)
+
+1. “Hassan! Time for school!” “Five more minutes!” Every morning was the same battle.
+2. Hassan never noticed that Mama woke at Fajr. She prayed, cooked breakfast and ironed his clothes.
+3. One morning he grabbed his bag and stomped out of the door. No goodbye. No thank you.
+4. At school the teacher told them a hadith. Someone asked who deserves our best kindness. “Your mother,” three times, “then your father.”
+5. That evening Hassan really looked at Mama. Her eyes were tired and her shoulders drooped.
+6. The next morning he woke first and made his bed. Nobody had to ask him.
+7. He poured breakfast for his little sister. “You made it for me?” giggled Maryam.
+8. Then he folded the whole basket of laundry. His arms ached. “Mama does this every day,” he thought.
+9. When Mama came downstairs, she stopped and stared. “Hassan… did you do all of this?”
+10. That evening Hassan brought Baba a glass of water and his slippers. Baba’s eyes filled with happy tears.
+
+**Words:** grumpy (in a bad mood), ironed (made clothes smooth with a hot iron), drooped (hung down, because of being tired), laundry (clothes that need washing or folding)
+**Quiz:** When does Mama wake up? **At Fajr** · Who did Hassan make breakfast for? **His sister Maryam** · What did Hassan bring Baba? **Water and his slippers**
+**What would you do?** Mama asks you to tidy up while you are playing. What do you do? (**Help her straight away** / Say “uff” and carry on / Pretend you didn’t hear)
+
+### Level 2, 25. Amina’s Twelve Dolls (Giving)
+
+1. Amina had shelves full of toys and twelve dolls. Still, every week she asked for a new one.
+2. On the way to the market she saw a family with no shoes. The little girl held a doll with one arm.
+3. “Mama, why don’t they have anything?” Mama knelt down. “Allah tests some people with less, and some with more.”
+4. That night Amina looked at her twelve dolls. A small, selfish voice whispered, “They’re YOURS.”
+5. In the morning she packed a box. In went three dolls, two dresses and five books she had read.
+6. Her hands shook a little as she carried it. “What if I miss them?” she asked Mama.
+7. She knelt down and held out a doll. The little girl hugged it as if she would never let go.
+8. At school, Bilal had forgotten his lunch. Amina split her sandwich and gave him the bigger half.
+9. On the way home she carried Aunty Khadijah’s heavy shopping right to her front door.
+10. Then all the children planted a Giving Garden, and shared its tomatoes from door to door.
+
+**Words:** selfish (thinking only about yourself), tests (gives a chance to show what we will do), split (cut or broke into two parts), shared (gave part of what you have to others)
+**Quiz:** How many dolls did Amina have? **Twelve** · What did Amina share with Bilal? **Her sandwich** · What did the children plant? **A Giving Garden**
+**What would you do?** You have two snacks and your friend has none. What do you do? (**Give one to your friend** / Eat both quickly / Hide them in your bag)
 

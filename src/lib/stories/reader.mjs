@@ -49,7 +49,12 @@ function wordsOf(text, glossary) {
   return { p, words: words.filter((w) => w.nodeType === 1) };
 }
 const BASE = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || '/';
-export const picture = (p) => p.img ? `<img class="st-photo" src="${BASE.replace(/\/?$/, '/')}${p.img}" alt="">` : scene(p.art);
+export const picture = (p) => {
+  if (!p.img) return scene(p.art);
+  const src = `${BASE.replace(/\/?$/, '/')}${p.img}`;
+  // A soft, blurred copy of the same picture fills the frame behind it, so square art has no flat bars.
+  return `<div class="st-photo-wrap" style="--photo:url('${src}')"><img class="st-photo" src="${src}" alt=""></div>`;
+};
 
 // ── the shelf ───────────────────────────────────────────────
 export function mountShelf(root, { stories, progress, onOpen }) {
