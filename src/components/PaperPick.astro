@@ -1,16 +1,16 @@
 ---
-// The page colour for the Qur'an text, chosen once and kept on this computer.
-// Used in Mujawwadah, the Hifz test and Alif Ba; index.astro wires up every copy.
-const { label = 'Page colour' } = Astro.props;
-const COLOURS = [
-  ['cream', 'Cream', '#FFFBF0'],
-  ['white', 'White', '#FFFFFF'],
-  ['sepia', 'Sepia', '#F3E5CA'],
-  ['green', 'Soft green', '#E8F2EA'],
-  ['night', 'Night', '#14201A'],
-];
+// The reading theme for the Qur'an page (paper, ink and the colours of the reading marks) and an option
+// for bolder letters. Chosen once and kept on this computer. Used in Mujawwadah, the Hifz test and Alif Ba;
+// index.astro wires up every copy. The themes are listed in src/lib/themes.mjs.
+import { THEMES } from '../lib/themes.mjs';
+const { label = 'Reading theme' } = Astro.props;
 ---
-<div class="paper-pick" role="radiogroup" aria-label={label}>
-  <span class="pp-l" aria-hidden="true">{label}</span>
-  {COLOURS.map(([key, name, sw]) => <button type="button" role="radio" aria-checked="false" data-paper={key} title={name} aria-label={name} style={`--sw:${sw}`}></button>)}
+<div class="paper-pick" role="group" aria-label={label || 'Reading theme'}>
+  {label && <span class="pp-l" aria-hidden="true">{label}</span>}
+  <span class="pp-row" role="radiogroup" aria-label="Reading theme">
+    {THEMES.map(([key, name, paper, ink, why]) => (
+      <button type="button" role="radio" aria-checked="false" data-paper={key} title={`${name}: ${why}`} aria-label={`${name}. ${why}`} style={`--sw:${paper};--sw-ink:${ink}`}><span lang="ar" aria-hidden="true">ب</span></button>
+    ))}
+  </span>
+  <button type="button" class="pp-bold" aria-pressed="false" data-bold title="Bolder letters" aria-label="Bolder letters"><b aria-hidden="true">B</b></button>
 </div>

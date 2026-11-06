@@ -212,7 +212,7 @@ const levels = [
         <label class="fld narrow-f"><span>To ayah</span><input id="su-a2" type="number" min="1" value="30" /></label>
         <label class="fld" data-hifz-only><span>Questions</span><select id="su-q"><option value="">Standard</option><option>1</option><option>2</option><option>3</option><option>5</option><option>8</option></select></label>
         <label class="fld"><span>Sheikh's voice</span><select id="su-voice">{cfg.reciters.map((r) => <option value={r.id}>{r.name}</option>)}</select></label>
-        <div class="fld pp-fld"><span>Page colour</span><PaperPick label="" /></div>
+        <div class="fld pp-fld"><span>Reading theme</span><PaperPick label="" /></div>
       </div>
       <p class="err" id="su-err" role="alert"></p>
       <div class="row">
@@ -640,6 +640,7 @@ const levels = [
     import { STORIES as LEVEL1_STORIES } from '../lib/stories/level1.mjs';
     import { mountShelf, openStory } from '../lib/stories/reader.mjs';
     import { mountLibrary, openBook, noteRead } from '../lib/library/library.mjs';
+    import { THEMES } from '../lib/themes.mjs';
     import { EPISODES as SQ_EPISODES, LATER as SQ_LATER } from '../lib/seerah/episodes.mjs';
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
@@ -1220,13 +1221,22 @@ const levels = [
     $('go-lesson').addEventListener('click', () => openLesson(selLesson));
     $('go-game').addEventListener('click', () => startLessonGame(selLesson));
 
-    // ── page colour (Mujawwadah, Hifz and Alif Ba) ──
+    // ── reading theme and bolder letters (Mujawwadah, Hifz and Alif Ba) ──
     function setPaper(k) {
-      body.dataset.paper = k; store.set('paper', k);
-      document.querySelectorAll('.paper-pick [data-paper]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.paper === k)));
+      const t = THEMES.find(([key]) => key === k) ?? THEMES[0];
+      body.dataset.paper = t[0]; store.set('paper', t[0]);
+      document.querySelectorAll('.paper-pick [data-paper]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.paper === t[0])));
+      // the colour key under the page names the marks as this theme shows them
+      document.querySelectorAll('.legend').forEach((l) => ['g', 'r', 'a'].forEach((c, i) => { const b = l.querySelector('b.' + c); if (b) b.textContent = t[5][i]; }));
+    }
+    function setBold(on) {
+      body.toggleAttribute('data-bold', on); store.set('bold', on ? '1' : '');
+      document.querySelectorAll('.paper-pick [data-bold]').forEach((b) => b.setAttribute('aria-pressed', String(on)));
     }
     document.querySelectorAll('.paper-pick [data-paper]').forEach((b) => b.addEventListener('click', () => setPaper(b.dataset.paper)));
+    document.querySelectorAll('.paper-pick [data-bold]').forEach((b) => b.addEventListener('click', () => setBold(!body.hasAttribute('data-bold'))));
     setPaper(store.get('paper', 'cream') || 'cream');
+    setBold(!!store.get('bold', ''));
 
     // ── how the Sheikh reads the letters ──
     $('ls-voice').replaceChildren(...LETTER_VOICES.map(([k, t]) => new Option(t, k)));

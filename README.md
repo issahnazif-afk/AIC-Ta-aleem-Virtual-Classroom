@@ -75,7 +75,7 @@ Browsers that cannot run the model (old Safari, Firefox) use the browser's speec
 **The room's view.** In the session bar:
 
 - **Page · A⁺ · A⁺⁺**: the printed 15-line page, or large and extra-large flowing text for young readers.
-- **Notes**: the Sheikh's notes, the colour key and the page colour.
+- **Notes**: the Sheikh's notes, the colour key and the reading theme.
 - **Full screen**.
 
 The Sheikh, the camera and his words sit in a narrow rail; the controls float over the foot of the page.
@@ -196,10 +196,27 @@ Start with the 28 sound-first letters: they are what the youngest students hear 
 (Uploading files to `public/audio/letters/` with the clip's name, e.g. `f-nun.mp3`, `s-ba-a.mp3`, `n-ba.mp3`, still
 works too, and is used when there is no Studio recording.)
 
-### Page colour
+### Reading theme
 
-Mujawwadah, the Hifz test and every Alif Ba page have a **Page colour** choice: cream (the default), white, sepia,
-soft green, or night. It is remembered on that computer.
+Mujawwadah, the Hifz test and every Alif Ba page have a **Reading theme** choice. A theme sets the paper, the ink
+and the colours of the reading marks together, so the marks stay easy to see on every paper:
+
+| Theme | For |
+|---|---|
+| Warm cream (default) | the printed mushaf look |
+| Bright white | crisp and clear in daylight |
+| Low-glare sepia | tired eyes and long sessions |
+| Soft green | calm and restful |
+| Calm blue | readers who find white pages glare or the letters swim |
+| High contrast | black on white with bolder letters, for low vision |
+| Yellow on black | the strongest contrast, for low vision and dark rooms |
+| Colour-blind safe | blue (read), orange (mistake) and purple (hint) instead of green, red and gold |
+| Night | a dark page for evenings |
+
+The **B** button next to the themes makes the letters bolder on any theme. In the high-contrast, yellow and
+colour-blind themes, mistakes are also underlined, so they never rely on colour alone, and the colour key under
+the page names the marks as that theme shows them. The choice is remembered on that computer. The list is in
+`src/lib/themes.mjs`; the colours are in `src/styles/aic.css`.
 
 ## Play & Learn, Ta'aleem Stars and the daily challenge
 

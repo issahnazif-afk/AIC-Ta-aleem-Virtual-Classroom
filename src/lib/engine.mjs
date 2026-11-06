@@ -144,7 +144,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     phase = 'answer';
     const first = items.find((it) => it.a) ?? items[0];
     say('listening', 'read', `Read from ${first.label}. The Sheikh is listening.`);
-    status('Read aloud from the highlighted word. Each word turns green when it is read correctly.');
+    status('Read aloud from the highlighted word. Each word changes colour when it is read correctly.');
     updateCurrent();
     startListening();
     armSilence();

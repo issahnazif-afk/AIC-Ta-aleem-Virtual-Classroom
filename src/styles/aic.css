@@ -188,26 +188,49 @@ body.cr { font-family: var(--font-ui); background: var(--bg); color: var(--ink);
   border-radius: 999px; box-shadow: inset 0 0 0 1px var(--frame); color: var(--paper-ink);
 }
 
-/* ── page colours: the reader chooses (Mujawwadah, Hifz and Alif Ba) ── */
+/* ── reading themes: the reader chooses (Mujawwadah, Hifz and Alif Ba) ──
+   Each theme sets the paper, the ink and the colours of the reading marks together, so the marks stay
+   readable on every paper. The list and names are in src/lib/themes.mjs. */
 body[data-paper] { --q-ink: var(--ink); }
 body[data-paper="cream"] { --paper: #FFFBF0; --paper-line: #C29F4B; --paper-ink: #6E5420; --q-ink: #1A1A17; }
 body[data-paper="white"] { --paper: #FFFFFF; --paper-line: #B8963E; --paper-ink: #5E4A1E; --q-ink: #111111; }
-body[data-paper="sepia"] { --paper: #F3E5CA; --paper-line: #9C7633; --paper-ink: #5B3F17; --q-ink: #2A1C0C; }
-body[data-paper="green"] { --paper: #E8F2EA; --paper-line: #5E8F6C; --paper-ink: #2E5A3C; --q-ink: #12241A; }
+body[data-paper="sepia"] { --paper: #F0E0C0; --paper-line: #9C7633; --paper-ink: #5B3F17; --q-ink: #2A1C0C; }
+body[data-paper="green"] { --paper: #E6F1E8; --paper-line: #5E8F6C; --paper-ink: #2E5A3C; --q-ink: #12241A; }
+body[data-paper="blue"] { --paper: #E4EEF8; --paper-line: #5C7FA8; --paper-ink: #24456E; --q-ink: #0F1E33; }
+body[data-paper="contrast"] { --paper: #FFFFFF; --paper-line: #000000; --paper-ink: #000000; --q-ink: #000000; --q-bold: .022em; }
+body[data-paper="yellow"] { --paper: #000000; --paper-line: #FFE95C; --paper-ink: #FFE95C; --q-ink: #FFE95C; --marker: #FFE95C; --q-bold: .018em; }
+body[data-paper="cb"] { --paper: #FFFBF0; --paper-line: #C29F4B; --paper-ink: #6E5420; --q-ink: #1A1A17; }
 body[data-paper="night"] { --paper: #14201A; --paper-line: #9A7F45; --paper-ink: #D8C38E; --q-ink: #EEE7D4; --marker: #D8B867; }
+/* the marks: read (--good), mistake (--bad), hint (--gold), the word being read (--accent) */
+body[data-paper="sepia"] :is(.stage, .legend) { --good: #0F6E42; --bad: #A3221A; --gold: #7A4E0C; }
+body[data-paper="blue"] :is(.stage, .legend) { --good: #0E6B3E; --bad: #A61E1E; --gold: #7A4E0C; --accent: #2C5C9A; --accent-soft: #CFE0F3; }
+body[data-paper="contrast"] :is(.stage, .legend) { --good: #006B3C; --bad: #B00020; --gold: #6B3E00; --accent: #000000; --accent-soft: #FFE45C; }
+body[data-paper="yellow"] :is(.stage, .legend) { --good: #5CF2FF; --bad: #FF8FD0; --gold: #FFFFFF; --accent: #5CF2FF; --accent-soft: rgba(92, 242, 255, .22); }
+body[data-paper="cb"] :is(.stage, .legend) { --good: #0062A8; --bad: #C24E00; --gold: #7B3C9E; --accent: #0062A8; --accent-soft: #DCEBF7; }
+body[data-paper="night"] :is(.stage, .legend) { --good: #74D69C; --bad: #FF8F84; --gold: #E6C672; --accent: #74D69C; --accent-soft: rgba(116, 214, 156, .16); }
 body[data-paper="night"] .stage .w.read, body[data-paper="night"] .stage .w.fresh { color: #74D69C; }
 body[data-paper="night"] .stage .w.weak { color: #FF8F84; }
 body[data-paper="night"] .stage .w.helped { color: #E6C672; }
 body[data-paper="night"] .stage .w.current { background: rgba(116, 214, 156, .16); }
-body[data-paper="night"] .stage .paper.context .out { color: #B7C4BC; }
+:is(body[data-paper="night"], body[data-paper="yellow"]) .stage .paper.context .out { color: #B7C4BC; }
+/* mistakes are also underlined, so they never rely on colour alone */
+body:is([data-paper="contrast"], [data-paper="yellow"], [data-paper="cb"]) .stage .w.weak { box-shadow: inset 0 -3px 0 currentColor; }
+body:is([data-paper="contrast"], [data-paper="yellow"]) .stage .w.current { box-shadow: inset 0 -4px 0 var(--accent) !important; }
+/* bolder letters: chosen with the B button, and always on in the two contrast themes */
+body[data-bold] { --q-bold: .02em; }
+body:is([data-bold], [data-paper="contrast"], [data-paper="yellow"]) :is(.stage .paper, .ls-board, .lt-big) { -webkit-text-stroke: var(--q-bold) currentColor; paint-order: stroke fill; }
 .stage .w, .stage .w.todo, .stage .paper.outlines .w.read { color: var(--q-ink, var(--ink)); }
 .stage .paper { color: var(--q-ink, var(--ink)); }
 
-.paper-pick { display: inline-flex; align-items: center; gap: 6px; }
+.paper-pick { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .paper-pick .pp-l { font-size: 13px; font-weight: 600; color: var(--muted); margin-right: 4px; }
-.paper-pick button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(20, 33, 27, .18); background: var(--sw); cursor: pointer; padding: 0; position: relative; }
-.paper-pick button[aria-checked="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--aic-gold); }
+.paper-pick .pp-row { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.paper-pick button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(20, 33, 27, .22); background: var(--sw); color: var(--sw-ink); cursor: pointer; padding: 0; position: relative; display: grid; place-items: center; font-family: var(--font-quran); font-size: 17px; line-height: 1; }
+.paper-pick button span { transform: translateY(-2px); }
+.paper-pick button[aria-checked="true"], .paper-pick .pp-bold[aria-pressed="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--aic-gold); }
 .paper-pick button:focus-visible { outline: 2px solid var(--aic-green); outline-offset: 3px; }
+.paper-pick [data-paper="cb"]::after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid #fff; background: linear-gradient(90deg, #0062A8 50%, #C24E00 50%); }
+.paper-pick .pp-bold { --sw: #fff; --sw-ink: #14211B; margin-left: 4px; font-family: var(--font-ui); font-size: 15px; border-radius: 8px; }
 
 /* ── Alif Ba lesson page ───────────────────────────────────────── */
 .lesson { gap: 22px; }
