@@ -1,6 +1,6 @@
 // Reading themes for the Qur'an page: the paper, the ink and the colours of the reading marks together,
-// so each reader can pick what is easiest on their eyes. The CSS for each theme is in global.css
-// (html[data-paper="…"]); this list feeds the picker in the Quran menu (QuranBar).
+// so each reader can pick what is easiest on their eyes. The CSS for each theme is in aic.css
+// (body[data-paper="…"]); this list feeds the picker and the colour key under the page.
 // [key, name, paper, ink, what it is for, names of the marks: read, mistake, hint]
 export const THEMES = [
   ['cream', 'Warm cream', '#FFFBF0', '#1A1A17', 'The printed mushaf look', ['Green', 'Red', 'Gold']],
