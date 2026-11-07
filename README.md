@@ -18,6 +18,13 @@ student's login photo. Students see their own report; they never see the log.
 
 Hosted on GitHub Pages, with no server of its own. Built with [Astro](https://astro.build).
 
+
+## Project handover and next steps
+
+- [Product review and development roadmap](docs/PRODUCT_REVIEW_AND_ROADMAP.md): current feature inventory, student experience direction, learning activity expansion, Seerah production standards, teacher/parent experience and phased priorities.
+- [Build and deployment guide](docs/BUILD_AND_DEPLOY.md): local setup, GitHub Pages deployment, optional Google Sheets logging, speech assets and release checklist.
+- Run `npm run seerah` to check Seerah source references and classification consistency. This check is not a substitute for qualified Islamic/historical review.
+
 ## Screens
 
 0. **Classroom** (after signing in): one card per activity: **Hifz test**, **Mujawwadah** and **Alif Ba**.
