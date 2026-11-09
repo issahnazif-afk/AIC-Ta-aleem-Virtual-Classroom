@@ -73,7 +73,7 @@ async function look() {
     if (b >= a && running) { tracker.write(a, lp.subarray((a - first) * C, (b - first + 1) * C), b - a + 1); emitted = Math.max(emitted, b); }
     const ms = performance.now() - t0;
     hop = Math.min(SR * 0.4, Math.max(SR * 0.12, ms * 1.3 * 16));     // keep up on slower devices
-    if (running) { const u = tracker.update(); postMessage({ type: 'track', gen, pos: u.pos, word: u.word, frac: u.frac, events: u.events, filler: !!u.inFiller, ms }); }
+    if (running) { const u = tracker.update(); postMessage({ type: 'track', gen, pos: u.pos, word: u.word, frac: u.frac, events: u.events, filler: !!u.inFiller, back: !!u.back, wrong: !!u.wrong, ms }); }
   } catch (e) {
     postMessage({ type: 'error', message: String(e?.message ?? e) });
   } finally { busy = false; }

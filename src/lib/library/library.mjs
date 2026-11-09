@@ -6,6 +6,7 @@
 import { LEVEL1 } from './level1.mjs';
 import { LEVEL2 } from './level2.mjs';
 import { ADDED } from './added.mjs';
+import { TAWHEED_L1, TAWHEED_L2 } from './tawheed.mjs';
 import { prop, scene } from '../stories/art.mjs';
 import { openStory, picture } from '../stories/reader.mjs';
 import { narrate, hush } from '../narration.mjs';
@@ -15,7 +16,13 @@ export const SHELVES = {
   1: { name: 'First Readers', ages: 'Level 1 · ages 4–6', books: [...LEVEL1, ...ADDED.filter((b) => b.level === 1)] },
   2: { name: 'Adventure Readers', ages: 'Level 2 · ages 7–8', books: [...LEVEL2, ...ADDED.filter((b) => b.level === 2)] },
 };
-export const ALL_BOOKS = Object.values(SHELVES).flatMap((s) => s.books);
+// The Tawheed shelf (knowing Allah): its own journey, with the same reader, games and stars.
+export const TAWHEED_SHELVES = {
+  1: { name: 'Allah Made Everything', ages: 'Level 1 · ages 4–6', books: TAWHEED_L1 },
+  2: { name: 'Who Is My Lord?', ages: 'Level 2 · ages 7–8', books: TAWHEED_L2 },
+};
+const COLLECTIONS = { library: SHELVES, tawheed: TAWHEED_SHELVES };
+export const ALL_BOOKS = Object.values(COLLECTIONS).flatMap((c) => Object.values(c)).flatMap((s) => s.books);
 const BADGES = [[5, 'Bronze Reader'], [10, 'Silver Reader'], [15, 'Gold Reader'], [20, 'Library Star']];
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
@@ -42,7 +49,8 @@ export function noteRead(progress, book, stars) {
 }
 
 // ── the journey map ─────────────────────────────────────────
-export function mountLibrary(root, { level = 1, progress = {}, onOpen, onLevel }) {
+export function mountLibrary(root, { level = 1, progress = {}, onOpen, onLevel, collection = 'library' }) {
+  const SHELVES = COLLECTIONS[collection] ?? COLLECTIONS.library;
   root.replaceChildren();
   const lp = progress.library ?? {};
   const tabs = el('div', 'lb-tabs'); tabs.setAttribute('role', 'tablist');

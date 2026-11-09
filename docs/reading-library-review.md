@@ -59,6 +59,28 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 | 24 | Hassan’s Grumpy Mornings | Honouring parents | مَنْ أَحَقُّ النَّاسِ بِحُسْنِ صَحَابَتِي؟ قَالَ: أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أَبُوكَ | A man asked who most deserves his kindness. The Prophet ﷺ said: your mother, then your mother, then your mother, then your father. | Bukhari 5971, Muslim 2548 | |
 | 25 | Amina’s Twelve Dolls | Giving | الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى | The upper hand (the one that gives) is better than the lower hand (the one that takes). | Bukhari 1429, Muslim 1033 | |
 
+## Tawheed · Level 1
+
+| # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
+|---|---|---|---|---|---|---|
+| 1 | Who Made the Moon? | Allah made everything | ٱللَّهُ خَـٰلِقُ كُلِّ شَىْءٍ | Allah is the Creator of everything. | Qurʾan 39:62 (Tanzil text) | |
+| 2 | One, Only One | Allah is One | قُلْ هُوَ ٱللَّهُ أَحَدٌ | Say: He is Allah, the One. | Qurʾan 112:1 (Tanzil text) | |
+| 3 | Rain for the Flowers | Allah gives us what we need | إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ | Allah is the One who provides. | Qurʾan 51:58 (Tanzil text) | |
+| 4 | Allah Hears a Whisper | Allah hears us | وَإِذَا سَأَلَكَ عِبَادِى عَنِّى فَإِنِّى قَرِيبٌ | When My servants ask about Me, I am near. | Qurʾan 2:186 (Tanzil text) | |
+| 5 | Who Made the Dates? | Thanking Allah | وَمَا بِكُم مِّن نِّعْمَةٍ فَمِنَ ٱللَّهِ | Every good thing you have is from Allah. | Qurʾan 16:53 (Tanzil text) | |
+| 6 | The Tiny Ant | Allah sees everything | إِنَّهُۥ بِكُلِّ شَىْءٍۭ بَصِيرٌ | He sees everything. | Qurʾan 67:19 (Tanzil text) | |
+
+## Tawheed · Level 2
+
+| # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
+|---|---|---|---|---|---|---|
+| 1 | The Night Walk | Allah the Creator (Rububiyyah) | رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ | Our Lord, You did not create this for nothing. Glory be to You. | Qurʾan 3:191 (Tanzil text) | |
+| 2 | The Bird Feeder | Allah the Provider (Ar-Razzaq) | لَوْ أَنَّكُمْ كُنْتُمْ تَوَكَّلُونَ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرُزِقْتُمْ كَمَا تُرْزَقُ الطَّيْرُ، تَغْدُو خِمَاصًا وَتَرُوحُ بِطَانًا | If you trusted Allah as you truly should, He would provide for you as He provides for the birds. They go out hungry in the morning and come back full in the evening. | Tirmidhi 2344, Ibn Majah 4164 | |
+| 3 | The Lucky Bracelet | Worship and du’a for Allah alone | إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ | You alone we worship, and You alone we ask for help. | Qurʾan 1:5 (Tanzil text) | |
+| 4 | A Name on the Fridge | Allah’s beautiful Names | وَلِلَّهِ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ فَٱدْعُوهُ بِهَا | Allah has the most beautiful Names, so call on Him by them. | Qurʾan 7:180 (Tanzil text) | |
+| 5 | The Boy Who Asked Questions | Ibrahim and the true Lord | قُلْنَا يَـٰنَارُ كُونِى بَرْدًا وَسَلَـٰمًا عَلَىٰٓ إِبْرَٰهِيمَ | We said: O fire, be cool and safe for Ibrahim. | Qurʾan 21:69 (Tanzil text) | |
+| 6 | Ahad, Ahad | Holding on to Tawheed | وَإِلَـٰهُكُمْ إِلَـٰهٌ وَٰحِدٌ ۖ لَّآ إِلَـٰهَ إِلَّا هُوَ ٱلرَّحْمَـٰنُ ٱلرَّحِيمُ | Your God is One God. There is no god but Him, the Most Merciful, the Most Kind. | Qurʾan 2:163 (Tanzil text) | |
+
 ## The books, page by page
 
 ### Level 1, 1. The Big Red Kite (Taking turns)
@@ -745,4 +767,184 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 **Words:** selfish (thinking only about yourself), tests (gives a chance to show what we will do), split (cut or broke into two parts), shared (gave part of what you have to others)
 **Quiz:** How many dolls did Amina have? **Twelve** · What did Amina share with Bilal? **Her sandwich** · What did the children plant? **A Giving Garden**
 **What would you do?** You have two snacks and your friend has none. What do you do? (**Give one to your friend** / Eat both quickly / Hide them in your bag)
+
+### Tawheed, 1. Who Made the Moon? (Allah made everything)
+
+1. Zara and Jiddo sit in the garden. It is dark and cool.
+2. “Look, Jiddo! The moon is big and bright tonight.”
+3. Zara thinks hard. “Jiddo, who made the moon?”
+   - *Tap:* Tap Jiddo to hear his answer. → “Allah made the moon,” says Jiddo. “And every star too.”
+4. Zara counts the stars. One, two, three, four… too many!
+5. “Who made me, Jiddo?” Jiddo laughs. “Allah made you too.”
+6. Zara looks up and whispers, “Subhanallah.” Then she gives a big yawn.
+
+**Words:** moon, star, tree
+**Quiz:** Who made the moon? **Allah** · What did Zara try to count? **The stars**
+**What would you do?** You see a big rainbow after the rain. What can you say? (**Subhanallah! Allah made it.** / Nothing at all / It is mine!)
+
+### Tawheed, 2. One, Only One (Allah is One)
+
+1. Adam is learning to count. He holds up one finger.
+2. One apple. One red ball. Adam giggles.
+3. Maryam points out of the window. “Look, Adam. One moon.”
+4. “Now listen. This one is the most special of all.”
+   - *Tap:* Tap Maryam. What does she tell Adam? → “Allah is One. Only One. Nobody is like Him.”
+5. Adam holds up one finger, high, high. “Allah is One!” he shouts.
+6. Mama calls from the kitchen. “Masha’Allah, Adam! Now say it softly.”
+
+**Words:** apple, ball, moon
+**Quiz:** How many is Allah? **One** · Who taught Adam about Allah? **Maryam**
+**What would you do?** A friend asks, “How many gods are there?” What do you say? (Lots and lots / **Only One: Allah** / I don’t know)
+
+### Tawheed, 3. Rain for the Flowers (Allah gives us what we need)
+
+1. Maryam has a little garden. Her flowers are droopy and sad.
+2. The ground is dry. There has been no rain for days.
+3. Maryam lifts her hands. “Ya Allah, please send us rain.”
+4. Pitter-patter! Big drops fall from the grey sky.
+   - *Tap:* Tap the umbrella to go outside! → Maryam jumps in the puddles. Splash, splash, splash!
+5. In the morning the flowers stand up tall. Pink and yellow and purple.
+6. “Alhamdulillah,” says Maryam. “Thank You, Allah, for the rain.”
+
+**Words:** flowers, umbrella, puddle
+**Quiz:** What did Maryam ask Allah for? **Rain** · Who sent the rain? **Allah**
+**What would you do?** You have a yummy dinner on your plate. Who gave it to us? (**Allah** / Nobody / The plate)
+
+### Tawheed, 4. Allah Hears a Whisper (Allah hears us)
+
+1. BOOM! Thunder shakes the window. Yusuf hides under his blanket.
+2. Mama is downstairs. Yusuf does not want to shout.
+3. So he whispers, very softly. “Ya Allah, help me be brave.”
+4. The door opens. Mama peeks in. “Did you call me?”
+   - *Tap:* Tap Yusuf to hear what he says. → “No, Mama. I was talking to Allah. He heard me.”
+5. Mama sits on the bed. “Allah hears every whisper, even in the dark.”
+6. The rain goes on and on. But Yusuf is not scared now. Soon he is asleep.
+
+**Words:** bed, blanket, moon
+**Quiz:** What scared Yusuf? **Thunder** · Who heard Yusuf’s whisper? **Allah**
+**What would you do?** You feel scared at night. What can you do? (**Make du’a to Allah** / Kick and scream / Stay awake all night)
+
+### Tawheed, 5. Who Made the Dates? (Thanking Allah)
+
+1. Baba puts a plate of dates on the table. Yum!
+2. Bilal takes one. “Bismillah,” he says. He takes a big bite.
+3. “Baba, where do dates come from?” “From a palm tree,” says Baba.
+4. “Then who made the palm tree?” asks Bilal.
+   - *Tap:* Tap Baba to find out. → “Allah made the tree. He sends the sun and the rain. Allah gives us our food.”
+5. Bilal looks at his date. It is sweet and sticky and brown.
+6. He licks his fingers. “Alhamdulillah,” he says. “Thank You, Allah.”
+
+**Words:** dates, plate, tree
+**Quiz:** What did Bilal eat? **Dates** · What did Bilal say before eating? **Bismillah**
+**What would you do?** You finish your lunch. What do you say? (**Alhamdulillah** / More, now! / Yuck)
+
+### Tawheed, 6. The Tiny Ant (Allah sees everything)
+
+1. Safiya is playing in the grass. She sees a tiny black ant.
+2. The ant carries a crumb. The crumb is bigger than the ant!
+3. The ant goes under a leaf. Now Safiya cannot see it.
+4. “Teta, where did the ant go?”
+   - *Tap:* Tap Teta to hear what she says. → “We can’t see it. But Allah can. Allah sees everything.”
+5. “Even a tiny ant under a leaf?” “Even that,” says Teta.
+6. Safiya puts a cookie crumb by the leaf. “Here you go, little ant.”
+
+**Words:** ant, crumb, flowers
+**Quiz:** What did the ant carry? **A crumb** · Who can see the ant under the leaf? **Allah**
+**What would you do?** Nobody is in the kitchen. You want a cookie. What do you do? (**Ask Mama first** / Take it quietly / Take two)
+
+### Tawheed, 1. The Night Walk (Allah the Creator (Rububiyyah))
+
+1. Uncle Idris took Hamza up the hill behind the farm. He carried a telescope on his back.
+2. By the time they reached the top, the sky was black and full of stars.
+3. Hamza looked through the telescope. The moon had grey holes all over it, like a cheese.
+   - *Tap:* Tap the telescope to look again. → “Those are craters,” said Uncle Idris. “Some are bigger than a whole city.”
+4. “Who keeps it all up there?” asked Hamza. “Why doesn’t the moon just fall on us?”
+5. Uncle Idris smiled. “Allah made it, and Allah holds it in its place. Every single night.”
+6. Some people know Allah made the world, he said. But they still ask stones and idols for help.
+7. “That makes no sense,” said Hamza. “If Allah made the moon, I should ask Allah.” Uncle Idris laughed. “Exactly.”
+8. On the way down, Hamza kept turning round to look at the moon. He said “Subhanallah” so many times he lost count.
+
+**Words:** telescope (a tube with glass that makes far things look near), crater (a big round hole in the ground of the moon), Creator (the One who makes things from nothing: Allah), Rabb (Lord: the One who creates, owns and looks after everything)
+**Quiz:** What did Hamza see on the moon? **Craters** · Who holds the moon in its place? **Allah** · Since Allah made everything, who should we ask for help? **Allah**
+**What would you do?** Your friend says the world just made itself. What could you ask him? (**“Did your bike build itself?”** / “Who cares?” / Say nothing and walk off)
+
+### Tawheed, 2. The Bird Feeder (Allah the Provider (Ar-Razzaq))
+
+1. It had snowed all night. Idris pressed his nose to the window and counted six hungry birds in the garden.
+2. He made a bird feeder from an old bottle and filled it with seeds. Teta helped him hang it on the tree.
+3. Every morning Idris filled the feeder before school. The birds waited for him on the fence.
+4. Then Idris caught a cold. For three whole days he stayed in bed, and nobody filled the feeder.
+5. “My birds will starve,” he croaked. Teta opened the curtains. “Come and see.”
+   - *Tap:* Tap Teta to look out of the window. → The birds were pecking berries off a bush and drinking from the melting snow.
+6. “Who fed them?” asked Idris. “The One who fed them before you were born,” said Teta. “Allah, Ar-Razzaq.”
+7. She told him what the Prophet ﷺ said about birds. They leave hungry in the morning and come home full.
+8. When Idris was better, he filled the feeder again. “I help,” he told the birds, “but Allah feeds you.”
+
+**Words:** feeder (a box or bottle that holds food for birds), starve (to be very ill from having no food), Ar-Razzaq (the Provider: a Name of Allah. He gives every living thing what it needs), tawakkul (trusting Allah after you have done your part)
+**Quiz:** What did Idris make the feeder from? **An old bottle** · Why did nobody fill the feeder? **Idris was ill in bed** · Who fed the birds while Idris was ill? **Allah**
+**What would you do?** You studied hard for a test. Now you feel worried. What is best? (**Make du’a and trust Allah** / Cry all night / Give up studying)
+
+### Tawheed, 3. The Lucky Bracelet (Worship and du’a for Allah alone)
+
+1. The big spelling test was on Friday. Layla had been practising her words every night.
+2. On Thursday, Zara showed her a blue bracelet with an eye on it. “It’s lucky,” Zara said. “Wear it and you can’t fail.”
+3. Layla nearly took it. Then she remembered something Ustadha Huda had said in class.
+4. She went to find her. “Ustadha, can a bracelet help me pass?”
+   - *Tap:* Tap Ustadha Huda to hear her answer. → “A bracelet can’t hear you or help you. Only Allah can. Study hard, then ask Him.”
+5. That night Layla went over her hardest words one more time. Necessary. Separate. Because.
+6. Before bed she made du’a. “Ya Allah, help me remember what I learned.”
+7. She got eighteen out of twenty. She spelled “necessary” wrong, again. But she laughed about it.
+8. At home time she told Zara what Ustadha had said. Zara looked at the bracelet for a long time. Then she put it in her bag.
+
+**Words:** practise (to do something again and again to get better at it), charm (a thing people wear because they think it brings luck. It cannot help or harm), du’a (asking Allah, in your own words), shirk (giving to anyone or anything what belongs only to Allah)
+**Quiz:** What did Zara say the bracelet would do? **Make Layla pass** · What did Layla do the night before the test? **Practised and made du’a** · Who can really help us? **Allah alone**
+**What would you do?** Someone gives you a “lucky” key ring for a football match. What do you do? (**Say thanks, but put your trust in Allah** / Kiss it before every goal / Never play without it)
+
+### Tawheed, 4. A Name on the Fridge (Allah’s beautiful Names)
+
+1. Every Saturday, Mama stuck a new card on the fridge. Each card had one of Allah’s Names on it.
+2. This week’s card said Ar-Rahman. “The Most Merciful,” Mama read. “His mercy is bigger than everything.”
+3. On Monday Omar broke his little brother’s toy car. He hid it under the sofa and said nothing.
+4. All day his tummy felt funny. At dinner he could not finish his rice.
+5. Then he saw the card on the fridge. Ar-Rahman.
+   - *Tap:* Tap the card on the fridge. → Omar said sorry to Allah in his heart. Then he went to find Adam.
+6. “I broke it,” he said. “I’m sorry. You can have my blue car instead.”
+7. Adam hugged him. Then he zoomed the blue car straight into the cat.
+8. Next Saturday the new card said As-Sami’, the All-Hearing. Omar already knew what that one meant.
+
+**Words:** mercy (kindness and forgiving, even when someone gets it wrong), Ar-Rahman (the Most Merciful: a Name of Allah), As-Sami’ (the All-Hearing: a Name of Allah), Al-Asma’ al-Husna (Allah’s most beautiful Names)
+**Quiz:** What did Mama put on the fridge? **A card with a Name of Allah** · What did Omar break? **Adam’s toy car** · What does Ar-Rahman mean? **The Most Merciful**
+**What would you do?** You learn that Allah is As-Sami’, the All-Hearing. What could you do? (**Make du’a more often** / Shout your du’a / Stop talking to Allah)
+
+### Tawheed, 5. The Boy Who Asked Questions (Ibrahim and the true Lord)
+
+1. Ustadha Huda turned off the classroom lights. “Today’s story begins at night,” she said, “a very long time ago.”
+2. “There was a young man called Ibrahim. His people bowed down to statues of stone. Ibrahim could not see why.”
+3. “One night he saw a bright star. ‘Is this my Lord?’ he asked. But the star set and was gone.”
+4. “Then the moon rose, and later the sun. Both of them set too. Ibrahim said, ‘I love nothing that disappears.’”
+5. “My Lord is the One who made the sky and the earth,” said Ibrahim. “He never sets and never sleeps.”
+6. Hamza put his hand up. “Did his people listen?”
+   - *Tap:* Tap Ustadha Huda to hear what happened. → “No. They were so angry that they threw him into a huge fire.”
+7. “But Allah told the fire to be cool and safe. Ibrahim walked out without a single burn.”
+8. Safiya thought about it all the way home. Stars set. The moon sets. Allah is always there.
+
+**Words:** statue (a shape of a person or animal made from stone or wood), set (to go down and disappear, like the sun in the evening), Prophet (a man Allah chose to bring His message to people), Lord (the One who made us and looks after us: Allah)
+**Quiz:** What did Ibrahim’s people bow down to? **Statues of stone** · Why was the star not his Lord? **It set and disappeared** · What did Allah tell the fire? **Be cool and safe**
+**What would you do?** Your friends all do something wrong and laugh at you for not joining in. What would Ibrahim do? (**Stay with the truth, kindly** / Join in to fit in / Laugh at them back)
+
+### Tawheed, 6. Ahad, Ahad (Holding on to Tawheed)
+
+1. The masjid open day was on Saturday, and Imam Rashid had chosen Bilal to give the adhan.
+2. “Why me?” Bilal asked. “Because of your name,” said the Imam. “Do you know who the first Bilal was?”
+3. “Bilal ibn Rabah lived in Makkah. He was a slave, and his master worshipped idols.”
+4. “When Bilal became Muslim, his master was furious. He made him lie on the burning sand to make him give up.”
+5. “But Bilal would only say one word, over and over. Ahad. Ahad. One. One.”
+6. Bilal felt his throat go tight. “What happened to him?”
+   - *Tap:* Tap Imam Rashid to hear the end of the story. → “He was set free. And the Prophet ﷺ chose him to call the very first adhan.”
+7. On Saturday Bilal’s legs were shaking. Then he thought of the hot sand, and the word Ahad. His voice came out strong.
+8. Afterwards a visitor asked what the adhan meant. Bilal held up one finger. “It starts with this. Allah is One.”
+
+**Words:** adhan (the call to prayer), slave (a person who was owned by another person and not free), Ahad (One: Allah is One, with no partner), furious (very, very angry)
+**Quiz:** Who chose Bilal to give the adhan? **Imam Rashid** · What did Bilal ibn Rabah keep saying? **Ahad, Ahad** · What does Ahad mean? **One**
+**What would you do?** Someone makes fun of you for praying at school. What can you do? (**Keep praying, and stay calm and kind** / Stop praying for ever / Shout at them)
 

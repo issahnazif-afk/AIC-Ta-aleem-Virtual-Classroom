@@ -27,9 +27,15 @@ Hosted on GitHub Pages, with no server of its own. Built with [Astro](https://as
 
 ## Screens
 
-0. **Classroom** (after signing in): one card per activity: **Hifz test**, **Mujawwadah** and **Alif Ba**.
-   Hifz test and Mujawwadah go on to the camera check and set-up below; Alif Ba opens the Jannah Garden with its
-   lessons and games. To add an activity later, add an entry to `src/lib/activities.mjs`.
+0. **Classroom** (after signing in): **Choose your adventure** shows the seven learning worlds (Qur'an, Arabic,
+   Tawheed, Seerah, Hadith, Akhlaq, Du'a & Salah); pick one to see only its activities, or Everything. The whole
+   plan, level by level, is in [docs/CURRICULUM_PATH.md](docs/CURRICULUM_PATH.md). One card per activity:
+   **Hifz test**, **Mujawwadah**, **Recite (no camera)**, **Alif Ba**, **Tawheed** and the rest.
+   Hifz test and Mujawwadah go on to the camera check and set-up below. **Recite (no camera)** is for practice on
+   your own, as on the main app's Recite page: it goes straight to the set-up and uses only the microphone (no
+   camera check, snapshot or look-away check), with the same Qāf tracker following every word. **Tawheed** opens
+   the Tawheed shelf: picture books about knowing Allah for Levels 1 and 2 (`src/lib/library/tawheed.mjs`), with
+   the same games and stars as the Reading Library. Alif Ba opens the Jannah Garden with its lessons and games. To add an activity later, add an entry to `src/lib/activities.mjs`.
 1. **Sign in or create an account.** Each student creates their own username and password once, choosing their
    level (Level 1–4) and entering that level's class password from the teacher. After that they sign in with
    their username and password.

@@ -808,3 +808,20 @@ body[data-paper="night"] .stage .w.live { background-image: linear-gradient(to l
 .stage { position: relative; }
 .stage .paper.turning { position: absolute; inset: 0; margin: auto; z-index: 1; }
 @media (prefers-reduced-motion: reduce) { .stage .w.live { transition: none; } }
+
+/* Recite (no camera): microphone only, so the camera tile and its button are not shown */
+#s-class[data-nocam] #self-tile, #s-class[data-nocam] #camtoggle { display: none; }
+
+/* ── Choose your adventure: the learning worlds on the home page ── */
+.worlds { margin: 4px 0 18px; }
+.worlds .h2 { margin: 2px 0 12px; }
+.world-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 10px; }
+.world-chip { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 14px; border-radius: 16px; border: 1.5px solid #E3D7BC; background: #FFFDF7; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: transform .15s, border-color .15s, box-shadow .15s; }
+.world-chip:hover { transform: translateY(-2px); border-color: var(--aic-gold); }
+.world-chip[aria-selected="true"] { background: var(--aic-green); border-color: var(--aic-green); color: #fff; box-shadow: 0 8px 20px rgba(14, 107, 78, .22); }
+.world-chip .wc-ar { font-family: var(--font-quran); font-size: 20px; line-height: 1.2; color: var(--aic-gold); align-self: flex-end; }
+.world-chip[aria-selected="true"] .wc-ar { color: #FBE3A6; }
+.world-chip b { font-size: 15px; }
+.world-chip small { font-size: 12px; opacity: .75; }
+.world-chip:focus-visible { outline: 3px solid var(--aic-gold); outline-offset: 2px; }
+#world-text { margin: 10px 0 0; }

@@ -11,6 +11,7 @@ import { LEVEL1 as LIB1 } from './library/level1.mjs';
 import { hadithClipId } from './narration-text.mjs';
 import { LEVEL2 as LIB2 } from './library/level2.mjs';
 import { ADDED as LIB_ADDED } from './library/added.mjs';
+import { TAWHEED } from './library/tawheed.mjs';
 import { narrate, hush } from './narration.mjs';
 
 // the id of a teacher's reading of a Story Time page (and of what the page says after the child's tap)
@@ -51,7 +52,7 @@ export function catalogue() {
   const lv = (n) => (b) => b.level === n || b.id.startsWith(`l${n}-`);
   // Every hadith in Story Time and the Reading Library, in Arabic: read once, used by every book that has it
   const seen = new Set();
-  const hadith = [...STORIES, ...LIB1, ...LIB2, ...LIB_ADDED].filter((b) => b.hadith).flatMap((b) => {
+  const hadith = [...STORIES, ...LIB1, ...LIB2, ...LIB_ADDED, ...TAWHEED].filter((b) => b.hadith).flatMap((b) => {
     const id = hadithClipId(b.hadith.ar);
     if (seen.has(id)) return [];
     seen.add(id);
@@ -60,6 +61,7 @@ export function catalogue() {
   groups.push({ key: 'hadith', title: 'Hadith in Arabic', why: 'The Sheikh or a teacher reads each hadith once, slowly and clearly, with every vowel. The children hear it before the English meaning, in every book that has it. Until a hadith is recorded, the page goes straight to the English: a computer voice never reads the Prophet’s words.', clips: hadith });
   groups.push({ key: 'lib1', title: 'Library Level 1', why: 'First readers, ages 4–6. Read slowly and clearly, so a young child can follow each word as it lights up.', clips: lib([...LIB1, ...LIB_ADDED.filter(lv(1))]) });
   groups.push({ key: 'lib2', title: 'Library Level 2', why: 'Adventure readers, ages 7–8. Read with energy and suspense, like telling an adventure.', clips: lib([...LIB2, ...LIB_ADDED.filter(lv(2))]) });
+  groups.push({ key: 'tawheed', title: 'Tawheed shelf', why: 'Knowing Allah, Levels 1 and 2. Warm and unhurried, with wonder in the voice for the sky, the rain and the stories of Ibrahim and Bilal.', clips: lib(TAWHEED) });
   return groups;
 }
 

@@ -10,56 +10,82 @@
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
 //   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
+//   nocam   for 'recite': practice without the camera check, snapshot or look-away check (microphone only)
+//   worlds  which learning worlds it belongs to (WORLDS below): the home page's "Choose your adventure"
+//   shelf   for 'library': 'library' (the Reading Library) or 'tawheed' (the Tawheed shelf)
 //   levels  which classes see it (leave out for all)
 
 export const ACTIVITIES = [
   {
-    id: 'hifz', kind: 'recite', mode: 'hifz', icon: 'hifz', group: 'hifz',
+    id: 'hifz', worlds: ['quran'], kind: 'recite', mode: 'hifz', icon: 'hifz', group: 'hifz',
     title: 'Hifz test', ar: 'اِخْتِبَارُ ٱلْحِفْظ',
     text: 'The Sheikh recites the opening of an ayah. You carry on from memory until he stops you.',
   },
   {
-    id: 'reading', kind: 'recite', mode: 'reading', icon: 'mushaf', group: 'hifz',
+    id: 'reading', worlds: ['quran'], kind: 'recite', mode: 'reading', icon: 'mushaf', group: 'hifz',
     title: 'Mujawwadah', ar: 'ٱلْمُجَوَّدَة',
     text: 'Read aloud from the mushaf page while the Sheikh follows every word.',
   },
   {
-    id: 'alifba', kind: 'alifba', icon: 'lantern', group: 'lessons',
+    id: 'recite', worlds: ['quran'], kind: 'recite', mode: 'reading', nocam: true, icon: 'mushaf', group: 'hifz',
+    title: 'Recite (no camera)', ar: 'ٱلتِّلَاوَة',
+    text: 'Practise on your own: recite from the mushaf with the Sheikh following every word. Only the microphone is used.',
+  },
+  {
+    id: 'alifba', worlds: ['arabic'], kind: 'alifba', icon: 'lantern', group: 'lessons',
     title: 'Alif Ba', ar: 'أَلِف بَاء',
     text: 'Eighteen lessons, from the letters to tajweed and the short surahs, each with a game.',
   },
   // Story Time: picture stories with good manners, each ending with a hadith or an ayah (src/lib/stories/).
   {
-    id: 'stories', kind: 'stories', icon: 'stories', group: 'lessons', suggested: [1],
+    id: 'stories', worlds: ['akhlaq', 'hadith'], kind: 'stories', icon: 'stories', group: 'lessons', suggested: [1],
     title: 'Story Time', ar: 'وَقْتُ الْقِصَّة',
     text: 'Twenty-two picture stories about good manners. Tap the pictures, listen, and learn a hadith with each one.',
   },
   // The Reading Library: a reading journey by level, each book with story games (src/lib/library/).
   {
-    id: 'library', kind: 'library', icon: 'library', group: 'lessons', suggested: [1, 2],
+    id: 'library', worlds: ['akhlaq', 'hadith'], kind: 'library', icon: 'library', group: 'lessons', suggested: [1, 2],
     title: 'Reading Library', ar: 'مَكْتَبَةُ ٱلْقِرَاءَة',
     text: 'Forty books on a reading journey. Read a book, play its games, collect stars and passport stamps.',
   },
+  // Tawheed: knowing Allah, a shelf of picture books by level (src/lib/library/tawheed.mjs).
+  {
+    id: 'tawheed', worlds: ['tawheed'], kind: 'library', shelf: 'tawheed', icon: 'tawheed', group: 'lessons', suggested: [1, 2],
+    title: 'Tawheed', ar: 'ٱلتَّوْحِيد',
+    text: 'Who made the moon? Who hears a whisper? Twelve picture books about knowing Allah, with games and stars.',
+  },
   // Play & Learn (the AICWIS Interactive Learning Proposal). `suggested`: the levels the proposal suggests it for;
   // every level can play, and the game adjusts to the student's level.
-  { id: 'detective', kind: 'play', game: 'detective', icon: 'detective', group: 'play', suggested: [1, 2],
+  { id: 'detective', worlds: ['arabic'], kind: 'play', game: 'detective', icon: 'detective', group: 'play', suggested: [1, 2],
     title: 'Arabic Letter Detective', ar: 'مُحَقِّقُ ٱلْحُرُوف', text: 'Listen, look and find the letter. Open the alphabet garden part by part.' },
-  { id: 'ayah', kind: 'play', game: 'ayah', icon: 'ayah', group: 'play', suggested: [2, 3, 4],
+  { id: 'ayah', worlds: ['quran'], kind: 'play', game: 'ayah', icon: 'ayah', group: 'play', suggested: [2, 3, 4],
     title: 'Build the Ayah', ar: 'رَتِّبِ ٱلْآيَة', text: 'Put the words of an ayah in order, find the missing word, choose what comes next.' },
-  { id: 'match', kind: 'play', game: 'match', icon: 'match', group: 'play', suggested: [1, 2, 3, 4],
+  { id: 'match', worlds: ['tawheed', 'dua'], kind: 'play', game: 'match', icon: 'match', group: 'play', suggested: [1, 2, 3, 4],
     title: 'Match the Deen', ar: 'طَابِقْ', text: 'Turn the cards and find the pairs: Names of Allah, words, Prophets, duas.' },
-  { id: 'journey', kind: 'play', game: 'journey', icon: 'journey', group: 'play', suggested: [1, 2, 3, 4],
+  { id: 'journey', worlds: ['seerah'], kind: 'play', game: 'journey', icon: 'journey', group: 'play', suggested: [1, 2, 3, 4],
     title: 'Journey to Knowledge', ar: 'رِحْلَةُ ٱلْعِلْم', text: 'Answer questions to travel through four places of learning.' },
-  { id: 'salah', kind: 'play', game: 'salah', icon: 'salah', group: 'play', suggested: [1, 2, 3, 4],
+  { id: 'salah', worlds: ['dua'], kind: 'play', game: 'salah', icon: 'salah', group: 'play', suggested: [1, 2, 3, 4],
     title: 'Salah Master', ar: 'ٱلصَّلَاة', text: 'The steps of the prayer in order, what we say, and when.' },
-  { id: 'akhlaq', kind: 'play', game: 'akhlaq', icon: 'akhlaq', group: 'play', suggested: [1, 2, 3, 4],
+  { id: 'akhlaq', worlds: ['akhlaq'], kind: 'play', game: 'akhlaq', icon: 'akhlaq', group: 'play', suggested: [1, 2, 3, 4],
     title: 'Akhlaq Heroes', ar: 'أَبْطَالُ ٱلْأَخْلَاق', text: 'What would you do? Good choices grow your kindness garden.' },
   // The Seerah Quest: a 3D journey through the history before the Prophet ﷺ, from Ibn Kathir's al-Bidaya wa'l-Nihaya only.
-  { id: 'seerah', kind: 'seerah', icon: 'seerah', group: 'play', levels: [3, 4], suggested: [3, 4],
+  { id: 'seerah', worlds: ['seerah'], kind: 'seerah', icon: 'seerah', group: 'play', levels: [3, 4], suggested: [3, 4],
     title: 'The Seerah Quest', ar: 'رِحْلَةُ ٱلسِّيرَة', text: 'Walk through Makkah before the Prophet ﷺ: the well of Zamzam and the Year of the Elephant, told only from Ibn Kathir.' },
 ];
 
+// The learning worlds: one subject each, a strand that runs from Level 1 to Level 4 (docs/CURRICULUM_PATH.md).
+export const WORLDS = [
+  { id: 'quran', title: 'Qur’an', ar: 'ٱلْقُرْآن', text: 'Recite, memorise and build the ayat.' },
+  { id: 'arabic', title: 'Arabic', ar: 'ٱلْعَرَبِيَّة', text: 'Letters, sounds and reading.' },
+  { id: 'tawheed', title: 'Tawheed', ar: 'ٱلتَّوْحِيد', text: 'Knowing Allah, the One.' },
+  { id: 'seerah', title: 'Seerah', ar: 'ٱلسِّيرَة', text: 'The life and times of the Prophet ﷺ.' },
+  { id: 'hadith', title: 'Hadith', ar: 'ٱلْحَدِيث', text: 'His words ﷺ, a story at a time.' },
+  { id: 'akhlaq', title: 'Akhlaq', ar: 'ٱلْأَخْلَاق', text: 'Good character, at home and at school.' },
+  { id: 'dua', title: 'Du’a & Salah', ar: 'ٱلدُّعَاء وَٱلصَّلَاة', text: 'How we pray and what we say.' },
+];
+
 export const ICONS = {
+  tawheed: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 4 L38 18 L53 13 L47 27 L60 35 L45 39 L48 54 L35 46 L32 60 L29 46 L16 54 L19 39 L4 35 L17 27 L11 13 L26 18 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><circle cx="32" cy="33" r="13" fill="#0E6B4E"/><text x="32" y="40" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="17" fill="#FBE3A6">أَحَد</text></svg>',
   hifz: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M8 14 Q20 10 32 16 Q44 10 56 14 V50 Q44 46 32 52 Q20 46 8 50 Z" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2.5"/><path d="M32 16 V52" stroke="#0E6B4E" stroke-width="2"/><circle cx="46" cy="22" r="9" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><path d="M42 22 l3 3 5-6" fill="none" stroke="#0E6B4E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   mushaf: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M6 18 Q19 13 32 19 Q45 13 58 18 V52 Q45 47 32 53 Q19 47 6 52 Z" fill="#FFFDF7" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 19 V53" stroke="#C9A24A" stroke-width="2"/><g stroke="#0E6B4E" stroke-width="2" stroke-linecap="round"><path d="M12 26 H26 M12 32 H26 M12 38 H24 M38 26 H52 M38 32 H52 M40 38 H52"/></g><path d="M20 58 L32 50 L44 58" fill="none" stroke="#8A5A12" stroke-width="2.5" stroke-linecap="round"/></svg>',
   lantern: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 2 V9" stroke="#C9A24A" stroke-width="2"/><path d="M24 9 H40 L37 15 H27 Z" fill="#C9A24A"/><path d="M26 15 H38 L46 33 L38 52 H26 L18 33 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5"/><text x="32" y="40" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="20" fill="#0F2A24">ب</text><path d="M28 52 H36 L34 58 H30 Z" fill="#C9A24A"/></svg>',

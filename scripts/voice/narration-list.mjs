@@ -7,6 +7,7 @@ import { EPISODES } from '../../src/lib/seerah/episodes.mjs';
 import { LEVEL1 } from '../../src/lib/library/level1.mjs';
 import { LEVEL2 } from '../../src/lib/library/level2.mjs';
 import { ADDED } from '../../src/lib/library/added.mjs';
+import { TAWHEED } from '../../src/lib/library/tawheed.mjs';
 
 const SRC = JSON.parse(fs.readFileSync(new URL('../../src/data/seerah/sources.json', import.meta.url)));
 const out = new Map();
@@ -29,7 +30,7 @@ for (const k of Object.values(STORY_LINES)) add('story', k);
 
 // The Reading Library: the same as Story Time, plus (Level 1 only) the quiz questions and the picture words.
 // Level 2 games are read by the child, so they are not narrated.
-for (const b of [...LEVEL1, ...LEVEL2, ...ADDED]) {
+for (const b of [...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED]) {
   const L1 = b.level === 1 || /^l1-/.test(b.id);
   b.pages.forEach((p, i) => { add('story', p.t, `${b.id}:${i}`); add('story', p.tap?.say, `${b.id}:${i}:say`); });
   add('story', `${b.choose.q} ${b.choose.options.join('? ')}?`);

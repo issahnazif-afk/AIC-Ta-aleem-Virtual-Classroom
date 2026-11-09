@@ -492,6 +492,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     clearSilence(); stopListening(); voice.pause(); stopVoice();
     removeEventListener('resize', onResize);
     removeEventListener('ql:align', onAlign);
+    removeEventListener('ql:offtext', onOffText);
     const asked = questions.filter((x) => x.stats);
     const passage = passageText();
     const perAyah = [...ayahMarks.values()].sort((a, b) => a.s - b.s || a.a - b.a).map((x) => ({ ...x, marks: [...x.marks] }));
@@ -507,8 +508,13 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   const onAlign = (e) => {
     if (phase !== 'answer' || !listening) return clearLive();
     const d = e.detail, w = flat[pos + d.offset];
-    const elw = w && w.state !== 'shown' && w.page === shownPage && w.el?.isConnected ? w.el : null;
+    const elw = w && (w.state !== 'shown' || d.offset < 0) && w.page === shownPage && w.el?.isConnected ? w.el : null;
     if (elw !== liveEl) { clearLive(); if (elw) { elw.classList.add('live'); liveEl = elw; } }
+    // the reader went back to repeat: the words they repeat light up again, and the page waits for them
+    if (d.offset < 0 && w) {
+      if (!goingBack) { goingBack = true; status('Going back over it…', 'good'); }
+      if (elw) elw.classList.add('replay');
+    } else if (goingBack && d.offset >= 0) { goingBack = false; setTimeout(() => stage.querySelectorAll('.w.replay').forEach((x) => x.classList.remove('replay')), 900); }
     if (liveEl) liveEl.style.setProperty('--p', Math.min(1, Math.max(0.1, d.frac)).toFixed(3));
     // the reader is still reciting (the cursor is moving through the text): the Sheikh does not step in
     const at = `${d.offset}:${d.frac.toFixed(2)}`;
@@ -518,6 +524,11 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     if (k > 0 && k - pos <= 6) preparePage(flat[k].page);
   };
   addEventListener('ql:align', onAlign);
+  // the tracker heard a few words that are not the next words (not a mistake yet: one is only marked once the
+  // reader goes on past it)
+  let goingBack = false;
+  const onOffText = () => { if (phase === 'answer' && listening) status('That did not sound like the next words. Carry on from the highlighted word.', 'bad'); };
+  addEventListener('ql:offtext', onOffText);
 
   // ── listening ───────────────────────────────────────────────
   let rec = null, listening = false;

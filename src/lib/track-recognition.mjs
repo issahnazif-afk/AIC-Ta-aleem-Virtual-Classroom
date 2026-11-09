@@ -121,7 +121,11 @@ export class TrackRecognition {
     if (window.__qaafDebug && m.type === 'track') console.debug('qaaf', JSON.stringify({ gen: m.gen, mine: this.gen, pos: m.pos, word: m.word, frac: +m.frac.toFixed(2), filler: m.filler, ev: m.events.map((e) => e.index + e.kind) }));
     if (m.type !== 'track' || !this.running || m.gen !== this.gen) return;
     this.pos = Math.max(this.pos, m.pos);
-    window.dispatchEvent(new CustomEvent('ql:align', { detail: { offset: Math.max(0, m.word - m.pos), frac: m.frac, t: performance.now(), filler: m.filler } }));
+    // offset < 0: the reader has gone back to repeat words the page already has (the cursor follows them back)
+    window.dispatchEvent(new CustomEvent('ql:align', { detail: { offset: m.word - m.pos, frac: m.frac, t: performance.now(), filler: m.filler, back: m.back } }));
+    // the reader has said a few words that are not the text: the page can say so (it is not marked as a mistake:
+    // a word is only marked wrong once the reader goes on past it)
+    if (m.wrong) window.dispatchEvent(new CustomEvent('ql:offtext'));
     window.dispatchEvent(new CustomEvent('ql:asr', { detail: { text: `Qāf tracker: ${m.ms.toFixed(0)} ms a look` } }));
     if (m.events.length) {
       const track = m.events.map((e) => ({ plain: this.words[e.index], kind: e.kind, score: e.score }));

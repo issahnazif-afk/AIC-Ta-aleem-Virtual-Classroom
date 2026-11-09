@@ -321,6 +321,7 @@ const levels = [
         <div class="daily-head"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Today's Ta'aleem Challenge</p><h2 class="h2" id="daily-h">Three missions for today</h2></div>
         <ol class="missions" data-missions></ol>
       </section>
+      <section class="worlds" aria-labelledby="worlds-h"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Choose your adventure</p><h2 class="h2" id="worlds-h">Pick a world, or see everything</h2><div class="world-chips" id="world-chips" role="tablist" aria-label="Learning worlds"></div><p class="muted small" id="world-text"></p></section>
       <section id="sec-hifz" class="home-sec"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Hifz</p><div class="acts" id="acts-hifz"></div></section>
       <section id="sec-lessons" class="home-sec"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Lessons</p><div class="acts" id="acts-lessons"></div></section>
       <section id="sec-play" class="home-sec"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Play &amp; Learn</p><div class="acts" id="acts-play"></div></section>
@@ -420,7 +421,7 @@ const levels = [
       <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
     </header>
     <div class="flow-main">
-      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Reading Library · مَكْتَبَةُ ٱلْقِرَاءَة</p>
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span><span id="lb-eyebrow">Reading Library · مَكْتَبَةُ ٱلْقِرَاءَة</span></p>
       <h1 id="lb-h">My reading journey</h1>
       <p class="muted lead" id="lb-lead"></p>
       <div id="lb-root"></div>
@@ -635,7 +636,7 @@ const levels = [
     import { openCamera, micMeter, snapshot, testTone } from '../lib/media.mjs';
     import { createGazeWatcher, loadGaze } from '../lib/gaze.mjs';
     import { getSpeechRecognition, prepareFastListening, preloadQaaf } from '../lib/speech.mjs';
-    import { forLevel, ICONS } from '../lib/activities.mjs';
+    import { forLevel, ICONS, WORLDS } from '../lib/activities.mjs';
     import { makhrajOf, makhrajSvg } from '../lib/makhraj.mjs';
     import { STORIES as LEVEL1_STORIES } from '../lib/stories/level1.mjs';
     import { mountShelf, openStory } from '../lib/stories/reader.mjs';
@@ -665,6 +666,7 @@ const levels = [
     // ── state ────────────────────────────────────────────────
     const me = { name: '', username: '', gender: '', classCode: '', className: '', token: '', loginTime: null, level: 1 };
     let stream = null, meter = null, watcher = null, snap = '';
+    let noCam = false;   // Recite (no camera): microphone only, straight to the setup
     let choice = { mode: 'hifz', level: 'intermediate', ...store.get('choice', {}) };
     let engine = null, sessionStart = 0, timerT = 0;
 
@@ -858,13 +860,13 @@ const levels = [
       document.querySelectorAll('[data-level]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.level === choice.level)));
       document.querySelectorAll('#s-setup [data-hifz-only]').forEach((x) => (x.hidden = choice.mode !== 'hifz'));
       const hifz = choice.mode === 'hifz';
-      $('su-h').textContent = hifz ? 'Hifz test' : 'Mujawwadah · reading from the mushaf';
+      $('su-h').textContent = hifz ? 'Hifz test' : noCam ? 'Recite · no camera' : 'Mujawwadah · reading from the mushaf';
       $('start').textContent = hifz ? 'Start Hifz test' : 'Open the mushaf';
       const s1 = fromSel.selectedOptions[0].textContent.replace(/^\d+\.\s*/, ''), s2 = toSel.selectedOptions[0].textContent.replace(/^\d+\.\s*/, '');
       const r = s1 === s2 ? `${s1} ${$('su-a1').value}–${$('su-a2').value}` : `${s1} ${$('su-a1').value} to ${s2} ${$('su-a2').value}`;
-      $('su-sum').textContent = `${hifz ? 'Hifz test' : 'Mujawwadah'} · ${LEVELS[choice.level].name} · ${r}`;
+      $('su-sum').textContent = `${hifz ? 'Hifz test' : noCam ? 'Recite' : 'Mujawwadah'} · ${LEVELS[choice.level].name} · ${r}`;
     }
-    $('su-back').addEventListener('click', () => { show('s-check'); });
+    $('su-back').addEventListener('click', () => { if (noCam) { noCam = false; goHome(); } else show('s-check'); });
     $('start').addEventListener('click', startSession);
 
     // ── 4 · the classroom ────────────────────────────────────
@@ -945,7 +947,8 @@ const levels = [
       $('s-class').dataset.mode = choice.mode;
       document.querySelectorAll('#s-class [data-hifz-only]').forEach((x) => (x.hidden = !hifz));
       document.querySelectorAll('#s-class [data-reading-only]').forEach((x) => (x.hidden = hifz));
-      $('c-title').textContent = hifz ? 'Hifz test' : 'Mujawwadah · reading from the mushaf';
+      $('c-title').textContent = hifz ? 'Hifz test' : noCam ? 'Recite · no camera' : 'Mujawwadah · reading from the mushaf';
+      $('s-class').toggleAttribute('data-nocam', noCam);
       $('c-level').textContent = LEVELS[choice.level].name;
       $('notes').replaceChildren(); notesN = 0; $('notes-n').textContent = 'None yet'; $('c-notes-n').textContent = '';
       $('where').textContent = ''; setStatus('', ''); $('stage').replaceChildren(); $('c-sub').textContent = '';
@@ -1115,7 +1118,7 @@ const levels = [
     $('r-new').addEventListener('click', async () => {
       engine = null;
       try { if (stream && !stream.getAudioTracks().some((t) => t.readyState === 'live')) { stream.getTracks().forEach((t) => t.stop()); stream = null; } } catch {}
-      show('s-check'); startCheck();
+      if (noCam) { show('s-setup'); syncSetup(); } else { show('s-check'); startCheck(); }
     });
     $('r-out').addEventListener('click', () => signOut());
     $('r-home').addEventListener('click', () => { stopMedia(); goHome(); });
@@ -1159,8 +1162,10 @@ const levels = [
         if (a.suggested?.includes(me.level)) { const sg = document.createElement('span'); sg.className = 'act-tag'; sg.textContent = 'Suggested for your level'; b.append(sg); }
         if (a.kind === 'soon') b.disabled = true;
         else b.addEventListener('click', () => openActivity(a));
+        b.dataset.worlds = (a.worlds ?? []).join(' ');
         $('acts-' + (a.group || 'play')).append(b);
       }
+      renderWorlds();
       show('s-home');
       if (fresh) {
         progress = await getProgress({ token: me.token, username: me.username });
@@ -1168,15 +1173,39 @@ const levels = [
       }
       renderDashboard();
     }
+    // ── Choose your adventure: the learning worlds (activities.mjs WORLDS) filter the cards ──
+    let world = store.get('world', '') || '';
+    function renderWorlds() {
+      const chips = $('world-chips');
+      chips.replaceChildren();
+      const count = (id) => document.querySelectorAll(`#s-home .act[data-worlds~="${id}"]`).length;
+      for (const w of [{ id: '', title: 'Everything', ar: 'كُلّ', text: 'Every activity for your level.' }, ...WORLDS]) {
+        const n = w.id ? count(w.id) : document.querySelectorAll('#s-home .act').length;
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'world-chip'; b.setAttribute('role', 'tab'); b.dataset.world = w.id;
+        b.setAttribute('aria-selected', String(w.id === world));
+        b.innerHTML = `<span class="wc-ar" lang="ar" dir="rtl"></span><b></b><small></small>`;
+        b.querySelector('.wc-ar').textContent = w.ar; b.querySelector('b').textContent = w.title; b.querySelector('small').textContent = `${n} ${n === 1 ? 'activity' : 'activities'}`;
+        b.addEventListener('click', () => { world = w.id; store.set('world', world); renderWorlds(); });
+        chips.append(b);
+      }
+      $('world-text').textContent = (WORLDS.find((w) => w.id === world) ?? { text: 'Every activity for your level.' }).text;
+      document.querySelectorAll('#s-home .act').forEach((b) => { b.hidden = !!world && !b.dataset.worlds.split(' ').includes(world); });
+      for (const g of ['hifz', 'lessons', 'play']) $('sec-' + g).hidden = ![...$('acts-' + g).children].some((b) => !b.hidden);
+    }
     let activity = null;
     function openActivity(a) {
       activity = a;
-      if (a.kind === 'recite') { reciteLesson = null; choice.mode = a.mode; show('s-check'); startCheck(); }
+      if (a.kind === 'recite') {
+        reciteLesson = null; choice.mode = a.mode; noCam = !!a.nocam;
+        if (noCam) { stopMedia(); snap = ''; checkFast(); show('s-setup'); syncSetup(); }
+        else { show('s-check'); startCheck(); }
+      }
       else if (a.kind === 'alifba') goHub();
       else if (a.kind === 'play') openPlay(a);
       else if (a.kind === 'seerah') openSeerah();
       else if (a.kind === 'stories') openStories();
-      else if (a.kind === 'library') openLibrary();
+      else if (a.kind === 'library') openLibrary(undefined, a.shelf || 'library');
     }
     function goHub() {
       stopSound();
@@ -1410,7 +1439,7 @@ const levels = [
     function reciteSurah(m) {
       stopSound();
       reciteLesson = { surah: m.n, ayahs: m.ayahs };
-      choice.mode = 'reading';
+      choice.mode = 'reading'; noCam = false;
       show('s-check'); startCheck();
     }
 
@@ -1759,14 +1788,21 @@ const levels = [
       });
     }
     // ── The Reading Library ──
-    let libBook = null, libLevel = null;
-    function openLibrary(level) {
+    let libBook = null, libLevel = null, libShelf = 'library';
+    const SHELF_TEXT = {
+      library: { eyebrow: 'Reading Library · مَكْتَبَةُ ٱلْقِرَاءَة', h: 'My reading journey', lead: 'Follow the path. Each book is a new adventure. Read it, play its games and collect your stars.' },
+      tawheed: { eyebrow: 'Tawheed · ٱلتَّوْحِيد', h: 'Knowing Allah', lead: 'Who made the moon? Who hears a whisper in the dark? Read each book, then play its games. Levels 3 and 4 follow the Tawheed textbook.' },
+    };
+    function openLibrary(level, shelf) {
+      if (shelf && shelf !== libShelf) { libShelf = shelf; libLevel = null; }
+      const tx = SHELF_TEXT[libShelf];
+      $('lb-eyebrow').textContent = tx.eyebrow; $('lb-h').textContent = tx.h;
       stopSound();
       document.querySelectorAll('.lb-earned-card').forEach((x) => x.remove());
       const mine = me.level || 1;
       libLevel = level ?? libLevel ?? Math.min(2, mine);
-      $('lb-lead').textContent = mine > 2 ? `Books for ${me.className} are coming, in sha Allah. Until then, enjoy Levels 1 and 2.` : 'Follow the path. Each book is a new adventure. Read it, play its games and collect your stars.';
-      mountLibrary($('lb-root'), { level: libLevel, progress, onOpen: readBook, onLevel: (n) => openLibrary(n) });
+      $('lb-lead').textContent = mine > 2 && libShelf === 'library' ? `Books for ${me.className} are coming, in sha Allah. Until then, enjoy Levels 1 and 2.` : tx.lead;
+      mountLibrary($('lb-root'), { level: libLevel, progress, onOpen: readBook, onLevel: (n) => openLibrary(n), collection: libShelf });
       renderDashboard();
       show('s-library');
     }

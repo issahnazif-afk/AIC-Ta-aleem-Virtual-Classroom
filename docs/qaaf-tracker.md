@@ -47,11 +47,47 @@ expected text. The Qāf model is the same kind of model (a small Conformer-CTC t
   - a reader starting further on;
   - going back to repeat words;
   - something that is not in the text at all (a cough, a wrong word, the teacher talking).
-- **Words are committed only forward.** A word is "read" when the path has gone through it, or when the voice
-  stops for 0.2 s after its last letter (the end of an ayah). It is "missed" only if something else was said in
-  its place. A word passed too quickly to judge is "unclear", which is never counted as a mistake.
+- **Words are committed only forward, and only when they were really said.** Each letter of a word is looked
+  for at its clearest moment while the reader is in that word. The word the reader lands on must be heard well
+  before anything turns green, so a wrong word or a wrong ayah never moves the page on (see below).
 - **A live cursor.** Several times a second the page learns which word the reader is in and how far into it.
   That word fills from right to left as it is said, before it is confirmed.
+
+## Second round (7 November 2026): wrong words and going back
+
+Two faults were reported after the first version went live: the tracker turned words green even when the reader
+recited something wrong, and it kept moving forward when the reader went back to repeat. Both were reproduced
+with a scenario test (recitations built from ayah recordings: normal, repeat an ayah, repeat two words, a wrong
+ayah, one wrong word, a skipped ayah) and fixed:
+
+| Scenario (Al-Fatiha) | Before | After |
+|---|---|---|
+| Normal | all 29 words; delay median 0.40 s, worst 1.75 s | all 29 words; median 0.39 s, worst 0.82 s |
+| Al-Ikhlas recited after ayah 2 (wrong ayah) | ran on through ayahs 3–7 (10 words turned green) | stops; nothing after ayah 2 turns green; "That did not sound like the next words" |
+| One wrong word in ayah 4 | accepted as "unclear" | marked missed (red); the rest of the ayah read |
+| Ayah 3 left out | accepted as "unclear" | both words marked missed (red) |
+| Going back to repeat ayahs 2 and 3 | cursor stayed put | cursor goes back, the repeated words light up again, the page waits |
+
+What changed in `tracker.mjs`:
+
+- **A word must be said to move the page.** The word the reader lands on needs its letters heard (each at its
+  clearest moment, the weakest letter of a long word set aside, since long vowels and hamzas are often folded
+  into a neighbour). Landing more than one word ahead needs two words in a row said well.
+- **Mistakes are named.** A word passed over badly, or left out, is "missed". A word the reader ran into its
+  neighbour (as in "bismillāh") is still "unclear", never a mistake: its letters are found around it.
+- **Going back.** The tracker now looks up to 30 words behind the reader's place. When the reader repeats, the
+  live cursor follows them back (`offset < 0` on `ql:align`) and the page lights the repeated words; nothing is
+  committed until they come forward again.
+- **Off the text.** After about two words' worth of letters that are not the text (silence never counts), the
+  page shows a hint once (`ql:offtext`). It is not marked as a mistake; a word is only marked once the reader
+  goes on past it.
+- **The "Qāf aligner" menu option is gone** (main app). It was an earlier, weaker version of the same idea; a reader
+  who had chosen it now gets the tracker.
+
+Real-browser checks (Chrome, the real model, the microphone fed from a recording): the main app's Recite page
+read all 29 words with a median delay of 0.51 s (worst 0.9 s); with the wrong ayah it stopped after ayah 2 and
+showed the hint; with the repeat it lit the repeated words and carried on. The test voices are synthetic, so
+please run the measuring workflow below on real Qaris.
 
 ## Checking it on real reciters
 

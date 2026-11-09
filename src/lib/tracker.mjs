@@ -10,22 +10,30 @@
 //
 //   const t = createTracker({ letters, blank, words: ['بسم', 'الله', …] })   plain words of the whole passage
 //   t.push(logprobs, n)       n frames (25 a second), each C = letters.length + 1 values
-//   t.update() → { pos, frac, word, events }
+//   t.update() → { pos, frac, word, events, back, wrong }
 //      pos     the next word not yet read (everything before it is committed)
-//      word    the word the reader is in right now, frac how far into it (0–1): the live cursor
+//      word    the word the reader is in right now, frac how far into it (0–1): the live cursor. It can be behind
+//              pos (back: true) when the reader goes back to repeat words; nothing is committed while they do
 //      events  [{ index, kind: 'read' | 'weak' | 'unclear' | 'missed', score }] words committed by this update
-//              (missed: something else was said in its place; unclear: passed too quickly to judge)
+//              (missed: left out, or something else said in its place; unclear: run into a neighbour)
+//      wrong   true once when the reader has been saying something that is not the text for a few words
+//
+// Words only move the page on when they were really said: each letter of the word is looked for at its clearest
+// moment, and the word the reader lands on must score well. A wrong word or a wrong ayah therefore never turns
+// the page green; the words stay waiting until the reader recites them (or marked missed if they go on past).
 //   t.moveTo(i)               the page jumped (a new start point): follow from word i
 
 export function createTracker({ letters, blank, words = [], opts = {} }) {
   const o = {
     history: 100,        // frames re-aligned each time (4 s)
     ahead: 25,           // words of text after the committed position that the reader may be in
-    behind: 4,           // words before it (a reader going back over words)
+    behind: 30,          // words before it: a reader going back to repeat words or a whole ayah
     filler: -2.2,        // per frame cost of "not in the text" (vs. the best letter)
     toFiller: -4, fromFiller: -2,
     jump: -0.6,          // per word, cost of starting away from the committed position
     weak: -1.6,          // average letter margin below which a word counts as weakly read
+    bad: -3.2,           // ... and below which it was not really said (another word in its place)
+    wrongAfter: 12,      // letters heard that are not the text (about two words) before the reader is told
     endBlanks: 5,        // blank frames after a word's last letter that end it (200 ms): the end of an ayah
     ...opts,
   };
@@ -41,6 +49,7 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
   let pos = 0;             // committed: words before pos are done
   let started = false;     // a jump forward is only trusted when the reader first begins
   let live = { word: 0, frac: 0 };
+  let offTold = false, wrongNow = false;   // the reader is saying something that is not the text
 
   function push(lp, n) { write(dropped + frames.length, lp, n); }
   // write n frames starting at absolute frame `at`: frames already there are replaced (a later look at the audio,
@@ -123,36 +132,67 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     for (let t = 0; t < F; t++) {
       const s = path[t]; if (s === 0) { fill++; continue; }
       if (fill) { const w = wOf[s]; fillerBefore.set(w, (fillerBefore.get(w) ?? 0) + fill); fill = 0; }
-      const w = wOf[s]; let r = seen.get(w); if (!r) seen.set(w, (r = { score: 0, n: 0, letters: new Set(), lastT: t }));
+      const w = wOf[s]; let r = seen.get(w); if (!r) seen.set(w, (r = { score: 0, n: 0, letters: new Set(), lb: new Map(), firstT: t, lastT: t }));
       const f = frames[base + t], { eB, free } = emis(f);
       if (tok[s] >= 0) { r.score += f[tok[s]] - free; r.n++; r.letters.add(liOf[s]); }
+      // each letter's clearest moment anywhere while the reader was in this word (CTC may fold a letter into a
+      // neighbour's frames, so it is looked for across the whole word, not only on its own frames)
+      ids[w].forEach((id, li) => { const m = f[id] - free; if (m > (r.lb.get(li) ?? -Infinity)) r.lb.set(li, m); });
       r.lastT = t;
     }
     for (let t = F - 1; t >= 0 && path[t] !== 0 && tok[path[t]] < 0; t--) blanksAtEnd++;
 
+    // how well a word was said: each of its letters at its clearest moment (0 = the model's first choice), averaged
+    // (the weakest letter is left out of longer words: a long vowel or a hamza is often folded into its neighbour)
+    const lsc = (w) => {
+      const r = seen.get(w); if (!r?.n) return -10;
+      const v = ids[w].map((_, i) => Math.max(-8, r.lb.get(i) ?? -8)).sort((a, b) => a - b);
+      if (v.length >= 3) v.shift();
+      return v.reduce((a, b) => a + b, 0) / v.length;
+    };
+    const said = (w) => { const r = seen.get(w); return r && r.n >= 2 && r.letters.size / ids[w].length >= 0.6 && lsc(w) >= o.weak; };
+    // letters of a word the path did not go through, looked for between the words around it (and a little into them)
+    const gapScore = (w) => {
+      // (frames are counted from the look-back start; with no word before it on the path, it may have been said
+      // just before the look-back began, run into the word committed last, so a second before that is searched too)
+      let a = -25, b = F - 1;
+      for (let k = w - 1; k >= pos; k--) { const r = seen.get(k); if (r?.n) { a = r.lastT - 3; break; } }
+      for (let k = w + 1; k < w1; k++) { const r = seen.get(k); if (r?.n) { b = Math.min(F - 1, r.firstT + 3); break; } }
+      const best = ids[w].map(() => -8);
+      for (let t = Math.max(a, -base); t <= b; t++) { const f = frames[base + t], { free } = emis(f); ids[w].forEach((id, li) => { best[li] = Math.max(best[li], f[id] - free); }); }
+      best.sort((x, y) => x - y); if (best.length >= 3) best.shift();
+      return best.reduce((x, y) => x + y, 0) / best.length;
+    };
     const sNow = end, wNow = sNow === 0 ? live.word : wOf[sNow];
     const n = nOf[sNow] || 1;
     let frac = sNow === 0 ? live.frac : (liOf[sNow] + (tok[sNow] >= 0 ? 0.5 : 1)) / n;
     // finished a word: at its blank after the last letter for a moment, or already in a later word
     let doneUpTo = wNow - 1;
     if (sNow > 0 && tok[sNow] < 0 && liOf[sNow] === n - 1 && blanksAtEnd >= o.endBlanks) doneUpTo = wNow;
+    // a longer pause inside the last word's blank, with all its letters heard: the reader has finished it too
+    else if (sNow > 0 && tok[sNow] < 0 && blanksAtEnd >= o.endBlanks * 3 && said(wNow)) doneUpTo = wNow;
     if (sNow > 0 && wNow <= pos + 3) live = frac >= 1 && doneUpTo === wNow ? { word: wNow + 1, frac: 0 } : { word: wNow, frac: Math.min(1, frac) };
-    if (live.word < pos) live = { word: pos, frac: 0 };
+    // the reader may be behind the committed words (repeating): the cursor follows them back
 
-    // commit, never backwards. A word the path went through is read (or weak); a word it jumped over is skipped.
-    if (doneUpTo >= pos) {
-      // only trust a jump forward when the path really read the words it lands on
-      const target = doneUpTo;
-      let firstRead = -1; for (let w = pos; w <= target; w++) if (seen.get(w)?.n) { firstRead = w; break; }
-      // the letters of two words were clearly heard (whatever their score), or it is a one-word step
-      const heard = [...seen.entries()].filter(([w, r]) => w >= firstRead && w <= target && r.n >= 2 && r.letters.size / ids[w].length >= 0.5).length;
-      const solid = firstRead === pos || (firstRead === pos + 1 && heard >= 1) || heard >= 2;
+    // commit, never backwards. Only words the reader really said move the page on: the word the path ends on
+    // must be clearly heard (its letters, with a fair score). Words the path ran over badly, or jumped over while
+    // the reader said something else, are mistakes; nothing is committed while the reader is off the text.
+    let target = doneUpTo;
+    while (target >= pos && !said(target)) target--;          // the last word that was really said
+    if (target >= pos) {
+      // landing beyond the next word: the two words it lands on must both be said, one after the other
+      const solid = target === pos || (said(target - 1) && target - 1 >= pos) || (target === pos + 1 && seen.get(pos)?.n);
       if (solid) for (let w = pos; w <= target; w++) {
         const r = seen.get(w);
-        // not on the path: a mistake only if the reader said something else there (filler frames); otherwise the
-        // tracker simply ran over it (a quick or merged word): unclear, not a mistake
-        if (!r || !r.n) { const nextSaid = [...fillerBefore.entries()].some(([k, n]) => k > w && k <= target + 1 && n >= 6); events.push({ index: w, kind: nextSaid ? 'missed' : 'unclear', score: -10 }); }
-        else { const sc = r.score / r.n, cov = r.letters.size / ids[w].length; events.push({ index: w, kind: sc < o.weak || cov < 0.5 ? 'weak' : 'read', score: sc }); }
+        if (!r || !r.n) {
+          // not on the path: were its letters heard around where it should be (run into its neighbours, as in
+          // "bismillāh"), or was it left out / something else said in its place?
+          const g = gapScore(w);
+          events.push({ index: w, kind: g >= o.weak ? 'unclear' : 'missed', score: g });
+        } else {
+          const sc = lsc(w), cov = r.letters.size / ids[w].length;
+          events.push({ index: w, kind: sc < o.bad || cov < 0.34 ? 'missed' : sc < o.weak || cov < 0.5 ? 'weak' : 'read', score: sc });
+        }
         pos = w + 1;
       }
       if (pos > target) {
@@ -161,7 +201,19 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
         if (r) anchor = dropped + base + Math.max(0, r.lastT - 2);
       }
     }
-    return { pos, word: live.word, frac: live.frac, events, inFiller: sNow === 0 };
+    // the reader has been saying something that is not the text for a while (not silence: silence is blank)
+    // speech since the last committed word that is not the text: voiced frames (not blank: a pause to think is
+    // never a mistake) other than those of words the reader really said, including words repeated behind
+    let off = 0;
+    for (let t = 0; t < F; t++) {
+      const s = path[t];
+      if (s !== 0 && said(wOf[s])) continue;
+      if (frames[base + t][blank] < -0.7) off++;
+    }
+    if (events.length) offTold = false;
+    wrongNow = off >= o.wrongAfter && !offTold;
+    if (wrongNow) offTold = true;
+    return { pos, word: live.word, frac: live.frac, events, inFiller: sNow === 0, back: live.word < pos, wrong: wrongNow };
   }
 
   // The page supplies the words from its own position on. extend(): same place, more words (or corrected ones)

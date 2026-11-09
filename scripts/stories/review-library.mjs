@@ -3,13 +3,14 @@
 import fs from 'node:fs';
 import { LEVEL1 } from '../../src/lib/library/level1.mjs';
 import { LEVEL2 } from '../../src/lib/library/level2.mjs';
+import { TAWHEED_L1, TAWHEED_L2 } from '../../src/lib/library/tawheed.mjs';
 import { ADDED } from '../../src/lib/library/added.mjs';
 const Q = JSON.parse(fs.readFileSync(new URL('../../src/data/stories-quran.json', import.meta.url)));
 const out = ['# Reading Library · teacher review sheet', '',
   'Forty original books written for Al-Huda Islamic Weekend School: twenty First Readers (Level 1, ages 4–6, six pages) and twenty',
   'Adventure Readers (Level 2, ages 7–8, eight pages). The characters are made up; no Prophet or Companion is ever shown.',
   'Each book ends with one hadith or ayah. The English is a simple meaning for young readers; please check it and sign the last column.', ''];
-const shelves = [['Level 1 · First Readers', [...LEVEL1, ...ADDED.filter((b) => b.level === 1)]], ['Level 2 · Adventure Readers', [...LEVEL2, ...ADDED.filter((b) => b.level === 2)]]];
+const shelves = [['Level 1 · First Readers', [...LEVEL1, ...ADDED.filter((b) => b.level === 1)]], ['Level 2 · Adventure Readers', [...LEVEL2, ...ADDED.filter((b) => b.level === 2)]], ['Tawheed · Level 1', TAWHEED_L1], ['Tawheed · Level 2', TAWHEED_L2]];
 for (const [name, books] of shelves) {
   out.push(`## ${name}`, '', '| # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |', '|---|---|---|---|---|---|---|');
   books.forEach((b, i) => {
