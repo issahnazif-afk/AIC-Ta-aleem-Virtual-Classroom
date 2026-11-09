@@ -1,8 +1,10 @@
 name: Speech - measure the Qāf tracker
 
-# Plays real EveryAyah recitations through the Qāf tracker exactly as the Recite page, the Hifz test and the
-# classroom run it, and reports how many words it follows, how quickly they turn green on a student laptop, how
-# many correctly recited words it flags, and whether it runs on past what was said. Run from Actions → Run workflow.
+# Plays real EveryAyah recitations through the classroom's Qāf tracker and reports how many words it follows, how
+# quickly they turn green on a student laptop, how many correctly recited words it flags, and whether it runs on
+# past what was said. Run from Actions → Run workflow.
+# The model and the measuring script live in the main app (Qa-af-Wal-Quran-ul-Majeed), so this run fetches them
+# from there and measures this repo's own tracker files with them.
 on:
   workflow_dispatch:
 
@@ -11,27 +13,39 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
+      MAIN: issahnazif-afk/Qa-af-Wal-Quran-ul-Majeed
     steps:
-      - uses: actions/checkout@v5
+      - name: This repo (the classroom's tracker)
+        uses: actions/checkout@v5
+        with:
+          path: classroom
+      - name: The main app (the measuring script, the Qur'an text)
+        uses: actions/checkout@v5
+        with:
+          repository: issahnazif-afk/Qa-af-Wal-Quran-ul-Majeed
+          path: main
       - uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: Tools and model
         run: |
           sudo apt-get update -y && sudo apt-get install -y ffmpeg
-          npm install --no-save onnxruntime-web@1.30.0
-          mkdir -p model && gh release download qaaf-asr-model -D model -p 'qaaf-asr.onnx' -p 'features.json' -p 'vocab.json'
+          cd main && npm install --no-save onnxruntime-web@1.30.0
+          mkdir -p model && gh release download qaaf-asr-model -R "$MAIN" -D model -p 'qaaf-asr.onnx' -p 'features.json' -p 'vocab.json'
+          # measure the classroom's own copy of the tracker
+          cp ../classroom/src/lib/tracker.mjs ../classroom/src/lib/features.mjs src/lib/
       - name: Recitations (two reciters the model never trained on, plus one it did)
         run: |
-          mkdir -p audio
+          mkdir -p main/audio
           for r in Husary_128kbps Minshawy_Murattal_128kbps Alafasy_128kbps; do
             for k in 001001 001002 001003 001004 001005 001006 001007 002002 002003 002004 002005 036001 036002 036003 036005 067001 067002 112001 112002 112003 112004 113001 113002 114001 114002; do
-              curl -sfL -o "audio/${r}__${k}.mp3" "https://everyayah.com/data/${r}/${k}.mp3" || true
+              curl -sfL -o "main/audio/${r}__${k}.mp3" "https://everyayah.com/data/${r}/${k}.mp3" || true
             done
           done
-          ls audio | wc -l
+          ls main/audio | wc -l
       - name: Measure
         shell: bash
+        working-directory: main
         run: |
           set -o pipefail
           node tools/tracker/measure.mjs model audio 2>&1 | tee tracker-log.txt
@@ -40,5 +54,5 @@ jobs:
         with:
           name: tracker-report
           path: |
-            tracker-report.txt
-            tracker-log.txt
+            main/tracker-report.txt
+            main/tracker-log.txt
