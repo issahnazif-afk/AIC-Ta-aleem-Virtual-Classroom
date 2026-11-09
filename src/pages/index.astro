@@ -16,6 +16,7 @@ import '@fontsource/playfair-display/600-italic.css';
 import '../styles/global.css';
 import '../styles/classroom.css';
 import '../styles/aic.css';
+import '../styles/books.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
 import cfg from '../../site.config.mjs';
@@ -428,6 +429,23 @@ const levels = [
       <p class="preview-note">For teachers: every book ends with a hadith or an ayah. The hadith translations are simple meanings for young readers. Please check them before class.</p>
     </div>
   </section>
+
+  <!-- The Al-Huda Books: the school's Canva books as interactive books (src/lib/books/) ─── -->
+  <section class="screen flow" id="s-books" hidden aria-labelledby="bk-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Al-Huda Books</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Al-Huda Books · كُتُبُ ٱلْهُدَى</p>
+      <h1 id="bk-h">Our school books</h1>
+      <p class="muted lead">The books from your class, ready to read on the screen. Tap the letters to hear them, colour the pages, answer the questions and collect your stars.</p>
+      <div id="bk-root"></div>
+      <p class="preview-note">For teachers: the hadith, du'a and ayat in these books are listed in docs/al-huda-books-review.md. Please check them before class.</p>
+    </div>
+  </section>
+  <section class="screen eb-screen" id="s-ebook" hidden aria-label="Book"><div id="eb-root"></div></section>
 
   <!-- A chooser: the surah for Build the Ayah, the topic for Match the Deen ─ -->
   <section class="screen flow" id="s-pick" hidden aria-labelledby="pk-h">
@@ -1206,6 +1224,7 @@ const levels = [
       else if (a.kind === 'seerah') openSeerah();
       else if (a.kind === 'stories') openStories();
       else if (a.kind === 'library') openLibrary(undefined, a.shelf || 'library');
+      else if (a.kind === 'books') openBooks();
     }
     function goHub() {
       stopSound();
@@ -1243,7 +1262,7 @@ const levels = [
     }
     document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.go === 'hub') { stopGame(); goHub(); }
-      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; goHome(); }
+      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; ebook?.stop(); ebook = null; goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
     function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }
@@ -1824,6 +1843,41 @@ const levels = [
           setTimeout(() => box.remove(), 12000);
           await saveProgress({ token: me.token, username: me.username, progress });
           logGame({ token: me.token, game: { game: 'Reading Library', lesson: book.title, rounds: 1, first: right ? 1 : 0, accuracy: Math.round((stars / 3) * 100), score: `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+        },
+      });
+    }
+    // ── The Al-Huda Books ──
+    let ebook = null;
+    // the books load only when the shelf is first opened, so the classroom's first page stays light
+    let booksMod = null;
+    const loadBooks = () => (booksMod ??= Promise.all([import('../lib/books/index.mjs'), import('../lib/books/ebook.mjs')]).then(([a, b]) => ({ HUDA_BOOKS: a.BOOKS, ...b })));
+    async function openBooks() {
+      ebook?.stop(); ebook = null;
+      stopSound();
+      const { HUDA_BOOKS, mountBookShelf } = await loadBooks();
+      mountBookShelf($('bk-root'), { books: HUDA_BOOKS, level: me.level || 1, progress, onOpen: readEbook });
+      renderDashboard();
+      show('s-books');
+    }
+    async function readEbook(book) {
+      const { openEbook } = await loadBooks();
+      show('s-ebook');
+      let t0 = Date.now();
+      ebook = openEbook($('eb-root'), book, {
+        progress, reciter: reciter(),
+        onExit: () => { ebook = null; openBooks(); },
+        onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
+        onChapter: async ({ chapter, index, stars, first, total, pct, test }) => {
+          const story = book.id === 'moral-stories' || book.id === 'book-of-hadith';
+          const e = record(progress, { kind: story ? 'library' : 'book', key: `book:${book.id}:${index}`, score: pct, good: stars >= 2, gardenPalms: palms() });
+          const box = document.createElement('div'); box.className = 'card st-earned eb-earned';
+          const h = document.createElement('h2'); h.className = 'h2'; h.textContent = `Masha'Allah! "${chapter.title}": ${'★'.repeat(stars)}`;
+          const er = document.createElement('div'); box.append(h, er); showEarned(er, e);
+          document.querySelector('#eb-root .eb-end')?.prepend(box);
+          renderStars?.();
+          await saveProgress({ token: me.token, username: me.username, progress });
+          logGame({ token: me.token, game: { game: 'Al-Huda Books', lesson: `${book.title}: ${chapter.title}`, rounds: 1, first, accuracy: pct, score: total ? `${first}/${total}${test ? ' (test)' : ''}` : `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+          t0 = Date.now();
         },
       });
     }

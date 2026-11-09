@@ -8,6 +8,7 @@ import { LEVEL1 } from '../../src/lib/library/level1.mjs';
 import { LEVEL2 } from '../../src/lib/library/level2.mjs';
 import { ADDED } from '../../src/lib/library/added.mjs';
 import { TAWHEED } from '../../src/lib/library/tawheed.mjs';
+import { BOOKS as HUDA_BOOKS } from '../../src/lib/books/index.mjs';
 
 const SRC = JSON.parse(fs.readFileSync(new URL('../../src/data/seerah/sources.json', import.meta.url)));
 const out = new Map();
@@ -39,6 +40,23 @@ for (const b of [...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED]) {
   if (L1) { for (const q of b.quiz) add('story', q.q); for (const w of b.words) add('story', w.w); }
 }
 for (const k of Object.values(LIBRARY_LINES)) add('story', k);
+
+// The Al-Huda Books for Levels 1 and 2 (read aloud from the start). Levels 3 and 4 read for themselves, and
+// their pages use the browser's voice if a student turns reading aloud on.
+for (const b of HUDA_BOOKS.filter((x) => x.level <= 2)) {
+  for (const c of b.chapters) for (const p of c.pages) {
+    add('story', p.say); add('story', p.prompt);
+    if (b.level === 1 && p.h) add('story', p.h);
+    for (const t of p.text ?? []) { if (typeof t === 'string') add('story', t); else if (t.note) add('story', t.note.t); else if (t.list) t.list.forEach((x) => add('story', x)); }
+    if (p.type === 'dua') { add('story', p.when); add('story', p.en); }
+    if (p.type === 'hadith' || p.type === 'ayah') add('story', p.en);
+    for (const it of p.items ?? []) if (it && typeof it === 'object' && !Array.isArray(it)) { add('story', it.q); if (it.why) { add('story', `Right! ${it.why}`); add('story', `That's it. ${it.why}`); } if (b.level === 1) { add('story', it.a); (it.w ?? []).forEach((w) => add('story', w)); } }
+    for (const t of p.tap ?? []) add('story', t.en);
+  }
+}
+for (const k of ['All done. Turn the page.', 'All matched! Turn the page.', "That's the right order!", 'All sorted! Turn the page.', 'Masha Allah! Turn the page.',
+  "Masha'Allah! Well done.", 'Good work. Try it again to earn three stars.', 'You finished it. Read it again and try once more.',
+  'Tap one on the left, then its partner on the right.', 'Tap them in the right order.', 'Tap a card, then the basket it goes in.']) add('story', k);
 
 // The Seerah Quest: the passages from al-Bidaya, the explorer's guide, the questions and the reflections
 for (const p of SRC.passages) if (p.class !== 'excluded') add('seerah', p.en);

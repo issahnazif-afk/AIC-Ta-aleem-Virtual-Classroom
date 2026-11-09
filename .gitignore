@@ -1,0 +1,11 @@
+# installed packages and the build
+node_modules/
+dist/
+.astro/
+
+# made by `npm run data` and the deploy workflow, never edited by hand
+public/data/
+public/mediapipe/
+public/models/
+public/audio/voice/
+public/audio/narration/

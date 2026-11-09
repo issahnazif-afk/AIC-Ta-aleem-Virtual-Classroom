@@ -314,6 +314,29 @@ passport stamp and a Ta'aleem Star. There is a day streak and a badge every five
 writing rules and how a teacher adds a book (including pages exported from Canva) are in
 [docs/reading-library.md](docs/reading-library.md). Check new or changed books with `npm run books`.
 
+## The Al-Huda Books (every level)
+
+**Al-Huda Books** is under *My Lessons*: the school's own Canva books, each turned into an interactive digital book
+for the age it was written for. The shelf shows the books for the student's class first, then the rest.
+
+| Book | Level | What the child does |
+|---|---|---|
+| My First Arabic Letters 1 and 2 | 1 (4–6) | Colour, trace and circle on the workbook pages with crayons; tap a letter to hear it; listen-and-find games |
+| My Du'a Activity Book | 1 (4–6) | Each du'a with its Arabic, how to say it and its meaning; the colouring and tracing pages; matching games |
+| Alif Ba: I'm Learning Qur'an | 2 (6–8) | Letters, their forms and the harakat, with the workbook pages, letter sounds, matching and sorting |
+| Islamic Stories for Kids | 2 (6–9) | Grandpa Musa's stories read aloud with the book's pictures, new words, questions, the hadith, a pledge |
+| Arabic for Beginners | 3 (8–10) | The textbook pages, vocabulary tables, matching and fill-the-gap practice, the tests |
+| The Book of Hadith | 3 (9–11) | Each hadith with its vocabulary and story, questions, a reflection to write, the unit tests |
+| Tawheed: Islamic Monotheism | 4 (10–14) | Six units of lessons with key words, ayat and hadith, a quiz after each lesson, the unit tests |
+
+Levels 1 and 2 are read aloud from the start; Levels 3 and 4 read for themselves, tests show a percentage, and
+written answers stay on that computer. Every finished chapter gives stars and Ta'aleem Stars and appears in the class
+log's Games tab. The words were rewritten where needed to read as a person wrote them, and `npm run books` checks
+them against Wikipedia's *Signs of AI writing* guide. The page pictures are in `public/books/`; the PDFs are not kept
+in the repository (`scripts/books/render.py` makes the pictures from them). How the books are built, the page types
+and the writing rules: [docs/al-huda-books.md](docs/al-huda-books.md). **Please have a teacher read
+[docs/al-huda-books-review.md](docs/al-huda-books-review.md)**: every hadith, ayah and du'a, book by book.
+
 ### The reading voice (Story Time and the Seerah Quest)
 
 **The most human voice is a real one.** In the Voice Studio there is now a **Story Time** tab: a teacher or parent
@@ -497,6 +520,8 @@ src/lib/rewards.mjs          Ta'aleem Stars, badges and the daily challenge
 src/lib/studio.mjs           the Voice Studio, where teachers record the Sheikh's voice
 src/lib/makhraj.mjs          where each letter's sound comes from: the 17 makharij, the drawing and how-to sentences
 src/lib/stories/             Story Time: art.mjs (the pictures), level1.mjs (the 22 stories), reader.mjs (shelf and book)
+src/lib/books/               Al-Huda Books: one file per book, index.mjs (the shelf order), ebook.mjs (shelf and reader)
+scripts/books/               render.py (page pictures from the Canva PDFs), lint.mjs (checks + the teachers' review sheet)
 src/lib/library/             Reading Library: level1.mjs, level2.mjs (the 40 books), added.mjs (teachers' books), library.mjs (journey and games)
 scripts/stories/             quran.mjs (ayah words from Tanzil), review.mjs (docs/story-time-level1.md)
 src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley), episodes.mjs (the steps), quest.mjs (the player)

@@ -20,6 +20,7 @@ const KIND = {
   hifz: 'quran', reading: 'quran', ayah: 'quran',
   journey: 'knowledge', match: 'knowledge', salah: 'knowledge', detective: 'knowledge', alifba: 'knowledge', seerah: 'knowledge',
   akhlaq: 'character', story: 'character', library: 'character',
+  book: 'knowledge',   // a chapter of an Al-Huda Book (a story book counts as 'library')
 };
 
 export function rewardsOf(progress) {

@@ -11,7 +11,7 @@
     "dev": "npm run data && astro dev",
     "build": "npm run data && astro build",
     "preview": "astro preview",
-    "books": "node scripts/stories/lint.mjs && node scripts/stories/quran.mjs && node scripts/stories/review-library.mjs",
+    "books": "node scripts/stories/lint.mjs && node scripts/stories/quran.mjs && node scripts/stories/review-library.mjs && node scripts/books/lint.mjs",
     "seerah": "node scripts/seerah/lint.mjs"
   },
   "dependencies": {
