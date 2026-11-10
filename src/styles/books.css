@@ -126,7 +126,7 @@
 .eb-in .eb-m { font-size: 14px; padding: 6px 10px; }
 .eb-gap { font-size: 21px; line-height: 1.6; margin: 0; }
 .eb-blank { display: inline-block; min-width: 80px; border-bottom: 3px solid var(--book, var(--accent)); text-align: center; color: var(--accent); font-weight: 700; }
-.eb-write { width: 100%; font: inherit; font-size: 17px; line-height: 1.6; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: var(--paper); color: var(--ink); resize: vertical; }
+.eb-write { width: 100%; font: inherit; font-size: 17px; line-height: 1.6; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: #FFFBF0; color: #14211B; resize: vertical; }
 .eb-saved { color: var(--muted); }
 .eb-dua, .eb-hadith, .eb-ayah { text-align: center; align-items: center; border-top: 6px solid var(--book, var(--accent)); }
 .eb-hadith .eb-ar { text-align: center; }
