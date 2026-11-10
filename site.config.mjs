@@ -2,7 +2,7 @@
 //  The one file to edit. Everything else reads from here.
 // ─────────────────────────────────────────────────────────────
 export default {
-  appName: "Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom",
+  appName: "Ta'aleem · Al-Huda Islamic Weekend School",
 
   // GitHub Pages address. The repository is called "AIC-Ta-aleem-Virtual-Classroom".
   // If you name it differently, change base to '/<repository-name>/'.

@@ -1,8 +1,8 @@
-# Ta'aleem Virtual Classroom
+# Ta'aleem
 
-![Al-Huda Islamic Centre](public/logo-160.png)
+![Ta'aleem](public/logo-160.png)
 
-The Ta'aleem virtual classroom of Al-Huda Islamic Weekend School (Al-Huda Islamic Centre). A desktop classroom where the
+Ta'aleem, the virtual classroom of Al-Huda Islamic Weekend School (Al-Huda Islamic Centre). A desktop classroom where the
 automated Sheikh from the Qa-af Wal Quran-ul-Majeed app listens to a student
 recite, with the student's camera on. Two kinds of session:
 

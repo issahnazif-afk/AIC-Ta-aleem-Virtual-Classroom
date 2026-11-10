@@ -20,8 +20,9 @@
 .cr .h2 { margin: 0 0 12px; font-size: 18px; font-weight: 700; }
 .cr .brand { display: flex; align-items: center; gap: 12px; color: var(--ink); }
 .cr .brand small { display: block; color: var(--muted); font-size: 14px; }
-.cr .brand-logo { width: 44px; height: 44px; border-radius: 50%; object-fit: contain; background: #fff; flex: none; }
+.cr .brand-logo { width: 44px; height: 44px; border-radius: 0; object-fit: contain; background: none; flex: none; }
 .cr .brand.big .brand-logo { width: 64px; height: 64px; }
+.cr .brand.big .si-logo { width: 112px; height: auto; filter: drop-shadow(0 6px 14px rgb(0 0 0 / .25)); }
 .cr .brand.big b { font-size: 19px; }
 .cr .room-bar .brand-logo { width: 40px; height: 40px; }
 .cr .brand-mark { width: 36px; height: 36px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-family: var(--font-quran); font-size: 22px; line-height: 1; flex: none; }
