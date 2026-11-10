@@ -123,3 +123,59 @@ export function wander(m, at, from, rnd = Math.random) {
   if (fwd.length) opts = fwd;
   return opts.length ? opts[Math.floor(rnd() * opts.length)] : at;
 }
+
+// ── roaming monsters (Levels 2–4) ──
+// how many steps from a cell to every other cell (along the passages)
+export function distances(m, from) {
+  const d = new Int32Array(m.n).fill(-1); d[from] = 0;
+  const q = [from];
+  for (let i = 0; i < q.length; i++) for (const x of neighbours(m, q[i])) if (d[x] < 0) { d[x] = d[q[i]] + 1; q.push(x); }
+  return d;
+}
+// Where a new monster may appear: somewhere towards the traveller (min–max steps away along the passages), never on
+// the traveller or right next to it, never on the start, the goal or another monster. Returns -1 if there is no room.
+export function spawnCell(m, token, taken = [], rnd = Math.random, { min = 3, max = 6 } = {}) {
+  const d = distances(m, token);
+  const busy = new Set([m.start, m.goal, ...taken]);
+  const ok = (c) => d[c] >= min && !busy.has(c) && taken.every((t) => t !== c);
+  let pool = [];
+  for (let c = 0; c < m.n; c++) if (ok(c) && d[c] <= max) pool.push(c);
+  if (!pool.length) for (let c = 0; c < m.n; c++) if (ok(c)) pool.push(c);
+  return pool.length ? pool[Math.floor(rnd() * pool.length)] : -1;
+}
+// One step of a monster that hunts: along the shortest way to the target, never into the start cell. With
+// probability `slack` it wanders instead, so it can be dodged.
+export function chaseStep(m, at, from, target, rnd = Math.random, slack = 0.3) {
+  if (rnd() < slack) return wander(m, at, from, rnd);
+  const p = pathBetween(m, at, target);
+  const next = p && p.length > 1 ? p[1] : at;
+  return next === m.start ? at : next;
+}
+// Move every roaming monster one step. mons: [{ cell, from, chase }]. Two monsters never share a cell. Returns true
+// when a monster reaches the traveller (the game then gobbles, as at a dead end).
+export function monstersStep(m, mons, token, rnd = Math.random, slack = 0.35) {
+  let hit = false;
+  for (const x of mons) {
+    let next = x.chase ? chaseStep(m, x.cell, x.from, token, rnd, slack) : wander(m, x.cell, x.from, rnd);
+    if (mons.some((o) => o !== x && o.cell === next)) next = x.cell;
+    if (next !== x.cell) { x.from = x.cell; x.cell = next; }
+    if (x.cell === token) hit = true;
+  }
+  return hit;
+}
+// After a gobble: monsters closer than `room` steps to where the traveller starts again go somewhere far away,
+// so the traveller is never caught again straight away.
+export function clearAround(m, mons, cell, rnd = Math.random, room = 5) {
+  const d = distances(m, cell);
+  for (const x of mons) {
+    if (d[x.cell] >= room) continue;
+    const c = spawnCell(m, cell, mons.filter((o) => o !== x).map((o) => o.cell), rnd, { min: room + 1, max: m.n });
+    if (c >= 0) { x.cell = c; x.from = -1; }
+  }
+}
+// The monster that gobbled the traveller is full and goes home: it leaves the maze. Returns the ones that left.
+export function fullUp(mons, cell) {
+  const out = mons.filter((x) => x.cell === cell);
+  for (const x of out) mons.splice(mons.indexOf(x), 1);
+  return out;
+}

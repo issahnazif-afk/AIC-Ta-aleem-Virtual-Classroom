@@ -8,7 +8,9 @@
 // 2. The English: the writing check of the Al-Huda Books (scripts/books/writing.mjs: signs of AI writing, and the
 //    longest sentence for each level), on every line the games show or read aloud.
 // 3. The maze: thousands of wall shifts at every level, checking after each one that the maze is still a perfect
-//    maze (one way between any two cells) and that the goal can be reached from the traveller's cell.
+//    maze (one way between any two cells) and that the goal can be reached from the traveller's cell. Then whole
+//    games played by a simulated student (maze-sim.mjs) with the shifting walls and the roaming monsters together:
+//    the goal must never be cut off, and nine in ten games at each level must be won within five minutes.
 // 4. Each game's own checks (its data file's CHECKS: puzzles that can be solved, boards that add up).
 // Then the review sheet: every entry with its source and link, ticked when it matches what Ustadh Issah approved
 // (scripts/games/approved.json keeps a fingerprint of each approved entry, as for My Deen); new or changed entries
@@ -20,6 +22,7 @@ import { lintText } from '../books/writing.mjs';
 import { NAMES, refText, refUrl } from '../../src/lib/deen/refs.mjs';
 import { makeMaze, planShift, applyShift, isTree, reachable, neighbours } from '../../src/lib/games/maze-core.mjs';
 import { MAZE_LEVELS } from '../../src/lib/games/mazes.mjs';
+import { simulate } from './maze-sim.mjs';
 
 // the data files of the games (no DOM): each may export REVIEW (entries to approve), TEXTS ([where, text, level])
 // and CHECKS (a function returning a list of problems)
@@ -109,6 +112,17 @@ for (const [lv, L] of Object.entries(MAZE_LEVELS)) {
   }
 }
 
+// whole games with the walls and the monsters together (a steady pace for each level's age)
+const PACE = { 2: 600, 3: 480, 4: 400 }, simLines = [];
+for (const [lv, L] of Object.entries(MAZE_LEVELS)) {
+  if (!L.monsters) continue;
+  const rs = Array.from({ length: 50 }, () => simulate(L, { pace: PACE[lv] }));
+  const won = rs.filter((r) => r.won), secs = won.map((r) => r.secs).sort((a, b) => a - b);
+  if (rs.some((r) => r.cutOff)) problems.push(`maze level ${lv}: in a simulated game the goal was cut off`);
+  if (won.length < 45) problems.push(`maze level ${lv}: only ${won.length} of 50 simulated games were won in five minutes`);
+  simLines.push(`Level ${lv}: ${won.length}/50 won, median ${secs[secs.length >> 1] ?? '-'} s, ${(rs.reduce((a, r) => a + r.gobbles, 0) / rs.length).toFixed(1)} gobbles a game`);
+}
+
 // ── 4. each game's own checks ──
 for (const [f, m] of mods) if (typeof m.CHECKS === 'function') for (const p of m.CHECKS()) problems.push(`${f}: ${p}`);
 const ids = REVIEW.map((e) => e.id), dup = ids.filter((x, i) => ids.indexOf(x) !== i);
@@ -148,6 +162,7 @@ for (const g of groups) {
 fs.writeFileSync(new URL('docs/activities-review.md', root), md.join('\n'));
 
 console.log(`Play & Make: ${REVIEW.length} entries, ${cites.length} hadith references, ${TEXTS.length} lines of English, ${shifts} maze shifts checked.`);
+console.log(`Simulated maze games: ${simLines.join('; ')}.`);
 console.log(approval ? `Approved by ${approval.by} on ${approval.date}: ${REVIEW.length - pending.length} of ${REVIEW.length}.` : `Not yet approved: ${pending.length} entries pending review.`);
 console.log(problems.length ? problems.join('\n') : 'No problems found.');
 process.exit(problems.length ? 1 : 0);

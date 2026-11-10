@@ -4,9 +4,11 @@
 // Levels 1 and 2 start again from the last crossroads, Levels 3 and 4 from the start.
 // From Level 2 the walls shift every few seconds (with a shimmer first), so the right way can change; the
 // shift is always a swap that keeps exactly one way from every cell to the goal (see maze-core.mjs).
-// Level 4 adds a slow monster that wanders the corridors, and a moves-and-time challenge.
+// From Level 2 monsters also roam the corridors: one at first, then more join as the student plays (a puff of
+// smoke warns where one will pop up, never on or next to the traveller). At Level 4 some of them hunt the traveller.
+// A monster that reaches the traveller gobbles it, as a dead end does. Level 4 also has a moves-and-time challenge.
 //   mountMaze(stage, ctx, data)   data: MAZES[id] (mazes.mjs)
-import { makeMaze, xy, open, neighbours, degree, isDeadEnd, stepFrom, pathBetween, planShift, applyShift, wander, cellsAround } from './maze-core.mjs';
+import { makeMaze, xy, open, neighbours, degree, isDeadEnd, stepFrom, pathBetween, planShift, applyShift, cellsAround, distances, spawnCell, monstersStep, clearAround, fullUp } from './maze-core.mjs';
 import { el, btn, svgEl, sfx, bubble, endCard, reduced } from './kit.mjs';
 import { ART } from './art.mjs';
 import { MAZE_LINES } from './lines.mjs';
@@ -18,7 +20,8 @@ const S = 40;   // one cell, in SVG units
 export function mountMaze(stage, ctx, data) {
   const L = MAZE_LEVELS[ctx.level] ?? MAZE_LEVELS[1];
   const timers = [];
-  let m, token, lastSafe, moves, gobbles, busy, won, t0, wand, wandFrom, pending, best;
+  let m, token, lastSafe, moves, gobbles, busy, won, t0, pending, best, mons = [], spawning = 0, pauseTo = 0, born = 0;
+  const M = L.monsters;
 
   const wrap = el('div', 'mz mz-' + data.theme + ' mz-l' + ctx.level);
   const bar = el('div', 'mz-bar');
@@ -40,10 +43,10 @@ export function mountMaze(stage, ctx, data) {
   const help = el('p', 'mz-help', ctx.level === 1
     ? 'Tap the arrows to move. Dead ends hide a sleepy monster!'
     : ctx.level === 2
-      ? 'Arrows, keys or swipe. Dead ends hide a munching monster, and every few seconds a wall moves.'
+      ? 'Arrows, keys or swipe. Keep away from dead ends and roaming monsters. Every few seconds a wall moves.'
       : ctx.level === 3
-        ? 'Walls shift every 4 seconds, so the right way can change. A dead end sends you back to the start.'
-        : 'Walls shift every 3 seconds, and a hungry monster wanders the corridors. Dead ends send you back to the start.');
+        ? 'Walls shift every 4 seconds, and more monsters join as you play. Getting gobbled sends you back to the start.'
+        : 'Walls shift every 3 seconds, more monsters keep coming, and the orange ones hunt you. Getting gobbled sends you back to the start.');
   wrap.append(bar, board, pad, help);
   stage.append(wrap);
 
@@ -74,7 +77,7 @@ export function mountMaze(stage, ctx, data) {
   board.style.touchAction = 'none';
 
   let walls = new Map();   // "a-b" → line
-  let tokenG, monG, wandG, layer;
+  let tokenG, monG, monLayer, layer;
   const centre = (c) => { const [x, y] = xy(m, c); return [x * S + S / 2, y * S + S / 2]; };
   const place = (g, c, scale = 0.8) => { const [x, y] = centre(c); g.setAttribute('transform', `translate(${x - 32 * scale * S / 64} ${y - 32 * scale * S / 64}) scale(${scale * S / 64})`); };
 
@@ -85,10 +88,11 @@ export function mountMaze(stage, ctx, data) {
     token = m.start; lastSafe = m.start; moves = 0; gobbles = 0; busy = false; won = false; t0 = Date.now(); pending = null;
     best = pathBetween(m, m.start, m.goal).length - 1;
     draw();
-    if (L.wanderer) {
-      // the wanderer starts in the middle of the maze, away from the start
-      wand = Math.floor(m.n / 2); wandFrom = -1; place(wandG, wand, 0.82);
-      timers.push(setInterval(stepWanderer, L.wanderer));
+    mons = []; spawning = 0; pauseTo = 0; born = 0;
+    if (M) {
+      spawnSoon();
+      timers.push(setInterval(stepMonsters, M.step));
+      timers.push(setInterval(spawnSoon, M.every));
     }
     if (L.every) timers.push(setInterval(shiftSoon, L.every));
     timers.push(setInterval(status, 500));
@@ -112,7 +116,7 @@ export function mountMaze(stage, ctx, data) {
       if (!open(m, c, x)) { wallG.append(ln); walls.set(`${c}-${x}`, ln); }
     }
     svg.append(svgEl('rect', { x: 0, y: 0, width: m.w * S, height: m.h * S, class: 'mz-border', rx: 3 }));
-    wandG = svgEl('g', { class: 'mz-wanderer' }); wandG.innerHTML = ART.monster('munch'); if (L.wanderer) svg.append(wandG);
+    monLayer = svgEl('g', { class: 'mz-roamers' }); svg.append(monLayer);
     tokenG = svgEl('g', { class: 'mz-token' }); tokenG.innerHTML = ART[data.token]; svg.append(tokenG);
     monG = svgEl('g', { class: 'mz-monster' }); monG.innerHTML = ART.monster(L.mood); svg.append(monG);
     place(tokenG, token);
@@ -128,7 +132,7 @@ export function mountMaze(stage, ctx, data) {
   function status() {
     if (!m) return;
     const secs = Math.round((Date.now() - t0) / 1000);
-    info.textContent = `Moves: ${moves} · Gobbled: ${gobbles}` + (L.every ? ` · Walls shift every ${L.every / 1000} s` : '');
+    info.textContent = `Moves: ${moves} · Gobbled: ${gobbles}` + (M ? ` · Monsters: ${mons.length}` : '') + (L.every ? ` · Walls shift every ${L.every / 1000} s` : '');
     chal.textContent = L.challenge ? `Challenge: reach ${data.goalName} in ${limit()} moves and ${limitSecs()} seconds. Time: ${secs} s` : '';
   }
   const limit = () => Math.ceil(best * 1.6) + 4;
@@ -150,22 +154,25 @@ export function mountMaze(stage, ctx, data) {
     tokenG.classList.toggle('flip', d === 3 ? true : d === 1 ? false : tokenG.classList.contains('flip'));
     place(tokenG, token);
     if (token === m.goal) return finish();
-    if (L.wanderer && token === wand) return gobble();
+    if (mons.some((x) => x.cell === token)) return gobble(true);
     if (isDeadEnd(m, token)) return gobble();
     if (degree(m, token) >= 3) lastSafe = token;
     status();
   }
 
-  async function gobble() {
+  async function gobble(roamer = false) {
+    if (busy) return;
     busy = true; gobbles++;
     status();
     const at = token;
+    // the roaming monster that caught the traveller is full, and goes home in a puff
+    for (const x of fullUp(mons, at)) { x.g.classList.add('full'); setTimeout(() => x.g.remove(), 900); }
     place(monG, at, 1.1);
     monG.classList.remove('pop'); void monG.getBBox(); monG.classList.add('pop');
     tokenG.classList.add('eaten');
     sfx.gobble();
-    ctx.say(L.mood === 'soft' ? MAZE_LINES.gobbleSoft : MAZE_LINES.gobble);
-    bubble(wrap, L.mood === 'soft' ? 'Oops! A sleepy monster lives here. Try another way!' : 'GULP! The munching monster lives in dead ends. Try another way!', 'oops');
+    ctx.say(L.mood === 'soft' ? MAZE_LINES.gobbleSoft : roamer ? MAZE_LINES.caught : MAZE_LINES.gobble);
+    bubble(wrap, L.mood === 'soft' ? 'Oops! A sleepy monster lives here. Try another way!' : roamer ? 'GULP! A roaming monster caught you. Now it is full and goes home.' : 'GULP! The munching monster lives in dead ends. Try another way!', 'oops');
     await new Promise((r) => timers.push(setTimeout(r, reduced() ? 700 : 1500)));
     if (!wrap.isConnected) return;
     monG.classList.remove('pop');
@@ -175,6 +182,8 @@ export function mountMaze(stage, ctx, data) {
     tokenG.classList.remove('eaten');
     place(tokenG, token);
     layer.replaceChildren();
+    // monsters near the new start move far away, and all of them wait a moment
+    if (mons.length) { clearAround(m, mons, token); mons.forEach(drawMon); pauseTo = Date.now() + 2000; }
     busy = false;
   }
 
@@ -212,12 +221,40 @@ export function mountMaze(stage, ctx, data) {
     }, reduced() ? 1200 : 900));
   }
 
-  function stepWanderer() {
-    if (busy || won) return;
-    const next = wander(m, wand, wandFrom);
-    wandFrom = wand; wand = next;
-    place(wandG, wand, 0.82);
-    if (wand === token) gobble();
+  // ── roaming monsters ──
+  function drawMon(x) { place(x.g, x.cell, 0.82); }
+  function stepMonsters() {
+    if (busy || won || Date.now() < pauseTo) return;
+    const hit = monstersStep(m, mons, token, Math.random, M.slack ?? 0.35);
+    mons.forEach(drawMon);
+    if (hit) gobble(true);
+  }
+  // a puff of smoke where the next monster will appear, then a pop
+  function spawnSoon() {
+    if (busy || won || mons.length + spawning >= M.max) return;
+    let c = spawnCell(m, token, mons.map((x) => x.cell));
+    if (c < 0) return;
+    spawning++;
+    const puff = svgEl('g', { class: 'mz-puff' });
+    puff.innerHTML = '<g fill="#EDE6FF" stroke="#8E6CD9" stroke-width="2"><circle cx="22" cy="36" r="13"/><circle cx="42" cy="36" r="13"/><circle cx="32" cy="26" r="14"/></g><g fill="#F6C64B"><circle cx="10" cy="14" r="3"/><circle cx="54" cy="12" r="2.5"/><circle cx="56" cy="50" r="3"/><circle cx="8" cy="52" r="2.5"/></g>';
+    place(puff, c, 0.95); monLayer.append(puff);
+    sfx.pop();
+    timers.push(setTimeout(() => {
+      puff.remove(); spawning--;
+      if (!wrap.isConnected || won) return;
+      // never on the traveller or right next to it: if it came close, the monster pops up somewhere else
+      if (distances(m, token)[c] < 3 || mons.some((x) => x.cell === c)) c = spawnCell(m, token, mons.map((x) => x.cell));
+      if (c < 0) return;
+      const chase = !!M.chase?.includes(born);
+      born++;
+      const g = svgEl('g', { class: 'mz-roamer' + (chase ? ' chaser' : '') });
+      g.innerHTML = ART.monster('munch');
+      const x = { cell: c, from: -1, chase, g };
+      monLayer.append(g); drawMon(x);
+      g.classList.add('born');
+      mons.push(x);
+      status();
+    }, 1200));
   }
 
   function finish() {
@@ -245,6 +282,6 @@ export function mountMaze(stage, ctx, data) {
 
   start();
   // for the automated browser test (scripts in the review notes): the state and the move function
-  wrap.__game = { get state() { return { m, token, moves, gobbles, won, busy, wand }; }, move, shiftNow: shiftSoon };
+  wrap.__game = { get state() { return { m, token, moves, gobbles, won, busy, mons: mons.map((x) => ({ cell: x.cell, chase: x.chase })) }; }, move, shiftNow: shiftSoon, spawnNow: spawnSoon };
   return { stop() { timers.splice(0).forEach((t) => { clearInterval(t); clearTimeout(t); }); window.removeEventListener('keydown', onKey); }, restart: start, get state() { return { m, token, moves, gobbles, won, busy }; } };
 }

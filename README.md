@@ -283,6 +283,40 @@ and a fountain and an arch for learning several days in a row.
 Teachers see each student's stars, badges and day streak in the Students tab, and every game in the Games tab of the
 class log.
 
+## Play & Make: mazes and other games (every level)
+
+Under *Play & Learn* (and in the *Games* and *Mazes* scenes of the picture home): games whose **ideas** came from a
+folder of printable worksheets. The worksheets themselves are not ours to copy (most are "All Rights Reserved"), so
+every word, list, puzzle and picture here is the school's own, and the pictures are drawn in code. The code is in
+`src/lib/games/` and loads only when a student opens one of the games (`index.mjs` lists them; `kit.mjs` has the
+shared sounds, celebration and end card). Each game adapts to the student's level, and the level chips at the top let
+a student try an easier or harder level. Sounds are tiny tones made in the browser (with an on/off button),
+animations calm down when the device asks for reduced motion, and the game box keeps a light page under every reading
+theme. Levels 1 and 2 hear the instructions read aloud (`lines.mjs`, recorded with the storyteller voice).
+
+**The mazes** (`maze-core.mjs`, `maze.mjs`, `mazes.mjs`): *Makkah to Madinah* (a camel) and *To the masjid for
+Tarawih* (a lantern). Each maze is made fresh and has exactly one way between any two places. Walking into a dead end
+wakes the munching monster (round, googly-eyed, no teeth; a sleepy pink one at Level 1), who gobbles the traveller:
+Levels 1–2 start again from the last crossroads, Levels 3–4 from the start. From Level 2 the walls shift every few
+seconds (a shimmer warns first): a passage closes and another opens, which always leaves one way from the traveller to
+the goal and never shuts anyone in. From Level 2 monsters also roam the corridors: one at first, then another every so often (a puff of smoke shows
+where it will pop up, never on or next to the traveller). A monster that reaches the traveller gobbles it, as a dead
+end does, and then, being full, goes home; after a gobble, monsters near the new start move away and all of them wait a
+moment. Level 1: 5×5, still, no roaming monsters. Level 2: 7×7, one swap every 6 s, a slow monster and a new one about
+every 25 s (at most 3). Level 3: 10×10, three swaps every 4 s, faster monsters, a new one every 18 s (at most 5). Level
+4: 13×13, five swaps every 3 s that often close the way the traveller is on, the fastest monsters, a new one every 12 s
+(at most 7), three of which (orange) hunt the traveller by the shortest way, and a moves-and-time challenge. The numbers
+were tuned with a simulated player (`scripts/games/maze-sim.mjs`), which `npm run games` runs 50 times a level: the
+goal must never be cut off and 45 of 50 games must be won within five minutes. A new maze is one entry in `mazes.mjs`.
+
+**Sources.** Every fact, name, date and clue is in `src/lib/games/content.mjs` or a game's file in
+`src/lib/games/data/`, with its source. `npm run games` (`scripts/games/check.mjs`) checks each hadith reference
+against the hadith-api as `npm run deen` does, runs all the English through the writing check of the Al-Huda Books
+(`scripts/books/writing.mjs`), runs thousands of wall shifts to prove the goal always stays reachable, runs each game's
+own checks, and writes **`docs/activities-review.md`**. Everything there starts as **pending review**; after Ustadh
+Issah has checked it, record it with `node scripts/games/check.mjs --approve "Ustadh Issah" YYYY-MM-DD`
+(`scripts/games/approved.json` keeps the fingerprints, as for My Deen).
+
 ## Story Time (Level 1 first)
 
 **Story Time** is under *My Lessons*: a shelf of twenty-two picture stories for ages 4–8, each teaching one good manner
@@ -573,6 +607,7 @@ src/lib/books/               Al-Huda Books: one file per book, index.mjs (the sh
 scripts/books/               render.py (page pictures from the Canva PDFs), lint.mjs (checks + the teachers' review sheet)
 src/lib/library/             Reading Library: level1.mjs, level2.mjs (the 40 books), added.mjs (teachers' books), library.mjs (journey and games)
 scripts/stories/             quran.mjs (ayah words from Tanzil), review.mjs (docs/story-time-level1.md)
+src/lib/games/               Play & Make: the mazes and the other games (index.mjs lists them); scripts/games/check.mjs
 src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley), episodes.mjs (the steps), quest.mjs (the player)
 scripts/questions/starter.py writes the starter Question bank (and its copy in apps-script/Code.gs)
 src/lib/engine.mjs           the Sheikh: questions, listening, prompting, marking (from the Hifz test page)
