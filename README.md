@@ -451,6 +451,11 @@ Under *My Lessons* (and on the picture home). Content in `src/lib/deen/`, the sc
   the two Sahihs only. No one is pictured and no words are invented.
 - **Special days** (`days.mjs`): today's Hijri date (Umm al-Qura) and the coming blessed days, with their hadith.
 
+Every hadith in My Deen is shown in Arabic first, fully voweled, then in English, then its source. The Arabic is the
+hadith's own words (or the narrator's sentence), cut out of the voweled hadith text and never typed by hand; the checker
+finds each one word for word in that numbered hadith. It plays only from a teacher's Voice Studio recording (*Hadith in
+Arabic*), never a computer voice, and *Read the meaning* reads the English.
+
 **Sources.** The Qur'an (Tanzil) and sound hadith only. `npm run deen` (`scripts/deen/check.mjs`) checks every
 reference against the hadith text of the open *hadith-api*, which uses sunnah.com's numbering: the number must exist,
 the Arabic words must be in that hadith, and any hadith outside Bukhari and Muslim must be graded sahih or hasan by

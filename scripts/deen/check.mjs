@@ -52,12 +52,19 @@ export const bare = (t) => t
 const items = [];
 const cite = (where, title, src, look) => { for (const r of src ?? []) items.push({ where, title, r, look }); };
 for (const d of DUAS) cite(`du'a ${d.id}`, d.when, d.src, d.key ?? d.ar);
-for (const s of SUNNAH) cite(`sunnah ${s.id}`, s.title, s.src, s.key);
-for (const v of VIRTUES) { cite(`virtue ${v.id}`, v.title, [v.hadith.src], v.hadith.key); if (v.story?.src) cite(`virtue ${v.id} (story)`, v.title, [v.story.src], v.story.key); }
-for (const e of LIFE) if (e.src) cite(`life ${e.id}`, e.title, [e.src], e.key);
-for (const d of DAYS) if (d.src) cite(`day ${d.id}`, d.title, [d.src], d.key);
+// every hadith shown also carries its own Arabic words (ar): they must be in that numbered hadith, word for word
+const arOf = [];
+const withAr = (where, src, x) => { if (!x?.ar) arOf.push(where); else cite(`${where} (Arabic)`, '', src, x.ar); };
+for (const s of SUNNAH) { cite(`sunnah ${s.id}`, s.title, s.src, s.key); withAr(`sunnah ${s.id}`, s.src.slice(0, 1), s); }
+for (const v of VIRTUES) {
+  cite(`virtue ${v.id}`, v.title, [v.hadith.src], v.hadith.key); withAr(`virtue ${v.id}`, [v.hadith.src], v.hadith);
+  if (v.story?.src) { cite(`virtue ${v.id} (story)`, v.title, [v.story.src], v.story.key); withAr(`virtue ${v.id} (story)`, [v.story.src], v.story); }
+}
+for (const e of LIFE) if (e.src) { cite(`life ${e.id}`, e.title, [e.src], e.key); withAr(`life ${e.id}`, [e.src], e.quote); }
+for (const d of DAYS) if (d.src) { cite(`day ${d.id}`, d.title, [d.src], d.key); withAr(`day ${d.id}`, [d.src], d.quote); }
 
 const problems = [];
+for (const w of arOf) problems.push(`${w}: the hadith needs its Arabic (ar), copied from the hadith text`);
 const loaded = {};
 const found = {};
 for (const it of items) {
@@ -85,9 +92,9 @@ for (const it of items) {
 // the writing: straight quotes, no em dashes
 const words = [];
 for (const d of DUAS) words.push([`du'a ${d.id}`, d.when, d.en]);
-for (const s of SUNNAH) words.push([`sunnah ${s.id}`, s.title, s.do, s.en]);
-for (const v of VIRTUES) words.push([`virtue ${v.id}`, v.text, v.hadith.en, v.story?.en, v.today]);
-for (const e of [...DAY, ...LIFE, ...DAYS]) words.push([e.id, e.title, e.text, e.en]);
+for (const s of SUNNAH) words.push([`sunnah ${s.id}`, s.title, s.do, s.en, s.who]);
+for (const v of VIRTUES) words.push([`virtue ${v.id}`, v.text, v.hadith.en, v.hadith.who, v.story?.en, v.story?.who, v.today]);
+for (const e of [...DAY, ...LIFE, ...DAYS]) words.push([e.id, e.title, e.text, e.en, e.quote?.en, e.quote?.who]);
 for (const [where, ...ts] of words) for (const t of ts) if (t && /[—“”‘’]/.test(t)) problems.push(`${where}: em dash or curly quote in "${t.slice(0, 50)}…"`);
 
 // each du'a's parts, put back together, must be exactly its words (vowels and all)
@@ -155,16 +162,25 @@ for (const c of CATEGORIES) {
   }
   md.push('');
 }
-md.push('## Sunnah of the day', '');
-for (const s of SUNNAH) md.push(`- ${box(`sunnah:${s.id}`, s)} **${s.title}** (Level ${s.level}+). ${s.do} Hadith: "${s.en}" ${src(s.src)}.`);
+const cell = (t) => String(t ?? '').replace(/\|/g, '/');
+const said = (x) => (x?.who ? `${x.who} ` : '');
+md.push('## Sunnah of the day', '', 'The hadith is shown to the child in Arabic first (as below, copied from the voweled hadith text), then in English.', '');
+md.push('| ✓ | Sunnah | What the child does | Hadith in Arabic | In English | Source |', '|---|---|---|---|---|---|');
+for (const s of SUNNAH) md.push(`| ${box(`sunnah:${s.id}`, s)} | **${cell(s.title)}** (Level ${s.level}+) | ${cell(s.do)} | ${cell(s.ar)} | ${cell(said(s))}"${cell(s.en)}" | ${src(s.src)} |`);
 md.push('', '## Our Prophet ﷺ: his character', '');
-for (const v of VIRTUES) md.push(`- ${box(`virtue:${v.id}`, v)} **${v.title}**. ${v.text} Hadith: "${v.hadith.en}" ${src([v.hadith.src])}.${v.story ? ` Example: "${v.story.en}" ${src([v.story.src])}.` : ''} Today: ${v.today}`);
+md.push('| ✓ | Quality | Hadith in Arabic | In English | Source |', '|---|---|---|---|---|');
+for (const v of VIRTUES) {
+  md.push(`| ${box(`virtue:${v.id}`, v)} | **${cell(v.title)}**: ${cell(v.text)} Today: ${cell(v.today)} | ${cell(v.hadith.ar)} | ${cell(said(v.hadith))}"${cell(v.hadith.en)}" | ${src([v.hadith.src])} |`);
+  if (v.story) md.push(`| | (example) | ${cell(v.story.ar)} | ${cell(said(v.story))}"${cell(v.story.en)}" | ${src([v.story.src])} |`);
+}
 md.push('', '## A day like the Prophet ﷺ', '');
 for (const s of DAY) md.push(`- ${box(`day:${s.id}`, s)} **${s.title}**: ${s.text} (links: ${(s.links ?? []).join(', ')})`);
 md.push('', '## His life ﷺ', '');
-for (const e of LIFE) md.push(`- ${box(`life:${e.id}`, e)} **${e.title}**: ${e.text}${e.src ? ` ${src([e.src])}.` : ''}${e.quran ? ` ${ayah(e.quran)}.` : ''}`);
+md.push('| ✓ | Moment | Hadith in Arabic | In English | Source |', '|---|---|---|---|---|');
+for (const e of LIFE) md.push(`| ${box(`life:${e.id}`, e)} | **${cell(e.title)}**: ${cell(e.text)} | ${cell(e.quote?.ar)} | ${e.quote ? `${cell(said(e.quote))}"${cell(e.quote.en)}"` : ''} | ${[e.src ? src([e.src]) : '', e.quran ? ayah(e.quran) : ''].filter(Boolean).join(', ')} |`);
 md.push('', '## Special days (Hijri calendar)', '');
-for (const d of DAYS) md.push(`- ${box(`special:${d.id}`, d)} **${d.title}**: ${d.text}${d.src ? ` ${src([d.src])}.` : ''}${d.quran ? ` ${ayah(d.quran)}.` : ''}`);
+md.push('| ✓ | Day | Hadith in Arabic | In English | Source |', '|---|---|---|---|---|');
+for (const d of DAYS) md.push(`| ${box(`special:${d.id}`, d)} | **${cell(d.title)}**: ${cell(d.text)} | ${cell(d.quote?.ar)} | ${d.quote ? `${cell(said(d.quote))}"${cell(d.quote.en)}"` : ''} | ${[d.src ? src([d.src]) : '', d.quran ? ayah(d.quran) : ''].filter(Boolean).join(', ')} |`);
 md.push('');
 fs.writeFileSync(new URL('docs/deen-review.md', root), md.join('\n'));
 

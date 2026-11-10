@@ -10,7 +10,8 @@ import { hijri, hijriText, specialOn, upcoming, MONTHS } from './days.mjs';
 import { refText, refUrl } from './refs.mjs';
 import { partsOf, partAudio, wholeAudio } from './dua-audio.mjs';
 import { narrate, hush } from '../narration.mjs';
-import { playUrl, stopSound } from '../voice.mjs';
+import { playUrl, stopSound, studioUrl } from '../voice.mjs';
+import { hadithClipId } from '../narration-text.mjs';
 import { audioUrl } from '../client.mjs';
 import { qpc } from '../recite.mjs';
 import { u } from '../url.mjs';
@@ -123,6 +124,31 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
     play.addEventListener('click', async () => { stopAll(); for (const x of list) { ar.classList.add('playing'); await playUrl(audioUrl(reciter, x.s, x.a), 90000); ar.classList.remove('playing'); } });
     box.append(play);
     return box;
+  }
+  // a hadith: the Arabic first (copied from the voweled hadith text), then what it means, then where it is reported.
+  // The Arabic is only ever played from a teacher's Voice Studio recording (Hadith in Arabic), never a computer voice;
+  // "Read the meaning" reads the English only.
+  function hadithBox(h, srcList, { cls = 'dn-hadith', kicker } = {}) {
+    const box = el('div', cls);
+    if (kicker) box.append(el('p', 'dn-kicker', kicker));
+    if (h.who) box.append(el('p', 'dn-who', h.who));
+    // the Qur'an font draws the Arabic comma as an ayah ornament, so punctuation is set in the everyday Arabic font
+    const ar = arEl('p', 'dn-hadith-ar');
+    h.ar.split(/([،.؛:])/).forEach((part, i) => { if (i % 2) { const pu = el('span', 'dn-punct', part); ar.append(pu); } else if (part) ar.append(part); });
+    const en = spoken(`"${h.en}"`, 'dn-en');
+    box.append(ar, en.p, srcLinks(srcList));
+    const row = el('div', 'dn-row dn-row-small');
+    const mean = btn('btn dn-listen', 'Read the meaning');
+    mean.addEventListener('click', () => read([...(h.who ? [[h.who]] : []), [`"${h.en}"`, en.words]]));
+    row.append(mean);
+    studioUrl(hadithClipId(h.ar)).then((url) => {
+      if (!url) return;
+      const listen = btn('btn dn-play', 'Listen');
+      listen.addEventListener('click', async () => { stopAll(); ar.classList.add('playing'); await playUrl(url, 60000); ar.classList.remove('playing'); });
+      row.prepend(listen);
+    }).catch(() => {});
+    box.append(row);
+    return { box, words: en.words, text: `"${h.en}"` };
   }
   function stars(e) { if (e?.stars) flash?.(e); onSave?.(); }
   function back(to) { const b = btn('btn link dn-back', '‹ Back'); b.addEventListener('click', () => { stopAll(); to(); }); return b; }
@@ -318,9 +344,9 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
     card.insertAdjacentHTML('beforeend', deenIcon('sun', 72));
     const t = spoken(s.title, 'dn-title'); card.append(t.p);
     const d = spoken(s.do, 'dn-do'); card.append(d.p);
-    const h = el('div', 'dn-hadith'); const en = spoken(s.en); h.append(en.p, srcLinks(s.src)); card.append(h);
+    const hb = hadithBox(s, s.src); card.append(hb.box);
     const row = el('div', 'dn-row');
-    row.append(readBtn(() => read([[s.title, t.words], [s.do, d.words], [s.en, en.words]])));
+    row.append(readBtn(() => read([[s.title, t.words], [s.do, d.words]])));
     const doneToday = st.sunnah[today()] === s.id;
     const b = btn('btn btn-primary dn-done', doneToday || (!isToday && st.did[s.id]) ? "✓ Done, masha'Allah" : 'I did it today!');
     b.disabled = doneToday;
@@ -370,12 +396,11 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
     card.append(el('h2', 'dn-title', v.title), arEl('p', 'dn-ar', v.ar));
     const t = spoken(v.text); card.append(t.p);
     if (v.quran) card.append(ayahBox(v.quran));
-    const h = el('div', 'dn-hadith'); const hen = spoken(v.hadith.en); h.append(hen.p, srcLinks([v.hadith.src])); card.append(h);
-    let sen = null;
-    if (v.story) { const s = el('div', 'dn-story'); s.append(el('p', 'dn-kicker', 'What happened')); sen = spoken(v.story.en); s.append(sen.p, srcLinks([v.story.src])); card.append(s); }
+    const hb = hadithBox(v.hadith, [v.hadith.src]); card.append(hb.box);
+    if (v.story) card.append(hadithBox(v.story, [v.story.src], { cls: 'dn-story', kicker: 'What happened' }).box);
     const todayBox = el('div', 'dn-today'); todayBox.append(el('p', 'dn-kicker', 'What can I do today?')); const td = spoken(v.today, 'dn-do'); todayBox.append(td.p); card.append(todayBox);
     const row = el('div', 'dn-row');
-    const lines = () => [[v.title], [v.text, t.words], [v.hadith.en, hen.words], ...(sen ? [[v.story.en, sen.words]] : []), ['What can I do today?'], [v.today, td.words]];
+    const lines = () => [[v.title], [v.text, t.words], ['What can I do today?'], [v.today, td.words]];
     row.append(readBtn(() => read(lines())));
     const tried = st.tried[v.id] === today();
     const b = btn('btn btn-primary dn-done', tried ? "✓ In sha Allah, I'm trying it" : "I'll try it today!");
@@ -384,7 +409,7 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
     row.append(b);
     card.append(row);
     view.append(card);
-    if (aloud) read(lines().slice(0, 3));
+    if (aloud) read(lines().slice(0, 2));
   }
   const byId = (id) => DUAS.find((d) => d.id === id) ?? SUNNAH.find((s) => s.id === id);
   function dayLine() {
@@ -415,7 +440,8 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
       li.append(el('span', 'dn-place', e.place), el('b', null, e.title));
       const p = spoken(e.text); li.append(p.p);
       if (e.quran) li.append(ayahBox(e.quran));
-      if (e.src) li.append(srcLinks([e.src]));
+      if (e.quote) li.append(hadithBox(e.quote, [e.src], { cls: 'dn-hadith in-line' }).box);
+      else if (e.src) li.append(srcLinks([e.src]));
       const say = btn('dn-say', '🔊', `Read: ${e.title}`); say.addEventListener('click', () => read([[e.title], [e.text, p.words]])); li.append(say);
       ol.append(li);
     }
@@ -431,7 +457,7 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
     todayCard.insertAdjacentHTML('beforeend', deenIcon('moon', 64));
     todayCard.append(el('p', 'dn-kicker', 'Today is'), el('p', 'dn-title', h ? hijriText(h) : ''), el('p', 'muted', now.toLocaleDateString('en-CA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })));
     const sp = specialOn(now);
-    for (const x of sp) { const b = el('div', 'dn-special'); b.innerHTML = deenIcon(x.icon, 40); b.append(el('b', null, x.title), el('p', null, x.text)); if (x.src) b.append(srcLinks([x.src])); todayCard.append(b); }
+    for (const x of sp) { const b = el('div', 'dn-special'); b.innerHTML = deenIcon(x.icon, 40); b.append(el('b', null, x.title), el('p', null, x.text)); if (x.quote) b.append(hadithBox(x.quote, [x.src], { cls: 'dn-hadith in-line' }).box); else if (x.src) b.append(srcLinks([x.src])); todayCard.append(b); }
     if (!sp.length) todayCard.append(el('p', 'dn-do', 'A normal day: a good day to do a sunnah and learn a du\'a.'));
     const r = btn('btn dn-listen', 'Read it to me'); r.addEventListener('click', () => read([[`Today is ${hijriText(h)}.`], ...sp.map((x) => [`${x.title}. ${x.text}`])])); todayCard.append(r);
     view.append(todayCard);
@@ -440,7 +466,8 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
     for (const x of upcoming(now)) {
       const c = el('div', 'dn-upc'); c.innerHTML = deenIcon(x.day.icon, 36);
       const t = el('div'); t.append(el('b', null, x.day.title), el('span', 'dn-when', `${x.hijri ? `${x.hijri.d} ${MONTHS[x.hijri.m - 1]}` : ''} · ${x.date.toLocaleDateString('en-CA', { month: 'long', day: 'numeric' })} · ${x.inDays === 0 ? 'today' : x.inDays === 1 ? 'tomorrow' : `in ${x.inDays} days`}`), el('p', null, x.day.text));
-      if (x.day.src) t.append(srcLinks([x.day.src]));
+      if (x.day.quote) t.append(hadithBox(x.day.quote, [x.day.src], { cls: 'dn-hadith in-line' }).box);
+      else if (x.day.src) t.append(srcLinks([x.day.src]));
       c.append(t); list.append(c);
     }
     view.append(list);

@@ -13,6 +13,10 @@ import { LEVEL2 as LIB2 } from './library/level2.mjs';
 import { ADDED as LIB_ADDED } from './library/added.mjs';
 import { TAWHEED } from './library/tawheed.mjs';
 import { DUAS } from './deen/duas.mjs';
+import { SUNNAH } from './deen/sunnah.mjs';
+import { VIRTUES, LIFE } from './deen/prophet.mjs';
+import { DAYS } from './deen/days.mjs';
+import { refText } from './deen/refs.mjs';
 import { narrate, hush } from './narration.mjs';
 
 // the id of a teacher's reading of a Story Time page (and of what the page says after the child's tap)
@@ -59,6 +63,20 @@ export function catalogue() {
     seen.add(id);
     return [{ id, ar: b.hadith.ar, label: `${b.hadith.src} · ${b.title}`, how: b.hadith.en, hadith: true }];
   });
+  // My Deen: every hadith shown with its Arabic (the Sunnah of the day, Our Prophet ﷺ, the special days)
+  const deenHadith = [
+    ...SUNNAH.map((x) => [x, x.src[0], `Sunnah of the day · ${x.title}`]),
+    ...VIRTUES.flatMap((v) => [[v.hadith, v.hadith.src, `Our Prophet ﷺ · ${v.title}`], ...(v.story ? [[v.story, v.story.src, `Our Prophet ﷺ · ${v.title} (what happened)`]] : [])]),
+    ...LIFE.filter((e) => e.quote).map((e) => [e.quote, e.src, `His life ﷺ · ${e.title}`]),
+    ...DAYS.filter((d) => d.quote).map((d) => [d.quote, d.src, `Special days · ${d.title}`]),
+  ];
+  for (const [h, src, where] of deenHadith) {
+    if (!h.ar) continue;
+    const id = hadithClipId(h.ar);
+    if (seen.has(id)) continue;
+    seen.add(id);
+    hadith.push({ id, ar: h.ar, label: `${refText(src)} · ${where}`, how: h.en, hadith: true });
+  }
   // My Du'as: each du'a in its parts, one clip per part (the lesson plays them one by one for "Repeat after me").
   // A part with the same words as another (بِسْمِ اللَّهِ, الْحَمْدُ لِلَّهِ) is recorded once and used in every du'a.
   // The whole du'a is a clip of its own too: optional, used by "Listen" while some parts are not recorded yet.
