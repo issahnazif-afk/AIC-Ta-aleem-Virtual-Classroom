@@ -80,7 +80,7 @@ jobs:
           # Settings → Secrets and variables → Actions → Variables → CLASS_LOG_URL
           CLASS_LOG_URL: ${{ vars.CLASS_LOG_URL }}
         run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: dist
 
@@ -92,6 +92,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          timeout: 1800000   # 30 minutes: the site is about 218 MB and the default 10 minutes has timed out
+        uses: actions/deploy-pages@v5.0.1
