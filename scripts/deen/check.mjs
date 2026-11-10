@@ -12,6 +12,7 @@
 // entry also has its sunnah.com link in the review sheet, for Ustadh Issah to read and approve.
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { DUAS, CATEGORIES } from '../../src/lib/deen/duas.mjs';
 import { SUNNAH } from '../../src/lib/deen/sunnah.mjs';
 import { VIRTUES, DAY, LIFE } from '../../src/lib/deen/prophet.mjs';
@@ -106,39 +107,68 @@ for (const d of DUAS) if (!CATEGORIES.some((c) => c.id === d.cat)) problems.push
 const dup = [...DUAS, ...SUNNAH, ...VIRTUES].map((x) => x.id).filter((x, i, a) => a.indexOf(x) !== i);
 if (dup.length) problems.push(`ids used twice: ${dup.join(', ')}`);
 
+// ── the teacher's approval ──
+// scripts/deen/approved.json keeps, for every entry the Islamic Studies teacher approved, a fingerprint (hash) of
+// its content. An entry that is new, or has changed since, no longer matches and shows as pending on the sheet.
+//   node scripts/deen/check.mjs --approve "Ustadh Issah" 2026-11-10   records an approval of every entry as it is now
+const APPROVED = new URL('scripts/deen/approved.json', root);
+const hash = (x) => crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex').slice(0, 16);
+const entries = [
+  ...DUAS.map((x) => [`dua:${x.id}`, x]), ...SUNNAH.map((x) => [`sunnah:${x.id}`, x]), ...VIRTUES.map((x) => [`virtue:${x.id}`, x]),
+  ...DAY.map((x) => [`day:${x.id}`, x]), ...LIFE.map((x) => [`life:${x.id}`, x]), ...DAYS.map((x) => [`special:${x.id}`, x]),
+];
+const ai = process.argv.indexOf('--approve');
+if (ai > -1) {
+  const by = process.argv[ai + 1], date = process.argv[ai + 2];
+  if (!by || !/^\d{4}-\d{2}-\d{2}$/.test(date ?? '')) { console.log('Use: --approve "Name" YYYY-MM-DD'); process.exit(1); }
+  fs.writeFileSync(APPROVED, JSON.stringify({ by, date, entries: Object.fromEntries(entries.map(([k, x]) => [k, hash(x)])) }, null, 1) + '\n');
+}
+const approval = fs.existsSync(APPROVED) ? JSON.parse(fs.readFileSync(APPROVED, 'utf8')) : null;
+const ok = (key, x) => approval?.entries?.[key] === hash(x);
+const nApproved = entries.filter(([k, x]) => ok(k, x)).length;
+const pending = entries.filter(([k, x]) => !ok(k, x)).map(([k]) => k);
+const box = (key, x) => (ok(key, x) ? '[x]' : '[ ] **pending review**');
+
 // ── the review sheet ──
+const longDate = (d) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const md = ['# My Deen: review sheet', '',
-  'Made by `node scripts/deen/check.mjs` from `src/lib/deen/`. For **Ustadh Issah**: every du\'a, sunnah, hadith and ayah',
-  'in the My Deen section, with its source and a link to read it on sunnah.com. The script has checked that each number',
-  'exists, that the Arabic words are in that hadith, and that each hadith outside Bukhari and Muslim is graded sahih or hasan',
-  'by al-Albani. Please read each one, correct anything you would put differently, and tell us when it is approved.', '',
+  ...(approval ? [`> **Approved by ${approval.by} on ${longDate(approval.date)}** (${approval.date}): ${nApproved} of ${entries.length} entries.`
+    + (pending.length ? ` ${pending.length} ${pending.length === 1 ? 'entry is' : 'entries are'} new or changed since then and marked **pending review**.` : ' Nothing has changed since.'), ''] : []),
+  'Made by `node scripts/deen/check.mjs` from `src/lib/deen/`. Every du\'a, sunnah, hadith and ayah in the My Deen section,',
+  'with its source and a link to read it on sunnah.com. The script has checked that each number exists, that the Arabic',
+  'words are in that hadith, and that each hadith outside Bukhari and Muslim is graded sahih or hasan by al-Albani.',
+  'A ticked box was approved by the Islamic Studies teacher. An entry added or changed after the approval shows',
+  '"pending review" until it is approved again (`node scripts/deen/check.mjs --approve "Name" YYYY-MM-DD`).', '',
   `${DUAS.length} du'as, ${SUNNAH.length} sunnahs, ${VIRTUES.length} character cards, ${DAY.length} steps of the day, ${LIFE.length} moments of the Seerah, ${DAYS.length} special days.`, ''];
 const src = (list) => list.map((r) => `[${refText(r)}](${refUrl(r)})${found[`${r.c}:${r.n}`] && !['bukhari', 'muslim'].includes(r.c) ? ` (${found[`${r.c}:${r.n}`]})` : ''}`).join(', ');
 const ayah = (q) => [q].flat().map((x) => `Qur'an ${x.s}:${x.a}${x.w ? ` (words ${x.w[0]}–${x.w[1]})` : ''}`).join(' and ');
-md.push('## My du\'as', '');
+md.push('## My du\'as', '', 'Each du\'a is split into parts at its natural pauses: the lesson plays one part, then the child says it back,',
+  'and each part is its own Voice Studio recording. The last column is the matching item on hisnmuslim.com (used only',
+  'after the school has permission): exact, close (one small difference) or longer (our words are inside a longer item).', '');
 for (const c of CATEGORIES) {
   md.push(`### ${c.title}`, '');
   md.push('| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |', '|---|---|---|---|---|---|---|');
   for (const d of DUAS.filter((x) => x.cat === c.id)) {
     const parts = d.quran ? `the ayat: ${ayah(d.quran)}` : d.parts.map((x, i) => `${i + 1}. ${x}`).join('<br>');
     const hisn = d.hisn ? `item ${d.hisn.id} (${d.hisn.fit})` : d.quran ? '' : 'no match';
-    md.push(`| [ ] | ${d.when} (Level ${d.level}+) | ${parts} | *${d.tr}* | "${d.en}" | ${d.quran ? `Tanzil text` : src(d.src)} | ${hisn} |`);
+    md.push(`| ${box(`dua:${d.id}`, d)} | ${d.when} (Level ${d.level}+) | ${parts} | *${d.tr}* | "${d.en}" | ${d.quran ? `Tanzil text` : src(d.src)} | ${hisn} |`);
   }
   md.push('');
 }
 md.push('## Sunnah of the day', '');
-for (const s of SUNNAH) md.push(`- [ ] **${s.title}** (Level ${s.level}+). ${s.do} Hadith: "${s.en}" ${src(s.src)}.`);
+for (const s of SUNNAH) md.push(`- ${box(`sunnah:${s.id}`, s)} **${s.title}** (Level ${s.level}+). ${s.do} Hadith: "${s.en}" ${src(s.src)}.`);
 md.push('', '## Our Prophet ﷺ: his character', '');
-for (const v of VIRTUES) md.push(`- [ ] **${v.title}**. ${v.text} Hadith: "${v.hadith.en}" ${src([v.hadith.src])}.${v.story ? ` Example: "${v.story.en}" ${src([v.story.src])}.` : ''} Today: ${v.today}`);
+for (const v of VIRTUES) md.push(`- ${box(`virtue:${v.id}`, v)} **${v.title}**. ${v.text} Hadith: "${v.hadith.en}" ${src([v.hadith.src])}.${v.story ? ` Example: "${v.story.en}" ${src([v.story.src])}.` : ''} Today: ${v.today}`);
 md.push('', '## A day like the Prophet ﷺ', '');
-for (const s of DAY) md.push(`- [ ] **${s.title}**: ${s.text} (links: ${(s.links ?? []).join(', ')})`);
+for (const s of DAY) md.push(`- ${box(`day:${s.id}`, s)} **${s.title}**: ${s.text} (links: ${(s.links ?? []).join(', ')})`);
 md.push('', '## His life ﷺ', '');
-for (const e of LIFE) md.push(`- [ ] **${e.title}**: ${e.text}${e.src ? ` ${src([e.src])}.` : ''}${e.quran ? ` ${ayah(e.quran)}.` : ''}`);
+for (const e of LIFE) md.push(`- ${box(`life:${e.id}`, e)} **${e.title}**: ${e.text}${e.src ? ` ${src([e.src])}.` : ''}${e.quran ? ` ${ayah(e.quran)}.` : ''}`);
 md.push('', '## Special days (Hijri calendar)', '');
-for (const d of DAYS) md.push(`- [ ] **${d.title}**: ${d.text}${d.src ? ` ${src([d.src])}.` : ''}${d.quran ? ` ${ayah(d.quran)}.` : ''}`);
+for (const d of DAYS) md.push(`- ${box(`special:${d.id}`, d)} **${d.title}**: ${d.text}${d.src ? ` ${src([d.src])}.` : ''}${d.quran ? ` ${ayah(d.quran)}.` : ''}`);
 md.push('');
 fs.writeFileSync(new URL('docs/deen-review.md', root), md.join('\n'));
 
 console.log(`My Deen: ${items.length} hadith references checked in ${Object.keys(loaded).length} collections.`);
+console.log(approval ? `Approved by ${approval.by} on ${approval.date}: ${nApproved} of ${entries.length} entries.${pending.length ? ` Pending review: ${pending.join(', ')}` : ''}` : 'Not yet approved by the Islamic Studies teacher.');
 console.log(problems.length ? problems.join('\n') : 'No problems found.');
 process.exit(problems.length ? 1 : 0);

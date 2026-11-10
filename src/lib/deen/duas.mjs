@@ -1,6 +1,7 @@
 // My Du'as: the du'as of the day, from the Qur'an and the sound hadith only.
 // Every hadith reference is checked by scripts/deen/check.mjs against the hadith text (the numbering of sunnah.com),
-// and every entry stays "pending" until Ustadh Issah has reviewed it (docs/deen-review.md).
+// and Ustadh Issah reviewed and approved every entry on 10 November 2026 (docs/deen-review.md). An entry added or
+// changed after that shows as "pending review" on the sheet until he approves it (scripts/deen/approved.json).
 //
 //   id       unique name (also the key for "I learnt it")
 //   cat      a CATEGORIES id

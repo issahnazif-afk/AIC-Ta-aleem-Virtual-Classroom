@@ -387,9 +387,11 @@ After signing in, **Levels 1 and 2** land on a **picture home** (`src/lib/kids-h
 places to tap (My letters, My du'as, Sunnah of the day, Our Prophet ﷺ, Stories, My books, Qur'an, Games, Special
 days, My garden, My stars; Level 2 also has the Reading Library and Knowing Allah). Pointing at a place, or tapping
 it once on a tablet, says its name and makes it bounce; clicking it, or a second tap, opens it. *Grown-up view* shows
-the full dashboard, and *Picture home* on the dashboard goes back. Levels 3 and 4 keep the dashboard. Four places
-use the school's Canva pictures (`public/img/home/`: Our Prophet ﷺ, Qur'an, Sunnah of the day, Stories); the scene and
-the other places are drawn from simple shapes (no people) until more Canva pictures are made.
+the full dashboard, and *Picture home* on the dashboard goes back. Levels 3 and 4 keep the dashboard. The background is
+the school's Canva picture of a masjid courtyard (`public/img/home/scene-wide.webp` for computers and `scene-phone.webp`
+for phones, under a soft veil so the places stay easy to read; the line of text printed in its sky was painted out so it
+does not show between the cards). Four places use the school's Canva pictures (Our Prophet ﷺ, Qur'an, Sunnah of the
+day, Stories); the other places are drawn from simple shapes until more Canva pictures are made.
 
 ## My Deen: du'as, the Sunnah of the day, Our Prophet ﷺ and special days (every level)
 
@@ -418,8 +420,12 @@ Under *My Lessons* (and on the picture home). Content in `src/lib/deen/`, the sc
 **Sources.** The Qur'an (Tanzil) and sound hadith only. `npm run deen` (`scripts/deen/check.mjs`) checks every
 reference against the hadith text of the open *hadith-api*, which uses sunnah.com's numbering: the number must exist,
 the Arabic words must be in that hadith, and any hadith outside Bukhari and Muslim must be graded sahih or hasan by
-al-Albani. It then writes **`docs/deen-review.md`** with every entry and its sunnah.com link. **Ustadh Issah reviews
-that sheet** before the section is used in class; the check is not a substitute for his review.
+al-Albani. It then writes **`docs/deen-review.md`** with every entry and its sunnah.com link.
+
+**Approved.** Ustadh Issah reviewed every entry on that sheet and approved it on 10 November 2026 (116 entries).
+`scripts/deen/approved.json` keeps a fingerprint of each approved entry; the checker ticks the entries that still match
+and marks anything added or changed since as **pending review**, so new content waits for his review. After he has
+checked the pending entries, record it with `node scripts/deen/check.mjs --approve "Ustadh Issah" YYYY-MM-DD`.
 
 ## The Seerah Quest (Levels 3 and 4)
 

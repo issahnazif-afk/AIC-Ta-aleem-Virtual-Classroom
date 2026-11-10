@@ -79,7 +79,9 @@
 .kids-screen { min-height: 100vh; background: #EAF6EE; }
 .kh { display: flex; flex-direction: column; gap: 10px; padding-bottom: 24px; }
 .kh-stage { position: relative; overflow: hidden; border-radius: 0 0 32px 32px; min-height: min(78vh, 760px); padding: 18px clamp(14px, 3vw, 40px) 28px; display: flex; flex-direction: column; gap: 14px; }
-.kh-scene { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.kh-scene { position: absolute; inset: 0; z-index: 0; }
+.kh-scene img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
+.kh-veil { position: absolute; inset: 0; z-index: 0; background: linear-gradient(180deg, rgb(255 253 245 / .72) 0%, rgb(255 253 245 / .25) 22%, rgb(255 253 245 / .1) 55%, rgb(255 253 245 / .35) 100%); pointer-events: none; }
 .kh-top, .kh-places { position: relative; z-index: 1; }
 .kh-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
 .kh-hi { margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px, 4.4vw, 48px); color: #0F2A24; text-shadow: 0 2px 0 rgb(255 255 255 / .6); }
@@ -88,7 +90,7 @@
 .kh-special { padding: 4px 12px; border-radius: 999px; background: #FBE3A6; color: #5E4A1E; font-weight: 700; font-size: 14px; }
 .kh-places { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: clamp(12px, 2vw, 22px); align-content: center; max-width: 1180px; width: 100%; margin: 0 auto; }
 .kh-l1 .kh-places { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
-.kh-place { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 14px; border: none; border-radius: 28px; background: rgb(255 255 255 / .82); box-shadow: 0 6px 0 rgb(14 107 78 / .18), 0 10px 24px rgb(0 0 0 / .08); font: inherit; color: #0F2A24; cursor: pointer; transition: transform .18s; touch-action: manipulation; }
+.kh-place { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 14px; border: none; border-radius: 28px; background: rgb(255 255 255 / .84); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 6px 0 rgb(14 107 78 / .18), 0 10px 24px rgb(0 0 0 / .08); font: inherit; color: #0F2A24; cursor: pointer; transition: transform .18s; touch-action: manipulation; }
 .kh-place:hover, .kh-place.lit, .kh-place.armed, .kh-place:focus-visible { transform: translateY(-6px) scale(1.04); outline: 4px solid #F6C64B; outline-offset: 2px; }
 .kh-ic { display: grid; place-items: center; width: clamp(88px, 11vw, 120px); aspect-ratio: 1; border-radius: 50%; background: var(--c, #FFF9EC); box-shadow: inset 0 -6px 0 rgb(0 0 0 / .08); }
 .kh-ic svg { width: 66%; height: 66%; }
