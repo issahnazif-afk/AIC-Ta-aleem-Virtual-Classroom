@@ -6,13 +6,14 @@
 // An entry with  kind: 'soon'  shows as "Coming soon" until it is ready.
 //
 //   id      unique name
-//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Al-Huda Books) | 'soon'
+//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Al-Huda Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'soon'
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
 //   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
 //   nocam   for 'recite': practice without the camera check, snapshot or look-away check (microphone only)
 //   worlds  which learning worlds it belongs to (WORLDS below): the home page's "Choose your adventure"
 //   shelf   for 'library': 'library' (the Reading Library) or 'tawheed' (the Tawheed shelf)
+//   view    for 'deen': which part opens first: duas | sunnah | prophet | days
 //   levels  which classes see it (leave out for all)
 
 export const ACTIVITIES = [
@@ -60,6 +61,27 @@ export const ACTIVITIES = [
     title: 'Al-Huda Books', ar: 'كُتُبُ ٱلْهُدَى',
     text: 'Our school books to read, tap, colour and answer: Arabic letters, du\'a, stories, hadith and Tawheed.',
   },
+  // My Deen (src/lib/deen/): du'as, the Sunnah of the day, Our Prophet ﷺ and the special days. Qur'an and sound hadith only.
+  {
+    id: 'duas', worlds: ['dua'], kind: 'deen', view: 'duas', icon: 'dua', group: 'lessons', suggested: [1, 2, 3, 4],
+    title: "My Du'as", ar: 'أَدْعِيَتِي',
+    text: "The du'as of the day, from waking up to going to sleep. Hear them, learn them and keep your favourites.",
+  },
+  {
+    id: 'sunnah', worlds: ['hadith', 'akhlaq'], kind: 'deen', view: 'sunnah', icon: 'sunnah', group: 'lessons', suggested: [1, 2, 3, 4],
+    title: 'Sunnah of the Day', ar: 'سُنَّةُ ٱلْيَوْم',
+    text: 'One thing the Prophet ﷺ did or taught, to do today. It is also your character mission.',
+  },
+  {
+    id: 'prophet', worlds: ['seerah', 'akhlaq', 'hadith'], kind: 'deen', view: 'prophet', icon: 'prophet', group: 'lessons', suggested: [1, 2, 3, 4],
+    title: 'Our Prophet ﷺ', ar: 'نَبِيُّنَا ﷺ',
+    text: 'His character, a day lived his way, and the main moments of his life, from the Qur\'an and sound hadith.',
+  },
+  {
+    id: 'days', worlds: ['dua', 'seerah'], kind: 'deen', view: 'days', icon: 'calendar', group: 'lessons',
+    title: 'Special Days', ar: 'أَيَّامٌ مُبَارَكَة',
+    text: 'Today\'s Hijri date, Jumu\'ah, Ramadan, the two Eids and the other blessed days, with what the Prophet ﷺ taught about them.',
+  },
   // Play & Learn (the AICWIS Interactive Learning Proposal). `suggested`: the levels the proposal suggests it for;
   // every level can play, and the game adjusts to the student's level.
   { id: 'detective', worlds: ['arabic'], kind: 'play', game: 'detective', icon: 'detective', group: 'play', suggested: [1, 2],
@@ -105,6 +127,12 @@ export const ICONS = {
   books: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M10 12 H28 Q32 12 32 16 V54 Q32 50 28 50 H10 Z" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2.5"/><path d="M54 12 H36 Q32 12 32 16 V54 Q32 50 36 50 H54 Z" fill="#FFFDF7" stroke="#C9A24A" stroke-width="2.5"/><text x="21" y="36" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="15" fill="#0E6B4E">هُدَى</text><path d="M38 24 h11 M38 30 h11 M38 36 h8" stroke="#C9A24A" stroke-width="2" stroke-linecap="round"/><path d="M44 40 l3 6 3-6" fill="#E85A71"/></svg>',
   stories: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M6 14 Q19 9 32 15 Q45 9 58 14 V50 Q45 45 32 51 Q19 45 6 50 Z" fill="#FFF9EC" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 15 V51" stroke="#C9A24A" stroke-width="2"/><circle cx="19" cy="26" r="6" fill="#F6C64B"/><path d="M10 42 Q18 32 26 40" fill="#6CBF5A"/><path d="M38 38 C34 34 36 28 40 31 C44 28 46 34 42 38 L40 40 Z" fill="#E85A71"/><path d="M38 24 h14 M38 29 h12" stroke="#7A8C84" stroke-width="2" stroke-linecap="round"/></svg>',
   seerah: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M2 50 L18 30 L28 40 L40 22 L62 50 Z" fill="#E8D6B0" stroke="#C9A24A" stroke-width="2"/><rect x="24" y="36" width="16" height="16" fill="#0F2A24"/><path d="M24 40 H40" stroke="#C9A24A" stroke-width="2.5"/><circle cx="50" cy="12" r="6" fill="#FBE3A6"/><path d="M2 56 H62" stroke="#0E6B4E" stroke-width="3"/></svg>',
+  dua: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M18 56 V32 q0 -8 7 -10 L26 14 q2 -4 5 -1 V30 M46 56 V32 q0 -8 -7 -10 L38 14 q-2 -4 -5 -1 V30" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5" stroke-linejoin="round"/><circle cx="32" cy="8" r="4" fill="#0E6B4E"/></svg>',
+  sunnah: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><circle cx="32" cy="32" r="13" fill="#F6C64B"/><g stroke="#F6C64B" stroke-width="3.5" stroke-linecap="round"><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12 12l6 6M46 46l6 6M12 52l6-6M46 18l6-6"/></g><path d="M26 32 l4 4 8-8" fill="none" stroke="#0E6B4E" stroke-width="3" stroke-linecap="round"/></svg>',
+  prophet: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M4 54 H60" stroke="#0E6B4E" stroke-width="3"/><rect x="18" y="30" width="28" height="24" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2"/><path d="M14 30 Q32 6 50 30 Z" fill="#0E6B4E"/><rect x="48" y="16" width="6" height="38" fill="#C9A24A"/><path d="M28 54 V44 Q32 38 36 44 V54" fill="#C9A24A"/><text x="32" y="26" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="9" fill="#FBE3A6">ﷺ</text></svg>',
+  calendar: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><rect x="8" y="12" width="48" height="44" rx="6" fill="#FFFDF7" stroke="#0E6B4E" stroke-width="2.5"/><rect x="8" y="12" width="48" height="12" rx="6" fill="#0E6B4E"/><path d="M40 32a9 9 0 1 0 7 14a8 8 0 0 1 -7 -14z" fill="#C9A24A"/><circle cx="22" cy="38" r="2" fill="#C9A24A"/><circle cx="28" cy="46" r="1.6" fill="#C9A24A"/></svg>',
+  garden: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><ellipse cx="32" cy="56" rx="26" ry="5" fill="#8CCB7E"/><path d="M30 56 Q29 38 32 24 L34 24 Q33 38 35 56 Z" fill="#8A5A12"/><g fill="#2E8B57"><path d="M33 24 Q18 14 8 22 Q20 18 33 26 Z"/><path d="M33 24 Q48 14 58 22 Q46 18 33 26 Z"/><path d="M33 24 Q24 6 14 6 Q26 12 32 25 Z"/><path d="M33 24 Q42 6 52 6 Q40 12 34 25 Z"/></g><circle cx="14" cy="50" r="4" fill="#F4B6C2"/><circle cx="50" cy="50" r="4" fill="#FBE3A6"/></svg>',
+  awards: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 4 L39 22 L58 22 L43 34 L49 54 L32 42 L15 54 L21 34 L6 22 L25 22 Z" fill="#F6C64B" stroke="#C9A24A" stroke-width="2.5"/></svg>',
   soon: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#F7F8F6" stroke="#B9C3BE" stroke-width="2.5"/><path d="M32 20 V33 L40 38" fill="none" stroke="#4F5B56" stroke-width="2.5" stroke-linecap="round"/></svg>',
 };
 

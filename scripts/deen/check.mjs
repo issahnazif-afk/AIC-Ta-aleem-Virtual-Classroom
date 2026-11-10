@@ -1,0 +1,131 @@
+// Checks every hadith in My Deen (src/lib/deen/) against the hadith text, then writes the review sheet for the
+// Islamic Studies teacher (docs/deen-review.md).
+//   node scripts/deen/check.mjs            check (downloads the collections once, into node_modules/.cache)
+//
+// The text comes from the open hadith-api (github.com/fawazahmed0/hadith-api, public domain), which uses the
+// numbering of sunnah.com (for Sahih Muslim the numbers of Muhammad Fu'ad 'Abd al-Baqi, e.g. 2713 for 2713a-c).
+// For each reference the check asks:
+//   1. is there a hadith with that number in that collection?
+//   2. are the words of the du'a (or the entry's key words) in it, letter for letter (vowels and hamza forms aside)?
+//   3. is it sound? Bukhari and Muslim are; for the Sunan, al-Albani's grade must be sahih or hasan.
+// It stops with a list of problems if any reference fails. Passing this check is not a scholar's review: every
+// entry also has its sunnah.com link in the review sheet, for Ustadh Issah to read and approve.
+import fs from 'node:fs';
+import path from 'node:path';
+import { DUAS, CATEGORIES } from '../../src/lib/deen/duas.mjs';
+import { SUNNAH } from '../../src/lib/deen/sunnah.mjs';
+import { VIRTUES, DAY, LIFE } from '../../src/lib/deen/prophet.mjs';
+import { DAYS } from '../../src/lib/deen/days.mjs';
+import { NAMES, refText, refUrl } from '../../src/lib/deen/refs.mjs';
+
+const root = new URL('../../', import.meta.url);
+const cache = path.join(new URL('node_modules/.cache/hadith-api/', root).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
+fs.mkdirSync(cache, { recursive: true });
+
+async function edition(c) {
+  const f = path.join(cache, `ara-${c}.json`);
+  if (!fs.existsSync(f)) {
+    const url = `https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-${c}.min.json`;
+    process.stdout.write(`Downloading ${NAMES[c]}… `);
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`${url}: ${r.status}`);
+    fs.writeFileSync(f, await r.text());
+    console.log('done');
+  }
+  const byNo = new Map();
+  for (const h of JSON.parse(fs.readFileSync(f, 'utf8')).hadiths) {
+    const n = Math.floor(Number(h.arabicnumber ?? h.hadithnumber));
+    if (!byNo.has(n)) byNo.set(n, []);
+    byNo.get(n).push(h);
+  }
+  return byNo;
+}
+
+// letters only: no vowels, no tatweel, one form of alif, ya and ta marbuta, no punctuation
+export const bare = (t) => t
+  .replace(/[ؐ-ًؚ-ٰٟۖ-ۭـ‏‎]/g, '')
+  .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي').replace(/ء/g, '')
+  .replace(/[^ء-ي ]/g, ' ').replace(/\s+/g, ' ').trim();
+
+// every item that cites a hadith, with what to look for
+const items = [];
+const cite = (where, title, src, look) => { for (const r of src ?? []) items.push({ where, title, r, look }); };
+for (const d of DUAS) cite(`du'a ${d.id}`, d.when, d.src, d.key ?? d.ar);
+for (const s of SUNNAH) cite(`sunnah ${s.id}`, s.title, s.src, s.key);
+for (const v of VIRTUES) { cite(`virtue ${v.id}`, v.title, [v.hadith.src], v.hadith.key); if (v.story?.src) cite(`virtue ${v.id} (story)`, v.title, [v.story.src], v.story.key); }
+for (const e of LIFE) if (e.src) cite(`life ${e.id}`, e.title, [e.src], e.key);
+for (const d of DAYS) if (d.src) cite(`day ${d.id}`, d.title, [d.src], d.key);
+
+const problems = [];
+const loaded = {};
+const found = {};
+for (const it of items) {
+  const { c, n } = it.r;
+  if (!NAMES[c]) { problems.push(`${it.where}: unknown collection "${c}"`); continue; }
+  loaded[c] ??= await edition(c);
+  const hs = loaded[c].get(n);
+  if (!hs) { problems.push(`${it.where}: there is no ${refText(it.r)}`); continue; }
+  const text = bare(hs.map((h) => h.text).join(' '));
+  // a du'a written with "·" between its parts (the sneezing du'a, the tasbih) is checked part by part
+  const parts = (it.look ?? '').split('·').map((p) => bare(p.replace(/[٠-٩0-9()]/g, ''))).filter(Boolean);
+  const missing = parts.filter((p) => !text.includes(p));
+  if (!parts.length) problems.push(`${it.where}: nothing to look for (add key)`);
+  else if (missing.length) problems.push(`${it.where}: ${refText(it.r)} does not contain "${missing[0]}"`);
+  let grade = 'Sahih (in the Sahih)';
+  if (!['bukhari', 'muslim'].includes(c)) {
+    const g = hs.flatMap((h) => h.grades ?? []);
+    const alb = g.find((x) => /albani/i.test(x.name))?.grade ?? '';
+    grade = alb ? `${alb} (al-Albani)` : g.map((x) => `${x.grade} (${x.name})`).join('; ');
+    if (!/sahih|hasan/i.test(alb) || /da.?if|weak|munkar|mawdu/i.test(alb)) problems.push(`${it.where}: ${refText(it.r)} is graded "${grade || 'no grade'}"`);
+  }
+  found[`${c}:${n}`] = grade;
+}
+
+// the writing: straight quotes, no em dashes
+const words = [];
+for (const d of DUAS) words.push([`du'a ${d.id}`, d.when, d.en]);
+for (const s of SUNNAH) words.push([`sunnah ${s.id}`, s.title, s.do, s.en]);
+for (const v of VIRTUES) words.push([`virtue ${v.id}`, v.text, v.hadith.en, v.story?.en, v.today]);
+for (const e of [...DAY, ...LIFE, ...DAYS]) words.push([e.id, e.title, e.text, e.en]);
+for (const [where, ...ts] of words) for (const t of ts) if (t && /[—“”‘’]/.test(t)) problems.push(`${where}: em dash or curly quote in "${t.slice(0, 50)}…"`);
+
+// links from the day and the life to the du'as and sunnahs
+const ids = new Set([...DUAS.map((d) => d.id), ...SUNNAH.map((s) => s.id)]);
+for (const s of DAY) for (const l of s.links ?? []) if (!ids.has(l)) problems.push(`day step ${s.id}: no du'a or sunnah "${l}"`);
+for (const d of DUAS) if (!CATEGORIES.some((c) => c.id === d.cat)) problems.push(`du'a ${d.id}: no category "${d.cat}"`);
+const dup = [...DUAS, ...SUNNAH, ...VIRTUES].map((x) => x.id).filter((x, i, a) => a.indexOf(x) !== i);
+if (dup.length) problems.push(`ids used twice: ${dup.join(', ')}`);
+
+// ── the review sheet ──
+const md = ['# My Deen: review sheet', '',
+  'Made by `node scripts/deen/check.mjs` from `src/lib/deen/`. For **Ustadh Issah**: every du\'a, sunnah, hadith and ayah',
+  'in the My Deen section, with its source and a link to read it on sunnah.com. The script has checked that each number',
+  'exists, that the Arabic words are in that hadith, and that each hadith outside Bukhari and Muslim is graded sahih or hasan',
+  'by al-Albani. Please read each one, correct anything you would put differently, and tell us when it is approved.', '',
+  `${DUAS.length} du'as, ${SUNNAH.length} sunnahs, ${VIRTUES.length} character cards, ${DAY.length} steps of the day, ${LIFE.length} moments of the Seerah, ${DAYS.length} special days.`, ''];
+const src = (list) => list.map((r) => `[${refText(r)}](${refUrl(r)})${found[`${r.c}:${r.n}`] && !['bukhari', 'muslim'].includes(r.c) ? ` (${found[`${r.c}:${r.n}`]})` : ''}`).join(', ');
+const ayah = (q) => [q].flat().map((x) => `Qur'an ${x.s}:${x.a}${x.w ? ` (words ${x.w[0]}–${x.w[1]})` : ''}`).join(' and ');
+md.push('## My du\'as', '');
+for (const c of CATEGORIES) {
+  md.push(`### ${c.title}`, '');
+  for (const d of DUAS.filter((x) => x.cat === c.id)) {
+    md.push(`- [ ] **${d.when}** (Level ${d.level}+): ${d.ar ? `${d.ar} ` : ''}*${d.tr}*. "${d.en}" ${d.quran ? `From the Tanzil text: ${ayah(d.quran)}.` : `Source: ${src(d.src)}.`}`);
+  }
+  md.push('');
+}
+md.push('## Sunnah of the day', '');
+for (const s of SUNNAH) md.push(`- [ ] **${s.title}** (Level ${s.level}+). ${s.do} Hadith: "${s.en}" ${src(s.src)}.`);
+md.push('', '## Our Prophet ﷺ: his character', '');
+for (const v of VIRTUES) md.push(`- [ ] **${v.title}**. ${v.text} Hadith: "${v.hadith.en}" ${src([v.hadith.src])}.${v.story ? ` Example: "${v.story.en}" ${src([v.story.src])}.` : ''} Today: ${v.today}`);
+md.push('', '## A day like the Prophet ﷺ', '');
+for (const s of DAY) md.push(`- [ ] **${s.title}**: ${s.text} (links: ${(s.links ?? []).join(', ')})`);
+md.push('', '## His life ﷺ', '');
+for (const e of LIFE) md.push(`- [ ] **${e.title}**: ${e.text}${e.src ? ` ${src([e.src])}.` : ''}${e.quran ? ` ${ayah(e.quran)}.` : ''}`);
+md.push('', '## Special days (Hijri calendar)', '');
+for (const d of DAYS) md.push(`- [ ] **${d.title}**: ${d.text}${d.src ? ` ${src([d.src])}.` : ''}${d.quran ? ` ${ayah(d.quran)}.` : ''}`);
+md.push('');
+fs.writeFileSync(new URL('docs/deen-review.md', root), md.join('\n'));
+
+console.log(`My Deen: ${items.length} hadith references checked in ${Object.keys(loaded).length} collections.`);
+console.log(problems.length ? problems.join('\n') : 'No problems found.');
+process.exit(problems.length ? 1 : 0);

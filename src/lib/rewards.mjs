@@ -21,6 +21,8 @@ const KIND = {
   journey: 'knowledge', match: 'knowledge', salah: 'knowledge', detective: 'knowledge', alifba: 'knowledge', seerah: 'knowledge',
   akhlaq: 'character', story: 'character', library: 'character',
   book: 'knowledge',   // a chapter of an Al-Huda Book (a story book counts as 'library')
+  dua: 'knowledge',    // My Deen: a du'a learnt
+  sunnah: 'character', prophet: 'character',   // My Deen: the Sunnah of the day done, a quality of the Prophet ﷺ tried
 };
 
 export function rewardsOf(progress) {
@@ -57,7 +59,7 @@ export function record(progress, { kind, key, score = null, good = false, garden
   }
   r.counts.all = (r.counts.all ?? 0) + 1;
   if (KIND[kind] === 'quran') r.counts.quran = (r.counts.quran ?? 0) + 1;
-  if (kind === 'akhlaq') r.counts.kindness = (r.counts.kindness ?? 0) + 1;
+  if (kind === 'akhlaq' || kind === 'sunnah' || kind === 'prophet') r.counts.kindness = (r.counts.kindness ?? 0) + 1;
   markDay(r);
   const mission = KIND[kind];
   if (mission && mission !== 'character' && !r.daily.done[mission]) { r.daily.done[mission] = true; give(1, `${mission === 'quran' ? 'Qurʾan' : 'Knowledge'} mission done`); }

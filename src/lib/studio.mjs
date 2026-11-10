@@ -12,6 +12,7 @@ import { hadithClipId } from './narration-text.mjs';
 import { LEVEL2 as LIB2 } from './library/level2.mjs';
 import { ADDED as LIB_ADDED } from './library/added.mjs';
 import { TAWHEED } from './library/tawheed.mjs';
+import { DUAS } from './deen/duas.mjs';
 import { narrate, hush } from './narration.mjs';
 
 // the id of a teacher's reading of a Story Time page (and of what the page says after the child's tap)
@@ -58,6 +59,13 @@ export function catalogue() {
     seen.add(id);
     return [{ id, ar: b.hadith.ar, label: `${b.hadith.src} · ${b.title}`, how: b.hadith.en, hadith: true }];
   });
+  // My Deen: every du'a that is not from the Qur'an (Qur'an du'as play the reciter)
+  for (const d of DUAS.filter((x) => x.ar)) {
+    const id = hadithClipId(d.ar);
+    if (seen.has(id)) continue;
+    seen.add(id);
+    hadith.push({ id, ar: d.ar, label: `My Du'as · ${d.when}`, how: d.en, hadith: true });
+  }
   groups.push({ key: 'hadith', title: 'Hadith in Arabic', why: 'The Sheikh or a teacher reads each hadith once, slowly and clearly, with every vowel. The children hear it before the English meaning, in every book that has it. Until a hadith is recorded, the page goes straight to the English: a computer voice never reads the Prophet’s words.', clips: hadith });
   groups.push({ key: 'lib1', title: 'Library Level 1', why: 'First readers, ages 4–6. Read slowly and clearly, so a young child can follow each word as it lights up.', clips: lib([...LIB1, ...LIB_ADDED.filter(lv(1))]) });
   groups.push({ key: 'lib2', title: 'Library Level 2', why: 'Adventure readers, ages 7–8. Read with energy and suspense, like telling an adventure.', clips: lib([...LIB2, ...LIB_ADDED.filter(lv(2))]) });

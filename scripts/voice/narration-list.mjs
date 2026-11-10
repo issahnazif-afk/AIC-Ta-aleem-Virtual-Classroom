@@ -9,6 +9,9 @@ import { LEVEL2 } from '../../src/lib/library/level2.mjs';
 import { ADDED } from '../../src/lib/library/added.mjs';
 import { TAWHEED } from '../../src/lib/library/tawheed.mjs';
 import { BOOKS as HUDA_BOOKS } from '../../src/lib/books/index.mjs';
+import { DUAS } from '../../src/lib/deen/duas.mjs';
+import { SUNNAH } from '../../src/lib/deen/sunnah.mjs';
+import { VIRTUES, DAY, LIFE } from '../../src/lib/deen/prophet.mjs';
 
 const SRC = JSON.parse(fs.readFileSync(new URL('../../src/data/seerah/sources.json', import.meta.url)));
 const out = new Map();
@@ -57,6 +60,15 @@ for (const b of HUDA_BOOKS.filter((x) => x.level <= 2)) {
 for (const k of ['All done. Turn the page.', 'All matched! Turn the page.', "That's the right order!", 'All sorted! Turn the page.', 'Masha Allah! Turn the page.',
   "Masha'Allah! Well done.", 'Good work. Try it again to earn three stars.', 'You finished it. Read it again and try once more.',
   'Tap one on the left, then its partner on the right.', 'Tap them in the right order.', 'Tap a card, then the basket it goes in.']) add('story', k);
+
+// My Deen (read aloud for Levels 1 and 2): the du'as' meanings, the sunnahs, the Prophet's ﷺ character, the day and his life
+for (const d of DUAS) { add('story', d.when); add('story', d.en); }
+for (const x of SUNNAH) { add('story', x.title); add('story', x.do); add('story', x.en); }
+for (const v of VIRTUES) { add('story', v.title); add('story', v.text); add('story', v.hadith.en); add('story', v.story?.en); add('story', v.today); }
+for (const x of [...DAY, ...LIFE]) { add('story', x.title); add('story', x.text); }
+add('story', 'What can I do today?');
+// the picture home (Levels 1 and 2) says each place's name
+for (const t of ['My letters', "My du'as", 'Sunnah of the day', 'Our Prophet sallallahu alayhi wa sallam', 'Stories', 'My books', 'Reading Library', 'Knowing Allah', "Qur'an", 'Games', 'Special days', 'My garden', 'My stars', 'Back']) add('story', t);
 
 // The Seerah Quest: the passages from al-Bidaya, the explorer's guide, the questions and the reflections
 for (const p of SRC.passages) if (p.class !== 'excluded') add('seerah', p.en);

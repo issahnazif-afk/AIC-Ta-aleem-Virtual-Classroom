@@ -17,6 +17,7 @@ import '../styles/global.css';
 import '../styles/classroom.css';
 import '../styles/aic.css';
 import '../styles/books.css';
+import '../styles/deen.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
 import cfg from '../../site.config.mjs';
@@ -55,12 +56,14 @@ const levels = [
       <div class="si-hero">
         <p class="eyebrow"><span class="star" aria-hidden="true"></span>Al-Huda Islamic Centre (AIC)</p>
         <p class="display">Recite, read and <em>learn</em> with the Sheikh</p>
-        <p class="si-text">Recite from memory for a Hifz test, read from the mushaf, or learn the Arabic letters. The Sheikh follows every word and corrects you as you go.</p>
-        <div class="stats">
-          <div class="stat"><b>3</b><span>Classroom activities</span></div>
-          <div class="stat"><b>4</b><span>Levels, ages 4 to 16</span></div>
-          <div class="stat"><b>604</b><span>Pages of the mushaf</span></div>
+        <p class="si-text">Recite to the Sheikh, learn the Arabic letters, read our books, learn your du'as and the Sunnah. Choose your level to begin.</p>
+        <div class="si-doors" role="group" aria-label="Choose your level">
+          <button type="button" class="si-door" data-door="1"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span><b>Level 1</b><span>Little learners, ages 4 to 6</span></button>
+          <button type="button" class="si-door" data-door="2"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span><b>Level 2</b><span>Young readers, ages 6 to 8</span></button>
+          <button type="button" class="si-door" data-door="3"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span><b>Level 3</b><span>Explorers, ages 8 to 11</span></button>
+          <button type="button" class="si-door" data-door="4"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span><b>Level 4</b><span>Seekers, ages 11 to 16</span></button>
         </div>
+        <p class="si-door-msg" id="door-msg" aria-live="polite"></p>
       </div>
       <p class="si-foot">Works on a desktop or laptop with a camera and microphone, in Chrome or Edge.</p>
     </div>
@@ -313,6 +316,7 @@ const levels = [
         <a href="#sec-hifz" data-dest="hifz"><span aria-hidden="true">🕌</span>My Hifz</a>
         <button type="button" data-dest="awards"><span aria-hidden="true">⭐</span>My Achievements</button>
         <button type="button" data-dest="garden"><span aria-hidden="true">🌴</span>My Jannah Garden</button>
+        <button type="button" data-dest="kids" id="dest-kids" hidden><span aria-hidden="true">🏡</span>Picture home</button>
       </nav>
     </div>
    </div>
@@ -427,6 +431,30 @@ const levels = [
       <p class="muted lead" id="lb-lead"></p>
       <div id="lb-root"></div>
       <p class="preview-note">For teachers: every book ends with a hadith or an ayah. The hadith translations are simple meanings for young readers. Please check them before class.</p>
+    </div>
+  </section>
+
+  <!-- The picture home for Levels 1 and 2 (src/lib/kids-home.mjs) ─── -->
+  <section class="screen kids-screen" id="s-kids" hidden aria-label="My classroom">
+    <header class="kh-bar">
+      <img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="36" height="36" /><b>Al-Huda Ta'aleem</b>
+      <span class="push"><span class="pill star-pill" data-stars>★ 0</span><span class="pill" data-level-pill>Level 1</span><button class="btn small-btn" type="button" data-signout>Sign out</button></span>
+    </header>
+    <div id="kh-root"></div>
+  </section>
+
+  <!-- My Deen: du'as, the Sunnah of the day, Our Prophet ﷺ and the special days (src/lib/deen/) ─── -->
+  <section class="screen flow" id="s-deen" hidden aria-labelledby="dn-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · My Deen</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Deen · دِينِي</p>
+      <h1 id="dn-h" class="sr-only">My Deen</h1>
+      <div id="dn-root"></div>
+      <p class="preview-note">For teachers: every du'a, sunnah and hadith here is listed with its sunnah.com link in docs/deen-review.md, for Ustadh Issah's review.</p>
     </div>
   </section>
 
@@ -664,6 +692,9 @@ const levels = [
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
     import { store } from '../lib/client.mjs';
+    import { mountKidsHome } from '../lib/kids-home.mjs';
+    import { sunnahOfDay } from '../lib/deen/sunnah.mjs';
+    import { hijri, hijriText, specialOn } from '../lib/deen/days.mjs';
 
     const $ = (id) => document.getElementById(id);
     const body = document.body;
@@ -703,6 +734,20 @@ const levels = [
       if (up) loadClasses();
     }
     $('tab-in').addEventListener('click', () => setTab('in'));
+    // the level doors: remember the level, and choose it in "Create account"
+    document.querySelectorAll('[data-door]').forEach((d) => d.addEventListener('click', async () => {
+      const n = d.dataset.door;
+      document.querySelectorAll('[data-door]').forEach((x) => x.setAttribute('aria-pressed', String(x === d)));
+      store.set('door', n);
+      $('door-msg').textContent = `Level ${n}: sign in below. New here? Choose Create account, and your teacher will give you the Level ${n} class password.`;
+      if (!$('signup').hidden) { await loadClasses(); pickDoorClass(); }
+      (window.matchMedia('(max-width: 900px)').matches ? $('tab-in') : $('in-user')).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
+    function pickDoorClass() {
+      const n = store.get('door', ''); if (!n) return;
+      const o = [...$('up-class').options].find((x) => /\d/.test(x.textContent) && levelNumber(x.textContent) === Number(n));
+      if (o) $('up-class').value = o.value;
+    }
     $('tab-new').addEventListener('click', () => setTab('new'));
     let classesLoaded = false;
     async function loadClasses() {
@@ -712,6 +757,7 @@ const levels = [
       if (!r.ok) { sel.replaceChildren(new Option('Could not load the levels', '')); $('up-err').textContent = r.message; return; }
       classesLoaded = true;
       sel.replaceChildren(new Option('Choose your level', ''), ...r.classes.map((c) => new Option(c.name, c.code)));
+      pickDoorClass();
     }
     const saved = store.get('who', null);
     if (saved?.username) $('in-user').value = saved.username;
@@ -1184,12 +1230,60 @@ const levels = [
         $('acts-' + (a.group || 'play')).append(b);
       }
       renderWorlds();
-      show('s-home');
+      $('dest-kids').hidden = me.level > 2;
+      const kids = me.level <= 2 && !store.get('classicHome', false);
+      if (kids) showKids(); else show('s-home');
       if (fresh) {
         progress = await getProgress({ token: me.token, username: me.username });
         await loadBank(me.token);
       }
       renderDashboard();
+    }
+    // ── the picture home for Levels 1 and 2: big places to tap, each one says its name ──
+    let kidsHome = null;
+    function showKids() {
+      const act = (id) => forLevel(me.level).find((a) => a.id === id);
+      const go = (id) => () => { const a = act(id); if (a) openActivity(a); };
+      const P = (id, title, ar, icon, color, open, extra = {}) => ({ id, title, ar, icon: ICONS[icon] ?? icon, color, open, ...extra });
+      const games = forLevel(me.level).filter((a) => a.group === 'play' && a.kind !== 'soon' && (!a.suggested || a.suggested.includes(me.level)))
+        .map((a) => P(a.id, a.title, a.ar, a.icon, '#FFF9EC', () => openActivity(a)));
+      const places = [
+        P('letters', 'My letters', 'حُرُوفِي', 'lantern', '#FBE3A6', go('alifba')),
+        P('duas', "My du'as", 'أَدْعِيَتِي', 'dua', '#E6F2EC', () => openDeen('duas')),
+        P('sunnah', 'Sunnah of the day', 'سُنَّةُ الْيَوْمِ', 'sunnah', '#FFF4CC', () => openDeen('sunnah')),
+        P('prophet', 'Our Prophet ﷺ', 'نَبِيُّنَا ﷺ', 'prophet', '#E3F0FA', () => openDeen('prophet')),
+        P('stories', 'Stories', 'قِصَص', 'stories', '#FDE7EC', go('stories')),
+        P('books', 'My books', 'كُتُبِي', 'books', '#E6F2EC', go('books')),
+        ...(me.level >= 2 ? [P('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', '#F1E9FB', go('library')), P('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', '#FFF9EC', go('tawheed'))] : []),
+        P('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFDF7', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
+        P('games', 'Games', 'أَلْعَاب', 'match', '#FFE9D6', null, { children: games }),
+        P('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E3E8FA', () => openDeen('days')),
+        P('garden', 'My garden', 'حَدِيقَتِي', 'garden', '#DFF3DA', () => openGarden()),
+        P('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF4CC', () => openAwards()),
+      ];
+      const h = hijri();
+      kidsHome?.stop();
+      kidsHome = mountKidsHome($('kh-root'), {
+        level: me.level, name: me.name.split(' ')[0], hijri: h ? `${hijriText(h)} AH` : '', special: specialOn(), places,
+        onClassic: () => { store.set('classicHome', true); show('s-home'); },
+      });
+      show('s-kids');
+    }
+    // ── My Deen: du'as, the Sunnah of the day, Our Prophet ﷺ, special days ──
+    let deenMod = null, deenView = null;
+    async function openDeen(tab = 'duas') {
+      stopSound();
+      const { mountDeen } = await (deenMod ??= import('../lib/deen/deen.mjs'));
+      deenView?.stop();
+      $('dn-root').classList.toggle('kids-l1', me.level === 1);
+      deenView = mountDeen($('dn-root'), {
+        tab, level: me.level || 1, progress, reciter: reciter(),
+        earn: (kind, key) => { const e = record(progress, { kind, key, score: 1, good: true, gardenPalms: palms() }); renderDashboard(); return e; },
+        flash: (e) => flash(e),
+        onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
+      });
+      renderDashboard();
+      show('s-deen');
     }
     // ── Choose your adventure: the learning worlds (activities.mjs WORLDS) filter the cards ──
     let world = store.get('world', '') || '';
@@ -1225,6 +1319,7 @@ const levels = [
       else if (a.kind === 'stories') openStories();
       else if (a.kind === 'library') openLibrary(undefined, a.shelf || 'library');
       else if (a.kind === 'books') openBooks();
+      else if (a.kind === 'deen') openDeen(a.view);
     }
     function goHub() {
       stopSound();
@@ -1262,7 +1357,7 @@ const levels = [
     }
     document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.go === 'hub') { stopGame(); goHub(); }
-      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; ebook?.stop(); ebook = null; goHome(); }
+      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; ebook?.stop(); ebook = null; deenView?.stop(); deenView = null; goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
     function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }
@@ -1604,7 +1699,9 @@ const levels = [
       document.querySelectorAll('[data-streak]').forEach((x) => (x.textContent = String(r.streak)));
     }
     function renderMissions() {
-      const deeds = questions({ game: 'daily', kind: 'deed', level: me.level });
+      // the character mission is the Sunnah of the day (src/lib/deen/sunnah.mjs), the same for the whole level
+      const sn = sunnahOfDay(me.level || 1);
+      const deeds = [{ prompt: `Sunnah of the day: ${sn.title}. ${sn.do}` }];
       const ms = todaysMissions(progress, deeds, me.username);
       document.querySelectorAll('[data-missions]').forEach((ol) => {
         ol.replaceChildren(...ms.map((m) => {
@@ -1639,6 +1736,7 @@ const levels = [
       const d = x.dataset.dest;
       if (d === 'awards') openAwards();
       else if (d === 'garden') openGarden();
+      else if (d === 'kids') { store.set('classicHome', false); showKids(); }
       else { e.preventDefault(); $('sec-' + d)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     }));
     function openAwards() {

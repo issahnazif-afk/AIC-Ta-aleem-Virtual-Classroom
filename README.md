@@ -378,6 +378,39 @@ The Sheikh's **Arabic** voice for Alif Ba is still the computer voice *Kareem*: 
 dii and miro, 2025) were no clearer. A teacher's recording in the Voice Studio is the way to make the Sheikh fully
 human: every letter, syllable and phrase recorded there replaces the computer voice for every student.
 
+## The picture home and the level doors (Levels 1 and 2)
+
+The welcome page has four **level doors** (Level 1 to Level 4). A door remembers the level and chooses it in
+*Create account*; a student's own account still decides their level when they sign in.
+
+After signing in, **Levels 1 and 2** land on a **picture home** (`src/lib/kids-home.mjs`): one bright scene with big
+places to tap (My letters, My du'as, Sunnah of the day, Our Prophet ﷺ, Stories, My books, Qur'an, Games, Special
+days, My garden, My stars; Level 2 also has the Reading Library and Knowing Allah). Pointing at a place, or tapping
+it once on a tablet, says its name and makes it bounce; clicking it, or a second tap, opens it. *Grown-up view* shows
+the full dashboard, and *Picture home* on the dashboard goes back. Levels 3 and 4 keep the dashboard. The scene is
+drawn from simple shapes (no people) until the school's Canva pictures replace it.
+
+## My Deen: du'as, the Sunnah of the day, Our Prophet ﷺ and special days (every level)
+
+Under *My Lessons* (and on the picture home). Content in `src/lib/deen/`, the screen in `src/lib/deen/deen.mjs`.
+
+- **My du'as** (`duas.mjs`): 30 du'as by moment of the day, each with the voweled Arabic, how to say it, its meaning,
+  when we say it and its source, linked to sunnah.com. *Listen* plays a teacher's recording from the Voice Studio
+  (*Hadith in Arabic* tab); a computer voice never reads the Arabic. Qur'an du'as come from the Tanzil text with the
+  class reciter. *I learnt it* gives Ta'aleem Stars (the Knowledge mission); favourites are kept.
+- **Sunnah of the day** (`sunnah.mjs`): 40 small sunnahs a child can do, one a day for each level. It is now the
+  character mission of *Today's Ta'aleem Challenge*.
+- **Our Prophet ﷺ** (`prophet.mjs`): his character (12 cards, each with a hadith, a true example and "What can I do
+  today?"), a day lived his way (linked to the du'as and sunnahs), and the main moments of his life from the Qur'an and
+  the two Sahihs only. No one is pictured and no words are invented.
+- **Special days** (`days.mjs`): today's Hijri date (Umm al-Qura) and the coming blessed days, with their hadith.
+
+**Sources.** The Qur'an (Tanzil) and sound hadith only. `npm run deen` (`scripts/deen/check.mjs`) checks every
+reference against the hadith text of the open *hadith-api*, which uses sunnah.com's numbering: the number must exist,
+the Arabic words must be in that hadith, and any hadith outside Bukhari and Muslim must be graded sahih or hasan by
+al-Albani. It then writes **`docs/deen-review.md`** with every entry and its sunnah.com link. **Ustadh Issah reviews
+that sheet** before the section is used in class; the check is not a substitute for his review.
+
 ## The Seerah Quest (Levels 3 and 4)
 
 *From Darkness to Light*: a first-person 3D journey through Makkah in the years before the Prophet ﷺ was born.
