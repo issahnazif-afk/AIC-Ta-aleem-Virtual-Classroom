@@ -387,8 +387,9 @@ After signing in, **Levels 1 and 2** land on a **picture home** (`src/lib/kids-h
 places to tap (My letters, My du'as, Sunnah of the day, Our Prophet ﷺ, Stories, My books, Qur'an, Games, Special
 days, My garden, My stars; Level 2 also has the Reading Library and Knowing Allah). Pointing at a place, or tapping
 it once on a tablet, says its name and makes it bounce; clicking it, or a second tap, opens it. *Grown-up view* shows
-the full dashboard, and *Picture home* on the dashboard goes back. Levels 3 and 4 keep the dashboard. The scene is
-drawn from simple shapes (no people) until the school's Canva pictures replace it.
+the full dashboard, and *Picture home* on the dashboard goes back. Levels 3 and 4 keep the dashboard. Four places
+use the school's Canva pictures (`public/img/home/`: Our Prophet ﷺ, Qur'an, Sunnah of the day, Stories); the scene and
+the other places are drawn from simple shapes (no people) until more Canva pictures are made.
 
 ## My Deen: du'as, the Sunnah of the day, Our Prophet ﷺ and special days (every level)
 

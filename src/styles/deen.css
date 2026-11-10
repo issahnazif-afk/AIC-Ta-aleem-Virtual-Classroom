@@ -125,3 +125,4 @@
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .kh-bar .pill { white-space: nowrap; }
 @media (max-width: 560px) { .kh-bar > b { display: none; } }
+.kh-ic img { width: 88%; height: 88%; object-fit: contain; filter: drop-shadow(0 3px 4px rgb(0 0 0 / .12)); }

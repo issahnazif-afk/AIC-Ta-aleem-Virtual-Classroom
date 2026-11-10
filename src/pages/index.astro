@@ -693,6 +693,7 @@ const levels = [
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
     import { store } from '../lib/client.mjs';
     import { mountKidsHome } from '../lib/kids-home.mjs';
+    import { u as siteUrl } from '../lib/url.mjs';
     import { sunnahOfDay } from '../lib/deen/sunnah.mjs';
     import { hijri, hijriText, specialOn } from '../lib/deen/days.mjs';
 
@@ -1244,7 +1245,9 @@ const levels = [
     function showKids() {
       const act = (id) => forLevel(me.level).find((a) => a.id === id);
       const go = (id) => () => { const a = act(id); if (a) openActivity(a); };
-      const P = (id, title, ar, icon, color, open, extra = {}) => ({ id, title, ar, icon: ICONS[icon] ?? icon, color, open, ...extra });
+      // the school's own Canva pictures (public/img/home/), where there is one for the place; drawn icons for the rest
+      const ART = new Set(['prophet', 'quran', 'sunnah', 'stories']);
+      const P = (id, title, ar, icon, color, open, extra = {}) => ({ id, title, ar, icon: ART.has(id) ? `<img src="${siteUrl(`img/home/${id}.webp`)}" alt="" width="160" height="160" decoding="async">` : ICONS[icon] ?? icon, color, open, ...extra });
       const games = forLevel(me.level).filter((a) => a.group === 'play' && a.kind !== 'soon' && (!a.suggested || a.suggested.includes(me.level)))
         .map((a) => P(a.id, a.title, a.ar, a.icon, '#FFF9EC', () => openActivity(a)));
       const places = [
