@@ -352,7 +352,7 @@ export function openEbook(root, book, { progress = {}, reciter = 'Husary_128kbps
     const im = el('img', 'eb-back-img'); im.src = u(book.cover); im.alt = ''; im.draggable = false;
     box.append(im, el('b', null, book.title));
     if (book.ar) box.append(arEl('span', 'eb-back-ar', book.ar));
-    box.append(el('small', null, "Al-Huda Islamic Weekend School · Ta'aleem"));
+    box.append(el('small', null, "Ta'aleem"));
     e.replaceChildren(box);
   }
   function resumeLeaf() {
