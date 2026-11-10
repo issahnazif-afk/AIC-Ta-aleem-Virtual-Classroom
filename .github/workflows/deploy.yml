@@ -93,3 +93,5 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1800000   # 30 minutes: the site is about 218 MB and the default 10 minutes has timed out
