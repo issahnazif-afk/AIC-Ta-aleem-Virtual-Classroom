@@ -1,0 +1,63 @@
+<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="masterBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1A0A00"/>
+      <stop offset="100%" stop-color="#050200"/>
+    </radialGradient>
+    <linearGradient id="masterGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE580"/>
+      <stop offset="30%" stop-color="#D4A020"/>
+      <stop offset="60%" stop-color="#FFE580"/>
+      <stop offset="100%" stop-color="#C8860A"/>
+    </linearGradient>
+    <radialGradient id="crownGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#C8860A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Outer glow -->
+  <circle cx="70" cy="70" r="68" fill="#C8860A" opacity="0.15"/>
+  
+  <!-- Background -->
+  <circle cx="70" cy="70" r="66" fill="url(#masterBg)"/>
+  
+  <!-- Outer ring -->
+  <circle cx="70" cy="70" r="64" fill="none" stroke="url(#masterGold)" stroke-width="5"/>
+  <circle cx="70" cy="70" r="58" fill="none" stroke="#C8860A" stroke-width="1.5"/>
+  
+  <!-- 8-point star background -->
+  <polygon points="70,16 76,42 100,36 84,56 100,70 76,76 82,100 70,86 58,100 64,76 40,70 56,56 40,36 64,42" 
+           fill="#2A1800" stroke="#D4A020" stroke-width="1"/>
+  
+  <!-- Main star foreground -->
+  <polygon points="70,22 75,44 96,40 82,56 96,70 75,74 80,96 70,82 60,96 65,74 44,70 58,56 44,40 65,44" 
+           fill="url(#masterGold)" opacity="0.9"/>
+  
+  <!-- Crown -->
+  <polygon points="52,58 52,52 58,56 70,46 82,56 88,52 88,58 Z" fill="#FFD700"/>
+  <circle cx="52" cy="52" r="3" fill="#FF6B00"/>
+  <circle cx="70" cy="46" r="4" fill="#FF4400"/>
+  <circle cx="88" cy="52" r="3" fill="#FF6B00"/>
+  
+  <!-- Book (Knowledge) -->
+  <rect x="58" y="60" width="24" height="18" rx="2" fill="#8B4513"/>
+  <line x1="70" y1="60" x2="70" y2="78" stroke="#C4722A" stroke-width="2"/>
+  <line x1="62" y1="65" x2="68" y2="65" stroke="#D4A020" stroke-width="1"/>
+  <line x1="62" y1="69" x2="68" y2="69" stroke="#D4A020" stroke-width="1"/>
+  <line x1="72" y1="65" x2="78" y2="65" stroke="#D4A020" stroke-width="1"/>
+  <line x1="72" y1="69" x2="78" y2="69" stroke="#D4A020" stroke-width="1"/>
+  
+  <!-- Surrounding small stars -->
+  <circle cx="70" cy="36" r="2" fill="#FFD700"/>
+  <circle cx="96" cy="56" r="2" fill="#FFD700"/>
+  <circle cx="96" cy="84" r="2" fill="#FFD700"/>
+  <circle cx="70" cy="104" r="2" fill="#FFD700"/>
+  <circle cx="44" cy="84" r="2" fill="#FFD700"/>
+  <circle cx="44" cy="56" r="2" fill="#FFD700"/>
+  
+  <!-- Bottom ribbon -->
+  <path d="M 22 106 Q 70 120 118 106 L 118 116 Q 70 132 22 116 Z" fill="#C8860A"/>
+  <path d="M 22 106 Q 70 120 118 106" fill="none" stroke="#FFE066" stroke-width="1.5"/>
+  <text x="70" y="115" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#2A1000" font-weight="bold" letter-spacing="0.8">MASTER OF THE SEERAH</text>
+</svg>

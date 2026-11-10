@@ -385,16 +385,9 @@ const levels = [
       <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
       <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
     </header>
-    <div class="flow-main">
-      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>The Seerah Quest · From Darkness to Light</p>
-      <h1 id="sq-h">Step into the history</h1>
-      <p class="muted lead">Explore Makkah in the years before the Prophet <span class="saw">ﷺ</span> was born. Everything you see and read comes from one book: <i>al-Bidaya wa'l-Nihaya</i> by Imam Ibn Kathir. Each event shows its volume and page, and you can open the Arabic. Where the book says a report is uncertain, the game tells you so.</p>
-      <div class="sq-episodes" id="sq-episodes"></div>
-      <div class="sq-settings card">
-        <label>Picture quality <select id="sq-quality"><option value="low">Low (older computers, tablets)</option><option value="medium">Medium</option><option value="high">High</option></select></label>
-        <p class="muted small">The Prophet ﷺ, the Companions and the people of the time are never shown. People appear only as lanterns. Moments that were from Allah alone are shown as scenes to watch, not to play.</p>
-        <p class="preview-note">Preview: the English translations are waiting for an Islamic Studies teacher's review.</p>
-      </div>
+    <div class="flow-main sqh-main">
+      <h1 id="sq-h" class="sq-sr">The Seerah Quest</h1>
+      <div id="sq-hub"></div>
     </div>
   </section>
   <section class="screen sq-screen" id="s-seerah-play" hidden aria-label="The Seerah Quest"><div id="sq-root"></div></section>
@@ -701,7 +694,9 @@ const levels = [
     import { mountShelf, openStory } from '../lib/stories/reader.mjs';
     import { mountLibrary, openBook, noteRead } from '../lib/library/library.mjs';
     import { THEMES } from '../lib/themes.mjs';
-    import { EPISODES as SQ_EPISODES, LATER as SQ_LATER } from '../lib/seerah/episodes.mjs';
+    import { EPISODES as SQ_EPISODES } from '../lib/seerah/episodes.mjs';
+    import { renderHub as renderSeerahHub, STEP_VERSION as SQ_V } from '../lib/seerah/hub.mjs';
+    import { BADGES as SQ_BADGES, showBadge as sqBadge, sfx as sqSfx } from '../lib/seerah/game.mjs';
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
     import { store } from '../lib/client.mjs';
@@ -2016,58 +2011,55 @@ const levels = [
     // ── The Seerah Quest ──
     let quest = null;
     const SQ_KEY = 'seerahQuality';
+    const sqSave = () => saveProgress({ token: me.token, username: me.username, progress });
+    let sqT = 0; const sqSaveSoon = () => { clearTimeout(sqT); sqT = setTimeout(sqSave, 4000); };   // at most one save every few seconds while playing
     function openSeerah() {
       stopSound();
       const sq = (progress.seerah ??= {});
-      $('sq-quality').value = store.get(SQ_KEY, matchMedia('(max-width: 820px)').matches ? 'low' : 'medium');
-      document.querySelectorAll('.sq-earned').forEach((x) => x.remove());
-      const box = $('sq-episodes'); box.replaceChildren();
-      for (const ep of SQ_EPISODES) {
-        const st = sq[ep.n] ?? {}, locked = ep.n > 1 && !sq[ep.n - 1]?.done;
-        const b = document.createElement('button'); b.type = 'button'; b.className = 'sq-ep' + (locked ? ' locked' : '') + (st.done ? ' done' : '');
-        b.innerHTML = '<span class="sq-ep-n"></span><b></b><span class="sq-ep-ar" lang="ar" dir="rtl"></span><span class="sq-ep-t"></span><span class="sq-ep-s"></span>';
-        b.querySelector('.sq-ep-n').textContent = `Episode ${ep.n}`;
-        b.querySelector('b').textContent = ep.title;
-        b.querySelector('.sq-ep-ar').textContent = ep.ar ?? '';
-        b.querySelector('.sq-ep-t').textContent = locked ? `Finish Episode ${ep.n - 1} first.` : ep.blurb ?? '';
-        b.querySelector('.sq-ep-s').textContent = st.done ? `Done · knowledge ${st.best ?? 0}%` : st.step ? 'Carry on where you stopped' : `Source: al-Bidaya ${ep.sources}`;
-        b.disabled = locked;
-        b.addEventListener('click', () => startSeerah(ep.n));
-        box.append(b);
-      }
-      for (const t of SQ_LATER) {
-        const d = document.createElement('div'); d.className = 'sq-ep soon';
-        d.innerHTML = '<span class="sq-ep-n">Later</span><b></b><span class="sq-ep-t">Coming after source review, in sha Allah.</span>';
-        const bt = d.querySelector('b'); t.split('ﷺ').forEach((part, i) => { if (i) { const sw = document.createElement('span'); sw.className = 'saw'; sw.textContent = 'ﷺ'; bt.append(sw); } bt.append(part); });
-        box.append(d);
-      }
+      const quality = store.get(SQ_KEY, matchMedia('(max-width: 820px)').matches ? 'low' : 'medium');
+      renderSeerahHub($('sq-hub'), {
+        level: me.level || 3, gender: me.gender, sq, quality,
+        onQuality: (q) => store.set(SQ_KEY, q),
+        onPlay: (n) => startSeerah(n),
+        onSave: sqSave,
+      });
       renderDashboard();
       show('s-seerah');
     }
+    // a badge from the Seerah Quest: kept with the student's progress; true the first time
+    function sqAward(id) { const sq = (progress.seerah ??= {}); sq.badges ??= []; if (sq.badges.includes(id) || !SQ_BADGES.some((b) => b.id === id)) return false; sq.badges.push(id); sqSave(); return true; }
     async function startSeerah(n) {
-      const quality = $('sq-quality').value; store.set(SQ_KEY, quality);
+      const quality = store.get(SQ_KEY, matchMedia('(max-width: 820px)').matches ? 'low' : 'medium');
       const sq = (progress.seerah ??= {}), st = (sq[n] ??= {});
+      if (st.v !== SQ_V) { st.step = 0; st.v = SQ_V; }
+      sq.archive ??= [];
       show('s-seerah-play');
       const t0 = Date.now();
       const { playEpisode } = await import('../lib/seerah/quest.mjs');
       quest?.stop();
+      if (st.done) { st.step = 0; }
       quest = playEpisode($('sq-root'), {
-        n, quality, reciter: reciter(), saved: st.done ? {} : st,
-        onStep: (i) => { st.step = i; },
-        onExit: async () => { quest = null; await saveProgress({ token: me.token, username: me.username, progress }); openSeerah(); },
+        n, quality, reciter: reciter(), saved: st, mode: sq.mode ?? (me.level >= 4 ? 'master' : 'explorer'), gentle: !!sq.gentle,
+        avatar: sq.avatar, archive: sq.archive,
+        onStep: (i) => { st.step = i; sqSaveSoon(); },
+        onSave: (d) => { if (d?.light) sq.light = (sq.light ?? 0) + d.light; else sqSaveSoon(); },   // scrolls, lanterns and the archive are saved as they are found
+        onBadge: sqAward,
+        onExit: async () => { quest = null; await sqSave(); openSeerah(); },
         onDone: async ({ quiz }) => {
           const acc = quiz ? Math.round((quiz.right / quiz.of) * 100) : 100;
           st.done = true; st.step = 0; st.best = Math.max(st.best ?? 0, acc);
           quest?.stop(); quest = null;
           const ep = SQ_EPISODES.find((e) => e.n === n);
+          const champ = SQ_EPISODES.every((e) => sq[e.n]?.done && (sq[e.n].best ?? 0) >= 66) && sqAward('champion');
           openSeerah();
           const e = record(progress, { kind: 'seerah', key: `seerah:${n}`, score: acc, good: acc >= 66, gardenPalms: palms() });
           const box = document.createElement('div'); box.className = 'card sq-earned';
           const h = document.createElement('h2'); h.className = 'h2'; h.textContent = `Episode ${n} complete: ${ep.title}`;
           const p = document.createElement('p'); p.textContent = quiz ? `Knowledge challenge: ${quiz.right} of ${quiz.of} right first time.` : '';
           const er = document.createElement('div'); box.append(h, p, er); showEarned(er, e);
-          $('sq-episodes').before(box);
-          await saveProgress({ token: me.token, username: me.username, progress });
+          $('sq-hub').prepend(box);
+          if (champ) sqBadge($('sq-hub'), 'champion', sqSfx);
+          await sqSave();
           logGame({ token: me.token, game: { game: 'The Seerah Quest', lesson: `Episode ${n}: ${ep.title}`, rounds: quiz?.of ?? '', first: quiz?.right ?? '', accuracy: acc, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },
       });

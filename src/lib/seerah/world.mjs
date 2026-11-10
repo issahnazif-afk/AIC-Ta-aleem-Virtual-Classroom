@@ -1,6 +1,7 @@
 // The Seerah Quest: the 3D world of the Makkah valley, built in the browser with Three.js.
 // Everything is made from simple shapes and drawn textures, so it loads quickly on a school laptop.
-// No person is ever drawn: people appear as lanterns and torch-lights. Idols are never shown.
+// No person from the history is ever drawn: people of the time appear as lanterns and torch-lights. Idols are never shown.
+// The only figure is the student's own explorer (avatar.mjs): an ordinary child of today. There are no other players.
 import * as THREE from 'three';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { SimplexNoise } from 'three/examples/jsm/math/SimplexNoise.js';
@@ -126,14 +127,50 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
   hijr.rotation.x = Math.PI / 2; hijr.rotation.z = Math.PI; hijr.position.set(0, 0.4, -6); hijr.scale.set(1, 1, 1.6); kaaba.add(hijr);
   scene.add(kaaba);
 
+
+  // ── solids: upright boxes the explorer stands on and bumps into (all lined up with the x and z axes) ──
+  const solids = [];
+  function addSolid(x0, x1, z0, z1, y0, y1, { climb = true, mesh = null } = {}) { const s = { x0, x1, z0, z1, y0, y1, climb, mesh }; solids.push(s); return s; }
+  function removeSolid(s) { const i = solids.indexOf(s); if (i >= 0) solids.splice(i, 1); }
+  // the House is solid, and nobody climbs it: it is far too tall to jump, and it can never be climbed
+  addSolid(-5, 5, -6, 6, -1, 11, { climb: false });
+
   // a few dwellings of Makkah, low and plain, set back from the House
   const homeMat = new THREE.MeshStandardMaterial({ color: 0xd2b48c, roughness: 1, map: stoneTex });
+  const roofMat = new THREE.MeshStandardMaterial({ color: 0xe8d2a6, roughness: 1 });
+  const homes = [];
   for (let i = 0; i < 46; i++) {
     const a = (i / 46) * Math.PI * 2 + Math.random() * 0.1, r = 80 + Math.random() * 70;
     const x = Math.cos(a) * r * 1.1, z = Math.sin(a) * r * 0.8;
-    const h = 3 + Math.random() * 3, b = new THREE.Mesh(new THREE.BoxGeometry(6 + Math.random() * 6, h, 6 + Math.random() * 6), homeMat);
-    b.position.set(x, h / 2 + heightAt(x, z), z); b.rotation.y = Math.random(); b.castShadow = Q.shadows; scene.add(b);
+    const w = 6 + Math.random() * 6, d = 6 + Math.random() * 6, h = 3 + Math.random() * 3, base = heightAt(x, z);
+    const b = new THREE.Mesh(new THREE.BoxGeometry(w, h + 1, d), [homeMat, homeMat, roofMat, homeMat, homeMat, homeMat]);
+    b.position.set(x, base + (h - 1) / 2, z); b.castShadow = Q.shadows; b.receiveShadow = Q.shadows; scene.add(b);
+    homes.push({ mesh: b, solid: addSolid(x - w / 2, x + w / 2, z - d / 2, z + d / 2, base - 1, base + h) });
   }
+
+  // a scroll or a marker never sits inside a house: clear the houses around it
+  function clearAround(x, z, r = 4) {
+    for (const h of homes) { const s = h.solid; if (s.x1 > x - r && s.x0 < x + r && s.z1 > z - r && s.z0 < z + r) { h.mesh.visible = false; removeSolid(s); } }
+  }
+
+  // ── the Knowledge Archive: a small stone hall with shelves and a reading stand, open on the side facing the House ──
+  const ARCHIVE = { x: -50, z: 18 };
+  (() => {
+    const { x, z } = ARCHIVE, y = heightAt(x, z), H = 4.6;
+    const wall = (x0, x1, z0, z1) => { const m = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, H, z1 - z0), homeMat); m.position.set((x0 + x1) / 2, y + H / 2, (z0 + z1) / 2); scene.add(m); addSolid(x0, x1, z0, z1, y - 1, y + H, { climb: false }); };
+    wall(x - 6, x - 5.4, z - 6, z + 6); wall(x - 6, x + 5, z - 6.6, z - 6); wall(x - 6, x + 5, z + 6, z + 6.6);
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(11.6, 0.5, 13.6), roofMat); roof.position.set(x - 0.5, y + H + 0.25, z); scene.add(roof);
+    const c = document.createElement('canvas'); c.width = 256; c.height = 128; const g = c.getContext('2d');
+    g.fillStyle = '#5a3d22'; g.fillRect(0, 0, 256, 128);
+    const cols = ['#8e3b46', '#2e4057', '#1f6f5c', '#c9a24a', '#6b4226', '#e8d6b0'];
+    for (let row = 0; row < 3; row++) for (let bx = 4; bx < 252;) { const w = 6 + Math.random() * 8; g.fillStyle = cols[Math.floor(Math.random() * cols.length)]; g.fillRect(bx, row * 42 + 6 + Math.random() * 6, w - 1, 30); bx += w; }
+    const books = new THREE.CanvasTexture(c); books.colorSpace = THREE.SRGBColorSpace;
+    const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.6, 3, 10), [new THREE.MeshStandardMaterial({ map: books }), homeMat, homeMat, homeMat, homeMat, homeMat]);
+    shelf.position.set(x - 5, y + 1.5, z); scene.add(shelf);
+    const stand = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.1, 1.2), new THREE.MeshStandardMaterial({ color: 0x6b4226, roughness: 0.9 })); stand.position.set(x - 2, y + 0.55, z); scene.add(stand);
+    const page = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.05, 1.3), new THREE.MeshStandardMaterial({ color: 0xf4ead2 })); page.position.set(x - 2, y + 1.15, z); page.rotation.z = 0.25; scene.add(page);
+    const lamp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xffc46b, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })); lamp.scale.setScalar(4); lamp.position.set(x - 2, y + 3.4, z); scene.add(lamp);
+  })();
 
   // drifting dust, for the wind
   const dust = (() => {
@@ -236,14 +273,290 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     return { group: g, progress(k) { lining.position.y = -0.6 + 0.9 * k; mound.scale.setScalar(Math.max(0.01, k)); }, fill() { water.visible = true; } };
   }
 
-  // ── first-person movement: keys or the on-screen pad, drag to look ──
+  // ── collectibles: lights (like coins), knowledge scrolls and the lantern at the end of a climb ──
+  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MAXL = 480;
+  const orbMesh = new THREE.InstancedMesh(new THREE.OctahedronGeometry(0.22), new THREE.MeshBasicMaterial({ color: 0xffd34d }), MAXL);
+  orbMesh.count = 0; orbMesh.frustumCulled = false; scene.add(orbMesh);
+  const orbs = [];   // { x, y, z, on, tag }
+  function addLights(points, tag = '') { for (const [x, y, z] of points) if (orbs.length < MAXL && !solids.some((q) => over(q, x, z, 0.5) && q.y1 > y - 1 && q.y0 < y)) orbs.push({ x, y, z, on: true, tag }); orbMesh.count = orbs.length; return orbs.filter((o) => o.tag === tag).length; }
+  const pickups = [];   // { x, y, z, r, obj, kind, onTake }
+  function scrollObj() {
+    const g = new THREE.Group();
+    const roll = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.62, 14), new THREE.MeshStandardMaterial({ color: 0xf2e1b8, roughness: 0.8, emissive: 0x6b4a10, emissiveIntensity: 0.35 }));
+    roll.rotation.z = Math.PI / 2; g.add(roll);
+    for (const s of [-1, 1]) { const end = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.16, 8), new THREE.MeshStandardMaterial({ color: 0x6b4226 })); end.rotation.z = Math.PI / 2; end.position.x = s * 0.38; g.add(end); }
+    const tie = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.025, 6, 16), new THREE.MeshStandardMaterial({ color: 0xc0392b })); tie.rotation.y = Math.PI / 2; g.add(tie);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xffe08a, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })); halo.scale.setScalar(1.8); g.add(halo);
+    return g;
+  }
+  function addScroll(x, z, y = null, onTake = null, id = '') {
+    if (y == null) clearAround(x, z);
+    const obj = scrollObj(), yy = y ?? heightAt(x, z) + 1.1;
+    obj.position.set(x, yy, z); scene.add(obj);
+    const p = { x, y: yy, z, r: 1.3, obj, kind: 'scroll', id, onTake };
+    pickups.push(p); return p;
+  }
+  function removePickup(p) { const i = pickups.indexOf(p); if (i >= 0) pickups.splice(i, 1); scene.remove(p.obj); }
+  // a hanging lamp on a post: dark until the explorer reaches it, then it shines
+  function lampPost(x, z, base) {
+    const g = new THREE.Group(), bronze = new THREE.MeshStandardMaterial({ color: 0x8b5e0a, metalness: 0.6, roughness: 0.4 });
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 2.8, 8), new THREE.MeshStandardMaterial({ color: 0x5a3e28 })); post.position.y = 1.4; g.add(post);
+    const armM = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.08, 0.08), bronze); armM.position.set(0.4, 2.75, 0); g.add(armM);
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.7, 0.5), bronze); frame.position.set(0.8, 2.25, 0); g.add(frame);
+    const glass = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.56, 0.52), new THREE.MeshBasicMaterial({ color: 0x5a4a30 })); glass.position.copy(frame.position); g.add(glass);
+    const glass2 = glass.clone(); glass2.scale.set(1.24, 1, 0.8); g.add(glass2);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xffc46b, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })); halo.scale.setScalar(5); halo.position.copy(frame.position); halo.visible = false; g.add(halo);
+    g.position.set(x, base, z); scene.add(g);
+    return { group: g, light() { glass.material.color.setHex(0xffe066); halo.visible = true; } };
+  }
+  // a small burst of light where the explorer fell (no harm: they go back to the last checkpoint)
+  function poof(x, y, z) {
+    if (reduced) return;
+    const parts = [];
+    for (let i = 0; i < 16; i++) {
+      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: i % 2 ? 0xffffff : 0xffe08a, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+      s.position.set(x, y + 0.6, z); s.scale.setScalar(0.9); scene.add(s);
+      parts.push({ s, v: new THREE.Vector3((Math.random() - 0.5) * 5, Math.random() * 4, (Math.random() - 0.5) * 5) });
+    }
+    let t = 0;
+    const u = every((dt) => { t += dt; for (const p of parts) { p.s.position.addScaledVector(p.v, dt); p.s.material.opacity = Math.max(0, 1 - t / 0.6); } if (t >= 0.6) { parts.forEach((p) => scene.remove(p.s)); u(); } });
+  }
+
+  // ── climbing challenges (obby): rooftops or rocky ledges, checkpoints, and a lantern at the top ──
+  //   gentle: very short jumps and a checkpoint on every roof · explorer: easy jumps · master: long jumps that need a run
+  const COURSE = {
+    gentle: { n: 8, gap: [0.6, 1.1], rise: [0, 0.45], size: 3.6, cp: 1, lat: 1.4 },
+    explorer: { n: 10, gap: [1.2, 2.0], rise: [-0.2, 0.8], size: 3.0, cp: 2, lat: 2.0 },
+    master: { n: 13, gap: [2.4, 3.4], rise: [-0.3, 1.05], size: 2.2, cp: 5, lat: 2.6 },
+  };
+  let course = null;
+  function rng(seed) { let s = seed; return () => ((s = (s * 16807) % 2147483647) / 2147483647); }
+  function buildCourse({ x, z, axis = 'x', kind = 'roof', mode = 'explorer', seed = 7, scrolls = 0 }) {
+    clearCourse();
+    const C = COURSE[mode] ?? COURSE.explorer, R = rng(seed);
+    const toW = (u, v) => (axis === 'x' ? [x + u, z + v] : [x + v, z - u]);
+    const plats = [];
+    let u = 2.6, v = 0, top = 0.9, half = 0;
+    for (let i = 0; i < C.n; i++) {
+      const s = C.size * (0.85 + R() * 0.3), g = C.gap[0] + R() * (C.gap[1] - C.gap[0]);
+      u += half + (i ? g : 0) + s / 2; half = s / 2;
+      if (i) { v = THREE.MathUtils.clamp(v + (R() - 0.5) * 2 * C.lat, -6, 6); top = THREE.MathUtils.clamp(top + C.rise[0] + R() * (C.rise[1] - C.rise[0]), 0.9, 10); }
+      plats.push({ u, v, s, top, cp: i > 0 && i % C.cp === 0 && i < C.n - 1 });
+    }
+    { const g = C.gap[0] + R() * (C.gap[1] - C.gap[0]); u += half + g + 2.4; top = Math.min(11, top + 0.5); plats.push({ u, v: v * 0.5, s: 4.8, top, goal: true }); }
+    // the soft sand: falling onto it sends the explorer back to the last checkpoint
+    const [pa, pb] = [toW(plats[0].u - plats[0].s / 2, -10), toW(u + 4, 10)];
+    const pit = { x0: Math.min(pa[0], pb[0]), x1: Math.max(pa[0], pb[0]), z0: Math.min(pa[1], pb[1]), z1: Math.max(pa[1], pb[1]) };
+    // clear the houses that stand in the way
+    for (const h of homes) { const q = h.solid; if (q.x1 > pit.x0 - 4 && q.x0 < pit.x1 + 4 && q.z1 > pit.z0 - 4 && q.z0 < pit.z1 + 4) { h.mesh.visible = false; removeSolid(q); } }
+    const group = new THREE.Group(); scene.add(group);
+    let sandY = -Infinity;
+    for (let sx = pit.x0; sx <= pit.x1; sx += 4) for (let sz = pit.z0; sz <= pit.z1; sz += 4) sandY = Math.max(sandY, heightAt(sx, sz));
+    const sand = new THREE.Mesh(new THREE.PlaneGeometry(pit.x1 - pit.x0, pit.z1 - pit.z0), new THREE.MeshStandardMaterial({ color: kind === 'rock' ? 0x8a6f52 : 0xa77c4c, roughness: 1, transparent: true, opacity: 0.85 }));
+    sand.rotation.x = -Math.PI / 2; sand.position.set((pit.x0 + pit.x1) / 2, sandY + 0.06, (pit.z0 + pit.z1) / 2); group.add(sand);
+    const sideM = kind === 'rock' ? new THREE.MeshStandardMaterial({ color: 0x8a7560, roughness: 1, map: stoneTex }) : homeMat;
+    const topM = kind === 'rock' ? new THREE.MeshStandardMaterial({ color: 0xb9a07e, roughness: 1 }) : roofMat;
+    const cpM = new THREE.MeshStandardMaterial({ color: 0xe0a526, roughness: 0.6 });
+    const cps = [];
+    const [sx0, sz0] = toW(0, 0);
+    const startY = heightAt(sx0, sz0);
+    const ringGeo = new THREE.TorusGeometry(1, 0.08, 6, 28);
+    const ring = (wx, wy, wz, r) => { const m = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xffe08a })); m.rotation.x = Math.PI / 2; m.scale.setScalar(r); m.position.set(wx, wy + 0.06, wz); group.add(m); return m; };
+    cps.push({ x: sx0, z: sz0, y: startY, ring: ring(sx0, startY, sz0, 1.4), reached: true });
+    const lights = [];
+    plats.forEach((p, i) => {
+      const [wx, wz] = toW(p.u, p.v), gy = Math.min(heightAt(wx, wz), sandY) - 0.6, top = sandY + p.top;
+      const m = new THREE.Mesh(new THREE.BoxGeometry(p.s, top - gy, p.s), [sideM, sideM, topM, sideM, sideM, sideM]);
+      m.position.set(wx, (top + gy) / 2, wz); m.castShadow = Q.shadows; m.receiveShadow = Q.shadows; group.add(m);
+      p.x = wx; p.z = wz; p.y = top;
+      p.solid = addSolid(wx - p.s / 2, wx + p.s / 2, wz - p.s / 2, wz + p.s / 2, gy, top, { mesh: m });
+      if (p.cp) {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 2.2, 6), new THREE.MeshStandardMaterial({ color: 0x5a3e28 }));
+        pole.position.set(wx + p.s / 2 - 0.3, top + 1.1, wz - p.s / 2 + 0.3); group.add(pole);
+        const flag = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.5, 0.8), cpM.clone()); flag.position.set(pole.position.x, top + 1.9, pole.position.z + 0.42); group.add(flag);
+        cps.push({ x: wx, z: wz, y: top, plat: p, flag, ring: ring(wx, top, wz, p.s * 0.32) });
+      }
+      lights.push([wx, top + 1.0, wz]);
+      const q = plats[i + 1];
+      if (q) { const [qx, qz] = toW(q.u, q.v); lights.push([(wx + qx) / 2, Math.max(top, sandY + q.top) + 1.6, (wz + qz) / 2]); }
+    });
+    const goal = plats[plats.length - 1];
+    const lamp = lampPost(goal.x, goal.z, goal.y);
+    const nLights = addLights(lights, 'course');
+    // scrolls along the way, on roofs a third and two thirds of the way up
+    const spots = [];
+    for (let k = 0; k < scrolls; k++) { const p = plats[Math.min(plats.length - 2, Math.round(((k + 1) * (plats.length - 1)) / (scrolls + 1)))]; spots.push([p.x + p.s * 0.2, p.y + 1.1, p.z - p.s * 0.2]); }
+    course = { plats, pit, cps, last: cps[0], goal, lamp, group, active: true, started: false, falls: 0, onFall: null, onCheckpoint: null, onGoal: null, helpers: null };
+    return { start: { x: sx0, z: sz0 }, goal: { x: goal.x, z: goal.z }, lights: nLights, spots, plats: plats.length, checkpoints: cps.length - 1 };
+  }
+  function clearCourse() {
+    if (!course) return;
+    scene.remove(course.group); course.lamp.group.parent?.remove(course.lamp.group);
+    for (const p of course.plats) removeSolid(p.solid);
+    for (const h of course.helpers ?? []) removeSolid(h);
+    for (let i = orbs.length - 1; i >= 0; i--) if (orbs[i].tag === 'course') orbs.splice(i, 1);
+    orbMesh.count = orbs.length; course = null;
+  }
+  // after many falls (Explorer only): extra stepping stones appear in the widest gaps
+  function helpCourse() {
+    if (!course || course.helpers) return;
+    course.helpers = [];
+    const m = new THREE.MeshStandardMaterial({ color: 0xe8d2a6, roughness: 1 });
+    for (let i = 0; i < course.plats.length - 1; i++) {
+      const a = course.plats[i], b = course.plats[i + 1];
+      const mx = (a.x + b.x) / 2, mz = (a.z + b.z) / 2, y = Math.min(a.y, b.y), gy = y - 4;
+      const k = new THREE.Mesh(new THREE.BoxGeometry(1.2, 4, 1.2), m); k.position.set(mx, y - 2, mz); course.group.add(k);
+      course.helpers.push(addSolid(mx - 0.6, mx + 0.6, mz - 0.6, mz + 0.6, gy, y));
+    }
+  }
+
+  // ── the explorer: third person, with walking, running, jumping and climbing onto ledges ──
+  const P = { pos: new THREE.Vector3(0, 0, 40), vy: 0, vx: 0, vz: 0, yaw: 0, grounded: true, onSolid: null, coyote: 0, jumpQ: 0, climb: null, push: 0, air: 0 };
+  const PR = 0.38, STEP = 0.5, G = 28, JUMP = 9.6, WALK = 5.2, RUN = 9.2, CLIMB = 1.95, CALM = 17;
+  let avatar = null;
+  function setAvatar(av) {
+    if (avatar) { scene.remove(avatar.root); scene.remove(avatar.blob); avatar.dispose(); }
+    avatar = av; scene.add(av.root); scene.add(av.blob);
+  }
+  const cam = { yaw: 0, pitch: 0.32, dist: 7.5 };
+  const over = (s, x, z, r) => x + r > s.x0 && x - r < s.x1 && z + r > s.z0 && z - r < s.z1;
+  // the highest floor under the explorer that they can stand on from feet height y
+  function floorAt(x, z, y) {
+    let f = heightAt(x, z), on = null;
+    for (const s of solids) if (s.y1 <= y + STEP + 0.01 && s.y1 > f && over(s, x, z, PR * 0.55)) { f = s.y1; on = s; }
+    return [f, on];
+  }
   const keys = new Set();
-  let yaw = 0, pitch = 0, dragging = false, last = null, locked = false;
-  const onKey = (e) => { if (locked) return; const k = e.key.toLowerCase(); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { e.type === 'keydown' ? keys.add(k) : keys.delete(k); e.preventDefault(); } };
+  let locked = false, run = false;
+  const pad = { f: 0, r: 0, run: false };
+  function setPad(f, r, rn = false) { pad.f = f; pad.r = r; pad.run = rn; }
+  function jump() { if (!locked) P.jumpQ = 0.15; }
+  const calm = () => Math.hypot(P.pos.x, P.pos.z) < CALM;
+  let wasCalm = false;
+  function updatePlayer(dt) {
+    let f = (keys.has('w') || keys.has('arrowup') ? 1 : 0) - (keys.has('s') || keys.has('arrowdown') ? 1 : 0) + pad.f;
+    let r = (keys.has('d') || keys.has('arrowright') ? 1 : 0) - (keys.has('a') || keys.has('arrowleft') ? 1 : 0) + pad.r;
+    if (locked) f = r = 0;
+    let mx = -Math.sin(cam.yaw) * f + Math.cos(cam.yaw) * r, mz = -Math.cos(cam.yaw) * f - Math.sin(cam.yaw) * r;
+    const mag = Math.min(1, Math.hypot(mx, mz));
+    const isCalm = calm();
+    if (isCalm !== wasCalm) { wasCalm = isCalm; world.onCalm?.(isCalm); }
+    const running = (run || pad.run) && !isCalm;
+    const speed = (running ? RUN : WALK) * mag;
+    if (mag > 0.01) { const l = Math.hypot(mx, mz); mx /= l; mz /= l; const want = Math.atan2(-mx, -mz); let d = want - P.yaw; d = Math.atan2(Math.sin(d), Math.cos(d)); P.yaw += d * Math.min(1, dt * 12); }
+    // climbing a ledge: a short lift onto the top
+    if (P.climb) {
+      const c = P.climb; c.t = Math.min(1, c.t + dt / 0.38);
+      P.pos.y = c.y0 + (c.y1 - c.y0) * Math.min(1, c.t * 1.6);
+      if (c.t > 0.55) { P.pos.x += (c.tx - P.pos.x) * Math.min(1, dt * 14); P.pos.z += (c.tz - P.pos.z) * Math.min(1, dt * 14); }
+      if (c.t >= 1) { P.pos.set(c.tx, c.y1, c.tz); P.climb = null; P.vy = 0; P.grounded = true; }
+      return { speed: 0, climb: true };
+    }
+    const acc = P.grounded ? 14 : 5;
+    P.vx += (mx * speed - P.vx) * Math.min(1, dt * acc); P.vz += (mz * speed - P.vz) * Math.min(1, dt * acc);
+    const feet = P.pos.y;
+    let blocked = null;
+    const tryMove = (nx, nz) => {
+      for (const s of solids) {
+        if (!over(s, nx, nz, PR) || feet >= s.y1 - 0.01 || feet + 1.5 <= s.y0) continue;
+        if (s.y1 - feet <= STEP && s.climb !== false && (P.grounded || P.vy <= 0)) continue;   // a small step: walk up it
+        blocked = s; return false;
+      }
+      return Math.hypot(nx, nz) < BOUND;
+    };
+    const nx = P.pos.x + P.vx * dt; if (tryMove(nx, P.pos.z)) P.pos.x = nx; else P.vx = 0;
+    const nz = P.pos.z + P.vz * dt; if (tryMove(P.pos.x, nz)) P.pos.z = nz; else P.vz = 0;
+    // pressing on into a ledge that is low enough: climb up onto it
+    if (blocked && blocked.climb && mag > 0.3) {
+      const rise = blocked.y1 - feet;
+      P.push += dt;
+      if (rise <= CLIMB && (P.push > 0.12 || !P.grounded)) {
+        const tx = THREE.MathUtils.clamp(P.pos.x + mx * 0.7, blocked.x0 + PR, blocked.x1 - PR), tz = THREE.MathUtils.clamp(P.pos.z + mz * 0.7, blocked.z0 + PR, blocked.z1 - PR);
+        P.climb = { t: 0, y0: feet, y1: blocked.y1, tx, tz }; P.push = 0; P.vy = 0;
+        return { speed: 0, climb: true };
+      }
+    } else P.push = 0;
+    // jumping and falling
+    P.jumpQ -= dt; P.coyote = P.grounded ? 0.12 : P.coyote - dt;
+    if (P.jumpQ > 0 && P.coyote > 0 && !isCalm) { P.vy = JUMP; P.grounded = false; P.coyote = 0; P.jumpQ = 0; world.onJump?.(); }
+    else if (P.jumpQ > 0 && isCalm && P.grounded) { P.jumpQ = 0; world.onCalmJump?.(); }
+    P.vy -= G * dt;
+    const prev = P.pos.y;
+    P.pos.y += P.vy * dt;
+    const [fl, on] = floorAt(P.pos.x, P.pos.z, prev);
+    const was = P.grounded;
+    if (P.pos.y <= fl) {
+      if (!was && P.air > 0.25) world.onLand?.();
+      P.pos.y = fl; P.vy = 0; P.grounded = true; P.onSolid = on; P.air = 0;
+    } else if (was && P.vy < 0 && prev - fl >= 0 && prev - fl < 0.35) { P.pos.y = fl; P.vy = 0; P.onSolid = on; }   // down a gentle slope or a small step
+    else { P.grounded = false; P.air += dt; }
+    return { speed: Math.hypot(P.vx, P.vz) / RUN, air: !P.grounded && P.air > 0.08 };
+  }
+  // the course: checkpoints, falls and the lantern
+  function updateCourse() {
+    const c = course; if (!c || !c.active || locked) return;
+    const { x, z } = P.pos;
+    if (P.grounded && !P.onSolid && x > c.pit.x0 && x < c.pit.x1 && z > c.pit.z0 && z < c.pit.z1) {
+      // a fall: a puff of light, then back to the last checkpoint
+      c.falls++;
+      const at = P.pos.clone();
+      poof(at.x, at.y, at.z);
+      P.pos.set(c.last.x, c.last.y + 0.05, c.last.z); P.vx = P.vz = P.vy = 0;
+      snapCam();
+      c.onFall?.(c.falls, at);
+      return;
+    }
+    if (P.grounded && P.onSolid) {
+      for (const cp of c.cps) if (!cp.reached && cp.plat && P.onSolid === cp.plat.solid) { cp.reached = true; c.last = cp; cp.flag.material.color.setHex(0x3cb371); cp.ring.material.color.setHex(0x7fe0a0); c.onCheckpoint?.(c.cps.indexOf(cp), c.cps.length - 1); }
+      if (P.onSolid === c.goal.solid && c.active) { c.active = false; c.lamp.light(); c.onGoal?.(); }
+      if (!c.started && c.plats.some((p) => p.solid === P.onSolid)) c.started = true;
+    }
+  }
+
+  // ── the chase camera: drag to look around, wheel or pinch to zoom ──
+  const camTarget = new THREE.Vector3(), camWant = new THREE.Vector3();
+  function camGoal() {
+    camTarget.set(P.pos.x, P.pos.y + 1.35, P.pos.z);
+    const cp = Math.cos(cam.pitch);
+    camWant.set(camTarget.x + Math.sin(cam.yaw) * cp * cam.dist, camTarget.y + Math.sin(cam.pitch) * cam.dist, camTarget.z + Math.cos(cam.yaw) * cp * cam.dist);
+    const gy = heightAt(camWant.x, camWant.z) + 0.5;
+    if (camWant.y < gy) camWant.y = gy;
+  }
+  function snapCam() { camGoal(); camera.position.copy(camWant); camera.lookAt(camTarget); }
+  const pointers = new Map();
+  let pinch = 0, downAt = null;
+  const onKey = (e) => {
+    const tag = e.target?.tagName;
+    if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+    run = e.shiftKey;
+    if (locked) { keys.clear(); return; }
+    const k = e.key.toLowerCase(), down = e.type === 'keydown';
+    if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { down ? keys.add(k) : keys.delete(k); e.preventDefault(); }
+    else if (k === ' ' || k === 'spacebar') { if (down && !e.repeat) jump(); e.preventDefault(); }
+    else if (k === 'e' && down && !e.repeat && near) world.onHotspot?.(near);
+  };
   addEventListener('keydown', onKey); addEventListener('keyup', onKey);
-  canvas.addEventListener('pointerdown', (e) => { dragging = true; last = [e.clientX, e.clientY, e.clientX, e.clientY]; });
-  addEventListener('pointerup', (e) => { if (dragging && last && Math.hypot(e.clientX - last[2], e.clientY - last[3]) < 6) tap(e); dragging = false; });
-  addEventListener('pointermove', (e) => { if (!dragging || locked) return; yaw -= (e.clientX - last[0]) * 0.0042; pitch = THREE.MathUtils.clamp(pitch - (e.clientY - last[1]) * 0.003, -0.6, 0.5); last[0] = e.clientX; last[1] = e.clientY; });
+  const blurKeys = () => { keys.clear(); run = false; };
+  addEventListener('blur', blurKeys);
+  canvas.addEventListener('pointerdown', (e) => { pointers.set(e.pointerId, [e.clientX, e.clientY]); downAt = [e.clientX, e.clientY]; if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinch = Math.hypot(a[0] - b[0], a[1] - b[1]); } try { canvas.setPointerCapture(e.pointerId); } catch {} });
+  const onUp = (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    if (pointers.size === 1 && downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) < 6) tap(e);
+    pointers.delete(e.pointerId); if (pointers.size < 2) pinch = 0;
+  };
+  canvas.addEventListener('pointerup', onUp); canvas.addEventListener('pointercancel', onUp);
+  canvas.addEventListener('pointermove', (e) => {
+    const p = pointers.get(e.pointerId); if (!p) return;
+    if (pointers.size === 2) {
+      pointers.set(e.pointerId, [e.clientX, e.clientY]);
+      const [a, b] = [...pointers.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      if (pinch) cam.dist = THREE.MathUtils.clamp(cam.dist * (pinch / d), 3, 16); pinch = d; return;
+    }
+    if (!cine) { hold = false; cam.yaw -= (e.clientX - p[0]) * 0.006; cam.pitch = THREE.MathUtils.clamp(cam.pitch + (e.clientY - p[1]) * 0.004, -0.15, 1.2); }
+    pointers.set(e.pointerId, [e.clientX, e.clientY]);
+  });
+  canvas.addEventListener('wheel', (e) => { e.preventDefault(); cam.dist = THREE.MathUtils.clamp(cam.dist * (1 + Math.sign(e.deltaY) * 0.1), 3, 16); }, { passive: false });
   const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
   function tap(e) {
     if (locked) return;
@@ -252,24 +565,42 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     const hit = ray.intersectObjects(hotspots.map((h) => h.group), true)[0];
     if (hit) { const h = hotspots.find((x) => x.group === hit.object.parent || x.group === hit.object); if (h) world.onHotspot?.(h); }
   }
-  const pad = { f: 0, r: 0 };
-  function setPad(f, r) { pad.f = f; pad.r = r; }
   const BOUND = 230;
+
+  // markers: golden glow (Explorer) or plain (Master Explorer)
+  let glowOn = true;
+  function styleHotspot(h) { const [beam, , halo] = h.group.children; beam.material.opacity = glowOn ? 0.22 : 0.07; halo.visible = glowOn; }
+  const addHotspot0 = addHotspot;
+  function addHotspotStyled(o) { clearAround(o.x, o.z, (o.radius ?? 4.5) + 1); const h = addHotspot0(o); styleHotspot(h); return h; }
+  function setGlow(on) { glowOn = on; hotspots.forEach(styleHotspot); }
 
   // camera moves for cinematics: a list of [position, lookAt, seconds]
   let cine = null;
-  function fly(shots) { return new Promise((resolve) => { cine = { shots, i: 0, t: 0, resolve }; locked = true; }); }
-  function lookAt(x, y, z) { const d = new THREE.Vector3(x, y, z).sub(camera.position); yaw = Math.atan2(-d.x, -d.z); pitch = Math.atan2(d.y, Math.hypot(d.x, d.z)); }
-  function place(x, z, lx, lz) { camera.position.set(x, heightAt(x, z) + 1.7, z); if (lx != null) lookAt(lx, heightAt(lx, lz) + 1.6, lz); }
+  // after a cinematic the camera stays where it ended until the explorer moves or is placed somewhere
+  let hold = false;
+  function fly(shots) { return new Promise((resolve) => { cine = { shots, i: 0, t: 0, resolve }; }); }
+  // put the explorer at (x, z), facing (lx, lz), with the camera behind
+  function place(x, z, lx, lz, { snap = true } = {}) {
+    P.pos.set(x, heightAt(x, z), z); P.vx = P.vz = P.vy = 0; P.climb = null; hold = false;
+    const [fl] = floorAt(x, z, P.pos.y + 20); P.pos.y = fl;
+    if (lx != null) { P.yaw = Math.atan2(-(lx - x), -(lz - z)); cam.yaw = P.yaw; }
+    cam.pitch = 0.32; if (snap) snapCam();
+  }
+  function teleport(x, z, y = null) { P.pos.set(x, y ?? floorAt(x, z, 200)[0], z); P.vx = P.vz = P.vy = 0; P.climb = null; P.grounded = y == null; hold = false; snapCam(); }
 
   // ── the loop ──
-  const clock = new THREE.Clock(), updaters = new Set();
-  let running = true, near = null, lastDraw = 0;
+  const updaters = new Set();
+  let lastT = performance.now(), elapsed = 0;
+  function every(fn) { updaters.add(fn); return () => updaters.delete(fn); }
+  let running = true, near = null, lastDraw = 0, fps = 60, frames = 0, fpsT = 0;
   function resize() { const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
   const ro = new ResizeObserver(resize); ro.observe(canvas);
+  const dummy = new THREE.Object3D();
   function frame() {
     if (!running) return;
-    const dt = Math.min(0.25, clock.getDelta()), t = clock.elapsedTime;   // real time, so slow computers are not slowed down further
+    const now = performance.now(), dt = Math.min(0.1, (now - lastT) / 1000); lastT = now; elapsed += dt; const t = elapsed;   // at most a tenth of a second a frame, so a slow frame never jumps through a roof
+    frames++; fpsT += dt; if (fpsT >= 1) { fps = frames / fpsT; frames = 0; fpsT = 0; }
+    let pose = { speed: 0 };
     if (cine) {
       const s = cine.shots[cine.i], prev = cine.i ? cine.shots[cine.i - 1] : [camera.position.toArray(), null, 0];
       cine.t += dt;
@@ -277,25 +608,41 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
       const from = new THREE.Vector3(...(cine.from ??= prev[0])), to = new THREE.Vector3(...s[0]);
       camera.position.lerpVectors(from, to, k);
       if (s[1]) camera.lookAt(...s[1]);
-      if (cine.t >= s[2]) { cine.i++; cine.t = 0; cine.from = s[0]; if (cine.i >= cine.shots.length) { const r = cine.resolve; const e = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ'); yaw = e.y; pitch = e.x; cine = null; locked = false; r(); } }
+      if (cine.t >= s[2]) { cine.i++; cine.t = 0; cine.from = s[0]; if (cine.i >= cine.shots.length) { const r = cine.resolve; cine = null; hold = true; r(); } }
     } else {
-      const f = (keys.has('w') || keys.has('arrowup') ? 1 : 0) - (keys.has('s') || keys.has('arrowdown') ? 1 : 0) + pad.f;
-      const rr = (keys.has('d') || keys.has('arrowright') ? 1 : 0) - (keys.has('a') || keys.has('arrowleft') ? 1 : 0) + pad.r;
-      if (!locked && (f || rr)) {
-        const sp = 11 * Math.min(0.1, dt);
-        const nx = camera.position.x - Math.sin(yaw) * f * sp + Math.cos(yaw) * rr * sp;
-        const nz = camera.position.z - Math.cos(yaw) * f * sp - Math.sin(yaw) * rr * sp;
-        const inside = Math.abs(nx) < 6.5 && Math.abs(nz) < 7.5;   // walk around the House, not through it
-        if (Math.hypot(nx, nz) < BOUND && !inside) { camera.position.x = nx; camera.position.z = nz; }
+      pose = updatePlayer(dt);
+      updateCourse();
+      if (hold && (pose.speed > 0.02 || pose.air || pose.climb)) hold = false;
+      if (!hold) {
+        camGoal();
+        camera.position.lerp(camWant, 1 - Math.exp(-dt * 10));
+        camera.lookAt(camTarget);
       }
-      camera.position.y += ((heightAt(camera.position.x, camera.position.z) + 1.7) - camera.position.y) * 0.3;
-      camera.rotation.set(pitch, yaw, 0, 'YXZ');
-      // nearest hotspot within reach
+      // the nearest marker within reach
       let best = null;
-      for (const h of hotspots) { const d = Math.hypot(h.x - camera.position.x, h.z - camera.position.z); if (d < h.radius && (!best || d < best.d)) best = { h, d }; }
+      for (const h of hotspots) { const d = Math.hypot(h.x - P.pos.x, h.z - P.pos.z); if (d < h.radius && (!best || d < best.d)) best = { h, d }; }
       if ((best?.h ?? null) !== near) { near = best?.h ?? null; world.onNear?.(near); }
+      // collecting
+      if (!locked) {
+        const cy = P.pos.y + 0.8;
+        for (const o of orbs) if (o.on && Math.abs(o.x - P.pos.x) < 1.1 && Math.abs(o.z - P.pos.z) < 1.1 && Math.abs(o.y - cy) < 1.4) { o.on = false; world.onLight?.(o); }
+        for (const p of [...pickups]) if (Math.hypot(p.x - P.pos.x, p.z - P.pos.z) < p.r && Math.abs(p.y - cy) < 1.8) { removePickup(p); p.onTake?.(p); }
+      }
+    }
+    if (avatar) {
+      avatar.root.position.copy(P.pos); avatar.root.rotation.y = P.yaw + Math.PI;
+      avatar.animate(dt, { ...pose, t });
+      const [fl] = floorAt(P.pos.x, P.pos.z, P.pos.y);
+      avatar.blob.position.set(P.pos.x, fl + 0.03, P.pos.z);
+      const k = THREE.MathUtils.clamp(1 - (P.pos.y - fl) / 6, 0.3, 1); avatar.blob.scale.setScalar(k);
     }
     for (const h of hotspots) { h.orb.position.y = 1.4 + Math.sin(t * 2 + h.x) * 0.15; }
+    for (let i = 0; i < orbs.length; i++) {
+      const o = orbs[i];
+      dummy.position.set(o.x, o.y + Math.sin(t * 2.4 + i) * 0.12, o.z); dummy.rotation.set(0, t * 2 + i, 0); dummy.scale.setScalar(o.on ? 1 : 0); dummy.updateMatrix(); orbMesh.setMatrixAt(i, dummy.matrix);
+    }
+    if (orbs.length) orbMesh.instanceMatrix.needsUpdate = true;
+    for (const p of pickups) { p.obj.rotation.y = t * 1.6; p.obj.position.y = p.y + Math.sin(t * 2 + p.x) * 0.12; }
     const dp = dust.geometry.attributes.position;
     for (let i = 0; i < dp.count; i++) { let x = dp.getX(i) + dt * 3; if (x > 150) x -= 300; dp.setX(i, x); }
     dp.needsUpdate = true;
@@ -307,13 +654,20 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     requestAnimationFrame(frame);
   }
   const world = {
-    THREE, scene, camera, renderer, heightAt, setTime, addHotspot, removeHotspot, clearHotspots, lantern, creature, flock, spring, well,
-    fly, place, lookAt, setPad, kaaba, ring, onHotspot: null, onNear: null, time: 'day',
-    lock(v) { locked = v; if (v) keys.clear(); },
-    every(fn) { updaters.add(fn); return () => updaters.delete(fn); },
+    THREE, scene, camera, renderer, heightAt, setTime, addHotspot: addHotspotStyled, removeHotspot, clearHotspots, lantern, creature, flock, spring, well,
+    fly, place, teleport, setPad, jump, setAvatar, setGlow, kaaba, ring, onHotspot: null, onNear: null, time: 'day', ARCHIVE,
+    addLights, addScroll, removePickup, poof, buildCourse, clearCourse, helpCourse,
+    get course() { return course; },
+    lock(v) { locked = v; if (v) { keys.clear(); P.vx = P.vz = 0; } },
+    every,
     near: () => near,
-    start() { resize(); requestAnimationFrame(frame); },
-    dispose() { running = false; ro.disconnect(); removeEventListener('keydown', onKey); removeEventListener('keyup', onKey); renderer.dispose(); },
+    player: () => ({ x: P.pos.x, y: P.pos.y, z: P.pos.z, yaw: P.yaw, grounded: P.grounded, onSolid: !!P.onSolid, camYaw: cam.yaw, climbing: !!P.climb }),
+    lightsLeft: (tag) => orbs.filter((o) => o.on && (tag == null || o.tag === tag)).length,
+    mapData: () => ({ hotspots, pickups, course, orbs }),
+    fps: () => fps,
+    aim(x, z) { cam.yaw = Math.atan2(-(x - P.pos.x), -(z - P.pos.z)); hold = false; },   // turn the camera (and so the stick) towards a point
+    start() { resize(); snapCam(); requestAnimationFrame(frame); },
+    dispose() { running = false; ro.disconnect(); removeEventListener('keydown', onKey); removeEventListener('keyup', onKey); removeEventListener('blur', blurKeys); renderer.dispose(); },
   };
   setTime('day');
   return world;

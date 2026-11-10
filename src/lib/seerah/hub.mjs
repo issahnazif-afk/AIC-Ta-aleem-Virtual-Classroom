@@ -1,0 +1,183 @@
+// The Seerah Quest hub: choose an episode, dress your explorer, see your badges and your Knowledge Archive.
+// No three.js here: the 3D world loads only when an episode starts.
+import { EPISODES, LATER } from './episodes.mjs';
+import { BADGES, MODES, TEXT, OUTFITS, PACKS, SKINS, COVERS, defaultAvatar, defaultMode, avatarSVG, badgeUrl, iconUrl, soundOn, setSound, sfx } from './game.mjs';
+
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+export const STEP_VERSION = 2;   // the step list changed when the game layer arrived: older saved places start the episode again
+const percent = (ep, st) => (st?.done ? 100 : st?.v === STEP_VERSION && st.step ? Math.min(99, Math.round((st.step / ep.steps.length) * 100)) : 0);
+const scrollTotal = (ep) => ep.steps.reduce((n, s) => n + (s.do === 'scrolls' ? s.items.length : s.do === 'parkour' ? s.scrolls.length : 0), 0);
+const lanternTotal = (ep) => ep.steps.filter((s) => s.do === 'parkour').length;
+const withSaw = (node, text) => text.split('ﷺ').forEach((part, i) => { if (i) node.append(el('span', 'saw', 'ﷺ')); node.append(part); });
+
+// small drawn pictures for the episode cards
+const ART = {
+  zamzam: '<svg viewBox="0 0 160 90" aria-hidden="true"><defs><linearGradient id="sqa1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7B267"/><stop offset=".6" stop-color="#F4845F"/><stop offset="1" stop-color="#C9A27A"/></linearGradient></defs><rect width="160" height="90" fill="url(#sqa1)"/><circle cx="122" cy="30" r="11" fill="#FFE8A8"/><path d="M0 62 L30 40 L52 56 L80 34 L112 58 L136 44 L160 60 V90 H0Z" fill="#9C6B4A"/><rect y="70" width="160" height="20" fill="#D8B88A"/><ellipse cx="70" cy="70" rx="22" ry="6" fill="#7A6A58"/><rect x="48" y="56" width="44" height="14" fill="#A89478"/><path d="M48 56 h44" stroke="#7A6A58" stroke-width="2"/><ellipse cx="70" cy="57" rx="20" ry="4" fill="#4E86A8"/><path d="M134 72 q2 -26 -2 -34" stroke="#6B4A2A" stroke-width="3" fill="none"/><path d="M132 38 q-14 -2 -20 6 M132 38 q12 -4 18 4 M132 38 q-6 -10 -16 -10 M132 38 q8 -10 16 -8" stroke="#2F6B3A" stroke-width="4" fill="none" stroke-linecap="round"/></svg>',
+  elephant: '<svg viewBox="0 0 160 90" aria-hidden="true"><defs><linearGradient id="sqa2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB8DE"/><stop offset=".7" stop-color="#F2C894"/><stop offset="1" stop-color="#D9B07C"/></linearGradient></defs><rect width="160" height="90" fill="url(#sqa2)"/><path d="M0 58 L24 38 L46 52 L70 30 L98 54 L126 36 L160 56 V90 H0Z" fill="#A27B58"/><rect y="70" width="160" height="20" fill="#DCC08F"/><g fill="#6E6A66"><ellipse cx="86" cy="58" rx="22" ry="14"/><circle cx="108" cy="52" r="10"/><path d="M114 56 q8 8 4 18 l-4 0 q2 -8 -4 -14z"/><rect x="70" y="62" width="7" height="12" rx="2"/><rect x="82" y="64" width="7" height="10" rx="2"/><rect x="94" y="62" width="7" height="12" rx="2"/></g><path d="M20 22 l4 -2 l4 2 M36 16 l3 -2 l3 2 M140 18 l3 -2 l3 2" stroke="#3B3B3B" stroke-width="1.5" fill="none"/></svg>',
+};
+const LOCK = '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="#C9A24A"/><path d="M8 10 V7 a4 4 0 0 1 8 0 V10" stroke="#C9A24A" stroke-width="2.4" fill="none"/><circle cx="12" cy="15" r="1.8" fill="#2A2116"/></svg>';
+
+export function renderHub(root, { level = 3, gender = '', sq, quality, onQuality, onPlay, onSave }) {
+  sq.avatar ??= defaultAvatar(gender);
+  sq.mode ??= defaultMode(level);
+  sq.badges ??= []; sq.archive ??= [];
+  root.replaceChildren();
+  const hub = el('div', 'sqh');
+
+  // ── the banner ──
+  const hero = el('header', 'sqh-hero');
+  const words = el('div', 'sqh-words');
+  words.append(el('p', 'sqh-kicker', 'The Seerah Quest'), el('h1', 'sqh-title', 'From Darkness to Light'), el('p', 'sqh-tag', 'Explore · Learn · Discover'));
+  const lead = el('p', 'sqh-lead'); withSaw(lead, TEXT.hubLead); words.append(lead);
+  const next = EPISODES.find((ep) => !(sq[ep.n]?.done) && (ep.n === 1 || sq[ep.n - 1]?.done)) ?? EPISODES[0];
+  const go = el('button', 'sqh-go'); go.type = 'button';
+  go.textContent = sq[next.n]?.step && sq[next.n]?.v === STEP_VERSION ? `Continue Episode ${next.n}` : `Start Episode ${next.n}`;
+  go.addEventListener('click', () => onPlay(next.n));
+  words.append(go);
+  const me = el('div', 'sqh-me'); me.innerHTML = avatarSVG(sq.avatar, 110);
+  hero.append(words, me);
+  hub.append(hero);
+
+  const grid = el('div', 'sqh-grid');
+  // ── the episodes ──
+  const eps = el('section', 'sqh-panel sqh-eps');
+  eps.append(el('h2', 'sqh-h', 'Select an episode'));
+  const cards = el('div', 'sqh-cards');
+  for (const ep of EPISODES) {
+    const st = sq[ep.n] ?? {}, locked = ep.n > 1 && !sq[ep.n - 1]?.done, pc = percent(ep, st);
+    const c = el('button', 'sqh-card' + (locked ? ' locked' : '') + (st.done ? ' done' : '')); c.type = 'button'; c.disabled = locked;
+    const art = el('div', 'sqh-art'); art.innerHTML = ART[ep.key] ?? '';
+    if (locked) { const lk = el('span', 'sqh-lock'); lk.innerHTML = LOCK; art.append(lk); }
+    c.append(art, el('span', 'sqh-n', `Episode ${ep.n}`), el('b', 'sqh-t', ep.title));
+    const ar = el('span', 'sqh-ar', ep.ar); ar.lang = 'ar'; ar.dir = 'rtl'; c.append(ar);
+    c.append(el('span', 'sqh-blurb', locked ? `Finish Episode ${ep.n - 1} first.` : ep.blurb));
+    const bar = el('span', 'sqh-bar'); const fill = el('i'); fill.style.width = `${pc}%`; bar.append(fill);
+    c.append(bar, el('span', 'sqh-pc', st.done ? `Complete · knowledge ${st.best ?? 0}%` : `${pc}% complete`));
+    const stats = el('span', 'sqh-stats');
+    const stat = (icon, t) => { const s = el('span'); const i = el('img'); i.src = iconUrl(icon); i.alt = ''; i.width = 18; i.height = 18; s.append(i, t); return s; };
+    stats.append(stat('scroll', ` ${(st.scrolls ?? []).length}/${scrollTotal(ep)}`), stat('lantern', ` ${(st.lanterns ?? []).length}/${lanternTotal(ep)}`));
+    stats.append(el('span', null, `al-Bidaya ${ep.sources}`));
+    c.append(stats);
+    c.append(el('span', 'sqh-btn', locked ? 'Locked' : st.done ? 'Play again' : pc ? 'Continue' : 'Start'));
+    c.addEventListener('click', () => onPlay(ep.n));
+    cards.append(c);
+  }
+  LATER.forEach((t, i) => {
+    const c = el('div', 'sqh-card soon');
+    const art = el('div', 'sqh-art'); const lk = el('span', 'sqh-lock'); lk.innerHTML = LOCK; art.append(lk);
+    const b = el('b', 'sqh-t'); withSaw(b, t);
+    c.append(art, el('span', 'sqh-n', `Episode ${i + 3}`), b, el('span', 'sqh-blurb', TEXT.later));
+    cards.append(c);
+  });
+  eps.append(cards);
+
+  // ── the side: my explorer, badges, settings, the archive ──
+  const side = el('aside', 'sqh-side');
+  const mine = el('section', 'sqh-panel sqh-mine');
+  mine.append(el('h2', 'sqh-h', 'My explorer'));
+  const prev = el('div', 'sqh-preview');
+  const edit = el('div', 'sqh-edit');
+  const redraw = () => { prev.innerHTML = avatarSVG(sq.avatar, 96); me.innerHTML = avatarSVG(sq.avatar, 110); };
+  const save = () => { redraw(); onSave?.(); };
+  const row = (label, node) => { const r = el('div', 'sqh-row'); r.append(el('span', 'sqh-rl', label), node); edit.append(r); return r; };
+  const choice = (opts, get, set) => {
+    const box = el('div', 'sqh-choice');
+    const paint = () => box.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === String(get()))));
+    for (const [v, label] of opts) { const b = el('button', 'sqh-opt', label); b.type = 'button'; b.dataset.v = v; b.addEventListener('click', () => { set(v); paint(); }); box.append(b); }
+    paint(); return { box, paint };
+  };
+  const swatches = (cols, key) => {
+    const box = el('div', 'sqh-sw');
+    const paint = () => box.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.c === sq.avatar[key])));
+    cols.forEach((c, i) => { const b = el('button'); b.type = 'button'; b.dataset.c = c; b.style.background = c; b.setAttribute('aria-label', `Colour ${i + 1}`); b.addEventListener('click', () => { sq.avatar[key] = c; paint(); save(); }); box.append(b); });
+    paint(); return box;
+  };
+  let headCh;
+  const who = choice([['boy', 'Boy'], ['girl', 'Girl']], () => (sq.avatar.girl ? 'girl' : 'boy'), (v) => {
+    const girl = v === 'girl'; if (girl === sq.avatar.girl) return;
+    sq.avatar.girl = girl; sq.avatar.head = girl ? 'hijab' : 'kufi'; if (girl && sq.avatar.cover === '#FFFFFF') sq.avatar.cover = COVERS[1];
+    headRow.replaceChildren(el('span', 'sqh-rl', 'Head'), (headCh = headChoice()).box); save();
+  });
+  const headChoice = () => choice(sq.avatar.girl ? [['hijab', 'Hijab']] : [['kufi', 'Kufi'], ['none', 'No cap']], () => sq.avatar.head, (v) => { sq.avatar.head = v; save(); });
+  row('I am a', who.box);
+  const headRow = row('Head', (headCh = headChoice()).box);
+  row('Kufi or hijab', swatches(COVERS, 'cover'));
+  row('Outfit', swatches(OUTFITS, 'outfit'));
+  row('Backpack', swatches(PACKS, 'pack'));
+  row('Skin', swatches(SKINS, 'skin'));
+  const custom = el('button', 'sqh-small', 'Change my explorer'); custom.type = 'button';
+  edit.hidden = true;
+  custom.addEventListener('click', () => { edit.hidden = !edit.hidden; custom.textContent = edit.hidden ? 'Change my explorer' : 'Done'; });
+  redraw();
+  mine.append(prev, custom, edit);
+
+  const bad = el('section', 'sqh-panel sqh-badges');
+  bad.append(el('h2', 'sqh-h', 'Badges'));
+  const bl = el('div', 'sqh-blist');
+  for (const b of BADGES) {
+    const got = sq.badges.includes(b.id);
+    const d = el('div', 'sqh-badge' + (got ? ' got' : '') + (b.later ? ' later' : ''));
+    const i = el('img'); i.src = badgeUrl(b); i.alt = ''; i.width = 64; i.height = 64;
+    d.append(i, el('b', null, b.title), el('span', null, got ? 'Earned' : b.how));
+    bl.append(d);
+  }
+  bad.append(bl);
+
+  const set = el('section', 'sqh-panel sqh-set');
+  set.append(el('h2', 'sqh-h', 'Settings'));
+  const modeCh = choice(Object.entries(MODES).map(([k, m]) => [k, m.name]), () => sq.mode, (v) => { sq.mode = v; modeText.textContent = MODES[v].text; onSave?.(); });
+  const modeText = el('p', 'sqh-note', MODES[sq.mode].text);
+  set.append(el('p', 'sqh-rl', 'Mode'), modeCh.box, modeText);
+  const lab = (input, text) => { const l = el('label', 'sqh-check'); l.append(input, el('span', null, text)); return l; };
+  const gentle = el('input'); gentle.type = 'checkbox'; gentle.checked = !!sq.gentle; gentle.addEventListener('change', () => { sq.gentle = gentle.checked; onSave?.(); });
+  const snd = el('input'); snd.type = 'checkbox'; snd.checked = soundOn(); snd.addEventListener('change', () => { setSound(snd.checked); if (snd.checked) sfx('light'); });
+  set.append(lab(gentle, TEXT.gentleLabel), lab(snd, 'Sound effects'));
+  const q = el('select', 'sqh-sel'); q.id = 'sq-quality';
+  for (const [v, t] of [['low', 'Low (older computers, tablets)'], ['medium', 'Medium'], ['high', 'High']]) q.append(new Option(t, v));
+  q.value = quality; q.addEventListener('change', () => onQuality?.(q.value));
+  const ql = el('label', 'sqh-q'); ql.append(el('span', 'sqh-rl', 'Picture quality'), q); set.append(ql);
+  set.append(el('p', 'sqh-note', TEXT.solo));
+
+  const arch = el('section', 'sqh-panel sqh-archive');
+  arch.append(el('h2', 'sqh-h', 'Knowledge Archive'));
+  arch.append(el('p', 'sqh-note', `${sq.archive.length} passages kept · ${sq.light ?? 0} lights collected`));
+  const open = el('button', 'sqh-small', 'Open the archive'); open.type = 'button';
+  open.addEventListener('click', () => openArchive(root, sq));
+  arch.append(open);
+
+  side.append(mine, bad, arch, set);
+  grid.append(eps, side);
+  hub.append(grid);
+  const rules = el('p', 'sqh-rules'); withSaw(rules, TEXT.hubRules); hub.append(rules);
+  hub.append(el('p', 'sqh-preview-note', 'Preview: the English translations are waiting for an Islamic Studies teacher\'s review.'));
+  root.append(hub);
+  return { quality: () => q.value };
+}
+
+// the whole archive, episode by episode (the passages load only when it is opened)
+async function openArchive(root, sq) {
+  const { default: SRC } = await import('../../data/seerah/sources.json');
+  const by = Object.fromEntries(SRC.passages.map((p) => [p.id, p]));
+  const shade = el('div', 'sqh-modal'); shade.setAttribute('role', 'dialog'); shade.setAttribute('aria-label', 'Knowledge Archive');
+  const box = el('div', 'sqh-modal-box');
+  box.append(el('p', 'sqh-kicker', 'Knowledge Archive'), el('h2', 'sqh-h', 'Everything you have read'), el('p', 'sqh-note', TEXT.archiveHub));
+  for (const ep of EPISODES) {
+    const ids = [...new Set(ep.steps.flatMap((s) => [...(s.ids ?? []), ...(s.do === 'route' ? s.stops.map((x) => x.src) : []), ...(s.do === 'journey' ? s.src : [])]))].filter((id) => sq.archive.includes(id));
+    box.append(el('h3', 'sqh-h3', `Episode ${ep.n}: ${ep.title} (${ids.length})`));
+    if (!ids.length) box.append(el('p', 'sqh-note', 'Play this episode to fill its shelf.'));
+    for (const id of ids) {
+      const p = by[id], d = el('details', 'sq-rec' + (p.class === 'reported' ? ' rep' : '')), sm = el('summary');
+      sm.append(el('span', 'sq-rec-k', (sq[ep.n]?.scrolls ?? []).includes(id) ? 'Scroll' : p.class === 'reported' ? 'A report' : 'Record'), el('span', null, p.en.length > 90 ? p.en.slice(0, 88).replace(/\s+\S*$/, '') + '…' : p.en));
+      const ar = el('p', 'sq-ar', p.ar); ar.lang = 'ar'; ar.dir = 'rtl'; ar.hidden = true;
+      const show = el('button', 'sq-src', 'Show the source'); show.type = 'button';
+      show.addEventListener('click', () => { ar.hidden = !ar.hidden; show.textContent = ar.hidden ? 'Show the source' : 'Hide the source'; });
+      d.append(sm, el('p', 'sq-text', p.en), el('p', 'sq-cite', `${p.class === 'reported' ? 'Reported · the book marks this as uncertain or as an addition · ' : ''}al-Bidaya wa'l-Nihaya ${p.vol}/${p.page}`), show, ar);
+      box.append(d);
+    }
+  }
+  const close = el('button', 'sqh-go', 'Close'); close.type = 'button';
+  const end = () => { shade.remove(); removeEventListener('keydown', esc); };
+  const esc = (e) => { if (e.key === 'Escape') end(); };
+  close.addEventListener('click', end); shade.addEventListener('click', (e) => { if (e.target === shade) end(); }); addEventListener('keydown', esc);
+  box.append(close); shade.append(box); root.append(shade); close.focus({ preventScroll: true });
+}

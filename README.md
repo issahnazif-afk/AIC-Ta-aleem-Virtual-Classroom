@@ -476,8 +476,8 @@ checked the pending entries, record it with `node scripts/deen/check.mjs --appro
 
 ## The Seerah Quest (Levels 3 and 4)
 
-*From Darkness to Light*: a first-person 3D journey through Makkah in the years before the Prophet ﷺ was born.
-It is under Play & Learn for Levels 3 and 4. This first prototype has two connected episodes:
+*From Darkness to Light*: a 3D adventure through Makkah in the years before the Prophet ﷺ was born, played like a
+Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. This first part has two connected episodes:
 
 1. **The Secret of Zamzam**: ʿAbd al-Muttalib's dream, the search by the House, the digging, the dispute with
    Quraysh, the journey north to the judge and the water that came out under his camel.
@@ -485,10 +485,52 @@ It is under Play & Learn for Levels 3 and 4. This first prototype has two connec
    ʿAbd al-Muttalib's words *"I am the lord of the camels, and the House has a Lord who will protect it"*, Quraysh
    going up into the mountains, the elephant that knelt, the birds, and Surah al-Fil from the reciter.
 
-Each episode mixes the modes in the design: story (narration), adventure (walking to the lights), discovery
-(search, dig, the map of the march), knowledge (a six-question challenge, every answer from the passages) and
-reflection (a question with no wrong answer). Stars, the Knowledge mission and the game log work as for the other
-games, and a student can leave and carry on later. **Picture quality** (low, medium, high) is on the episode page.
+Episodes 3 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
+
+### How it plays
+
+- **Your explorer.** The student plays their own blocky explorer in third person: an ordinary child of today, never
+  a Prophet, a Companion or anyone from the history. *My explorer* on the hub sets boy or girl, kufi (or no cap) or
+  hijab, and the colours of the head covering, outfit, backpack and skin; it starts from the account's gender and is
+  saved with the student's progress.
+- **Moving.** W A S D or the arrow keys, **Shift** to run, **Space** to jump, **E** to look at a marker, drag to turn
+  the camera and the mouse wheel (or a pinch) to zoom. Walking into a ledge that is low enough climbs onto it. On a
+  phone or tablet there is a stick (push it all the way to run), a **Jump** button and a **Look** button.
+- **The six stages** of the design run through every episode: A The Arrival, B Explore and Discover, C The Challenge,
+  D The Knowledge Archive, E The Final Quest, F Reflection. A banner names each stage and the quest tracker shows the
+  objective and its progress (for example "1/2 scrolls" or "Flags 1/3").
+- **Collecting.** Gold *lights* (the coins of the game) lie along the paths and the climbs. *Knowledge scrolls* each
+  hold a passage the student has already read in that episode (`scrolls` and `parkour` steps; `npm run seerah`
+  checks the order), so a scroll is a review, never new history.
+- **Climbing challenges (obby).** Episode 1 has the rooftops of Makkah; Episode 2 a rocky path towards the mountains.
+  Flags are checkpoints; falling onto the soft sand makes a puff of light and puts the explorer back at the last flag,
+  with no harm. A lantern waits on the last roof. After six falls (Explorer) stepping stones appear; after ten, the
+  climb can be skipped (without the lantern).
+- **The Knowledge Archive.** A stone hall in the valley (and the *Archive* button at any time) keeps every passage the
+  student has read or found, with its volume and page and **Show the source** for the Arabic. The hub's archive shows
+  all episodes.
+- **The House.** The Kaʿbah is a plain stone shape. It is solid and can never be climbed, and near it the explorer
+  walks calmly: no running and no jumping. No climb is built on it or around it.
+- **Mini-map, sound, badges.** A round map (north up) shows the explorer, the House and the objective. Sound effects
+  (jump, collect, checkpoint, the lantern, badges) are made in the browser, with a switch in the game and on the hub.
+  The five badges come from the design archive: *Explorer* (light a climbing challenge's lantern), *Knowledge Seeker*
+  (find every scroll of an episode), *Seerah Champion* (finish Episodes 1 and 2 with two thirds of the questions
+  right), and *Guardian of Trust* and *Master of the Seerah*, which stay locked until Episode 4 and all fourteen
+  episodes exist.
+- **Modes.** *Explorer* (the default for Level 3): golden glowing markers on the map and in the world, a flag every
+  third roof and short jumps you can walk across. *Master Explorer* (the default for Level 4): plain markers with no
+  glow, a flag every fifth roof, longer jumps that need a run and a time to beat. Either level can switch. *Gentle
+  jumps* (a tick box on the hub) gives very short gaps and a flag on every roof, for anyone who finds the jumps hard.
+  The Quest is not opened to Level 2: the passages are Ibn Kathir's own words, written for older readers, and they
+  cannot be simplified without changing the source.
+- **On your own.** The site is static, so there is no multiplayer: the explorer is the only figure in the world and
+  there are no other players.
+
+Each episode still mixes story (narration), adventure (walking to the lights), discovery (search, dig, the map of
+the march), knowledge (a six-question challenge, every answer from the passages) and reflection (a question with no
+wrong answer). Stars, the Knowledge mission and the game log work as for the other games, and a student can leave
+and carry on later (a place saved before the game layer arrived starts the episode again). **Picture quality** (low,
+medium, high) is on the hub.
 
 ### The source policy
 
@@ -509,8 +551,15 @@ games, and a student can leave and carry on later. **Picture quality** (low, med
 Later episodes (the birth of the Messenger ﷺ, the first revelation, the Hijrah, …) are shown as "coming after source
 review": each will be built the same way, from al-Bidaya only, after its passages have been chosen and checked.
 
-The 3D world is made of simple shapes (no photographs or models of real people or places), drawn with three.js.
-On older computers choose *Low*; on a computer without WebGL the Quest says so instead of starting.
+The 3D world is made of simple shapes (no photographs or models of real people or places), drawn with three.js,
+which loads only when an episode starts. The badges and the scroll and lantern icons are the SVGs from the design
+archive (shapes only: a compass, a book, a shield, stars). On older computers choose *Low*; on a computer without
+WebGL the Quest says so instead of starting.
+
+Files: `src/lib/seerah/world.mjs` (the valley, the explorer's movement, the climbs and the collectibles),
+`avatar.mjs` (the explorer), `quest.mjs` (the steps and the HUD), `hub.mjs` (the episode hub), `game.mjs` (stages,
+modes, badges, sounds and the game's own sentences, which `npm run seerah` checks with the writing rules),
+`episodes.mjs` (the steps) and `public/seerah/` (badges and icons).
 
 ## The Sheikh's voice and praise
 
@@ -621,7 +670,7 @@ scripts/books/               render.py (page pictures from the Canva PDFs), lint
 src/lib/library/             Reading Library: level1.mjs, level2.mjs (the 40 books), added.mjs (teachers' books), library.mjs (journey and games)
 scripts/stories/             quran.mjs (ayah words from Tanzil), review.mjs (docs/story-time-level1.md)
 src/lib/games/               Play & Make: the mazes and the other games (index.mjs lists them); scripts/games/check.mjs
-src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley), episodes.mjs (the steps), quest.mjs (the player)
+src/lib/seerah/              the Seerah Quest: world.mjs (the 3D valley and movement), avatar.mjs, episodes.mjs (the steps), quest.mjs (the player and HUD), hub.mjs, game.mjs
 scripts/questions/starter.py writes the starter Question bank (and its copy in apps-script/Code.gs)
 src/lib/engine.mjs           the Sheikh: questions, listening, prompting, marking (from the Hifz test page)
 src/lib/recite.mjs, follow.mjs, mushaf.mjs, asr-local.mjs   shared with the main app, unchanged

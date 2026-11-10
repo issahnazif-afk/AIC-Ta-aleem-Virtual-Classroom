@@ -1,0 +1,26 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="scrollGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5E6C8"/>
+      <stop offset="100%" stop-color="#D4A850"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Scroll body -->
+  <rect x="12" y="14" width="40" height="36" rx="3" fill="url(#scrollGrad)" stroke="#A0722A" stroke-width="1.5"/>
+  
+  <!-- Top roll -->
+  <ellipse cx="32" cy="14" rx="20" ry="5" fill="#E8D5A0" stroke="#A0722A" stroke-width="1.5"/>
+  
+  <!-- Bottom roll -->
+  <ellipse cx="32" cy="50" rx="20" ry="5" fill="#E8D5A0" stroke="#A0722A" stroke-width="1.5"/>
+  
+  <!-- Text lines -->
+  <line x1="20" y1="24" x2="44" y2="24" stroke="#8B6914" stroke-width="1.5" opacity="0.7"/>
+  <line x1="20" y1="30" x2="44" y2="30" stroke="#8B6914" stroke-width="1.5" opacity="0.7"/>
+  <line x1="20" y1="36" x2="44" y2="36" stroke="#8B6914" stroke-width="1.5" opacity="0.7"/>
+  <line x1="20" y1="42" x2="38" y2="42" stroke="#8B6914" stroke-width="1.5" opacity="0.7"/>
+  
+  <!-- Gold star marker -->
+  <polygon points="32,19 33.5,23 37.5,23 34.5,25.5 35.5,29.5 32,27 28.5,29.5 29.5,25.5 26.5,23 30.5,23" fill="#D4A850" opacity="0"/>
+</svg>

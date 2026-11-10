@@ -1,8 +1,12 @@
 // The Seerah Quest runner: plays an episode's steps in the 3D world, with the narration, missions and
 // knowledge challenge. History is always shown with its source (Ibn Kathir, al-Bidaya wa'l-Nihaya).
+// The student plays their own explorer in third person: running, jumping and climbing, collecting lights
+// and knowledge scrolls, and lighting the lantern at the top of each climbing challenge.
 import SRC from '../../data/seerah/sources.json';
 import { createWorld } from './world.mjs';
+import { makeAvatar } from './avatar.mjs';
 import { EPISODES } from './episodes.mjs';
+import { STAGES, MODES, TEXT, sfx as play, soundOn, setSound, showBadge, iconUrl, defaultAvatar } from './game.mjs';
 import { audioUrl } from '../client.mjs';
 import { narrate, hush as stopNarration } from '../narration.mjs';
 
@@ -12,78 +16,224 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const shuffle = (xs) => { const a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.search);
 export const cite = (p) => `al-Bidaya wa'l-Nihaya ${p.vol}/${p.page}`;
+const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+// every knowledge scroll of an episode (the scroll hunts and the scrolls on the climbing challenge)
+export const scrollIds = (ep) => ep.steps.flatMap((s) => (s.do === 'scrolls' ? s.items.map((x) => x.src) : s.do === 'parkour' ? s.scrolls.map((x) => x.src) : []));
+export const lanternCount = (ep) => ep.steps.filter((s) => s.do === 'parkour').length;
 
 // the narrator: subtitles always; read aloud by the recorded narrator voice if the student keeps narration on
 let narrator = true;
 function speakEn(text) { if (narrator) narrate(text, { voice: 'seerah' }); }
 const hush = () => stopNarration();
 
-export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, onStep, onDone, onExit }) {
+export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, mode = 'explorer', gentle = false, avatar = null, archive = [], onStep, onSave, onBadge, onDone, onExit }) {
   const ep = EPISODES.find((e) => e.n === n);
+  const M = MODES[mode] ?? MODES.explorer;
+  const courseMode = gentle ? 'gentle' : mode;
+  saved.scrolls ??= []; saved.lanterns ??= [];
+  const allScrolls = scrollIds(ep), allLanterns = lanternCount(ep);
   root.replaceChildren();
   root.className = 'sq-play';
   const canvas = el('canvas', 'sq-canvas');
-  const hud = el('div', 'sq-hud');
-  const title = el('div', 'sq-title'); title.append(el('b', null, `Episode ${ep.n} · ${ep.title}`), el('span', null, ep.place));
-  const objective = el('div', 'sq-objective'); objective.hidden = true;
+  // ── the HUD ──
+  const top = el('div', 'sq-top');
+  const title = el('div', 'sq-title'); const stageEl = el('span', 'sq-stage-l');
+  title.append(el('b', null, `Episode ${ep.n} · ${ep.title}`), stageEl);
+  const counters = el('div', 'sq-counters');
+  const cLight = el('span', 'sq-c'), cScroll = el('span', 'sq-c'), cLantern = el('span', 'sq-c');
+  const ico = (src, alt) => { const i = el('img'); i.src = src; i.alt = alt; i.width = 22; i.height = 22; return i; };
+  const lightIco = el('i', 'sq-light-ico'); lightIco.setAttribute('aria-hidden', 'true');
+  const lightN = el('b'), scrollN = el('b'), lanternN = el('b');
+  cLight.append(lightIco, lightN, el('span', 'sq-sr', ' lights')); cLight.title = 'Lights';
+  cScroll.append(ico(iconUrl('scroll'), 'Scrolls'), scrollN); cScroll.title = 'Knowledge scrolls';
+  cLantern.append(ico(iconUrl('lantern'), 'Lanterns'), lanternN); cLantern.title = 'Lanterns lit';
+  counters.append(cLight, cScroll, cLantern);
   const tools = el('div', 'sq-tools');
-  const narr = el('button', 'sq-tool', 'Narration: on'); narr.type = 'button';
-  narr.addEventListener('click', () => { narrator = !narrator; narr.textContent = `Narration: ${narrator ? 'on' : 'off'}`; if (!narrator) hush(); });
-  const exit = el('button', 'sq-tool', 'Leave'); exit.type = 'button';
-  tools.append(narr, exit);
-  hud.append(title, objective, tools);
+  const tool = (label, short) => { const b = el('button', 'sq-tool'); b.type = 'button'; b.append(el('span', 'sq-tool-l', label)); if (short) b.dataset.short = short; return b; };
+  const archBtn = tool('Archive'), sndBtn = tool(`Sound: ${soundOn() ? 'on' : 'off'}`), narr = tool('Narration: on'), exit = tool('Leave');
+  sndBtn.addEventListener('click', () => { setSound(!soundOn()); sndBtn.firstChild.textContent = `Sound: ${soundOn() ? 'on' : 'off'}`; sndBtn.blur(); });
+  narr.addEventListener('click', () => { narrator = !narrator; narr.firstChild.textContent = `Narration: ${narrator ? 'on' : 'off'}`; if (!narrator) hush(); narr.blur(); });
+  tools.append(archBtn, sndBtn, narr, exit);
+  top.append(title, counters, tools);
+  const tracker = el('div', 'sq-tracker'); tracker.hidden = true;
+  const trH = el('p', 'sq-tr-h', 'Quest'), trO = el('p', 'sq-tr-o'), trP = el('p', 'sq-tr-p'), trT = el('p', 'sq-tr-t'), trBar = el('div', 'sq-tr-bar'), trFill = el('i');
+  trBar.append(trFill); trT.hidden = true;
+  const skip = el('button', 'sq-skip', 'Skip this climb'); skip.type = 'button'; skip.hidden = true;
+  tracker.append(trH, trO, trP, trBar, trT, skip);
+  const mapC = el('canvas', 'sq-minimap'); mapC.width = mapC.height = 150; mapC.setAttribute('aria-label', 'Map: you are the arrow in the middle, north is up');
   const near = el('button', 'sq-near'); near.type = 'button'; near.hidden = true;
+  const toast = el('div', 'sq-toast'); toast.setAttribute('role', 'status');
+  const banner = el('div', 'sq-banner'); banner.hidden = true;
   const panel = el('div', 'sq-panel'); panel.hidden = true;
-  const padEl = el('div', 'sq-pad');
-  padEl.innerHTML = '<button data-f="1" aria-label="Forward">▲</button><button data-r="-1" aria-label="Left">◀</button><button data-f="-1" aria-label="Back">▼</button><button data-r="1" aria-label="Right">▶</button>';
+  const touch = el('div', 'sq-touch');
+  const stick = el('div', 'sq-stick'), knob = el('i', 'sq-knob'); stick.append(knob); stick.setAttribute('aria-label', 'Move');
+  const btns = el('div', 'sq-btns');
+  const jumpB = el('button', 'sq-jump', 'Jump'); jumpB.type = 'button';
+  const useB = el('button', 'sq-use', 'Look'); useB.type = 'button'; useB.disabled = true;
+  btns.append(useB, jumpB); touch.append(stick, btns);
   const loading = el('div', 'sq-loading', 'Preparing the valley of Makkah…');
-  root.append(canvas, hud, near, panel, padEl, loading);
+  root.append(canvas, top, tracker, mapC, near, toast, banner, panel, touch, loading);
 
   let world, stopped = false;
   try { world = createWorld(canvas, { quality }); }
   catch (err) { loading.textContent = 'This computer could not start the 3D view (WebGL). Try another browser, or ask your teacher.'; return { stop() {} }; }
-  padEl.querySelectorAll('button').forEach((b) => {
-    const on = () => world.setPad(+b.dataset.f || 0, +b.dataset.r || 0), off = () => world.setPad(0, 0);
-    b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointerleave', off);
-  });
+  world.setAvatar(makeAvatar(avatar ?? defaultAvatar(''), { shadows: quality === 'high' }));
+  world.setGlow(M.glow);
+  world.place(0, 40, 0, 0);
+
+  // ── counters ──
+  let lights = 0;
+  const draw = () => { lightN.textContent = String(lights); scrollN.textContent = `${saved.scrolls.length}/${allScrolls.length}`; lanternN.textContent = `${saved.lanterns.length}/${allLanterns}`; };
+  draw();
+  world.onLight = () => { lights++; saved.lightsBest = Math.max(saved.lightsBest ?? 0, lights); play('light'); draw(); onSave?.({ light: 1 }); };
+  world.onJump = () => play('jump');
+  world.onLand = () => play('land');
+  let calmSaid = 0;
+  world.onCalm = (inCalm) => { if (inCalm && Date.now() - calmSaid > 20000) { calmSaid = Date.now(); say(TEXT.calm, 4200); } };
+  world.onCalmJump = () => say(TEXT.calm, 3000);
+  function say(t, ms = 2400) { toast.textContent = t; toast.classList.add('on'); clearTimeout(say.t); say.t = setTimeout(() => toast.classList.remove('on'), ms); }
+  function award(id) { if (onBadge?.(id)) showBadge(root, id, play); }
+  function addArchive(id) { if (id && !archive.includes(id)) { archive.push(id); onSave?.({}); } }
+
+  // ── touch controls: a stick to move (push it all the way to run), Jump, and Look for the markers ──
+  let stickId = null;
+  const stickMove = (e) => {
+    const r = stick.getBoundingClientRect(), R = r.width / 2;
+    let dx = (e.clientX - r.left - R) / R, dy = (e.clientY - r.top - R) / R; const l = Math.hypot(dx, dy); if (l > 1) { dx /= l; dy /= l; }
+    knob.style.transform = `translate(${dx * R * 0.55}px, ${dy * R * 0.55}px)`;
+    world.setPad(-dy, dx, l > 0.92);
+  };
+  stick.addEventListener('pointerdown', (e) => { stickId = e.pointerId; try { stick.setPointerCapture(e.pointerId); } catch {} stickMove(e); e.preventDefault(); });
+  stick.addEventListener('pointermove', (e) => { if (e.pointerId === stickId) stickMove(e); });
+  const stickEnd = (e) => { if (e.pointerId !== stickId) return; stickId = null; knob.style.transform = ''; world.setPad(0, 0); };
+  stick.addEventListener('pointerup', stickEnd); stick.addEventListener('pointercancel', stickEnd);
+  jumpB.addEventListener('pointerdown', (e) => { e.preventDefault(); world.jump(); });
+  useB.addEventListener('click', () => near.click());
+
   world.start();
-  if (TEST) {   // a test hook: "tap" a hotspot by id
+  if (TEST) {   // test hooks: "tap" a hotspot by id, read the explorer, move them, press keys
     const spots = {}, add = world.addHotspot;
     world.addHotspot = (o) => (spots[o.id] = add(o));
-    window.__sq = { hit: (id) => world.onHotspot?.(spots[id] ?? { id }) };
+    window.__sq = {
+      hit: (id) => world.onHotspot?.(spots[id] ?? { id }),
+      me: () => world.player(), tp: (x, z, y) => world.teleport(x, z, y), world,
+      course: () => { const c = world.course; return c && { active: c.active, falls: c.falls, last: c.cps.indexOf(c.last), cps: c.cps.map((p) => [p.x, p.y, p.z]), plats: c.plats.map((p) => [p.x, p.y, p.z, p.s]), pit: c.pit }; },
+      fps: () => world.fps(), lights: () => lights, saved: () => saved,
+    };
   }
   setTimeout(() => loading.remove(), 400);
   exit.addEventListener('click', () => { stop(); onExit?.(); });
 
+  // ── the mini-map: north up, the explorer in the middle; golden markers for the Explorer, plain dots for the Master Explorer ──
+  const g2 = mapC.getContext('2d');
+  function drawMap(t) {
+    const W = mapC.width, C = W / 2, S = C / 60, me = world.player(), d = world.mapData();
+    const at = (x, z) => [C + (x - me.x) * S, C + (z - me.z) * S];
+    g2.clearRect(0, 0, W, W);
+    g2.save(); g2.beginPath(); g2.arc(C, C, C - 3, 0, Math.PI * 2); g2.clip();
+    g2.fillStyle = '#E8D6B0'; g2.fillRect(0, 0, W, W);
+    const rect = (x0, z0, x1, z1, col) => { const [a, b] = at(x0, z0), [c, e] = at(x1, z1); g2.fillStyle = col; g2.fillRect(a, b, c - a, e - b); };
+    if (d.course) { const p = d.course.pit; rect(p.x0, p.z0, p.x1, p.z1, 'rgba(150,110,70,.35)'); for (const q of d.course.plats) rect(q.x - q.s / 2, q.z - q.s / 2, q.x + q.s / 2, q.z + q.s / 2, '#C9B08A'); }
+    rect(-5, -6, 5, 6, '#2B2B2B');
+    rect(world.ARCHIVE.x - 6, world.ARCHIVE.z - 6.6, world.ARCHIVE.x + 5, world.ARCHIVE.z + 6.6, '#8A6A45');
+    const marks = [...d.hotspots.map((h) => [h.x, h.z]), ...d.pickups.map((p) => [p.x, p.z])];
+    if (d.course?.active) marks.push([d.course.goal.x, d.course.goal.z]);
+    for (const [x, z] of marks) {
+      let [mx, mz] = at(x, z); const dx = mx - C, dz = mz - C, l = Math.hypot(dx, dz), edge = C - 12;
+      if (l > edge) { if (!M.glow) continue; mx = C + (dx / l) * edge; mz = C + (dz / l) * edge; }
+      if (M.glow) {
+        const k = 0.5 + 0.5 * Math.sin(t * 4);
+        const gr = g2.createRadialGradient(mx, mz, 0, mx, mz, 13); gr.addColorStop(0, `rgba(255,214,90,${0.75 + 0.25 * k})`); gr.addColorStop(1, 'rgba(255,214,90,0)');
+        g2.fillStyle = gr; g2.beginPath(); g2.arc(mx, mz, 13, 0, Math.PI * 2); g2.fill();
+        g2.fillStyle = '#C98A00'; g2.beginPath(); g2.arc(mx, mz, 4.5, 0, Math.PI * 2); g2.fill();
+      } else { g2.fillStyle = '#fff'; g2.strokeStyle = '#5A4632'; g2.lineWidth = 1.5; g2.beginPath(); g2.arc(mx, mz, 3.5, 0, Math.PI * 2); g2.fill(); g2.stroke(); }
+    }
+    g2.restore();
+    // the explorer: an arrow pointing the way they face
+    g2.save(); g2.translate(C, C); g2.rotate(-me.yaw + Math.PI);
+    g2.fillStyle = '#0E6B4E'; g2.strokeStyle = '#fff'; g2.lineWidth = 2;
+    g2.beginPath(); g2.moveTo(0, 9); g2.lineTo(6.5, -6); g2.lineTo(0, -2.5); g2.lineTo(-6.5, -6); g2.closePath(); g2.fill(); g2.stroke(); g2.restore();
+    g2.strokeStyle = '#C9A24A'; g2.lineWidth = 4; g2.beginPath(); g2.arc(C, C, C - 3, 0, Math.PI * 2); g2.stroke();
+    g2.fillStyle = '#5A3E10'; g2.font = 'bold 13px system-ui, sans-serif'; g2.textAlign = 'center'; g2.fillText('N', C, 16);
+  }
+  let mapT = 0;
+  world.every((dt, t) => { mapT += dt; if (mapT > 0.12) { mapT = 0; drawMap(t); } });
+  drawMap(0);
+
   // ── the panel: narration, choices, overlays ──
   function openPanel(cls) { panel.className = 'sq-panel ' + (cls || ''); panel.replaceChildren(); panel.hidden = false; world.lock(true); return panel; }
-  function closePanel() { panel.hidden = true; panel.replaceChildren(); world.lock(false); hush(); }
+  function closePanel() { panel.hidden = true; panel.replaceChildren(); world.lock(false); hush(); document.activeElement?.blur?.(); }
   const nextBtn = (label = 'Continue') => { const b = el('button', 'btn btn-primary big sq-next', label); b.type = 'button'; return b; };
-  function card({ kicker, title: t, text, src, reported }) {
+  function sourceBits(p, src, reported) {
+    const c = el('p', 'sq-cite', `${reported ? 'Reported · the book marks this as uncertain or as an addition · ' : ''}${cite(src)}`);
+    const show = el('button', 'sq-src', 'Show the source'); show.type = 'button';
+    const ar = el('p', 'sq-ar', src.ar); ar.lang = 'ar'; ar.dir = 'rtl'; ar.hidden = true;
+    show.addEventListener('click', () => { ar.hidden = !ar.hidden; show.textContent = ar.hidden ? 'Show the source' : 'Hide the source'; });
+    p.append(c, show, ar);
+  }
+  function card({ kicker, title: t, text, src, reported, extra }) {
     return new Promise((resolve) => {
-      const p = openPanel(reported ? 'note' : '');
+      const p = openPanel(reported ? 'reported' : '');
       if (kicker) p.append(el('p', 'sq-kicker', kicker));
       if (t) p.append(el('h2', 'sq-h', t));
       p.append(el('p', 'sq-text', text));
-      if (src) {
-        const c = el('p', 'sq-cite', `${reported ? 'Reported · the book marks this as uncertain or as an addition · ' : ''}${cite(src)}`);
-        const show = el('button', 'sq-src', 'Show the source'); show.type = 'button';
-        const ar = el('p', 'sq-ar', src.ar); ar.lang = 'ar'; ar.dir = 'rtl'; ar.hidden = true;
-        show.addEventListener('click', () => { ar.hidden = !ar.hidden; show.textContent = ar.hidden ? 'Show the source' : 'Hide the source'; });
-        p.append(c, show, ar);
-      }
+      if (src) { sourceBits(p, src, reported); addArchive(src.id); }
+      if (extra) p.append(el('p', 'sq-good', extra));
       const b = nextBtn(); b.addEventListener('click', () => { closePanel(); resolve(); });
       p.append(b); b.focus({ preventScroll: true });
       speakEn(text);
     });
   }
-  const setObjective = (t) => { objective.hidden = !t; objective.textContent = t || ''; };
+  let objective = '';
+  function setObjective(t, prog = '', k = null) {
+    objective = t || '';
+    tracker.hidden = !t; trO.textContent = objective; trP.textContent = prog; trP.hidden = !prog;
+    trBar.hidden = k == null; if (k != null) trFill.style.width = `${Math.round(k * 100)}%`;
+  }
+  // markers in reach: the Look button, the E key or a tap
+  function nearLabel(prefix) { return (x) => { near.hidden = !x; useB.disabled = !x; if (x) near.textContent = `${prefix}: ${x.label}  (E)`; }; }
+
+  // the Knowledge Archive: every passage of this episode the student has read or found, with its page and the Arabic
+  function archivePanel(withContinue) {
+    return new Promise((resolve) => {
+      const p = openPanel('archive');
+      p.append(el('p', 'sq-kicker', 'The Knowledge Archive'), el('h2', 'sq-h', `Episode ${ep.n}: ${ep.title}`), el('p', 'sq-text', TEXT.archive));
+      const ids = [...new Set(ep.steps.flatMap((s) => [...(s.ids ?? []), ...(s.do === 'route' ? s.stops.map((x) => x.src) : []), ...(s.do === 'journey' ? s.src : [])]))];
+      const mine = ids.filter((id) => archive.includes(id));
+      p.append(el('p', 'sq-cite', `${mine.length} passages so far (this episode has ${ids.length}) · scrolls found: ${saved.scrolls.length} of ${allScrolls.length}`));
+      const list = el('div', 'sq-arch');
+      for (const id of mine) {
+        const src = SOURCES[id], d = el('details', 'sq-rec' + (src.class === 'reported' ? ' rep' : '')), sm = el('summary');
+        sm.append(el('span', 'sq-rec-k', saved.scrolls.includes(id) ? 'Scroll' : src.class === 'reported' ? 'A report' : 'Record'), el('span', null, src.en.length > 90 ? src.en.slice(0, 88).replace(/\s+\S*$/, '') + '…' : src.en));
+        d.append(sm, el('p', 'sq-text', src.en));
+        sourceBits(d, src, src.class === 'reported');
+        list.append(d);
+      }
+      if (!mine.length) list.append(el('p', 'sq-text muted', TEXT.archiveEmpty));
+      p.append(list);
+      const b = nextBtn(withContinue ? 'Continue' : 'Close'); b.addEventListener('click', () => { closePanel(); resolve(); }); p.append(b);
+    });
+  }
+  archBtn.addEventListener('click', () => { archBtn.blur(); if (panel.hidden) archivePanel(false); });
 
   // ── the steps ──
   const wells = {};
   const run = {
+    async stage(s) {
+      stageEl.textContent = `Stage ${s.id} · ${STAGES[s.id]}`;
+      banner.replaceChildren(el('span', null, `Stage ${s.id}`), el('b', null, STAGES[s.id]));
+      banner.hidden = false; banner.classList.remove('out'); void banner.offsetWidth; banner.classList.add('in');
+      setTimeout(() => banner.classList.add('out'), 2200); setTimeout(() => { banner.hidden = true; banner.classList.remove('in', 'out'); }, 2800);
+      await wait(TEST ? 50 : 900);
+    },
     async scene(s) { world.setTime(s.time); if (s.at) world.place(s.at[0], s.at[1], s.at[2], s.at[3]); await wait(150); },
-    async fly(s) { await world.fly(s.shots); },
+    async fly(s) {
+      await world.fly(s.shots);
+      // the opening flight ends where the explorer starts walking
+      const [pos, look] = s.shots[s.shots.length - 1];
+      if (pos[1] - world.heightAt(pos[0], pos[2]) < 8) world.place(pos[0], pos[2], look[0], look[2], { snap: false });
+    },
     async guide(s) { await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text }); },
     async narrate(s) { for (const id of s.ids) { const p = SOURCES[id]; await card({ kicker: 'From the history', text: p.en, src: p }); } },
     async note(s) { for (const id of s.ids) { const p = SOURCES[id]; await card({ kicker: 'A report', text: p.en, src: p, reported: true }); } },
@@ -100,9 +250,9 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
       return new Promise((resolve) => {
         const h = world.addHotspot({ id: s.id, x: s.x, z: s.z, label: s.label });
         setObjective(s.objective);
-        const done = () => { world.removeHotspot(s.id); world.onHotspot = null; world.onNear = null; near.hidden = true; setObjective(''); resolve(); };
+        const done = () => { world.removeHotspot(s.id); world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); };
         world.onHotspot = (x) => { if (x === h) done(); };
-        world.onNear = (x) => { near.hidden = !x; if (x) near.textContent = `Look closer: ${x.label}`; };
+        world.onNear = nearLabel('Look closer');
         near.onclick = () => { if (world.near() === h) done(); };
         if (TEST) root.dataset.target = s.id;
       });
@@ -115,14 +265,89 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
           const x = hs.find((k) => k.h === h); if (!x) return;
           world.onHotspot = null;
           await card({ kicker: 'Searching', title: x.p.label, text: x.p.note });
-          if (x.p.right) { hs.forEach((k) => world.removeHotspot(k.p.id)); world.onNear = null; near.hidden = true; setObjective(''); resolve(); }
+          if (x.p.right) { hs.forEach((k) => world.removeHotspot(k.p.id)); world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); }
           else { world.removeHotspot(x.p.id); hs.splice(hs.indexOf(x), 1); world.onHotspot = visit; }
         };
         world.onHotspot = visit;
-        world.onNear = (x) => { near.hidden = !x; if (x) near.textContent = `Look closer: ${x.label}`; };
+        world.onNear = nearLabel('Look closer');
         near.onclick = () => { const x = world.near(); if (x) visit(x); };
         if (TEST) root.dataset.target = s.spots.find((p) => p.right).id;
       });
+    },
+    // a scroll hunt: scrolls of passages already read, with a trail of lights towards each
+    async scrolls(s) {
+      const left = s.items.filter((x) => !saved.scrolls.includes(x.src));
+      if (!left.length) return;
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text });
+      const me = world.player(), pts = [];
+      for (const it of left) { const d = Math.hypot(it.x - me.x, it.z - me.z), k = Math.max(2, Math.floor(d / 3)); for (let i = 1; i < k; i++) { const x = me.x + ((it.x - me.x) * i) / k, z = me.z + ((it.z - me.z) * i) / k; if (Math.hypot(x, z) > 9) pts.push([x, world.heightAt(x, z) + 1, z]); } }
+      world.addLights(pts, `hunt${ep.n}`);
+      let got = s.items.length - left.length;
+      const prog = () => setObjective(s.objective, `${got}/${s.items.length} scrolls`, got / s.items.length);
+      prog();
+      if (TEST) root.dataset.scrolls = JSON.stringify(left.map((x) => [x.x, x.z]));
+      await new Promise((resolve) => {
+        for (const it of left) {
+          world.addScroll(it.x, it.z, null, async () => {
+            got++; prog(); play('scroll');
+            await takeScroll(it.src);
+            if (got >= s.items.length) { setObjective(''); resolve(); }
+          }, it.src);
+        }
+      });
+    },
+    // the climbing challenge (obby)
+    async parkour(s) {
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text, extra: M.timer && !gentle ? TEXT.timer : gentle ? TEXT.gentle : null });
+      const info = world.buildCourse({ ...s.course, mode: courseMode, scrolls: s.scrolls.length });
+      s.scrolls.forEach((x, i) => { if (!saved.scrolls.includes(x.src)) world.addScroll(...[info.spots[i][0], info.spots[i][2], info.spots[i][1]], async () => { play('scroll'); await takeScroll(x.src); }, x.src); });
+      world.place(info.start.x, info.start.z, info.goal.x, info.goal.z);
+      const target = info.plats * 5 + 15;
+      let flags = 0, t0 = null, time = 0;
+      const prog = () => setObjective(s.objective, `Flags ${flags}/${info.checkpoints}`, info.checkpoints ? flags / info.checkpoints : null);
+      prog();
+      const timer = M.timer && !gentle;
+      const c = world.course;
+      const tick = world.every((dt) => {
+        if (!c.started && !t0) return;
+        if (t0 == null) t0 = performance.now();
+        time = (performance.now() - t0) / 1000;
+        if (timer) { trT.hidden = false; trT.textContent = `Time ${mmss(time)} · beat ${mmss(target)}`; trT.classList.toggle('over', time > target); }
+      });
+      await new Promise((resolve) => {
+        c.onCheckpoint = (i, of) => { flags = Math.max(flags, i); play('checkpoint'); say('Checkpoint! If you fall, you come back here.'); prog(); };
+        c.onFall = (falls) => {
+          play('poof'); say(falls === 1 ? TEXT.fall : `Poof! Back to the flag. (${falls})`);
+          if (falls === 6 && courseMode !== 'master') { world.helpCourse(); say(TEXT.helpers, 3800); }
+          if (falls >= 10) skip.hidden = false;
+        };
+        skip.onclick = () => { skip.hidden = true; c.active = false; resolve(false); };
+        c.onGoal = () => resolve(true);
+        if (TEST) window.__sq.goal = () => c.onGoal?.();
+      }).then(async (won) => {
+        tick(); trT.hidden = true; skip.hidden = true; setObjective('');
+        if (!won) return;
+        play('lantern');
+        if (!saved.lanterns.includes(s.course.seed)) saved.lanterns.push(s.course.seed);
+        const best = saved.best ?? null; if (timer && (best == null || time < best)) saved.best = Math.round(time);
+        draw(); onSave?.({});
+        award('explorer');
+        const beat = timer ? (time <= target ? `You beat the time: ${mmss(time)}.` : `Your time: ${mmss(time)}. Try to beat ${mmss(target)} next time.`) : '';
+        await card({ kicker: 'Lantern lit', title: TEXT.lanternTitle, text: `${TEXT.lanternText} ${beat}`.trim() });
+      });
+    },
+    async archive(s) {
+      const a = world.ARCHIVE;
+      await new Promise((resolve) => {
+        const h = world.addHotspot({ id: 'archive', x: a.x - 1, z: a.z, label: 'The Knowledge Archive', radius: 4.5 });
+        setObjective(s.objective);
+        const done = () => { world.removeHotspot('archive'); world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); };
+        world.onHotspot = (x) => { if (x === h) done(); };
+        world.onNear = nearLabel('Go in');
+        near.onclick = () => { if (world.near() === h) done(); };
+        if (TEST) root.dataset.target = 'archive';
+      });
+      await archivePanel(true);
     },
     order(s) {
       return new Promise((resolve) => {
@@ -262,10 +487,10 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
           const sx = g.x, sz = g.z; let t = 0;
           const u = world.every((dt) => { t = Math.min(1, t + dt / 6); const x = sx + (tx - sx) * t, z = sz + (tz - sz) * t; g.l.position.set(x, world.heightAt(x, z), z); if (t >= 1) u(); });
           safe++; setObjective(`${s.objective}  (${safe} of ${s.n} safe)`);
-          if (safe === s.n) { world.onHotspot = null; world.onNear = null; near.hidden = true; setTimeout(() => { setObjective(''); resolve(); }, 1200); }
+          if (safe === s.n) { world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setTimeout(() => { setObjective(''); resolve(); }, 1200); }
         };
         world.onHotspot = send;
-        world.onNear = (x) => { near.hidden = !x; if (x) near.textContent = `Lead them up: ${x.label}`; };
+        world.onNear = nearLabel('Lead them up');
         near.onclick = () => { const x = world.near(); if (x) send(x); };
         if (TEST) root.dataset.groups = groups.map((g) => g.id).join(',');
         run._groups = { send: (id) => send({ id }) };
@@ -357,11 +582,24 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
     },
   };
 
+  // a knowledge scroll: the passage again, with its page; it goes into the archive and counts towards Knowledge Seeker
+  async function takeScroll(id) {
+    const src = SOURCES[id];
+    if (!saved.scrolls.includes(id)) saved.scrolls.push(id);
+    addArchive(id); draw(); onSave?.({});
+    await card({ kicker: 'Knowledge scroll', text: src.en, src, reported: src.class === 'reported', extra: 'Added to your Knowledge Archive.' });
+    if (allScrolls.every((x) => saved.scrolls.includes(x))) award('seeker');
+  }
+
   const score = { order: 0, quiz: null };
   async function go() {
     const start = Math.min(saved.step ?? 0, ep.steps.length - 1);
-    // when resuming, set the scene from the last scene step before the saved one
-    if (start > 0) { const sc = [...ep.steps.slice(0, start)].reverse().find((s) => s.do === 'scene'); if (sc) await run.scene(sc); }
+    // when resuming, set the scene and the stage from the last ones before the saved step
+    if (start > 0) {
+      const before = [...ep.steps.slice(0, start)].reverse();
+      const sc = before.find((s) => s.do === 'scene'); if (sc) await run.scene(sc);
+      const st = before.find((s) => s.do === 'stage'); if (st) stageEl.textContent = `Stage ${st.id} · ${STAGES[st.id]}`;
+    }
     for (let i = start; i < ep.steps.length && !stopped; i++) {
       const s = ep.steps[i];
       if (TEST) { root.dataset.step = s.do; root.dataset.index = String(i); }
@@ -369,9 +607,9 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
       if (stopped) return;
       onStep?.(i + 1);
     }
-    if (!stopped) onDone?.({ quiz: score.quiz, order: score.order });
+    if (!stopped) onDone?.({ quiz: score.quiz, order: score.order, lights, scrolls: saved.scrolls.length, of: allScrolls.length });
   }
   go();
-  function stop() { stopped = true; hush(); world?.dispose(); root.replaceChildren(); }
+  function stop() { stopped = true; hush(); world?.dispose(); root.replaceChildren(); if (TEST) delete window.__sq; }
   return { stop, world, test: run };
 }

@@ -1,0 +1,45 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A2A4A"/>
+      <stop offset="100%" stop-color="#0A1830"/>
+    </linearGradient>
+    <linearGradient id="bronzeRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4956A"/>
+      <stop offset="50%" stop-color="#A0622A"/>
+      <stop offset="100%" stop-color="#D4956A"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="60" cy="60" r="58" fill="url(#bg)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#bronzeRing)" stroke-width="4"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#A0622A" stroke-width="1" stroke-dasharray="3,3"/>
+  
+  <!-- Compass rose -->
+  <circle cx="60" cy="55" r="22" fill="none" stroke="#D4956A" stroke-width="1.5"/>
+  
+  <!-- Compass directions -->
+  <polygon points="60,36 63,50 60,46 57,50" fill="#D4956A"/>
+  <polygon points="60,74 63,60 60,64 57,60" fill="#A0622A" opacity="0.7"/>
+  <polygon points="40,55 54,52 50,55 54,58" fill="#A0622A" opacity="0.7"/>
+  <polygon points="80,55 66,52 70,55 66,58" fill="#D4956A"/>
+  
+  <!-- N marker -->
+  <text x="60" y="32" text-anchor="middle" font-family="Georgia" font-size="8" fill="#FFD700" font-weight="bold">N</text>
+  
+  <!-- Centre circle -->
+  <circle cx="60" cy="55" r="6" fill="#D4956A"/>
+  <circle cx="60" cy="55" r="3" fill="#FFD700"/>
+  
+  <!-- Backpack icon (the Explorer) -->
+  <rect x="51" y="62" width="18" height="16" rx="3" fill="#A0622A" stroke="#D4956A" stroke-width="1"/>
+  <rect x="53" y="60" width="14" height="4" rx="2" fill="#C4824A"/>
+  <line x1="55" y1="66" x2="55" y2="76" stroke="#D4956A" stroke-width="1.5"/>
+  <line x1="65" y1="66" x2="65" y2="76" stroke="#D4956A" stroke-width="1.5"/>
+  <line x1="55" y1="71" x2="65" y2="71" stroke="#D4956A" stroke-width="1"/>
+  
+  <!-- Bottom ribbon -->
+  <path d="M 28 90 Q 60 100 92 90 L 92 98 Q 60 110 28 98 Z" fill="#A0622A"/>
+  <text x="60" y="97" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#FFE0B0" font-weight="bold" letter-spacing="0.5">EXPLORER</text>
+</svg>

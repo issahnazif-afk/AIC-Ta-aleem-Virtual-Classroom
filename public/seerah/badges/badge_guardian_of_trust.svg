@@ -1,0 +1,43 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="trustBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0A1A2A"/>
+      <stop offset="100%" stop-color="#030810"/>
+    </radialGradient>
+    <linearGradient id="silverRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0E8F0"/>
+      <stop offset="50%" stop-color="#8090A0"/>
+      <stop offset="100%" stop-color="#E0E8F0"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2A4A7A"/>
+      <stop offset="100%" stop-color="#1A2A4A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="60" cy="60" r="58" fill="url(#trustBg)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#silverRing)" stroke-width="4"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#8090A0" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Shield -->
+  <path d="M60 22 L82 32 L82 58 Q82 76 60 86 Q38 76 38 58 L38 32 Z" 
+        fill="url(#shieldGrad)" stroke="#E0E8F0" stroke-width="2"/>
+
+  <!-- Shield inner glow -->
+  <path d="M60 28 L78 36 L78 57 Q78 72 60 80 Q42 72 42 57 L42 36 Z" 
+        fill="#1A3A6A" opacity="0.5"/>
+
+  <!-- Checkmark / trust mark -->
+  <polyline points="50,54 57,62 72,46" fill="none" stroke="#E0E8F0" stroke-width="4" 
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Gold star on top of shield -->
+  <polygon points="60,16 62,22 68,22 63.5,25.5 65,31.5 60,28 55,31.5 56.5,25.5 52,22 58,22" 
+           fill="#D4A020"/>
+
+  <!-- Bottom ribbon -->
+  <path d="M 28 92 Q 60 102 92 92 L 92 100 Q 60 112 28 100 Z" fill="#2A4A7A"/>
+  <text x="60" y="99" text-anchor="middle" font-family="Georgia, serif" font-size="6.5" 
+        fill="#E0E8F0" font-weight="bold" letter-spacing="0.3">GUARDIAN OF TRUST</text>
+</svg>

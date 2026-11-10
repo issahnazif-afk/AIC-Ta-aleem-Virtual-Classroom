@@ -46,6 +46,30 @@ for (const match of episodesText.matchAll(/do:\s*'narrate',\s*ids:\s*\[([^\]]*)\
 for (const p of passages.values()) {
   if (p.review !== 'reviewed') warnings.push(`${p.id}: editorial review status is "${p.review}".`);
 }
+// The game layer (scrolls, climbing challenges, the archive): a scroll only holds a passage the student has already
+// read earlier in the same episode, and the game's own English passes the school's writing rules.
+const { EPISODES } = await import('../../src/lib/seerah/episodes.mjs');
+const game = await import('../../src/lib/seerah/game.mjs');
+const { lintText } = await import('../books/writing.mjs');
+for (const ep of EPISODES) {
+  const read = new Set();
+  const stages = [];
+  for (const s of ep.steps) {
+    for (const id of s.ids ?? []) read.add(id);
+    if (s.do === 'route') s.stops.forEach((x) => read.add(x.src));
+    if (s.do === 'journey') s.src.forEach((x) => read.add(x));
+    if (s.do === 'stage') { if (!game.STAGES[s.id]) errors.push(`Episode ${ep.n}: unknown stage "${s.id}".`); stages.push(s.id); }
+    const scrolls = s.do === 'scrolls' ? s.items : s.do === 'parkour' ? s.scrolls : [];
+    for (const x of scrolls) if (!read.has(x.src)) errors.push(`Episode ${ep.n}: the scroll "${x.src}" comes before the passage is read in the story.`);
+    if (['stage', 'scrolls', 'parkour', 'archive', 'guide'].includes(s.do)) {
+      for (const t of [s.title, s.text, s.objective].filter(Boolean)) for (const p of lintText(t, 3)) errors.push(`Episode ${ep.n} ${s.do}: ${p} in "${t.slice(0, 50)}…"`);
+    }
+  }
+  if (stages.join('') !== 'ABCDEF') errors.push(`Episode ${ep.n}: the stages run ${stages.join('')}, not A to F in order.`);
+}
+for (const t of [...Object.values(game.TEXT), ...Object.values(game.MODES).map((m) => m.text), ...game.BADGES.map((b) => b.how), ...Object.values(game.STAGES)]) {
+  for (const p of lintText(t, 3)) errors.push(`Game text: ${p} in "${t.slice(0, 50)}…"`);
+}
 const episodeCount = (episodesText.match(/\n\s*n:\s*\d+,\s*key:/g) || []).length;
 console.log(`Seerah source-integrity check: ${episodeCount} episode(s), ${passages.size} registered passage(s), ${used.size} referenced passage(s).`);
 if (warnings.length) {

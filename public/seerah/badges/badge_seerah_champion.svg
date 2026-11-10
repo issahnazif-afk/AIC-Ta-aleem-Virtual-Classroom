@@ -1,0 +1,53 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2A1A00"/>
+      <stop offset="100%" stop-color="#0D0A00"/>
+    </radialGradient>
+    <linearGradient id="goldRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE066"/>
+      <stop offset="50%" stop-color="#D4A020"/>
+      <stop offset="100%" stop-color="#FFE066"/>
+    </linearGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#C8860A"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="58" fill="url(#bgGlow)"/>
+  
+  <!-- Outer gold ring -->
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#goldRing)" stroke-width="4"/>
+  
+  <!-- Decorative ring -->
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#D4A020" stroke-width="1" stroke-dasharray="4,3"/>
+  
+  <!-- Main star -->
+  <polygon points="60,18 66,42 90,42 71,56 78,80 60,66 42,80 49,56 30,42 54,42" 
+           fill="url(#starGlow)" stroke="#C8860A" stroke-width="1.5"/>
+  
+  <!-- Inner star shine -->
+  <polygon points="60,24 64,38 76,38 67,46 70,60 60,52 50,60 53,46 44,38 56,38" 
+           fill="#FFE580" opacity="0.4"/>
+  
+  <!-- Arabic-inspired geometric ornament -->
+  <circle cx="60" cy="60" r="8" fill="none" stroke="#FFD700" stroke-width="1.5"/>
+  <line x1="52" y1="60" x2="68" y2="60" stroke="#FFD700" stroke-width="1"/>
+  <line x1="60" y1="52" x2="60" y2="68" stroke="#FFD700" stroke-width="1"/>
+  
+  <!-- Bottom ribbon -->
+  <path d="M 30 92 Q 60 102 90 92 L 90 100 Q 60 112 30 100 Z" fill="#D4A020"/>
+  <path d="M 30 92 Q 60 102 90 92" fill="none" stroke="#FFE066" stroke-width="1.5"/>
+  
+  <!-- Badge text -->
+  <text x="60" y="99" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#2A1A00" font-weight="bold" letter-spacing="0.5">SEERAH CHAMPION</text>
+  
+  <!-- Ray effects -->
+  <line x1="60" y1="8" x2="60" y2="2" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
+  <line x1="90" y1="20" x2="94" y2="16" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
+  <line x1="30" y1="20" x2="26" y2="16" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
+  <line x1="104" y1="50" x2="110" y2="48" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
+  <line x1="16" y1="50" x2="10" y2="48" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
+</svg>
