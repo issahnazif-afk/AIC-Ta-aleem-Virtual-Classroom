@@ -82,7 +82,7 @@ export const ACTIVITIES = [
     title: 'Special Days', ar: 'أَيَّامٌ مُبَارَكَة',
     text: 'Today\'s Hijri date, Jumu\'ah, Ramadan, the two Eids and the other blessed days, with what the Prophet ﷺ taught about them.',
   },
-  // Play & Learn (the AICWIS Interactive Learning Proposal). `suggested`: the levels the proposal suggests it for;
+  // Play & Learn (the Ta'aleem Interactive Learning Proposal). `suggested`: the levels the proposal suggests it for;
   // every level can play, and the game adjusts to the student's level.
   { id: 'detective', worlds: ['arabic'], kind: 'play', game: 'detective', icon: 'detective', group: 'play', suggested: [1, 2],
     title: 'Arabic Letter Detective', ar: 'مُحَقِّقُ ٱلْحُرُوف', text: 'Listen, look and find the letter. Open the alphabet garden part by part.' },

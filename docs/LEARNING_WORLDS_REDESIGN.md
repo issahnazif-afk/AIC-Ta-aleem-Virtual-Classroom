@@ -57,7 +57,7 @@ Push the complete repository to the configured GitHub repository's `main` branch
 ## Next integration phase
 
 - Add authenticated teacher roles and a server-side teacher API before enabling live teacher records.
-- Map the starter activities to the official AICWIS level-by-level schemes of work and approved textbooks.
+- Map the starter activities to the official Ta'aleem level-by-level schemes of work and approved textbooks.
 - Add reviewed Hadith text with exact collection/reference, approved translation and review sign-off.
 - Add teacher assignment workflows and student-specific activity recommendations only after role-secured backend support exists.
 - Conduct device testing on school laptops/tablets, including WebGL-off fallback, keyboard navigation, touch controls and reduced-motion settings.

@@ -1,6 +1,6 @@
 # Story Time · Level 1 (ages 4–8): teacher review sheet
 
-Twenty-two original picture stories written for Al-Huda Islamic Weekend School. The characters (Yusuf, Maryam, Adam, Mama, Baba,
+Twenty-two original picture stories written for Ta'aleem. The characters (Yusuf, Maryam, Adam, Mama, Baba,
 Jiddo, Teta, Bilal, Zara, Omar, Ustadha Huda, Aunty Salma, Uncle Sami) are made up; no Prophet or Companion is ever shown.
 Each story ends with one hadith or ayah. The English of each hadith is a simple meaning for young children; please check it.
 

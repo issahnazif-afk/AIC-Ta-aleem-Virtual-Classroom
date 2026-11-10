@@ -1,4 +1,4 @@
-// Play & Learn: the games from the AICWIS Ta'aleem Interactive Learning Proposal.
+// Play & Learn: the games from the Ta'aleem Interactive Learning Proposal.
 //   Arabic Letter Detective · listen, find, name, missing letter, look-alikes; unlocks the alphabet garden in parts
 //   Build the Ayah          · put an ayah's words in order, fill a missing word, choose the next ayah, order ayahs
 //   Match the Deen          · memory cards from the teachers' question bank

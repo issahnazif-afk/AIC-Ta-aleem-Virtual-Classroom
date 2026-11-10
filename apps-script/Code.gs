@@ -1,5 +1,5 @@
 /**
- * Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom — accounts and class log.
+ * Ta'aleem Virtual Classroom — accounts and class log.
  * (The Sheikh and recitation checking come from the Qa-af Wal Quran-ul-Majeed app.)
  *
  * The classroom website (GitHub Pages) talks to this script. It:

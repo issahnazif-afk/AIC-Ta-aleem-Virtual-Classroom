@@ -1,6 +1,6 @@
 # Reading Library · teacher review sheet
 
-Forty original books written for Al-Huda Islamic Weekend School: twenty First Readers (Level 1, ages 4–6, six pages) and twenty
+Forty original books written for Ta'aleem: twenty First Readers (Level 1, ages 4–6, six pages) and twenty
 Adventure Readers (Level 2, ages 7–8, eight pages). The characters are made up; no Prophet or Companion is ever shown.
 Each book ends with one hadith or ayah. The English is a simple meaning for young readers; please check it and sign the last column.
 

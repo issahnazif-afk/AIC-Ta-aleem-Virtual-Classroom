@@ -2,7 +2,7 @@
 
 ![Ta'aleem](public/logo-160.png)
 
-Ta'aleem, the virtual classroom of Al-Huda Islamic Weekend School (Al-Huda Islamic Centre). A desktop classroom where the
+Ta'aleem is a virtual classroom. A desktop classroom where the
 automated Sheikh from the Qa-af Wal Quran-ul-Majeed app listens to a student
 recite, with the student's camera on. Two kinds of session:
 
@@ -46,7 +46,7 @@ Hosted on GitHub Pages, with no server of its own. Built with [Astro](https://as
 5. **Report**: time, mistakes, looks away, most observed mistakes, the Sheikh's review, ayah by ayah, and
    confirmation that the session reached the class log.
 
-The interface design these screens follow is on the design canvas *Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom*.
+The interface design these screens follow is on the design canvas *Ta'aleem Virtual Classroom*.
 
 ## What the Sheikh checks
 
@@ -233,7 +233,7 @@ the page names the marks as that theme shows them. The choice is remembered on t
 
 ## Play & Learn, Ta'aleem Stars and the daily challenge
 
-From the **AICWIS Ta'aleem Virtual Classroom Interactive Learning Proposal** (Phases 1 and 2). After signing in,
+From the **Ta'aleem Interactive Learning Proposal** (Phases 1 and 2). After signing in,
 the dashboard has the proposal's five destinations: **My Lessons** (Alif Ba), **Play & Learn**, **My Hifz**
 (Hifz test, Mujawwadah), **My Achievements** and **My Jannah Garden**, with **Today's Ta'aleem Challenge** above
 them.

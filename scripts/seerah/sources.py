@@ -1,7 +1,7 @@
 """The Seerah Quest source record: every historical passage the game uses, copied word for word from
 Ibn Kathir, al-Bidaya wa'l-Nihaya, with its volume and page.
 
-Source policy (agreed with AICWIS): Ibn Kathir's al-Bidaya wa'l-Nihaya is the only source for the historical
+Source policy (agreed with Ta'aleem): Ibn Kathir's al-Bidaya wa'l-Nihaya is the only source for the historical
 narrative. Nothing is added from other books. The Arabic is never typed by hand: each passage is found in the
 edition by its first and last words, and this script stops if either cannot be found.
 
