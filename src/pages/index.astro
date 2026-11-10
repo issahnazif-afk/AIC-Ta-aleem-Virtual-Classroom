@@ -443,7 +443,21 @@ const levels = [
     <div id="kh-root"></div>
   </section>
 
-  <!-- My Deen: du'as, the Sunnah of the day, Our Prophet ﷺ and the special days (src/lib/deen/) ─── -->
+  <!-- Play & Make: mazes, word search, snakes and ladders and the other games (src/lib/games/, loaded when opened) ─── -->
+  <section class="screen flow" id="s-games" hidden aria-labelledby="gm-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · Play &amp; Make</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <h1 id="gm-h" class="sr-only">Play and Make</h1>
+      <div id="gm-root"></div>
+      <p class="preview-note">For teachers: the facts in these games and their sources are in docs/activities-review.md, waiting for review.</p>
+    </div>
+  </section>
+
+  <!-- My Deen: duas, the Sunnah of the day, Our Prophet ﷺ and the special days (src/lib/deen/) ─── -->
   <section class="screen flow" id="s-deen" hidden aria-labelledby="dn-h">
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Al-Huda Islamic Centre logo" width="44" height="44" /><span><b>Al-Huda Islamic Weekend School</b><small>Classroom · My Deen</small></span></div>
@@ -1260,6 +1274,7 @@ const levels = [
         ...(me.level >= 2 ? [P('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', '#F1E9FB', go('library')), P('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', '#FFF9EC', go('tawheed'))] : []),
         P('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFDF7', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
         P('games', 'Games', 'أَلْعَاب', 'match', '#FFE9D6', null, { children: games }),
+        P('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F3E3BF', null, { children: ['maze-hijrah', 'maze-tarawih'].map(act).filter(Boolean).map((a) => P(a.id, a.title, a.ar, a.icon, '#FFF9EC', () => openActivity(a))) }),
         P('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E3E8FA', () => openDeen('days')),
         P('garden', 'My garden', 'حَدِيقَتِي', 'garden', '#DFF3DA', () => openGarden()),
         P('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF4CC', () => openAwards()),
@@ -1323,6 +1338,23 @@ const levels = [
       else if (a.kind === 'library') openLibrary(undefined, a.shelf || 'library');
       else if (a.kind === 'books') openBooks();
       else if (a.kind === 'deen') openDeen(a.view);
+      else if (a.kind === 'games') openGames(a.game);
+    }
+    // ── Play & Make (src/lib/games/): loaded only when a game is first opened ──
+    let gamesMod = null, gameView = null;
+    async function openGames(id) {
+      stopSound();
+      const { mountGame } = await (gamesMod ??= import('../lib/games/index.mjs'));
+      gameView?.stop();
+      show('s-games');
+      gameView = mountGame($('gm-root'), {
+        id, level: me.level || 1, progress,
+        earn: (kind, key, score, good) => { const e = record(progress, { kind, key, score, good, gardenPalms: palms() }); renderDashboard(); return e; },
+        flash: (e) => flash(e),
+        onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
+        onExit: () => goHome(),
+      });
+      renderDashboard();
     }
     function goHub() {
       stopSound();
@@ -1360,7 +1392,7 @@ const levels = [
     }
     document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.go === 'hub') { stopGame(); goHub(); }
-      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; ebook?.stop(); ebook = null; deenView?.stop(); deenView = null; goHome(); }
+      if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; ebook?.stop(); ebook = null; deenView?.stop(); deenView = null; gameView?.stop(); gameView = null; goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
     function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }

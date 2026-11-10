@@ -12,6 +12,7 @@ import { BOOKS as HUDA_BOOKS } from '../../src/lib/books/index.mjs';
 import { DUAS } from '../../src/lib/deen/duas.mjs';
 import { SUNNAH } from '../../src/lib/deen/sunnah.mjs';
 import { VIRTUES, DAY, LIFE } from '../../src/lib/deen/prophet.mjs';
+import { ALL_LINES as GAME_LINES } from '../../src/lib/games/lines.mjs';
 
 const SRC = JSON.parse(fs.readFileSync(new URL('../../src/data/seerah/sources.json', import.meta.url)));
 const out = new Map();
@@ -70,7 +71,9 @@ add('story', 'What can I do today?');
 // the du'a lesson (the meaning of a du'a is read only when the student taps Translation)
 for (const t of ["Get ready to learn this du'a.", 'Now get ready to repeat after me.', "Well done! Say it once more, or go on to the next du'a."]) add('story', t);
 // the picture home (Levels 1 and 2) says each place's name
-for (const t of ['My letters', "My du'as", 'Sunnah of the day', 'Our Prophet sallallahu alayhi wa sallam', 'Stories', 'My books', 'Reading Library', 'Knowing Allah', "Qur'an", 'Games', 'Special days', 'My garden', 'My stars', 'Back']) add('story', t);
+// Play & Make (src/lib/games/lines.mjs): the games' instructions and cheers for Levels 1 and 2
+for (const t of GAME_LINES) add('story', t);
+for (const t of ['My letters', "My du'as", 'Sunnah of the day', 'Our Prophet sallallahu alayhi wa sallam', 'Stories', 'My books', 'Reading Library', 'Knowing Allah', "Qur'an", 'Games', 'Special days', 'My garden', 'My stars', 'Back', 'Mazes']) add('story', t);
 
 // The Seerah Quest: the passages from al-Bidaya, the explorer's guide, the questions and the reflections
 for (const p of SRC.passages) if (p.class !== 'excluded') add('seerah', p.en);

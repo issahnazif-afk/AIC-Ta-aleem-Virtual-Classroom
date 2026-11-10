@@ -34122,6 +34122,72 @@
   ]
  },
  {
+  "key": "242dd0ac",
+  "reader": "story",
+  "text": "Help the camel travel from Makkah to Madinah. Use the arrows to move.",
+  "parts": [
+   [
+    "narrator",
+    "Help the camel travel from {mˈakka} to Madinah. Use the arrows to move."
+   ]
+  ]
+ },
+ {
+  "key": "615db44a",
+  "reader": "story",
+  "text": "Help the lantern find the way to the masjid for Tarawih. Use the arrows to move.",
+  "parts": [
+   [
+    "narrator",
+    "Help the lantern find the way to the {mˈasdʒid} for Tarawih. Use the arrows to move."
+   ]
+  ]
+ },
+ {
+  "key": "4fca5e88",
+  "reader": "story",
+  "text": "Oops! The munching monster lives in that dead end. Try another way.",
+  "parts": [
+   [
+    "narrator",
+    "Oops! The munching monster lives in that dead end. Try another way."
+   ]
+  ]
+ },
+ {
+  "key": "a09b5818",
+  "reader": "story",
+  "text": "Oops! Silly monster. Let's try another way.",
+  "parts": [
+   [
+    "narrator",
+    "Oops! Silly monster. Let's try another way."
+   ]
+  ]
+ },
+ {
+  "key": "2f3d586f",
+  "reader": "story",
+  "text": "Look! The walls are moving.",
+  "parts": [
+   [
+    "narrator",
+    "Look! The walls are moving."
+   ]
+  ]
+ },
+ {
+  "key": "a89c2577",
+  "reader": "story",
+  "text": "You made it! Masha Allah!",
+  "parts": [
+   [
+    "narrator",
+    "You made it! Masha {allˈɑːh}!"
+   ]
+  ]
+ },
+ {
   "key": "16d95b80",
   "reader": "story",
   "text": "My letters",
@@ -34272,6 +34338,17 @@
    [
     "narrator",
     "Back"
+   ]
+  ]
+ },
+ {
+  "key": "13915961",
+  "reader": "story",
+  "text": "Mazes",
+  "parts": [
+   [
+    "narrator",
+    "Mazes"
    ]
   ]
  },

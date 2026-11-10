@@ -6,9 +6,9 @@
 // An entry with  kind: 'soon'  shows as "Coming soon" until it is ready.
 //
 //   id      unique name
-//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Al-Huda Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'soon'
+//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Al-Huda Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'games' (Play & Make, src/lib/games/) | 'soon'
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
-//   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs)
+//   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs); for 'games': an id in GAMES (src/lib/games/index.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
 //   nocam   for 'recite': practice without the camera check, snapshot or look-away check (microphone only)
 //   worlds  which learning worlds it belongs to (WORLDS below): the home page's "Choose your adventure"
@@ -96,6 +96,11 @@ export const ACTIVITIES = [
     title: 'Salah Master', ar: 'ٱلصَّلَاة', text: 'The steps of the prayer in order, what we say, and when.' },
   { id: 'akhlaq', worlds: ['akhlaq'], kind: 'play', game: 'akhlaq', icon: 'akhlaq', group: 'play', suggested: [1, 2, 3, 4],
     title: 'Akhlaq Heroes', ar: 'أَبْطَالُ ٱلْأَخْلَاق', text: 'What would you do? Good choices grow your kindness garden.' },
+  // Play & Make (src/lib/games/): games and activities with ideas from printable worksheets, all written and drawn anew.
+  { id: 'maze-hijrah', worlds: ['seerah'], kind: 'games', game: 'maze-hijrah', icon: 'maze', group: 'play', suggested: [1, 2, 3, 4],
+    title: 'Makkah to Madinah', ar: 'مِنْ مَكَّةَ إِلَى الْمَدِينَةِ', text: 'Guide the camel through a maze to Madinah. Dead ends hide a munching monster, and from Level 2 the walls move!' },
+  { id: 'maze-tarawih', worlds: ['dua'], kind: 'games', game: 'maze-tarawih', icon: 'mazeNight', group: 'play', suggested: [1, 2, 3, 4],
+    title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', text: 'A Ramadan night maze: carry the lantern to the masjid, and keep away from the dead ends.' },
   // The Seerah Quest: a 3D journey through the history before the Prophet ﷺ, from Ibn Kathir's al-Bidaya wa'l-Nihaya only.
   { id: 'seerah', worlds: ['seerah'], kind: 'seerah', icon: 'seerah', group: 'play', levels: [3, 4], suggested: [3, 4],
     title: 'The Seerah Quest', ar: 'رِحْلَةُ ٱلسِّيرَة', text: 'Walk through Makkah before the Prophet ﷺ: the well of Zamzam and the Year of the Elephant, told only from Ibn Kathir.' },
@@ -133,6 +138,8 @@ export const ICONS = {
   calendar: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><rect x="8" y="12" width="48" height="44" rx="6" fill="#FFFDF7" stroke="#0E6B4E" stroke-width="2.5"/><rect x="8" y="12" width="48" height="12" rx="6" fill="#0E6B4E"/><path d="M40 32a9 9 0 1 0 7 14a8 8 0 0 1 -7 -14z" fill="#C9A24A"/><circle cx="22" cy="38" r="2" fill="#C9A24A"/><circle cx="28" cy="46" r="1.6" fill="#C9A24A"/></svg>',
   garden: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><ellipse cx="32" cy="56" rx="26" ry="5" fill="#8CCB7E"/><path d="M30 56 Q29 38 32 24 L34 24 Q33 38 35 56 Z" fill="#8A5A12"/><g fill="#2E8B57"><path d="M33 24 Q18 14 8 22 Q20 18 33 26 Z"/><path d="M33 24 Q48 14 58 22 Q46 18 33 26 Z"/><path d="M33 24 Q24 6 14 6 Q26 12 32 25 Z"/><path d="M33 24 Q42 6 52 6 Q40 12 34 25 Z"/></g><circle cx="14" cy="50" r="4" fill="#F4B6C2"/><circle cx="50" cy="50" r="4" fill="#FBE3A6"/></svg>',
   awards: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 4 L39 22 L58 22 L43 34 L49 54 L32 42 L15 54 L21 34 L6 22 L25 22 Z" fill="#F6C64B" stroke="#C9A24A" stroke-width="2.5"/></svg>',
+  maze: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="6" fill="#F3E3BF" stroke="#8A5A33" stroke-width="3"/><path d="M6 20 H40 M24 20 V44 M24 44 H44 M44 30 V58 M14 32 V58 M34 6 V14" stroke="#8A5A33" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M10 12 H18 V26 H34 V36" stroke="#E85A71" stroke-width="2.5" stroke-dasharray="2 4" fill="none" stroke-linecap="round"/><circle cx="52" cy="50" r="4" fill="#2E8B57"/><circle cx="34" cy="38" r="5" fill="#D9A55B" stroke="#8A5A33" stroke-width="1.5"/></svg>',
+  mazeNight: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="6" fill="#E4ECFA" stroke="#2C3E73" stroke-width="3"/><path d="M6 22 H36 M22 22 V46 M22 46 H46 M46 32 V58 M36 6 V14" stroke="#2C3E73" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M50 10a6 6 0 1 0 4 10a5 5 0 0 1 -4 -10z" fill="#C9A24A"/><path d="M30 30 h8 l3 6 -3 6 h-8 l-3 -6z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/></svg>',
   soon: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#F7F8F6" stroke="#B9C3BE" stroke-width="2.5"/><path d="M32 20 V33 L40 38" fill="none" stroke="#4F5B56" stroke-width="2.5" stroke-linecap="round"/></svg>',
 };
 
