@@ -126,3 +126,32 @@
 .kh-bar .pill { white-space: nowrap; }
 @media (max-width: 560px) { .kh-bar > b { display: none; } }
 .kh-ic img { width: 88%; height: 88%; object-fit: contain; filter: drop-shadow(0 3px 4px rgb(0 0 0 / .12)); }
+
+/* ── a du'a lesson: see it, listen, repeat after me (fixed light colours, so every reading theme stays readable) ── */
+.dn-steps { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 2px 0 4px; padding: 0; }
+.dn-steps li { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px 5px 6px; border-radius: 999px; background: #F3F5F2; color: #3B4A44; font-size: 14px; font-weight: 600; }
+.dn-steps li b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #DDE3DF; color: #14211B; font-size: 13px; }
+.dn-steps li.on { background: #0E6B4E; color: #fff; }
+.dn-steps li.on b { background: #FBE3A6; color: #14211B; }
+.dn-parts { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px; padding: 14px 16px; border-radius: 18px; background: #FFFBF0; border: 1px solid #E8DCC0; width: 100%; max-width: 46em; }
+.dn-part { font-family: var(--font-quran); font-size: clamp(28px, 4.4vw, 42px); line-height: 1.8; padding: 0 12px; border-radius: 14px; border: 2px solid transparent; background: transparent; color: #14211B; cursor: pointer; transition: background .2s, border-color .2s; }
+.dn-part:hover, .dn-part:focus-visible { border-color: #C9A24A; }
+.dn-part.on, .dn-part.all { background: #FBE3A6; border-color: #C9A24A; }
+.dn-trans { min-height: 40px; }
+.dn-translation { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; max-width: 44em; padding: 12px 16px; border-radius: 16px; background: #EEF7F2; border: 1px solid #9AD1B6; color: #14211B; }
+.dn-translation[hidden] { display: none; }
+.dn-translation .dn-src, .dn-translation .dn-src a { color: #0B5A41; }
+.dn-wait { padding: 10px 14px; border-radius: 12px; background: #FFF4E5; border: 1px solid #F0C27A; color: #5E3B0B; max-width: 40em; font-size: 15px; }
+.dn-wait[hidden] { display: none; }
+.dn-step-btn { min-height: 48px; font-size: 16px; }
+.dn-turn { display: flex; align-items: center; gap: 12px; width: 100%; max-width: 30em; padding: 10px 14px; border-radius: 14px; background: #EEF7F2; color: #14211B; }
+.dn-turn[hidden] { display: none; }
+.dn-turn-t { margin: 0; font-weight: 700; color: #0B5A41; }
+.dn-turn-bar { flex: 1; height: 10px; border-radius: 99px; background: #DDE3DF; overflow: hidden; }
+.dn-turn-bar i { display: block; height: 100%; width: 0; background: #0E6B4E; }
+.dn-row-small .btn { min-height: 40px; }
+.dn-lesson .dn-tr { color: #4F5B56; }
+@media (prefers-reduced-motion: reduce) { .dn-part, .dn-turn-bar i { transition: none !important; } }
+/* reading themes change --marker and the page colour: keep My Deen's headings and the Back link readable */
+.dn-big .dn-kicker, .dn-hadith .dn-kicker, .dn-story .dn-kicker, .dn-today .dn-kicker { color: #8A5A12; }
+body:is([data-paper="night"], [data-paper="yellow"]) .dn-back { color: var(--paper-ink); }

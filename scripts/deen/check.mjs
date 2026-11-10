@@ -89,6 +89,16 @@ for (const v of VIRTUES) words.push([`virtue ${v.id}`, v.text, v.hadith.en, v.st
 for (const e of [...DAY, ...LIFE, ...DAYS]) words.push([e.id, e.title, e.text, e.en]);
 for (const [where, ...ts] of words) for (const t of ts) if (t && /[—“”‘’]/.test(t)) problems.push(`${where}: em dash or curly quote in "${t.slice(0, 50)}…"`);
 
+// each du'a's parts, put back together, must be exactly its words (vowels and all)
+const same = (t) => t.replace(/[0-9()·]/g, ' ').replace(/\s+/g, ' ').trim();
+for (const d of DUAS) {
+  if (d.quran) { if (d.parts) problems.push(`du'a ${d.id}: a Qur'an du'a takes its parts from the ayat (remove parts)`); continue; }
+  if (!d.parts?.length) { problems.push(`du'a ${d.id}: needs parts`); continue; }
+  if (same(d.parts.join(' ')) !== same(d.ar)) problems.push(`du'a ${d.id}: the parts do not add up to the du'a`);
+}
+const HISN_FITS = ['exact', 'close', 'longer'];
+for (const d of DUAS) if (d.hisn && (!Number.isInteger(d.hisn.id) || !HISN_FITS.includes(d.hisn.fit))) problems.push(`du'a ${d.id}: hisn needs { id, fit: ${HISN_FITS.join(' | ')} }`);
+
 // links from the day and the life to the du'as and sunnahs
 const ids = new Set([...DUAS.map((d) => d.id), ...SUNNAH.map((s) => s.id)]);
 for (const s of DAY) for (const l of s.links ?? []) if (!ids.has(l)) problems.push(`day step ${s.id}: no du'a or sunnah "${l}"`);
@@ -108,8 +118,11 @@ const ayah = (q) => [q].flat().map((x) => `Qur'an ${x.s}:${x.a}${x.w ? ` (words 
 md.push('## My du\'as', '');
 for (const c of CATEGORIES) {
   md.push(`### ${c.title}`, '');
+  md.push('| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |', '|---|---|---|---|---|---|---|');
   for (const d of DUAS.filter((x) => x.cat === c.id)) {
-    md.push(`- [ ] **${d.when}** (Level ${d.level}+): ${d.ar ? `${d.ar} ` : ''}*${d.tr}*. "${d.en}" ${d.quran ? `From the Tanzil text: ${ayah(d.quran)}.` : `Source: ${src(d.src)}.`}`);
+    const parts = d.quran ? `the ayat: ${ayah(d.quran)}` : d.parts.map((x, i) => `${i + 1}. ${x}`).join('<br>');
+    const hisn = d.hisn ? `item ${d.hisn.id} (${d.hisn.fit})` : d.quran ? '' : 'no match';
+    md.push(`| [ ] | ${d.when} (Level ${d.level}+) | ${parts} | *${d.tr}* | "${d.en}" | ${d.quran ? `Tanzil text` : src(d.src)} | ${hisn} |`);
   }
   md.push('');
 }

@@ -67,6 +67,8 @@ for (const x of SUNNAH) { add('story', x.title); add('story', x.do); add('story'
 for (const v of VIRTUES) { add('story', v.title); add('story', v.text); add('story', v.hadith.en); add('story', v.story?.en); add('story', v.today); }
 for (const x of [...DAY, ...LIFE]) { add('story', x.title); add('story', x.text); }
 add('story', 'What can I do today?');
+// the du'a lesson (the meaning of a du'a is read only when the student taps Translation)
+for (const t of ["Get ready to learn this du'a.", 'Now get ready to repeat after me.', "Well done! Say it once more, or go on to the next du'a."]) add('story', t);
 // the picture home (Levels 1 and 2) says each place's name
 for (const t of ['My letters', "My du'as", 'Sunnah of the day', 'Our Prophet sallallahu alayhi wa sallam', 'Stories', 'My books', 'Reading Library', 'Knowing Allah', "Qur'an", 'Games', 'Special days', 'My garden', 'My stars', 'Back']) add('story', t);
 

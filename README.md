@@ -399,6 +399,15 @@ Under *My Lessons* (and on the picture home). Content in `src/lib/deen/`, the sc
   when we say it and its source, linked to sunnah.com. *Listen* plays a teacher's recording from the Voice Studio
   (*Hadith in Arabic* tab); a computer voice never reads the Arabic. Qur'an du'as come from the Tanzil text with the
   class reciter. *I learnt it* gives Ta'aleem Stars (the Knowledge mission); favourites are kept.
+  Each du'a opens as a short lesson: **1 See it** (the Arabic first, in its parts; the English meaning is behind the
+  *Translation* button and is read aloud only when tapped), **2 Listen** (the whole du'a, each part lighting up as it is
+  said) and **3 Repeat after me** (a part, then a pause the length of the part and a second and a half for the child
+  to say it; *Next* moves on, a tap on any part plays it again, *Once more* starts again). The parts are in `duas.mjs`
+  and in the review sheet. The voice is only ever a real person (`dua-audio.mjs`): the teacher's Voice Studio
+  recording of each part (Voice Studio, *My Du'as* tab: one clip per part, the whole du'a optional), then the
+  hisnmuslim.com recording once the school has permission (`HISN_AUDIO` in `refs.mjs`, off; each du'a's matching item
+  is stored as `hisn`), and otherwise a note that the recording is not ready. A Qur'an du'a plays the class reciter for
+  a whole ayah and the word-by-word recitation for part of one.
 - **Sunnah of the day** (`sunnah.mjs`): 40 small sunnahs a child can do, one a day for each level. It is now the
   character mission of *Today's Ta'aleem Challenge*.
 - **Our Prophet ﷺ** (`prophet.mjs`): his character (12 cards, each with a hadith, a true example and "What can I do

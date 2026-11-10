@@ -34089,6 +34089,39 @@
   ]
  },
  {
+  "key": "eed15d60",
+  "reader": "story",
+  "text": "Get ready to learn this du'a.",
+  "parts": [
+   [
+    "narrator",
+    "Get ready to learn this du'a."
+   ]
+  ]
+ },
+ {
+  "key": "d41a22cc",
+  "reader": "story",
+  "text": "Now get ready to repeat after me.",
+  "parts": [
+   [
+    "narrator",
+    "Now get ready to repeat after me."
+   ]
+  ]
+ },
+ {
+  "key": "03a0ff54",
+  "reader": "story",
+  "text": "Well done! Say it once more, or go on to the next du'a.",
+  "parts": [
+   [
+    "narrator",
+    "Well done! Say it once more, or go on to the next du'a."
+   ]
+  ]
+ },
+ {
   "key": "16d95b80",
   "reader": "story",
   "text": "My letters",

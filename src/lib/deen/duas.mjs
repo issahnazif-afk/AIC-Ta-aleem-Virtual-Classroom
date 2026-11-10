@@ -13,6 +13,11 @@
 //   src      [{ c, n }]: collection (bukhari, muslim, abudawud, tirmidhi, nasai, ibnmajah) and number
 //   key      (optional) the words the checker looks for in the hadith, when the du'a is not quoted word for word
 //   times    (optional) how many times it is said
+//   parts    the du'a in short parts, at its natural pauses (for "Repeat after me"; each part can be its own
+//            Voice Studio recording). A Qur'an du'a has no parts written here: each ayah of it is one part.
+//   hisn     (optional) { id, fit } the matching item on hisnmuslim.com (its audio is used only once the school
+//            has permission: HISN_AUDIO in refs.mjs). fit: exact | close (one small difference) | longer (our
+//            words are inside a longer item)
 
 export const CATEGORIES = [
   { id: 'day', title: 'Waking up and sleeping', ar: 'النَّوْمُ وَالِاسْتِيقَاظُ', icon: 'moon' },
@@ -34,6 +39,7 @@ export const DUAS = [
     tr: "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur",
     en: 'All praise is for Allah, who gave us life again after He made us sleep, and to Him we will return.',
     src: [{ c: 'bukhari', n: 6324 }],
+    parts: ['الْحَمْدُ لِلَّهِ', 'الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا', 'وَإِلَيْهِ النُّشُورُ'], hisn: { id: 1, fit: 'exact' },
   },
   {
     id: 'sleep', cat: 'day', level: 1, when: 'When I go to sleep',
@@ -41,6 +47,7 @@ export const DUAS = [
     tr: 'Bismika Allahumma amutu wa ahya',
     en: 'In Your name, O Allah, I sleep and I wake.',
     src: [{ c: 'bukhari', n: 6324 }],
+    parts: ['بِاسْمِكَ اللَّهُمَّ', 'أَمُوتُ وَأَحْيَا'], hisn: { id: 105, fit: 'exact' },
   },
   {
     id: 'morning', cat: 'day', level: 2, when: 'In the morning',
@@ -48,6 +55,7 @@ export const DUAS = [
     tr: "Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilaykal-masir",
     en: 'O Allah, by You we reach the morning and by You we reach the evening. By You we live and by You we die, and to You is the return.',
     src: [{ c: 'tirmidhi', n: 3391 }],
+    parts: ['اللَّهُمَّ بِكَ أَصْبَحْنَا', 'وَبِكَ أَمْسَيْنَا', 'وَبِكَ نَحْيَا', 'وَبِكَ نَمُوتُ', 'وَإِلَيْكَ الْمَصِيرُ'], hisn: { id: 78, fit: 'close' },
   },
   {
     id: 'evening', cat: 'day', level: 2, when: 'In the evening',
@@ -55,6 +63,7 @@ export const DUAS = [
     tr: "Allahumma bika amsayna wa bika asbahna wa bika nahya wa bika namutu wa ilaykan-nushur",
     en: 'O Allah, by You we reach the evening and by You we reach the morning. By You we live and by You we die, and to You we will return.',
     src: [{ c: 'tirmidhi', n: 3391 }],
+    parts: ['اللَّهُمَّ بِكَ أَمْسَيْنَا', 'وَبِكَ أَصْبَحْنَا', 'وَبِكَ نَحْيَا', 'وَبِكَ نَمُوتُ', 'وَإِلَيْكَ النُّشُورُ'], hisn: { id: 78, fit: 'close' },
   },
   {
     id: 'protect', cat: 'day', level: 3, when: 'Three times in the morning and three times in the evening', times: 3,
@@ -62,6 +71,7 @@ export const DUAS = [
     tr: "Bismillahil-ladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama'i wa huwas-sami'ul-'alim",
     en: 'In the name of Allah, with whose name nothing on the earth or in the sky can harm. He is the All-Hearing, the All-Knowing.',
     src: [{ c: 'abudawud', n: 5088 }, { c: 'tirmidhi', n: 3388 }],
+    parts: ['بِسْمِ اللَّهِ الَّذِي', 'لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ', 'فِي الْأَرْضِ وَلَا فِي السَّمَاءِ', 'وَهُوَ السَّمِيعُ الْعَلِيمُ'], hisn: { id: 86, fit: 'exact' },
   },
 
   // ── eating and drinking ──
@@ -71,6 +81,7 @@ export const DUAS = [
     tr: 'Bismillah',
     en: 'In the name of Allah.',
     src: [{ c: 'bukhari', n: 5376 }],
+    parts: ['بِسْمِ اللَّهِ'], hisn: { id: 178, fit: 'longer' },
   },
   {
     id: 'eat-forgot', cat: 'food', level: 2, when: 'If I forgot to say Bismillah at the start',
@@ -78,6 +89,7 @@ export const DUAS = [
     tr: "Bismillahi awwalahu wa akhirahu",
     en: 'In the name of Allah, at its beginning and at its end.',
     src: [{ c: 'abudawud', n: 3767 }],
+    parts: ['بِسْمِ اللَّهِ', 'أَوَّلَهُ وَآخِرَهُ'], hisn: { id: 178, fit: 'close' },
   },
   {
     id: 'ate', cat: 'food', level: 2, when: 'When I finish eating',
@@ -85,6 +97,7 @@ export const DUAS = [
     tr: "Alhamdu lillahil-ladhi at'amani hadha wa razaqanihi min ghayri hawlin minni wa la quwwah",
     en: 'All praise is for Allah, who fed me this and gave it to me, with no power or strength from me.',
     src: [{ c: 'tirmidhi', n: 3458 }],
+    parts: ['الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا', 'وَرَزَقَنِيهِ', 'مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ'], hisn: { id: 180, fit: 'exact' },
   },
 
   // ── at home ──
@@ -94,6 +107,7 @@ export const DUAS = [
     tr: "Bismillah, tawakkaltu 'alallah, la hawla wa la quwwata illa billah",
     en: 'In the name of Allah. I trust in Allah. There is no power and no strength except with Allah.',
     src: [{ c: 'abudawud', n: 5095 }, { c: 'tirmidhi', n: 3426 }],
+    parts: ['بِسْمِ اللَّهِ', 'تَوَكَّلْتُ عَلَى اللَّهِ', 'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ'], hisn: { id: 16, fit: 'close' },
   },
   {
     id: 'enter-home', cat: 'home', level: 1, when: 'When I come into the house',
@@ -101,6 +115,7 @@ export const DUAS = [
     tr: 'Bismillah',
     en: 'In the name of Allah. When we remember Allah as we come in and when we eat, the Shaytan finds no place to stay with us.',
     src: [{ c: 'muslim', n: 2018 }],
+    parts: ['بِسْمِ اللَّهِ'],
   },
   {
     id: 'dress', cat: 'home', level: 3, when: 'When I put on new clothes',
@@ -108,6 +123,7 @@ export const DUAS = [
     tr: "Alhamdu lillahil-ladhi kasani hadhath-thawba wa razaqanihi min ghayri hawlin minni wa la quwwah",
     en: 'All praise is for Allah, who dressed me in this garment and gave it to me, with no power or strength from me.',
     src: [{ c: 'abudawud', n: 4023 }],
+    parts: ['الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا الثَّوْبَ', 'وَرَزَقَنِيهِ', 'مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ'], hisn: { id: 5, fit: 'exact' },
   },
   {
     id: 'toilet-in', cat: 'home', level: 1, when: 'Before I go into the toilet',
@@ -115,6 +131,7 @@ export const DUAS = [
     tr: "Allahumma inni a'udhu bika minal-khubuthi wal-khaba'ith",
     en: 'O Allah, I ask You to keep me safe from bad things and bad ones.',
     src: [{ c: 'bukhari', n: 142 }, { c: 'muslim', n: 375 }],
+    parts: ['اللَّهُمَّ إِنِّي أَعُوذُ بِكَ', 'مِنَ الْخُبُثِ وَالْخَبَائِثِ'], hisn: { id: 10, fit: 'close' },
   },
   {
     id: 'toilet-out', cat: 'home', level: 1, when: 'When I come out of the toilet',
@@ -122,6 +139,7 @@ export const DUAS = [
     tr: 'Ghufranak',
     en: 'I ask You to forgive me.',
     src: [{ c: 'abudawud', n: 30 }, { c: 'tirmidhi', n: 7 }],
+    parts: ['غُفْرَانَكَ'], hisn: { id: 11, fit: 'exact' },
   },
 
   // ── wudu and salah ──
@@ -131,6 +149,7 @@ export const DUAS = [
     tr: "Ash-hadu an la ilaha illallahu wahdahu la sharika lah, wa ash-hadu anna Muhammadan 'abduhu wa rasuluh",
     en: 'I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and His Messenger.',
     src: [{ c: 'muslim', n: 234 }],
+    parts: ['أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ', 'وَحْدَهُ لَا شَرِيكَ لَهُ', 'وَأَشْهَدُ أَنَّ مُحَمَّدًا', 'عَبْدُهُ وَرَسُولُهُ'], hisn: { id: 13, fit: 'exact' },
   },
   {
     id: 'istighfar', cat: 'salah', level: 1, when: 'Three times when I finish my salah', times: 3,
@@ -138,6 +157,7 @@ export const DUAS = [
     tr: 'Astaghfirullah',
     en: 'I ask Allah to forgive me.',
     src: [{ c: 'muslim', n: 591 }],
+    parts: ['أَسْتَغْفِرُ اللَّهَ'], hisn: { id: 66, fit: 'longer' },
   },
   {
     id: 'tasbih', cat: 'salah', level: 2, when: 'After every salah',
@@ -145,6 +165,7 @@ export const DUAS = [
     tr: 'SubhanAllah 33 times, Alhamdulillah 33 times, Allahu akbar 34 times',
     en: 'Glory be to Allah. All praise is for Allah. Allah is the Greatest.',
     src: [{ c: 'muslim', n: 596 }],
+    parts: ['سُبْحَانَ اللَّهِ', 'الْحَمْدُ لِلَّهِ', 'اللَّهُ أَكْبَرُ'],
   },
 
   // ── the masjid ──
@@ -154,6 +175,7 @@ export const DUAS = [
     tr: "Allahummaf-tah li abwaba rahmatik",
     en: 'O Allah, open for me the doors of Your mercy.',
     src: [{ c: 'muslim', n: 713 }],
+    parts: ['اللَّهُمَّ افْتَحْ لِي', 'أَبْوَابَ رَحْمَتِكَ'], hisn: { id: 20, fit: 'longer' },
   },
   {
     id: 'masjid-out', cat: 'masjid', level: 2, when: 'When I leave the masjid',
@@ -161,6 +183,7 @@ export const DUAS = [
     tr: "Allahumma inni as'aluka min fadlik",
     en: 'O Allah, I ask You for Your kindness and Your gifts.',
     src: [{ c: 'muslim', n: 713 }],
+    parts: ['اللَّهُمَّ إِنِّي أَسْأَلُكَ', 'مِنْ فَضْلِكَ'], hisn: { id: 21, fit: 'longer' },
   },
 
   // ── with other people ──
@@ -170,6 +193,7 @@ export const DUAS = [
     tr: "Assalamu 'alaykum",
     en: 'Peace be upon you.',
     src: [{ c: 'bukhari', n: 6227 }],
+    parts: ['السَّلَامُ عَلَيْكُمْ'],
   },
   {
     id: 'sneeze', cat: 'people', level: 1, when: 'When I sneeze, and when someone else sneezes',
@@ -177,6 +201,7 @@ export const DUAS = [
     tr: "I say: Alhamdulillah. My friend says: Yarhamukallah. I answer: Yahdikumullahu wa yuslihu balakum",
     en: 'All praise is for Allah. May Allah have mercy on you. May Allah guide you and make your life good.',
     src: [{ c: 'bukhari', n: 6224 }],
+    parts: ['الْحَمْدُ لِلَّهِ', 'يَرْحَمُكَ اللَّهُ', 'يَهْدِيكُمُ اللَّهُ', 'وَيُصْلِحُ بَالَكُمْ'], hisn: { id: 188, fit: 'longer' },
   },
   {
     id: 'thanks', cat: 'people', level: 1, when: 'When someone does something kind for me',
@@ -184,6 +209,7 @@ export const DUAS = [
     tr: 'Jazakallahu khayran',
     en: 'May Allah reward you with good.',
     src: [{ c: 'tirmidhi', n: 2035 }],
+    parts: ['جَزَاكَ اللَّهُ خَيْرًا'], hisn: { id: 198, fit: 'exact' },
   },
   {
     id: 'sick', cat: 'people', level: 2, when: 'When I visit someone who is ill',
@@ -191,6 +217,7 @@ export const DUAS = [
     tr: "La ba's, tahurun in sha Allah",
     en: 'Do not worry. It is a cleansing for you, if Allah wills.',
     src: [{ c: 'bukhari', n: 5656 }],
+    parts: ['لَا بَأْسَ', 'طَهُورٌ إِنْ شَاءَ اللَّهُ'], hisn: { id: 147, fit: 'exact' },
   },
 
   // ── how I feel ──
@@ -200,6 +227,7 @@ export const DUAS = [
     tr: "A'udhu billahi minash-shaytanir-rajim",
     en: 'I ask Allah to keep me safe from the Shaytan, the rejected one.',
     src: [{ c: 'bukhari', n: 6115 }],
+    parts: ['أَعُوذُ بِاللَّهِ', 'مِنَ الشَّيْطَانِ الرَّجِيمِ'], hisn: { id: 193, fit: 'exact' },
   },
   {
     id: 'worried', cat: 'feelings', level: 2, when: 'When I feel worried or afraid',
@@ -207,6 +235,7 @@ export const DUAS = [
     tr: "Hasbunallahu wa ni'mal-wakil",
     en: 'Allah is enough for us, and He is the best One to trust.',
     src: [{ c: 'bukhari', n: 4563 }],
+    parts: ['حَسْبُنَا اللَّهُ', 'وَنِعْمَ الْوَكِيلُ'], hisn: { id: 128, fit: 'exact' },
   },
 
   // ── outside and travel ──
@@ -216,6 +245,7 @@ export const DUAS = [
     tr: "Sayyiban nafi'a",
     en: 'May it be a rain that does good.',
     src: [{ c: 'bukhari', n: 1032 }],
+    parts: ['صَيِّبًا نَافِعًا'], hisn: { id: 172, fit: 'close' },
   },
   {
     id: 'ride', cat: 'out', level: 3, when: 'When I get into a car or ride on a journey',

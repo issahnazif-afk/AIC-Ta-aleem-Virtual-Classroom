@@ -11,61 +11,79 @@ by al-Albani. Please read each one, correct anything you would put differently, 
 
 ### Waking up and sleeping
 
-- [ ] **When I wake up** (Level 1+): الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ *Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur*. "All praise is for Allah, who gave us life again after He made us sleep, and to Him we will return." Source: [Bukhari 6324](https://sunnah.com/bukhari:6324).
-- [ ] **When I go to sleep** (Level 1+): بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا *Bismika Allahumma amutu wa ahya*. "In Your name, O Allah, I sleep and I wake." Source: [Bukhari 6324](https://sunnah.com/bukhari:6324).
-- [ ] **In the morning** (Level 2+): اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ *Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilaykal-masir*. "O Allah, by You we reach the morning and by You we reach the evening. By You we live and by You we die, and to You is the return." Source: [Tirmidhi 3391](https://sunnah.com/tirmidhi:3391) (Sahih (al-Albani)).
-- [ ] **In the evening** (Level 2+): اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ *Allahumma bika amsayna wa bika asbahna wa bika nahya wa bika namutu wa ilaykan-nushur*. "O Allah, by You we reach the evening and by You we reach the morning. By You we live and by You we die, and to You we will return." Source: [Tirmidhi 3391](https://sunnah.com/tirmidhi:3391) (Sahih (al-Albani)).
-- [ ] **Three times in the morning and three times in the evening** (Level 3+): بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ *Bismillahil-ladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama'i wa huwas-sami'ul-'alim*. "In the name of Allah, with whose name nothing on the earth or in the sky can harm. He is the All-Hearing, the All-Knowing." Source: [Abu Dawud 5088](https://sunnah.com/abudawud:5088) (Sahih (al-Albani)), [Tirmidhi 3388](https://sunnah.com/tirmidhi:3388) (Hasan Sahih (al-Albani)).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When I wake up (Level 1+) | 1. الْحَمْدُ لِلَّهِ<br>2. الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا<br>3. وَإِلَيْهِ النُّشُورُ | *Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur* | "All praise is for Allah, who gave us life again after He made us sleep, and to Him we will return." | [Bukhari 6324](https://sunnah.com/bukhari:6324) | item 1 (exact) |
+| [ ] | When I go to sleep (Level 1+) | 1. بِاسْمِكَ اللَّهُمَّ<br>2. أَمُوتُ وَأَحْيَا | *Bismika Allahumma amutu wa ahya* | "In Your name, O Allah, I sleep and I wake." | [Bukhari 6324](https://sunnah.com/bukhari:6324) | item 105 (exact) |
+| [ ] | In the morning (Level 2+) | 1. اللَّهُمَّ بِكَ أَصْبَحْنَا<br>2. وَبِكَ أَمْسَيْنَا<br>3. وَبِكَ نَحْيَا<br>4. وَبِكَ نَمُوتُ<br>5. وَإِلَيْكَ الْمَصِيرُ | *Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilaykal-masir* | "O Allah, by You we reach the morning and by You we reach the evening. By You we live and by You we die, and to You is the return." | [Tirmidhi 3391](https://sunnah.com/tirmidhi:3391) (Sahih (al-Albani)) | item 78 (close) |
+| [ ] | In the evening (Level 2+) | 1. اللَّهُمَّ بِكَ أَمْسَيْنَا<br>2. وَبِكَ أَصْبَحْنَا<br>3. وَبِكَ نَحْيَا<br>4. وَبِكَ نَمُوتُ<br>5. وَإِلَيْكَ النُّشُورُ | *Allahumma bika amsayna wa bika asbahna wa bika nahya wa bika namutu wa ilaykan-nushur* | "O Allah, by You we reach the evening and by You we reach the morning. By You we live and by You we die, and to You we will return." | [Tirmidhi 3391](https://sunnah.com/tirmidhi:3391) (Sahih (al-Albani)) | item 78 (close) |
+| [ ] | Three times in the morning and three times in the evening (Level 3+) | 1. بِسْمِ اللَّهِ الَّذِي<br>2. لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ<br>3. فِي الْأَرْضِ وَلَا فِي السَّمَاءِ<br>4. وَهُوَ السَّمِيعُ الْعَلِيمُ | *Bismillahil-ladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama'i wa huwas-sami'ul-'alim* | "In the name of Allah, with whose name nothing on the earth or in the sky can harm. He is the All-Hearing, the All-Knowing." | [Abu Dawud 5088](https://sunnah.com/abudawud:5088) (Sahih (al-Albani)), [Tirmidhi 3388](https://sunnah.com/tirmidhi:3388) (Hasan Sahih (al-Albani)) | item 86 (exact) |
 
 ### Eating and drinking
 
-- [ ] **Before I eat or drink** (Level 1+): بِسْمِ اللَّهِ *Bismillah*. "In the name of Allah." Source: [Bukhari 5376](https://sunnah.com/bukhari:5376).
-- [ ] **If I forgot to say Bismillah at the start** (Level 2+): بِسْمِ اللَّهِ أَوَّلَهُ وَآخِرَهُ *Bismillahi awwalahu wa akhirahu*. "In the name of Allah, at its beginning and at its end." Source: [Abu Dawud 3767](https://sunnah.com/abudawud:3767) (Sahih (al-Albani)).
-- [ ] **When I finish eating** (Level 2+): الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ *Alhamdu lillahil-ladhi at'amani hadha wa razaqanihi min ghayri hawlin minni wa la quwwah*. "All praise is for Allah, who fed me this and gave it to me, with no power or strength from me." Source: [Tirmidhi 3458](https://sunnah.com/tirmidhi:3458) (Hasan (al-Albani)).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | Before I eat or drink (Level 1+) | 1. بِسْمِ اللَّهِ | *Bismillah* | "In the name of Allah." | [Bukhari 5376](https://sunnah.com/bukhari:5376) | item 178 (longer) |
+| [ ] | If I forgot to say Bismillah at the start (Level 2+) | 1. بِسْمِ اللَّهِ<br>2. أَوَّلَهُ وَآخِرَهُ | *Bismillahi awwalahu wa akhirahu* | "In the name of Allah, at its beginning and at its end." | [Abu Dawud 3767](https://sunnah.com/abudawud:3767) (Sahih (al-Albani)) | item 178 (close) |
+| [ ] | When I finish eating (Level 2+) | 1. الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا<br>2. وَرَزَقَنِيهِ<br>3. مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ | *Alhamdu lillahil-ladhi at'amani hadha wa razaqanihi min ghayri hawlin minni wa la quwwah* | "All praise is for Allah, who fed me this and gave it to me, with no power or strength from me." | [Tirmidhi 3458](https://sunnah.com/tirmidhi:3458) (Hasan (al-Albani)) | item 180 (exact) |
 
 ### At home
 
-- [ ] **When I leave the house** (Level 1+): بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ *Bismillah, tawakkaltu 'alallah, la hawla wa la quwwata illa billah*. "In the name of Allah. I trust in Allah. There is no power and no strength except with Allah." Source: [Abu Dawud 5095](https://sunnah.com/abudawud:5095) (Sahih (al-Albani)), [Tirmidhi 3426](https://sunnah.com/tirmidhi:3426) (Sahih (al-Albani)).
-- [ ] **When I come into the house** (Level 1+): بِسْمِ اللَّهِ *Bismillah*. "In the name of Allah. When we remember Allah as we come in and when we eat, the Shaytan finds no place to stay with us." Source: [Muslim 2018](https://sunnah.com/muslim:2018).
-- [ ] **When I put on new clothes** (Level 3+): الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا الثَّوْبَ وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ *Alhamdu lillahil-ladhi kasani hadhath-thawba wa razaqanihi min ghayri hawlin minni wa la quwwah*. "All praise is for Allah, who dressed me in this garment and gave it to me, with no power or strength from me." Source: [Abu Dawud 4023](https://sunnah.com/abudawud:4023) (Hasan (al-Albani)).
-- [ ] **Before I go into the toilet** (Level 1+): اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ *Allahumma inni a'udhu bika minal-khubuthi wal-khaba'ith*. "O Allah, I ask You to keep me safe from bad things and bad ones." Source: [Bukhari 142](https://sunnah.com/bukhari:142), [Muslim 375](https://sunnah.com/muslim:375).
-- [ ] **When I come out of the toilet** (Level 1+): غُفْرَانَكَ *Ghufranak*. "I ask You to forgive me." Source: [Abu Dawud 30](https://sunnah.com/abudawud:30) (Sahih (al-Albani)), [Tirmidhi 7](https://sunnah.com/tirmidhi:7) (Sahih (al-Albani)).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When I leave the house (Level 1+) | 1. بِسْمِ اللَّهِ<br>2. تَوَكَّلْتُ عَلَى اللَّهِ<br>3. لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ | *Bismillah, tawakkaltu 'alallah, la hawla wa la quwwata illa billah* | "In the name of Allah. I trust in Allah. There is no power and no strength except with Allah." | [Abu Dawud 5095](https://sunnah.com/abudawud:5095) (Sahih (al-Albani)), [Tirmidhi 3426](https://sunnah.com/tirmidhi:3426) (Sahih (al-Albani)) | item 16 (close) |
+| [ ] | When I come into the house (Level 1+) | 1. بِسْمِ اللَّهِ | *Bismillah* | "In the name of Allah. When we remember Allah as we come in and when we eat, the Shaytan finds no place to stay with us." | [Muslim 2018](https://sunnah.com/muslim:2018) | no match |
+| [ ] | When I put on new clothes (Level 3+) | 1. الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا الثَّوْبَ<br>2. وَرَزَقَنِيهِ<br>3. مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ | *Alhamdu lillahil-ladhi kasani hadhath-thawba wa razaqanihi min ghayri hawlin minni wa la quwwah* | "All praise is for Allah, who dressed me in this garment and gave it to me, with no power or strength from me." | [Abu Dawud 4023](https://sunnah.com/abudawud:4023) (Hasan (al-Albani)) | item 5 (exact) |
+| [ ] | Before I go into the toilet (Level 1+) | 1. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ<br>2. مِنَ الْخُبُثِ وَالْخَبَائِثِ | *Allahumma inni a'udhu bika minal-khubuthi wal-khaba'ith* | "O Allah, I ask You to keep me safe from bad things and bad ones." | [Bukhari 142](https://sunnah.com/bukhari:142), [Muslim 375](https://sunnah.com/muslim:375) | item 10 (close) |
+| [ ] | When I come out of the toilet (Level 1+) | 1. غُفْرَانَكَ | *Ghufranak* | "I ask You to forgive me." | [Abu Dawud 30](https://sunnah.com/abudawud:30) (Sahih (al-Albani)), [Tirmidhi 7](https://sunnah.com/tirmidhi:7) (Sahih (al-Albani)) | item 11 (exact) |
 
 ### Wudu and salah
 
-- [ ] **When I finish my wudu** (Level 2+): أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ *Ash-hadu an la ilaha illallahu wahdahu la sharika lah, wa ash-hadu anna Muhammadan 'abduhu wa rasuluh*. "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and His Messenger." Source: [Muslim 234](https://sunnah.com/muslim:234).
-- [ ] **Three times when I finish my salah** (Level 1+): أَسْتَغْفِرُ اللَّهَ *Astaghfirullah*. "I ask Allah to forgive me." Source: [Muslim 591](https://sunnah.com/muslim:591).
-- [ ] **After every salah** (Level 2+): سُبْحَانَ اللَّهِ (33) · الْحَمْدُ لِلَّهِ (33) · اللَّهُ أَكْبَرُ (34) *SubhanAllah 33 times, Alhamdulillah 33 times, Allahu akbar 34 times*. "Glory be to Allah. All praise is for Allah. Allah is the Greatest." Source: [Muslim 596](https://sunnah.com/muslim:596).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When I finish my wudu (Level 2+) | 1. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ<br>2. وَحْدَهُ لَا شَرِيكَ لَهُ<br>3. وَأَشْهَدُ أَنَّ مُحَمَّدًا<br>4. عَبْدُهُ وَرَسُولُهُ | *Ash-hadu an la ilaha illallahu wahdahu la sharika lah, wa ash-hadu anna Muhammadan 'abduhu wa rasuluh* | "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and His Messenger." | [Muslim 234](https://sunnah.com/muslim:234) | item 13 (exact) |
+| [ ] | Three times when I finish my salah (Level 1+) | 1. أَسْتَغْفِرُ اللَّهَ | *Astaghfirullah* | "I ask Allah to forgive me." | [Muslim 591](https://sunnah.com/muslim:591) | item 66 (longer) |
+| [ ] | After every salah (Level 2+) | 1. سُبْحَانَ اللَّهِ<br>2. الْحَمْدُ لِلَّهِ<br>3. اللَّهُ أَكْبَرُ | *SubhanAllah 33 times, Alhamdulillah 33 times, Allahu akbar 34 times* | "Glory be to Allah. All praise is for Allah. Allah is the Greatest." | [Muslim 596](https://sunnah.com/muslim:596) | no match |
 
 ### The masjid
 
-- [ ] **When I go into the masjid** (Level 1+): اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ *Allahummaf-tah li abwaba rahmatik*. "O Allah, open for me the doors of Your mercy." Source: [Muslim 713](https://sunnah.com/muslim:713).
-- [ ] **When I leave the masjid** (Level 2+): اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ *Allahumma inni as'aluka min fadlik*. "O Allah, I ask You for Your kindness and Your gifts." Source: [Muslim 713](https://sunnah.com/muslim:713).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When I go into the masjid (Level 1+) | 1. اللَّهُمَّ افْتَحْ لِي<br>2. أَبْوَابَ رَحْمَتِكَ | *Allahummaf-tah li abwaba rahmatik* | "O Allah, open for me the doors of Your mercy." | [Muslim 713](https://sunnah.com/muslim:713) | item 20 (longer) |
+| [ ] | When I leave the masjid (Level 2+) | 1. اللَّهُمَّ إِنِّي أَسْأَلُكَ<br>2. مِنْ فَضْلِكَ | *Allahumma inni as'aluka min fadlik* | "O Allah, I ask You for Your kindness and Your gifts." | [Muslim 713](https://sunnah.com/muslim:713) | item 21 (longer) |
 
 ### With other people
 
-- [ ] **When I meet someone** (Level 1+): السَّلَامُ عَلَيْكُمْ *Assalamu 'alaykum*. "Peace be upon you." Source: [Bukhari 6227](https://sunnah.com/bukhari:6227).
-- [ ] **When I sneeze, and when someone else sneezes** (Level 1+): الْحَمْدُ لِلَّهِ · يَرْحَمُكَ اللَّهُ · يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ *I say: Alhamdulillah. My friend says: Yarhamukallah. I answer: Yahdikumullahu wa yuslihu balakum*. "All praise is for Allah. May Allah have mercy on you. May Allah guide you and make your life good." Source: [Bukhari 6224](https://sunnah.com/bukhari:6224).
-- [ ] **When someone does something kind for me** (Level 1+): جَزَاكَ اللَّهُ خَيْرًا *Jazakallahu khayran*. "May Allah reward you with good." Source: [Tirmidhi 2035](https://sunnah.com/tirmidhi:2035) (Sahih (al-Albani)).
-- [ ] **When I visit someone who is ill** (Level 2+): لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ *La ba's, tahurun in sha Allah*. "Do not worry. It is a cleansing for you, if Allah wills." Source: [Bukhari 5656](https://sunnah.com/bukhari:5656).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When I meet someone (Level 1+) | 1. السَّلَامُ عَلَيْكُمْ | *Assalamu 'alaykum* | "Peace be upon you." | [Bukhari 6227](https://sunnah.com/bukhari:6227) | no match |
+| [ ] | When I sneeze, and when someone else sneezes (Level 1+) | 1. الْحَمْدُ لِلَّهِ<br>2. يَرْحَمُكَ اللَّهُ<br>3. يَهْدِيكُمُ اللَّهُ<br>4. وَيُصْلِحُ بَالَكُمْ | *I say: Alhamdulillah. My friend says: Yarhamukallah. I answer: Yahdikumullahu wa yuslihu balakum* | "All praise is for Allah. May Allah have mercy on you. May Allah guide you and make your life good." | [Bukhari 6224](https://sunnah.com/bukhari:6224) | item 188 (longer) |
+| [ ] | When someone does something kind for me (Level 1+) | 1. جَزَاكَ اللَّهُ خَيْرًا | *Jazakallahu khayran* | "May Allah reward you with good." | [Tirmidhi 2035](https://sunnah.com/tirmidhi:2035) (Sahih (al-Albani)) | item 198 (exact) |
+| [ ] | When I visit someone who is ill (Level 2+) | 1. لَا بَأْسَ<br>2. طَهُورٌ إِنْ شَاءَ اللَّهُ | *La ba's, tahurun in sha Allah* | "Do not worry. It is a cleansing for you, if Allah wills." | [Bukhari 5656](https://sunnah.com/bukhari:5656) | item 147 (exact) |
 
 ### How I feel
 
-- [ ] **When I feel angry** (Level 1+): أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ *A'udhu billahi minash-shaytanir-rajim*. "I ask Allah to keep me safe from the Shaytan, the rejected one." Source: [Bukhari 6115](https://sunnah.com/bukhari:6115).
-- [ ] **When I feel worried or afraid** (Level 2+): حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ *Hasbunallahu wa ni'mal-wakil*. "Allah is enough for us, and He is the best One to trust." Source: [Bukhari 4563](https://sunnah.com/bukhari:4563).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When I feel angry (Level 1+) | 1. أَعُوذُ بِاللَّهِ<br>2. مِنَ الشَّيْطَانِ الرَّجِيمِ | *A'udhu billahi minash-shaytanir-rajim* | "I ask Allah to keep me safe from the Shaytan, the rejected one." | [Bukhari 6115](https://sunnah.com/bukhari:6115) | item 193 (exact) |
+| [ ] | When I feel worried or afraid (Level 2+) | 1. حَسْبُنَا اللَّهُ<br>2. وَنِعْمَ الْوَكِيلُ | *Hasbunallahu wa ni'mal-wakil* | "Allah is enough for us, and He is the best One to trust." | [Bukhari 4563](https://sunnah.com/bukhari:4563) | item 128 (exact) |
 
 ### Outside and travel
 
-- [ ] **When it rains** (Level 1+): صَيِّبًا نَافِعًا *Sayyiban nafi'a*. "May it be a rain that does good." Source: [Bukhari 1032](https://sunnah.com/bukhari:1032).
-- [ ] **When I get into a car or ride on a journey** (Level 3+): *Subhanal-ladhi sakhkhara lana hadha wa ma kunna lahu muqrinin, wa inna ila rabbina lamunqalibun*. "Glory be to the One who made this ride easy for us. We could not have done it ourselves, and to our Lord we will return." From the Tanzil text: Qur'an 43:13 (words 12–20) and Qur'an 43:14.
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When it rains (Level 1+) | 1. صَيِّبًا نَافِعًا | *Sayyiban nafi'a* | "May it be a rain that does good." | [Bukhari 1032](https://sunnah.com/bukhari:1032) | item 172 (close) |
+| [ ] | When I get into a car or ride on a journey (Level 3+) | the ayat: Qur'an 43:13 (words 12–20) and Qur'an 43:14 | *Subhanal-ladhi sakhkhara lana hadha wa ma kunna lahu muqrinin, wa inna ila rabbina lamunqalibun* | "Glory be to the One who made this ride easy for us. We could not have done it ourselves, and to our Lord we will return." | Tanzil text |  |
 
 ### Du'as from the Qur'an
 
-- [ ] **When I want to learn more** (Level 1+): *Rabbi zidni 'ilma*. "My Lord, give me more knowledge." From the Tanzil text: Qur'an 20:114 (words 17–19).
-- [ ] **When I make du'a for my mother and father** (Level 1+): *Rabbir-hamhuma kama rabbayani saghira*. "My Lord, have mercy on them both, as they looked after me when I was little." From the Tanzil text: Qur'an 17:24 (words 8–12).
-- [ ] **Any time, for good in this life and the next** (Level 2+): *Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar*. "Our Lord, give us good in this world and good in the next, and keep us safe from the Fire." From the Tanzil text: Qur'an 2:201 (words 4–14).
-- [ ] **For keeping up my salah** (Level 3+): *Rabbij-'alni muqimas-salati wa min dhurriyyati, rabbana wa taqabbal du'a'*. "My Lord, make me one who keeps up the prayer, and my children too. Our Lord, accept my du'a." From the Tanzil text: Qur'an 14:40.
-- [ ] **When things are hard, as Prophet Yunus said** (Level 3+): *La ilaha illa anta subhanaka inni kuntu minaz-zalimin*. "There is no god but You. Glory be to You. I have done wrong." From the Tanzil text: Qur'an 21:87 (words 15–23).
+| ✓ | When | Parts (for "Repeat after me") | How to say it | Meaning | Source | hisnmuslim.com |
+|---|---|---|---|---|---|---|
+| [ ] | When I want to learn more (Level 1+) | the ayat: Qur'an 20:114 (words 17–19) | *Rabbi zidni 'ilma* | "My Lord, give me more knowledge." | Tanzil text |  |
+| [ ] | When I make du'a for my mother and father (Level 1+) | the ayat: Qur'an 17:24 (words 8–12) | *Rabbir-hamhuma kama rabbayani saghira* | "My Lord, have mercy on them both, as they looked after me when I was little." | Tanzil text |  |
+| [ ] | Any time, for good in this life and the next (Level 2+) | the ayat: Qur'an 2:201 (words 4–14) | *Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar* | "Our Lord, give us good in this world and good in the next, and keep us safe from the Fire." | Tanzil text |  |
+| [ ] | For keeping up my salah (Level 3+) | the ayat: Qur'an 14:40 | *Rabbij-'alni muqimas-salati wa min dhurriyyati, rabbana wa taqabbal du'a'* | "My Lord, make me one who keeps up the prayer, and my children too. Our Lord, accept my du'a." | Tanzil text |  |
+| [ ] | When things are hard, as Prophet Yunus said (Level 3+) | the ayat: Qur'an 21:87 (words 15–23) | *La ilaha illa anta subhanaka inni kuntu minaz-zalimin* | "There is no god but You. Glory be to You. I have done wrong." | Tanzil text |  |
 
 ## Sunnah of the day
 

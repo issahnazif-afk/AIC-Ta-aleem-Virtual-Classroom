@@ -59,14 +59,23 @@ export function catalogue() {
     seen.add(id);
     return [{ id, ar: b.hadith.ar, label: `${b.hadith.src} · ${b.title}`, how: b.hadith.en, hadith: true }];
   });
-  // My Deen: every du'a that is not from the Qur'an (Qur'an du'as play the reciter)
+  // My Du'as: each du'a in its parts, one clip per part (the lesson plays them one by one for "Repeat after me").
+  // A part with the same words as another (بِسْمِ اللَّهِ, الْحَمْدُ لِلَّهِ) is recorded once and used in every du'a.
+  // The whole du'a is a clip of its own too: optional, used by "Listen" while some parts are not recorded yet.
+  const duas = [];
   for (const d of DUAS.filter((x) => x.ar)) {
-    const id = hadithClipId(d.ar);
-    if (seen.has(id)) continue;
-    seen.add(id);
-    hadith.push({ id, ar: d.ar, label: `My Du'as · ${d.when}`, how: d.en, hadith: true });
+    const parts = d.parts ?? [d.ar];
+    parts.forEach((ar, i) => {
+      const id = hadithClipId(ar);
+      if (seen.has(id)) return;
+      seen.add(id);
+      duas.push({ id, ar, label: `${d.when} · part ${i + 1} of ${parts.length}`, how: 'One part, slowly and clearly, with every vowel, and a short breath of silence at each end.', hadith: true });
+    });
+    const whole = hadithClipId(d.ar);
+    if (parts.length > 1 && !seen.has(whole)) { seen.add(whole); duas.push({ id: whole, ar: d.ar, label: `${d.when} · the whole du'a (optional)`, how: d.en, hadith: true }); }
   }
   groups.push({ key: 'hadith', title: 'Hadith in Arabic', why: 'The Sheikh or a teacher reads each hadith once, slowly and clearly, with every vowel. The children hear it before the English meaning, in every book that has it. Until a hadith is recorded, the page goes straight to the English: a computer voice never reads the Prophet’s words.', clips: hadith });
+  groups.push({ key: 'duas', title: "My Du'as", why: "Each du'a is split into short parts. Record every part on its own, slowly and clearly, with every vowel: the children hear one part, then say it back. The whole du'a is optional. A du'a with no recording tells the child it is not ready yet; a computer voice never reads it.", clips: duas });
   groups.push({ key: 'lib1', title: 'Library Level 1', why: 'First readers, ages 4–6. Read slowly and clearly, so a young child can follow each word as it lights up.', clips: lib([...LIB1, ...LIB_ADDED.filter(lv(1))]) });
   groups.push({ key: 'lib2', title: 'Library Level 2', why: 'Adventure readers, ages 7–8. Read with energy and suspense, like telling an adventure.', clips: lib([...LIB2, ...LIB_ADDED.filter(lv(2))]) });
   groups.push({ key: 'tawheed', title: 'Tawheed shelf', why: 'Knowing Allah, Levels 1 and 2. Warm and unhurried, with wonder in the voice for the sky, the rain and the stories of Ibrahim and Bilal.', clips: lib(TAWHEED) });
