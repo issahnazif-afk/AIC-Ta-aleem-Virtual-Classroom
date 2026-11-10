@@ -1,4 +1,4 @@
-# Al-Huda Islamic Weekend School · Ta'aleem Virtual Classroom
+# Ta'aleem Virtual Classroom
 
 ![Al-Huda Islamic Centre](public/logo-160.png)
 
