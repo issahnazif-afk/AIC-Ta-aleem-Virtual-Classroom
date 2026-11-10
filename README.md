@@ -363,7 +363,15 @@ for the age it was written for. The shelf shows the books for the student's clas
 | The Book of Hadith | 3 (9–11) | Each hadith with its vocabulary and story, questions, a reflection to write, the unit tests |
 | Tawheed: Islamic Monotheism | 4 (10–14) | Six units of lessons with key words, ayat and hadith, a quiz after each lesson, the unit tests |
 
-Levels 1 and 2 are read aloud from the start; Levels 3 and 4 read for themselves, tests show a percentage, and
+Each book opens as a **flipbook**, like a printed book on a desk: the closed cover comes onto the desk and opens,
+pages curl over with a shadow and a soft paper sound when you drag a corner or the edge, swipe, press the arrows or
+the arrow keys, two pages side by side on a wide screen and one on a phone or an upright tablet. The bar under the
+book has the contents, a grid of every page, the page number and how far through the book you are, zoom, the page
+sound and full screen. The activities work right on the page, and a page with an activity still to do holds the book
+open until it is done (see [docs/al-huda-books.md](docs/al-huda-books.md#the-flipbook)).
+
+Levels 1 and 2 are read aloud from the start, and can turn the reading pages by themselves after reading them
+(*Turn pages for me*); Levels 3 and 4 read for themselves, tests show a percentage, and
 written answers stay on that computer. Every finished chapter gives stars and Ta'aleem Stars and appears in the class
 log's Games tab. The words were rewritten where needed to read as a person wrote them, and `npm run books` checks
 them against Wikipedia's *Signs of AI writing* guide. The page pictures are in `public/books/`; the PDFs are not kept

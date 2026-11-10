@@ -24,6 +24,40 @@ How the reader changes with the level:
 
 Every child can open every book; the shelf shows the books for their own class first.
 
+## The flipbook
+
+A book opens like a printed book on a desk. The closed hard cover (the book's first page picture) comes onto the
+desk and opens; then come a title page, a contents page, every chapter with an end card after it, and the hard back
+cover. The reader uses [StPageFlip](https://github.com/Nodlik/StPageFlip) (`page-flip` 2.0.7, MIT) in HTML mode,
+bundled with the books (it loads only when the shelf is opened, with the books' styles).
+
+- **Turning.** Drag a corner or the outer edge of a page, swipe it, press the arrows beside the book, or use the keys:
+  left and right arrows (Page Up, Page Down), Home for the cover, End for the back cover, + and - to zoom, Escape to
+  close a panel or stop zooming. A page curls over with its shadow and a soft paper sound, made on the spot with Web
+  Audio (the speaker button turns it off).
+- **One page or two.** Two pages side by side when they fit at a good size; one on a phone or an upright tablet.
+- **The bar under the book:** the contents (jump to a chapter), all the pages as small pictures (jump to a page), the
+  page number and a bar for how far through the book you are, zoom (also a double click; drag to look around), the
+  page sound and full screen.
+- **Activities stay on the page.** A press on a button, the crayons, a text box or the picture you draw on never turns
+  the page: the page-turner only hears presses on the outer edge and the corners (and, on reading pages, anywhere that
+  is not a button). Clicking does not turn a page except on a corner. A quiz, match, order, gap, sort or listen-and-find
+  page holds the book open, forward only, until it is done; the arrow turns pale and a note says what to do.
+- **Finishing a chapter.** When the end card of a chapter is open and every page of the chapter has been open and its
+  activities done, the chapter is finished: its stars are saved and the Ta'aleem Stars appear on the card. Jumping to
+  the end card does not finish a chapter; the card lists what is still to do, with a button to each page. Pages before
+  the place where a child stopped last time count as read.
+- **Turn pages for me** (Levels 1 and 2, when *Reading to me* is on): after the open reading pages (story, du'a,
+  hadith, ayah) have been read aloud, the book turns by itself. It never turns past an activity, a workbook page or an
+  end card.
+- **Big books open fast.** Only the pages near the open one are built (about a dozen); the rest are empty until the
+  child comes near them. The page-turner only draws while a page is moving.
+- **Reduced motion.** When the computer asks for reduced motion, a page changes with a quick fade instead of a curl.
+- **Under every reading theme** (Night, Yellow and the rest) the desk, the bars and the pages keep their own colours:
+  paper pages with dark ink.
+
+`?test=1` adds the answer hints (`data-answer`, `data-pair`, `data-order`) that the click-through test uses.
+
 ## Where things are
 
 ```
