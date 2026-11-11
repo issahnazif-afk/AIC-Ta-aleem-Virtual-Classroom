@@ -18412,13 +18412,13 @@
   ]
  },
  {
-  "key": "875a1afe",
+  "key": "a79db317",
   "reader": "story",
   "text": "Before a lesson, we say the first two ayat of Al-Fatihah.",
   "parts": [
    [
     "narrator",
-    "Before a lesson, we say the first two ayat of Al-Fatihah."
+    "Before a lesson, we say the first two {aːjˈɑːt} of Al-Fatihah."
    ]
   ]
  },
@@ -33801,6 +33801,149 @@
   ]
  },
  {
+  "key": "fb17c95d",
+  "reader": "story",
+  "text": "Pick up the dates on the way. Find them all for three stars!",
+  "parts": [
+   [
+    "narrator",
+    "Pick up the dates on the way. Find them all for three stars!"
+   ]
+  ]
+ },
+ {
+  "key": "da3e5578",
+  "reader": "story",
+  "text": "Watch the walls! Every few seconds one shimmers and moves, so the way can change.",
+  "parts": [
+   [
+    "narrator",
+    "Watch the walls! Every few seconds one shimmers and moves, so the way can change."
+   ]
+  ]
+ },
+ {
+  "key": "ed4cde5e",
+  "reader": "story",
+  "text": "A monster now roams the corridors. Keep away from it, or wait for it to pass.",
+  "parts": [
+   [
+    "narrator",
+    "A monster now roams the corridors. Keep away from it, or wait for it to pass."
+   ]
+  ]
+ },
+ {
+  "key": "9ac2b6c3",
+  "reader": "story",
+  "text": "The gate of Madinah is locked. Find the key first, then go to the gate.",
+  "parts": [
+   [
+    "narrator",
+    "The gate of Madinah is locked. Find the key first, then go to the gate."
+   ]
+  ]
+ },
+ {
+  "key": "32b24e8f",
+  "reader": "story",
+  "text": "A sandstorm! You can only see close to the camel. Remember the way.",
+  "parts": [
+   [
+    "narrator",
+    "A sandstorm! You can only see close to the camel. Remember the way."
+   ]
+  ]
+ },
+ {
+  "key": "5da774eb",
+  "reader": "story",
+  "text": "Two tunnels are joined together: step into one, and you come out of the other.",
+  "parts": [
+   [
+    "narrator",
+    "Two tunnels are joined together: step into one, and you come out of the other."
+   ]
+  ]
+ },
+ {
+  "key": "5e2b10e9",
+  "reader": "story",
+  "text": "From now on, a gobble sends you all the way back to the start. Take care!",
+  "parts": [
+   [
+    "narrator",
+    "From now on, a gobble sends you all the way back to the start. Take care!"
+   ]
+  ]
+ },
+ {
+  "key": "65918ef6",
+  "reader": "story",
+  "text": "The orange monsters hunt you! They follow you, but sometimes they lose the way.",
+  "parts": [
+   [
+    "narrator",
+    "The orange monsters hunt you! They follow you, but sometimes they lose the way."
+   ]
+  ]
+ },
+ {
+  "key": "461f5f5b",
+  "reader": "story",
+  "text": "A challenge: reach Madinah in a few moves and a short time for three stars.",
+  "parts": [
+   [
+    "narrator",
+    "A challenge: reach Madinah in a few moves and a short time for three stars."
+   ]
+  ]
+ },
+ {
+  "key": "3c157419",
+  "reader": "story",
+  "text": "Pick up the stars on the way. Find them all for three stars!",
+  "parts": [
+   [
+    "narrator",
+    "Pick up the stars on the way. Find them all for three stars!"
+   ]
+  ]
+ },
+ {
+  "key": "f8503d65",
+  "reader": "story",
+  "text": "The gate of the masjid is locked. Find the key first, then go to the gate.",
+  "parts": [
+   [
+    "narrator",
+    "The gate of the {mˈasdʒid} is locked. Find the key first, then go to the gate."
+   ]
+  ]
+ },
+ {
+  "key": "5a2efd4e",
+  "reader": "story",
+  "text": "It is a dark night. You can only see what the lantern lights up.",
+  "parts": [
+   [
+    "narrator",
+    "It is a dark night. You can only see what the lantern lights up."
+   ]
+  ]
+ },
+ {
+  "key": "19f08701",
+  "reader": "story",
+  "text": "A challenge: reach the masjid in a few moves and a short time for three stars.",
+  "parts": [
+   [
+    "narrator",
+    "A challenge: reach the {mˈasdʒid} in a few moves and a short time for three stars."
+   ]
+  ]
+ },
+ {
   "key": "16d95b80",
   "reader": "story",
   "text": "My letters",
@@ -36276,13 +36419,13 @@
   ]
  },
  {
-  "key": "87474715",
+  "key": "63508f7b",
   "reader": "seerah",
   "text": "[Anas said:] The last look I had at the Messenger of Allah ﷺ was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the mushaf. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day.",
   "parts": [
    [
     "narrator",
-    "[Anas said:] The last look I had at the Messenger of {allˈɑːh} , peace be upon him, was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the mushaf. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day."
+    "[Anas said:] The last look I had at the Messenger of {allˈɑːh} , peace be upon him, was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the {mˈʊshaf}. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day."
    ]
   ]
  },
@@ -36855,6 +36998,1942 @@
    [
     "narrator",
     "You have walked through the whole Seerah, from {zˈamzam} to the Farewell Pilgrimage. Which lesson will you carry with you?"
+   ]
+  ]
+ },
+ {
+  "key": "384db760",
+  "reader": "sheikh",
+  "text": "Assalamu alaykum! It is good to see you again.",
+  "parts": [
+   [
+    "narrator",
+    "{assalˈɑːmu alˈaɪkum}! It is good to see you again."
+   ]
+  ]
+ },
+ {
+  "key": "973d5ca6",
+  "reader": "sheikh",
+  "text": "Assalamu alaykum! I am the Sheikh, and I will listen to your recitation.",
+  "parts": [
+   [
+    "narrator",
+    "{assalˈɑːmu alˈaɪkum}! I am the {ʃˈeɪx}, and I will listen to your recitation."
+   ]
+  ]
+ },
+ {
+  "key": "d11d5e33",
+  "reader": "sheikh",
+  "text": "Last time you told me you were a little tired. How are you now?",
+  "parts": [
+   [
+    "narrator",
+    "Last time you told me you were a little tired. How are you now?"
+   ]
+  ]
+ },
+ {
+  "key": "a06c9746",
+  "reader": "sheikh",
+  "text": "Last time you told me you were not feeling so good. How are you now?",
+  "parts": [
+   [
+    "narrator",
+    "Last time you told me you were not feeling so good. How are you now?"
+   ]
+  ]
+ },
+ {
+  "key": "20cde5db",
+  "reader": "sheikh",
+  "text": "Alhamdulillah! I am so glad to hear that.",
+  "parts": [
+   [
+    "narrator",
+    "{alhˌamdulillˈɑːh}! I am so glad to hear that."
+   ]
+  ]
+ },
+ {
+  "key": "903462e3",
+  "reader": "sheikh",
+  "text": "I am sorry. We will go gently today.",
+  "parts": [
+   [
+    "narrator",
+    "I am sorry. We will go gently today."
+   ]
+  ]
+ },
+ {
+  "key": "65278938",
+  "reader": "sheikh",
+  "text": "How are you today?",
+  "parts": [
+   [
+    "narrator",
+    "How are you today?"
+   ]
+  ]
+ },
+ {
+  "key": "99c683af",
+  "reader": "sheikh",
+  "text": "Alhamdulillah! Let us make this a good recitation.",
+  "parts": [
+   [
+    "narrator",
+    "{alhˌamdulillˈɑːh}! Let us make this a good recitation."
+   ]
+  ]
+ },
+ {
+  "key": "9dbc8a79",
+  "reader": "sheikh",
+  "text": "That is all right. We will go gently today. Even a little, done well, is good.",
+  "parts": [
+   [
+    "narrator",
+    "That is all right. We will go gently today. Even a little, done well, is good."
+   ]
+  ]
+ },
+ {
+  "key": "ce351134",
+  "reader": "sheikh",
+  "text": "I am sorry to hear that. May Allah make it easy for you.",
+  "parts": [
+   [
+    "narrator",
+    "I am sorry to hear that. May {allˈɑːh} make it easy for you."
+   ]
+  ]
+ },
+ {
+  "key": "dc356403",
+  "reader": "sheikh",
+  "text": "Last time you told me you had been unwell. Are you feeling better now?",
+  "parts": [
+   [
+    "narrator",
+    "Last time you told me you had been unwell. Are you feeling better now?"
+   ]
+  ]
+ },
+ {
+  "key": "9dbdceeb",
+  "reader": "sheikh",
+  "text": "Last time you told me you were very busy. Have things calmed down?",
+  "parts": [
+   [
+    "narrator",
+    "Last time you told me you were very busy. Have things calmed down?"
+   ]
+  ]
+ },
+ {
+  "key": "1ac92ca0",
+  "reader": "sheikh",
+  "text": "Last time you told me you had been travelling. Did you have a good trip?",
+  "parts": [
+   [
+    "narrator",
+    "Last time you told me you had been travelling. Did you have a good trip?"
+   ]
+  ]
+ },
+ {
+  "key": "9098ca8f",
+  "reader": "sheikh",
+  "text": "Last time we talked about remembering to recite every day. How has it been going?",
+  "parts": [
+   [
+    "narrator",
+    "Last time we talked about remembering to recite every day. How has it been going?"
+   ]
+  ]
+ },
+ {
+  "key": "10ce6627",
+  "reader": "sheikh",
+  "text": "Alhamdulillah, that makes me happy.",
+  "parts": [
+   [
+    "narrator",
+    "{alhˌamdulillˈɑːh}, that makes me happy."
+   ]
+  ]
+ },
+ {
+  "key": "a1197eb8",
+  "reader": "sheikh",
+  "text": "That is all right. Keep going, step by step. I am proud of you for being here.",
+  "parts": [
+   [
+    "narrator",
+    "That is all right. Keep going, step by step. I am proud of you for being here."
+   ]
+  ]
+ },
+ {
+  "key": "ed9a8a7c",
+  "reader": "sheikh",
+  "text": "May Allah grant you full health. I am glad you are back.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} grant you full health. I am glad you are back."
+   ]
+  ]
+ },
+ {
+  "key": "d452ba9c",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Reciting with your teacher is wonderful. Let us keep it strong today.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Reciting with your teacher is wonderful. Let us keep it strong today."
+   ]
+  ]
+ },
+ {
+  "key": "fc85d263",
+  "reader": "sheikh",
+  "text": "That is all right. I am just happy you are here.",
+  "parts": [
+   [
+    "narrator",
+    "That is all right. I am just happy you are here."
+   ]
+  ]
+ },
+ {
+  "key": "b05152e2",
+  "reader": "sheikh",
+  "text": "Life gets busy. A few ayat each day, even on busy days, keeps the Quran close.",
+  "parts": [
+   [
+    "narrator",
+    "Life gets busy. A few {aːjˈɑːt} each day, even on busy days, keeps the {kʊɹˈɑːn} close."
+   ]
+  ]
+ },
+ {
+  "key": "36eb0f5f",
+  "reader": "sheikh",
+  "text": "You can recite wherever you are. Even a little while travelling counts.",
+  "parts": [
+   [
+    "narrator",
+    "You can recite wherever you are. Even a little while travelling counts."
+   ]
+  ]
+ },
+ {
+  "key": "3746973c",
+  "reader": "sheikh",
+  "text": "It happens to all of us. Choosing the same time each day makes it easier to remember.",
+  "parts": [
+   [
+    "narrator",
+    "It happens to all of us. Choosing the same time each day makes it easier to remember."
+   ]
+  ]
+ },
+ {
+  "key": "5fe29320",
+  "reader": "sheikh",
+  "text": "This is our first recitation together. I will listen to every word and help you when you need it.",
+  "parts": [
+   [
+    "narrator",
+    "This is our first recitation together. I will listen to every word and help you when you need it."
+   ]
+  ]
+ },
+ {
+  "key": "4c341340",
+  "reader": "sheikh",
+  "text": "You are back again today. Masha’Allah, I love your hard work!",
+  "parts": [
+   [
+    "narrator",
+    "You are back again today. {mˌɑːʃɑːllˈɑːh}, I love your hard work!"
+   ]
+  ]
+ },
+ {
+  "key": "cf694e0d",
+  "reader": "sheikh",
+  "text": "I remember you recited yesterday too. Well done for coming back.",
+  "parts": [
+   [
+    "narrator",
+    "I remember you recited yesterday too. Well done for coming back."
+   ]
+  ]
+ },
+ {
+  "key": "1173dc6a",
+  "reader": "sheikh",
+  "text": "Masha’Allah! I am proud of you.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! I am proud of you."
+   ]
+  ]
+ },
+ {
+  "key": "100d6487",
+  "reader": "sheikh",
+  "text": "Every journey starts with one step. Keep going!",
+  "parts": [
+   [
+    "narrator",
+    "Every journey starts with one step. Keep going!"
+   ]
+  ]
+ },
+ {
+  "key": "48b5fb82",
+  "reader": "sheikh",
+  "text": "That is fine. When you are ready, choose its first five ayat and we will start together.",
+  "parts": [
+   [
+    "narrator",
+    "That is fine. When you are ready, choose its first five {aːjˈɑːt} and we will start together."
+   ]
+  ]
+ },
+ {
+  "key": "ba1f59d8",
+  "reader": "sheikh",
+  "text": "Will you try this step before our next recitation?",
+  "parts": [
+   [
+    "narrator",
+    "Will you try this step before our next recitation?"
+   ]
+  ]
+ },
+ {
+  "key": "f673c200",
+  "reader": "sheikh",
+  "text": "Of course. Do this step on its own, before you recite the whole passage. Next time I will ask you how it went, and then I will give you the next step.",
+  "parts": [
+   [
+    "narrator",
+    "Of course. Do this step on its own, before you recite the whole passage. Next time I will ask you how it went, and then I will give you the next step."
+   ]
+  ]
+ },
+ {
+  "key": "fdc86382",
+  "reader": "sheikh",
+  "text": "Excellent. I will ask you about it next time, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Excellent. I will ask you about it next time, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "ab05639a",
+  "reader": "sheikh",
+  "text": "Masha’Allah, you have finished the whole plan! Let us see the difference today.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}, you have finished the whole plan! Let us see the difference today."
+   ]
+  ]
+ },
+ {
+  "key": "32c07c1c",
+  "reader": "sheikh",
+  "text": "That is all right. Try it before our next recitation. Small steps, done often, make the biggest difference.",
+  "parts": [
+   [
+    "narrator",
+    "That is all right. Try it before our next recitation. Small steps, done often, make the biggest difference."
+   ]
+  ]
+ },
+ {
+  "key": "b875863f",
+  "reader": "sheikh",
+  "text": "I observe that one ayah in this passage was a little tricky last time. When you reach it, slow down. I will help you if you stop.",
+  "parts": [
+   [
+    "narrator",
+    "I observe that one {ˈɑːja} in this passage was a little tricky last time. When you reach it, slow down. I will help you if you stop."
+   ]
+  ]
+ },
+ {
+  "key": "481f9e8c",
+  "reader": "sheikh",
+  "text": "This is a new passage for us. I am looking forward to hearing it.",
+  "parts": [
+   [
+    "narrator",
+    "This is a new passage for us. I am looking forward to hearing it."
+   ]
+  ]
+ },
+ {
+  "key": "f25726c6",
+  "reader": "sheikh",
+  "text": "Today I will recite the opening of an ayah, and you carry on from memory until I stop you.",
+  "parts": [
+   [
+    "narrator",
+    "Today I will recite the opening of an {ˈɑːja}, and you carry on from memory until I stop you."
+   ]
+  ]
+ },
+ {
+  "key": "d9cff65a",
+  "reader": "sheikh",
+  "text": "Today, recite your passage from memory. I will follow every word, and give you the next word only if you stop.",
+  "parts": [
+   [
+    "narrator",
+    "Today, recite your passage from memory. I will follow every word, and give you the next word only if you stop."
+   ]
+  ]
+ },
+ {
+  "key": "d1f1662d",
+  "reader": "sheikh",
+  "text": "Today, read your passage from the mushaf. I will follow every word.",
+  "parts": [
+   [
+    "narrator",
+    "Today, read your passage from the {mˈʊshaf}. I will follow every word."
+   ]
+  ]
+ },
+ {
+  "key": "936214b5",
+  "reader": "sheikh",
+  "text": "Bismillah. Whenever you are ready.",
+  "parts": [
+   [
+    "narrator",
+    "{bismillˈɑːh}. Whenever you are ready."
+   ]
+  ]
+ },
+ {
+  "key": "34ef8154",
+  "reader": "sheikh",
+  "text": "Sorry, I did not quite catch that. Could you say it again?",
+  "parts": [
+   [
+    "narrator",
+    "Sorry, I did not quite catch that. Could you say it again?"
+   ]
+  ]
+ },
+ {
+  "key": "58c55384",
+  "reader": "sheikh",
+  "text": "That is all right. You can tap your answer instead.",
+  "parts": [
+   [
+    "narrator",
+    "That is all right. You can tap your answer instead."
+   ]
+  ]
+ },
+ {
+  "key": "13f9bde7",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 2 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 2 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "c6e33320",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 3 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 3 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "4c89c701",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 4 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 4 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "c8af25ba",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 5 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 5 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "0e863b5b",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 6 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 6 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "815571f4",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 7 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 7 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "e9d4d475",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 8 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 8 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "662d182e",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 9 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 9 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "44acef30",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 10 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 10 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "15d22877",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 11 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 11 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "c870c866",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 12 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 12 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "182999cd",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 13 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 13 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "38694b04",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for 14 days. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for 14 days. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "46ed9c91",
+  "reader": "sheikh",
+  "text": "I observe you have missed your recitation for more than two weeks. What could be the reason?",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have missed your recitation for more than two weeks. What could be the reason?"
+   ]
+  ]
+ },
+ {
+  "key": "ec2bccd2",
+  "reader": "sheikh",
+  "text": "I observe you have recited 3 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 3 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "c3140fe9",
+  "reader": "sheikh",
+  "text": "I observe you have recited 4 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 4 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "2e574250",
+  "reader": "sheikh",
+  "text": "I observe you have recited 5 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 5 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "2be8c2c7",
+  "reader": "sheikh",
+  "text": "I observe you have recited 6 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 6 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "3b19ee9e",
+  "reader": "sheikh",
+  "text": "I observe you have recited 7 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 7 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "3addb3d5",
+  "reader": "sheikh",
+  "text": "I observe you have recited 8 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 8 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "99b8392c",
+  "reader": "sheikh",
+  "text": "I observe you have recited 9 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 9 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "eac406c4",
+  "reader": "sheikh",
+  "text": "I observe you have recited 10 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 10 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "4acd63ad",
+  "reader": "sheikh",
+  "text": "I observe you have recited 11 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 11 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "9552e442",
+  "reader": "sheikh",
+  "text": "I observe you have recited 12 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 12 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "855d7a9b",
+  "reader": "sheikh",
+  "text": "I observe you have recited 13 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 13 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "b92a11c0",
+  "reader": "sheikh",
+  "text": "I observe you have recited 14 days in a row. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited 14 days in a row. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "5184f8fd",
+  "reader": "sheikh",
+  "text": "I observe you have recited every day for more than two weeks. Masha’Allah, keep it up!",
+  "parts": [
+   [
+    "narrator",
+    "I observe you have recited every day for more than two weeks. {mˌɑːʃɑːllˈɑːh}, keep it up!"
+   ]
+  ]
+ },
+ {
+  "key": "d894ad70",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 0 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 0 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "86d68d9f",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 5 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 5 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "613a469f",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 10 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 10 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "b2f86670",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 15 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 15 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "0c429840",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 20 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 20 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "5a7df82f",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 25 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 25 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "4b24d599",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 30 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 30 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "f85e1442",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 35 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 35 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "cc665d42",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 40 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 40 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "1f2d1e99",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 45 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 45 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "5c3fd093",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 50 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 50 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "f886be6c",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 55 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 55 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "b490adc4",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 60 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 60 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "2609ed8b",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 65 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 65 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "f73526ed",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 70 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 70 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "825e158e",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 75 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 75 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "61e68b56",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 80 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 80 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "292845f5",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 85 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 85 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "3ac561b7",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 90 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 90 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "706520a8",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 95 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 95 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "273c0b93",
+  "reader": "sheikh",
+  "text": "Last time on this passage, you got about 100 percent of the words right the first time. Let us try to do even better today, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Last time on this passage, you got about 100 percent of the words right the first time. Let us try to do even better today, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "c6328488",
+  "reader": "sheikh",
+  "text": "I would love to know you better. Which surah would you love to memorise next?",
+  "parts": [
+   [
+    "narrator",
+    "I would love to know you better. Which {sˈuːɹa} would you love to memorise next?"
+   ]
+  ]
+ },
+ {
+  "key": "e18b1e43",
+  "reader": "sheikh",
+  "text": "Juz Amma! What a beautiful goal. I will remember that.",
+  "parts": [
+   [
+    "narrator",
+    "{dʒˈuz ˈamma}! What a beautiful goal. I will remember that."
+   ]
+  ]
+ },
+ {
+  "key": "a92a1bd7",
+  "reader": "sheikh",
+  "text": "Surah al-Mulk! What a beautiful goal. I will remember that.",
+  "parts": [
+   [
+    "narrator",
+    "{sˈuːɹa} {al mˈʊlk}! What a beautiful goal. I will remember that."
+   ]
+  ]
+ },
+ {
+  "key": "a746167b",
+  "reader": "sheikh",
+  "text": "Surah Yasin! What a beautiful goal. I will remember that.",
+  "parts": [
+   [
+    "narrator",
+    "{sˈuːɹa} {jaːsˈiːn}! What a beautiful goal. I will remember that."
+   ]
+  ]
+ },
+ {
+  "key": "7bd36b21",
+  "reader": "sheikh",
+  "text": "Surah al-Kahf! What a beautiful goal. I will remember that.",
+  "parts": [
+   [
+    "narrator",
+    "{sˈuːɹa} {al kˈahf}! What a beautiful goal. I will remember that."
+   ]
+  ]
+ },
+ {
+  "key": "443130eb",
+  "reader": "sheikh",
+  "text": "That is fine. We will find one together, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "That is fine. We will find one together, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "b2a6d445",
+  "reader": "sheikh",
+  "text": "Who helps you with the Quran at home?",
+  "parts": [
+   [
+    "narrator",
+    "Who helps you with the {kʊɹˈɑːn} at home?"
+   ]
+  ]
+ },
+ {
+  "key": "e42ff82f",
+  "reader": "sheikh",
+  "text": "May Allah reward your mum for helping you.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} reward your mum for helping you."
+   ]
+  ]
+ },
+ {
+  "key": "a2d3f227",
+  "reader": "sheikh",
+  "text": "May Allah reward your dad for helping you.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} reward your dad for helping you."
+   ]
+  ]
+ },
+ {
+  "key": "c069a033",
+  "reader": "sheikh",
+  "text": "May Allah reward your brother or sister for helping you.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} reward your brother or sister for helping you."
+   ]
+  ]
+ },
+ {
+  "key": "58fbbc0e",
+  "reader": "sheikh",
+  "text": "May Allah reward your grandparent for helping you.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} reward your grandparent for helping you."
+   ]
+  ]
+ },
+ {
+  "key": "adcc8620",
+  "reader": "sheikh",
+  "text": "Then we will make the most of our time together.",
+  "parts": [
+   [
+    "narrator",
+    "Then we will make the most of our time together."
+   ]
+  ]
+ },
+ {
+  "key": "5b865280",
+  "reader": "sheikh",
+  "text": "When do you like to recite best?",
+  "parts": [
+   [
+    "narrator",
+    "When do you like to recite best?"
+   ]
+  ]
+ },
+ {
+  "key": "0f1a35b5",
+  "reader": "sheikh",
+  "text": "After Fajr. I will remember that. Keeping the same time each day makes it easier to keep going.",
+  "parts": [
+   [
+    "narrator",
+    "After {fˈadʒɹ}. I will remember that. Keeping the same time each day makes it easier to keep going."
+   ]
+  ]
+ },
+ {
+  "key": "db66f9ef",
+  "reader": "sheikh",
+  "text": "After school. I will remember that. Keeping the same time each day makes it easier to keep going.",
+  "parts": [
+   [
+    "narrator",
+    "After school. I will remember that. Keeping the same time each day makes it easier to keep going."
+   ]
+  ]
+ },
+ {
+  "key": "f1488ca1",
+  "reader": "sheikh",
+  "text": "After Maghrib. I will remember that. Keeping the same time each day makes it easier to keep going.",
+  "parts": [
+   [
+    "narrator",
+    "After {mˈaɣɹib}. I will remember that. Keeping the same time each day makes it easier to keep going."
+   ]
+  ]
+ },
+ {
+  "key": "4528ed91",
+  "reader": "sheikh",
+  "text": "Before bed. I will remember that. Keeping the same time each day makes it easier to keep going.",
+  "parts": [
+   [
+    "narrator",
+    "Before bed. I will remember that. Keeping the same time each day makes it easier to keep going."
+   ]
+  ]
+ },
+ {
+  "key": "fa4c7e26",
+  "reader": "sheikh",
+  "text": "How do you feel about learning the Quran by heart?",
+  "parts": [
+   [
+    "narrator",
+    "How do you feel about learning the {kʊɹˈɑːn} by heart?"
+   ]
+  ]
+ },
+ {
+  "key": "49b3a353",
+  "reader": "sheikh",
+  "text": "Masha’Allah! That love will carry you far.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! That love will carry you far."
+   ]
+  ]
+ },
+ {
+  "key": "3393db4a",
+  "reader": "sheikh",
+  "text": "That is honest. Let us make it something you enjoy, step by step.",
+  "parts": [
+   [
+    "narrator",
+    "That is honest. Let us make it something you enjoy, step by step."
+   ]
+  ]
+ },
+ {
+  "key": "e12cf731",
+  "reader": "sheikh",
+  "text": "Thank you for telling me. We will go step by step, and I will help you.",
+  "parts": [
+   [
+    "narrator",
+    "Thank you for telling me. We will go step by step, and I will help you."
+   ]
+  ]
+ },
+ {
+  "key": "faef25e1",
+  "reader": "sheikh",
+  "text": "You told me you like to recite after fajr. That is a good habit.",
+  "parts": [
+   [
+    "narrator",
+    "You told me you like to recite after {fˈadʒɹ}. That is a good habit."
+   ]
+  ]
+ },
+ {
+  "key": "9fcdbd2d",
+  "reader": "sheikh",
+  "text": "You told me you like to recite after school. That is a good habit.",
+  "parts": [
+   [
+    "narrator",
+    "You told me you like to recite after school. That is a good habit."
+   ]
+  ]
+ },
+ {
+  "key": "75a0bccf",
+  "reader": "sheikh",
+  "text": "You told me you like to recite after maghrib. That is a good habit.",
+  "parts": [
+   [
+    "narrator",
+    "You told me you like to recite after {mˈaɣɹib}. That is a good habit."
+   ]
+  ]
+ },
+ {
+  "key": "f112224f",
+  "reader": "sheikh",
+  "text": "You told me you like to recite before bed. That is a good habit.",
+  "parts": [
+   [
+    "narrator",
+    "You told me you like to recite before bed. That is a good habit."
+   ]
+  ]
+ },
+ {
+  "key": "174c896c",
+  "reader": "sheikh",
+  "text": "How is your goal of memorising Juz Amma going?",
+  "parts": [
+   [
+    "narrator",
+    "How is your goal of memorising {dʒˈuz ˈamma} going?"
+   ]
+  ]
+ },
+ {
+  "key": "6ea9a0dc",
+  "reader": "sheikh",
+  "text": "How is your goal of memorising Surah al-Mulk going?",
+  "parts": [
+   [
+    "narrator",
+    "How is your goal of memorising {sˈuːɹa} {al mˈʊlk} going?"
+   ]
+  ]
+ },
+ {
+  "key": "4c9141ca",
+  "reader": "sheikh",
+  "text": "How is your goal of memorising Surah Yasin going?",
+  "parts": [
+   [
+    "narrator",
+    "How is your goal of memorising {sˈuːɹa} {jaːsˈiːn} going?"
+   ]
+  ]
+ },
+ {
+  "key": "6c2bb3a4",
+  "reader": "sheikh",
+  "text": "How is your goal of memorising Surah al-Kahf going?",
+  "parts": [
+   [
+    "narrator",
+    "How is your goal of memorising {sˈuːɹa} {al kˈahf} going?"
+   ]
+  ]
+ },
+ {
+  "key": "67a80577",
+  "reader": "sheikh",
+  "text": "I observe something in your last few recitations: You often stop and need me to give you the next word. That is a sign the passage needs a little more time to settle in your memory.",
+  "parts": [
+   [
+    "narrator",
+    "I observe something in your last few recitations: You often stop and need me to give you the next word. That is a sign the passage needs a little more time to settle in your memory."
+   ]
+  ]
+ },
+ {
+  "key": "0f642c0e",
+  "reader": "sheikh",
+  "text": "So I have made a plan for remembering the ayat without stopping. It has 5 steps, and we will do them one at a time.",
+  "parts": [
+   [
+    "narrator",
+    "So I have made a plan for remembering the {aːjˈɑːt} without stopping. It has 5 steps, and we will do them one at a time."
+   ]
+  ]
+ },
+ {
+  "key": "8187c9ec",
+  "reader": "sheikh",
+  "text": "Step 1: Listen to the passage three times from the reciter: open Mujawwadah and press Listen on each ayah.",
+  "parts": [
+   [
+    "narrator",
+    "Step 1: Listen to the passage three times from the reciter: open {mudʒˈawwada} and press Listen on each {ˈɑːja}."
+   ]
+  ]
+ },
+ {
+  "key": "3766bce9",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 1 of your plan for remembering the ayat without stopping: Listen to the passage three times from the reciter: open Mujawwadah and press Listen on each ayah. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 1 of your plan for remembering the {aːjˈɑːt} without stopping: Listen to the passage three times from the reciter: open {mudʒˈawwada} and press Listen on each {ˈɑːja}. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "955ba2ca",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 2 of your plan for remembering the ayat without stopping: Read the passage five times slowly from the mushaf in Mujawwadah, looking at every word. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 2 of your plan for remembering the {aːjˈɑːt} without stopping: Read the passage five times slowly from the {mˈʊshaf} in {mudʒˈawwada}, looking at every word. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "7389feaf",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 2: Read the passage five times slowly from the mushaf in Mujawwadah, looking at every word.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 2: Read the passage five times slowly from the {mˈʊshaf} in {mudʒˈawwada}, looking at every word."
+   ]
+  ]
+ },
+ {
+  "key": "9292793e",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 3 of your plan for remembering the ayat without stopping: Recite it from memory three ayat at a time with Follow my recitation. Only move on when those three are smooth. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 3 of your plan for remembering the {aːjˈɑːt} without stopping: Recite it from memory three {aːjˈɑːt} at a time with Follow my recitation. Only move on when those three are smooth. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "6f697a03",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 3: Recite it from memory three ayat at a time with Follow my recitation. Only move on when those three are smooth.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 3: Recite it from memory three {aːjˈɑːt} at a time with Follow my recitation. Only move on when those three are smooth."
+   ]
+  ]
+ },
+ {
+  "key": "8f375f04",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 4 of your plan for remembering the ayat without stopping: Join the parts together: recite the whole passage with Follow my recitation. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 4 of your plan for remembering the {aːjˈɑːt} without stopping: Join the parts together: recite the whole passage with Follow my recitation. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "6fc8f955",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 4: Join the parts together: recite the whole passage with Follow my recitation.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 4: Join the parts together: recite the whole passage with Follow my recitation."
+   ]
+  ]
+ },
+ {
+  "key": "c2332438",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 5 of your plan for remembering the ayat without stopping: The next day, take a Hifz test on the same passage to check it has stayed. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 5 of your plan for remembering the {aːjˈɑːt} without stopping: The next day, take a {hˈifð} test on the same passage to check it has stayed. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "e694c5d1",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 5: The next day, take a Hifz test on the same passage to check it has stayed.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 5: The next day, take a {hˈifð} test on the same passage to check it has stayed."
+   ]
+  ]
+ },
+ {
+  "key": "60cffbb9",
+  "reader": "sheikh",
+  "text": "I observe something in your last few recitations: Some words come out as a different word. That usually means reading a little too fast, or a word that was learned slightly wrong at the start.",
+  "parts": [
+   [
+    "narrator",
+    "I observe something in your last few recitations: Some words come out as a different word. That usually means reading a little too fast, or a word that was learned slightly wrong at the start."
+   ]
+  ]
+ },
+ {
+  "key": "3d87eb62",
+  "reader": "sheikh",
+  "text": "So I have made a plan for saying every word correctly. It has 4 steps, and we will do them one at a time.",
+  "parts": [
+   [
+    "narrator",
+    "So I have made a plan for saying every word correctly. It has 4 steps, and we will do them one at a time."
+   ]
+  ]
+ },
+ {
+  "key": "eae3ac7e",
+  "reader": "sheikh",
+  "text": "Step 1: Open Mujawwadah, press Listen, and follow the reciter with your finger under every word.",
+  "parts": [
+   [
+    "narrator",
+    "Step 1: Open {mudʒˈawwada}, press Listen, and follow the reciter with your finger under every word."
+   ]
+  ]
+ },
+ {
+  "key": "99110004",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 1 of your plan for saying every word correctly: Open Mujawwadah, press Listen, and follow the reciter with your finger under every word. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 1 of your plan for saying every word correctly: Open {mudʒˈawwada}, press Listen, and follow the reciter with your finger under every word. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "77647bd2",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 2 of your plan for saying every word correctly: Look at your last report. Read each word that was marked wrong three times, slowly. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 2 of your plan for saying every word correctly: Look at your last report. Read each word that was marked wrong three times, slowly. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "1bf2b7c8",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 2: Look at your last report. Read each word that was marked wrong three times, slowly.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 2: Look at your last report. Read each word that was marked wrong three times, slowly."
+   ]
+  ]
+ },
+ {
+  "key": "8d95a09a",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 3 of your plan for saying every word correctly: Read the whole passage once more in Mujawwadah, slowly and clearly, one ayah at a time. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 3 of your plan for saying every word correctly: Read the whole passage once more in {mudʒˈawwada}, slowly and clearly, one {ˈɑːja} at a time. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "1c24c378",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 3: Read the whole passage once more in Mujawwadah, slowly and clearly, one ayah at a time.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 3: Read the whole passage once more in {mudʒˈawwada}, slowly and clearly, one {ˈɑːja} at a time."
+   ]
+  ]
+ },
+ {
+  "key": "5107817a",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 4 of your plan for saying every word correctly: Recite it again and try to have fewer wrong words than last time. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 4 of your plan for saying every word correctly: Recite it again and try to have fewer wrong words than last time. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "ee39efa4",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 4: Recite it again and try to have fewer wrong words than last time.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 4: Recite it again and try to have fewer wrong words than last time."
+   ]
+  ]
+ },
+ {
+  "key": "2b5d42cb",
+  "reader": "sheikh",
+  "text": "I observe something in your last few recitations: You often go back and start again. It is good to correct yourself, but we want the recitation to flow.",
+  "parts": [
+   [
+    "narrator",
+    "I observe something in your last few recitations: You often go back and start again. It is good to correct yourself, but we want the recitation to flow."
+   ]
+  ]
+ },
+ {
+  "key": "b67e8b7f",
+  "reader": "sheikh",
+  "text": "So I have made a plan for reciting smoothly without going back. It has 3 steps, and we will do them one at a time.",
+  "parts": [
+   [
+    "narrator",
+    "So I have made a plan for reciting smoothly without going back. It has 3 steps, and we will do them one at a time."
+   ]
+  ]
+ },
+ {
+  "key": "6d6e699d",
+  "reader": "sheikh",
+  "text": "Step 1: Read the passage in Mujawwadah, ayah by ayah, and finish each ayah before you stop to breathe.",
+  "parts": [
+   [
+    "narrator",
+    "Step 1: Read the passage in {mudʒˈawwada}, {ˈɑːja} by {ˈɑːja}, and finish each {ˈɑːja} before you stop to breathe."
+   ]
+  ]
+ },
+ {
+  "key": "b772bc95",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 1 of your plan for reciting smoothly without going back: Read the passage in Mujawwadah, ayah by ayah, and finish each ayah before you stop to breathe. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 1 of your plan for reciting smoothly without going back: Read the passage in {mudʒˈawwada}, {ˈɑːja} by {ˈɑːja}, and finish each {ˈɑːja} before you stop to breathe. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "d2073e93",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 2 of your plan for reciting smoothly without going back: Listen to the reciter once and notice where he pauses. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 2 of your plan for reciting smoothly without going back: Listen to the reciter once and notice where he pauses. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "8994aabb",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 2: Listen to the reciter once and notice where he pauses.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 2: Listen to the reciter once and notice where he pauses."
+   ]
+  ]
+ },
+ {
+  "key": "c820b296",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 3 of your plan for reciting smoothly without going back: Recite the passage again and keep going even if you are not sure. I will help you if you stop. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 3 of your plan for reciting smoothly without going back: Recite the passage again and keep going even if you are not sure. I will help you if you stop. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "13efd074",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 3: Recite the passage again and keep going even if you are not sure. I will help you if you stop.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 3: Recite the passage again and keep going even if you are not sure. I will help you if you stop."
+   ]
+  ]
+ },
+ {
+  "key": "37cdb29b",
+  "reader": "sheikh",
+  "text": "I observe something in your last few recitations: I could not hear some of your words clearly.",
+  "parts": [
+   [
+    "narrator",
+    "I observe something in your last few recitations: I could not hear some of your words clearly."
+   ]
+  ]
+ },
+ {
+  "key": "2c23c7db",
+  "reader": "sheikh",
+  "text": "So I have made a plan for reciting clearly so I can hear every word. It has 3 steps, and we will do them one at a time.",
+  "parts": [
+   [
+    "narrator",
+    "So I have made a plan for reciting clearly so I can hear every word. It has 3 steps, and we will do them one at a time."
+   ]
+  ]
+ },
+ {
+  "key": "b8f919bf",
+  "reader": "sheikh",
+  "text": "Step 1: Sit in a quiet place, close to the microphone, and recite in a clear, steady voice.",
+  "parts": [
+   [
+    "narrator",
+    "Step 1: Sit in a quiet place, close to the microphone, and recite in a clear, steady voice."
+   ]
+  ]
+ },
+ {
+  "key": "40c94d63",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 1 of your plan for reciting clearly so I can hear every word: Sit in a quiet place, close to the microphone, and recite in a clear, steady voice. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 1 of your plan for reciting clearly so I can hear every word: Sit in a quiet place, close to the microphone, and recite in a clear, steady voice. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "cd7202b4",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 2 of your plan for reciting clearly so I can hear every word: Read the passage slowly in Mujawwadah, giving every letter its full sound. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 2 of your plan for reciting clearly so I can hear every word: Read the passage slowly in {mudʒˈawwada}, giving every letter its full sound. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "3ce8c6f6",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 2: Read the passage slowly in Mujawwadah, giving every letter its full sound.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 2: Read the passage slowly in {mudʒˈawwada}, giving every letter its full sound."
+   ]
+  ]
+ },
+ {
+  "key": "6784ecd3",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 3 of your plan for reciting clearly so I can hear every word: Recite again. If a word is still unclear, slow down a little more. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 3 of your plan for reciting clearly so I can hear every word: Recite again. If a word is still unclear, slow down a little more. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "297020d7",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 3: Recite again. If a word is still unclear, slow down a little more.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 3: Recite again. If a word is still unclear, slow down a little more."
+   ]
+  ]
+ },
+ {
+  "key": "a107313f",
+  "reader": "sheikh",
+  "text": "I observe that one ayah has been tricky in several of your recent sessions.",
+  "parts": [
+   [
+    "narrator",
+    "I observe that one {ˈɑːja} has been tricky in several of your recent sessions."
+   ]
+  ]
+ },
+ {
+  "key": "31731f0b",
+  "reader": "sheikh",
+  "text": "So I have made a plan for that ayah. It has 4 steps, and we will do them one at a time.",
+  "parts": [
+   [
+    "narrator",
+    "So I have made a plan for that {ˈɑːja}. It has 4 steps, and we will do them one at a time."
+   ]
+  ]
+ },
+ {
+  "key": "53011594",
+  "reader": "sheikh",
+  "text": "Step 1: Open Mujawwadah on that ayah and press Listen three times.",
+  "parts": [
+   [
+    "narrator",
+    "Step 1: Open {mudʒˈawwada} on that {ˈɑːja} and press Listen three times."
+   ]
+  ]
+ },
+ {
+  "key": "b23d60f7",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 1 of your plan for that ayah: Open Mujawwadah on that ayah and press Listen three times. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 1 of your plan for that {ˈɑːja}: Open {mudʒˈawwada} on that {ˈɑːja} and press Listen three times. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "06b99245",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 2 of your plan for that ayah: Read that ayah five times from the mushaf, slowly. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 2 of your plan for that {ˈɑːja}: Read that {ˈɑːja} five times from the {mˈʊshaf}, slowly. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "abc2cfc6",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 2: Read that ayah five times from the mushaf, slowly.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 2: Read that {ˈɑːja} five times from the {mˈʊshaf}, slowly."
+   ]
+  ]
+ },
+ {
+  "key": "fba7d0a6",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 3 of your plan for that ayah: Recite it from memory five times with Follow my recitation, starting from the ayah before it so the join is strong. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 3 of your plan for that {ˈɑːja}: Recite it from memory five times with Follow my recitation, starting from the {ˈɑːja} before it so the join is strong. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "dd44ebb9",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 3: Recite it from memory five times with Follow my recitation, starting from the ayah before it so the join is strong.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 3: Recite it from memory five times with Follow my recitation, starting from the {ˈɑːja} before it so the join is strong."
+   ]
+  ]
+ },
+ {
+  "key": "a5e8d15e",
+  "reader": "sheikh",
+  "text": "Last time I gave you step 4 of your plan for that ayah: Recite the whole passage with that ayah in it. Did you manage it?",
+  "parts": [
+   [
+    "narrator",
+    "Last time I gave you step 4 of your plan for that {ˈɑːja}: Recite the whole passage with that {ˈɑːja} in it. Did you manage it?"
+   ]
+  ]
+ },
+ {
+  "key": "be2eff07",
+  "reader": "sheikh",
+  "text": "Masha’Allah! Your next step is step 4: Recite the whole passage with that ayah in it.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}! Your next step is step 4: Recite the whole passage with that {ˈɑːja} in it."
+   ]
+  ]
+ },
+ {
+  "key": "0c7eb888",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said:",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said:"
+   ]
+  ]
+ },
+ {
+  "key": "bcea170c",
+  "reader": "sheikh",
+  "text": "The deeds most loved by Allah are those done regularly, even if they are small.",
+  "parts": [
+   [
+    "narrator",
+    "The deeds most loved by {allˈɑːh} are those done regularly, even if they are small."
+   ]
+  ]
+ },
+ {
+  "key": "8280f546",
+  "reader": "sheikh",
+  "text": "Whoever walks a path looking for knowledge, Allah makes easy for him a path to Jannah.",
+  "parts": [
+   [
+    "narrator",
+    "Whoever walks a path looking for knowledge, {allˈɑːh} makes easy for him a path to {dʒˈanna}."
+   ]
+  ]
+ },
+ {
+  "key": "88b67dbb",
+  "reader": "sheikh",
+  "text": "Gentleness is never in anything without making it beautiful, and it is never taken out of anything without spoiling it.",
+  "parts": [
+   [
+    "narrator",
+    "Gentleness is never in anything without making it beautiful, and it is never taken out of anything without spoiling it."
+   ]
+  ]
+ },
+ {
+  "key": "24e893d1",
+  "reader": "sheikh",
+  "text": "Allah says in the Quran:",
+  "parts": [
+   [
+    "narrator",
+    "{allˈɑːh} says in the {kʊɹˈɑːn}:"
+   ]
+  ]
+ },
+ {
+  "key": "e257f8c4",
+  "reader": "sheikh",
+  "text": "In the remembrance of Allah, hearts find rest.",
+  "parts": [
+   [
+    "narrator",
+    "In the remembrance of {allˈɑːh}, hearts find rest."
+   ]
+  ]
+ },
+ {
+  "key": "f486dda8",
+  "reader": "sheikh",
+  "text": "Indeed, with hardship comes ease.",
+  "parts": [
+   [
+    "narrator",
+    "Indeed, with hardship comes ease."
+   ]
+  ]
+ },
+ {
+  "key": "0356c399",
+  "reader": "sheikh",
+  "text": "Allah does not ask anyone to carry more than they can.",
+  "parts": [
+   [
+    "narrator",
+    "{allˈɑːh} does not ask anyone to carry more than they can."
+   ]
+  ]
+ },
+ {
+  "key": "f9be5298",
+  "reader": "sheikh",
+  "text": "A dua from the Quran to say before we begin:",
+  "parts": [
+   [
+    "narrator",
+    "A {dˈuːɑː} from the {kʊɹˈɑːn} to say before we begin:"
+   ]
+  ]
+ },
+ {
+  "key": "6df54f8c",
+  "reader": "sheikh",
+  "text": "My Lord, give me more knowledge.",
+  "parts": [
+   [
+    "narrator",
+    "My Lord, give me more knowledge."
    ]
   ]
  }

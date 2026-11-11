@@ -514,7 +514,7 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 @media (max-width: 720px) { .su-modes { grid-template-columns: 1fr; } }
 
 /* ── a word with the Sheikh before reciting (src/lib/sheikh-chat.mjs) ── */
-.sc-chat { display: grid; place-items: center; min-height: 100%; padding: 16px; box-sizing: border-box; }
+.sc-chat { width: 100%; display: grid; place-items: center; min-height: 100%; padding: 16px; box-sizing: border-box; }
 .sc-card { width: 100%; max-width: 620px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 18px; background: var(--ivory, #F7F4EA); border: 1px solid var(--rule, #e3dccb); box-shadow: 0 14px 40px rgb(15 42 34 / .14); }
 .sc-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .sc-head b { font-family: Lora, serif; font-size: 1.15rem; color: var(--forest, #173D32); }
@@ -522,9 +522,9 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .sc-sound, .sc-skip { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--rule, #e3dccb); background: #fff; font: inherit; font-size: .88rem; font-weight: 700; color: var(--forest, #173D32); cursor: pointer; }
 .sc-log { display: flex; flex-direction: column; gap: 8px; max-height: min(52vh, 420px); overflow-y: auto; padding: 4px 2px; }
 .sc-msg { margin: 0; max-width: 86%; padding: 10px 14px; border-radius: 16px; line-height: 1.5; font-size: 1.02rem; }
-.sc-msg.sheikh { align-self: flex-start; background: #fff; border: 1px solid var(--rule, #e3dccb); border-bottom-left-radius: 4px; color: #1d2c26; }
-.sc-msg.sheikh.typing { color: #8a968f; letter-spacing: 3px; }
-.sc-msg.me { align-self: flex-end; background: var(--forest, #173D32); color: #fff; border-bottom-right-radius: 4px; }
+.sc-msg.sc-sheikh { align-self: flex-start; background: #fff; border: 1px solid var(--rule, #e3dccb); border-bottom-left-radius: 4px; color: #1d2c26; }
+.sc-msg.sc-sheikh.typing { color: #8a968f; letter-spacing: 3px; }
+.sc-msg.sc-me { align-self: flex-end; background: var(--forest, #173D32); color: #fff; border-bottom-right-radius: 4px; }
 .sc-replies { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; min-height: 44px; }
 .sc-reply { padding: 9px 14px; border-radius: 999px; border: 1.5px solid var(--forest, #173D32); background: #fff; color: var(--forest, #173D32); font: inherit; font-weight: 700; cursor: pointer; }
 .sc-reply:hover, .sc-reply:focus-visible { background: #EAF2EC; }
@@ -536,3 +536,9 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .sc-quote-en { margin: 0; font-style: italic; color: #1d2c26; }
 .sc-quote-ref { margin: 6px 0 0; font-size: .85rem; color: var(--gold-text, #7A6232); }
 .sc-quote-ref a { color: inherit; }
+
+/* Talking to the Sheikh: the microphone in the chat, and the words he heard */
+.sc-mic { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; border: 0; background: var(--gold, #B99A5B); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+.sc-mic.on { background: #B3412E; }
+@media (prefers-reduced-motion: no-preference) { .sc-mic.on { animation: sc-pulse 1.2s ease-in-out infinite; } @keyframes sc-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(179 65 46 / .45); } 50% { box-shadow: 0 0 0 8px rgb(179 65 46 / 0); } } }
+.sc-heard { margin: 0; align-self: flex-end; max-width: 86%; font-style: italic; color: #5c6a63; font-size: .95rem; text-align: right; }

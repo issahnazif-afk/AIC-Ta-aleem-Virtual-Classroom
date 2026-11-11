@@ -1,11 +1,12 @@
 // Shared by the browser and the build scripts: which voice reads what, the spoken form of Arabic words,
 // and the key that names each recorded clip (FNV-1a of "voice|spoken text", so a changed sentence or pronunciation gets a new clip).
 
-// Two readers, both made with Kokoro (Apache 2.0) by scripts/voice/make_narration.py:
+// Three readers, all made with Kokoro (Apache 2.0) by scripts/voice/make_narration.py:
 //   story   a warm, slow storyteller (af_heart), with the characters' words in their own voices
 //   seerah  a calm narrator (bm_george) for the history
 // The names below are part of each clip's key: change one and every clip of that reader is recorded again.
-export const VOICES = { story: 'storyteller-2', seerah: 'narrator-2' };
+//   sheikh  the Sheikh's chat before a recitation (src/lib/sheikh-chat.mjs): an older man, slow, low and kind
+export const VOICES = { story: 'storyteller-2', seerah: 'narrator-2', sheikh: 'sheikh-1' };
 
 // How the English voice should say the Arabic words in the stories
 export const SAY = [
@@ -35,6 +36,8 @@ export const NAMES = [
   ['masjid', 'mˈasdʒid'], ['salam', 'salˈɑːm'], ['salah', 'salˈɑːh'], ['wudu', 'wʊdˈuː'], ['dua', 'dˈuːɑː'], ['miswak', 'miswˈɑːk'], ['adhan', 'aðˈɑːn'],
   ['Fajr', 'fˈadʒɹ'], ['Dhuhr', 'ðˈuhɹ'], ['Asr', 'ˈasɹ'], ['Maghrib', 'mˈaɣɹib'], ['Isha', 'iʃˈɑː'], ['Jumuah', 'dʒˈumuːa'], ['taraweeh', 'taɹaːwˈiːh'],
   ['Ramadan', 'ɹamadˈɑːn'], ['iftar', 'iftˈɑːɹ'], ['Eid', 'ˈiːd'], ['Jannah', 'dʒˈanna'], ['Hajj', 'hˈadʒ'], ['sadaqah', 'sˈadaka'], ['nasheed', 'naʃˈiːd'],
+  ['Mujawwadah', 'mudʒˈawwada'], ['Hifz', 'hˈifð'], ['ayat', 'aːjˈɑːt'], ['Juz Amma', 'dʒˈuz ˈamma'], ['Yasin', 'jaːsˈiːn'], ['al-Mulk', 'al mˈʊlk'],
+  ['al-Kahf', 'al kˈahf'], ['mushaf', 'mˈʊshaf'], ['Sheikh', 'ʃˈeɪx'],
   ['hadith', 'hadˈiːθ'], ['surah', 'sˈuːɹa'], ['ayah', 'ˈɑːja'], ['Qurʾan', 'kʊɹˈɑːn'], ['Quran', 'kʊɹˈɑːn'],
 ];
 const NAME_RE = new RegExp(`(?<![\\p{L}])(${NAMES.map(([w]) => w.replace(/[’']/g, "['’]").replace(/ /g, '\\s+')).join('|')})([’']s)?(?![\\p{L}])`, 'giu');

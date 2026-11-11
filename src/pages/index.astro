@@ -1062,7 +1062,10 @@ const levels = [
         const { sheikhChat } = await import('../lib/sheikh-chat.mjs');
         const sname = (n) => fromSel.querySelector(`option[value="${n}"]`)?.textContent.replace(/^\d+\.\s*/, '') ?? '';
         const label = s1 === s2 ? `${sname(s1)} ${a1}–${a2}` : `${sname(s1)} ${a1} to ${sname(s2)} ${a2}`;
-        await sheikhChat($('stage'), { name: me.name, mode: choice.mode, range: { s1, a1, s2, a2 }, label, progress, onSave: () => saveProgress({ token: me.token, username: me.username, progress }) });
+        await sheikhChat($('stage'), { name: me.name, mode: choice.mode, range: { s1, a1, s2, a2 }, label, progress, onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
+          // the classroom's microphone button talks to the Sheikh while the chat is open
+          micButton: $('mic'), onMic: (on) => { $('mic').setAttribute('aria-pressed', String(on)); $('mic-t').textContent = on ? 'Listening' : 'Talk to the Sheikh'; } });
+        $('mic').setAttribute('aria-pressed', 'false'); $('mic-t').textContent = 'Microphone';
         if ($('s-class').hidden) return;   // the student left the classroom during the chat
       }
       sessionStart = Date.now(); clearInterval(timerT); timerT = setInterval(tickTimer, 1000); tickTimer();

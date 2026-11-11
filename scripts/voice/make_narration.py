@@ -19,6 +19,8 @@ The voice is Kokoro v1.0 (Apache 2.0). It reads quickly and evenly on its own, s
     teacher; the narrator is a warm female storyteller (af_heart)
   - a warm finish: a little body in the low voice, a soft top, a touch of room, and every clip equally loud
 The Seerah Quest is read by a calm male narrator (bm_george), slower and steadier, without character voices.
+The Sheikh's chat before a recitation is read by an older man (bm_george, slower and lower still).
+Only some readers: make_narration.py <model> --only sheikh
 """
 import json, os, re, subprocess, sys, tempfile
 import numpy as np
@@ -39,6 +41,8 @@ CAST = {
         'woman': ('bf_emma', 0.84, 0.0, 1.25), 'imam': ('am_michael', 0.84, -0.5, 1.2),
     },
     'seerah': {'narrator': ('bm_george', 0.84, -0.5, 1.15)},
+    # the Sheikh: an older man, slower and lower than the Seerah narrator, calm and kind
+    'sheikh': {'narrator': ('bm_george', 0.80, -2.0, 1.1)},
 }
 QUIET = re.compile(r'\b(slowly|softly|quiet|quietly|yawn|yawned|sleep|sleepy|asleep|whisper|whispered|tired|sighed|goodnight)\b', re.I)
 
@@ -118,7 +122,8 @@ def main(model_dir):
             except OSError: pass
             del index[k]
     index = {k: v for k, v in index.items() if os.path.exists(os.path.join(OUT, v['f'] + '.mp3'))}
-    todo = [x for x in lines if x['key'] not in index]
+    only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
+    todo = [x for x in lines if x['key'] not in index and (not only or x['reader'] == only)]
     print(f'{len(lines)} lines, {len(todo)} to record')
     def check(x, s):
         # a clip must be long enough for its words (about 0.2 s a word at the least): if the speech library could not
@@ -131,11 +136,12 @@ def main(model_dir):
     for n, x in enumerate(todo, 1):
         s = read(x)
         check(x, s)
-        with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as t:
-            sf.write(t.name, s, SR)
-            subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', t.name, '-ac', '1', '-ar', '24000', '-b:a', '64k',
-                            os.path.join(OUT, x['key'] + '.mp3')], check=True)
-            os.unlink(t.name)
+        fd, tmp = tempfile.mkstemp(suffix='.wav')
+        os.close(fd)   # closed first, so it also works on Windows
+        sf.write(tmp, s, SR)
+        subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', tmp, '-ac', '1', '-ar', '24000', '-b:a', '64k',
+                        os.path.join(OUT, x['key'] + '.mp3')], check=True)
+        os.unlink(tmp)
         index[x['key']] = {'f': x['key'], 'd': round(len(s) / SR, 2)}
         if n % 20 == 0 or n == len(todo):
             json.dump(index, open(idx_path, 'w'))
