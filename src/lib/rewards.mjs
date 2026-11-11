@@ -20,7 +20,7 @@ const KIND = {
   hifz: 'quran', reading: 'quran', ayah: 'quran',
   journey: 'knowledge', match: 'knowledge', salah: 'knowledge', detective: 'knowledge', alifba: 'knowledge', seerah: 'knowledge',
   akhlaq: 'character', story: 'character', library: 'character',
-  book: 'knowledge',   // a chapter of an Al-Huda Book (a story book counts as 'library')
+  book: 'knowledge',   // a chapter of a Ta’aleem Book (a story book counts as 'library')
   dua: 'knowledge',    // My Deen: a du'a learnt
   sunnah: 'character', prophet: 'character',   // My Deen: the Sunnah of the day done, a quality of the Prophet ﷺ tried
   game: 'knowledge',   // Play & Make: a maze, word search, family tree, timeline, building game… (src/lib/games/)

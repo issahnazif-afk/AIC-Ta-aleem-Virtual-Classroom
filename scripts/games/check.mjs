@@ -5,7 +5,7 @@
 // 1. Every hadith reference, as scripts/deen/check.mjs does it (the same open hadith-api, sunnah.com numbering):
 //    the number exists, the key Arabic words are in that hadith letter for letter, and a hadith outside Bukhari and
 //    Muslim is graded sahih or hasan by al-Albani. Facts from a book of seerah name the book and the page or chapter.
-// 2. The English: the writing check of the Al-Huda Books (scripts/books/writing.mjs: signs of AI writing, and the
+// 2. The English: the writing check of the Ta’aleem Books (scripts/books/writing.mjs: signs of AI writing, and the
 //    longest sentence for each level), on every line the games show or read aloud.
 // 3. The maze: thousands of wall shifts at every level, checking after each one that the maze is still a perfect
 //    maze (one way between any two cells) and that the goal can be reached from the traveller's cell. Then whole

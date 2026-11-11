@@ -28,12 +28,12 @@ Status: ✅ ready · 🟡 partly there · ⬜ planned
 | World | Level 1 | Level 2 | Level 3 | Level 4 |
 |---|---|---|---|---|
 | **Qur'an** | ✅ Alif Ba lesson 18, Recite (no camera) | ✅ Mujawwadah, Build the Ayah | ✅ Hifz test, Mujawwadah | ✅ Hifz test |
-| **Arabic** | ✅ Alif Ba, Letter Detective, Al-Huda Books: *My First Arabic Letters 1 and 2* | ✅ Alif Ba (tajweed lessons), Al-Huda Books: *Alif Ba: I'm Learning Qur'an* | ✅ Al-Huda Books: *Arabic for Beginners* | ⬜ |
-| **Tawheed** | ✅ 6 books: *Allah Made Everything* | ✅ 6 books: *Who Is My Lord?* | ⬜ *La ilaha illallah* (bridge) | ✅ Al-Huda Books: the school's textbook, *Tawheed: Islamic Monotheism*, Volume One |
+| **Arabic** | ✅ Alif Ba, Letter Detective, Ta’aleem Books: *My First Arabic Letters 1 and 2* | ✅ Alif Ba (tajweed lessons), Ta’aleem Books: *Alif Ba: I'm Learning Qur'an* | ✅ Ta’aleem Books: *Arabic for Beginners* | ⬜ |
+| **Tawheed** | ✅ 6 books: *Allah Made Everything* | ✅ 6 books: *Who Is My Lord?* | ⬜ *La ilaha illallah* (bridge) | ✅ Ta’aleem Books: the school's textbook, *Tawheed: Islamic Monotheism*, Volume One |
 | **Seerah** | 🟡 Journey to Knowledge | 🟡 Journey to Knowledge | ✅ Seerah Quest | ✅ Seerah Quest |
-| **Hadith** | ✅ a hadith with every story and book | ✅ the same | ✅ Al-Huda Books: *The Book of Hadith* | ⬜ |
-| **Akhlaq** | ✅ Story Time (22), Library, Akhlaq Heroes | ✅ Library, Akhlaq Heroes, Al-Huda Books: *Islamic Stories for Kids* | 🟡 Akhlaq Heroes | 🟡 Akhlaq Heroes |
-| **Du'a & Salah** | ✅ Salah Master, Match the Deen, Al-Huda Books: *My Du'a Activity Book* | ✅ the same | ⬜ | ⬜ |
+| **Hadith** | ✅ a hadith with every story and book | ✅ the same | ✅ Ta’aleem Books: *The Book of Hadith* | ⬜ |
+| **Akhlaq** | ✅ Story Time (22), Library, Akhlaq Heroes | ✅ Library, Akhlaq Heroes, Ta’aleem Books: *Islamic Stories for Kids* | 🟡 Akhlaq Heroes | 🟡 Akhlaq Heroes |
+| **Du'a & Salah** | ✅ Salah Master, Match the Deen, Ta’aleem Books: *My Du'a Activity Book* | ✅ the same | ⬜ | ⬜ |
 
 ## Tawheed, level by level
 

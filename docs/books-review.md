@@ -1,4 +1,4 @@
-# Al-Huda Books: review sheet
+# Ta’aleem Books: review sheet
 
 Made by `node scripts/books/lint.mjs` from `src/lib/books/`. Every book, chapter by chapter, with each hadith, ayah and du'a,
 for an Islamic Studies teacher to check before class. Items marked **check** need a teacher's eye in particular.
@@ -927,13 +927,13 @@ Unit One of the Arabic textbook: greetings, pronouns, this and that, the classro
 6. Sort into هَذَا / هَذِهِ: وَلَدٌ (هَذَا) · طَالِبَةٌ (هَذِهِ) · مُعَلِّمٌ (هَذَا) · مُمَرِّضَةٌ (هَذِهِ) · طَبِيبٌ (هَذَا) · بِنْتٌ (هَذِهِ) · إِمَامٌ (هَذَا) · مُعَلِّمَةٌ (هَذِهِ) · مُهَنْدِسٌ (هَذَا) · سَيَّارَةٌ (هَذِهِ) · رَجُلٌ (هَذَا) · حَقِيبَةٌ (هَذِهِ)
 7. Fill the gap: **هَذَا** قَلَمٌ. · **هَذِهِ** سَاعَةٌ. · **هَؤُلَاءِ** طُلَّابٌ. · **ذَلِكَ** نَجْمٌ بَعِيدٌ. · **تِلْكَ** طَائِرَةٌ بَعِيدَةٌ. · **هَذِهِ** كُتُبٌ.
 
-### 6. A student at Al-Huda School
+### 6. A student at Al-Noor School
 
 1. Workbook page `books/arabic-beginners/013.webp`: Meet Aisha and her friends. Use the words in the box at the top to answer each مَنْ question, like the example: مَنْ أَنَا؟ أَنْتِ عَائِشَةُ.
 - **check:** Line 2 is printed وَهَذا صَدِيقَتِي and line 6 وَهَذا أَصْدِقَاؤُهَا. The typed version on the next page uses هَذِهِ and هَؤُلَاءِ.
 2. Workbook page `books/arabic-beginners/014.webp`: Aisha tells us about her friend Rayhana. Read it aloud.
-3. *Aisha and her friends.* أَنَا عَائِشَةُ، وَهَذِهِ صَدِيقَتِي. اسْمُهَا رَيْحَانَةُ، وَعُمُرُهَا اثْنَتَا عَشْرَةَ سَنَةً. هِيَ فِي مَدْرَسَةِ الْهُدَى، وَهَؤُلَاءِ أَصْدِقَاؤُهَا. مِنَ الْيَمِينِ عَلِيٌّ، وَمِنَ الْيَسَارِ سُلَيْمَانُ. هُمَا فِي نَفْسِ الْفَصْلِ. Aisha points at her friend Rayhana, who is twelve. Rayhana goes to Al-Huda School. Ali stands on the right and Sulayman on the left. The two boys are in the same class. [table]
-4. Quiz: How old is Rayhana? **١٢** · Which school do the friends go to? **مَدْرَسَةُ الْهُدَى** · Who is standing on the right? **عَلِيٌّ** · Why does Aisha say صَدِيقَتِي and not صَدِيقِي? **Her friend is a girl.**
+3. *Aisha and her friends.* أَنَا عَائِشَةُ، وَهَذِهِ صَدِيقَتِي. اسْمُهَا رَيْحَانَةُ، وَعُمُرُهَا اثْنَتَا عَشْرَةَ سَنَةً. هِيَ فِي مَدْرَسَةِ النُّورِ، وَهَؤُلَاءِ أَصْدِقَاؤُهَا. مِنَ الْيَمِينِ عَلِيٌّ، وَمِنَ الْيَسَارِ سُلَيْمَانُ. هُمَا فِي نَفْسِ الْفَصْلِ. Aisha points at her friend Rayhana, who is twelve. Rayhana goes to Al-Noor School. Ali stands on the right and Sulayman on the left. The two boys are in the same class. [table]
+4. Quiz: How old is Rayhana? **١٢** · Which school do the friends go to? **مَدْرَسَةُ النُّورِ** · Who is standing on the right? **عَلِيٌّ** · Why does Aisha say صَدِيقَتِي and not صَدِيقِي? **Her friend is a girl.**
 5. Workbook page `books/arabic-beginners/015.webp`: Choose the right name for each pronoun and write the whole sentence, like the two examples. Then answer the questions under the pictures.
 6. Fill the gap: هَذِهِ **خَدِيجَةُ**. · هِيَ **مَرْيَمُ**. · هُوَ **طَالِبٌ**. · هُوَ **مُعَلِّمٌ**. · هَذَا **صَدِيقٌ**. · هَلْ هِيَ طَبِيبَةٌ؟ نَعَمْ، **هِيَ** طَبِيبَةٌ.
 7. Workbook page `books/arabic-beginners/016.webp`: Aisha's teacher phones her home. Listen to the call, say it again, then read it with a partner.
@@ -1046,8 +1046,8 @@ Unit One of the Arabic textbook: greetings, pronouns, this and that, the classro
 - **check:** The first person's name is hard to read in the Arabic (it looks like زُهَاء), while the English says Zuhair. The page is shown as printed.
 6. Workbook page `books/arabic-beginners/046.webp`: Two grown-ups tell us about themselves. Read the Arabic, then check it against the English beside it.
 - **check:** The page says أَنَا عَازِبٌ ("I am single"), which is odd for an 11-year-old, repeats one line, and ends with "مِنْطَقَةِ جَمَاعَةِ الْقَلْبِ". The typed version on the next page leaves these out.
-7. Workbook page `books/arabic-beginners/047.webp`: Read what Muhammad, a boy at Al-Huda School, says about himself.
-8. *Who is Muhammad?.* اسْمِي مُحَمَّدٌ، أَنَا مِنْ بَنْغْلَادِيش. عُمُرِي أَحَدَ عَشَرَ عَامًا. أَنَا فِي الصَّفِّ السَّادِسِ فِي مَدْرَسَةِ الْهُدَى. مَادَّتِي الْمُفَضَّلَةُ هِيَ الرِّيَاضِيَّاتُ. لَدَيَّ شَقِيقَانِ. اسْمُ أُخْتِي الصَّغِيرَةِ جَمِيلَةُ، وَاسْمُ أَخِي الْكَبِيرِ حَافِظٌ. كِلَاهُمَا طَالِبٌ. هِوَايَتِي تِنِسُ الطَّاوِلَةِ وَالسَّفَرُ. أُحِبُّ قَضَاءَ الْوَقْتِ مَعَ وَالِدَيَّ. أَنَا أَتَعَلَّمُ اللُّغَةَ الْعَرَبِيَّةَ. أَقْرَأُ الْكُتُبَ الْعَرَبِيَّةَ جَيِّدًا. أَسْكُنُ فِي مَدِينَةِ سَانْت جُونْز. [table]
+7. Workbook page `books/arabic-beginners/047.webp`: Read what Muhammad, a boy at Al-Noor School, says about himself.
+8. *Who is Muhammad?.* اسْمِي مُحَمَّدٌ، أَنَا مِنْ بَنْغْلَادِيش. عُمُرِي أَحَدَ عَشَرَ عَامًا. أَنَا فِي الصَّفِّ السَّادِسِ فِي مَدْرَسَةِ النُّورِ. مَادَّتِي الْمُفَضَّلَةُ هِيَ الرِّيَاضِيَّاتُ. لَدَيَّ شَقِيقَانِ. اسْمُ أُخْتِي الصَّغِيرَةِ جَمِيلَةُ، وَاسْمُ أَخِي الْكَبِيرِ حَافِظٌ. كِلَاهُمَا طَالِبٌ. هِوَايَتِي تِنِسُ الطَّاوِلَةِ وَالسَّفَرُ. أُحِبُّ قَضَاءَ الْوَقْتِ مَعَ وَالِدَيَّ. أَنَا أَتَعَلَّمُ اللُّغَةَ الْعَرَبِيَّةَ. أَقْرَأُ الْكُتُبَ الْعَرَبِيَّةَ جَيِّدًا. أَسْكُنُ فِي مَدِينَةِ سَانْت جُونْز. [table]
 9. Quiz: Where is Muhammad from? **بَنْغْلَادِيش** · How old is he? **١١** · What is his favourite subject? **Maths** · What does he like doing? **Table tennis and travelling** · What is his big brother called? **حَافِظٌ**
 10. Workbook page `books/arabic-beginners/048.webp`: Now write about yourself on this page, the way Muhammad did.
 11. Write: Write about yourself in Arabic. Start with اسْمِي. Say where you are from and how old you are, then something you love.

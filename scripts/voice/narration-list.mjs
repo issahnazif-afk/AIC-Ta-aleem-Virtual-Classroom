@@ -1,7 +1,7 @@
 // Lists every English line the classroom reads aloud (Story Time, the Reading Library and the Seerah Quest), for make_narration.py.
 // Writes scripts/voice/narration.json: [{ key, reader, text (as shown), parts: [[who, words as spoken]] }]
 import fs from 'node:fs';
-import { VOICES, spoken, clipKey, parts, STORY_LINES, LIBRARY_LINES } from '../../src/lib/narration-text.mjs';
+import { VOICES, spoken, clipKey, parts, STORY_LINES, LIBRARY_LINES, wordForVoice } from '../../src/lib/narration-text.mjs';
 import { STORIES } from '../../src/lib/stories/level1.mjs';
 import { EPISODES } from '../../src/lib/seerah/episodes.mjs';
 import { LEVEL1 } from '../../src/lib/library/level1.mjs';
@@ -46,7 +46,7 @@ for (const b of [...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED, ...PROPHETS]) {
 }
 for (const k of Object.values(LIBRARY_LINES)) add('story', k);
 
-// The Al-Huda Books for Levels 1 and 2 (read aloud from the start). Levels 3 and 4 read for themselves, and
+// The Ta’aleem Books for Levels 1 and 2 (read aloud from the start). Levels 3 and 4 read for themselves, and
 // their pages use the browser's voice if a student turns reading aloud on.
 for (const b of HUDA_BOOKS.filter((x) => x.level <= 2)) {
   for (const c of b.chapters) for (const p of c.pages) {
@@ -56,7 +56,7 @@ for (const b of HUDA_BOOKS.filter((x) => x.level <= 2)) {
     if (p.type === 'dua') { add('story', p.when); add('story', p.en); }
     if (p.type === 'hadith' || p.type === 'ayah') add('story', p.en);
     for (const it of p.items ?? []) if (it && typeof it === 'object' && !Array.isArray(it)) { add('story', it.q); if (it.why) { add('story', `Right! ${it.why}`); add('story', `That's it. ${it.why}`); } if (b.level === 1) { add('story', it.a); (it.w ?? []).forEach((w) => add('story', w)); } }
-    for (const t of p.tap ?? []) add('story', t.en);
+    for (const t of p.tap ?? []) if (t.en && !t.latin && !t.letter) add('story', wordForVoice(t.en)); else if (t.letter) add('story', t.en);
   }
 }
 for (const k of ['All done. Turn the page.', 'All matched! Turn the page.', "That's the right order!", 'All sorted! Turn the page.', 'Masha Allah! Turn the page.',

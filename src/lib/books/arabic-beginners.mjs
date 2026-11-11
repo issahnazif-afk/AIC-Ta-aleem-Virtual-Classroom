@@ -355,9 +355,9 @@ export default {
       ],
     },
 
-    // ── 6. A student at Al-Huda School (pages 13–16) ──
+    // ── 6. A student at Al-Noor School (pages 13–16) ──
     {
-      title: 'A student at Al-Huda School', ar: 'طَالِبٌ مِنْ مَدْرَسَةِ الْهُدَى',
+      title: 'A student at Al-Noor School', ar: 'طَالِبٌ مِنْ مَدْرَسَةِ النُّورِ',
       pages: [
         scan(13, 'Meet Aisha and her friends. Use the words in the box at the top to answer each مَنْ question, like the example: مَنْ أَنَا؟ أَنْتِ عَائِشَةُ.'),
         scan(14, 'Aisha tells us about her friend Rayhana. Read it aloud.', { check: 'Line 2 is printed وَهَذا صَدِيقَتِي and line 6 وَهَذا أَصْدِقَاؤُهَا. The typed version on the next page uses هَذِهِ and هَؤُلَاءِ.' }),
@@ -365,9 +365,9 @@ export default {
           type: 'read', h: 'Aisha and her friends',
           text: [
             { ar: 'أَنَا عَائِشَةُ، وَهَذِهِ صَدِيقَتِي. اسْمُهَا رَيْحَانَةُ، وَعُمُرُهَا اثْنَتَا عَشْرَةَ سَنَةً.' },
-            { ar: 'هِيَ فِي مَدْرَسَةِ الْهُدَى، وَهَؤُلَاءِ أَصْدِقَاؤُهَا.' },
+            { ar: 'هِيَ فِي مَدْرَسَةِ النُّورِ، وَهَؤُلَاءِ أَصْدِقَاؤُهَا.' },
             { ar: 'مِنَ الْيَمِينِ عَلِيٌّ، وَمِنَ الْيَسَارِ سُلَيْمَانُ. هُمَا فِي نَفْسِ الْفَصْلِ.' },
-            'Aisha points at her friend Rayhana, who is twelve. Rayhana goes to Al-Huda School. Ali stands on the right and Sulayman on the left. The two boys are in the same class.',
+            'Aisha points at her friend Rayhana, who is twelve. Rayhana goes to Al-Noor School. Ali stands on the right and Sulayman on the left. The two boys are in the same class.',
             { table: [
               ['Arabic', 'English'],
               ['صَدِيقَتِي', 'my friend (a girl)'],
@@ -384,7 +384,7 @@ export default {
           type: 'quiz',
           items: [
             { q: 'How old is Rayhana?', a: '١٢', w: ['١١', '١٠'] },
-            { q: 'Which school do the friends go to?', a: 'مَدْرَسَةُ الْهُدَى', w: ['مَدْرَسَةُ النُّورِ', 'الْجَامِعَةُ'] },
+            { q: 'Which school do the friends go to?', a: 'مَدْرَسَةُ النُّورِ', w: ['مَدْرَسَةُ الْأَمَلِ', 'الْجَامِعَةُ'] },
             { q: 'Who is standing on the right?', a: 'عَلِيٌّ', w: ['سُلَيْمَانُ', 'عُمَرُ'] },
             { q: 'Why does Aisha say صَدِيقَتِي and not صَدِيقِي?', a: 'Her friend is a girl.', w: ['Her friend is far away.', 'She has two friends.'], why: 'صَدِيقٌ is a boy friend and صَدِيقَةٌ is a girl friend.' },
           ],
@@ -1063,12 +1063,12 @@ export default {
           ],
         },
         scan(46, 'Two grown-ups tell us about themselves. Read the Arabic, then check it against the English beside it.', { check: 'The first person\'s name is hard to read in the Arabic (it looks like زُهَاء), while the English says Zuhair. The page is shown as printed.' }),
-        scan(47, 'Read what Muhammad, a boy at Al-Huda School, says about himself.', { check: 'The page says أَنَا عَازِبٌ ("I am single"), which is odd for an 11-year-old, repeats one line, and ends with "مِنْطَقَةِ جَمَاعَةِ الْقَلْبِ". The typed version on the next page leaves these out.' }),
+        scan(47, 'Read what Muhammad, a boy at Al-Noor School, says about himself.', { check: 'The page says أَنَا عَازِبٌ ("I am single"), which is odd for an 11-year-old, repeats one line, and ends with "مِنْطَقَةِ جَمَاعَةِ الْقَلْبِ". The typed version on the next page leaves these out.' }),
         {
           type: 'read', h: 'Who is Muhammad?',
           text: [
             { ar: 'اسْمِي مُحَمَّدٌ، أَنَا مِنْ بَنْغْلَادِيش. عُمُرِي أَحَدَ عَشَرَ عَامًا.' },
-            { ar: 'أَنَا فِي الصَّفِّ السَّادِسِ فِي مَدْرَسَةِ الْهُدَى. مَادَّتِي الْمُفَضَّلَةُ هِيَ الرِّيَاضِيَّاتُ.' },
+            { ar: 'أَنَا فِي الصَّفِّ السَّادِسِ فِي مَدْرَسَةِ النُّورِ. مَادَّتِي الْمُفَضَّلَةُ هِيَ الرِّيَاضِيَّاتُ.' },
             { ar: 'لَدَيَّ شَقِيقَانِ. اسْمُ أُخْتِي الصَّغِيرَةِ جَمِيلَةُ، وَاسْمُ أَخِي الْكَبِيرِ حَافِظٌ. كِلَاهُمَا طَالِبٌ.' },
             { ar: 'هِوَايَتِي تِنِسُ الطَّاوِلَةِ وَالسَّفَرُ. أُحِبُّ قَضَاءَ الْوَقْتِ مَعَ وَالِدَيَّ.' },
             { ar: 'أَنَا أَتَعَلَّمُ اللُّغَةَ الْعَرَبِيَّةَ. أَقْرَأُ الْكُتُبَ الْعَرَبِيَّةَ جَيِّدًا. أَسْكُنُ فِي مَدِينَةِ سَانْت جُونْز.' },

@@ -311,7 +311,7 @@ goal must never be cut off and 45 of 50 games must be won within five minutes. A
 
 **Sources.** Every fact, name, date and clue is in `src/lib/games/content.mjs` or a game's file in
 `src/lib/games/data/`, with its source. `npm run games` (`scripts/games/check.mjs`) checks each hadith reference
-against the hadith-api as `npm run deen` does, runs all the English through the writing check of the Al-Huda Books
+against the hadith-api as `npm run deen` does, runs all the English through the writing check of the Ta’aleem Books
 (`scripts/books/writing.mjs`), runs thousands of wall shifts to prove the goal always stays reachable, runs each game's
 own checks, and writes **`docs/activities-review.md`**. Everything there starts as **pending review**; after Ustadh
 Issah has checked it, record it with `node scripts/games/check.mjs --approve "Ustadh Issah" YYYY-MM-DD`
@@ -357,9 +357,9 @@ tells us in the Qurʾan", read by the narrator, never a character voice. No pers
 the class's reciter, then the library's games. Ustadh Issah checks each one in
 [docs/reading-library-review.md](docs/reading-library-review.md) before use.
 
-## The Al-Huda Books (every level)
+## The Ta’aleem Books (every level)
 
-**Al-Huda Books** is under *My Lessons*: the school's own Canva books, each turned into an interactive digital book
+**Ta’aleem Books** is under *My Lessons*: the school's own Canva books, each turned into an interactive digital book
 for the age it was written for. The shelf shows the books for the student's class first, then the rest.
 
 | Book | Level | What the child does |
@@ -377,7 +377,7 @@ pages curl over with a shadow and a soft paper sound when you drag a corner or t
 the arrow keys, two pages side by side on a wide screen and one on a phone or an upright tablet. The bar under the
 book has the contents, a grid of every page, the page number and how far through the book you are, zoom, the page
 sound and full screen. The activities work right on the page, and a page with an activity still to do holds the book
-open until it is done (see [docs/al-huda-books.md](docs/al-huda-books.md#the-flipbook)).
+open until it is done (see [docs/books.md](docs/books.md#the-flipbook)).
 
 Levels 1 and 2 are read aloud from the start, and can turn the reading pages by themselves after reading them
 (*Turn pages for me*); Levels 3 and 4 read for themselves, tests show a percentage, and
@@ -385,8 +385,8 @@ written answers stay on that computer. Every finished chapter gives stars and Ta
 log's Games tab. The words were rewritten where needed to read as a person wrote them, and `npm run books` checks
 them against Wikipedia's *Signs of AI writing* guide. The page pictures are in `public/books/`; the PDFs are not kept
 in the repository (`scripts/books/render.py` makes the pictures from them). How the books are built, the page types
-and the writing rules: [docs/al-huda-books.md](docs/al-huda-books.md). **Please have a teacher read
-[docs/al-huda-books-review.md](docs/al-huda-books-review.md)**: every hadith, ayah and du'a, book by book.
+and the writing rules: [docs/books.md](docs/books.md). **Please have a teacher read
+[docs/books-review.md](docs/books-review.md)**: every hadith, ayah and du'a, book by book.
 
 ### The reading voice (Story Time and the Seerah Quest)
 
@@ -760,7 +760,7 @@ src/lib/rewards.mjs          Ta'aleem Stars, badges and the daily challenge
 src/lib/studio.mjs           the Voice Studio, where teachers record the Sheikh's voice
 src/lib/makhraj.mjs          where each letter's sound comes from: the 17 makharij, the drawing and how-to sentences
 src/lib/stories/             Story Time: art.mjs (the pictures), level1.mjs (the 22 stories), reader.mjs (shelf and book)
-src/lib/books/               Al-Huda Books: one file per book, index.mjs (the shelf order), ebook.mjs (shelf and reader)
+src/lib/books/               Ta’aleem Books: one file per book, index.mjs (the shelf order), ebook.mjs (shelf and reader)
 scripts/books/               render.py (page pictures from the Canva PDFs), lint.mjs (checks + the teachers' review sheet)
 src/lib/library/             Reading Library: level1.mjs, level2.mjs (the 40 books), added.mjs (teachers' books), library.mjs (journey and games)
 scripts/stories/             quran.mjs (ayah words from Tanzil), review.mjs (docs/story-time-level1.md)

@@ -1,11 +1,11 @@
-// The Al-Huda Books: the school's own books (made in Canva) as interactive digital books.
+// The Ta’aleem Books: the school's own books (made in Canva) as interactive digital books.
 //   mountBookShelf(root, { level, progress, onOpen })                  the shelf: books for my level first, then the rest
 //   openEbook(root, book, { progress, reciter, onChapter, onExit, onSave })
 //      onChapter({ book, chapter, index, stars, first, total })   when a chapter is finished
 //      onSave()                                                   after the reading place changes (to save progress)
 //
 // A book (src/lib/books/*.mjs) is { id, title, ar, level, ages, color, cover, about, chapters: [{ title, test?, pages }] }.
-// The page types are described in docs/al-huda-books.md. How a book behaves follows its level:
+// The page types are described in docs/books.md. How a book behaves follows its level:
 //   Level 1 (4–6)  read aloud from the start, big buttons, questions read out, crayons on the workbook pages
 //   Level 2 (7–8)  read aloud from the start; the child reads the questions (a button reads them out)
 //   Level 3 (9–10) and 4 (10–14)  the child reads; tests are scored; answers to write are kept on this computer
@@ -23,6 +23,8 @@ import { PageFlip } from 'page-flip/dist/js/page-flip.module.js';
 import '../../styles/books.css';
 import { narrate, hush as stopNarration } from '../narration.mjs';
 import { studioUrl, playUrl, stopSound, sayLetter, browserSay } from '../voice.mjs';
+import { sayWord, sayMeaning } from '../word-voice.mjs';
+import { wordForVoice } from '../narration-text.mjs';
 import { hadithClipId } from '../narration-text.mjs';
 import { byLetter } from '../alifba.mjs';
 import { audioUrl } from '../client.mjs';
@@ -125,7 +127,7 @@ export function mountBookShelf(root, { books, level = 1, progress = {}, onOpen }
     root.append(grid);
   };
   group(mine.length ? 'Books for my class' : 'All books', mine.length ? mine : books);
-  if (mine.length) group('More books from Al-Huda', rest);
+  if (mine.length) group('More books', rest);
 }
 
 // page types with an activity that must be finished before the book turns on
@@ -809,10 +811,10 @@ export function openEbook(root, book, { progress = {}, reciter = 'Husary_128kbps
           b.setAttribute('aria-label', t.en ? `${t.ar ?? ''} ${t.en}` : t.ar ?? '');
           b.addEventListener('click', () => {
             hush(); b.classList.add('on'); setTimeout(() => b.classList.remove('on'), 700);
-            // a letter: the Sheikh's letter voice. A word: the browser's Arabic voice if the computer has one, then the meaning in English
+            // a letter: the Sheikh's letter voice. A word: its recorded Arabic (every device), then its meaning in English
             const L1 = t.letter ? byLetter(t.letter) : null;
             if (L1) sayLetter(L1);
-            else (t.ar ? browserSay(t.ar) : Promise.resolve(false)).then(() => { if (t.en) narrate(t.en, { voice: 'story' }); });
+            else (t.ar ? sayWord(t.ar) : Promise.resolve(false)).then(() => { if (t.en && !t.latin) sayMeaning(t.en, () => narrate(wordForVoice(t.en), { voice: 'story' })); });
           });
           row.append(b);
         }

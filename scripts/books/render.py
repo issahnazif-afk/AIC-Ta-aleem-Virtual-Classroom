@@ -1,7 +1,7 @@
-"""Turns the school's Canva PDFs into the page pictures of the Al-Huda Books (public/books/<id>/NNN.webp).
+"""Turns the school's Canva PDFs into the page pictures of the Ta’aleem Books (public/books/<id>/NNN.webp).
 
-    python scripts/books/render.py "C:/path/to/AL-HUDA BOOKS"            # every book
-    python scripts/books/render.py "C:/path/to/AL-HUDA BOOKS" dua-activity  # one book
+    python scripts/books/render.py "C:/path/to/SCHOOL BOOKS"            # every book
+    python scripts/books/render.py "C:/path/to/SCHOOL BOOKS" dua-activity  # one book
 
 Needs PyMuPDF and Pillow (pip install pymupdf pillow). The PDFs themselves are not kept in the repository:
 they are large (the Moral Stories alone is 480 MB), and the site only needs the pictures.

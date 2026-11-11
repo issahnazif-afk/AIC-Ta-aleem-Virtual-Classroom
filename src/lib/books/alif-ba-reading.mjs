@@ -10,7 +10,7 @@ const NAME = {
 // letters to tap: the Sheikh's letter voice says each one
 const T = (s) => s.split(' ').map((c) => ({ ar: c, letter: c, en: NAME[c] }));
 // syllables and words to tap: the sound is read out
-const S = (...xs) => xs.map(([ar, en]) => ({ ar, en }));
+const S = (...xs) => xs.map(([ar, en]) => ({ ar, en, latin: true }));
 const ALL = 'ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي';
 
 export default {

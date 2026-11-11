@@ -6,7 +6,7 @@
 // An entry with  kind: 'soon'  shows as "Coming soon" until it is ready.
 //
 //   id      unique name
-//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Al-Huda Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'games' (Play & Make, src/lib/games/) | 'soon'
+//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Ta’aleem Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'games' (Play & Make, src/lib/games/) | 'soon'
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
 //   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs); for 'games': an id in GAMES (src/lib/games/index.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
@@ -61,10 +61,10 @@ export const ACTIVITIES = [
     title: 'Stories of the Prophets', ar: 'قَصَصُ ٱلْأَنْبِيَاء',
     text: 'Ibrahim and the fire, Nuh and the ark, Yunus and the whale, Musa and the sea: stories Allah tells in the Qur’an, with an ayah and games.',
   },
-  // The Al-Huda Books: the school's own Canva books as interactive digital books, one shelf for every level (src/lib/books/).
+  // The Ta’aleem Books: the school's own Canva books as interactive digital books, one shelf for every level (src/lib/books/).
   {
     id: 'books', worlds: ['arabic', 'dua', 'akhlaq', 'hadith', 'tawheed'], kind: 'books', icon: 'books', group: 'lessons', suggested: [1, 2, 3, 4],
-    title: 'Al-Huda Books', ar: 'كُتُبُ ٱلْهُدَى',
+    title: 'Ta’aleem Books', ar: 'كُتُبُ تَعْلِيم',
     text: 'Our school books to read, tap, colour and answer: Arabic letters, du\'a, stories, hadith and Tawheed.',
   },
   // My Deen (src/lib/deen/): du'as, the Sunnah of the day, Our Prophet ﷺ and the special days. Qur'an and sound hadith only.

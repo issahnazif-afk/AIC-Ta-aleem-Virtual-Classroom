@@ -3,7 +3,7 @@
 // on the classroom plays the teacher's voice instead of the computer voice for that clip.
 import { LETTERS } from './alifba.mjs';
 import { PHRASES } from './phrases.mjs';
-import { isHeld, say, studioUrl, forgetStudio, loadStudio, stopSound, playUrl } from './voice.mjs';
+import { say, studioUrl, forgetStudio, loadStudio, stopSound, playUrl } from './voice.mjs';
 import { syllable } from './lessons.mjs';
 import { voiceCheck, voiceSave, voiceDelete } from './classlog.mjs';
 import { STORIES } from './stories/level1.mjs';
@@ -24,22 +24,16 @@ import { narrate, hush } from './narration.mjs';
 export const storyClipId = (story, page, tap) => `st-${story}-${page + 1}${tap ? 't' : ''}`;
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-const FIRST = { alif: 'a', ba: 'b', ta: 't', tha: 'th', jim: 'j', 'ha-hollow': 'ḥ', kha: 'kh', dal: 'd', dhal: 'dh', ra: 'r', zay: 'z', sin: 's', shin: 'sh', sad: 'ṣ', dad: 'ḍ', 'ta-heavy': 'ṭ', 'dha-heavy': 'ẓ', ayn: 'ʿ', ghayn: 'gh', fa: 'f', qaf: 'q', kaf: 'k', lam: 'l', mim: 'm', nun: 'n', ha: 'h', waw: 'w', ya: 'y' };
 
 // Every clip the classroom can use, in the order that helps students most.
 export function catalogue() {
   const groups = [];
-  groups.push({ key: 'first', title: 'Sound-first letters', why: 'Start here. These are what the youngest students hear most.', clips: LETTERS.map((L) => {
-    const held = isHeld(L), s = FIRST[L.file];
-    return { id: `f-${L.file}`, ar: L.letter, label: `${L.latin} · “${held ? s.repeat(3) : s}”`,
-      how: held ? `Hold the sound steady for about a second: “${s.repeat(4)}…”. No vowel after it, and not the letter's name.` : L.file === 'alif' ? 'A short, clear “a”.' : `Short and crisp: “${s}”, with only a light release and no “uh” after it.` };
-  }) });
   groups.push({ key: 'phrases', title: 'The Sheikh’s words', why: 'Praise and instructions, in a calm, gentle voice.', clips: Object.values(PHRASES).flatMap((p) => {
     const forms = [p.m, p.f, p.n].filter(Boolean);
     const seen = new Set();
     return forms.filter(([, file]) => (seen.has(file) ? false : seen.add(file))).map(([ar, file]) => ({ id: `p-${file}`, ar, label: p.en, how: 'Calm and unhurried, as you would speak to a student beside you.' }));
   }) });
-  groups.push({ key: 'names', title: 'Letter names', why: 'For “Letter names” in the drop-down, and the Muqatta’at.', clips: LETTERS.map((L) => ({ id: `n-${L.file}`, ar: L.name, label: L.latin, how: 'Say the name clearly.' })) });
+  groups.push({ key: 'names', title: 'Letter names', why: 'Start here. Every letter game says the letter’s name, unless a student picks “With fat-ha”.', clips: LETTERS.map((L) => ({ id: `n-${L.file}`, ar: L.name, label: L.latin, how: 'Say the name clearly.' })) });
   const syl = (key, title, vs, how) => groups.push({ key, title, why: '', clips: LETTERS.flatMap((L) => vs.map((v) => { const x = syllable(L, v); return { id: x.id, ar: x.ar, label: x.latin, how }; })) });
   syl('harakat', 'With fat-ha, kes-ra and dom-ma', ['a', 'i', 'u'], 'One short syllable.');
   syl('sukun', 'Sukun and shadda', ['sk', 'sh'], 'As written: أَبْ, then أَبَّ.');
@@ -138,7 +132,7 @@ const b64 = (bytes) => { let s = ''; for (let i = 0; i < bytes.length; i += 0x80
 
 // ── the screen ──
 export function mountStudio(root, { onExit }) {
-  let password = '', by = '', stream = null, list = {}, group = 'first';
+  let password = '', by = '', stream = null, list = {}, group = 'names';
   root.replaceChildren();
   const signin = el('form', 'st-signin card');
   signin.innerHTML = '<h2 class="h2">Voice Studio sign-in</h2><p class="muted">For teachers. The password is in the Settings tab of the admin sheet.</p>';

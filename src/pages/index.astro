@@ -50,7 +50,7 @@ const levels = [
     <div class="si-brand">
       <div class="brand big"><img class="brand-logo si-logo" src={u('img/taaleem-logo.webp')} alt="Ta'aleem logo" width="112" height="118" /><span><b>Ta'aleem</b><small>Virtual Classroom</small></span></div>
       <div class="si-hero">
-        <p class="eyebrow"><span class="star" aria-hidden="true"></span>Al-Huda Islamic Centre (AIC)</p>
+        <p class="eyebrow"><span class="star" aria-hidden="true"></span>Qur’an · Arabic · Islamic studies</p>
         <p class="display">Recite, read and <em>learn</em> with the Sheikh</p>
         <p class="si-text">Recite to the Sheikh, learn the Arabic letters, read our books, learn your du'as and the Sunnah. Choose your level to begin.</p>
         <div class="si-doors" role="group" aria-label="Choose your level">
@@ -474,19 +474,19 @@ const levels = [
     </div>
   </section>
 
-  <!-- The Al-Huda Books: the school's Canva books as interactive books (src/lib/books/) ─── -->
+  <!-- The Ta’aleem Books: the school's Canva books as interactive books (src/lib/books/) ─── -->
   <section class="screen flow" id="s-books" hidden aria-labelledby="bk-h">
     <header class="topbar">
-      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · Al-Huda Books</small></span></div>
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · Ta’aleem Books</small></span></div>
       <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
       <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
     </header>
     <div class="flow-main">
-      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Al-Huda Books · كُتُبُ ٱلْهُدَى</p>
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Ta’aleem Books · كُتُبُ تَعْلِيم</p>
       <h1 id="bk-h">Our school books</h1>
       <p class="muted lead">The books from your class, ready to read on the screen. Tap the letters to hear them, colour the pages, answer the questions and collect your stars.</p>
       <div id="bk-root"></div>
-      <p class="preview-note">For teachers: the hadith, du'a and ayat in these books are listed in docs/al-huda-books-review.md. Please check them before class.</p>
+      <p class="preview-note">For teachers: the hadith, du'a and ayat in these books are listed in docs/books-review.md. Please check them before class.</p>
     </div>
   </section>
   <section class="screen eb-screen" id="s-ebook" hidden aria-label="Book"><div id="eb-root"></div></section>
@@ -1602,7 +1602,7 @@ const levels = [
       if (L.board === 'letters') {
         const sp = letterSpoken(it);
         big.textContent = it.letter; said.textContent = sp.ar;
-        lat.textContent = letterVoice() === 'first' ? `Say: ${sp.latin}  ·  ${it.latin}` : `${it.latin} · ${LETTER_VOICES.find(([k]) => k === letterVoice())[1].split(' (')[0]}`;
+        lat.textContent = `${it.latin} · ${LETTER_VOICES.find(([k]) => k === letterVoice())[1].split(' (')[0]}`;
         const n = progress.letters?.[it.letter] ?? 0;
         note.textContent = n >= MASTERED ? 'Known, masha’Allah ★★' : n === 1 ? 'Lit once ★ · once more to know it' : 'Not lit yet';
         showMakhraj(it);
@@ -2036,7 +2036,7 @@ const levels = [
         },
       });
     }
-    // ── The Al-Huda Books ──
+    // ── The Ta’aleem Books ──
     let ebook = null;
     // the books load only when the shelf is first opened, so the classroom's first page stays light
     let booksMod = null;
@@ -2066,7 +2066,7 @@ const levels = [
           document.querySelector('#eb-root .eb-end')?.prepend(box);
           renderStars?.();
           await saveProgress({ token: me.token, username: me.username, progress });
-          logGame({ token: me.token, game: { game: 'Al-Huda Books', lesson: `${book.title}: ${chapter.title}`, rounds: 1, first, accuracy: pct, score: total ? `${first}/${total}${test ? ' (test)' : ''}` : `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+          logGame({ token: me.token, game: { game: 'Ta’aleem Books', lesson: `${book.title}: ${chapter.title}`, rounds: 1, first, accuracy: pct, score: total ? `${first}/${total}${test ? ' (test)' : ''}` : `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
           t0 = Date.now();
         },
       });

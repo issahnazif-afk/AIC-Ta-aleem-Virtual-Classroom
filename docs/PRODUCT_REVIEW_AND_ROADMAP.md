@@ -1,4 +1,4 @@
-# AIC Ta'aleem · Repository review and product roadmap
+# Ta'aleem · Repository review and product roadmap
 
 ## Executive assessment
 
@@ -33,7 +33,7 @@ Use a consistent “learning world” metaphor without making every screen look 
 4. **My Journey** — personal stars, badges, completed missions and garden growth.
 5. **Help & Safety** — teacher support, accessibility options, audio controls and privacy reminders.
 
-Keep the existing AIC visual identity (deep green, warm gold, cream, Arabic typography) but introduce more visual hierarchy, illustrated world tiles, clear progress markers and responsive touch targets. Avoid overstimulating effects, public rankings, loot-box mechanics, manipulative streak pressure or competitive scoring that shames students.
+Keep the existing visual identity (deep green, warm gold, cream, Arabic typography) but introduce more visual hierarchy, illustrated world tiles, clear progress markers and responsive touch targets. Avoid overstimulating effects, public rankings, loot-box mechanics, manipulative streak pressure or competitive scoring that shames students.
 
 ### Age adaptation
 

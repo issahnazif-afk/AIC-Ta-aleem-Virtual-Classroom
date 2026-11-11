@@ -1,6 +1,6 @@
-# The Al-Huda Books
+# The Ta’aleem Books
 
-**Al-Huda Books** is under *My Lessons*. It puts the school's own Canva books into the classroom as interactive
+**Ta’aleem Books** is under *My Lessons*. It puts the school's own Canva books into the classroom as interactive
 digital books, each one shaped for the age it was written for. A child picks a book, reads it chapter by chapter,
 and does the activities on the way. Each chapter they finish gives stars (one to three) and Ta'aleem Stars.
 
@@ -65,7 +65,7 @@ public/books/<id>/NNN.webp   the page pictures (from scripts/books/render.py; th
 src/lib/books/<id>.mjs       one book: its chapters and pages
 src/lib/books/index.mjs      the order of the shelf
 src/lib/books/ebook.mjs      the shelf and the reader
-scripts/books/lint.mjs       the checks (npm run books), and docs/al-huda-books-review.md for teachers
+scripts/books/lint.mjs       the checks (npm run books), and docs/books-review.md for teachers
 ```
 
 To change a sentence, edit the book's file and run `npm run books`. To bring in a new Canva book: export it as PDF,
@@ -140,5 +140,5 @@ The words are the school's books, rewritten where needed so they read as a perso
   as the sources tell them, with no invented words put in their mouths. The Prophet ﷺ, his family and his
   Companions are never pictured.
 
-`docs/al-huda-books-review.md` lists every book, page by page, with each hadith, ayah and du'a. **Please have an
+`docs/books-review.md` lists every book, page by page, with each hadith, ayah and du'a. **Please have an
 Islamic Studies teacher read it before the books are used in class.**

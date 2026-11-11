@@ -82,41 +82,25 @@ export function browserSay(ar) {
 }
 
 // ── how the Sheikh reads a letter ─────────────────────────────
-// first: sound-first (the default). The letter's own sound, as a child blends it to read: ن "nnn", م "mmm",
-//        س "sss", ف "fff", held for about a second; letters that cannot be held (ب ت د ق ك …) short and crisp.
-//        A child who knows "nnn + a + sss" can sound out نَسَ; one who only knows "nun, alif, sin" cannot.
+// Two ways, nothing else:
+// name:  the letter's name (Alif, Ba, Ta), the default
 // sound: the letter with a fat-ha (ba, ta, tha)
-// pure:  the letter with sukun after a hamza (ab, at, ath): its exact point of articulation
-// name:  the letter's name (Alif, Ba, Ta)
 export const LETTER_VOICES = [
-  ['first', 'Sound-first (nnn, mmm, sss)'],
-  ['sound', 'With fat-ha (ba, ta, tha)'],
-  ['pure', 'Pure sound, with sukun (ab, at, ath)'],
   ['name', 'Letter names (Alif, Ba, Ta)'],
+  ['sound', 'With fat-ha (ba, ta, tha)'],
 ];
-// the letters that can be held, and how a child would write their sound
-const HELD = new Set(['tha', 'ha-hollow', 'kha', 'dhal', 'ra', 'zay', 'sin', 'shin', 'sad', 'dha-heavy', 'ayn', 'ghayn', 'fa', 'lam', 'mim', 'nun', 'ha']);
-const FIRST_LATIN = { alif: 'a', ba: 'b', ta: 't', tha: 'thhh', jim: 'j', 'ha-hollow': 'ḥḥḥ', kha: 'khhh', dal: 'd', dhal: 'dhhh', ra: 'rrr', zay: 'zzz',
-  sin: 'sss', shin: 'shhh', sad: 'ṣṣṣ', dad: 'ḍ', 'ta-heavy': 'ṭ', 'dha-heavy': 'ẓẓẓ', ayn: 'ʿʿʿ', ghayn: 'ghhh', fa: 'fff', qaf: 'q', kaf: 'k',
-  lam: 'lll', mim: 'mmm', nun: 'nnn', ha: 'hhh', waw: 'w', ya: 'y' };
-export const isHeld = (L) => HELD.has(L.file);
-const KEY = 'qc.letterVoice';
-// The default is sound-first. (Earlier versions stored 'sound' as the default; a saved choice is kept only if the
-// student changed it after sound-first arrived, marked by KEY2.)
-const KEY2 = 'qc.letterVoice.v2';
+// (v3: the earlier sound-first and sukun choices are gone, so an old saved choice falls back to letter names)
+const KEY3 = 'qc.letterVoice.v3';
 export function letterVoice() {
-  try { const v = localStorage.getItem(KEY2); return LETTER_VOICES.some(([k]) => k === v) ? v : 'first'; } catch { return 'first'; }
+  try { const v = localStorage.getItem(KEY3); return LETTER_VOICES.some(([k]) => k === v) ? v : 'name'; } catch { return 'name'; }
 }
-export function setLetterVoice(v) { try { localStorage.setItem(KEY2, v); } catch {} }
-void KEY;
+export function setLetterVoice(v) { try { localStorage.setItem(KEY3, v); } catch {} }
 
 // The written form that matches what the Sheikh says, shown under the letter.
 export function letterSpoken(L, mode = letterVoice()) {
   const base = L.letter === 'ا' ? 'أ' : L.letter;
-  if (mode === 'first') return { id: `f-${L.file}`, ar: L.letter === 'ا' ? 'أَ' : L.letter + 'ْ', latin: FIRST_LATIN[L.file] ?? L.sound, held: HELD.has(L.file) };
-  if (mode === 'name') return { id: `n-${L.file}`, ar: L.name, latin: L.latin };
-  if (mode === 'pure') return { id: `s-${L.file}-sk`, ar: `أَ${L.letter === 'ا' ? 'ء' : L.letter}ْ`, latin: `a${L.sound}` };
-  return { id: `s-${L.file}-a`, ar: `${base}َ`, latin: `${L.sound}a` };
+  if (mode === 'sound') return { id: `s-${L.file}-a`, ar: `${base}َ`, latin: `${L.sound}a` };
+  return { id: `n-${L.file}`, ar: L.name, latin: L.latin };
 }
 export function sayLetter(L, mode = letterVoice()) {
   const s = letterSpoken(L, mode);

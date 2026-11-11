@@ -1,4 +1,4 @@
-# AIC Ta'aleem · Build, test and deployment guide
+# Ta'aleem · Build, test and deployment guide
 
 This guide is for the repository owner or a school administrator deploying the existing Astro application.
 

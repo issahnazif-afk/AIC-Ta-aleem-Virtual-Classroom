@@ -1,5 +1,5 @@
-// Checks the Al-Huda Books (src/lib/books/) before they reach the children:
-//   1. the shape of every book and page (docs/al-huda-books.md), and that every picture is there
+// Checks the Ta’aleem Books (src/lib/books/) before they reach the children:
+//   1. the shape of every book and page (docs/books.md), and that every picture is there
 //   2. reading level: the longest sentence for each level
 //   3. writing that sounds machine-made, following Wikipedia's "Signs of AI writing" guide
 //      (WP:AISIGNS): AI vocabulary, puffed-up significance, "-ing" tails that add shallow analysis, vague
@@ -7,7 +7,7 @@
 //      negative parallelisms ("not just … but", "it's not X, it's Y"), the rule of three, summary endings,
 //      chatbot phrases ("I hope this helps"), hedging ("it is important to note"), title-case headings,
 //      emoji, Markdown, curly quotes, em dashes, placeholders, and sentences that are all the same length.
-// Then it writes docs/al-huda-books-review.md: every book's words, page by page, for a teacher to check.
+// Then it writes docs/books-review.md: every book's words, page by page, for a teacher to check.
 //   node scripts/books/lint.mjs              all books
 //   node scripts/books/lint.mjs dua-activity one book (no review file)
 import fs from 'node:fs';
@@ -111,7 +111,7 @@ if (dup.length) problems.push('duplicate ids: ' + dup.join(', '));
 
 // ── the review sheet for teachers ──
 if (!only) {
-  const md = ['# Al-Huda Books: review sheet', '',
+  const md = ['# Ta’aleem Books: review sheet', '',
     'Made by `node scripts/books/lint.mjs` from `src/lib/books/`. Every book, chapter by chapter, with each hadith, ayah and du\'a,',
     'for an Islamic Studies teacher to check before class. Items marked **check** need a teacher\'s eye in particular.', ''];
   for (const b of BOOKS) {
@@ -137,10 +137,10 @@ if (!only) {
       md.push('');
     });
   }
-  fs.writeFileSync(new URL('../../docs/al-huda-books-review.md', import.meta.url), md.join('\n') + '\n');
+  fs.writeFileSync(new URL('../../docs/books-review.md', import.meta.url), md.join('\n') + '\n');
 }
 
 const pages = list.reduce((n, b) => n + b.chapters.reduce((m, c) => m + c.pages.length, 0), 0);
-console.log(`${list.length} Al-Huda books, ${list.reduce((n, b) => n + b.chapters.length, 0)} chapters, ${pages} pages checked.`);
+console.log(`${list.length} Ta’aleem books, ${list.reduce((n, b) => n + b.chapters.length, 0)} chapters, ${pages} pages checked.`);
 console.log(problems.length ? problems.join('\n') : 'No problems found.');
 process.exit(problems.length ? 1 : 0);

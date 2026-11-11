@@ -1,4 +1,4 @@
-// My First Arabic Letters 1: the Al-Huda "Pre-schooler Arabic Book" volume I, page by page.
+// My First Arabic Letters 1: the school’s "Pre-schooler Arabic Book" volume I, page by page.
 // Each letter has a big letter page with one picture word, then a page to trace. Review pages come between.
 const img = (n) => `books/first-arabic-1/${String(n).padStart(3, '0')}.webp`;
 const L = (ar, en) => ({ ar, letter: ar, en });

@@ -1,4 +1,4 @@
-// The Al-Huda Books: the school's own Canva books as interactive digital books (docs/al-huda-books.md).
+// The Ta’aleem Books: the school's own Canva books as interactive digital books (docs/books.md).
 // The shelf shows them in this order. To add a book: render its pages (scripts/books/render.py), write
 // src/lib/books/<id>.mjs, add it here, and run  npm run books.
 import firstArabic1 from './first-arabic-1.mjs';

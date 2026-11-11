@@ -12780,13 +12780,13 @@
   ]
  },
  {
-  "key": "0817af0b",
+  "key": "3f30a3df",
   "reader": "story",
-  "text": "rabbit",
+  "text": "Rabbit.",
   "parts": [
    [
     "narrator",
-    "rabbit"
+    "Rabbit."
    ]
   ]
  },
@@ -12824,13 +12824,13 @@
   ]
  },
  {
-  "key": "4da5dd49",
+  "key": "cfe24e45",
   "reader": "story",
-  "text": "house",
+  "text": "House.",
   "parts": [
    [
     "narrator",
-    "house"
+    "House."
    ]
   ]
  },
@@ -12868,6 +12868,17 @@
   ]
  },
  {
+  "key": "480c1ae1",
+  "reader": "story",
+  "text": "Apple.",
+  "parts": [
+   [
+    "narrator",
+    "Apple."
+   ]
+  ]
+ },
+ {
   "key": "93d69b9a",
   "reader": "story",
   "text": "Trace the Ta. Do not forget the two dots.",
@@ -12901,13 +12912,13 @@
   ]
  },
  {
-  "key": "cb7d77f2",
+  "key": "fb125bf4",
   "reader": "story",
-  "text": "dress",
+  "text": "Dress.",
   "parts": [
    [
     "narrator",
-    "dress"
+    "Dress."
    ]
   ]
  },
@@ -12978,6 +12989,17 @@
   ]
  },
  {
+  "key": "929192f3",
+  "reader": "story",
+  "text": "Camel.",
+  "parts": [
+   [
+    "narrator",
+    "Camel."
+   ]
+  ]
+ },
+ {
   "key": "b265c09e",
   "reader": "story",
   "text": "Trace the Jeem. Put the dot in the middle.",
@@ -13011,13 +13033,13 @@
   ]
  },
  {
-  "key": "dab792db",
+  "key": "771f9c4f",
   "reader": "story",
-  "text": "donkey",
+  "text": "Donkey.",
   "parts": [
    [
     "narrator",
-    "donkey"
+    "Donkey."
    ]
   ]
  },
@@ -13055,13 +13077,13 @@
   ]
  },
  {
-  "key": "c150ab4b",
+  "key": "29505b1f",
   "reader": "story",
-  "text": "bread",
+  "text": "Bread.",
   "parts": [
    [
     "narrator",
-    "bread"
+    "Bread."
    ]
   ]
  },
@@ -13198,13 +13220,13 @@
   ]
  },
  {
-  "key": "15492cf5",
+  "key": "2cfbb761",
   "reader": "story",
-  "text": "rooster",
+  "text": "Rooster.",
   "parts": [
    [
     "narrator",
-    "rooster"
+    "Rooster."
    ]
   ]
  },
@@ -13264,13 +13286,13 @@
   ]
  },
  {
-  "key": "a61e21d5",
+  "key": "4e6a00c1",
   "reader": "story",
-  "text": "tail",
+  "text": "Tail.",
   "parts": [
    [
     "narrator",
-    "tail"
+    "Tail."
    ]
   ]
  },
@@ -13308,13 +13330,13 @@
   ]
  },
  {
-  "key": "e5d1ec96",
+  "key": "fce509c8",
   "reader": "story",
-  "text": "feather",
+  "text": "Feather.",
   "parts": [
    [
     "narrator",
-    "feather"
+    "Feather."
    ]
   ]
  },
@@ -13352,13 +13374,13 @@
   ]
  },
  {
-  "key": "8efed4f8",
+  "key": "f7caab02",
   "reader": "story",
-  "text": "flower",
+  "text": "Flower.",
   "parts": [
    [
     "narrator",
-    "flower"
+    "Flower."
    ]
   ]
  },
@@ -13407,6 +13429,17 @@
   ]
  },
  {
+  "key": "6dcf18ab",
+  "reader": "story",
+  "text": "Car.",
+  "parts": [
+   [
+    "narrator",
+    "Car."
+   ]
+  ]
+ },
+ {
   "key": "c694cfca",
   "reader": "story",
   "text": "Trace the Seen. Go up and down for each tooth.",
@@ -13429,57 +13462,68 @@
   ]
  },
  {
-  "key": "0ef0b2d0",
+  "key": "496436fa",
   "reader": "story",
-  "text": "board duster",
+  "text": "Board duster.",
   "parts": [
    [
     "narrator",
-    "board duster"
+    "Board duster."
    ]
   ]
  },
  {
-  "key": "ddac07bd",
+  "key": "7b234109",
   "reader": "story",
-  "text": "board",
+  "text": "Board.",
   "parts": [
    [
     "narrator",
-    "board"
+    "Board."
    ]
   ]
  },
  {
-  "key": "e5d57b12",
+  "key": "652ed15c",
   "reader": "story",
-  "text": "pen",
+  "text": "Book.",
   "parts": [
    [
     "narrator",
-    "pen"
+    "Book."
    ]
   ]
  },
  {
-  "key": "8c6d7300",
+  "key": "8b3d4b94",
   "reader": "story",
-  "text": "chair",
+  "text": "Pen.",
   "parts": [
    [
     "narrator",
-    "chair"
+    "Pen."
    ]
   ]
  },
  {
-  "key": "2b34c0f1",
+  "key": "6d8d7f8a",
   "reader": "story",
-  "text": "table",
+  "text": "Chair.",
   "parts": [
    [
     "narrator",
-    "table"
+    "Chair."
+   ]
+  ]
+ },
+ {
+  "key": "5067a5ad",
+  "reader": "story",
+  "text": "Table.",
+  "parts": [
+   [
+    "narrator",
+    "Table."
    ]
   ]
  },
@@ -13513,6 +13557,17 @@
    [
     "narrator",
     "Sheen"
+   ]
+  ]
+ },
+ {
+  "key": "2b884a17",
+  "reader": "story",
+  "text": "Tree.",
+  "parts": [
+   [
+    "narrator",
+    "Tree."
    ]
   ]
  },
@@ -13660,6 +13715,17 @@
   ]
  },
  {
+  "key": "edcc3b0a",
+  "reader": "story",
+  "text": "Box.",
+  "parts": [
+   [
+    "narrator",
+    "Box."
+   ]
+  ]
+ },
+ {
   "key": "37190303",
   "reader": "story",
   "text": "Trace the Saad. Make a round loop, then a big bowl.",
@@ -13693,13 +13759,13 @@
   ]
  },
  {
-  "key": "7e100af1",
+  "key": "a43c692d",
   "reader": "story",
-  "text": "frog",
+  "text": "Frog.",
   "parts": [
    [
     "narrator",
-    "frog"
+    "Frog."
    ]
   ]
  },
@@ -13733,6 +13799,17 @@
    [
     "narrator",
     "Taa"
+   ]
+  ]
+ },
+ {
+  "key": "83117cfe",
+  "reader": "story",
+  "text": "Bird.",
+  "parts": [
+   [
+    "narrator",
+    "Bird."
    ]
   ]
  },
@@ -13792,13 +13869,13 @@
   ]
  },
  {
-  "key": "ebb79aa3",
+  "key": "998e6417",
   "reader": "story",
-  "text": "envelope",
+  "text": "Envelope.",
   "parts": [
    [
     "narrator",
-    "envelope"
+    "Envelope."
    ]
   ]
  },
@@ -13836,13 +13913,13 @@
   ]
  },
  {
-  "key": "ab7fad10",
+  "key": "b82a04ba",
   "reader": "story",
-  "text": "eye",
+  "text": "Eye.",
   "parts": [
    [
     "narrator",
-    "eye"
+    "Eye."
    ]
   ]
  },
@@ -13880,13 +13957,13 @@
   ]
  },
  {
-  "key": "4c166f25",
+  "key": "a17feaf1",
   "reader": "story",
-  "text": "gazelle",
+  "text": "Gazelle.",
   "parts": [
    [
     "narrator",
-    "gazelle"
+    "Gazelle."
    ]
   ]
  },
@@ -13924,13 +14001,13 @@
   ]
  },
  {
-  "key": "8a92ca96",
+  "key": "b123a7c8",
   "reader": "story",
-  "text": "mouth",
+  "text": "Mouth.",
   "parts": [
    [
     "narrator",
-    "mouth"
+    "Mouth."
    ]
   ]
  },
@@ -13968,57 +14045,57 @@
   ]
  },
  {
-  "key": "6665ac16",
+  "key": "c6f608c8",
   "reader": "story",
-  "text": "banana",
+  "text": "Banana.",
   "parts": [
    [
     "narrator",
-    "banana"
+    "Banana."
    ]
   ]
  },
  {
-  "key": "f67c365f",
+  "key": "a6ecb483",
   "reader": "story",
-  "text": "grapes",
+  "text": "Grapes.",
   "parts": [
    [
     "narrator",
-    "grapes"
+    "Grapes."
    ]
   ]
  },
  {
-  "key": "8a24a0e5",
+  "key": "f352c4b1",
   "reader": "story",
-  "text": "orange",
+  "text": "Orange.",
   "parts": [
    [
     "narrator",
-    "orange"
+    "Orange."
    ]
   ]
  },
  {
-  "key": "ccae0c5b",
+  "key": "7ea8b64f",
   "reader": "story",
-  "text": "pineapple",
+  "text": "Pineapple.",
   "parts": [
    [
     "narrator",
-    "pineapple"
+    "Pineapple."
    ]
   ]
  },
  {
-  "key": "687f9507",
+  "key": "97330cab",
   "reader": "story",
-  "text": "mango",
+  "text": "Mango.",
   "parts": [
    [
     "narrator",
-    "mango"
+    "Mango."
    ]
   ]
  },
@@ -14122,13 +14199,13 @@
   ]
  },
  {
-  "key": "7c9a75bb",
+  "key": "c2c8b7af",
   "reader": "story",
-  "text": "tongue",
+  "text": "Tongue.",
   "parts": [
    [
     "narrator",
-    "tongue"
+    "Tongue."
    ]
   ]
  },
@@ -14199,6 +14276,17 @@
   ]
  },
  {
+  "key": "1aec5277",
+  "reader": "story",
+  "text": "Star.",
+  "parts": [
+   [
+    "narrator",
+    "Star."
+   ]
+  ]
+ },
+ {
   "key": "28223dc8",
   "reader": "story",
   "text": "Trace the Noon. Its dot sits in the middle.",
@@ -14221,57 +14309,68 @@
   ]
  },
  {
-  "key": "8725e067",
+  "key": "2c050d24",
   "reader": "story",
-  "text": "train",
+  "text": "Ball.",
   "parts": [
    [
     "narrator",
-    "train"
+    "Ball."
    ]
   ]
  },
  {
-  "key": "aacdb0f3",
+  "key": "76fc198b",
   "reader": "story",
-  "text": "teddy bear",
+  "text": "Train.",
   "parts": [
    [
     "narrator",
-    "teddy bear"
+    "Train."
    ]
   ]
  },
  {
-  "key": "ae1a049a",
+  "key": "b9fcd407",
   "reader": "story",
-  "text": "doll",
+  "text": "Teddy bear.",
   "parts": [
    [
     "narrator",
-    "doll"
+    "Teddy bear."
    ]
   ]
  },
  {
-  "key": "a17fe914",
+  "key": "6cb0d8fc",
   "reader": "story",
-  "text": "bicycle",
+  "text": "Doll.",
   "parts": [
    [
     "narrator",
-    "bicycle"
+    "Doll."
    ]
   ]
  },
  {
-  "key": "99f8e018",
+  "key": "c89fe06e",
   "reader": "story",
-  "text": "aeroplane",
+  "text": "Bicycle.",
   "parts": [
    [
     "narrator",
-    "aeroplane"
+    "Bicycle."
+   ]
+  ]
+ },
+ {
+  "key": "85c0c422",
+  "reader": "story",
+  "text": "Aeroplane.",
+  "parts": [
+   [
+    "narrator",
+    "Aeroplane."
    ]
   ]
  },
@@ -14309,13 +14408,13 @@
   ]
  },
  {
-  "key": "ca326856",
+  "key": "8082ab88",
   "reader": "story",
-  "text": "face",
+  "text": "Face.",
   "parts": [
    [
     "narrator",
-    "face"
+    "Face."
    ]
   ]
  },
@@ -14364,13 +14463,13 @@
   ]
  },
  {
-  "key": "899ac0e1",
+  "key": "6dca9b7d",
   "reader": "story",
-  "text": "cat",
+  "text": "Cat.",
   "parts": [
    [
     "narrator",
-    "cat"
+    "Cat."
    ]
   ]
  },
@@ -14397,13 +14496,13 @@
   ]
  },
  {
-  "key": "71a4ee58",
+  "key": "5ca363c2",
   "reader": "story",
-  "text": "La",
+  "text": "La.",
   "parts": [
    [
     "narrator",
-    "La"
+    "La."
    ]
   ]
  },
@@ -14419,13 +14518,13 @@
   ]
  },
  {
-  "key": "00d6ac23",
+  "key": "5ef0d877",
   "reader": "story",
-  "text": "Hamza",
+  "text": "Hamza.",
   "parts": [
    [
     "narrator",
-    "{hˈamza}"
+    "{hˈamza}."
    ]
   ]
  },
@@ -14452,13 +14551,13 @@
   ]
  },
  {
-  "key": "8f0fd496",
+  "key": "93a74f48",
   "reader": "story",
-  "text": "hand",
+  "text": "Hand.",
   "parts": [
    [
     "narrator",
-    "hand"
+    "Hand."
    ]
   ]
  },
@@ -14628,68 +14727,68 @@
   ]
  },
  {
-  "key": "9322b759",
+  "key": "96d31c75",
   "reader": "story",
-  "text": "leg",
+  "text": "Leg.",
   "parts": [
    [
     "narrator",
-    "leg"
+    "Leg."
    ]
   ]
  },
  {
-  "key": "beccc185",
+  "key": "af8abad1",
   "reader": "story",
-  "text": "head",
+  "text": "Head.",
   "parts": [
    [
     "narrator",
-    "head"
+    "Head."
    ]
   ]
  },
  {
-  "key": "b26c305d",
+  "key": "d37c9129",
   "reader": "story",
-  "text": "ear",
+  "text": "Ear.",
   "parts": [
    [
     "narrator",
-    "ear"
+    "Ear."
    ]
   ]
  },
  {
-  "key": "3605ca70",
+  "key": "a1cc291a",
   "reader": "story",
-  "text": "nose",
+  "text": "Nose.",
   "parts": [
    [
     "narrator",
-    "nose"
+    "Nose."
    ]
   ]
  },
  {
-  "key": "97a4860f",
+  "key": "f513dd13",
   "reader": "story",
-  "text": "teeth",
+  "text": "Teeth.",
   "parts": [
    [
     "narrator",
-    "teeth"
+    "Teeth."
    ]
   ]
  },
  {
-  "key": "931696a7",
+  "key": "3dc59dcb",
   "reader": "story",
-  "text": "hair",
+  "text": "Hair.",
   "parts": [
    [
     "narrator",
-    "hair"
+    "Hair."
    ]
   ]
  },
@@ -14760,68 +14859,68 @@
   ]
  },
  {
-  "key": "965134a6",
+  "key": "d917a9b8",
   "reader": "story",
-  "text": "black",
+  "text": "Black.",
   "parts": [
    [
     "narrator",
-    "black"
+    "Black."
    ]
   ]
  },
  {
-  "key": "26a57d56",
+  "key": "d12b3908",
   "reader": "story",
-  "text": "red",
+  "text": "Red.",
   "parts": [
    [
     "narrator",
-    "red"
+    "Red."
    ]
   ]
  },
  {
-  "key": "fa3260cb",
+  "key": "6809fa1f",
   "reader": "story",
-  "text": "blue",
+  "text": "Blue.",
   "parts": [
    [
     "narrator",
-    "blue"
+    "Blue."
    ]
   ]
  },
  {
-  "key": "5db7edc8",
+  "key": "e3587532",
   "reader": "story",
-  "text": "white",
+  "text": "White.",
   "parts": [
    [
     "narrator",
-    "white"
+    "White."
    ]
   ]
  },
  {
-  "key": "58e06ab6",
+  "key": "1ae2e4e8",
   "reader": "story",
-  "text": "green",
+  "text": "Green.",
   "parts": [
    [
     "narrator",
-    "green"
+    "Green."
    ]
   ]
  },
  {
-  "key": "ea5d2fdb",
+  "key": "ff890e4f",
   "reader": "story",
-  "text": "yellow",
+  "text": "Yellow.",
   "parts": [
    [
     "narrator",
-    "yellow"
+    "Yellow."
    ]
   ]
  },
@@ -15189,13 +15288,13 @@
   ]
  },
  {
-  "key": "3cb827ee",
+  "key": "ecfda860",
   "reader": "story",
-  "text": "teapot",
+  "text": "Teapot.",
   "parts": [
    [
     "narrator",
-    "teapot"
+    "Teapot."
    ]
   ]
  },
@@ -15222,13 +15321,13 @@
   ]
  },
  {
-  "key": "8d50878d",
+  "key": "eac00839",
   "reader": "story",
-  "text": "girl",
+  "text": "Girl.",
   "parts": [
    [
     "narrator",
-    "girl"
+    "Girl."
    ]
   ]
  },
@@ -15255,24 +15354,24 @@
   ]
  },
  {
-  "key": "237d727a",
+  "key": "df4288dc",
   "reader": "story",
-  "text": "crown",
+  "text": "Crown.",
   "parts": [
    [
     "narrator",
-    "crown"
+    "Crown."
    ]
   ]
  },
  {
-  "key": "29605d35",
+  "key": "e6bb7021",
   "reader": "story",
-  "text": "crocodile",
+  "text": "Crocodile.",
   "parts": [
    [
     "narrator",
-    "crocodile"
+    "Crocodile."
    ]
   ]
  },
@@ -15299,24 +15398,24 @@
   ]
  },
  {
-  "key": "70f353f5",
+  "key": "70214561",
   "reader": "story",
-  "text": "snake",
+  "text": "Snake.",
   "parts": [
    [
     "narrator",
-    "snake"
+    "Snake."
    ]
   ]
  },
  {
-  "key": "7afddc1d",
+  "key": "b3a0b069",
   "reader": "story",
-  "text": "clothes",
+  "text": "Clothes.",
   "parts": [
    [
     "narrator",
-    "clothes"
+    "Clothes."
    ]
   ]
  },
@@ -15343,24 +15442,24 @@
   ]
  },
  {
-  "key": "24572c87",
+  "key": "5a43b02b",
   "reader": "story",
-  "text": "soldier",
+  "text": "Soldier.",
   "parts": [
    [
     "narrator",
-    "soldier"
+    "Soldier."
    ]
   ]
  },
  {
-  "key": "c13e16bb",
+  "key": "ef79c7af",
   "reader": "story",
-  "text": "wall",
+  "text": "Wall.",
   "parts": [
    [
     "narrator",
-    "wall"
+    "Wall."
    ]
   ]
  },
@@ -15376,68 +15475,68 @@
   ]
  },
  {
-  "key": "d7c4aee4",
+  "key": "f0ebb29e",
   "reader": "story",
-  "text": "he read",
+  "text": "He read.",
   "parts": [
    [
     "narrator",
-    "he read"
+    "He read."
    ]
   ]
  },
  {
-  "key": "a8099b51",
+  "key": "4019e38d",
   "reader": "story",
-  "text": "he wrote",
+  "text": "He wrote.",
   "parts": [
    [
     "narrator",
-    "he wrote"
+    "He wrote."
    ]
   ]
  },
  {
-  "key": "0965d8d4",
+  "key": "f5fd6d2e",
   "reader": "story",
-  "text": "he sat",
+  "text": "He sat.",
   "parts": [
    [
     "narrator",
-    "he sat"
+    "He sat."
    ]
   ]
  },
  {
-  "key": "0b944e36",
+  "key": "901937e8",
   "reader": "story",
-  "text": "he carried",
+  "text": "He carried.",
   "parts": [
    [
     "narrator",
-    "he carried"
+    "He carried."
    ]
   ]
  },
  {
-  "key": "41e4e974",
+  "key": "75e0c54e",
   "reader": "story",
-  "text": "he swam",
+  "text": "He swam.",
   "parts": [
    [
     "narrator",
-    "he swam"
+    "He swam."
    ]
   ]
  },
  {
-  "key": "929e3756",
+  "key": "2184ee08",
   "reader": "story",
-  "text": "he prostrated",
+  "text": "He prostrated.",
   "parts": [
    [
     "narrator",
-    "he prostrated"
+    "He prostrated."
    ]
   ]
  },
@@ -15453,24 +15552,24 @@
   ]
  },
  {
-  "key": "f2ddd6ef",
+  "key": "14662773",
   "reader": "story",
-  "text": "bag",
+  "text": "Bag.",
   "parts": [
    [
     "narrator",
-    "bag"
+    "Bag."
    ]
   ]
  },
  {
-  "key": "f6bdcd48",
+  "key": "47974bb2",
   "reader": "story",
-  "text": "whale",
+  "text": "Whale.",
   "parts": [
    [
     "narrator",
-    "whale"
+    "Whale."
    ]
   ]
  },
@@ -15486,79 +15585,90 @@
   ]
  },
  {
-  "key": "92bc52c1",
+  "key": "2c4a3768",
   "reader": "story",
-  "text": "flag",
+  "text": "Moon.",
   "parts": [
    [
     "narrator",
-    "flag"
+    "Moon."
    ]
   ]
  },
  {
-  "key": "70748675",
+  "key": "bf7110dd",
   "reader": "story",
-  "text": "fish",
+  "text": "Flag.",
   "parts": [
    [
     "narrator",
-    "fish"
+    "Flag."
    ]
   ]
  },
  {
-  "key": "41ddf6b6",
+  "key": "b46acd61",
   "reader": "story",
-  "text": "bell",
+  "text": "Fish.",
   "parts": [
    [
     "narrator",
-    "bell"
+    "Fish."
    ]
   ]
  },
  {
-  "key": "d4306b84",
+  "key": "6e276c68",
   "reader": "story",
-  "text": "meat",
+  "text": "Bell.",
   "parts": [
    [
     "narrator",
-    "meat"
+    "Bell."
    ]
   ]
  },
  {
-  "key": "e7efbafd",
+  "key": "6ae74a3e",
   "reader": "story",
-  "text": "carrots",
+  "text": "Meat.",
   "parts": [
    [
     "narrator",
-    "carrots"
+    "Meat."
    ]
   ]
  },
  {
-  "key": "f6831748",
+  "key": "6b353bc9",
   "reader": "story",
-  "text": "milk",
+  "text": "Carrots.",
   "parts": [
    [
     "narrator",
-    "milk"
+    "Carrots."
    ]
   ]
  },
  {
-  "key": "a1eb7b77",
+  "key": "4ad2c132",
   "reader": "story",
-  "text": "sun",
+  "text": "Milk.",
   "parts": [
    [
     "narrator",
-    "sun"
+    "Milk."
+   ]
+  ]
+ },
+ {
+  "key": "415aabbb",
+  "reader": "story",
+  "text": "Sun.",
+  "parts": [
+   [
+    "narrator",
+    "Sun."
    ]
   ]
  },
@@ -15574,13 +15684,24 @@
   ]
  },
  {
-  "key": "092b0a6b",
+  "key": "a7396e08",
   "reader": "story",
-  "text": "cucumber",
+  "text": "Sheep.",
   "parts": [
    [
     "narrator",
-    "cucumber"
+    "Sheep."
+   ]
+  ]
+ },
+ {
+  "key": "ff970cbf",
+  "reader": "story",
+  "text": "Cucumber.",
+  "parts": [
+   [
+    "narrator",
+    "Cucumber."
    ]
   ]
  },
@@ -15607,13 +15728,13 @@
   ]
  },
  {
-  "key": "2dd71b75",
+  "key": "aa5c4b61",
   "reader": "story",
-  "text": "bear",
+  "text": "Bear.",
   "parts": [
    [
     "narrator",
-    "bear"
+    "Bear."
    ]
   ]
  },
@@ -15629,57 +15750,57 @@
   ]
  },
  {
-  "key": "85afb7f2",
+  "key": "f6a6f774",
   "reader": "story",
-  "text": "he drank",
+  "text": "He drank.",
   "parts": [
    [
     "narrator",
-    "he drank"
+    "He drank."
    ]
   ]
  },
  {
-  "key": "f3aa2ec7",
+  "key": "102fcfeb",
   "reader": "story",
-  "text": "he was happy",
+  "text": "He was happy.",
   "parts": [
    [
     "narrator",
-    "he was happy"
+    "He was happy."
    ]
   ]
  },
  {
-  "key": "863a0208",
+  "key": "6d22b9f2",
   "reader": "story",
-  "text": "he rode",
+  "text": "He rode.",
   "parts": [
    [
     "narrator",
-    "he rode"
+    "He rode."
    ]
   ]
  },
  {
-  "key": "c2e68e23",
+  "key": "486fce17",
   "reader": "story",
-  "text": "he played",
+  "text": "He played.",
   "parts": [
    [
     "narrator",
-    "he played"
+    "He played."
    ]
   ]
  },
  {
-  "key": "3bdba767",
+  "key": "97a1ac0b",
   "reader": "story",
-  "text": "he got angry",
+  "text": "He got angry.",
   "parts": [
    [
     "narrator",
-    "he got angry"
+    "He got angry."
    ]
   ]
  },
@@ -15816,24 +15937,24 @@
   ]
  },
  {
-  "key": "bb147ee5",
+  "key": "71ffd4b1",
   "reader": "story",
-  "text": "corn",
+  "text": "Corn.",
   "parts": [
    [
     "narrator",
-    "corn"
+    "Corn."
    ]
   ]
  },
  {
-  "key": "efa8b187",
+  "key": "7bfe69ab",
   "reader": "story",
-  "text": "wolf",
+  "text": "Wolf.",
   "parts": [
    [
     "narrator",
-    "wolf"
+    "Wolf."
    ]
   ]
  },
@@ -15849,46 +15970,46 @@
   ]
  },
  {
-  "key": "f2c95976",
+  "key": "bdd854a8",
   "reader": "story",
-  "text": "monkey",
+  "text": "Monkey.",
   "parts": [
    [
     "narrator",
-    "monkey"
+    "Monkey."
    ]
   ]
  },
  {
-  "key": "ea612772",
+  "key": "e0acc8f4",
   "reader": "story",
-  "text": "elephant",
+  "text": "Elephant.",
   "parts": [
    [
     "narrator",
-    "elephant"
+    "Elephant."
    ]
   ]
  },
  {
-  "key": "9642fea0",
+  "key": "c63e482a",
   "reader": "story",
-  "text": "horse",
+  "text": "Horse.",
   "parts": [
    [
     "narrator",
-    "horse"
+    "Horse."
    ]
   ]
  },
  {
-  "key": "3a9f9bc3",
+  "key": "7ed05937",
   "reader": "story",
-  "text": "beard",
+  "text": "Beard.",
   "parts": [
    [
     "narrator",
-    "beard"
+    "Beard."
    ]
   ]
  },
@@ -15904,35 +16025,35 @@
   ]
  },
  {
-  "key": "4d5ae6c1",
+  "key": "1bf9215d",
   "reader": "story",
-  "text": "man",
+  "text": "Man.",
   "parts": [
    [
     "narrator",
-    "man"
+    "Man."
    ]
   ]
  },
  {
-  "key": "ec3a6f64",
+  "key": "38e7209e",
   "reader": "story",
-  "text": "knee",
+  "text": "Knee.",
   "parts": [
    [
     "narrator",
-    "knee"
+    "Knee."
    ]
   ]
  },
  {
-  "key": "ae77ec7f",
+  "key": "a4fe06a3",
   "reader": "story",
-  "text": "feathers",
+  "text": "Feathers.",
   "parts": [
    [
     "narrator",
-    "feathers"
+    "Feathers."
    ]
   ]
  },
@@ -15959,24 +16080,35 @@
   ]
  },
  {
-  "key": "37a95225",
+  "key": "79bb43f1",
   "reader": "story",
-  "text": "giraffe",
+  "text": "Giraffe.",
   "parts": [
    [
     "narrator",
-    "giraffe"
+    "Giraffe."
    ]
   ]
  },
  {
-  "key": "8ff4024f",
+  "key": "e28e6f8d",
   "reader": "story",
-  "text": "button",
+  "text": "Flowers.",
   "parts": [
    [
     "narrator",
-    "button"
+    "Flowers."
+   ]
+  ]
+ },
+ {
+  "key": "5b07ab53",
+  "reader": "story",
+  "text": "Button.",
+  "parts": [
+   [
+    "narrator",
+    "Button."
    ]
   ]
  },
@@ -15992,46 +16124,46 @@
   ]
  },
  {
-  "key": "888ab199",
+  "key": "706d9db5",
   "reader": "story",
-  "text": "it was watered",
+  "text": "It was watered.",
   "parts": [
    [
     "narrator",
-    "it was watered"
+    "It was watered."
    ]
   ]
  },
  {
-  "key": "c731bca8",
+  "key": "66b6fc12",
   "reader": "story",
-  "text": "he was born",
+  "text": "He was born.",
   "parts": [
    [
     "narrator",
-    "he was born"
+    "He was born."
    ]
   ]
  },
  {
-  "key": "f8bd6539",
+  "key": "fa32bb55",
   "reader": "story",
-  "text": "he was washed",
+  "text": "He was washed.",
   "parts": [
    [
     "narrator",
-    "he was washed"
+    "He was washed."
    ]
   ]
  },
  {
-  "key": "73efdee8",
+  "key": "6e3cd952",
   "reader": "story",
-  "text": "it was broken",
+  "text": "It was broken.",
   "parts": [
    [
     "narrator",
-    "it was broken"
+    "It was broken."
    ]
   ]
  },
@@ -16047,24 +16179,24 @@
   ]
  },
  {
-  "key": "690ea767",
+  "key": "5bbafd0b",
   "reader": "story",
-  "text": "ladder",
+  "text": "Ladder.",
   "parts": [
    [
     "narrator",
-    "ladder"
+    "Ladder."
    ]
   ]
  },
  {
-  "key": "1c602f3c",
+  "key": "afbd6df6",
   "reader": "story",
-  "text": "knife",
+  "text": "Knife.",
   "parts": [
    [
     "narrator",
-    "knife"
+    "Knife."
    ]
   ]
  },
@@ -16080,35 +16212,46 @@
   ]
  },
  {
-  "key": "5e297e77",
+  "key": "9d37147f",
   "reader": "story",
-  "text": "picture",
+  "text": "Books.",
   "parts": [
    [
     "narrator",
-    "picture"
+    "Books."
    ]
   ]
  },
  {
-  "key": "809bd50c",
+  "key": "3cdd81bb",
   "reader": "story",
-  "text": "tortoise",
+  "text": "Picture.",
   "parts": [
    [
     "narrator",
-    "tortoise"
+    "Picture."
    ]
   ]
  },
  {
-  "key": "8ea10b5d",
+  "key": "1d3cfb26",
   "reader": "story",
-  "text": "brush",
+  "text": "Tortoise.",
   "parts": [
    [
     "narrator",
-    "brush"
+    "Tortoise."
+   ]
+  ]
+ },
+ {
+  "key": "538adc29",
+  "reader": "story",
+  "text": "Brush.",
+  "parts": [
+   [
+    "narrator",
+    "Brush."
    ]
   ]
  },
@@ -16245,24 +16388,24 @@
   ]
  },
  {
-  "key": "93feab7f",
+  "key": "fb9155a3",
   "reader": "story",
-  "text": "window",
+  "text": "Window.",
   "parts": [
    [
     "narrator",
-    "window"
+    "Window."
    ]
   ]
  },
  {
-  "key": "c3b4244a",
+  "key": "0504060c",
   "reader": "story",
-  "text": "sail",
+  "text": "Sail.",
   "parts": [
    [
     "narrator",
-    "sail"
+    "Sail."
    ]
   ]
  },
@@ -16289,13 +16432,24 @@
   ]
  },
  {
-  "key": "054e5363",
+  "key": "c8fdd6ca",
   "reader": "story",
-  "text": "tray",
+  "text": "Soap.",
   "parts": [
    [
     "narrator",
-    "tray"
+    "Soap."
+   ]
+  ]
+ },
+ {
+  "key": "f9486e57",
+  "reader": "story",
+  "text": "Tray.",
+  "parts": [
+   [
+    "narrator",
+    "Tray."
    ]
   ]
  },
@@ -16322,24 +16476,24 @@
   ]
  },
  {
-  "key": "34be44b2",
+  "key": "504d9034",
   "reader": "story",
-  "text": "hyena",
+  "text": "Hyena.",
   "parts": [
    [
     "narrator",
-    "hyena"
+    "Hyena."
    ]
   ]
  },
  {
-  "key": "5338dd6e",
+  "key": "315132e0",
   "reader": "story",
-  "text": "back teeth",
+  "text": "Back teeth.",
   "parts": [
    [
     "narrator",
-    "back teeth"
+    "Back teeth."
    ]
   ]
  },
@@ -16366,24 +16520,24 @@
   ]
  },
  {
-  "key": "c3a27015",
+  "key": "a6093801",
   "reader": "story",
-  "text": "birds",
+  "text": "Birds.",
   "parts": [
    [
     "narrator",
-    "birds"
+    "Birds."
    ]
   ]
  },
  {
-  "key": "dd2d824b",
+  "key": "395fb69f",
   "reader": "story",
-  "text": "baby",
+  "text": "Baby.",
   "parts": [
    [
     "narrator",
-    "baby"
+    "Baby."
    ]
   ]
  },
@@ -16410,24 +16564,24 @@
   ]
  },
  {
-  "key": "55b3daa6",
+  "key": "66756a38",
   "reader": "story",
-  "text": "fingernail",
+  "text": "Fingernail.",
   "parts": [
    [
     "narrator",
-    "fingernail"
+    "Fingernail."
    ]
   ]
  },
  {
-  "key": "337013ec",
+  "key": "6836a906",
   "reader": "story",
-  "text": "shade",
+  "text": "Shade.",
   "parts": [
    [
     "narrator",
-    "shade"
+    "Shade."
    ]
   ]
  },
@@ -16454,13 +16608,13 @@
   ]
  },
  {
-  "key": "875f59fd",
+  "key": "942b99c9",
   "reader": "story",
-  "text": "sparrow",
+  "text": "Sparrow.",
   "parts": [
    [
     "narrator",
-    "sparrow"
+    "Sparrow."
    ]
   ]
  },
@@ -16608,24 +16762,24 @@
   ]
  },
  {
-  "key": "d3b4b7b0",
+  "key": "0bb3b1da",
   "reader": "story",
-  "text": "crow",
+  "text": "Crow.",
   "parts": [
    [
     "narrator",
-    "crow"
+    "Crow."
    ]
   ]
  },
  {
-  "key": "90049d8c",
+  "key": "d9707226",
   "reader": "story",
-  "text": "lid",
+  "text": "Lid.",
   "parts": [
    [
     "narrator",
-    "lid"
+    "Lid."
    ]
   ]
  },
@@ -16652,13 +16806,13 @@
   ]
  },
  {
-  "key": "16aff182",
+  "key": "e325bde4",
   "reader": "story",
-  "text": "rat",
+  "text": "Rat.",
   "parts": [
    [
     "narrator",
-    "rat"
+    "Rat."
    ]
   ]
  },
@@ -16674,13 +16828,13 @@
   ]
  },
  {
-  "key": "6efd6b5c",
+  "key": "5b990016",
   "reader": "story",
-  "text": "carrot",
+  "text": "Carrot.",
   "parts": [
    [
     "narrator",
-    "carrot"
+    "Carrot."
    ]
   ]
  },
@@ -16696,13 +16850,13 @@
   ]
  },
  {
-  "key": "243dde18",
+  "key": "eb9aa9a2",
   "reader": "story",
-  "text": "lock",
+  "text": "Lock.",
   "parts": [
    [
     "narrator",
-    "lock"
+    "Lock."
    ]
   ]
  },
@@ -16729,13 +16883,13 @@
   ]
  },
  {
-  "key": "d1639a22",
+  "key": "a2d9ac04",
   "reader": "story",
-  "text": "the Kaaba",
+  "text": "The Kaaba.",
   "parts": [
    [
     "narrator",
-    "the {kˈɑːba}"
+    "The {kˈɑːba}."
    ]
   ]
  },
@@ -16762,13 +16916,13 @@
   ]
  },
  {
-  "key": "8b6b633e",
+  "key": "de82a750",
   "reader": "story",
-  "text": "toys",
+  "text": "Toys.",
   "parts": [
    [
     "narrator",
-    "toys"
+    "Toys."
    ]
   ]
  },
@@ -16795,24 +16949,24 @@
   ]
  },
  {
-  "key": "7fc8a71b",
+  "key": "e9b8cf8f",
   "reader": "story",
-  "text": "teacher",
+  "text": "Teacher.",
   "parts": [
    [
     "narrator",
-    "teacher"
+    "Teacher."
    ]
   ]
  },
  {
-  "key": "15f93826",
+  "key": "a1fab338",
   "reader": "story",
-  "text": "key",
+  "text": "Key.",
   "parts": [
    [
     "narrator",
-    "key"
+    "Key."
    ]
   ]
  },
@@ -16839,35 +16993,35 @@
   ]
  },
  {
-  "key": "5377599d",
+  "key": "04da03e9",
   "reader": "story",
-  "text": "palm tree",
+  "text": "Palm tree.",
   "parts": [
    [
     "narrator",
-    "palm tree"
+    "Palm tree."
    ]
   ]
  },
  {
-  "key": "b8314a50",
+  "key": "b9abbe7a",
   "reader": "story",
-  "text": "stars",
+  "text": "Stars.",
   "parts": [
    [
     "narrator",
-    "stars"
+    "Stars."
    ]
   ]
  },
  {
-  "key": "8d0b5442",
+  "key": "1a9157a4",
   "reader": "story",
-  "text": "half",
+  "text": "Half.",
   "parts": [
    [
     "narrator",
-    "half"
+    "Half."
    ]
   ]
  },
@@ -16883,24 +17037,24 @@
   ]
  },
  {
-  "key": "e36e2dd7",
+  "key": "ff725efb",
   "reader": "story",
-  "text": "wudu",
+  "text": "Wudu.",
   "parts": [
    [
     "narrator",
-    "{wʊdˈuː}"
+    "{wʊdˈuː}."
    ]
   ]
  },
  {
-  "key": "1daa0962",
+  "key": "db9558c4",
   "reader": "story",
-  "text": "pillow",
+  "text": "Pillow.",
   "parts": [
    [
     "narrator",
-    "pillow"
+    "Pillow."
    ]
   ]
  },
@@ -16916,24 +17070,24 @@
   ]
  },
  {
-  "key": "b72b1bed",
+  "key": "307af799",
   "reader": "story",
-  "text": "telephone",
+  "text": "Telephone.",
   "parts": [
    [
     "narrator",
-    "telephone"
+    "Telephone."
    ]
   ]
  },
  {
-  "key": "6a7de085",
+  "key": "ae8b02d1",
   "reader": "story",
-  "text": "hoopoe",
+  "text": "Hoopoe.",
   "parts": [
    [
     "narrator",
-    "hoopoe"
+    "Hoopoe."
    ]
   ]
  },
@@ -16949,13 +17103,13 @@
   ]
  },
  {
-  "key": "b695ceca",
+  "key": "828fd90c",
   "reader": "story",
-  "text": "caterpillar",
+  "text": "Caterpillar.",
   "parts": [
    [
     "narrator",
-    "caterpillar"
+    "Caterpillar."
    ]
   ]
  },
@@ -20172,94 +20326,6 @@
   ]
  },
  {
-  "key": "62080ec0",
-  "reader": "story",
-  "text": "da",
-  "parts": [
-   [
-    "narrator",
-    "da"
-   ]
-  ]
- },
- {
-  "key": "8df0fab5",
-  "reader": "story",
-  "text": "ma",
-  "parts": [
-   [
-    "narrator",
-    "ma"
-   ]
-  ]
- },
- {
-  "key": "81df9eb0",
-  "reader": "story",
-  "text": "ta",
-  "parts": [
-   [
-    "narrator",
-    "ta"
-   ]
-  ]
- },
- {
-  "key": "69e34a7f",
-  "reader": "story",
-  "text": "sa",
-  "parts": [
-   [
-    "narrator",
-    "sa"
-   ]
-  ]
- },
- {
-  "key": "449373ca",
-  "reader": "story",
-  "text": "fataha",
-  "parts": [
-   [
-    "narrator",
-    "fataha"
-   ]
-  ]
- },
- {
-  "key": "dfd8797d",
-  "reader": "story",
-  "text": "jalasa",
-  "parts": [
-   [
-    "narrator",
-    "jalasa"
-   ]
-  ]
- },
- {
-  "key": "28c1ba8b",
-  "reader": "story",
-  "text": "nasara",
-  "parts": [
-   [
-    "narrator",
-    "nasara"
-   ]
-  ]
- },
- {
-  "key": "fafa4d53",
-  "reader": "story",
-  "text": "kharaja",
-  "parts": [
-   [
-    "narrator",
-    "kharaja"
-   ]
-  ]
- },
- {
   "key": "ac439278",
   "reader": "story",
   "text": "Every letter here has a fat-ha. Read the words slowly, one sound at a time.",
@@ -20267,61 +20333,6 @@
    [
     "narrator",
     "Every letter here has a fat-ha. Read the words slowly, one sound at a time."
-   ]
-  ]
- },
- {
-  "key": "6e0c9ed2",
-  "reader": "story",
-  "text": "ba",
-  "parts": [
-   [
-    "narrator",
-    "ba"
-   ]
-  ]
- },
- {
-  "key": "581ce8ce",
-  "reader": "story",
-  "text": "tha",
-  "parts": [
-   [
-    "narrator",
-    "tha"
-   ]
-  ]
- },
- {
-  "key": "7df9304a",
-  "reader": "story",
-  "text": "ja",
-  "parts": [
-   [
-    "narrator",
-    "ja"
-   ]
-  ]
- },
- {
-  "key": "89fdc05c",
-  "reader": "story",
-  "text": "ha",
-  "parts": [
-   [
-    "narrator",
-    "ha"
-   ]
-  ]
- },
- {
-  "key": "31ee2b47",
-  "reader": "story",
-  "text": "kha",
-  "parts": [
-   [
-    "narrator",
-    "kha"
    ]
   ]
  },
@@ -20381,83 +20392,6 @@
   ]
  },
  {
-  "key": "501cdc36",
-  "reader": "story",
-  "text": "thi",
-  "parts": [
-   [
-    "narrator",
-    "thi"
-   ]
-  ]
- },
- {
-  "key": "ffc4e0a6",
-  "reader": "story",
-  "text": "dhi",
-  "parts": [
-   [
-    "narrator",
-    "dhi"
-   ]
-  ]
- },
- {
-  "key": "95d0b3a2",
-  "reader": "story",
-  "text": "zi",
-  "parts": [
-   [
-    "narrator",
-    "zi"
-   ]
-  ]
- },
- {
-  "key": "4fb332f6",
-  "reader": "story",
-  "text": "bika",
-  "parts": [
-   [
-    "narrator",
-    "bika"
-   ]
-  ]
- },
- {
-  "key": "b85a81e2",
-  "reader": "story",
-  "text": "lima",
-  "parts": [
-   [
-    "narrator",
-    "lima"
-   ]
-  ]
- },
- {
-  "key": "e811ad14",
-  "reader": "story",
-  "text": "fariha",
-  "parts": [
-   [
-    "narrator",
-    "fariha"
-   ]
-  ]
- },
- {
-  "key": "825b65af",
-  "reader": "story",
-  "text": "alima",
-  "parts": [
-   [
-    "narrator",
-    "alima"
-   ]
-  ]
- },
- {
   "key": "3b50e5e0",
   "reader": "story",
   "text": "Look for the line under the letter. That is where you say i.",
@@ -20465,72 +20399,6 @@
    [
     "narrator",
     "Look for the line under the letter. That is where you say i."
-   ]
-  ]
- },
- {
-  "key": "760cab6a",
-  "reader": "story",
-  "text": "bi",
-  "parts": [
-   [
-    "narrator",
-    "bi"
-   ]
-  ]
- },
- {
-  "key": "89dfab48",
-  "reader": "story",
-  "text": "ti",
-  "parts": [
-   [
-    "narrator",
-    "ti"
-   ]
-  ]
- },
- {
-  "key": "71e35717",
-  "reader": "story",
-  "text": "si",
-  "parts": [
-   [
-    "narrator",
-    "si"
-   ]
-  ]
- },
- {
-  "key": "95f1074d",
-  "reader": "story",
-  "text": "mi",
-  "parts": [
-   [
-    "narrator",
-    "mi"
-   ]
-  ]
- },
- {
-  "key": "6dee89be",
-  "reader": "story",
-  "text": "ni",
-  "parts": [
-   [
-    "narrator",
-    "ni"
-   ]
-  ]
- },
- {
-  "key": "69f493a0",
-  "reader": "story",
-  "text": "li",
-  "parts": [
-   [
-    "narrator",
-    "li"
    ]
   ]
  },
@@ -20656,83 +20524,6 @@
   ]
  },
  {
-  "key": "4c1cd5ea",
-  "reader": "story",
-  "text": "thu",
-  "parts": [
-   [
-    "narrator",
-    "thu"
-   ]
-  ]
- },
- {
-  "key": "75e35d63",
-  "reader": "story",
-  "text": "su",
-  "parts": [
-   [
-    "narrator",
-    "su"
-   ]
-  ]
- },
- {
-  "key": "1bc50cba",
-  "reader": "story",
-  "text": "dhu",
-  "parts": [
-   [
-    "narrator",
-    "dhu"
-   ]
-  ]
- },
- {
-  "key": "89d0a0be",
-  "reader": "story",
-  "text": "zu",
-  "parts": [
-   [
-    "narrator",
-    "zu"
-   ]
-  ]
- },
- {
-  "key": "0dbd04bc",
-  "reader": "story",
-  "text": "huwa",
-  "parts": [
-   [
-    "narrator",
-    "huwa"
-   ]
-  ]
- },
- {
-  "key": "19df2edf",
-  "reader": "story",
-  "text": "kabura",
-  "parts": [
-   [
-    "narrator",
-    "kabura"
-   ]
-  ]
- },
- {
-  "key": "7496d272",
-  "reader": "story",
-  "text": "tajidu",
-  "parts": [
-   [
-    "narrator",
-    "tajidu"
-   ]
-  ]
- },
- {
   "key": "4894fdc0",
   "reader": "story",
   "text": "Round your lips for the u sound, then read every word on the page from the right.",
@@ -20740,72 +20531,6 @@
    [
     "narrator",
     "Round your lips for the u sound, then read every word on the page from the right."
-   ]
-  ]
- },
- {
-  "key": "7a0cb1b6",
-  "reader": "story",
-  "text": "bu",
-  "parts": [
-   [
-    "narrator",
-    "bu"
-   ]
-  ]
- },
- {
-  "key": "75df8bcc",
-  "reader": "story",
-  "text": "tu",
-  "parts": [
-   [
-    "narrator",
-    "tu"
-   ]
-  ]
- },
- {
-  "key": "89f9432e",
-  "reader": "story",
-  "text": "ju",
-  "parts": [
-   [
-    "narrator",
-    "ju"
-   ]
-  ]
- },
- {
-  "key": "76082e3c",
-  "reader": "story",
-  "text": "du",
-  "parts": [
-   [
-    "narrator",
-    "du"
-   ]
-  ]
- },
- {
-  "key": "79e5a246",
-  "reader": "story",
-  "text": "ru",
-  "parts": [
-   [
-    "narrator",
-    "ru"
-   ]
-  ]
- },
- {
-  "key": "79ee9ca2",
-  "reader": "story",
-  "text": "nu",
-  "parts": [
-   [
-    "narrator",
-    "nu"
    ]
   ]
  },
@@ -20997,72 +20722,6 @@
   ]
  },
  {
-  "key": "1566a7b8",
-  "reader": "story",
-  "text": "yaa",
-  "parts": [
-   [
-    "narrator",
-    "yaa"
-   ]
-  ]
- },
- {
-  "key": "465adbbc",
-  "reader": "story",
-  "text": "maa",
-  "parts": [
-   [
-    "narrator",
-    "maa"
-   ]
-  ]
- },
- {
-  "key": "2570ce8f",
-  "reader": "story",
-  "text": "qaala",
-  "parts": [
-   [
-    "narrator",
-    "qaala"
-   ]
-  ]
- },
- {
-  "key": "baa4f5fc",
-  "reader": "story",
-  "text": "saama",
-  "parts": [
-   [
-    "narrator",
-    "saama"
-   ]
-  ]
- },
- {
-  "key": "e3f744a2",
-  "reader": "story",
-  "text": "kitaabu",
-  "parts": [
-   [
-    "narrator",
-    "kitaabu"
-   ]
-  ]
- },
- {
-  "key": "4503001d",
-  "reader": "story",
-  "text": "adhaabu",
-  "parts": [
-   [
-    "narrator",
-    "adhaabu"
-   ]
-  ]
- },
- {
   "key": "7fb3a545",
   "reader": "story",
   "text": "Read the word on each mushroom, and make the aa sound nice and long, like a song!",
@@ -21070,61 +20729,6 @@
    [
     "narrator",
     "Read the word on each mushroom, and make the aa sound nice and long, like a song!"
-   ]
-  ]
- },
- {
-  "key": "190da70f",
-  "reader": "story",
-  "text": "kaana",
-  "parts": [
-   [
-    "narrator",
-    "kaana"
-   ]
-  ]
- },
- {
-  "key": "c28031bb",
-  "reader": "story",
-  "text": "saara",
-  "parts": [
-   [
-    "narrator",
-    "saara"
-   ]
-  ]
- },
- {
-  "key": "09747412",
-  "reader": "story",
-  "text": "qaama",
-  "parts": [
-   [
-    "narrator",
-    "qaama"
-   ]
-  ]
- },
- {
-  "key": "0524c8fa",
-  "reader": "story",
-  "text": "zaada",
-  "parts": [
-   [
-    "narrator",
-    "zaada"
-   ]
-  ]
- },
- {
-  "key": "ff6a6b41",
-  "reader": "story",
-  "text": "daama",
-  "parts": [
-   [
-    "narrator",
-    "daama"
    ]
   ]
  },
@@ -21239,72 +20843,6 @@
   ]
  },
  {
-  "key": "4c90a5ad",
-  "reader": "story",
-  "text": "fii",
-  "parts": [
-   [
-    "narrator",
-    "fii"
-   ]
-  ]
- },
- {
-  "key": "4071c26f",
-  "reader": "story",
-  "text": "qiila",
-  "parts": [
-   [
-    "narrator",
-    "qiila"
-   ]
-  ]
- },
- {
-  "key": "ab974aea",
-  "reader": "story",
-  "text": "rahiimu",
-  "parts": [
-   [
-    "narrator",
-    "rahiimu"
-   ]
-  ]
- },
- {
-  "key": "5aff387e",
-  "reader": "story",
-  "text": "aliimu",
-  "parts": [
-   [
-    "narrator",
-    "aliimu"
-   ]
-  ]
- },
- {
-  "key": "bf3580e0",
-  "reader": "story",
-  "text": "kathiiru",
-  "parts": [
-   [
-    "narrator",
-    "kathiiru"
-   ]
-  ]
- },
- {
-  "key": "5e889ae0",
-  "reader": "story",
-  "text": "basiiru",
-  "parts": [
-   [
-    "narrator",
-    "basiiru"
-   ]
-  ]
- },
- {
   "key": "a425377b",
   "reader": "story",
   "text": "Copy the words in the big box.",
@@ -21345,72 +20883,6 @@
    [
     "narrator",
     "Waw with no mark is a madd letter. A damma before it makes a long uu, like in nuur."
-   ]
-  ]
- },
- {
-  "key": "fd1e61f2",
-  "reader": "story",
-  "text": "ruuhu",
-  "parts": [
-   [
-    "narrator",
-    "ruuhu"
-   ]
-  ]
- },
- {
-  "key": "c5c563aa",
-  "reader": "story",
-  "text": "rasuulu",
-  "parts": [
-   [
-    "narrator",
-    "rasuulu"
-   ]
-  ]
- },
- {
-  "key": "c6ee07a1",
-  "reader": "story",
-  "text": "yaquulu",
-  "parts": [
-   [
-    "narrator",
-    "yaquulu"
-   ]
-  ]
- },
- {
-  "key": "7e4781e9",
-  "reader": "story",
-  "text": "yuusufu",
-  "parts": [
-   [
-    "narrator",
-    "yuusufu"
-   ]
-  ]
- },
- {
-  "key": "32f1b014",
-  "reader": "story",
-  "text": "ghafuuru",
-  "parts": [
-   [
-    "narrator",
-    "ghafuuru"
-   ]
-  ]
- },
- {
-  "key": "90562430",
-  "reader": "story",
-  "text": "quluubu",
-  "parts": [
-   [
-    "narrator",
-    "quluubu"
    ]
   ]
  },
@@ -21488,61 +20960,6 @@
    [
     "narrator",
     "Sukun is a small circle on top of a letter. That letter has no vowel of its own. Join it to the letter before it."
-   ]
-  ]
- },
- {
-  "key": "b91865cf",
-  "reader": "story",
-  "text": "lam",
-  "parts": [
-   [
-    "narrator",
-    "lam"
-   ]
-  ]
- },
- {
-  "key": "90fdafaf",
-  "reader": "story",
-  "text": "qad",
-  "parts": [
-   [
-    "narrator",
-    "qad"
-   ]
-  ]
- },
- {
-  "key": "8f0f115c",
-  "reader": "story",
-  "text": "an",
-  "parts": [
-   [
-    "narrator",
-    "an"
-   ]
-  ]
- },
- {
-  "key": "6a758b90",
-  "reader": "story",
-  "text": "hal",
-  "parts": [
-   [
-    "narrator",
-    "hal"
-   ]
-  ]
- },
- {
-  "key": "08d2143f",
-  "reader": "story",
-  "text": "kun",
-  "parts": [
-   [
-    "narrator",
-    "kun"
    ]
   ]
  },
@@ -21631,72 +21048,6 @@
    [
     "narrator",
     "Shadda looks like a small w on top of a letter. It means you say the letter twice. First with a sukun, then with its vowel."
-   ]
-  ]
- },
- {
-  "key": "8ac41575",
-  "reader": "story",
-  "text": "anna",
-  "parts": [
-   [
-    "narrator",
-    "anna"
-   ]
-  ]
- },
- {
-  "key": "97f55ced",
-  "reader": "story",
-  "text": "inna",
-  "parts": [
-   [
-    "narrator",
-    "inna"
-   ]
-  ]
- },
- {
-  "key": "3237ed7e",
-  "reader": "story",
-  "text": "kulla",
-  "parts": [
-   [
-    "narrator",
-    "kulla"
-   ]
-  ]
- },
- {
-  "key": "5e12b1a8",
-  "reader": "story",
-  "text": "murra",
-  "parts": [
-   [
-    "narrator",
-    "murra"
-   ]
-  ]
- },
- {
-  "key": "03ab2549",
-  "reader": "story",
-  "text": "haqqa",
-  "parts": [
-   [
-    "narrator",
-    "haqqa"
-   ]
-  ]
- },
- {
-  "key": "76f2365c",
-  "reader": "story",
-  "text": "sallama",
-  "parts": [
-   [
-    "narrator",
-    "sallama"
    ]
   ]
  },
@@ -21822,61 +21173,6 @@
   ]
  },
  {
-  "key": "076a452e",
-  "reader": "story",
-  "text": "abadan",
-  "parts": [
-   [
-    "narrator",
-    "abadan"
-   ]
-  ]
- },
- {
-  "key": "d41a1edf",
-  "reader": "story",
-  "text": "waladan",
-  "parts": [
-   [
-    "narrator",
-    "waladan"
-   ]
-  ]
- },
- {
-  "key": "e1577ba9",
-  "reader": "story",
-  "text": "hasanan",
-  "parts": [
-   [
-    "narrator",
-    "hasanan"
-   ]
-  ]
- },
- {
-  "key": "b8dd4db7",
-  "reader": "story",
-  "text": "amalan",
-  "parts": [
-   [
-    "narrator",
-    "amalan"
-   ]
-  ]
- },
- {
-  "key": "09387552",
-  "reader": "story",
-  "text": "naharan",
-  "parts": [
-   [
-    "narrator",
-    "naharan"
-   ]
-  ]
- },
- {
   "key": "2f377a2e",
   "reader": "story",
   "text": "Two kasras make an in sound, like in nuurin.",
@@ -21888,61 +21184,6 @@
   ]
  },
  {
-  "key": "a04429de",
-  "reader": "story",
-  "text": "nuurin",
-  "parts": [
-   [
-    "narrator",
-    "nuurin"
-   ]
-  ]
- },
- {
-  "key": "2d64670d",
-  "reader": "story",
-  "text": "khawfin",
-  "parts": [
-   [
-    "narrator",
-    "khawfin"
-   ]
-  ]
- },
- {
-  "key": "5a0fda00",
-  "reader": "story",
-  "text": "lahabin",
-  "parts": [
-   [
-    "narrator",
-    "lahabin"
-   ]
-  ]
- },
- {
-  "key": "2ba2ce22",
-  "reader": "story",
-  "text": "juuin",
-  "parts": [
-   [
-    "narrator",
-    "juuin"
-   ]
-  ]
- },
- {
-  "key": "64303569",
-  "reader": "story",
-  "text": "ajrin",
-  "parts": [
-   [
-    "narrator",
-    "ajrin"
-   ]
-  ]
- },
- {
   "key": "d0629264",
   "reader": "story",
   "text": "Two dammas make an un sound, like in qamarun.",
@@ -21950,61 +21191,6 @@
    [
     "narrator",
     "Two dammas make an un sound, like in qamarun."
-   ]
-  ]
- },
- {
-  "key": "4e3fcdc8",
-  "reader": "story",
-  "text": "qamarun",
-  "parts": [
-   [
-    "narrator",
-    "qamarun"
-   ]
-  ]
- },
- {
-  "key": "8155473c",
-  "reader": "story",
-  "text": "najmun",
-  "parts": [
-   [
-    "narrator",
-    "najmun"
-   ]
-  ]
- },
- {
-  "key": "e5faad92",
-  "reader": "story",
-  "text": "qalamun",
-  "parts": [
-   [
-    "narrator",
-    "qalamun"
-   ]
-  ]
- },
- {
-  "key": "a32a4dcc",
-  "reader": "story",
-  "text": "rahiimun",
-  "parts": [
-   [
-    "narrator",
-    "rahiimun"
-   ]
-  ]
- },
- {
-  "key": "ac78d00e",
-  "reader": "story",
-  "text": "ghafuurun",
-  "parts": [
-   [
-    "narrator",
-    "ghafuurun"
    ]
   ]
  },
@@ -22042,50 +21228,6 @@
   ]
  },
  {
-  "key": "be996a1e",
-  "reader": "story",
-  "text": "lahuu",
-  "parts": [
-   [
-    "narrator",
-    "lahuu"
-   ]
-  ]
- },
- {
-  "key": "a003b301",
-  "reader": "story",
-  "text": "rabbihii",
-  "parts": [
-   [
-    "narrator",
-    "rabbihii"
-   ]
-  ]
- },
- {
-  "key": "1ce62b22",
-  "reader": "story",
-  "text": "minhu",
-  "parts": [
-   [
-    "narrator",
-    "minhu"
-   ]
-  ]
- },
- {
-  "key": "25f0cc63",
-  "reader": "story",
-  "text": "alayhi",
-  "parts": [
-   [
-    "narrator",
-    "alayhi"
-   ]
-  ]
- },
- {
   "key": "a1035e19",
   "reader": "story",
   "text": "Read the words again. For each one, decide: long Ha or short Ha?",
@@ -22108,39 +21250,6 @@
   ]
  },
  {
-  "key": "08b2bf5a",
-  "reader": "story",
-  "text": "dhaalika",
-  "parts": [
-   [
-    "narrator",
-    "dhaalika"
-   ]
-  ]
- },
- {
-  "key": "3401ab93",
-  "reader": "story",
-  "text": "ilaahi",
-  "parts": [
-   [
-    "narrator",
-    "ilaahi"
-   ]
-  ]
- },
- {
-  "key": "f2208fe7",
-  "reader": "story",
-  "text": "aamiina",
-  "parts": [
-   [
-    "narrator",
-    "aamiina"
-   ]
-  ]
- },
- {
   "key": "934b35e2",
   "reader": "story",
   "text": "When a word ends in Waw and Alif, we do not read the Alif. In a few words, a Waw or a Ya is read as a long aa.",
@@ -22148,50 +21257,6 @@
    [
     "narrator",
     "When a word ends in Waw and Alif, we do not read the Alif. In a few words, a Waw or a Ya is read as a long aa."
-   ]
-  ]
- },
- {
-  "key": "da641d92",
-  "reader": "story",
-  "text": "qaaluu",
-  "parts": [
-   [
-    "narrator",
-    "qaaluu"
-   ]
-  ]
- },
- {
-  "key": "da4cef12",
-  "reader": "story",
-  "text": "kaanuu",
-  "parts": [
-   [
-    "narrator",
-    "kaanuu"
-   ]
-  ]
- },
- {
-  "key": "e9a27e62",
-  "reader": "story",
-  "text": "salaatun",
-  "parts": [
-   [
-    "narrator",
-    "salaatun"
-   ]
-  ]
- },
- {
-  "key": "920b04a7",
-  "reader": "story",
-  "text": "muusaa",
-  "parts": [
-   [
-    "narrator",
-    "muusaa"
    ]
   ]
  },
@@ -22434,72 +21499,6 @@
    [
     "narrator",
     "Shamsiyya means sun letters. After al, we do not say the Lam before them. Qamariyya means moon letters, and we say the Lam clearly. Tap and listen."
-   ]
-  ]
- },
- {
-  "key": "04436c3a",
-  "reader": "story",
-  "text": "ar-rahiimu",
-  "parts": [
-   [
-    "narrator",
-    "ar-rahiimu"
-   ]
-  ]
- },
- {
-  "key": "1f61918a",
-  "reader": "story",
-  "text": "as-salaamu",
-  "parts": [
-   [
-    "narrator",
-    "as-salaamu"
-   ]
-  ]
- },
- {
-  "key": "0ed3b5d5",
-  "reader": "story",
-  "text": "an-nahaaru",
-  "parts": [
-   [
-    "narrator",
-    "an-nahaaru"
-   ]
-  ]
- },
- {
-  "key": "2df9a472",
-  "reader": "story",
-  "text": "al-hamdu",
-  "parts": [
-   [
-    "narrator",
-    "al-hamdu"
-   ]
-  ]
- },
- {
-  "key": "db0f8a35",
-  "reader": "story",
-  "text": "al-qudduusu",
-  "parts": [
-   [
-    "narrator",
-    "al-qudduusu"
-   ]
-  ]
- },
- {
-  "key": "512af8eb",
-  "reader": "story",
-  "text": "al-kabatu",
-  "parts": [
-   [
-    "narrator",
-    "al-kabatu"
    ]
   ]
  },
@@ -36837,6 +35836,479 @@
   ]
  },
  {
+  "key": "321e24b6",
+  "reader": "seerah",
+  "text": "The Messenger of Allah ﷺ spent that night praying beside the stump of a tree there, often saying in his prostration “Ya Hayy, ya Qayyum”, O Ever-Living, O Self-Sustaining, repeating it and holding on to it, peace be upon him.",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, spent that night praying beside the stump of a tree there, often saying in his prostration “Ya Hayy, ya Qayyum”, O Ever-Living, O Self-Sustaining, repeating it and holding on to it, peace be upon him."
+   ]
+  ]
+ },
+ {
+  "key": "4ff9734e",
+  "reader": "seerah",
+  "text": "Ibn Ishaq said: The Messenger of Allah ﷺ set out to reach the water before them, and when he came to the nearest water of Badr he stopped there.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: The Messenger of {allˈɑːh} , peace be upon him, set out to reach the water before them, and when he came to the nearest water of Badr he stopped there."
+   ]
+  ]
+ },
+ {
+  "key": "d638cd97",
+  "reader": "seerah",
+  "text": "I was told by men of Banu Salima that al-Hubab ibn al-Mundhir ibn al-Jamuh said: “O Messenger of Allah, this place where we have stopped: is it a place Allah has brought you to, so that we may not move forward or back from it, or is it a matter of opinion, war and planning?” He said: “It is a matter of opinion, war and planning.” He said: “O Messenger of Allah, this is not the right place. Take the people on until we reach the water nearest to them, and stop there. Then we will stop up the wells beyond it, build a basin by it and fill it with water. Then we will fight them: we will drink and they will not.” The Messenger of Allah ﷺ said: “You have given good advice.”",
+  "parts": [
+   [
+    "narrator",
+    "I was told by men of Banu Salima that al-Hubab {ˈibn} al-Mundhir {ˈibn} al-Jamuh said: “O Messenger of {allˈɑːh}, this place where we have stopped: is it a place {allˈɑːh} has brought you to, so that we may not move forward or back from it, or is it a matter of opinion, war and planning?” He said: “It is a matter of opinion, war and planning.” He said: “O Messenger of {allˈɑːh}, this is not the right place. Take the people on until we reach the water nearest to them, and stop there. Then we will stop up the wells beyond it, build a basin by it and fill it with water. Then we will fight them: we will drink and they will not.” The Messenger of {allˈɑːh} , peace be upon him, said: “You have given good advice.”"
+   ]
+  ]
+ },
+ {
+  "key": "eba92019",
+  "reader": "seerah",
+  "text": "I say: the Companions of the Messenger of Allah ﷺ that day were three hundred and thirteen men.",
+  "parts": [
+   [
+    "narrator",
+    "I say: the Companions of the Messenger of {allˈɑːh} , peace be upon him, that day were three hundred and thirteen men."
+   ]
+  ]
+ },
+ {
+  "key": "17cf07b5",
+  "reader": "seerah",
+  "text": "[al-Baraʾ said:] We used to say that the people of Badr were three hundred and ten-odd, the same number as the companions of Talut who crossed the river with him, and none crossed it with him but a believer.",
+  "parts": [
+   [
+    "narrator",
+    "[al-Bara said:] We used to say that the people of Badr were three hundred and ten-odd, the same number as the companions of Talut who crossed the river with him, and none crossed it with him but a believer."
+   ]
+  ]
+ },
+ {
+  "key": "da500e3d",
+  "reader": "seerah",
+  "text": "Al-Bayhaqi said: The well-known view among the writers of the campaigns is that it was on the seventeenth night of the month of Ramadan.",
+  "parts": [
+   [
+    "narrator",
+    "Al-Bayhaqi said: The well-known view among the writers of the campaigns is that it was on the seventeenth night of the month of {ɹamadˈɑːn}."
+   ]
+  ]
+ },
+ {
+  "key": "e5f132bc",
+  "reader": "seerah",
+  "text": "Abu Ayyub al-Ansari was asked about the day of Badr, and said: either the seventeenth, or the thirteenth …",
+  "parts": [
+   [
+    "narrator",
+    "Abu Ayyub al-Ansari was asked about the day of Badr, and said: either the seventeenth, or the thirteenth …"
+   ]
+  ]
+ },
+ {
+  "key": "594db794",
+  "reader": "seerah",
+  "text": "[Ibn ʿAbbas said:] Some of the captives on the day of Badr had no ransom, so the Messenger of Allah ﷺ made their ransom that they should teach the children of the Ansar to write.",
+  "parts": [
+   [
+    "narrator",
+    "[{ˈibn} Abbas said:] Some of the captives on the day of Badr had no ransom, so the Messenger of {allˈɑːh} , peace be upon him, made their ransom that they should teach the children of the Ansar to write."
+   ]
+  ]
+ },
+ {
+  "key": "1892f35f",
+  "reader": "seerah",
+  "text": "The correct view is that of the majority: Uhud was in Shawwal of the year three, and the Trench in Shawwal of the year five after the Hijrah.",
+  "parts": [
+   [
+    "narrator",
+    "The correct view is that of the majority: Uhud was in Shawwal of the year three, and the Trench in Shawwal of the year five after the Hijrah."
+   ]
+  ]
+ },
+ {
+  "key": "c9a7a3d3",
+  "reader": "seerah",
+  "text": "Uhud was named Uhud because it stands alone among those mountains. In the Sahih: “Uhud is a mountain that loves us, and we love it.”",
+  "parts": [
+   [
+    "narrator",
+    "Uhud was named Uhud because it stands alone among those mountains. In the Sahih: “Uhud is a mountain that loves us, and we love it.”"
+   ]
+  ]
+ },
+ {
+  "key": "d26a61bd",
+  "reader": "seerah",
+  "text": "The Prophet ﷺ placed a group of archers, put ʿAbdullah ibn Jubayr in command of them, and said: “Do not leave your place. If you see that we have overcome them, do not leave your place. And if you see them overcoming us, do not come down to help us.”",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, placed a group of archers, put Abdullah {ˈibn} Jubayr in command of them, and said: “Do not leave your place. If you see that we have overcome them, do not leave your place. And if you see them overcoming us, do not come down to help us.”"
+   ]
+  ]
+ },
+ {
+  "key": "0a8ec531",
+  "reader": "seerah",
+  "text": "They began to say: “The spoils! The spoils!” ʿAbdullah said: “The Prophet ﷺ made me promise that you would not leave your place.” But they would not listen.",
+  "parts": [
+   [
+    "narrator",
+    "They began to say: “The spoils! The spoils!” Abdullah said: “The Prophet , peace be upon him, made me promise that you would not leave your place.” But they would not listen."
+   ]
+  ]
+ },
+ {
+  "key": "af0ab83f",
+  "reader": "seerah",
+  "text": "The campaign of the Trench was in Shawwal of the year five after the Hijrah. Ibn Ishaq, ʿUrwa ibn al-Zubayr, Qatada, al-Bayhaqi and many scholars, early and later, stated this.",
+  "parts": [
+   [
+    "narrator",
+    "The campaign of the Trench was in Shawwal of the year five after the Hijrah. {ˈibn} {ishˈɑːk}, Urwa {ˈibn} al-Zubayr, Qatada, al-Bayhaqi and many scholars, early and later, stated this."
+   ]
+  ]
+ },
+ {
+  "key": "471834f0",
+  "reader": "seerah",
+  "text": "Musa ibn ʿUqba narrated from al-Zuhri that he said: Then came the battle of the Confederates, in Shawwal of the year four.",
+  "parts": [
+   [
+    "narrator",
+    "{mˈuːsa} {ˈibn} Uqba narrated from al-Zuhri that he said: Then came the battle of the Confederates, in Shawwal of the year four."
+   ]
+  ]
+ },
+ {
+  "key": "55eb4537",
+  "reader": "seerah",
+  "text": "When the Messenger of Allah ﷺ heard of them and of what they had agreed on, he had a trench dug around Madinah.",
+  "parts": [
+   [
+    "narrator",
+    "When the Messenger of {allˈɑːh} , peace be upon him, heard of them and of what they had agreed on, he had a trench dug around Madinah."
+   ]
+  ]
+ },
+ {
+  "key": "6e76bc4a",
+  "reader": "seerah",
+  "text": "Ibn Hisham said: It is said that the one who advised it was Salman.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} Hisham said: It is said that the one who advised it was Salman."
+   ]
+  ]
+ },
+ {
+  "key": "9076a1c6",
+  "reader": "seerah",
+  "text": "[Anas said:] The Messenger of Allah ﷺ went out to the trench, and there were the Muhajirun and the Ansar digging on a cold morning. They had no slaves to do the work for them. When he saw how tired and hungry they were, he said: “O Allah, the true life is the life of the Hereafter, so forgive the Ansar and the Muhajirun.”",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] The Messenger of {allˈɑːh} , peace be upon him, went out to the trench, and there were the Muhajirun and the Ansar digging on a cold morning. They had no slaves to do the work for them. When he saw how tired and hungry they were, he said: “O {allˈɑːh}, the true life is the life of the Hereafter, so forgive the Ansar and the Muhajirun.”"
+   ]
+  ]
+ },
+ {
+  "key": "b89b9ac9",
+  "reader": "seerah",
+  "text": "[Anas said:] The Muhajirun and the Ansar began digging the trench around Madinah, carrying the earth on their backs and saying: “We are the ones who have pledged to Muhammad, to hold to Islam as long as we live.” The Prophet ﷺ answered them: “O Allah, there is no good but the good of the Hereafter, so bless the Ansar and the Muhajirun.”",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] The Muhajirun and the Ansar began digging the trench around Madinah, carrying the earth on their backs and saying: “We are the ones who have pledged to {muhˈammad}, to hold to Islam as long as we live.” The Prophet , peace be upon him, answered them: “O {allˈɑːh}, there is no good but the good of the Hereafter, so bless the Ansar and the Muhajirun.”"
+   ]
+  ]
+ },
+ {
+  "key": "aae75110",
+  "reader": "seerah",
+  "text": "[al-Baraʾ said:] The Messenger of Allah ﷺ was carrying earth on the day of the Trench, until the dust covered his stomach, saying: “By Allah, without Allah we would not have been guided, nor given charity, nor prayed. So send down calm upon us, and make our feet firm if we meet them. Those people have wronged us; when they wanted to turn us from our faith, we refused.” And he raised his voice with it: “We refused, we refused.”",
+  "parts": [
+   [
+    "narrator",
+    "[al-Bara said:] The Messenger of {allˈɑːh} , peace be upon him, was carrying earth on the day of the Trench, until the dust covered his stomach, saying: “By {allˈɑːh}, without {allˈɑːh} we would not have been guided, nor given charity, nor prayed. So send down calm upon us, and make our feet firm if we meet them. Those people have wronged us; when they wanted to turn us from our faith, we refused.” And he raised his voice with it: “We refused, we refused.”"
+   ]
+  ]
+ },
+ {
+  "key": "6b040cd1",
+  "reader": "seerah",
+  "text": "It was in Dhu al-Qaʿda of the year six, without disagreement.",
+  "parts": [
+   [
+    "narrator",
+    "It was in Dhu al-Qada of the year six, without disagreement."
+   ]
+  ]
+ },
+ {
+  "key": "a24ff2ba",
+  "reader": "seerah",
+  "text": "[ʿUrwa said:] The Messenger of Allah ﷺ set out for al-Hudaybiyya in Ramadan, and al-Hudaybiyya was in Shawwal. This is very strange from ʿUrwa.",
+  "parts": [
+   [
+    "narrator",
+    "[Urwa said:] The Messenger of {allˈɑːh} , peace be upon him, set out for al-Hudaybiyya in {ɹamadˈɑːn}, and al-Hudaybiyya was in Shawwal. This is very strange from Urwa."
+   ]
+  ]
+ },
+ {
+  "key": "f7844616",
+  "reader": "seerah",
+  "text": "Then the Messenger of Allah ﷺ called ʿAli ibn Abi Talib and said: “Write: Bismillah al-Rahman al-Rahim.” Suhayl said: “I do not know this. Write: Bismika Allahumma, in Your name, O Allah.” The Messenger of Allah ﷺ said: “Write: Bismika Allahumma”, and he wrote it. Then he said: “Write: This is what Muhammad, the Messenger of Allah, has agreed with Suhayl ibn ʿAmr.” Suhayl said: “If I bore witness that you are the Messenger of Allah, I would not have fought you. Write your name and your father’s name.” The Messenger of Allah ﷺ said: “Write: This is what Muhammad ibn ʿAbdullah has agreed with Suhayl ibn ʿAmr.”",
+  "parts": [
+   [
+    "narrator",
+    "Then the Messenger of {allˈɑːh} , peace be upon him, called Ali {ˈibn} Abi Talib and said: “Write: {bismillˈɑːh} al-Rahman al-Rahim.” Suhayl said: “I do not know this. Write: Bismika Allahumma, in Your name, O {allˈɑːh}.” The Messenger of {allˈɑːh} , peace be upon him, said: “Write: Bismika Allahumma”, and he wrote it. Then he said: “Write: This is what {muhˈammad}, the Messenger of {allˈɑːh}, has agreed with Suhayl {ˈibn} Amr.” Suhayl said: “If I bore witness that you are the Messenger of {allˈɑːh}, I would not have fought you. Write your name and your father’s name.” The Messenger of {allˈɑːh} , peace be upon him, said: “Write: This is what {muhˈammad} {ˈibn} Abdullah has agreed with Suhayl {ˈibn} Amr.”"
+   ]
+  ]
+ },
+ {
+  "key": "c5db5495",
+  "reader": "seerah",
+  "text": "They agreed to lay down war between the people for ten years, in which people would be safe and hold back from one another; that whoever came to Muhammad from Quraysh without his guardian’s permission, he would send back to them, and whoever came to Quraysh from those with Muhammad, they would not send back to him; that between us there would be a sealed chest, with no stealing and no betrayal; and that whoever wished to enter into the pact and covenant of Muhammad could do so, and whoever wished to enter into the pact and covenant of Quraysh could do so. Khuzaʿa jumped up and said: “We are in the pact and covenant of Muhammad”, and Banu Bakr jumped up and said: “We are in the pact and covenant of Quraysh.” And that you go back this year and do not enter Makkah against us; and next year we will go out from it for you, and you will enter it with your companions and stay three days, with only a rider’s weapons, swords in their sheaths, and you will not enter it with anything else.",
+  "parts": [
+   [
+    "narrator",
+    "They agreed to lay down war between the people for ten years, in which people would be safe and hold back from one another; that whoever came to {muhˈammad} from {kuɹˈaɪʃ} without his guardian’s permission, he would send back to them, and whoever came to {kuɹˈaɪʃ} from those with {muhˈammad}, they would not send back to him; that between us there would be a sealed chest, with no stealing and no betrayal; and that whoever wished to enter into the pact and covenant of {muhˈammad} could do so, and whoever wished to enter into the pact and covenant of {kuɹˈaɪʃ} could do so. Khuzaa jumped up and said: “We are in the pact and covenant of {muhˈammad}”, and Banu Bakr jumped up and said: “We are in the pact and covenant of {kuɹˈaɪʃ}.” And that you go back this year and do not enter {mˈakka} against us; and next year we will go out from it for you, and you will enter it with your companions and stay three days, with only a rider’s weapons, swords in their sheaths, and you will not enter it with anything else."
+   ]
+  ]
+ },
+ {
+  "key": "9a9cb26f",
+  "reader": "seerah",
+  "text": "The Companions of the Messenger of Allah ﷺ had set out with no doubt that they would enter Makkah, because of a dream the Messenger of Allah ﷺ had seen. When they saw the peace and the turning back, and what the Messenger of Allah ﷺ had taken on himself, it weighed on the people so heavily that they were almost overcome.",
+  "parts": [
+   [
+    "narrator",
+    "The Companions of the Messenger of {allˈɑːh} , peace be upon him, had set out with no doubt that they would enter {mˈakka}, because of a dream the Messenger of {allˈɑːh} , peace be upon him, had seen. When they saw the peace and the turning back, and what the Messenger of {allˈɑːh} , peace be upon him, had taken on himself, it weighed on the people so heavily that they were almost overcome."
+   ]
+  ]
+ },
+ {
+  "key": "73a0f2d4",
+  "reader": "seerah",
+  "text": "[He ﷺ said:] “Tonight a surah has been sent down to me that is dearer to me than everything the sun rises on.”",
+  "parts": [
+   [
+    "narrator",
+    "[He , peace be upon him, said:] “Tonight a {sˈuːɹa} has been sent down to me that is dearer to me than everything the sun rises on.”"
+   ]
+  ]
+ },
+ {
+  "key": "1f2e59f8",
+  "reader": "seerah",
+  "text": "He set out when ten days of Ramadan had passed, and he fasted and the people fasted with him, until at al-Kadid, between ʿUsfan and Amaj, he broke his fast. Then he went on until he stopped at Marr al-Zahran with ten thousand Muslims.",
+  "parts": [
+   [
+    "narrator",
+    "He set out when ten days of {ɹamadˈɑːn} had passed, and he fasted and the people fasted with him, until at al-Kadid, between Usfan and Amaj, he broke his fast. Then he went on until he stopped at Marr al-Zahran with ten thousand Muslims."
+   ]
+  ]
+ },
+ {
+  "key": "436fd2ca",
+  "reader": "seerah",
+  "text": "ʿUrwa ibn al-Zubayr said: there were twelve thousand with him.",
+  "parts": [
+   [
+    "narrator",
+    "Urwa {ˈibn} al-Zubayr said: there were twelve thousand with him."
+   ]
+  ]
+ },
+ {
+  "key": "30565b39",
+  "reader": "seerah",
+  "text": "“Whoever enters the house of Abu Sufyan is safe” (it was in upper Makkah), “whoever enters the house of Hakim ibn Hizam is safe” (it was in lower Makkah), “and whoever shuts his door is safe.”",
+  "parts": [
+   [
+    "narrator",
+    "“Whoever enters the house of Abu Sufyan is safe” (it was in upper {mˈakka}), “whoever enters the house of Hakim {ˈibn} Hizam is safe” (it was in lower {mˈakka}), “and whoever shuts his door is safe.”"
+   ]
+  ]
+ },
+ {
+  "key": "e287ec47",
+  "reader": "seerah",
+  "text": "When the Messenger of Allah ﷺ had settled in Makkah and the people were calm, he went out to the House and went round it seven times on his camel, touching the Corner with a crooked stick in his hand. When he had finished going round, he called ʿUthman ibn Talha and took the key of the Kaʿbah from him. It was opened for him, and he went in.",
+  "parts": [
+   [
+    "narrator",
+    "When the Messenger of {allˈɑːh} , peace be upon him, had settled in {mˈakka} and the people were calm, he went out to the House and went round it seven times on his camel, touching the Corner with a crooked stick in his hand. When he had finished going round, he called Uthman {ˈibn} Talha and took the key of the Kabah from him. It was opened for him, and he went in."
+   ]
+  ]
+ },
+ {
+  "key": "ebb49c3e",
+  "reader": "seerah",
+  "text": "“People of Quraysh, Allah has taken away from you the pride of the time before Islam and its boasting about forefathers. People come from Adam, and Adam is from dust.”",
+  "parts": [
+   [
+    "narrator",
+    "“People of {kuɹˈaɪʃ}, {allˈɑːh} has taken away from you the pride of the time before Islam and its boasting about forefathers. People come from Adam, and Adam is from dust.”"
+   ]
+  ]
+ },
+ {
+  "key": "7869e358",
+  "reader": "seerah",
+  "text": "“People of Quraysh, what do you think I will do with you?” They said: “Good. A noble brother, and the son of a noble brother.” He said: “Go, you are free.”",
+  "parts": [
+   [
+    "narrator",
+    "“People of {kuɹˈaɪʃ}, what do you think I will do with you?” They said: “Good. A noble brother, and the son of a noble brother.” He said: “Go, you are free.”"
+   ]
+  ]
+ },
+ {
+  "key": "785f3917",
+  "reader": "seerah",
+  "text": "ʿAli ibn Abi Talib came to him with the key of the Kaʿbah in his hand and said: “O Messenger of Allah, give us the keeping of the House together with the watering of the pilgrims, Allah bless you.” The Messenger of Allah ﷺ said: “Where is ʿUthman ibn Talha?” He was called, and he said: “Here is your key, ʿUthman. Today is a day of goodness and faithfulness.”",
+  "parts": [
+   [
+    "narrator",
+    "Ali {ˈibn} Abi Talib came to him with the key of the Kabah in his hand and said: “O Messenger of {allˈɑːh}, give us the keeping of the House together with the watering of the pilgrims, {allˈɑːh} bless you.” The Messenger of {allˈɑːh} , peace be upon him, said: “Where is Uthman {ˈibn} Talha?” He was called, and he said: “Here is your key, Uthman. Today is a day of goodness and faithfulness.”"
+   ]
+  ]
+ },
+ {
+  "key": "1708eb3c",
+  "reader": "seerah",
+  "text": "… that he, peace be upon him, made Hajj only once from Madinah, and that before it he made three ʿumras.",
+  "parts": [
+   [
+    "narrator",
+    "… that he, peace be upon him, made {hˈadʒ} only once from Madinah, and that before it he made three umras."
+   ]
+  ]
+ },
+ {
+  "key": "20f3ed6d",
+  "reader": "seerah",
+  "text": "When he had shown them the law of the Hajj, made it clear and explained it, Allah, Mighty and Majestic, sent down to him while he was standing at ʿArafa: [al-Maʾida 3].",
+  "parts": [
+   [
+    "narrator",
+    "When he had shown them the law of the {hˈadʒ}, made it clear and explained it, {allˈɑːh}, Mighty and Majestic, sent down to him while he was standing at Arafa: [al-Maida 3]."
+   ]
+  ]
+ },
+ {
+  "key": "1f498312",
+  "reader": "seerah",
+  "text": "[A man of the Jews said to ʿUmar:] “Commander of the Believers, you recite a verse in your Book which, if it had come down to us Jews, we would have taken that day as a festival.” He said: “Which verse?” He said: “This day I have perfected your religion for you, completed My favour upon you, and chosen Islam as your religion.” ʿUmar said: “By Allah, I know the day it was sent down to the Messenger of Allah ﷺ, and the hour it was sent down: the evening of ʿArafa, on a Friday.”",
+  "parts": [
+   [
+    "narrator",
+    "[A man of the Jews said to Umar:] “Commander of the Believers, you recite a verse in your Book which, if it had come down to us Jews, we would have taken that day as a festival.” He said: “Which verse?” He said: “This day I have perfected your religion for you, completed My favour upon you, and chosen Islam as your religion.” Umar said: “By {allˈɑːh}, I know the day it was sent down to the Messenger of {allˈɑːh} , peace be upon him,, and the hour it was sent down: the evening of Arafa, on a Friday.”"
+   ]
+  ]
+ },
+ {
+  "key": "fed1d91c",
+  "reader": "seerah",
+  "text": "… until he came to ʿArafa and found that a tent had been put up for him at Namira, and he stayed in it. When the sun had passed its height, he asked for al-Qaswaʾ, and she was saddled for him [and he rode]. He came to the bottom of the valley and spoke to the people.",
+  "parts": [
+   [
+    "narrator",
+    "… until he came to Arafa and found that a tent had been put up for him at Namira, and he stayed in it. When the sun had passed its height, he asked for al-Qaswa, and she was saddled for him [and he rode]. He came to the bottom of the valley and spoke to the people."
+   ]
+  ]
+ },
+ {
+  "key": "cf363705",
+  "reader": "seerah",
+  "text": "“Your blood and your property are sacred to you, as sacred as this day of yours, in this month of yours, in this land of yours. Every matter of the time before Islam is put away under my feet.”",
+  "parts": [
+   [
+    "narrator",
+    "“Your blood and your property are sacred to you, as sacred as this day of yours, in this month of yours, in this land of yours. Every matter of the time before Islam is put away under my feet.”"
+   ]
+  ]
+ },
+ {
+  "key": "cc85bab1",
+  "reader": "seerah",
+  "text": "“And fear Allah concerning women, for you have taken them as a trust from Allah.”",
+  "parts": [
+   [
+    "narrator",
+    "“And fear {allˈɑːh} concerning women, for you have taken them as a trust from {allˈɑːh}.”"
+   ]
+  ]
+ },
+ {
+  "key": "9a7b8fd9",
+  "reader": "seerah",
+  "text": "“I have left among you something after which you will not go astray if you hold fast to it: the Book of Allah. And you will be asked about me, so what will you say?” They said: “We bear witness that you have conveyed the message, given sincere counsel and done your duty.” He raised his forefinger to the sky and pointed it at the people: “O Allah, bear witness. O Allah, bear witness”, three times.",
+  "parts": [
+   [
+    "narrator",
+    "“I have left among you something after which you will not go astray if you hold fast to it: the Book of {allˈɑːh}. And you will be asked about me, so what will you say?” They said: “We bear witness that you have conveyed the message, given sincere counsel and done your duty.” He raised his forefinger to the sky and pointed it at the people: “O {allˈɑːh}, bear witness. O {allˈɑːh}, bear witness”, three times."
+   ]
+  ]
+ },
+ {
+  "key": "1957bccb",
+  "reader": "seerah",
+  "text": "There is no disagreement that he, peace be upon him, passed away on a Monday.",
+  "parts": [
+   [
+    "narrator",
+    "There is no disagreement that he, peace be upon him, passed away on a Monday."
+   ]
+  ]
+ },
+ {
+  "key": "87474715",
+  "reader": "seerah",
+  "text": "[Anas said:] The last look I had at the Messenger of Allah ﷺ was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the mushaf. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day.",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] The last look I had at the Messenger of {allˈɑːh} , peace be upon him, was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the mushaf. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day."
+   ]
+  ]
+ },
+ {
+  "key": "3c33e14c",
+  "reader": "seerah",
+  "text": "[al-Awzaʿi said:] The Messenger of Allah ﷺ passed away on the Monday, before the middle of the day.",
+  "parts": [
+   [
+    "narrator",
+    "[al-Awzai said:] The Messenger of {allˈɑːh} , peace be upon him, passed away on the Monday, before the middle of the day."
+   ]
+  ]
+ },
+ {
+  "key": "07f7ff97",
+  "reader": "seerah",
+  "text": "Al-Siddiq gave a speech in the first place he stood after the passing of the Messenger of Allah ﷺ, and said: “O people, whoever worshipped Muhammad, Muhammad has died. And whoever worships Allah, Allah is Ever-Living and does not die.”",
+  "parts": [
+   [
+    "narrator",
+    "Al-Siddiq gave a speech in the first place he stood after the passing of the Messenger of {allˈɑːh} , peace be upon him,, and said: “O people, whoever worshipped {muhˈammad}, {muhˈammad} has died. And whoever worships {allˈɑːh}, {allˈɑːh} is Ever-Living and does not die.”"
+   ]
+  ]
+ },
+ {
   "key": "f6fe3392",
   "reader": "seerah",
   "text": "ʿAbd al-Muttalib makes his camel rise…",
@@ -37295,6 +36767,94 @@
    [
     "narrator",
     "The Ansar shared their homes, and Abd al-Rahman asked only for the market so he could work. How can you be a good brother or sister to someone new?"
+   ]
+  ]
+ },
+ {
+  "key": "e4f5b7ba",
+  "reader": "seerah",
+  "text": "This episode studies three events from the Madinah years: Badr, Uhud and the Trench. No fighting is shown or played, and no battle is ever scored.",
+  "parts": [
+   [
+    "narrator",
+    "This episode studies three events from the Madinah years: Badr, Uhud and the Trench. No fighting is shown or played, and no battle is ever scored."
+   ]
+  ]
+ },
+ {
+  "key": "ae5473ec",
+  "reader": "seerah",
+  "text": "At the Trench, everyone dug together, the Prophet ﷺ too. Where can you work side by side with others this week?",
+  "parts": [
+   [
+    "narrator",
+    "At the Trench, everyone dug together, the Prophet , peace be upon him, too. Where can you work side by side with others this week?"
+   ]
+  ]
+ },
+ {
+  "key": "a8ae98fd",
+  "reader": "seerah",
+  "text": "In this episode a treaty is written, and later the believers return to Makkah. Read, explore, and rebuild the treaty in a puzzle.",
+  "parts": [
+   [
+    "narrator",
+    "In this episode a treaty is written, and later the believers return to {mˈakka}. Read, explore, and rebuild the treaty in a puzzle."
+   ]
+  ]
+ },
+ {
+  "key": "56c5a4bd",
+  "reader": "seerah",
+  "text": "Watch the morning come over the House. Nobody is shown. Walk calmly here: no running and no jumping.",
+  "parts": [
+   [
+    "narrator",
+    "Watch the morning come over the House. Nobody is shown. Walk calmly here: no running and no jumping."
+   ]
+  ]
+ },
+ {
+  "key": "f8aa1139",
+  "reader": "seerah",
+  "text": "The treaty felt hard to the believers, yet it was kept, and the return came with mercy. When can you keep your word, or forgive, even when it is hard?",
+  "parts": [
+   [
+    "narrator",
+    "The treaty felt hard to the believers, yet it was kept, and the return came with mercy. When can you keep your word, or forgive, even when it is hard?"
+   ]
+  ]
+ },
+ {
+  "key": "565323cf",
+  "reader": "seerah",
+  "text": "This is the last episode of the Seerah Quest. Read what the book says about the final years, and finish with the Grand Seerah Hall.",
+  "parts": [
+   [
+    "narrator",
+    "This is the last episode of the Seerah Quest. Read what the book says about the final years, and finish with the Grand Seerah Hall."
+   ]
+  ]
+ },
+ {
+  "key": "99c15e08",
+  "reader": "seerah",
+  "text": "The next pages tell of his passing ﷺ. They are told gently, in words only, and nothing of it is shown.",
+  "parts": [
+   [
+    "narrator",
+    "The next pages tell of his passing , peace be upon him,. They are told gently, in words only, and nothing of it is shown."
+   ]
+  ]
+ },
+ {
+  "key": "f13cb430",
+  "reader": "seerah",
+  "text": "You have walked through the whole Seerah, from Zamzam to the Farewell Pilgrimage. Which lesson will you carry with you?",
+  "parts": [
+   [
+    "narrator",
+    "You have walked through the whole Seerah, from {zˈamzam} to the Farewell Pilgrimage. Which lesson will you carry with you?"
    ]
   ]
  }

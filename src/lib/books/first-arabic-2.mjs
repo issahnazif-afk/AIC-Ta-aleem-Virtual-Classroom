@@ -1,4 +1,4 @@
-// My First Arabic Letters 2: the Al-Huda "Pre-schooler Arabic Book" volume II, page by page.
+// My First Arabic Letters 2: the school’s "Pre-schooler Arabic Book" volume II, page by page.
 // Each letter page has the letter with fatha, kasra and dhamma, three picture words and the letter's joined forms.
 // Between the letters come practice pages: matching, circling, the short vowels and the joined forms.
 const img = (n) => `books/first-arabic-2/${String(n).padStart(3, '0')}.webp`;

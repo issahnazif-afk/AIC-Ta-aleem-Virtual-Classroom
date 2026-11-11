@@ -176,3 +176,11 @@ export function hadithClipId(ar) {
   for (const b of new TextEncoder().encode(ar.replace(/\s+/g, ' ').trim())) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
   return 'ha-' + h.toString(16).padStart(8, '0');
 }
+
+// A vocabulary word's meaning, as the storyteller says it after the Arabic ("Apple." rather than "apple"): the recorded
+// voice adds a stray sound before a lone lowercase word, so each one is read as a short sentence of its own.
+export function wordForVoice(en) {
+  const s = String(en ?? '').trim();
+  if (!s) return s;
+  return s[0].toUpperCase() + s.slice(1) + (/[.!?]$/.test(s) ? '' : '.');
+}
