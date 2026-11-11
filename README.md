@@ -711,7 +711,7 @@ and syllables* above). You can record some now and the rest later.
 3. Set up the class log: follow [`apps-script/README.md`](apps-script/README.md). It ends with adding the
    repository variable `CLASS_LOG_URL`.
 4. Run the **Build and deploy** workflow (Actions tab), or push any change. The site appears at
-   `https://issahnazif-afk.github.io/AIC-Ta-aleem-Virtual-Classroom/`.
+   `https://taaleem.ca/` (custom domain; `public/CNAME` and Settings → Pages → Custom domain).
 
 Without `CLASS_LOG_URL` the classroom runs in **demo mode**: any class code works and sessions are not saved.
 
@@ -719,7 +719,7 @@ Without `CLASS_LOG_URL` the classroom runs in **demo mode**: any class code work
 
 ```bash
 npm install
-npm run dev          # builds the data, then opens http://localhost:4321/AIC-Ta-aleem-Virtual-Classroom/
+npm run dev          # builds the data, then opens http://localhost:4321/
 ```
 
 The look-away check needs the face model. The deploy workflow downloads it; locally, download

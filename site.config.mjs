@@ -4,10 +4,10 @@
 export default {
   appName: "Ta'aleem",
 
-  // GitHub Pages address. The repository is called "AIC-Ta-aleem-Virtual-Classroom".
-  // If you name it differently, change base to '/<repository-name>/'.
-  site: 'https://issahnazif-afk.github.io',
-  base: '/AIC-Ta-aleem-Virtual-Classroom/',
+  // The school's own address (GitHub Pages, custom domain taaleem.ca; see public/CNAME).
+  // Without a custom domain it would be site 'https://issahnazif-afk.github.io' and base '/AIC-Ta-aleem-Virtual-Classroom/'.
+  site: 'https://taaleem.ca',
+  base: '/',
 
   // The Google Apps Script web app that writes each session into its class's Google Sheet.
   // Paste the "Web app URL" from Deploy → Manage deployments (see apps-script/README.md).

@@ -35,7 +35,7 @@ npm ci
 npm run dev
 ```
 
-Astro prints the local development address, normally `http://localhost:4321/AIC-Ta-aleem-Virtual-Classroom/` because this repository uses a GitHub Pages base path.
+Astro prints the local development address, normally `http://localhost:4321/`. The live site is https://taaleem.ca (GitHub Pages with a custom domain, see `public/CNAME`).
 
 To build the production site:
 
