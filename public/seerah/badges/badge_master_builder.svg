@@ -1,0 +1,18 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mbbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1E3A26"/><stop offset="100%" stop-color="#0C1E12"/></linearGradient>
+    <linearGradient id="mbring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#E8D2A6"/><stop offset="50%" stop-color="#B08B5C"/><stop offset="100%" stop-color="#E8D2A6"/></linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#mbbg)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#mbring)" stroke-width="4"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#B08B5C" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- stacked blocks with an arch and a palm -->
+  <rect x="34" y="62" width="16" height="16" fill="#D9B98A" stroke="#7A5A3A" stroke-width="1.2"/>
+  <rect x="50" y="62" width="16" height="16" fill="#D9B98A" stroke="#7A5A3A" stroke-width="1.2"/>
+  <rect x="42" y="46" width="16" height="16" fill="#E8D2A6" stroke="#7A5A3A" stroke-width="1.2"/>
+  <path d="M68 78 V58 Q76 48 84 58 V78 H80 V60 Q76 55 72 60 V78 Z" fill="#D9B98A" stroke="#7A5A3A" stroke-width="1.2"/>
+  <path d="M88 78 Q90 60 86 44" stroke="#6B4A2A" stroke-width="2.4" fill="none"/>
+  <path d="M86 44 q-10 -2 -14 4 M86 44 q8 -4 13 2 M86 44 q-4 -8 -11 -8 M86 44 q6 -8 12 -6" stroke="#4CAF50" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M 28 90 Q 60 100 92 90 L 92 98 Q 60 110 28 98 Z" fill="#B08B5C"/>
+  <text x="60" y="97" text-anchor="middle" font-family="Georgia, serif" font-size="6.6" fill="#0C1E12" font-weight="bold" letter-spacing="0.5">MASTER BUILDER</text>
+</svg>

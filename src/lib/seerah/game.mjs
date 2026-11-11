@@ -27,8 +27,21 @@ export const TEXT = {
   helpers: 'Stepping stones have appeared in the gaps to help you.',
   lanternTitle: 'You lit the lantern',
   lanternText: 'Well done. The lantern at the top is shining, and the whole climb is behind you.',
-  hubLead: 'Explore Makkah in the years before the Prophet ﷺ was born. Everything you read comes from one book: al-Bidaya wa\'l-Nihaya by Imam Ibn Kathir. Each event shows its volume and page, and you can open the Arabic. Where the book says a report is uncertain, the game tells you so.',
-  hubRules: 'The Prophet ﷺ, the Companions and the people of the time are never shown. People appear only as lanterns. Moments that were from Allah alone are scenes to watch, not to play. The only figure in the world is your own explorer.',
+  hubLead: 'Explore Makkah from the days of ʿAbd al-Muttalib to the years when Quraysh called the Prophet ﷺ al-Amin. Everything you read comes from one book: al-Bidaya wa\'l-Nihaya by Imam Ibn Kathir. Each event shows its volume and page, and you can open the Arabic. Where the book says a report is uncertain, the game tells you so.',
+  hubRules: 'The Prophet ﷺ, the Companions and the people of the time are never shown. People appear only as lanterns. Moments that were from Allah alone are scenes to watch, not to play. The only figure in the world is your own explorer. Only practice pots and crates can be smashed, and nothing is ever built, broken or climbed at the House.',
+  smash: 'Press F or tap Smash next to a practice pot or crate. Pots take two hits and crates take three.',
+  yardNote: 'Only the practice pots and crates in the yard can be smashed. They give you bricks and wood for your build plot.',
+  build: 'Choose a piece, walk to a square of the plot and press B or tap Place. Stack blocks, add stairs and climb your own building.',
+  buildKeys: 'Keys: B place · X take off · R turn · Z undo · 1 to 8 choose a piece.',
+  buildNote: 'Your design is your own. It is a game build, not a model of any real place.',
+  noMaterials: 'Not enough materials. Smash practice pots and crates in the training yard for more.',
+  vault: 'Step on the glowing plates in the right order. A wrong plate puts out the lights, and you can start again.',
+  vaultWrong: 'Not that one. The plates go dark: start again from the first.',
+  vaultOpen: 'The stone door sinks into the floor. Go in and open the chest.',
+  carry: 'Walk to the pile, press E or tap Pick up, carry a block to the model and press E again.',
+  lanterns: 'Each lantern holds the record of a person from the book. Walk up to a lantern to read it.',
+  modern: 'A practice scenario from today. It is not from the Seerah.',
+  ladder: 'Push towards a ladder to climb it. Let go to hang on, and jump to let go.',
   solo: 'You explore on your own: there are no other players in this world.',
   later: 'Coming after source review, in sha Allah.',
   gentleLabel: 'Gentle jumps: short gaps and a flag on every roof.',
@@ -76,7 +89,10 @@ export const BADGES = [
   { id: 'explorer', title: 'Explorer', img: 'badge_explorer.svg', how: 'Reach the lantern at the end of a climbing challenge.' },
   { id: 'seeker', title: 'Knowledge Seeker', img: 'badge_knowledge_seeker.svg', how: 'Find every knowledge scroll in one episode.' },
   { id: 'champion', title: 'Seerah Champion', img: 'badge_seerah_champion.svg', how: 'Finish Episodes 1 and 2 with two thirds of the knowledge questions right.' },
-  { id: 'trust', title: 'Guardian of Trust', img: 'badge_guardian_of_trust.svg', how: 'Opens with Episode 4, The Trustworthy One, after its source review.', later: true },
+  { id: 'trust', title: 'Guardian of Trust', img: 'badge_guardian_of_trust.svg', how: 'Choose the trustworthy answer in every Trust Challenge of Episode 4.' },
+  { id: 'treasure', title: 'Treasure Discoverer', img: 'badge_treasure_discoverer.svg', how: 'Open a hidden chest in a puzzle room.' },
+  { id: 'puzzle', title: 'Puzzle Master', img: 'badge_puzzle_master.svg', how: 'Solve a puzzle room without stepping on a wrong plate.' },
+  { id: 'builder', title: 'Master Builder', img: 'badge_master_builder.svg', how: 'Place twenty pieces on your build plot.' },
   { id: 'master', title: 'Master of the Seerah', img: 'badge_master_of_seerah.svg', how: 'Opens when all fourteen episodes are ready and finished.', later: true },
 ];
 export const badgeUrl = (b) => u(`seerah/badges/${b.img}`);
@@ -127,4 +143,12 @@ export function sfx(kind) {
   else if (kind === 'poof') { noise(t, 0.35, 0.25, 700); tone(t, 500, 0.3, { vol: 0.06, to: 180 }); }
   else if (kind === 'award') [523, 659, 784, 1047, 1319].forEach((f, i) => { tone(t + i * 0.09, f, 0.5, { type: 'triangle', vol: 0.12 }); tone(t + i * 0.09, f / 2, 0.5, { vol: 0.05 }); });
   else if (kind === 'lantern') [392, 523, 659, 784].forEach((f, i) => tone(t + i * 0.1, f, 0.6, { type: 'sine', vol: 0.12 }));
+  else if (kind === 'swing') noise(t, 0.12, 0.1, 1800);
+  else if (kind === 'hit') { noise(t, 0.1, 0.22, 500); tone(t, 180, 0.12, { type: 'square', vol: 0.05, to: 120 }); }
+  else if (kind === 'smash') { noise(t, 0.4, 0.3, 900); noise(t + 0.05, 0.3, 0.2, 2400); tone(t, 220, 0.25, { type: 'triangle', vol: 0.08, to: 90 }); }
+  else if (kind === 'place') { tone(t, 330, 0.08, { type: 'square', vol: 0.06 }); noise(t, 0.06, 0.12, 300); }
+  else if (kind === 'plate') { tone(t, 523, 0.25, { type: 'sine', vol: 0.12 }); tone(t + 0.08, 784, 0.35, { type: 'sine', vol: 0.1 }); }
+  else if (kind === 'wrong') { tone(t, 220, 0.3, { type: 'sawtooth', vol: 0.06, to: 140 }); }
+  else if (kind === 'door') { noise(t, 1.6, 0.18, 160); tone(t, 90, 1.6, { type: 'triangle', vol: 0.08, to: 60 }); }
+  else if (kind === 'pick') { tone(t, 440, 0.1, { type: 'triangle', vol: 0.1, to: 660 }); }
 }

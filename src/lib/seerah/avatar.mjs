@@ -50,11 +50,16 @@ export function makeAvatar(a, { shadows = false } = {}) {
   const blob = new THREE.Mesh(new THREE.CircleGeometry(0.42, 20), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.28, depthWrite: false }));
   blob.rotation.x = -Math.PI / 2; blob.renderOrder = 1;
 
+  // a building block held in both hands (the carrying task); hidden until something is carried
+  const held = box(0.5, 0.4, 0.4, mat('#C9A27A'), 0, 0.98, 0.5); held.visible = false;
+
   let phase = 0;
-  // pose: speed 0..1 (walking to running), air: in the air, climb: climbing a ledge
-  function animate(dt, { speed = 0, air = false, climb = false, t = 0 }) {
+  // pose: speed 0..1 (walking to running), air: in the air, climb: climbing a ledge,
+  // swing: 0..1 while striking a practice pot or crate, carry: holding a block
+  function animate(dt, { speed = 0, air = false, climb = false, t = 0, swing = 0, carry = false }) {
+    held.visible = carry;
     if (climb) { armL.rotation.x = armR.rotation.x = -2.6; legL.rotation.x = -0.9; legR.rotation.x = 0.2; body.position.y = 0; return; }
-    if (air) { armL.rotation.x = armR.rotation.x = -2.4; legL.rotation.x = -0.6; legR.rotation.x = 0.35; body.position.y = 0; return; }
+    if (air) { armL.rotation.x = armR.rotation.x = -2.4; legL.rotation.x = -0.6; legR.rotation.x = 0.35; body.position.y = 0; if (carry) armL.rotation.x = armR.rotation.x = -1.3; return; }
     if (speed > 0.05) {
       phase += dt * (6 + speed * 7);
       const k = 0.5 + speed * 0.45, s = Math.sin(phase);
@@ -65,6 +70,9 @@ export function makeAvatar(a, { shadows = false } = {}) {
       legL.rotation.x *= ease; legR.rotation.x *= ease; armL.rotation.x *= ease; armR.rotation.x *= ease;
       body.position.y = Math.sin(t * 2) * 0.012;
     }
+    if (carry) armL.rotation.x = armR.rotation.x = -1.3;
+    // a strike: the right arm swings up and comes down in front
+    if (swing > 0) { const k = Math.sin(swing * Math.PI); armR.rotation.x = -2.8 * k + (1 - swing) * 0.4; body.rotation.y = 0.25 * k; } else body.rotation.y = 0;
   }
   return { root, blob, animate, dispose() { root.traverse((o) => { o.geometry?.dispose(); }); } };
 }

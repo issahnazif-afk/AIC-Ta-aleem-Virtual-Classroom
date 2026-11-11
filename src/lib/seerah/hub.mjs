@@ -1,12 +1,12 @@
 // The Seerah Quest hub: choose an episode, dress your explorer, see your badges and your Knowledge Archive.
 // No three.js here: the 3D world loads only when an episode starts.
-import { EPISODES, LATER } from './episodes.mjs';
+import { EPISODES, LATER, scrollIds, stepIds } from './episodes.mjs';
 import { BADGES, MODES, TEXT, OUTFITS, PACKS, SKINS, COVERS, defaultAvatar, defaultMode, avatarSVG, badgeUrl, iconUrl, soundOn, setSound, sfx } from './game.mjs';
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 export const STEP_VERSION = 2;   // the step list changed when the game layer arrived: older saved places start the episode again
 const percent = (ep, st) => (st?.done ? 100 : st?.v === STEP_VERSION && st.step ? Math.min(99, Math.round((st.step / ep.steps.length) * 100)) : 0);
-const scrollTotal = (ep) => ep.steps.reduce((n, s) => n + (s.do === 'scrolls' ? s.items.length : s.do === 'parkour' ? s.scrolls.length : 0), 0);
+const scrollTotal = (ep) => scrollIds(ep).length;
 const lanternTotal = (ep) => ep.steps.filter((s) => s.do === 'parkour').length;
 const withSaw = (node, text) => text.split('ﷺ').forEach((part, i) => { if (i) node.append(el('span', 'saw', 'ﷺ')); node.append(part); });
 
@@ -14,6 +14,8 @@ const withSaw = (node, text) => text.split('ﷺ').forEach((part, i) => { if (i) 
 const ART = {
   zamzam: '<svg viewBox="0 0 160 90" aria-hidden="true"><defs><linearGradient id="sqa1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7B267"/><stop offset=".6" stop-color="#F4845F"/><stop offset="1" stop-color="#C9A27A"/></linearGradient></defs><rect width="160" height="90" fill="url(#sqa1)"/><circle cx="122" cy="30" r="11" fill="#FFE8A8"/><path d="M0 62 L30 40 L52 56 L80 34 L112 58 L136 44 L160 60 V90 H0Z" fill="#9C6B4A"/><rect y="70" width="160" height="20" fill="#D8B88A"/><ellipse cx="70" cy="70" rx="22" ry="6" fill="#7A6A58"/><rect x="48" y="56" width="44" height="14" fill="#A89478"/><path d="M48 56 h44" stroke="#7A6A58" stroke-width="2"/><ellipse cx="70" cy="57" rx="20" ry="4" fill="#4E86A8"/><path d="M134 72 q2 -26 -2 -34" stroke="#6B4A2A" stroke-width="3" fill="none"/><path d="M132 38 q-14 -2 -20 6 M132 38 q12 -4 18 4 M132 38 q-6 -10 -16 -10 M132 38 q8 -10 16 -8" stroke="#2F6B3A" stroke-width="4" fill="none" stroke-linecap="round"/></svg>',
   elephant: '<svg viewBox="0 0 160 90" aria-hidden="true"><defs><linearGradient id="sqa2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB8DE"/><stop offset=".7" stop-color="#F2C894"/><stop offset="1" stop-color="#D9B07C"/></linearGradient></defs><rect width="160" height="90" fill="url(#sqa2)"/><path d="M0 58 L24 38 L46 52 L70 30 L98 54 L126 36 L160 56 V90 H0Z" fill="#A27B58"/><rect y="70" width="160" height="20" fill="#DCC08F"/><g fill="#6E6A66"><ellipse cx="86" cy="58" rx="22" ry="14"/><circle cx="108" cy="52" r="10"/><path d="M114 56 q8 8 4 18 l-4 0 q2 -8 -4 -14z"/><rect x="70" y="62" width="7" height="12" rx="2"/><rect x="82" y="64" width="7" height="10" rx="2"/><rect x="94" y="62" width="7" height="12" rx="2"/></g><path d="M20 22 l4 -2 l4 2 M36 16 l3 -2 l3 2 M140 18 l3 -2 l3 2" stroke="#3B3B3B" stroke-width="1.5" fill="none"/></svg>',
+  birth: '<svg viewBox="0 0 160 90" aria-hidden="true"><defs><linearGradient id="sqa3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E4A7A"/><stop offset=".55" stop-color="#E9A27A"/><stop offset="1" stop-color="#F2D2A0"/></linearGradient></defs><rect width="160" height="90" fill="url(#sqa3)"/><circle cx="80" cy="62" r="16" fill="#FFE2A0" opacity=".85"/><path d="M0 60 L28 44 L50 56 L76 38 L104 56 L130 42 L160 58 V90 H0Z" fill="#8C5E44"/><g fill="#C9A27A"><rect x="14" y="64" width="18" height="14"/><rect x="36" y="60" width="14" height="18"/><rect x="110" y="62" width="20" height="16"/><rect x="134" y="66" width="14" height="12"/></g><rect y="76" width="160" height="14" fill="#D8B88A"/><g fill="#FFD36B"><circle cx="60" cy="72" r="3"/><circle cx="72" cy="74" r="3"/><circle cx="88" cy="74" r="3"/><circle cx="100" cy="72" r="3"/></g><circle cx="124" cy="18" r="1.6" fill="#fff"/><circle cx="30" cy="14" r="1.2" fill="#fff"/></svg>',
+  amin: '<svg viewBox="0 0 160 90" aria-hidden="true"><defs><linearGradient id="sqa4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9CC5E8"/><stop offset=".7" stop-color="#F3D7A8"/><stop offset="1" stop-color="#D9B07C"/></linearGradient></defs><rect width="160" height="90" fill="url(#sqa4)"/><path d="M0 58 L26 40 L50 54 L80 34 L110 54 L136 40 L160 56 V90 H0Z" fill="#A27B58"/><rect y="72" width="160" height="18" fill="#DCC08F"/><g stroke="#6B4226" stroke-width="2"><path d="M56 76 V40 M92 76 V40 M56 42 H92"/></g><g fill="#C9B089" stroke="#8A6A45" stroke-width="1"><rect x="60" y="64" width="28" height="8"/><rect x="60" y="56" width="28" height="8"/><rect x="60" y="48" width="28" height="8"/></g><rect x="110" y="58" width="22" height="14" rx="3" fill="#F2E1B8" stroke="#6B4226"/><path d="M112 63 h18 M112 67 h14" stroke="#8A6A45"/><circle cx="34" cy="62" r="5" fill="#FFD36B"/><rect x="32" y="66" width="4" height="8" fill="#6B4226"/></svg>',
 };
 const LOCK = '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="#C9A24A"/><path d="M8 10 V7 a4 4 0 0 1 8 0 V10" stroke="#C9A24A" stroke-width="2.4" fill="none"/><circle cx="12" cy="15" r="1.8" fill="#2A2116"/></svg>';
 
@@ -48,7 +50,8 @@ export function renderHub(root, { level = 3, gender = '', sq, quality, onQuality
     const c = el('button', 'sqh-card' + (locked ? ' locked' : '') + (st.done ? ' done' : '')); c.type = 'button'; c.disabled = locked;
     const art = el('div', 'sqh-art'); art.innerHTML = ART[ep.key] ?? '';
     if (locked) { const lk = el('span', 'sqh-lock'); lk.innerHTML = LOCK; art.append(lk); }
-    c.append(art, el('span', 'sqh-n', `Episode ${ep.n}`), el('b', 'sqh-t', ep.title));
+    const tt = el('b', 'sqh-t'); withSaw(tt, ep.title);
+    c.append(art, el('span', 'sqh-n', `Episode ${ep.n}`), tt);
     const ar = el('span', 'sqh-ar', ep.ar); ar.lang = 'ar'; ar.dir = 'rtl'; c.append(ar);
     c.append(el('span', 'sqh-blurb', locked ? `Finish Episode ${ep.n - 1} first.` : ep.blurb));
     const bar = el('span', 'sqh-bar'); const fill = el('i'); fill.style.width = `${pc}%`; bar.append(fill);
@@ -66,7 +69,7 @@ export function renderHub(root, { level = 3, gender = '', sq, quality, onQuality
     const c = el('div', 'sqh-card soon');
     const art = el('div', 'sqh-art'); const lk = el('span', 'sqh-lock'); lk.innerHTML = LOCK; art.append(lk);
     const b = el('b', 'sqh-t'); withSaw(b, t);
-    c.append(art, el('span', 'sqh-n', `Episode ${i + 3}`), b, el('span', 'sqh-blurb', TEXT.later));
+    c.append(art, el('span', 'sqh-n', `Episode ${i + EPISODES.length + 1}`), b, el('span', 'sqh-blurb', TEXT.later));
     cards.append(c);
   });
   eps.append(cards);
@@ -162,7 +165,7 @@ async function openArchive(root, sq) {
   const box = el('div', 'sqh-modal-box');
   box.append(el('p', 'sqh-kicker', 'Knowledge Archive'), el('h2', 'sqh-h', 'Everything you have read'), el('p', 'sqh-note', TEXT.archiveHub));
   for (const ep of EPISODES) {
-    const ids = [...new Set(ep.steps.flatMap((s) => [...(s.ids ?? []), ...(s.do === 'route' ? s.stops.map((x) => x.src) : []), ...(s.do === 'journey' ? s.src : [])]))].filter((id) => sq.archive.includes(id));
+    const ids = [...new Set(ep.steps.flatMap(stepIds))].filter((id) => sq.archive.includes(id));
     box.append(el('h3', 'sqh-h3', `Episode ${ep.n}: ${ep.title} (${ids.length})`));
     if (!ids.length) box.append(el('p', 'sqh-note', 'Play this episode to fill its shelf.'));
     for (const id of ids) {

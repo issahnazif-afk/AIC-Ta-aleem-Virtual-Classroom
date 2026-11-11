@@ -4,8 +4,9 @@
 // and knowledge scrolls, and lighting the lantern at the top of each climbing challenge.
 import SRC from '../../data/seerah/sources.json';
 import { createWorld } from './world.mjs';
+import { makeProps } from './props.mjs';
 import { makeAvatar } from './avatar.mjs';
-import { EPISODES } from './episodes.mjs';
+import { EPISODES, scrollIds, stepIds } from './episodes.mjs';
 import { STAGES, MODES, TEXT, sfx as play, soundOn, setSound, showBadge, iconUrl, defaultAvatar } from './game.mjs';
 import { audioUrl } from '../client.mjs';
 import { narrate, hush as stopNarration } from '../narration.mjs';
@@ -17,9 +18,10 @@ const shuffle = (xs) => { const a = [...xs]; for (let i = a.length - 1; i > 0; i
 const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.search);
 export const cite = (p) => `al-Bidaya wa'l-Nihaya ${p.vol}/${p.page}`;
 const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+// ﷺ in its own span, so it can be given a font that has it
+const withSawText = (node, text) => String(text).split('ﷺ').forEach((part, i) => { if (i) node.append(el('span', 'saw', 'ﷺ')); node.append(part); });
 
-// every knowledge scroll of an episode (the scroll hunts and the scrolls on the climbing challenge)
-export const scrollIds = (ep) => ep.steps.flatMap((s) => (s.do === 'scrolls' ? s.items.map((x) => x.src) : s.do === 'parkour' ? s.scrolls.map((x) => x.src) : []));
+export { scrollIds };
 export const lanternCount = (ep) => ep.steps.filter((s) => s.do === 'parkour').length;
 
 // the narrator: subtitles always; read aloud by the recorded narrator voice if the student keeps narration on
@@ -27,7 +29,7 @@ let narrator = true;
 function speakEn(text) { if (narrator) narrate(text, { voice: 'seerah' }); }
 const hush = () => stopNarration();
 
-export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, mode = 'explorer', gentle = false, avatar = null, archive = [], onStep, onSave, onBadge, onDone, onExit }) {
+export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, shared = {}, mode = 'explorer', gentle = false, avatar = null, archive = [], onStep, onSave, onBadge, onDone, onExit }) {
   const ep = EPISODES.find((e) => e.n === n);
   const M = MODES[mode] ?? MODES.explorer;
   const courseMode = gentle ? 'gentle' : mode;
@@ -48,7 +50,9 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
   cLight.append(lightIco, lightN, el('span', 'sq-sr', ' lights')); cLight.title = 'Lights';
   cScroll.append(ico(iconUrl('scroll'), 'Scrolls'), scrollN); cScroll.title = 'Knowledge scrolls';
   cLantern.append(ico(iconUrl('lantern'), 'Lanterns'), lanternN); cLantern.title = 'Lanterns lit';
-  counters.append(cLight, cScroll, cLantern);
+  // building materials (from the training yard), shown once the student has any
+  const cMats = el('span', 'sq-c sq-mats'); cMats.title = 'Building materials'; cMats.hidden = true;
+  counters.append(cLight, cScroll, cLantern, cMats);
   const tools = el('div', 'sq-tools');
   const tool = (label, short) => { const b = el('button', 'sq-tool'); b.type = 'button'; b.append(el('span', 'sq-tool-l', label)); if (short) b.dataset.short = short; return b; };
   const archBtn = tool('Archive'), sndBtn = tool(`Sound: ${soundOn() ? 'on' : 'off'}`), narr = tool('Narration: on'), exit = tool('Leave');
@@ -71,13 +75,21 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
   const btns = el('div', 'sq-btns');
   const jumpB = el('button', 'sq-jump', 'Jump'); jumpB.type = 'button';
   const useB = el('button', 'sq-use', 'Look'); useB.type = 'button'; useB.disabled = true;
-  btns.append(useB, jumpB); touch.append(stick, btns);
+  const smashB = el('button', 'sq-smash', 'Smash'); smashB.type = 'button'; smashB.hidden = true;
+  btns.append(smashB, useB, jumpB); touch.append(stick, btns);
+  // the build bar (only while building)
+  const buildBar = el('div', 'sq-buildbar'); buildBar.hidden = true;
   const loading = el('div', 'sq-loading', 'Preparing the valley of Makkah…');
-  root.append(canvas, top, tracker, mapC, near, toast, banner, panel, touch, loading);
+  root.append(canvas, top, tracker, mapC, near, toast, banner, buildBar, panel, touch, loading);
 
-  let world, stopped = false;
-  try { world = createWorld(canvas, { quality }); }
+  let world, props, stopped = false;
+  try { world = createWorld(canvas, { quality }); props = makeProps(world); }
   catch (err) { loading.textContent = 'This computer could not start the 3D view (WebGL). Try another browser, or ask your teacher.'; return { stop() {} }; }
+  smashB.addEventListener('pointerdown', (e) => { e.preventDefault(); world.strike(); });
+  // building materials are kept with the student's progress, shared by every episode
+  const mats = () => (shared.build ??= { pieces: [], have: { bricks: 24, wood: 10 } }).have;
+  const drawMats = () => { const h = mats(); cMats.hidden = false; cMats.textContent = `Bricks ${h.bricks ?? 0} · Wood ${h.wood ?? 0}`; };
+  if (shared.build) drawMats();
   world.setAvatar(makeAvatar(avatar ?? defaultAvatar(''), { shadows: quality === 'high' }));
   world.setGlow(M.glow);
   world.place(0, 40, 0, 0);
@@ -172,11 +184,13 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
     show.addEventListener('click', () => { ar.hidden = !ar.hidden; show.textContent = ar.hidden ? 'Show the source' : 'Hide the source'; });
     p.append(c, show, ar);
   }
-  function card({ kicker, title: t, text, src, reported, extra }) {
+  function card({ kicker, title: t, arTitle, text, src, reported, extra, note }) {
     return new Promise((resolve) => {
       const p = openPanel(reported ? 'reported' : '');
       if (kicker) p.append(el('p', 'sq-kicker', kicker));
       if (t) p.append(el('h2', 'sq-h', t));
+      if (arTitle) { const a = el('p', 'sq-quote-ar', arTitle); a.lang = 'ar'; a.dir = 'rtl'; p.append(a); }
+      if (note) p.append(el('p', 'sq-modern', note));
       p.append(el('p', 'sq-text', text));
       if (src) { sourceBits(p, src, reported); addArchive(src.id); }
       if (extra) p.append(el('p', 'sq-good', extra));
@@ -199,7 +213,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
     return new Promise((resolve) => {
       const p = openPanel('archive');
       p.append(el('p', 'sq-kicker', 'The Knowledge Archive'), el('h2', 'sq-h', `Episode ${ep.n}: ${ep.title}`), el('p', 'sq-text', TEXT.archive));
-      const ids = [...new Set(ep.steps.flatMap((s) => [...(s.ids ?? []), ...(s.do === 'route' ? s.stops.map((x) => x.src) : []), ...(s.do === 'journey' ? s.src : [])]))];
+      const ids = [...new Set(ep.steps.flatMap(stepIds))];
       const mine = ids.filter((id) => archive.includes(id));
       p.append(el('p', 'sq-cite', `${mine.length} passages so far (this episode has ${ids.length}) · scrolls found: ${saved.scrolls.length} of ${allScrolls.length}`));
       const list = el('div', 'sq-arch');
@@ -229,7 +243,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
     },
     async scene(s) { world.setTime(s.time); if (s.at) world.place(s.at[0], s.at[1], s.at[2], s.at[3]); await wait(150); },
     async fly(s) {
-      await world.fly(s.shots);
+      await world.fly(TEST ? s.shots.map(([a, b, t]) => [a, b, t * 0.1]) : s.shots);
       // the opening flight ends where the explorer starts walking
       const [pos, look] = s.shots[s.shots.length - 1];
       if (pos[1] - world.heightAt(pos[0], pos[2]) < 8) world.place(pos[0], pos[2], look[0], look[2], { snap: false });
@@ -536,6 +550,277 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
         const n = nextBtn(); n.addEventListener('click', () => { a?.pause(); closePanel(); resolve(); });
         p.append(play, n);
       });
+    },
+    // lantern records: each person from the book is a lantern in the valley (never a figure); walking up to one
+    // lights it and opens the passage about them
+    lanterns(s) {
+      return new Promise((resolve) => {
+        const left = new Map();
+        for (const p of s.people) {
+          const h = world.addHotspot({ id: `lan-${p.id}`, x: p.x, z: p.z, label: p.name, color: 0xffc46b, radius: 3.6 });
+          const l = world.lantern(p.x, p.z, { color: 0x8a7a5a, height: 2.2 });
+          const tag = props.label(p.name, { w: 3.2 }); tag.position.set(p.x, world.heightAt(p.x, p.z) + 3.6, p.z); world.scene.add(tag);
+          left.set(h, { p, l });
+        }
+        const total = s.people.length;
+        const prog = () => setObjective(s.objective, `${total - left.size}/${total} lanterns`, (total - left.size) / total);
+        prog();
+        const visit = async (h) => {
+          const x = left.get(h); if (!x) return;
+          left.delete(h); world.removeHotspot(h.id); world.onHotspot = null;
+          x.l.children.forEach((m) => m.material.color.setHex(0xffd36b)); play('lantern');
+          const src = SOURCES[x.p.src];
+          await card({ kicker: 'Lantern record', title: x.p.name, arTitle: x.p.ar, text: src.en, src, reported: src.class === 'reported', extra: x.p.role });
+          prog();
+          if (!left.size) { world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); }
+          else world.onHotspot = visit;
+        };
+        world.onHotspot = visit; world.onNear = nearLabel('Light the lantern');
+        near.onclick = () => { const h = world.near(); if (h) visit(h); };
+        if (TEST) root.dataset.targets = [...left.keys()].map((h) => h.id).join(',');
+      });
+    },
+    // the family tree: tap a name, then the place it belongs (every relationship is in a passage already read)
+    tree(s) {
+      return new Promise((resolve) => {
+        const p = openPanel('tree');
+        p.append(el('p', 'sq-kicker', 'Mission'), el('h2', 'sq-h', s.title), el('p', 'sq-text', s.text));
+        const chart = el('div', 'sq-tree'), pool = el('div', 'sq-pool');
+        let pick = null, left = s.slots.length;
+        const slots = new Map();
+        for (const row of s.rows) {
+          const r = el('div', 'sq-tree-row');
+          for (const id of row) {
+            if (id === 'me') { const c = el('div', 'sq-tree-me'); withSawText(c, s.centre); r.append(c); continue; }
+            const sl = s.slots.find((x) => x.id === id);
+            const b = el('button', 'sq-tree-slot'); b.type = 'button'; b.append(el('span', 'sq-tree-l', sl.label), el('b', null, '?'));
+            if (TEST) b.dataset.answer = sl.answer;
+            b.addEventListener('click', () => {
+              if (b.disabled || !pick) return;
+              if (pick.dataset.name === sl.answer) {
+                b.disabled = true; b.classList.add('right'); b.lastChild.textContent = sl.answer; pick.remove(); pick = null; play('plate'); left--;
+                if (!left) { const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); p.append(el('p', 'sq-good', 'The family is complete, as the book gives it.'), ...s.srcs.map((x) => el('p', 'sq-cite', cite(SOURCES[x]))), n); n.focus({ preventScroll: true }); }
+              } else { b.classList.add('nope'); setTimeout(() => b.classList.remove('nope'), 450); play('wrong'); }
+            });
+            slots.set(id, b); r.append(b);
+          }
+          chart.append(r);
+        }
+        shuffle(s.slots.map((x) => x.answer)).forEach((name) => {
+          const c = el('button', 'sq-chip', name); c.type = 'button'; c.dataset.name = name;
+          c.addEventListener('click', () => { pool.querySelectorAll('.sq-chip').forEach((x) => x.classList.toggle('picked', x === c)); pick = c; });
+          pool.append(c);
+        });
+        p.append(chart, el('p', 'sq-text muted', 'Tap a name, then tap its place in the family.'), pool);
+      });
+    },
+    // sort the passages: what the book states firmly, and what it gives as one view among several
+    classify(s) {
+      return new Promise((resolve) => {
+        const ids = shuffle(s.ids); let i = 0, right = 0;
+        const next = () => {
+          if (i >= ids.length) {
+            const p = openPanel('classify');
+            p.append(el('p', 'sq-kicker', 'Evidence check'), el('h2', 'sq-h', `${right} of ${ids.length} sorted right first time`), el('p', 'sq-text', s.done));
+            const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); p.append(n); n.focus({ preventScroll: true });
+            return;
+          }
+          const id = ids[i], src = SOURCES[id], want = src.class === 'established' ? 0 : 1;
+          const p = openPanel('classify');
+          p.append(el('p', 'sq-kicker', `Evidence check · ${i + 1} of ${ids.length}`), el('h2', 'sq-h', s.title), el('blockquote', 'sq-quote-en', src.en));
+          const opts = el('div', 'sq-opts two'), after = el('div');
+          let tried = false, settled = false;
+          s.bins.forEach((b, k) => {
+            const btn = el('button', 'sq-opt', b); btn.type = 'button'; if (TEST) btn.dataset.answer = String(k === want);
+            btn.addEventListener('click', () => {
+              if (settled) return;
+              if (k === want) {
+                settled = true; if (!tried) right++; btn.classList.add('right'); opts.querySelectorAll('button').forEach((x) => (x.disabled = true)); addArchive(id);
+                after.append(el('p', 'sq-text', want ? `The book gives this as one view: ${src.note || 'it says “it was said”, or reports it with doubt.'}` : 'The book states this without casting doubt on it.'));
+                sourceBits(after, src, want === 1);
+                const n = nextBtn(); n.addEventListener('click', () => { i++; next(); }); after.append(n); n.focus({ preventScroll: true });
+              } else { tried = true; btn.disabled = true; btn.classList.add('nope'); play('wrong'); }
+            });
+            opts.append(btn);
+          });
+          p.append(opts, after);
+          speakEn(src.en);
+        };
+        next();
+      });
+    },
+    // match pairs: tap something on the left, then its partner on the right
+    match(s) {
+      return new Promise((resolve) => {
+        const p = openPanel('match');
+        p.append(el('p', 'sq-kicker', 'Mission'), el('h2', 'sq-h', s.title), el('p', 'sq-text', s.text));
+        const cols = el('div', 'sq-match'), L = el('div', 'sq-match-col'), R = el('div', 'sq-match-col');
+        let pick = null, left = s.pairs.length, tries = 0;
+        s.pairs.forEach(([a], k) => { const b = el('button', 'sq-chip', a); b.type = 'button'; b.dataset.k = k; b.addEventListener('click', () => { if (b.disabled) return; L.querySelectorAll('.sq-chip').forEach((x) => x.classList.toggle('picked', x === b)); pick = b; }); L.append(b); });
+        shuffle(s.pairs.map(([, r], k) => ({ r, k }))).forEach(({ r, k }) => {
+          const b = el('button', 'sq-chip', r); b.type = 'button'; if (TEST) b.dataset.answer = k;
+          b.addEventListener('click', () => {
+            if (b.disabled || !pick) return;
+            if (Number(pick.dataset.k) === k) {
+              b.disabled = pick.disabled = true; b.classList.add('right'); pick.classList.add('right'); pick.classList.remove('picked'); pick = null; play('plate'); left--;
+              if (!left) { score.order += tries === 0 ? 1 : 0; const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); p.append(el('p', 'sq-good', s.good ?? 'All matched.'), el('p', 'sq-cite', cite(SOURCES[s.src])), n); n.focus({ preventScroll: true }); }
+            } else { tries++; b.classList.add('nope'); setTimeout(() => b.classList.remove('nope'), 450); play('wrong'); }
+          });
+          R.append(b);
+        });
+        cols.append(L, R); p.append(cols);
+      });
+    },
+    // practice scenarios from today, clearly labelled as not from the Seerah
+    scenario(s) {
+      return new Promise((resolve) => {
+        let i = 0, best = 0;
+        const next = () => {
+          if (i >= s.cases.length) {
+            const all = best === s.cases.length;
+            const p = openPanel('scenario');
+            p.append(el('p', 'sq-kicker', s.title), el('h2', 'sq-h', all ? 'Trustworthy every time' : `${best} of ${s.cases.length} trustworthy first time`), el('p', 'sq-text', s.done));
+            const n = nextBtn(); n.addEventListener('click', () => { closePanel(); if (all && s.badge) award(s.badge); resolve(); }); p.append(n); n.focus({ preventScroll: true });
+            return;
+          }
+          const c = s.cases[i];
+          const p = openPanel('scenario');
+          p.append(el('p', 'sq-kicker', `${s.title} · ${i + 1} of ${s.cases.length}`), el('p', 'sq-modern', TEXT.modern), el('h2', 'sq-h', c.q));
+          const opts = el('div', 'sq-opts'), after = el('div'); let tried = false, settled = false;
+          c.options.forEach((o, k) => {
+            const b = el('button', 'sq-opt', o); b.type = 'button'; if (TEST) b.dataset.answer = String(k === c.best);
+            b.addEventListener('click', () => {
+              if (settled) return;
+              if (k === c.best) { settled = true; if (!tried) best++; b.classList.add('right'); opts.querySelectorAll('button').forEach((x) => (x.disabled = true)); after.append(el('p', 'sq-text', c.why)); const n = nextBtn(); n.addEventListener('click', () => { i++; next(); }); after.append(n); n.focus({ preventScroll: true }); }
+              else { tried = true; b.disabled = true; b.classList.add('nope'); after.replaceChildren(el('p', 'sq-text muted', c.hint ?? 'Think again: which choice keeps the trust?')); }
+            });
+            opts.append(b);
+          });
+          p.append(opts, after);
+          speakEn(c.q);
+        };
+        next();
+      });
+    },
+    // the training yard: smash practice pots and crates for lights and building materials; some hide a scroll
+    async smash(s) {
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text, extra: TEXT.yardNote });
+      const yd = props.yard(s.x, s.z, s.n, { seed: s.seed ?? 3, prizes: (s.scrolls ?? []).length });
+      world.place(s.x, s.z + 11, s.x, s.z);
+      drawMats(); smashB.hidden = false;
+      let broken = 0, pending = 0;
+      const total = yd.list.length;
+      const prog = () => setObjective(s.objective, `${broken}/${total} smashed`, broken / total);
+      prog(); say(TEXT.smash, 4200);
+      await new Promise((resolve) => {
+        const check = () => { if (broken >= total && pending === 0) { world.onStrike = null; smashB.hidden = true; setObjective(''); resolve(); } };
+        const broke = (b) => {
+          play('smash'); broken++;
+          const pts = []; for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI * 2; pts.push([b.x + Math.cos(a) * 1.4, b.y + 0.9, b.z + Math.sin(a) * 1.4]); }
+          world.addLights(pts, 'yard');
+          const h = mats(), kind = b.kind === 'crate' ? 'wood' : 'bricks'; h[kind] = (h[kind] ?? 0) + 2; drawMats(); say(`+2 ${kind}`, 1400);
+          const it = b.prize != null ? s.scrolls[b.prize] : null;
+          if (it && !saved.scrolls.includes(it.src)) { pending++; world.addScroll(b.x, b.z, b.y + 1.1, async () => { play('scroll'); await takeScroll(it.src); pending--; check(); }, it.src); }
+          onSave?.({}); prog(); check();
+        };
+        world.onStrike = () => { play('swing'); const r = props.hitNearest(); if (!r) return; if (r.broke) broke(r.b); else play('hit'); };
+        if (TEST) window.__sq.smashAll = () => yd.list.filter((b) => !b.broken).forEach((b) => { props.breakIt(b); broke(b); });
+      });
+    },
+    // the puzzle vault: step on the plates in the order of the history; a stone door opens on a chest
+    async vault(s) {
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text, extra: TEXT.vault });
+      const v = props.vault(s.x, s.z, s.plates);
+      world.place(v.entrance.x, v.entrance.z, v.centre.x, v.centre.z);
+      const n = s.plates.length; let at = 0, wrong = 0, last = null;
+      const prog = () => setObjective(s.objective, `Plates ${at}/${n}`, at / n);
+      prog();
+      if (TEST) root.dataset.plates = JSON.stringify(v.plates.map((p) => [p.li, p.x, p.z]));
+      await new Promise((resolve) => {
+        const u = world.every(() => {
+          const p = v.plateUnder(); if (p === last) return; last = p;
+          if (!p || p.state === 'on') return;
+          if (p.li === at) { v.setPlate(p, 'on'); play('plate'); at++; prog(); if (at === n) { u(); resolve(); } }
+          else { wrong++; play('wrong'); say(TEXT.vaultWrong, 2600); v.plates.forEach((q) => v.setPlate(q, 'wrong')); setTimeout(() => v.plates.forEach((q) => v.setPlate(q, 'off')), 700); at = 0; prog(); }
+        });
+      });
+      setObjective(''); play('door'); v.openDoor(); say(TEXT.vaultOpen, 3600);
+      await card({ kicker: 'Puzzle solved', title: s.solvedTitle ?? 'The right order', text: s.plates.map((t, i) => `${i + 1}. ${t}`).join('   '), extra: wrong ? null : 'No wrong plates: a perfect solve.' });
+      await new Promise((resolve) => {
+        const h = world.addHotspot({ id: 'chest', x: v.chestAt.x, z: v.chestAt.z, label: 'The chest', radius: 3 });
+        setObjective(s.chestObjective ?? 'Open the chest in the hidden room.');
+        const done = () => { world.removeHotspot('chest'); world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); };
+        world.onHotspot = (x) => { if (x === h) done(); };
+        world.onNear = nearLabel('Open');
+        near.onclick = () => { if (world.near() === h) done(); };
+        if (TEST) root.dataset.target = 'chest';
+      });
+      v.openChest(); play('lantern'); award('treasure'); if (!wrong) award('puzzle');
+      const me = world.player(); const pts = []; for (let k = 0; k < 10; k++) { const a = (k / 10) * Math.PI * 2; pts.push([me.x + Math.cos(a) * 1.6, me.y + 1.2, me.z + Math.sin(a) * 1.6]); }
+      world.addLights(pts, 'chest');
+      for (const it of s.scrolls ?? []) if (!saved.scrolls.includes(it.src)) { play('scroll'); await takeScroll(it.src); }
+    },
+    // carry blocks from the pile to the wooden learning model; each block raises it by one course
+    async carry(s) {
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text, extra: TEXT.carry });
+      const m = props.model(s.x, s.z, { courses: s.n });
+      world.place(m.pileAt.x + 1, m.pileAt.z + 5, m.pileAt.x, m.pileAt.z);
+      let holding = false;
+      const prog = () => setObjective(holding ? s.objective2 ?? 'Carry the block to the model.' : s.objective, `Courses ${m.built}/${s.n}`, m.built / s.n);
+      prog();
+      await new Promise((resolve) => {
+        const pile = world.addHotspot({ id: 'pile', x: m.pileAt.x, z: m.pileAt.z, label: 'Pick up a block', radius: 3.2, color: 0xe8d2a6 });
+        const mod = world.addHotspot({ id: 'model', x: m.at.x, z: m.at.z + 2.6, label: 'Set the block on the model', radius: 3.4, color: 0x9fe6ff });
+        const use = (h) => {
+          if (h === pile && !holding) { holding = true; world.setCarry(true); play('pick'); prog(); }
+          else if (h === mod && holding) {
+            holding = false; world.setCarry(false); m.addCourse(); play('place'); prog();
+            if (m.built >= s.n) { world.removeHotspot('pile'); world.removeHotspot('model'); world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); if (s.roof) m.roof(); resolve(); }
+          } else say(holding ? 'Take the block to the model first.' : 'Pick up a block from the pile first.', 1800);
+        };
+        world.onHotspot = use; world.onNear = (x) => { near.hidden = !x; useB.disabled = !x; if (x) near.textContent = `${x.label}  (E)`; };
+        near.onclick = () => { const x = world.near(); if (x) use(x); };
+        if (TEST) window.__sq.carryAll = () => { for (let i = m.built; i < s.n; i++) { use(pile); use(mod); } };
+      });
+    },
+    // the build plot: free building with the materials from the training yard
+    async build(s) {
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: `${s.text} ${TEXT.build}`, extra: TEXT.buildNote });
+      const B = (shared.build ??= { pieces: [], have: { bricks: 24, wood: 10 } });
+      const startCount = B.pieces.length;
+      const pl = props.plot(s.x, s.z, { saved: B.pieces, budget: B.have, onChange: (pieces, have) => { B.pieces = pieces; B.have = have; drawMats(); onSave?.({}); if (pieces.length >= 20) award('builder'); prog(); } });
+      B.have = pl.have; drawMats();
+      world.place(s.x, s.z + pl.half + 3, s.x, s.z);
+      smashB.hidden = true;
+      const goal = s.goal ?? 6, placedNow = () => Math.max(0, pl.count - startCount);
+      const prog = () => { setObjective(s.objective, `${Math.min(goal, placedNow())}/${goal} pieces placed`, Math.min(1, placedNow() / goal)); doneB.disabled = placedNow() < goal && pl.count < goal; };
+      // the bar: pieces with their cost, then Turn, Take off, Undo and Done
+      buildBar.replaceChildren(); buildBar.hidden = false;
+      const kinds = Object.keys(pl.PIECES), btnFor = {};
+      const paintKinds = () => kinds.forEach((k) => btnFor[k].setAttribute('aria-pressed', String(pl.kind === k)));
+      kinds.forEach((k, i) => {
+        const P0 = pl.PIECES[k], b = el('button', 'sq-bb'); b.type = 'button';
+        b.append(el('b', null, `${i + 1} ${P0.name}`), el('span', null, Object.entries(P0.cost).map(([m, v]) => `${v} ${m}`).join(' ')));
+        b.addEventListener('click', () => { pl.setKind(k); paintKinds(); b.blur(); });
+        btnFor[k] = b; buildBar.append(b);
+      });
+      const act = (label, fn, cls = 'sq-bb sq-bb-act') => { const b = el('button', cls, label); b.type = 'button'; b.addEventListener('click', () => { fn(); b.blur(); }); buildBar.append(b); return b; };
+      const doPlace = () => { const r = pl.place(); if (r === 'ok') play('place'); else if (r === 'no-materials') { play('wrong'); say(TEXT.noMaterials, 3000); } else play('wrong'); };
+      act('Place', doPlace, 'sq-bb sq-bb-act go'); act('Turn', () => pl.rotate()); act('Take off', () => { if (pl.remove()) play('hit'); }); act('Undo', () => { if (pl.undo()) play('hit'); });
+      const doneB = act('Done', () => finish(), 'sq-bb sq-bb-act done');
+      paintKinds(); prog(); say(TEXT.buildKeys, 5000);
+      let finish;
+      await new Promise((resolve) => {
+        finish = () => { if (doneB.disabled) return; resolve(); };
+        world.onKey = (k) => {
+          if (k === 'b' || k === 'enter') doPlace(); else if (k === 'x') { if (pl.remove()) play('hit'); } else if (k === 'r') pl.rotate(); else if (k === 'z') { if (pl.undo()) play('hit'); }
+          else if (/^[1-8]$/.test(k)) { pl.setKind(kinds[Number(k) - 1]); paintKinds(); }
+        };
+        const u = world.every(() => pl.setActive(pl.inside()));
+        finish.u = u;
+        if (TEST) window.__sq.plot = pl;
+      });
+      finish.u?.(); pl.setActive(false); world.onKey = null; buildBar.hidden = true; setObjective('');
     },
     quiz(s) {
       return new Promise((resolve) => {

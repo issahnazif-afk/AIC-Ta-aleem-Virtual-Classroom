@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pmbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0F3340"/><stop offset="100%" stop-color="#061A22"/></linearGradient>
+    <linearGradient id="pmring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9FE6FF"/><stop offset="50%" stop-color="#2AA4D8"/><stop offset="100%" stop-color="#9FE6FF"/></linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#pmbg)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#pmring)" stroke-width="4"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#2AA4D8" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- three glowing floor plates, joined in order -->
+  <path d="M38 66 L60 46 L82 66" fill="none" stroke="#9FE6FF" stroke-width="2" stroke-dasharray="4,3"/>
+  <circle cx="38" cy="66" r="10" fill="#1C5466" stroke="#9FE6FF" stroke-width="2"/>
+  <circle cx="60" cy="46" r="10" fill="#1C5466" stroke="#9FE6FF" stroke-width="2"/>
+  <circle cx="82" cy="66" r="10" fill="#1C5466" stroke="#9FE6FF" stroke-width="2"/>
+  <text x="38" y="70" text-anchor="middle" font-family="Georgia" font-size="11" fill="#FFFFFF" font-weight="bold">1</text>
+  <text x="60" y="50" text-anchor="middle" font-family="Georgia" font-size="11" fill="#FFFFFF" font-weight="bold">2</text>
+  <text x="82" y="70" text-anchor="middle" font-family="Georgia" font-size="11" fill="#FFFFFF" font-weight="bold">3</text>
+  <path d="M 28 90 Q 60 100 92 90 L 92 98 Q 60 110 28 98 Z" fill="#2AA4D8"/>
+  <text x="60" y="97" text-anchor="middle" font-family="Georgia, serif" font-size="6.6" fill="#061A22" font-weight="bold" letter-spacing="0.5">PUZZLE MASTER</text>
+</svg>

@@ -48,22 +48,25 @@ for (const p of passages.values()) {
 }
 // The game layer (scrolls, climbing challenges, the archive): a scroll only holds a passage the student has already
 // read earlier in the same episode, and the game's own English passes the school's writing rules.
-const { EPISODES } = await import('../../src/lib/seerah/episodes.mjs');
+const { EPISODES, stepIds } = await import('../../src/lib/seerah/episodes.mjs');
 const game = await import('../../src/lib/seerah/game.mjs');
 const { lintText } = await import('../books/writing.mjs');
 for (const ep of EPISODES) {
   const read = new Set();
   const stages = [];
   for (const s of ep.steps) {
-    for (const id of s.ids ?? []) read.add(id);
-    if (s.do === 'route') s.stops.forEach((x) => read.add(x.src));
-    if (s.do === 'journey') s.src.forEach((x) => read.add(x));
+    for (const id of stepIds(s)) read.add(id);
     if (s.do === 'stage') { if (!game.STAGES[s.id]) errors.push(`Episode ${ep.n}: unknown stage "${s.id}".`); stages.push(s.id); }
-    const scrolls = s.do === 'scrolls' ? s.items : s.do === 'parkour' ? s.scrolls : [];
+    const scrolls = s.do === 'scrolls' ? s.items : ['parkour', 'smash', 'vault'].includes(s.do) ? s.scrolls ?? [] : [];
     for (const x of scrolls) if (!read.has(x.src)) errors.push(`Episode ${ep.n}: the scroll "${x.src}" comes before the passage is read in the story.`);
-    if (['stage', 'scrolls', 'parkour', 'archive', 'guide'].includes(s.do)) {
-      for (const t of [s.title, s.text, s.objective].filter(Boolean)) for (const p of lintText(t, 3)) errors.push(`Episode ${ep.n} ${s.do}: ${p} in "${t.slice(0, 50)}…"`);
-    }
+    // a lantern record opens a passage about that person; a tree, a match or an order only uses names and events already read
+    for (const x of s.do === 'lanterns' ? s.people : []) { const p = passages.get(x.src); if (!p) errors.push(`Episode ${ep.n}: lantern "${x.name}" has no passage.`); }
+    for (const id of s.do === 'tree' ? s.srcs : s.do === 'match' ? [s.src] : []) if (!read.has(id)) errors.push(`Episode ${ep.n}: the ${s.do} uses "${id}" before it is read.`);
+    if (s.do === 'classify') for (const id of s.ids) if (!passages.get(id)) errors.push(`Episode ${ep.n}: classify uses a missing passage "${id}".`);
+    // the game's own English (instructions, practice scenarios) passes the writing rules
+    const own = ['stage', 'scrolls', 'parkour', 'archive', 'guide', 'smash', 'vault', 'carry', 'build', 'lanterns', 'tree', 'match'].includes(s.do) ? [s.title, s.text, s.objective, s.objective2]
+      : s.do === 'scenario' ? [s.done, ...s.cases.flatMap((c) => [c.q, c.why, ...c.options])] : s.do === 'classify' ? [s.title, s.done] : [];
+    for (const t of own.filter(Boolean)) for (const p of lintText(t, 3)) errors.push(`Episode ${ep.n} ${s.do}: ${p} in "${t.slice(0, 50)}…"`);
   }
   if (stages.join('') !== 'ABCDEF') errors.push(`Episode ${ep.n}: the stages run ${stages.join('')}, not A to F in order.`);
 }

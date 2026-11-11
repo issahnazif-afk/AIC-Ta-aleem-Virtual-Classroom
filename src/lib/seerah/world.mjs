@@ -358,6 +358,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     const sideM = kind === 'rock' ? new THREE.MeshStandardMaterial({ color: 0x8a7560, roughness: 1, map: stoneTex }) : homeMat;
     const topM = kind === 'rock' ? new THREE.MeshStandardMaterial({ color: 0xb9a07e, roughness: 1 }) : roofMat;
     const cpM = new THREE.MeshStandardMaterial({ color: 0xe0a526, roughness: 0.6 });
+    const movM = new THREE.MeshStandardMaterial({ color: 0x7a5a3a, roughness: 0.9 }), movTop = new THREE.MeshStandardMaterial({ color: 0x5fa8c8, roughness: 0.7, emissive: 0x1d4a5e, emissiveIntensity: 0.4 });
     const cps = [];
     const [sx0, sz0] = toW(0, 0);
     const startY = heightAt(sx0, sz0);
@@ -365,35 +366,78 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     const ring = (wx, wy, wz, r) => { const m = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xffe08a })); m.rotation.x = Math.PI / 2; m.scale.setScalar(r); m.position.set(wx, wy + 0.06, wz); group.add(m); return m; };
     cps.push({ x: sx0, z: sz0, y: startY, ring: ring(sx0, startY, sz0, 1.4), reached: true });
     const lights = [];
+    // Roblox-style extras, never in Gentle jumps: a platform or two that slides from side to side, a narrow plank
+    // bridge across one gap, and a tall tower near the end with a ladder up its side
+    if (mode !== 'gentle' && plats.length > 6) {
+      // the moving stones go on platforms without a flag, away from the start and the end
+      const free = plats.map((p, i) => i).filter((i) => i >= 3 && i < plats.length - 3 && !plats[i].cp && !plats[i].goal);
+      const movers = mode === 'master' ? [free[0], free[Math.floor(free.length / 2) + 1] ?? free.at(-1)] : [free[Math.floor(free.length / 2)]];
+      for (const i of new Set(movers)) if (i != null) plats[i].move = { amp: mode === 'master' ? 2.4 : 1.6, speed: mode === 'master' ? 1.1 : 0.8, ph: R() * 6 };
+      const b = plats.findIndex((p, i) => i > 1 && !p.cp && !p.move && !plats[i - 1].move && !plats[i - 1].cp && i < plats.length - 3);
+      if (b > 0) {
+        const a = plats[b - 1], q = plats[b], extra = mode === 'master' ? 2.2 : 3.2;
+        for (let k = b; k < plats.length; k++) plats[k].u += extra;
+        q.v = a.v; q.top = a.top; q.bridge = true;
+      }
+      // the tower: a tall platform just before the goal, too tall to jump, with a ladder on the side facing the climb
+      const g = plats[plats.length - 1], pre = plats[plats.length - 2];
+      const tw = { u: pre.u + pre.s / 2 + 0.15 + 1.3, v: pre.v, s: 2.6, top: Math.min(13, pre.top + 3.6), ladder: true };
+      plats.splice(plats.length - 1, 0, tw);
+      g.u = tw.u + 1.3 + (C.gap[0] + C.gap[1]) / 2 + g.s / 2; g.v = tw.v; g.top = Math.min(14, tw.top + 0.3);
+      u = g.u;
+    }
     plats.forEach((p, i) => {
       const [wx, wz] = toW(p.u, p.v), gy = Math.min(heightAt(wx, wz), sandY) - 0.6, top = sandY + p.top;
       const m = new THREE.Mesh(new THREE.BoxGeometry(p.s, top - gy, p.s), [sideM, sideM, topM, sideM, sideM, sideM]);
       m.position.set(wx, (top + gy) / 2, wz); m.castShadow = Q.shadows; m.receiveShadow = Q.shadows; group.add(m);
-      p.x = wx; p.z = wz; p.y = top;
+      p.x = wx; p.z = wz; p.y = top; p.x0 = wx; p.z0 = wz; p.mesh = m;
       p.solid = addSolid(wx - p.s / 2, wx + p.s / 2, wz - p.s / 2, wz + p.s / 2, gy, top, { mesh: m });
+      if (p.move) { m.material = [movM, movM, movTop, movM, movM, movM]; }
+      if (p.ladder) {
+        p.solid.ladder = true;
+        // two rails and the rungs, on the face towards the start
+        const [lx, lz] = toW(p.u - p.s / 2 - 0.06, p.v), lad = new THREE.Group(), wood = new THREE.MeshStandardMaterial({ color: 0x6b4226, roughness: 0.9 });
+        const H = top - sandY;
+        for (const s of [-0.45, 0.45]) { const r = new THREE.Mesh(new THREE.BoxGeometry(0.1, H, 0.1), wood); r.position.set(s, H / 2, 0); lad.add(r); }
+        for (let y = 0.4; y < H; y += 0.45) { const r = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.07, 0.08), wood); r.position.set(0, y, 0); lad.add(r); }
+        lad.position.set(lx, sandY, lz); if (axis === 'x') lad.rotation.y = Math.PI / 2; group.add(lad);
+      }
+      if (p.bridge) {
+        // a plank from the platform before it, just wide enough to walk along
+        const a = plats[i - 1], [ax, az] = toW(a.u + a.s / 2, a.v), [bx, bz] = toW(p.u - p.s / 2, p.v);
+        const len = Math.hypot(bx - ax, bz - az), plank = new THREE.Mesh(new THREE.BoxGeometry(axis === 'x' ? len : 0.8, 0.2, axis === 'x' ? 0.8 : len), new THREE.MeshStandardMaterial({ color: 0x8b5a2b, roughness: 0.9 }));
+        plank.position.set((ax + bx) / 2, top - 0.1, (az + bz) / 2); group.add(plank);
+        const hw = axis === 'x' ? [len / 2, 0.4] : [0.4, len / 2];
+        p.plank = addSolid((ax + bx) / 2 - hw[0], (ax + bx) / 2 + hw[0], (az + bz) / 2 - hw[1], (az + bz) / 2 + hw[1], top - 0.2, top);
+      }
       if (p.cp) {
         const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 2.2, 6), new THREE.MeshStandardMaterial({ color: 0x5a3e28 }));
         pole.position.set(wx + p.s / 2 - 0.3, top + 1.1, wz - p.s / 2 + 0.3); group.add(pole);
         const flag = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.5, 0.8), cpM.clone()); flag.position.set(pole.position.x, top + 1.9, pole.position.z + 0.42); group.add(flag);
         cps.push({ x: wx, z: wz, y: top, plat: p, flag, ring: ring(wx, top, wz, p.s * 0.32) });
       }
-      lights.push([wx, top + 1.0, wz]);
+      if (!p.move) lights.push([wx, top + 1.0, wz]);
+      if (p.ladder) for (let y = sandY + 1.5; y < top; y += 1.5) { const [lx, lz] = toW(p.u - p.s / 2 - 0.5, p.v); lights.push([lx, y, lz]); }
       const q = plats[i + 1];
-      if (q) { const [qx, qz] = toW(q.u, q.v); lights.push([(wx + qx) / 2, Math.max(top, sandY + q.top) + 1.6, (wz + qz) / 2]); }
+      if (q && !p.move && !q.move && !q.ladder) { const [qx, qz] = toW(q.u, q.v); lights.push([(wx + qx) / 2, Math.max(top, sandY + q.top) + 1.6, (wz + qz) / 2]); }
     });
     const goal = plats[plats.length - 1];
     const lamp = lampPost(goal.x, goal.z, goal.y);
     const nLights = addLights(lights, 'course');
-    // scrolls along the way, on roofs a third and two thirds of the way up
+    // scrolls along the way, on roofs a third and two thirds of the way up (never on a moving platform)
     const spots = [];
-    for (let k = 0; k < scrolls; k++) { const p = plats[Math.min(plats.length - 2, Math.round(((k + 1) * (plats.length - 1)) / (scrolls + 1)))]; spots.push([p.x + p.s * 0.2, p.y + 1.1, p.z - p.s * 0.2]); }
-    course = { plats, pit, cps, last: cps[0], goal, lamp, group, active: true, started: false, falls: 0, onFall: null, onCheckpoint: null, onGoal: null, helpers: null };
+    for (let k = 0; k < scrolls; k++) {
+      let j = Math.min(plats.length - 2, Math.round(((k + 1) * (plats.length - 1)) / (scrolls + 1)));
+      while (j > 1 && (plats[j].move || plats[j].ladder)) j--;
+      const p = plats[j]; spots.push([p.x + p.s * 0.2, p.y + 1.1, p.z - p.s * 0.2]);
+    }
+    course = { plats, pit, cps, last: cps[0], goal, lamp, group, active: true, started: false, falls: 0, onFall: null, onCheckpoint: null, onGoal: null, helpers: null, t: 0, axis };
     return { start: { x: sx0, z: sz0 }, goal: { x: goal.x, z: goal.z }, lights: nLights, spots, plats: plats.length, checkpoints: cps.length - 1 };
   }
   function clearCourse() {
     if (!course) return;
     scene.remove(course.group); course.lamp.group.parent?.remove(course.lamp.group);
-    for (const p of course.plats) removeSolid(p.solid);
+    for (const p of course.plats) { removeSolid(p.solid); if (p.plank) removeSolid(p.plank); }
     for (const h of course.helpers ?? []) removeSolid(h);
     for (let i = orbs.length - 1; i >= 0; i--) if (orbs[i].tag === 'course') orbs.splice(i, 1);
     orbMesh.count = orbs.length; course = null;
@@ -450,7 +494,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
       const c = P.climb; c.t = Math.min(1, c.t + dt / 0.38);
       P.pos.y = c.y0 + (c.y1 - c.y0) * Math.min(1, c.t * 1.6);
       if (c.t > 0.55) { P.pos.x += (c.tx - P.pos.x) * Math.min(1, dt * 14); P.pos.z += (c.tz - P.pos.z) * Math.min(1, dt * 14); }
-      if (c.t >= 1) { P.pos.set(c.tx, c.y1, c.tz); P.climb = null; P.vy = 0; P.grounded = true; }
+      if (c.t >= 1) { P.pos.set(c.tx, c.y1, c.tz); P.climb = null; P.vy = 0; P.grounded = true; P.onSolid = c.s ?? P.onSolid; }
       return { speed: 0, climb: true };
     }
     const acc = P.grounded ? 14 : 5;
@@ -467,13 +511,32 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     };
     const nx = P.pos.x + P.vx * dt; if (tryMove(nx, P.pos.z)) P.pos.x = nx; else P.vx = 0;
     const nz = P.pos.z + P.vz * dt; if (tryMove(P.pos.x, nz)) P.pos.z = nz; else P.vz = 0;
+    // a ladder: push towards it to climb, let go of the keys to hang on, jump to let go
+    if (blocked?.ladder && mag > 0.3) P.ladder = blocked;
+    if (P.ladder) {
+      const s = P.ladder, rise = s.y1 - P.pos.y;
+      if (!over(s, P.pos.x, P.pos.z, PR + 0.15) || rise <= 0 || P.jumpQ > 0) { P.ladder = null; P.jumpQ = 0; }
+      else if (rise > CLIMB) {
+        if (mag > 0.3) P.pos.y += dt * 3.4;
+        P.vx = P.vz = 0; P.vy = 0; P.grounded = false; P.air = 0;
+        return { speed: 0, climb: true };
+      } else {
+        // the top of the ladder: pull up onto the tower
+        P.ladder = null;
+        if (mag > 0.3) {
+          const tx = THREE.MathUtils.clamp(P.pos.x + mx * 0.9, s.x0 + PR, s.x1 - PR), tz = THREE.MathUtils.clamp(P.pos.z + mz * 0.9, s.z0 + PR, s.z1 - PR);
+          P.climb = { t: 0, y0: P.pos.y, y1: s.y1, tx, tz, s }; P.vy = 0;
+          return { speed: 0, climb: true };
+        }
+      }
+    }
     // pressing on into a ledge that is low enough: climb up onto it
     if (blocked && blocked.climb && mag > 0.3) {
       const rise = blocked.y1 - feet;
       P.push += dt;
       if (rise <= CLIMB && (P.push > 0.12 || !P.grounded)) {
         const tx = THREE.MathUtils.clamp(P.pos.x + mx * 0.7, blocked.x0 + PR, blocked.x1 - PR), tz = THREE.MathUtils.clamp(P.pos.z + mz * 0.7, blocked.z0 + PR, blocked.z1 - PR);
-        P.climb = { t: 0, y0: feet, y1: blocked.y1, tx, tz }; P.push = 0; P.vy = 0;
+        P.climb = { t: 0, y0: feet, y1: blocked.y1, tx, tz, s: blocked }; P.push = 0; P.vy = 0;
         return { speed: 0, climb: true };
       }
     } else P.push = 0;
@@ -492,6 +555,19 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     } else if (was && P.vy < 0 && prev - fl >= 0 && prev - fl < 0.35) { P.pos.y = fl; P.vy = 0; P.onSolid = on; }   // down a gentle slope or a small step
     else { P.grounded = false; P.air += dt; }
     return { speed: Math.hypot(P.vx, P.vz) / RUN, air: !P.grounded && P.air > 0.08 };
+  }
+  // moving platforms slide from side to side, and carry the explorer standing on them
+  function updateMovers(dt) {
+    const c = course; if (!c) return;
+    c.t += dt;
+    for (const p of c.plats) {
+      if (!p.move) continue;
+      const off = Math.sin(c.t * p.move.speed + p.move.ph) * p.move.amp;
+      const nx = c.axis === 'x' ? p.x0 : p.x0 + off, nz = c.axis === 'x' ? p.z0 + off : p.z0, dx = nx - p.x, dz = nz - p.z;
+      p.x = nx; p.z = nz; p.mesh.position.x = nx; p.mesh.position.z = nz;
+      const s = p.solid; s.x0 += dx; s.x1 += dx; s.z0 += dz; s.z1 += dz;
+      if (P.onSolid === s && P.grounded && !locked) { P.pos.x += dx; P.pos.z += dz; }
+    }
   }
   // the course: checkpoints, falls and the lantern
   function updateCourse() {
@@ -535,7 +611,11 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { down ? keys.add(k) : keys.delete(k); e.preventDefault(); }
     else if (k === ' ' || k === 'spacebar') { if (down && !e.repeat) jump(); e.preventDefault(); }
     else if (k === 'e' && down && !e.repeat && near) world.onHotspot?.(near);
+    else if (k === 'f' && down && !e.repeat) strike();
+    else if (down && !e.repeat) world.onKey?.(k);
   };
+  // a strike (F, or the Smash button): the arm swings; what it hits is decided by the quest (only practice props)
+  function strike() { if (locked || P.swing > 0 || P.climb || P.ladder) return; P.swing = 0.001; world.onStrike?.(); }
   addEventListener('keydown', onKey); addEventListener('keyup', onKey);
   const blurKeys = () => { keys.clear(); run = false; };
   addEventListener('blur', blurKeys);
@@ -581,7 +661,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
   function fly(shots) { return new Promise((resolve) => { cine = { shots, i: 0, t: 0, resolve }; }); }
   // put the explorer at (x, z), facing (lx, lz), with the camera behind
   function place(x, z, lx, lz, { snap = true } = {}) {
-    P.pos.set(x, heightAt(x, z), z); P.vx = P.vz = P.vy = 0; P.climb = null; hold = false;
+    P.pos.set(x, heightAt(x, z), z); P.vx = P.vz = P.vy = 0; P.climb = null; P.ladder = null; hold = false;
     const [fl] = floorAt(x, z, P.pos.y + 20); P.pos.y = fl;
     if (lx != null) { P.yaw = Math.atan2(-(lx - x), -(lz - z)); cam.yaw = P.yaw; }
     cam.pitch = 0.32; if (snap) snapCam();
@@ -610,6 +690,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
       if (s[1]) camera.lookAt(...s[1]);
       if (cine.t >= s[2]) { cine.i++; cine.t = 0; cine.from = s[0]; if (cine.i >= cine.shots.length) { const r = cine.resolve; cine = null; hold = true; r(); } }
     } else {
+      updateMovers(dt);
       pose = updatePlayer(dt);
       updateCourse();
       if (hold && (pose.speed > 0.02 || pose.air || pose.climb)) hold = false;
@@ -629,9 +710,10 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
         for (const p of [...pickups]) if (Math.hypot(p.x - P.pos.x, p.z - P.pos.z) < p.r && Math.abs(p.y - cy) < 1.8) { removePickup(p); p.onTake?.(p); }
       }
     }
+    if (P.swing > 0) { P.swing += dt / 0.32; if (P.swing >= 1) P.swing = 0; }
     if (avatar) {
       avatar.root.position.copy(P.pos); avatar.root.rotation.y = P.yaw + Math.PI;
-      avatar.animate(dt, { ...pose, t });
+      avatar.animate(dt, { ...pose, t, swing: P.swing, carry: P.carry });
       const [fl] = floorAt(P.pos.x, P.pos.z, P.pos.y);
       avatar.blob.position.set(P.pos.x, fl + 0.03, P.pos.z);
       const k = THREE.MathUtils.clamp(1 - (P.pos.y - fl) / 6, 0.3, 1); avatar.blob.scale.setScalar(k);
@@ -658,6 +740,11 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     fly, place, teleport, setPad, jump, setAvatar, setGlow, kaaba, ring, onHotspot: null, onNear: null, time: 'day', ARCHIVE,
     addLights, addScroll, removePickup, poof, buildCourse, clearCourse, helpCourse,
     get course() { return course; },
+    strike, setCarry(v) { P.carry = !!v; },
+    // the House and the ground around it are protected: nothing is built, broken or climbed there
+    protectedAt: (x, z, r = 0) => Math.hypot(x, z) < CALM + 6 + r,
+    // the parts the props (props.mjs) build with
+    k: { scene, addSolid, removeSolid, clearAround, glowMap, stoneTex, homeMat, roofMat, Q, P, over, floorAt, get locked() { return locked; } },
     lock(v) { locked = v; if (v) { keys.clear(); P.vx = P.vz = 0; } },
     every,
     near: () => near,

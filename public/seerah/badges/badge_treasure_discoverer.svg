@@ -1,0 +1,20 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tdbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2A1E3A"/><stop offset="100%" stop-color="#140C22"/></linearGradient>
+    <linearGradient id="tdring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFD966"/><stop offset="50%" stop-color="#C9962A"/><stop offset="100%" stop-color="#FFD966"/></linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#tdbg)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#tdring)" stroke-width="4"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#C9962A" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- light rising from the open chest -->
+  <path d="M44 56 L36 24 L60 40 L84 24 L76 56 Z" fill="#FFE9A0" opacity="0.35"/>
+  <!-- the chest -->
+  <path d="M40 54 Q60 40 80 54 L80 58 L40 58 Z" fill="#8F6236" stroke="#FFD966" stroke-width="1.2"/>
+  <rect x="40" y="58" width="40" height="22" rx="2" fill="#9A6B3C" stroke="#FFD966" stroke-width="1.2"/>
+  <rect x="40" y="64" width="40" height="3" fill="#D4A017"/>
+  <rect x="56" y="62" width="8" height="9" rx="1.5" fill="#FFD966"/>
+  <circle cx="60" cy="66" r="1.6" fill="#2A1E3A"/>
+  <circle cx="52" cy="50" r="2.4" fill="#FFD966"/><circle cx="66" cy="47" r="2" fill="#FFF3C4"/><circle cx="60" cy="44" r="1.6" fill="#FFD966"/>
+  <path d="M 28 90 Q 60 100 92 90 L 92 98 Q 60 110 28 98 Z" fill="#C9962A"/>
+  <text x="60" y="97" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#2A1E3A" font-weight="bold" letter-spacing="0.5">TREASURE</text>
+</svg>

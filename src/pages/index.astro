@@ -2040,7 +2040,7 @@ const levels = [
       if (st.done) { st.step = 0; }
       quest = playEpisode($('sq-root'), {
         n, quality, reciter: reciter(), saved: st, mode: sq.mode ?? (me.level >= 4 ? 'master' : 'explorer'), gentle: !!sq.gentle,
-        avatar: sq.avatar, archive: sq.archive,
+        avatar: sq.avatar, archive: sq.archive, shared: sq,
         onStep: (i) => { st.step = i; sqSaveSoon(); },
         onSave: (d) => { if (d?.light) sq.light = (sq.light ?? 0) + d.light; else sqSaveSoon(); },   // scrolls, lanterns and the archive are saved as they are found
         onBadge: sqAward,
@@ -2050,7 +2050,7 @@ const levels = [
           st.done = true; st.step = 0; st.best = Math.max(st.best ?? 0, acc);
           quest?.stop(); quest = null;
           const ep = SQ_EPISODES.find((e) => e.n === n);
-          const champ = SQ_EPISODES.every((e) => sq[e.n]?.done && (sq[e.n].best ?? 0) >= 66) && sqAward('champion');
+          const champ = SQ_EPISODES.filter((e) => e.n <= 2).every((e) => sq[e.n]?.done && (sq[e.n].best ?? 0) >= 66) && sqAward('champion');
           openSeerah();
           const e = record(progress, { kind: 'seerah', key: `seerah:${n}`, score: acc, good: acc >= 66, gardenPalms: palms() });
           const box = document.createElement('div'); box.className = 'card sq-earned';

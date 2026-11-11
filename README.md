@@ -476,8 +476,8 @@ checked the pending entries, record it with `node scripts/deen/check.mjs --appro
 
 ## The Seerah Quest (Levels 3 and 4)
 
-*From Darkness to Light*: a 3D adventure through Makkah in the years before the Prophet ﷺ was born, played like a
-Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. This first part has two connected episodes:
+*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to his thirty-fifth year, played like a
+Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has four connected episodes, from the days of ʿAbd al-Muttalib to the rebuilding of the Kaʿbah:
 
 1. **The Secret of Zamzam**: ʿAbd al-Muttalib's dream, the search by the House, the digging, the dispute with
    Quraysh, the journey north to the judge and the water that came out under his camel.
@@ -485,7 +485,38 @@ Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. This fi
    ʿAbd al-Muttalib's words *"I am the lord of the camels, and the House has a Lord who will protect it"*, Quraysh
    going up into the mountains, the elephant that knelt, the birds, and Surah al-Fil from the reciter.
 
-Episodes 3 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
+3. **The Birth of the Messenger ﷺ** (opens after Episode 2): the Monday of his birth (the hadith in Sahih Muslim), the
+   Year of the Elephant, six family lanterns (ʿAbd al-Muttalib, ʿAbdullah, Amina, Halima, al-Shaymaʾ, Abu Talib), a
+   family chart, an evidence check that sorts what the book states firmly from the views it lists (the day of the month,
+   the years before or after the Elephant), the death of his father and mother told gently in text only, and the Hall
+   of Years puzzle room.
+4. **The Trustworthy One** (opens after Episode 3): the shepherd hadith (al-Bukhari), Hilf al-Fudul, the trade for
+   Khadija and the marriage, the Trust Challenge (three practice scenarios from today, clearly labelled as not from the
+   Seerah), the rebuilding of the Kaʿbah (the ship's timber, the four sides shared out between the clans, the quarrel
+   over the Stone, "This is al-Amin, we are content"), a wooden learning model the student raises by carrying blocks,
+   and the Hall of Trust puzzle room.
+
+Episodes 5 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
+
+### Roblox-style play (from Episode 3)
+
+- **Training yard (smash and collect).** Practice clay pots (two hits) and wooden crates (three hits), smashed with **F**
+  or the **Smash** button, burst into harmless pieces and drop gold lights, bricks or wood, and sometimes a scroll of
+  a passage already read. Only these practice props can ever be broken (`world.protectedAt()` refuses any prop near
+  the House).
+- **Build plot.** A grid plot where the student builds whatever they like from blocks, walls, roofs, stairs, arches,
+  palms, lamps and pools, paid for with the yard's bricks and wood. Pieces stack, and the explorer can climb their own
+  building. Keys: B place, X take off, R turn, Z undo, 1–8 choose (or the build bar). The design is saved with the
+  student's progress and carries on from episode to episode; it is labelled as their own design, not a model of a place.
+- **Puzzle rooms.** A stone hall with glowing floor plates, each naming an event from passages already read; stepping
+  on them in the order of the history sinks a stone door, and a chest in the hidden room gives lights and scrolls.
+- **Climbs.** Outside Gentle jumps, every climbing challenge now has moving stones that slide from side to side, a
+  narrow plank bridge, and a tall tower with a ladder (push to climb, let go to hang on, jump to let go).
+- **Lantern records, the family chart, matching, the evidence check and the learning model** (carry blocks from the
+  pile and set them on the model to raise it course by course).
+- **New badges:** *Guardian of Trust* (every Trust Challenge answered the trustworthy way first time), *Treasure
+  Discoverer* (open a chest), *Puzzle Master* (a puzzle room with no wrong plate) and *Master Builder* (twenty pieces).
+  *Seerah Champion* still counts Episodes 1 and 2.
 
 ### How it plays
 
@@ -557,6 +588,7 @@ archive (shapes only: a compass, a book, a shield, stars). On older computers ch
 WebGL the Quest says so instead of starting.
 
 Files: `src/lib/seerah/world.mjs` (the valley, the explorer's movement, the climbs and the collectibles),
+`props.mjs` (the training yard, the puzzle rooms, the build plot and the learning model),
 `avatar.mjs` (the explorer), `quest.mjs` (the steps and the HUD), `hub.mjs` (the episode hub), `game.mjs` (stages,
 modes, badges, sounds and the game's own sentences, which `npm run seerah` checks with the writing rules),
 `episodes.mjs` (the steps) and `public/seerah/` (badges and icons).
