@@ -990,3 +990,18 @@ body[data-paper="night"] .stage .w.live { background-image: linear-gradient(to l
 .world-chip small { font-size: 12px; opacity: .75; }
 .world-chip:focus-visible { outline: 3px solid var(--aic-gold); outline-offset: 2px; }
 #world-text { margin: 10px 0 0; }
+/* Seerah Quest, Episodes 7 to 9: spelling a word, sailing, fair sharing */
+.sq-spell { display: flex; justify-content: center; gap: 10px; margin: 12px 0; }
+.sq-spell-slot { display: grid; place-items: center; width: 64px; height: 72px; border-radius: 12px; border: 2px dashed #C9A24A; background: #FFFDF5; font-family: Amiri, serif; font-size: 40px; color: #0E6B4E; }
+.sq-spell-slot.on { border-style: solid; border-color: #0E6B4E; background: #E6F2EC; }
+.sq-letter { font-family: Amiri, serif; font-size: 32px; min-width: 64px; text-align: center; }
+.sq-sea { display: block; width: 100%; height: auto; max-height: 46vh; margin: 10px 0 6px; border-radius: 14px; border: 2px solid #C9A24A; background: #4E9EC8; }
+.sq-sea-ctl { display: flex; justify-content: center; gap: 12px; }
+.sq-sea-ctl .btn { min-width: 120px; touch-action: none; }
+.sq-share { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 12px 0; }
+.sq-share-f { display: grid; gap: 4px; justify-items: center; padding: 12px 10px; border-radius: 14px; border: 2px solid #D9C28A; background: #FFF; color: #2B1D0E; font: inherit; cursor: pointer; }
+.sq-share-f b { font-size: 24px; color: #0E6B4E; }
+.sq-share-need { font-size: 13px; color: #8A5A12; font-weight: 700; }
+.sq-share-f.right { border-color: #0E6B4E; background: #E6F2EC; }
+.sq-share-f.nope { border-color: #C0563B; animation: sq-shake .4s; }
+@media (prefers-reduced-motion: reduce) { .sq-share-f.nope { animation: none; } }

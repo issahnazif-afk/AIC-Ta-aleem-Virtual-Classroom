@@ -1,0 +1,17 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mnbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#103A55"/><stop offset="100%" stop-color="#071C2B"/></linearGradient>
+    <linearGradient id="mnring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9FD8F0"/><stop offset="50%" stop-color="#3F86A8"/><stop offset="100%" stop-color="#9FD8F0"/></linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#mnbg)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#mnring)" stroke-width="4"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#3F86A8" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- waves and a small sailing boat -->
+  <path d="M28 72 q8 -5 16 0 t16 0 t16 0 t16 0" fill="none" stroke="#9FD8F0" stroke-width="2"/>
+  <path d="M30 80 q8 -5 16 0 t16 0 t16 0 t14 0" fill="none" stroke="#9FD8F0" stroke-width="1.4" opacity=".7"/>
+  <path d="M44 66 L76 66 L70 74 L50 74 Z" fill="#8B5A2B" stroke="#E8D2A6" stroke-width="1"/>
+  <path d="M60 30 L60 64 M60 32 L78 60 L60 60 Z" fill="#F4EFE3" stroke="#E8D2A6" stroke-width="1.2"/>
+  <circle cx="84" cy="34" r="3" fill="#FFE08A"/>
+  <path d="M 28 90 Q 60 100 92 90 L 92 98 Q 60 110 28 98 Z" fill="#3F86A8"/>
+  <text x="60" y="97" text-anchor="middle" font-family="Georgia, serif" font-size="6.6" fill="#071C2B" font-weight="bold" letter-spacing="0.5">MASTER NAVIGATOR</text>
+</svg>

@@ -356,5 +356,22 @@ export function makeProps(world) {
     return { front: { x: fx, z: fz }, cave: { x: lx, z: lz, y: y + 2.6 }, top: { x: bx, y: y + height, z: bz }, glow(v) { glowTo = v ? 0.85 : 0; }, remove() { scene.remove(g); removeSolid(body); removeSolid(shelf); } };
   }
 
-  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, PIECES, shatter };
+  // ── a garden wall with a grapevine trellis giving shade (the walled garden at al-Taʾif, a simple model) ──
+  function vine(x, z, { sign = 'A walled garden (a model)' } = {}) {
+    clearAround(x, z, 12);
+    const y = flatten(x, z), g = new THREE.Group(); g.position.set(x, y, z); scene.add(g);
+    const wallM = new THREE.MeshStandardMaterial({ map: stoneTex, color: 0xc9a77e, roughness: 1 }), wood = new THREE.MeshStandardMaterial({ color: 0x6b4a2a, roughness: 1 });
+    const leaf = new THREE.MeshStandardMaterial({ color: 0x3f8a3a, roughness: 0.9, side: THREE.DoubleSide }), grape = new THREE.MeshStandardMaterial({ color: 0x5b2a6e, roughness: 0.5 });
+    const solids = [];
+    const wall = (cx, cz, w, d) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, 2, d), wallM); m.position.set(cx, 1, cz); g.add(m); solids.push(addSolid(x + cx - w / 2, x + cx + w / 2, z + cz - d / 2, z + cz + d / 2, y - 1, y + 2, { climb: false })); };
+    wall(0, -8, 18, 0.6); wall(-9, 0, 0.6, 16); wall(9, 0, 0.6, 16); wall(-5.5, 8, 7, 0.6); wall(5.5, 8, 7, 0.6);   // a gap in the front wall to walk in
+    for (const [px, pz] of [[-3, -3], [3, -3], [-3, 3], [3, 3]]) { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 2.6, 6), wood); p.position.set(px, 1.3, pz); g.add(p); }
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(7.4, 0.25, 7.4), leaf); roof.position.set(0, 2.7, 0); g.add(roof);
+    for (let i = 0; i < 26; i++) { const l = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.7), leaf); l.position.set(-3.4 + (i % 6) * 1.35, 2.45 - (i % 3) * 0.15, -3.4 + Math.floor(i / 6) * 1.6); l.rotation.set(Math.PI / 2 + (i % 4) * 0.2, 0, i); g.add(l); }
+    for (let i = 0; i < 8; i++) { const bunch = new THREE.Group(); for (let k = 0; k < 7; k++) { const b = new THREE.Mesh(new THREE.SphereGeometry(0.09, 6, 5), grape); b.position.set((k % 3) * 0.12 - 0.12, -Math.floor(k / 3) * 0.13, (k % 2) * 0.08); bunch.add(b); } bunch.position.set(-2.6 + (i % 4) * 1.7, 2.35, -2 + Math.floor(i / 4) * 3.4); g.add(bunch); }
+    const tag = label(sign, { w: 4.4, font: 40 }); tag.position.set(0, 4, 8.4); g.add(tag);
+    return { at: { x, z }, door: { x, z: z + 11 }, remove() { scene.remove(g); solids.forEach(removeSolid); } };
+  }
+
+  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, vine, PIECES, shatter };
 }

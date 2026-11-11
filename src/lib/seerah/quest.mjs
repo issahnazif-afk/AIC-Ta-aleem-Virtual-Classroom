@@ -618,6 +618,127 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
       });
       if (s.done) await card({ kicker: 'Lanterns lit', title: s.doneTitle ?? 'Every lantern is lit', text: s.done });
     },
+    // a walled garden with a grapevine (a simple model); it stays for the rest of the episode
+    async vine(s) { run._vine = props.vine(s.x, s.z); await wait(50); },
+    // build a word from letter tiles (right to left), then see its meaning
+    spell(s) {
+      return new Promise((resolve) => {
+        const p = openPanel('order');
+        p.append(el('p', 'sq-kicker', 'Arabic'), el('h2', 'sq-h', s.title), el('p', 'sq-text', s.text));
+        const line = el('div', 'sq-spell'); line.dir = 'rtl'; line.lang = 'ar';
+        const slots = s.letters.map(() => { const b = el('span', 'sq-spell-slot', ' '); line.append(b); return b; });
+        const pool = el('div', 'sq-pool'); pool.dir = 'rtl';
+        let at = 0;
+        shuffle(s.letters.map((t, k) => ({ t, k }))).forEach(({ t, k }) => {
+          const b = el('button', 'sq-chip sq-letter', t); b.type = 'button'; b.lang = 'ar'; if (TEST) b.dataset.answer = k;
+          b.addEventListener('click', () => {
+            if (k === at) { b.remove(); slots[at].textContent = t; slots[at].classList.add('on'); at++; play('plate');
+              if (at === s.letters.length) { const w = el('p', 'sq-quote-ar', s.word); w.lang = 'ar'; w.dir = 'rtl'; const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); p.append(w, el('p', 'sq-good', s.meaning), n); n.focus({ preventScroll: true }); } }
+            else { b.classList.add('nope'); setTimeout(() => b.classList.remove('nope'), 450); }
+          });
+          pool.append(b);
+        });
+        p.append(line, el('p', 'sq-text muted', 'Arabic is written from right to left. Tap the letters in order.'), pool);
+      });
+    },
+    // sort short items into two groups (each item's group comes from a passage already read)
+    sort(s) {
+      return new Promise((resolve) => {
+        const items = shuffle(s.items); let i = 0, right = 0;
+        const next = () => {
+          if (i >= items.length) {
+            const p = openPanel('classify');
+            p.append(el('p', 'sq-kicker', 'Mission'), el('h2', 'sq-h', `${right} of ${items.length} sorted right first time`), el('p', 'sq-text', s.done), el('p', 'sq-cite', cite(SOURCES[s.src])));
+            const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); p.append(n); n.focus({ preventScroll: true });
+            return;
+          }
+          const [t, want] = items[i];
+          const p = openPanel('classify');
+          p.append(el('p', 'sq-kicker', `${s.title} · ${i + 1} of ${items.length}`), el('h2', 'sq-h', t));
+          const opts = el('div', 'sq-opts two'); let tried = false, settled = false;
+          s.bins.forEach((b, k) => {
+            const btn = el('button', 'sq-opt', b); btn.type = 'button'; if (TEST) btn.dataset.answer = String(k === want);
+            btn.addEventListener('click', () => {
+              if (settled) return;
+              if (k === want) { settled = true; if (!tried) right++; btn.classList.add('right'); play('plate'); setTimeout(() => { i++; next(); }, TEST ? 30 : 650); }
+              else { tried = true; btn.disabled = true; btn.classList.add('nope'); play('wrong'); }
+            });
+            opts.append(btn);
+          });
+          p.append(opts);
+        };
+        next();
+      });
+    },
+    // the boat: steer across a sea map, past the reefs, to the far shore (a game picture, not the real voyage)
+    sail(s) {
+      return new Promise((resolve) => {
+        const p = openPanel('route');
+        p.append(el('p', 'sq-kicker', 'Mission'), el('h2', 'sq-h', s.title), el('p', 'sq-text', s.text));
+        const cv = el('canvas', 'sq-sea'); cv.width = 640; cv.height = 360; p.append(cv);
+        const ctl = el('div', 'sq-sea-ctl');
+        const L = el('button', 'btn', '◀ Left'), R = el('button', 'btn', 'Right ▶'); L.type = R.type = 'button';
+        ctl.append(L, R); p.append(ctl, el('p', 'sq-cite', 'A game map, not to scale. The book gives no details of the voyage.'));
+        const g = cv.getContext('2d');
+        let x = 0.5, y = 0.92, steer = 0, done = false, bumps = 0, t = 0;
+        // rows of reefs, each with one gap in a different place, so the boat has to weave between them
+        const gaps = s.gaps ?? [0.3, 0.72, 0.42, 0.8], reefs = [];
+        gaps.forEach((gx, row) => { const ry = 0.74 - row * 0.17; for (let rx = 0.05; rx < 0.97; rx += 0.1) if (Math.abs(rx - gx) > 0.13) reefs.push({ x: rx, y: ry + (Math.round(rx * 10) % 2) * 0.025, r: 0.03 }); });
+        const hold = (b, v) => { b.addEventListener('pointerdown', (e) => { e.preventDefault(); steer = v; }); for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) b.addEventListener(ev, () => { if (steer === v) steer = 0; }); };
+        hold(L, -1); hold(R, 1);
+        const key = (e) => { const k = e.key.toLowerCase(); if (k === 'arrowleft' || k === 'a') steer = e.type === 'keydown' ? -1 : 0; if (k === 'arrowright' || k === 'd') steer = e.type === 'keydown' ? 1 : 0; };
+        addEventListener('keydown', key); addEventListener('keyup', key);
+        const draw = () => {
+          const W = cv.width, H = cv.height;
+          g.fillStyle = '#4E9EC8'; g.fillRect(0, 0, W, H);
+          for (let k = 0; k < 14; k++) { g.strokeStyle = 'rgba(255,255,255,.25)'; g.beginPath(); const yy = ((k * 31 + t * 30) % H); g.moveTo(((k * 97) % W), yy); g.lineTo(((k * 97) % W) + 18, yy); g.stroke(); }
+          g.fillStyle = '#E8D6B0'; g.fillRect(0, H - 18, W, 18); g.fillStyle = '#2F7A3A'; g.fillRect(0, 0, W, 22);
+          g.fillStyle = '#5A3E10'; g.font = 'bold 14px system-ui'; g.fillText(s.from ?? 'The coast of Arabia', 10, H - 4); g.fillStyle = '#fff'; g.fillText(s.to ?? 'The coast of Abyssinia', 10, 16);
+          for (const r of reefs) { g.fillStyle = '#8A7560'; g.beginPath(); g.arc(r.x * W, r.y * H, r.r * W, 0, Math.PI * 2); g.fill(); g.strokeStyle = 'rgba(255,255,255,.6)'; g.stroke(); }
+          g.save(); g.translate(x * W, y * H); g.rotate(steer * 0.25);
+          g.fillStyle = '#8B5A2B'; g.beginPath(); g.moveTo(0, -14); g.lineTo(9, 8); g.lineTo(-9, 8); g.closePath(); g.fill();
+          g.fillStyle = '#F4EFE3'; g.beginPath(); g.moveTo(0, -22); g.lineTo(0, 4); g.lineTo(12, 0); g.closePath(); g.fill(); g.restore();
+        };
+        let last = performance.now();
+        const loop = (now) => {
+          if (done || panel.hidden) return;
+          const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
+          x = Math.max(0.04, Math.min(0.96, x + steer * dt * 0.45)); y -= dt * (TEST ? 1.2 : 0.07);
+          for (const r of reefs) if (Math.hypot(x - r.x, (y - r.y) * 0.56) < r.r + 0.02) { y += 0.06; bumps++; play('hit'); x += x < r.x ? -0.03 : 0.03; }
+          draw();
+          if (y <= 0.08) {
+            done = true; removeEventListener('keydown', key); removeEventListener('keyup', key); play('lantern'); if (!bumps && s.badge) award(s.badge);
+            const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); p.append(el('p', 'sq-good', bumps ? `You reached the far shore, with ${bumps} bump${bumps > 1 ? 's' : ''} on the reefs.` : 'You reached the far shore without touching a reef!'), n); n.focus({ preventScroll: true });
+            return;
+          }
+          requestAnimationFrame(loop);
+        };
+        draw(); requestAnimationFrame(loop);
+      });
+    },
+    // fair sharing: give each family the number of boxes it needs (a practice scenario from today)
+    share(s) {
+      return new Promise((resolve) => {
+        const p = openPanel('scenario');
+        p.append(el('p', 'sq-kicker', s.title), el('p', 'sq-modern', TEXT.modern), el('h2', 'sq-h', s.q), el('p', 'sq-text', s.text));
+        let left = s.families.reduce((n, f) => n + f.need, 0);
+        const box = el('p', 'sq-good', `Boxes left: ${left}`);
+        const row = el('div', 'sq-share');
+        s.families.forEach((f) => {
+          const c = el('button', 'sq-share-f'); c.type = 'button'; let got = 0;
+          const n = el('b', null, '0'); c.append(el('span', null, f.name), el('span', 'sq-share-need', `needs ${f.need}`), n);
+          if (TEST) c.dataset.need = f.need;
+          c.addEventListener('click', () => {
+            if (got >= f.need) { c.classList.add('nope'); setTimeout(() => c.classList.remove('nope'), 400); say('This family already has what it needs.', 1600); return; }
+            got++; left--; n.textContent = String(got); box.textContent = `Boxes left: ${left}`; play('place');
+            if (got === f.need) c.classList.add('right');
+            if (!left) { const nx = nextBtn(); nx.addEventListener('click', () => { closePanel(); resolve(); }); p.append(el('p', 'sq-text', s.done), nx); nx.focus({ preventScroll: true }); }
+          });
+          row.append(c);
+        });
+        p.append(row, box);
+      });
+    },
     // lantern records: each person from the book is a lantern in the valley (never a figure); walking up to one
     // lights it and opens the passage about them
     lanterns(s) {

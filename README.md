@@ -476,8 +476,8 @@ checked the pending entries, record it with `node scripts/deen/check.mjs --appro
 
 ## The Seerah Quest (Levels 3 and 4)
 
-*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to the first years of Islam, played like a
-Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has six connected episodes, from the days of ʿAbd al-Muttalib to the first open call to Islam:
+*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to the years before the Hijrah, played like a
+Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has nine connected episodes, from the days of ʿAbd al-Muttalib to the journey to al-Taʾif:
 
 1. **The Secret of Zamzam**: ʿAbd al-Muttalib's dream, the search by the House, the digging, the dispute with
    Quraysh, the journey north to the judge and the water that came out under his camel.
@@ -508,7 +508,21 @@ Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now 
    years and the call from al-Safa, the Knowledge Under Pressure scenarios (from today, labelled), and the Hall of the
    First Believers.
 
-Episodes 7 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
+7. **The Courage of Bilal (RA)** (opens after Episode 6): the believers treated harshly, told in words only (nothing of the
+   suffering is shown or played); lanterns for Bilal, Abu Bakr and the family of Yasir (a report); the first seven who
+   showed their Islam and "Ahad, Ahad"; spelling the word أحد; Surah al-Ikhlas from the reciter; Abu Bakr freeing Bilal
+   and al-Nahdiyya; the report about Waraqa that Ibn Kathir himself questions; the Courage Challenge (scenarios from
+   today); and the Hall of Steadfastness.
+8. **Escape to Abyssinia** (opens after Episode 7): why they went, the first emigrants, the ship for half a dinar, a
+   sea-crossing game on a map (a game picture, not the voyage), Umm Salama's account of Quraysh's envoys, Jaʿfar before
+   the Negus, sorting what he said they were commanded and forbidden, the opening of Surah Maryam from the reciter, and
+   the Hall of the Two Shores. The Negus and the believers appear only as lanterns and words.
+9. **The Years of Hardship** (opens after Episode 8): the boycott in the valley of Abu Talib and the pact the termite ate
+   away (no hunger or suffering is shown), a fair-sharing food drive (a scenario from today), the year Khadija and Abu
+   Talib died with its differing reports, al-Taʾif, the walled garden and ʿAddas (a simple model), the duʿaʾ shown as a
+   report, and the Hall of the Hard Years.
+
+Episodes 10 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
 
 ### Roblox-style play (from Episode 3)
 
@@ -527,8 +541,8 @@ Episodes 7 to 14 (the titles from the design archive) show on the hub as locked 
 - **Lantern records, the family chart, matching, the evidence check and the learning model** (carry blocks from the
   pile and set them on the model to raise it course by course).
 - **New badges:** *Guardian of Trust* (every Trust Challenge answered the trustworthy way first time), *Treasure
-  Discoverer* (open a chest), *Puzzle Master* (a puzzle room with no wrong plate) *Master Builder* (twenty pieces) and
-  *Mountain Climber* (the mountain path in Episode 5).
+  Discoverer* (open a chest), *Puzzle Master* (a puzzle room with no wrong plate) *Master Builder* (twenty pieces),
+  *Mountain Climber* (the mountain path in Episode 5) and *Master Navigator* (the sea map in Episode 8 with no reef touched).
   *Seerah Champion* still counts Episodes 1 and 2.
 
 ### How it plays
