@@ -1284,9 +1284,12 @@ const levels = [
         // Levels 1 and 2, the young learners' style (docs/DESIGN_SYSTEM.md): big bright picture tiles. The school's own
         // Canva pictures (public/img/home/) where there is one, the colourful drawn icons for the rest, each on its own
         // soft colour. Pointing at a tile says its name, and it bounces.
-        const ART = new Set(['prophet', 'quran', 'sunnah', 'stories', 'prophets']);
+        // the school's storybook pictures (public/img/home/): the place's own picture; three of them carry their name
+        const ART = { letters: 'letters', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', stories: 'stories', books: 'books', prophets: 'prophets', library: 'morals', tawheed: 'kinder', quran: 'quran', games: 'games', garden: 'garden', stars: 'stars' };
+        const LOGO = new Set(['books', 'duas', 'garden']);
         const Y = (id, title, ar, ic, color, open, extra = {}) => ({ id, title, ar, color, open, ...extra,
-          icon: ART.has(id) ? `<img src="${siteUrl(`img/home/${id}.webp`)}" alt="" width="160" height="160" decoding="async">` : ICONS[ic] ?? ICONS.mushaf });
+          logo: LOGO.has(id), pic: !!ART[id],
+          icon: ART[id] ? `<img src="${siteUrl(`img/home/${ART[id]}.webp`)}" alt="" width="360" height="300" decoding="async">` : ICONS[ic] ?? ICONS.mushaf });
         const YC = (a) => Y(a.id, a.title, a.ar, a.icon, '#FFF6DE', () => openActivity(a));
         places = [
           Y('letters', 'My letters', 'حُرُوفِي', 'lantern', '#FBE3A6', go('alifba')),

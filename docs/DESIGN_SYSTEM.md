@@ -94,9 +94,15 @@ sound first, bouncy feedback and very little text. Ta'aleem uses its **own** art
 site's art, layout, characters or branding.
 
 - **Scene:** the school's Canva picture (`public/img/home/scene-wide.webp`, `scene-phone.webp`) under a soft light veil.
-- **Tiles:** white, 26 px corners, a 3 px white border and a soft drop shadow. Each has a big round picture
-  (the Canva pictures, or the colourful drawn icons in `ICONS` in `src/lib/activities.mjs`) on its own soft
-  bright colour (`color` in `showKids()`). One short label, 16 to 19 px, extra-bold.
+- **Tiles:** white, 26 px corners, a 3 px white border and a soft drop shadow. The top of each tile is a soft
+  colour panel (4:3, 18 px corners, the place's own `color` in `showKids()`) holding the whole picture, never cropped
+  into a circle. One short label below, 16 to 19 px, extra-bold.
+- **Pictures:** the school's storybook set in `public/img/home/` (the two children, the teddy, the gift, the telescope,
+  the mosque book, the Qur'an on its cushion and others), as transparent WebP about 360 px wide and 20 to 30 KB.
+  New pictures from the school are prepared the same way: background removed from the edges inward, trimmed,
+  resized and saved as WebP. Places without a picture use the colourful drawn icons in `ICONS`.
+  Pictures that already carry their name (My Books, My Du'as, My Garden) fill their tile, and the label is kept
+  for screen readers only.
 - **Colour:** leaf green `--leaf` (`#23774A`) for the main action and highlights, `--leaf-deep` for the header,
   sun yellow `--sun` (`#F6C64B`) for the hover border, and soft pastels behind the pictures. Text stays dark
   (`#0F2A22`) for contrast.

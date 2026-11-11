@@ -99,7 +99,8 @@ export function mountKidsHome(root, { level = 1, name = '', hijri = '', special 
       const b = el('button', 'kh-place'); b.type = 'button'; b.dataset.place = p.id;
       const ic = el('span', 'kh-ic'); ic.innerHTML = p.icon ?? icon('stories');
       if (p.color) ic.style.setProperty('--c', p.color);
-      const label = el('span', 'kh-label'); label.append(el('b', null, p.title));
+      const label = el('span', 'kh-label' + (p.logo ? ' kh-sr' : '')); label.append(el('b', null, p.title));   // a picture that carries its own name: the label is for screen readers
+      if (p.pic) ic.classList.add('kh-pic');
       if (p.ar && level >= 2) { const a = el('span', 'kh-ar', p.ar); a.lang = 'ar'; a.dir = 'rtl'; label.append(a); }
       if (parent && p.text && !young) label.append(el('span', 'kh-text', p.text));
       b.append(ic, label);

@@ -438,3 +438,13 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
   .kh-young .kh-place.bounce { animation: none; }
 }
 .kh .kh-young .kh-group-ar, .kh.kh-young .kh-group-ar { color: var(--leaf); } .kh.kh-young .kh-group-t { color: #3E443D; }
+
+/* young learners: the storybook pictures sit whole on a soft colour panel (not cropped in a circle) */
+.kh-sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.kh-young .kh-place { justify-content: flex-start; }
+.kh-young .kh-ic { position: relative; overflow: hidden; flex: none; width: 100%; aspect-ratio: 4 / 3; height: auto; min-height: 0; border-radius: 18px; background: var(--c, #FFF6DE); box-shadow: inset 0 -4px 0 rgb(0 0 0 / .05); }
+.kh-young .kh-ic img { position: absolute; inset: 4%; width: 92%; height: 92%; object-fit: contain; filter: none; }
+.kh-young .kh-ic svg { width: 54%; height: 54%; }
+.kh-young .kh-place:has(.kh-sr) .kh-ic img { inset: 1%; width: 98%; height: 98%; }
+@media (max-width: 640px) { .kh-young .kh-ic { width: 100%; } }
+.kh-young .kh-place:has(.kh-sr) .kh-ic { flex: 1 1 auto; aspect-ratio: auto; min-height: 130px; }
