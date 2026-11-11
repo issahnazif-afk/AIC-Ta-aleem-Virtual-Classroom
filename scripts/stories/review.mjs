@@ -3,8 +3,8 @@ import fs from 'node:fs';
 import { STORIES } from '../../src/lib/stories/level1.mjs';
 const Q = JSON.parse(fs.readFileSync(new URL('../../src/data/stories-quran.json', import.meta.url)));
 const out = ['# Story Time · Level 1 (ages 4–8): teacher review sheet', '',
-  'Twenty-two original picture stories written for Ta'aleem. The characters (Yusuf, Maryam, Adam, Mama, Baba,',
-  'Jiddo, Teta, Bilal, Zara, Omar, Ustadha Huda, Aunty Salma, Uncle Sami) are made up; no Prophet or Companion is ever shown.',
+  "Twenty-two original picture stories written for Ta'aleem. The characters (Yusuf, Maryam, Adam, Mama, Baba,",
+  'Grandpa Musa, Teta, Bilal, Zara, Omar, Ustadha Huda, Aunty Salma, Uncle Sami) are made up; no Prophet or Companion is ever shown.',
   'Each story ends with one hadith or ayah. The English of each hadith is a simple meaning for young children; please check it.', '',
   '| # | Story | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |', '|---|---|---|---|---|---|---|'];
 STORIES.forEach((s, i) => {

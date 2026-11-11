@@ -12,6 +12,7 @@ import { hadithClipId } from './narration-text.mjs';
 import { LEVEL2 as LIB2 } from './library/level2.mjs';
 import { ADDED as LIB_ADDED } from './library/added.mjs';
 import { TAWHEED } from './library/tawheed.mjs';
+import { PROPHETS } from './library/prophets.mjs';
 import { DUAS } from './deen/duas.mjs';
 import { SUNNAH } from './deen/sunnah.mjs';
 import { VIRTUES, LIFE } from './deen/prophet.mjs';
@@ -96,6 +97,7 @@ export function catalogue() {
   groups.push({ key: 'duas', title: "My Du'as", why: "Each du'a is split into short parts. Record every part on its own, slowly and clearly, with every vowel: the children hear one part, then say it back. The whole du'a is optional. A du'a with no recording tells the child it is not ready yet; a computer voice never reads it.", clips: duas });
   groups.push({ key: 'lib1', title: 'Library Level 1', why: 'First readers, ages 4–6. Read slowly and clearly, so a young child can follow each word as it lights up.', clips: lib([...LIB1, ...LIB_ADDED.filter(lv(1))]) });
   groups.push({ key: 'lib2', title: 'Library Level 2', why: 'Adventure readers, ages 7–8. Read with energy and suspense, like telling an adventure.', clips: lib([...LIB2, ...LIB_ADDED.filter(lv(2))]) });
+  groups.push({ key: 'prophets', title: 'Stories of the Prophets', why: 'Levels 2 and 3. Calm and clear, with awe for the fire, the flood, the whale and the sea. The words of Allah and of the Prophets are read plainly, as the narrator.', clips: lib(PROPHETS) });
   groups.push({ key: 'tawheed', title: 'Tawheed shelf', why: 'Knowing Allah, Levels 1 and 2. Warm and unhurried, with wonder in the voice for the sky, the rain and the stories of Ibrahim and Bilal.', clips: lib(TAWHEED) });
   return groups;
 }

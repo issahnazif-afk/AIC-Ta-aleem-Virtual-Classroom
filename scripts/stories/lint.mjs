@@ -9,6 +9,7 @@ import { prop } from '../../src/lib/stories/art.mjs';
 import { LEVEL1 } from '../../src/lib/library/level1.mjs';
 import { LEVEL2 } from '../../src/lib/library/level2.mjs';
 import { TAWHEED } from '../../src/lib/library/tawheed.mjs';
+import { PROPHETS } from '../../src/lib/library/prophets.mjs';
 import { STORIES } from '../../src/lib/stories/level1.mjs';
 
 const WORDS = ['delve', 'tapestry', 'testament', 'pivotal', 'crucial', 'vibrant', 'foster', 'enhance', 'underscore', 'showcase', 'intricate',
@@ -50,9 +51,10 @@ function check(book, level) {
     for (const w of WORDS) if (new RegExp(`\\b${w}`, 'i').test(t)) say(book, where, `AI word "${w}"`);
     for (const [re, msg] of PHRASES) if (re.test(t)) say(book, where, msg);
     threes += (t.match(/\b\w+, \w+(?: \w+)?,? and \w+/g) ?? []).length;
-    for (const s of t.split(/(?<=[.!?…])\s+/)) {
+    for (const s of t.split(/(?<=[.!?…])\s+/)) lens.push(s.split(/\s+/).filter(Boolean).length);
+    // the longest sentence: a sentence can also end inside a quote (“… safe.” Then …)
+    for (const s of t.split(/(?<=[.!?…]”?)\s+/)) {
       const n = s.split(/\s+/).filter(Boolean).length;
-      lens.push(n);
       if (level && n > LIMIT[level]) say(book, where, `sentence of ${n} words is long for Level ${level}: "${s.slice(0, 60)}…"`);
     }
   }
@@ -92,10 +94,11 @@ for (const b of LEVEL1) { check(b, 1); shape(b, 1); }
 for (const b of LEVEL2) { check(b, 2); shape(b, 2); }
 for (const b of ADDED) { if (![1, 2].includes(b.level)) say(b, 'shape', 'level must be 1 or 2'); check(b, b.level); shape(b, b.level); }
 for (const b of TAWHEED) { check(b, b.level); shape(b, b.level); }
+for (const b of PROPHETS) { check(b, b.level); shape(b, b.level); if (!b.ayat) say(b, 'shape', 'needs ayat: the ayat the story is told from'); }
 for (const b of STORIES) check(b, 0);
-const ids = [...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED].map((b) => b.id);
+const ids = [...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED, ...PROPHETS].map((b) => b.id);
 const dup = ids.filter((x, i) => ids.indexOf(x) !== i);
 if (dup.length) problems.push('duplicate ids: ' + dup.join(', '));
-console.log(`${LEVEL1.length} Level 1 books, ${LEVEL2.length} Level 2 books, ${ADDED.length} added books, ${TAWHEED.length} Tawheed books, ${STORIES.length} Story Time stories checked.`);
+console.log(`${LEVEL1.length} Level 1 books, ${LEVEL2.length} Level 2 books, ${ADDED.length} added books, ${TAWHEED.length} Tawheed books, ${PROPHETS.length} Stories of the Prophets, ${STORIES.length} Story Time stories checked.`);
 console.log(problems.length ? problems.join('\n') : 'No problems found.');
 process.exit(problems.length ? 1 : 0);

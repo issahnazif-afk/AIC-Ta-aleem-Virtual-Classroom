@@ -1254,7 +1254,7 @@ const levels = [
       const act = (id) => forLevel(me.level).find((a) => a.id === id);
       const go = (id) => () => { const a = act(id); if (a) openActivity(a); };
       // the school's own Canva pictures (public/img/home/), where there is one for the place; drawn icons for the rest
-      const ART = new Set(['prophet', 'quran', 'sunnah', 'stories']);
+      const ART = new Set(['prophet', 'quran', 'sunnah', 'stories', 'prophets']);
       const P = (id, title, ar, icon, color, open, extra = {}) => ({ id, title, ar, icon: ART.has(id) ? `<img src="${siteUrl(`img/home/${id}.webp`)}" alt="" width="160" height="160" decoding="async">` : ICONS[icon] ?? icon, color, open, ...extra });
       const games = forLevel(me.level).filter((a) => a.group === 'play' && a.kind !== 'soon' && (!a.suggested || a.suggested.includes(me.level)))
         .map((a) => P(a.id, a.title, a.ar, a.icon, '#FFF9EC', () => openActivity(a)));
@@ -1265,6 +1265,7 @@ const levels = [
         P('prophet', 'Our Prophet ﷺ', 'نَبِيُّنَا ﷺ', 'prophet', '#E3F0FA', () => openDeen('prophet')),
         P('stories', 'Stories', 'قِصَص', 'stories', '#FDE7EC', go('stories')),
         P('books', 'My books', 'كُتُبِي', 'books', '#E6F2EC', go('books')),
+        P('prophets', 'Stories of the Prophets', 'قَصَصُ ٱلْأَنْبِيَاء', 'prophets', '#E3F0FA', go('prophets')),
         ...(me.level >= 2 ? [P('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', '#F1E9FB', go('library')), P('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', '#FFF9EC', go('tawheed'))] : []),
         P('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFDF7', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
         P('games', 'Games', 'أَلْعَاب', 'match', '#FFE9D6', null, { children: games }),
@@ -1937,6 +1938,7 @@ const levels = [
     let libBook = null, libLevel = null, libShelf = 'library';
     const SHELF_TEXT = {
       library: { eyebrow: 'Reading Library · مَكْتَبَةُ ٱلْقِرَاءَة', h: 'My reading journey', lead: 'Follow the path. Each book is a new adventure. Read it, play its games and collect your stars.' },
+      prophets: { eyebrow: 'Stories of the Prophets · قَصَصُ ٱلْأَنْبِيَاء', h: 'Stories of the Prophets', lead: 'Stories Allah tells us in the Qur’an. Read each one, listen to its ayah, then play its games.' },
       tawheed: { eyebrow: 'Tawheed · ٱلتَّوْحِيد', h: 'Knowing Allah', lead: 'Who made the moon? Who hears a whisper in the dark? Read each book, then play its games. Levels 3 and 4 follow the Tawheed textbook.' },
     };
     function openLibrary(level, shelf) {

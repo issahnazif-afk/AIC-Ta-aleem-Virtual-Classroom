@@ -15,7 +15,7 @@ The voice is Kokoro v1.0 (Apache 2.0). It reads quickly and evenly on its own, s
   - every sentence shaped by its kind (WORLD vocoder): the melody widened so the voice rises and falls like a
     storyteller's; exclamations brighter and louder; questions lifted at the end; quiet lines (sleepy, slowly,
     tired, "…") lower, softer and slower
-  - the characters' words in their own voices: children lighter and higher, Mama and Teta, Baba and Jiddo, the
+  - the characters' words in their own voices: children lighter and higher, Mama and Teta, Baba and Grandpa Musa, the
     teacher; the narrator is a warm female storyteller (af_heart)
   - a warm finish: a little body in the low voice, a soft top, a touch of room, and every clip equally loud
 The Seerah Quest is read by a calm male narrator (bm_george), slower and steadier, without character voices.
@@ -33,7 +33,10 @@ CAST = {
         'narrator': ('af_heart', 0.80, -0.5, 1.25),
         'girl': ('af_sky', 0.88, 2.5, 1.45), 'boy': ('af_sky', 0.88, 1.0, 1.4), 'cat': ('af_sky', 0.8, 4.0, 1.5),
         'mama': ('bf_emma', 0.84, 0.0, 1.25), 'teta': ('bf_isabella', 0.80, -1.5, 1.2), 'teacher': ('af_sarah', 0.84, 0.0, 1.25),
-        'man': ('am_michael', 0.84, -0.5, 1.2), 'jiddo': ('bm_george', 0.78, -1.5, 1.15),
+        'man': ('am_michael', 0.84, -0.5, 1.2), 'grandpa': ('bm_george', 0.78, -1.5, 1.15),
+        # the aunties and the imam have their own keys (VOICE_KINDS in narration-text.mjs); until the new voices are
+        # chosen by ear they keep the voices they had (Mama's and Baba's)
+        'woman': ('bf_emma', 0.84, 0.0, 1.25), 'imam': ('am_michael', 0.84, -0.5, 1.2),
     },
     'seerah': {'narrator': ('bm_george', 0.84, -0.5, 1.15)},
 }

@@ -1,9 +1,10 @@
 // Reading aloud with a natural recorded voice. Every English line of Story Time and the Seerah Quest is recorded
 // at build time by scripts/voice/make_narration.py (Kokoro) into public/audio/narration/. A line without a recording
 // (for example a sentence a teacher has just changed) falls back to the browser's own voice.
-//   narrate(text, { voice: 'story' | 'seerah', words, onEnd }) → { stop() }
+//   narrate(text, { voice: 'story' | 'seerah', words, onEnd, studio, where }) → { stop() }
+//   where: the line's place ("story:page" or "story:page:say"), so the browser's voice can tell who says each quote
 import { u } from './url.mjs';
-import { VOICES, spoken, clipKey } from './narration-text.mjs';
+import { VOICES, spoken, clipKey, parts } from './narration-text.mjs';
 import { studioUrl } from './voice.mjs';
 
 let index = null;
@@ -32,20 +33,34 @@ function pickVoice() {
 }
 if (typeof window !== 'undefined' && 'speechSynthesis' in window) { pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', pickVoice); }
 
-function browserSay(text, words, onEnd) {
+// The browser's own voice has one speaker, so each character is told apart by pitch and pace (1 = the voice as it is):
+// children higher and quicker, the grandparents lower and slower. The kinds are VOICE_KINDS in narration-text.mjs.
+export const BROWSER_VOICE = {
+  narrator: [1, 0.9], girl: [1.45, 1.0], boy: [1.25, 1.0], cat: [1.7, 0.95], mama: [1.1, 0.9], woman: [1.05, 0.92], teacher: [1.0, 0.92],
+  teta: [0.85, 0.8], man: [0.75, 0.88], imam: [0.7, 0.85], grandpa: [0.6, 0.78],
+};
+function browserSay(text, words, onEnd, { voice = 'story', where } = {}) {
   if (!('speechSynthesis' in window)) { onEnd?.(); return { stop() {} }; }
-  const u2 = new SpeechSynthesisUtterance(spoken(text));
-  if (enVoice) u2.voice = enVoice; u2.lang = enVoice?.lang ?? 'en-GB'; u2.rate = 0.9;
-  let timer = null, k = 0;
-  u2.onstart = () => { timer = setInterval(() => { words.forEach((w, j) => w.classList.toggle('on', j === k)); k++; }, 380); };
-  u2.onend = () => { clearInterval(timer); words.forEach((w) => w.classList.remove('on')); onEnd?.(); };
-  u2.onerror = u2.onend;
-  speechSynthesis.speak(u2);
-  return { stop() { clearInterval(timer); u2.onend = null; speechSynthesis.cancel(); words.forEach((w) => w.classList.remove('on')); } };
+  const ps = voice === 'story' ? parts(text, where) : [['narrator', text]];
+  let timer = null, k = 0, i = 0, stopped = false;
+  const clear = () => { clearInterval(timer); words.forEach((w) => w.classList.remove('on')); };
+  const next = () => {
+    if (stopped) return;
+    if (i >= ps.length) { clear(); onEnd?.(); return; }
+    const [who, w] = ps[i++];
+    const u2 = new SpeechSynthesisUtterance(spoken(w));
+    if (enVoice) u2.voice = enVoice; u2.lang = enVoice?.lang ?? 'en-GB';
+    [u2.pitch, u2.rate] = BROWSER_VOICE[who] ?? BROWSER_VOICE.narrator;
+    u2.onstart = () => { timer ??= setInterval(() => { words.forEach((x, j) => x.classList.toggle('on', j === k)); k++; }, 380); };
+    u2.onend = next; u2.onerror = next;
+    speechSynthesis.speak(u2);
+  };
+  next();
+  return { stop() { stopped = true; speechSynthesis.cancel(); clear(); } };
 }
 
 // studio: the id of a teacher's recording of this line in the Voice Studio (st-<story>-<page>), used first
-export async function narrate(text, { voice = 'story', words = [], onEnd, studio } = {}) {
+export async function narrate(text, { voice = 'story', words = [], onEnd, studio, where } = {}) {
   hush();
   const mine = {};
   current = mine;
@@ -66,7 +81,7 @@ export async function narrate(text, { voice = 'story', words = [], onEnd, studio
     mine.stop = () => { ended = true; a.pause(); words.forEach((w) => w.classList.remove('on')); };
     try { await a.play(); return mine; } catch { /* blocked or missing: use the browser voice */ }
   }
-  const b = browserSay(text, words, onEnd);
+  const b = browserSay(text, words, onEnd, { voice, where });
   mine.stop = b.stop;
   return mine;
 }

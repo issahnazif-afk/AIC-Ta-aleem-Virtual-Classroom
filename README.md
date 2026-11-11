@@ -348,6 +348,15 @@ passport stamp and a Ta'aleem Star. There is a day streak and a badge every five
 writing rules and how a teacher adds a book (including pages exported from Canva) are in
 [docs/reading-library.md](docs/reading-library.md). Check new or changed books with `npm run books`.
 
+**Stories of the Prophets** (`src/lib/library/prophets.mjs`) is a shelf of the same library, on the picture home (the
+school's Canva picture) and under *My Lessons*: Ibrahim and the fire (21:51–70, 37:83–98), Nuh and the ark (11:25–48),
+Yunus and the whale (21:87–88, 37:139–148) and Musa and the sea (26:52–67), written for Levels 2 and 3 from the Qur'an
+itself. A Prophet is given no words beyond the ayat: what he or Allah says is a simple meaning introduced with "Allah
+tells us in the Qurʾan", read by the narrator, never a character voice. No person is drawn, only the places and things
+(the fire turning cool, the ark, the whale, the parted sea). Each book ends with its ayah from the Tanzil text, played by
+the class's reciter, then the library's games. Ustadh Issah checks each one in
+[docs/reading-library-review.md](docs/reading-library-review.md) before use.
+
 ## The Al-Huda Books (every level)
 
 **Al-Huda Books** is under *My Lessons*: the school's own Canva books, each turned into an interactive digital book
@@ -389,8 +398,12 @@ The computer storyteller is made at build time from **Kokoro** (an open neural v
 sentence by `scripts/voice/make_narration.py`: a slow pace with real pauses; the melody widened so the voice rises and
 falls like a storyteller's; exclamations brighter, questions lifted at the end, quiet moments ("slowly… slowly…",
 bedtime) lower and softer; and the characters' words in their own voices (Yusuf, Maryam and friends lighter and higher,
-Mama, Teta, Baba, Jiddo, Ustadha Huda). Who says each line is worked out from the text, with corrections in
-`SPEAKERS` in `src/lib/narration-text.mjs`. The Seerah Quest is read by a calm male narrator. GitHub records the clips
+Mama, Teta, Baba, Grandpa Musa, Ustadha Huda). Each quote is given a kind of voice (girl, boy, mama, woman for the
+aunties, teta, man, grandpa, imam, teacher; the narrator for the words of Allah and the Prophets): `WHO` in
+`src/lib/narration-text.mjs` names every character's kind, the words around a quote ("says Teta", "she whispered") say
+who speaks, and `SPEAKERS` corrects the rest. When there is no recording, the browser's own voice tells the kinds apart
+by pitch and pace (`BROWSER_VOICE` in `src/lib/narration.mjs`). A clip's name comes from its words, not its speakers:
+after changing the cast or a speaker, change `VOICES.story` so the lines are recorded again. The Seerah Quest is read by a calm male narrator. GitHub records the clips
 during the deploy (`scripts/voice/narration-list.mjs` lists the lines) and keeps them in its cache: the first deploy
 takes about 30–40 minutes, later ones only record new or changed sentences.
 

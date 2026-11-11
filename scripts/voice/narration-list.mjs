@@ -8,6 +8,7 @@ import { LEVEL1 } from '../../src/lib/library/level1.mjs';
 import { LEVEL2 } from '../../src/lib/library/level2.mjs';
 import { ADDED } from '../../src/lib/library/added.mjs';
 import { TAWHEED } from '../../src/lib/library/tawheed.mjs';
+import { PROPHETS } from '../../src/lib/library/prophets.mjs';
 import { BOOKS as HUDA_BOOKS } from '../../src/lib/books/index.mjs';
 import { DUAS } from '../../src/lib/deen/duas.mjs';
 import { SUNNAH } from '../../src/lib/deen/sunnah.mjs';
@@ -35,7 +36,7 @@ for (const k of Object.values(STORY_LINES)) add('story', k);
 
 // The Reading Library: the same as Story Time, plus (Level 1 only) the quiz questions and the picture words.
 // Level 2 games are read by the child, so they are not narrated.
-for (const b of [...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED]) {
+for (const b of [...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED, ...PROPHETS]) {
   const L1 = b.level === 1 || /^l1-/.test(b.id);
   b.pages.forEach((p, i) => { add('story', p.t, `${b.id}:${i}`); add('story', p.tap?.say, `${b.id}:${i}:say`); });
   add('story', `${b.choose.q} ${b.choose.options.join('? ')}?`);
@@ -73,7 +74,7 @@ for (const t of ["Get ready to learn this du'a.", 'Now get ready to repeat after
 // the picture home (Levels 1 and 2) says each place's name
 // Play & Make (src/lib/games/lines.mjs): the games' instructions and cheers for Levels 1 and 2
 for (const t of GAME_LINES) add('story', t);
-for (const t of ['My letters', "My du'as", 'Sunnah of the day', 'Our Prophet sallallahu alayhi wa sallam', 'Stories', 'My books', 'Reading Library', 'Knowing Allah', "Qur'an", 'Games', 'Special days', 'My garden', 'My stars', 'Back', 'Mazes']) add('story', t);
+for (const t of ['My letters', "My du'as", 'Sunnah of the day', 'Our Prophet sallallahu alayhi wa sallam', 'Stories', 'My books', 'Reading Library', 'Knowing Allah', 'Stories of the Prophets', "Qur'an", 'Games', 'Special days', 'My garden', 'My stars', 'Back', 'Mazes']) add('story', t);
 
 // The Seerah Quest: the passages from al-Bidaya, the explorer's guide, the questions and the reflections
 for (const p of SRC.passages) if (p.class !== 'excluded') add('seerah', p.en);

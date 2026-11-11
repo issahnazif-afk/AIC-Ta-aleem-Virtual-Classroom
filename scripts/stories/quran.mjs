@@ -6,8 +6,9 @@ import { LEVEL1 } from '../../src/lib/library/level1.mjs';
 import { LEVEL2 } from '../../src/lib/library/level2.mjs';
 import { ADDED } from '../../src/lib/library/added.mjs';
 import { TAWHEED } from '../../src/lib/library/tawheed.mjs';
+import { PROPHETS } from '../../src/lib/library/prophets.mjs';
 const out = {};
-for (const st of [...STORIES, ...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED]) {
+for (const st of [...STORIES, ...LEVEL1, ...LEVEL2, ...ADDED, ...TAWHEED, ...PROPHETS]) {
   if (!st.quran) continue;
   const { s, a, w: [w0, w1] } = st.quran;
   const sura = JSON.parse(fs.readFileSync(new URL(`../../public/data/surah/${String(s).padStart(3, '0')}.json`, import.meta.url)));

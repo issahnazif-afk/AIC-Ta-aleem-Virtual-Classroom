@@ -12,7 +12,7 @@
 //   mode    for 'recite': 'hifz' or 'reading'
 //   nocam   for 'recite': practice without the camera check, snapshot or look-away check (microphone only)
 //   worlds  which learning worlds it belongs to (WORLDS below): the home page's "Choose your adventure"
-//   shelf   for 'library': 'library' (the Reading Library) or 'tawheed' (the Tawheed shelf)
+//   shelf   for 'library': 'library' (the Reading Library), 'tawheed' (the Tawheed shelf) or 'prophets' (Stories of the Prophets)
 //   view    for 'deen': which part opens first: duas | sunnah | prophet | days
 //   levels  which classes see it (leave out for all)
 
@@ -54,6 +54,12 @@ export const ACTIVITIES = [
     id: 'tawheed', worlds: ['tawheed'], kind: 'library', shelf: 'tawheed', icon: 'tawheed', group: 'lessons', suggested: [1, 2],
     title: 'Tawheed', ar: 'ٱلتَّوْحِيد',
     text: 'Who made the moon? Who hears a whisper? Twelve picture books about knowing Allah, with games and stars.',
+  },
+  // Stories of the Prophets: the stories Allah tells in the Qur'an (src/lib/library/prophets.mjs).
+  {
+    id: 'prophets', worlds: ['tawheed', 'quran'], kind: 'library', shelf: 'prophets', icon: 'prophets', group: 'lessons', suggested: [1, 2, 3],
+    title: 'Stories of the Prophets', ar: 'قَصَصُ ٱلْأَنْبِيَاء',
+    text: 'Ibrahim and the fire, Nuh and the ark, Yunus and the whale, Musa and the sea: stories Allah tells in the Qur’an, with an ayah and games.',
   },
   // The Al-Huda Books: the school's own Canva books as interactive digital books, one shelf for every level (src/lib/books/).
   {
@@ -118,6 +124,7 @@ export const WORLDS = [
 ];
 
 export const ICONS = {
+  prophets: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M0 46 q8 -4 16 0 t16 0 t16 0 t16 0 V64 H0 Z" fill="#4FA9D9"/><path d="M8 36 H56 L50 48 H14 Z" fill="#8A5A33"/><rect x="20" y="24" width="24" height="12" fill="#B07A4A"/><path d="M17 24 L32 15 L47 24 Z" fill="#6B4226"/><circle cx="27" cy="30" r="2.5" fill="#FFE9B0"/><circle cx="37" cy="30" r="2.5" fill="#FFE9B0"/><path d="M48 8 a7 7 0 1 0 6 10 a6 6 0 1 1 -6 -10 Z" fill="#F6C64B"/></svg>',
   tawheed: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 4 L38 18 L53 13 L47 27 L60 35 L45 39 L48 54 L35 46 L32 60 L29 46 L16 54 L19 39 L4 35 L17 27 L11 13 L26 18 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><circle cx="32" cy="33" r="13" fill="#0E6B4E"/><text x="32" y="40" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="17" fill="#FBE3A6">أَحَد</text></svg>',
   hifz: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M8 14 Q20 10 32 16 Q44 10 56 14 V50 Q44 46 32 52 Q20 46 8 50 Z" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2.5"/><path d="M32 16 V52" stroke="#0E6B4E" stroke-width="2"/><circle cx="46" cy="22" r="9" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><path d="M42 22 l3 3 5-6" fill="none" stroke="#0E6B4E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   mushaf: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M6 18 Q19 13 32 19 Q45 13 58 18 V52 Q45 47 32 53 Q19 47 6 52 Z" fill="#FFFDF7" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 19 V53" stroke="#C9A24A" stroke-width="2"/><g stroke="#0E6B4E" stroke-width="2" stroke-linecap="round"><path d="M12 26 H26 M12 32 H26 M12 38 H24 M38 26 H52 M38 32 H52 M40 38 H52"/></g><path d="M20 58 L32 50 L44 58" fill="none" stroke="#8A5A12" stroke-width="2.5" stroke-linecap="round"/></svg>',

@@ -7,6 +7,7 @@ import { LEVEL1 } from './level1.mjs';
 import { LEVEL2 } from './level2.mjs';
 import { ADDED } from './added.mjs';
 import { TAWHEED_L1, TAWHEED_L2 } from './tawheed.mjs';
+import { PROPHETS } from './prophets.mjs';
 import { prop, scene } from '../stories/art.mjs';
 import { openStory, picture } from '../stories/reader.mjs';
 import { narrate, hush } from '../narration.mjs';
@@ -21,7 +22,11 @@ export const TAWHEED_SHELVES = {
   1: { name: 'Allah Made Everything', ages: 'Level 1 · ages 4–6', books: TAWHEED_L1 },
   2: { name: 'Who Is My Lord?', ages: 'Level 2 · ages 7–8', books: TAWHEED_L2 },
 };
-const COLLECTIONS = { library: SHELVES, tawheed: TAWHEED_SHELVES };
+// Stories of the Prophets: the stories Allah tells in the Qur'an, one shelf for Levels 2 and 3 (read aloud for Level 1).
+export const PROPHET_SHELVES = {
+  2: { name: 'Stories of the Prophets', ages: 'Levels 2 and 3 · ages 7–10', books: PROPHETS },
+};
+const COLLECTIONS = { library: SHELVES, tawheed: TAWHEED_SHELVES, prophets: PROPHET_SHELVES };
 export const ALL_BOOKS = Object.values(COLLECTIONS).flatMap((c) => Object.values(c)).flatMap((s) => s.books);
 const BADGES = [[5, 'Bronze Reader'], [10, 'Silver Reader'], [15, 'Gold Reader'], [20, 'Library Star']];
 
@@ -51,6 +56,7 @@ export function noteRead(progress, book, stars) {
 // ── the journey map ─────────────────────────────────────────
 export function mountLibrary(root, { level = 1, progress = {}, onOpen, onLevel, collection = 'library' }) {
   const SHELVES = COLLECTIONS[collection] ?? COLLECTIONS.library;
+  if (!SHELVES[level]) level = +Object.keys(SHELVES)[0];   // a collection with one shelf (the Prophets) opens it for every level
   root.replaceChildren();
   const lp = progress.library ?? {};
   const tabs = el('div', 'lb-tabs'); tabs.setAttribute('role', 'tablist');
@@ -66,13 +72,14 @@ export function mountLibrary(root, { level = 1, progress = {}, onOpen, onLevel, 
   const stars = shelf.books.reduce((a, b) => a + (lp[b.id]?.stars ?? 0), 0);
   const streak = streakOf(progress.libraryDays);
   const badge = [...BADGES].reverse().find(([n]) => read >= n);
-  const nextBadge = BADGES.find(([n]) => read < n);
+  const nextBadge = BADGES.find(([n]) => read < n && n <= shelf.books.length);   // a short shelf (the Prophets) has no badge it cannot reach
 
   const pass = el('div', 'lb-passport');
   const stat = (big, small) => { const s = el('div', 'lb-stat'); s.append(el('b', null, big), el('small', null, small)); return s; };
   pass.append(stat(`${read}/${shelf.books.length}`, 'books read'), stat(`★ ${stars}`, 'stars'), stat(`🔥 ${streak}`, streak === 1 ? 'day in a row' : 'days in a row'));
   const goal = el('p', 'lb-goal', badge ? `🏅 ${badge[1]}! ` : '');
   if (nextBadge) goal.append(`Read ${nextBadge[0] - read} more ${nextBadge[0] - read === 1 ? 'book' : 'books'} to become a ${nextBadge[1]}.`);
+  else if (read < shelf.books.length) goal.append(`Read ${shelf.books.length - read} more to fill your passport.`);
   else goal.append('You have read every book on this shelf. Masha’Allah!');
   pass.append(goal);
   const stamps = el('div', 'lb-stamps'); stamps.setAttribute('aria-label', 'Passport stamps');
@@ -85,7 +92,7 @@ export function mountLibrary(root, { level = 1, progress = {}, onOpen, onLevel, 
     const li = el('li', 'lb-stop' + (lp[b.id]?.done ? ' done' : '') + (b === next ? ' next' : ''));
     li.style.setProperty('--book', b.color);
     const btn = el('button', 'lb-book'); btn.type = 'button'; btn.dataset.book = b.id;
-    const art = el('div', 'lb-cover'); art.innerHTML = picture(b.pages[0]);
+    const art = el('div', 'lb-cover'); art.innerHTML = picture(b.cover ? { art: b.cover } : b.pages[0]);   // cover: a picture of its own, else the first page
     const n = el('span', 'lb-n', String(i + 1));
     const s = lp[b.id]?.stars ?? 0;
     btn.append(art, n, el('b', 'lb-title', b.title), el('span', 'lb-theme', b.theme), el('span', 'lb-stars', '★'.repeat(s) + '☆'.repeat(3 - s)));

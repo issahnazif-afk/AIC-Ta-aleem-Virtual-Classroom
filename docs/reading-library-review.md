@@ -1,85 +1,96 @@
 # Reading Library · teacher review sheet
 
-Forty original books written for Ta'aleem: twenty First Readers (Level 1, ages 4–6, six pages) and twenty
-Adventure Readers (Level 2, ages 7–8, eight pages). The characters are made up; no Prophet or Companion is ever shown.
+Original books written for Ta'aleem: the First Readers (Level 1, ages 4–6), the Adventure Readers (Level 2, ages 7–8),
+the Tawheed shelf and the Stories of the Prophets (Levels 2 and 3). The children and families are made up. No Prophet or
+Companion is ever shown: the Stories of the Prophets show only places and things, and give the Prophets no words beyond the Qurʾan.
 Each book ends with one hadith or ayah. The English is a simple meaning for young readers; please check it and sign the last column.
+The Stories of the Prophets are marked **For Ustadh Issah**: please check each one against the ayat named under its title.
 
 ## Level 1 · First Readers
 
 | # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
 |---|---|---|---|---|---|---|
-| 1 | The Big Red Kite | Taking turns | إِنَّمَا ٱلْمُؤْمِنُونَ إِخْوَةٌ | The believers are brothers and sisters. | Qurʾan 49:10 (Tanzil text) | |
-| 2 | Splash Goes the Castle | Trying again | إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا | Indeed, with hardship comes ease. | Qurʾan 94:6 (Tanzil text) | |
-| 3 | Gentle with the Ducks | Being gentle | إِنَّ الرِّفْقَ لَا يَكُونُ فِي شَيْءٍ إِلَّا زَانَهُ | Gentleness makes everything it is in more beautiful. | Muslim 2594 | |
-| 4 | One Scarf, Two Friends | Caring for friends | الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا | A believer to a believer is like a building: each part holds up the others. | Bukhari 481, Muslim 2585 | |
-| 5 | Five Little Lights | The five prayers | أَيُّ الْعَمَلِ أَحَبُّ إِلَى اللَّهِ؟ قَالَ: الصَّلَاةُ عَلَى وَقْتِهَا | The Prophet ﷺ was asked which deed Allah loves most. He said: prayer at its time. | Bukhari 527, Muslim 85 | |
-| 6 | Where Is Adam’s Shoe? | Tidy things | إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ | Allah is beautiful, and He loves beauty. | Muslim 91 | |
-| 7 | Buzz, Said the Bee | Allah’s gifts | وَإِن تَعُدُّوا۟ نِعْمَةَ ٱللَّهِ لَا تُحْصُوهَآ | If you tried to count Allah’s blessings, you could never count them all. | Qurʾan 16:18 (Tanzil text) | |
-| 8 | Apples at the Market | Good manners in shops | لَا تَحْقِرَنَّ مِنَ الْمَعْرُوفِ شَيْئًا، وَلَوْ أَنْ تَلْقَى أَخَاكَ بِوَجْهٍ طَلْقٍ | Do not think any good deed is too small, even meeting your brother with a smiling face. | Muslim 2626 | |
-| 9 | Teta’s Glasses | Helping elders | وَأَحْسِنُوٓا۟ ۛ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُحْسِنِينَ | Do good. Allah loves those who do good. | Qurʾan 2:195 (Tanzil text) | |
-| 10 | The Big Puddle | Saying sorry and forgiving | وَٱلْكَـٰظِمِينَ ٱلْغَيْظَ وَٱلْعَافِينَ عَنِ ٱلنَّاسِ | Those who hold back their anger and forgive people. | Qurʾan 3:134 (Tanzil text) | |
-| 11 | Up, Up the Hill | Keep going | لَا يُكَلِّفُ ٱللَّهُ نَفْسًا إِلَّا وُسْعَهَا | Allah does not ask anyone to carry more than they can. | Qurʾan 2:286 (Tanzil text) | |
-| 12 | Counting Stars with Jiddo | Remembering Allah | أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ | In the remembrance of Allah, hearts find rest. | Qurʾan 13:28 (Tanzil text) | |
-| 13 | The Little Lost Sheep | Looking after what we have | كُلُّكُمْ رَاعٍ وَكُلُّكُمْ مَسْئُولٌ عَنْ رَعِيَّتِهِ | Each of you is a shepherd, and each of you is responsible for what you look after. | Bukhari 893, Muslim 1829 | |
-| 14 | Hamza’s Half-Day Fast | Ramadan and sharing | مَنْ فَطَّرَ صَائِمًا كَانَ لَهُ مِثْلُ أَجْرِهِ | Whoever gives food to a fasting person to break their fast gets the same reward as them. | Tirmidhi 807 | |
-| 15 | The Wobbly Tooth | Clean teeth | لَوْلَا أَنْ أَشُقَّ عَلَى أُمَّتِي لَأَمَرْتُهُمْ بِالسِّوَاكِ | If it were not too hard for my people, I would have told them to use the miswak (for every prayer). | Bukhari 887, Muslim 252 | |
-| 16 | Safiya’s Library Book | Looking after things we borrow | إِنَّ ٱللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا۟ ٱلْأَمَـٰنَـٰتِ إِلَىٰٓ أَهْلِهَا | Allah tells you to give back the things you are trusted with to their owners. | Qurʾan 4:58 (Tanzil text) | |
-| 17 | Idris and the Dark | Trusting Allah | وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ | Whoever puts their trust in Allah, He is enough for them. | Qurʾan 65:3 (Tanzil text) | |
-| 18 | A Ride on Rosie the Camel | Kindness to animals | إِنَّ اللَّهَ رَفِيقٌ يُحِبُّ الرِّفْقَ فِي الْأَمْرِ كُلِّهِ | Allah is gentle, and He loves gentleness in everything. | Bukhari 6927 | |
-| 19 | Layla’s Lemonade Stall | Racing to do good | فَٱسْتَبِقُوا۟ ٱلْخَيْرَٰتِ | So race each other to do good. | Qurʾan 2:148 (Tanzil text) | |
-| 20 | Our Masjid Garden | Planting | كُلُوا۟ مِن ثَمَرِهِۦٓ إِذَآ أَثْمَرَ | Eat of its fruit when it gives fruit. | Qurʾan 6:141 (Tanzil text) | |
+| 1 | The Big Red Kite | Taking turns | إِنَّمَا ٱلْمُؤْمِنُونَ إِخْوَةٌ | The believers are brothers and sisters. | Qurʾan 49:10 (Tanzil text) |  |
+| 2 | Splash Goes the Castle | Trying again | إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا | Indeed, with hardship comes ease. | Qurʾan 94:6 (Tanzil text) |  |
+| 3 | Gentle with the Ducks | Being gentle | إِنَّ الرِّفْقَ لَا يَكُونُ فِي شَيْءٍ إِلَّا زَانَهُ | Gentleness makes everything it is in more beautiful. | Muslim 2594 |  |
+| 4 | One Scarf, Two Friends | Caring for friends | الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا | A believer to a believer is like a building: each part holds up the others. | Bukhari 481, Muslim 2585 |  |
+| 5 | Five Little Lights | The five prayers | أَيُّ الْعَمَلِ أَحَبُّ إِلَى اللَّهِ؟ قَالَ: الصَّلَاةُ عَلَى وَقْتِهَا | The Prophet ﷺ was asked which deed Allah loves most. He said: prayer at its time. | Bukhari 527, Muslim 85 |  |
+| 6 | Where Is Adam’s Shoe? | Tidy things | إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ | Allah is beautiful, and He loves beauty. | Muslim 91 |  |
+| 7 | Buzz, Said the Bee | Allah’s gifts | وَإِن تَعُدُّوا۟ نِعْمَةَ ٱللَّهِ لَا تُحْصُوهَآ | If you tried to count Allah’s blessings, you could never count them all. | Qurʾan 16:18 (Tanzil text) |  |
+| 8 | Apples at the Market | Good manners in shops | لَا تَحْقِرَنَّ مِنَ الْمَعْرُوفِ شَيْئًا، وَلَوْ أَنْ تَلْقَى أَخَاكَ بِوَجْهٍ طَلْقٍ | Do not think any good deed is too small, even meeting your brother with a smiling face. | Muslim 2626 |  |
+| 9 | Teta’s Glasses | Helping elders | وَأَحْسِنُوٓا۟ ۛ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُحْسِنِينَ | Do good. Allah loves those who do good. | Qurʾan 2:195 (Tanzil text) |  |
+| 10 | The Big Puddle | Saying sorry and forgiving | وَٱلْكَـٰظِمِينَ ٱلْغَيْظَ وَٱلْعَافِينَ عَنِ ٱلنَّاسِ | Those who hold back their anger and forgive people. | Qurʾan 3:134 (Tanzil text) |  |
+| 11 | Up, Up the Hill | Keep going | لَا يُكَلِّفُ ٱللَّهُ نَفْسًا إِلَّا وُسْعَهَا | Allah does not ask anyone to carry more than they can. | Qurʾan 2:286 (Tanzil text) |  |
+| 12 | Counting Stars with Grandpa Musa | Remembering Allah | أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ | In the remembrance of Allah, hearts find rest. | Qurʾan 13:28 (Tanzil text) |  |
+| 13 | The Little Lost Sheep | Looking after what we have | كُلُّكُمْ رَاعٍ وَكُلُّكُمْ مَسْئُولٌ عَنْ رَعِيَّتِهِ | Each of you is a shepherd, and each of you is responsible for what you look after. | Bukhari 893, Muslim 1829 |  |
+| 14 | Hamza’s Half-Day Fast | Ramadan and sharing | مَنْ فَطَّرَ صَائِمًا كَانَ لَهُ مِثْلُ أَجْرِهِ | Whoever gives food to a fasting person to break their fast gets the same reward as them. | Tirmidhi 807 |  |
+| 15 | The Wobbly Tooth | Clean teeth | لَوْلَا أَنْ أَشُقَّ عَلَى أُمَّتِي لَأَمَرْتُهُمْ بِالسِّوَاكِ | If it were not too hard for my people, I would have told them to use the miswak (for every prayer). | Bukhari 887, Muslim 252 |  |
+| 16 | Safiya’s Library Book | Looking after things we borrow | إِنَّ ٱللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا۟ ٱلْأَمَـٰنَـٰتِ إِلَىٰٓ أَهْلِهَا | Allah tells you to give back the things you are trusted with to their owners. | Qurʾan 4:58 (Tanzil text) |  |
+| 17 | Idris and the Dark | Trusting Allah | وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ | Whoever puts their trust in Allah, He is enough for them. | Qurʾan 65:3 (Tanzil text) |  |
+| 18 | A Ride on Rosie the Camel | Kindness to animals | إِنَّ اللَّهَ رَفِيقٌ يُحِبُّ الرِّفْقَ فِي الْأَمْرِ كُلِّهِ | Allah is gentle, and He loves gentleness in everything. | Bukhari 6927 |  |
+| 19 | Layla’s Lemonade Stall | Racing to do good | فَٱسْتَبِقُوا۟ ٱلْخَيْرَٰتِ | So race each other to do good. | Qurʾan 2:148 (Tanzil text) |  |
+| 20 | Our Masjid Garden | Planting | كُلُوا۟ مِن ثَمَرِهِۦٓ إِذَآ أَثْمَرَ | Eat of its fruit when it gives fruit. | Qurʾan 6:141 (Tanzil text) |  |
 
 ## Level 2 · Adventure Readers
 
 | # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
 |---|---|---|---|---|---|---|
-| 1 | The Map in the Masjid Attic | Good that lasts | إِذَا مَاتَ الْإِنْسَانُ انْقَطَعَ عَنْهُ عَمَلُهُ إِلَّا مِنْ ثَلَاثَةٍ: صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ | When a person dies, their deeds stop, except three: charity that keeps flowing, knowledge that helps people, and a good child who prays for them. | Muslim 1631 | |
-| 2 | Camping Under the Stars | Waking for Fajr | مَنْ صَلَّى الصُّبْحَ فَهُوَ فِي ذِمَّةِ اللَّهِ | Whoever prays the morning prayer is under the protection of Allah. | Muslim 657 | |
-| 3 | The Storm and the Kitten | Mercy to animals | الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ | Those who are merciful, the Most Merciful will have mercy on them. | Abu Dawud 4941, Tirmidhi 1924 | |
-| 4 | The Lost Wallet at the Souk | Honesty with trusts | أَدِّ الْأَمَانَةَ إِلَى مَنِ ائْتَمَنَكَ | Give back the trust to the one who trusted you. | Abu Dawud 3535, Tirmidhi 1264 | |
-| 5 | Beach Clean-Up Day | Caring for the earth | وَلَا تُفْسِدُوا۟ فِى ٱلْأَرْضِ بَعْدَ إِصْلَـٰحِهَا | Do not spread harm on the earth after it has been set right. | Qurʾan 7:56 (Tanzil text) | |
-| 6 | The Race and the Fall | Helping others | مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ وَتَعَاطُفِهِمْ مَثَلُ الْجَسَدِ | The believers in their love, mercy and kindness to each other are like one body. | Bukhari 6011, Muslim 2586 | |
-| 7 | The Great Bake Sale | Giving charity | مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ | Charity never makes wealth less. | Muslim 2588 | |
-| 8 | Moon Watchers | Waiting for Ramadan | صُومُوا لِرُؤْيَتِهِ وَأَفْطِرُوا لِرُؤْيَتِهِ | Fast when you see it (the new moon), and stop fasting when you see it. | Bukhari 1909, Muslim 1081 | |
-| 9 | The Secret of the Old Well | Trust in Allah | وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ | Whoever puts their trust in Allah, He is enough for them. | Qurʾan 65:3 (Tanzil text) | |
-| 10 | The Promise at the River | Keeping promises | وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًا | Keep your promises. You will be asked about your promises. | Qurʾan 17:34 (Tanzil text) | |
-| 11 | The Mountain Path | Being mindful of Allah | احْفَظِ اللَّهَ يَحْفَظْكَ | Be mindful of Allah, and He will protect you. | Tirmidhi 2516 | |
-| 12 | Bilal Speaks Up | Standing up kindly | الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ | A Muslim is the one whose tongue and hands keep other Muslims safe. | Bukhari 10, Muslim 40 | |
-| 13 | The Snow Day Rescue | Caring for neighbours | مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ جَارَهُ | Whoever believes in Allah and the Last Day, let them honour their neighbour. | Bukhari 6019, Muslim 47 | |
-| 14 | The Library Detectives | Seeking knowledge | مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ | Whoever takes a path to seek knowledge, Allah makes a path to Paradise easy for them. | Muslim 2699 | |
-| 15 | The Volcano That Wasn’t Mine | Honesty | دَعْ مَا يَرِيبُكَ إِلَى مَا لَا يَرِيبُكَ | Leave what makes you doubt for what does not make you doubt. | Tirmidhi 2518, Nasa’i 5711 | |
-| 16 | Jiddo’s Garden Mystery | Planting for others | مَا مِنْ مُسْلِمٍ يَغْرِسُ غَرْسًا أَوْ يَزْرَعُ زَرْعًا فَيَأْكُلُ مِنْهُ طَيْرٌ أَوْ إِنْسَانٌ أَوْ بَهِيمَةٌ إِلَّا كَانَ لَهُ بِهِ صَدَقَةٌ | Whenever a Muslim plants a tree or a crop and a bird, a person or an animal eats from it, it is charity for them. | Bukhari 2320, Muslim 1553 | |
-| 17 | The Train to Teta’s | The travel dua | سُبْحَـٰنَ ٱلَّذِى سَخَّرَ لَنَا هَـٰذَا وَمَا كُنَّا لَهُۥ مُقْرِنِينَ | Glory be to the One who has made this work for us, when we could never have done it ourselves. | Qurʾan 43:13 (Tanzil text) | |
-| 18 | Three Days of Silence | Making up | لَا يَحِلُّ لِمُسْلِمٍ أَنْ يَهْجُرَ أَخَاهُ فَوْقَ ثَلَاثِ لَيَالٍ | It is not allowed for a Muslim to stay away from his brother for more than three nights. | Bukhari 6077, Muslim 2560 | |
-| 19 | Get Well, Jiddo | Visiting the sick | مَنْ عَادَ مَرِيضًا لَمْ يَزَلْ فِي خُرْفَةِ الْجَنَّةِ | Whoever visits someone who is ill stays in the fruit garden of Paradise until he returns. | Muslim 2568 | |
-| 20 | The Night of the Lanterns | Welcoming others | وَجَعَلْنَـٰكُمْ شُعُوبًا وَقَبَآئِلَ لِتَعَارَفُوٓا۟ | We made you into nations and tribes so that you may get to know one another. | Qurʾan 49:13 (Tanzil text) | |
-| 21 | The Boy Who Never Lied | Honesty | إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ، وَإِنَّ الْبِرَّ يَهْدِي إِلَى الْجَنَّةِ | Truthfulness leads to goodness, and goodness leads to Paradise. | Bukhari 6094, Muslim 2607 | |
-| 22 | Aminah and the Long Rain | Patience and thankfulness | عَجَبًا لِأَمْرِ الْمُؤْمِنِ، إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ | How wonderful is the affair of the believer: all of it is good for him. | Muslim 2999 | |
-| 23 | Yusuf and the Little Bird | Mercy to creatures | ارْحَمُوا مَنْ فِي الْأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ | Be merciful to those on earth, and the One above the heavens will be merciful to you. | Tirmidhi 1924, Abu Dawud 4941 | |
-| 24 | Hassan’s Grumpy Mornings | Honouring parents | مَنْ أَحَقُّ النَّاسِ بِحُسْنِ صَحَابَتِي؟ قَالَ: أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أَبُوكَ | A man asked who most deserves his kindness. The Prophet ﷺ said: your mother, then your mother, then your mother, then your father. | Bukhari 5971, Muslim 2548 | |
-| 25 | Amina’s Twelve Dolls | Giving | الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى | The upper hand (the one that gives) is better than the lower hand (the one that takes). | Bukhari 1429, Muslim 1033 | |
+| 1 | The Map in the Masjid Attic | Good that lasts | إِذَا مَاتَ الْإِنْسَانُ انْقَطَعَ عَنْهُ عَمَلُهُ إِلَّا مِنْ ثَلَاثَةٍ: صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ | When a person dies, their deeds stop, except three: charity that keeps flowing, knowledge that helps people, and a good child who prays for them. | Muslim 1631 |  |
+| 2 | Camping Under the Stars | Waking for Fajr | مَنْ صَلَّى الصُّبْحَ فَهُوَ فِي ذِمَّةِ اللَّهِ | Whoever prays the morning prayer is under the protection of Allah. | Muslim 657 |  |
+| 3 | The Storm and the Kitten | Mercy to animals | الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ | Those who are merciful, the Most Merciful will have mercy on them. | Abu Dawud 4941, Tirmidhi 1924 |  |
+| 4 | The Lost Wallet at the Souk | Honesty with trusts | أَدِّ الْأَمَانَةَ إِلَى مَنِ ائْتَمَنَكَ | Give back the trust to the one who trusted you. | Abu Dawud 3535, Tirmidhi 1264 |  |
+| 5 | Beach Clean-Up Day | Caring for the earth | وَلَا تُفْسِدُوا۟ فِى ٱلْأَرْضِ بَعْدَ إِصْلَـٰحِهَا | Do not spread harm on the earth after it has been set right. | Qurʾan 7:56 (Tanzil text) |  |
+| 6 | The Race and the Fall | Helping others | مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ وَتَعَاطُفِهِمْ مَثَلُ الْجَسَدِ | The believers in their love, mercy and kindness to each other are like one body. | Bukhari 6011, Muslim 2586 |  |
+| 7 | The Great Bake Sale | Giving charity | مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ | Charity never makes wealth less. | Muslim 2588 |  |
+| 8 | Moon Watchers | Waiting for Ramadan | صُومُوا لِرُؤْيَتِهِ وَأَفْطِرُوا لِرُؤْيَتِهِ | Fast when you see it (the new moon), and stop fasting when you see it. | Bukhari 1909, Muslim 1081 |  |
+| 9 | The Secret of the Old Well | Trust in Allah | وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ | Whoever puts their trust in Allah, He is enough for them. | Qurʾan 65:3 (Tanzil text) |  |
+| 10 | The Promise at the River | Keeping promises | وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًا | Keep your promises. You will be asked about your promises. | Qurʾan 17:34 (Tanzil text) |  |
+| 11 | The Mountain Path | Being mindful of Allah | احْفَظِ اللَّهَ يَحْفَظْكَ | Be mindful of Allah, and He will protect you. | Tirmidhi 2516 |  |
+| 12 | Bilal Speaks Up | Standing up kindly | الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ | A Muslim is the one whose tongue and hands keep other Muslims safe. | Bukhari 10, Muslim 40 |  |
+| 13 | The Snow Day Rescue | Caring for neighbours | مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ جَارَهُ | Whoever believes in Allah and the Last Day, let them honour their neighbour. | Bukhari 6019, Muslim 47 |  |
+| 14 | The Library Detectives | Seeking knowledge | مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ | Whoever takes a path to seek knowledge, Allah makes a path to Paradise easy for them. | Muslim 2699 |  |
+| 15 | The Volcano That Wasn’t Mine | Honesty | دَعْ مَا يَرِيبُكَ إِلَى مَا لَا يَرِيبُكَ | Leave what makes you doubt for what does not make you doubt. | Tirmidhi 2518, Nasa’i 5711 |  |
+| 16 | Grandpa Musa’s Garden Mystery | Planting for others | مَا مِنْ مُسْلِمٍ يَغْرِسُ غَرْسًا أَوْ يَزْرَعُ زَرْعًا فَيَأْكُلُ مِنْهُ طَيْرٌ أَوْ إِنْسَانٌ أَوْ بَهِيمَةٌ إِلَّا كَانَ لَهُ بِهِ صَدَقَةٌ | Whenever a Muslim plants a tree or a crop and a bird, a person or an animal eats from it, it is charity for them. | Bukhari 2320, Muslim 1553 |  |
+| 17 | The Train to Teta’s | The travel dua | سُبْحَـٰنَ ٱلَّذِى سَخَّرَ لَنَا هَـٰذَا وَمَا كُنَّا لَهُۥ مُقْرِنِينَ | Glory be to the One who has made this work for us, when we could never have done it ourselves. | Qurʾan 43:13 (Tanzil text) |  |
+| 18 | Three Days of Silence | Making up | لَا يَحِلُّ لِمُسْلِمٍ أَنْ يَهْجُرَ أَخَاهُ فَوْقَ ثَلَاثِ لَيَالٍ | It is not allowed for a Muslim to stay away from his brother for more than three nights. | Bukhari 6077, Muslim 2560 |  |
+| 19 | Get Well, Grandpa Musa | Visiting the sick | مَنْ عَادَ مَرِيضًا لَمْ يَزَلْ فِي خُرْفَةِ الْجَنَّةِ | Whoever visits someone who is ill stays in the fruit garden of Paradise until he returns. | Muslim 2568 |  |
+| 20 | The Night of the Lanterns | Welcoming others | وَجَعَلْنَـٰكُمْ شُعُوبًا وَقَبَآئِلَ لِتَعَارَفُوٓا۟ | We made you into nations and tribes so that you may get to know one another. | Qurʾan 49:13 (Tanzil text) |  |
+| 21 | The Boy Who Never Lied | Honesty | إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ، وَإِنَّ الْبِرَّ يَهْدِي إِلَى الْجَنَّةِ | Truthfulness leads to goodness, and goodness leads to Paradise. | Bukhari 6094, Muslim 2607 |  |
+| 22 | Aminah and the Long Rain | Patience and thankfulness | عَجَبًا لِأَمْرِ الْمُؤْمِنِ، إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ | How wonderful is the affair of the believer: all of it is good for him. | Muslim 2999 |  |
+| 23 | Yusuf and the Little Bird | Mercy to creatures | ارْحَمُوا مَنْ فِي الْأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ | Be merciful to those on earth, and the One above the heavens will be merciful to you. | Tirmidhi 1924, Abu Dawud 4941 |  |
+| 24 | Hassan’s Grumpy Mornings | Honouring parents | مَنْ أَحَقُّ النَّاسِ بِحُسْنِ صَحَابَتِي؟ قَالَ: أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أَبُوكَ | A man asked who most deserves his kindness. The Prophet ﷺ said: your mother, then your mother, then your mother, then your father. | Bukhari 5971, Muslim 2548 |  |
+| 25 | Amina’s Twelve Dolls | Giving | الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى | The upper hand (the one that gives) is better than the lower hand (the one that takes). | Bukhari 1429, Muslim 1033 |  |
 
 ## Tawheed · Level 1
 
 | # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
 |---|---|---|---|---|---|---|
-| 1 | Who Made the Moon? | Allah made everything | ٱللَّهُ خَـٰلِقُ كُلِّ شَىْءٍ | Allah is the Creator of everything. | Qurʾan 39:62 (Tanzil text) | |
-| 2 | One, Only One | Allah is One | قُلْ هُوَ ٱللَّهُ أَحَدٌ | Say: He is Allah, the One. | Qurʾan 112:1 (Tanzil text) | |
-| 3 | Rain for the Flowers | Allah gives us what we need | إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ | Allah is the One who provides. | Qurʾan 51:58 (Tanzil text) | |
-| 4 | Allah Hears a Whisper | Allah hears us | وَإِذَا سَأَلَكَ عِبَادِى عَنِّى فَإِنِّى قَرِيبٌ | When My servants ask about Me, I am near. | Qurʾan 2:186 (Tanzil text) | |
-| 5 | Who Made the Dates? | Thanking Allah | وَمَا بِكُم مِّن نِّعْمَةٍ فَمِنَ ٱللَّهِ | Every good thing you have is from Allah. | Qurʾan 16:53 (Tanzil text) | |
-| 6 | The Tiny Ant | Allah sees everything | إِنَّهُۥ بِكُلِّ شَىْءٍۭ بَصِيرٌ | He sees everything. | Qurʾan 67:19 (Tanzil text) | |
+| 1 | Who Made the Moon? | Allah made everything | ٱللَّهُ خَـٰلِقُ كُلِّ شَىْءٍ | Allah is the Creator of everything. | Qurʾan 39:62 (Tanzil text) |  |
+| 2 | One, Only One | Allah is One | قُلْ هُوَ ٱللَّهُ أَحَدٌ | Say: He is Allah, the One. | Qurʾan 112:1 (Tanzil text) |  |
+| 3 | Rain for the Flowers | Allah gives us what we need | إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ | Allah is the One who provides. | Qurʾan 51:58 (Tanzil text) |  |
+| 4 | Allah Hears a Whisper | Allah hears us | وَإِذَا سَأَلَكَ عِبَادِى عَنِّى فَإِنِّى قَرِيبٌ | When My servants ask about Me, I am near. | Qurʾan 2:186 (Tanzil text) |  |
+| 5 | Who Made the Dates? | Thanking Allah | وَمَا بِكُم مِّن نِّعْمَةٍ فَمِنَ ٱللَّهِ | Every good thing you have is from Allah. | Qurʾan 16:53 (Tanzil text) |  |
+| 6 | The Tiny Ant | Allah sees everything | إِنَّهُۥ بِكُلِّ شَىْءٍۭ بَصِيرٌ | He sees everything. | Qurʾan 67:19 (Tanzil text) |  |
 
 ## Tawheed · Level 2
 
 | # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
 |---|---|---|---|---|---|---|
-| 1 | The Night Walk | Allah the Creator (Rububiyyah) | رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ | Our Lord, You did not create this for nothing. Glory be to You. | Qurʾan 3:191 (Tanzil text) | |
-| 2 | The Bird Feeder | Allah the Provider (Ar-Razzaq) | لَوْ أَنَّكُمْ كُنْتُمْ تَوَكَّلُونَ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرُزِقْتُمْ كَمَا تُرْزَقُ الطَّيْرُ، تَغْدُو خِمَاصًا وَتَرُوحُ بِطَانًا | If you trusted Allah as you truly should, He would provide for you as He provides for the birds. They go out hungry in the morning and come back full in the evening. | Tirmidhi 2344, Ibn Majah 4164 | |
-| 3 | The Lucky Bracelet | Worship and du’a for Allah alone | إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ | You alone we worship, and You alone we ask for help. | Qurʾan 1:5 (Tanzil text) | |
-| 4 | A Name on the Fridge | Allah’s beautiful Names | وَلِلَّهِ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ فَٱدْعُوهُ بِهَا | Allah has the most beautiful Names, so call on Him by them. | Qurʾan 7:180 (Tanzil text) | |
-| 5 | The Boy Who Asked Questions | Ibrahim and the true Lord | قُلْنَا يَـٰنَارُ كُونِى بَرْدًا وَسَلَـٰمًا عَلَىٰٓ إِبْرَٰهِيمَ | We said: O fire, be cool and safe for Ibrahim. | Qurʾan 21:69 (Tanzil text) | |
-| 6 | Ahad, Ahad | Holding on to Tawheed | وَإِلَـٰهُكُمْ إِلَـٰهٌ وَٰحِدٌ ۖ لَّآ إِلَـٰهَ إِلَّا هُوَ ٱلرَّحْمَـٰنُ ٱلرَّحِيمُ | Your God is One God. There is no god but Him, the Most Merciful, the Most Kind. | Qurʾan 2:163 (Tanzil text) | |
+| 1 | The Night Walk | Allah the Creator (Rububiyyah) | رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ | Our Lord, You did not create this for nothing. Glory be to You. | Qurʾan 3:191 (Tanzil text) |  |
+| 2 | The Bird Feeder | Allah the Provider (Ar-Razzaq) | لَوْ أَنَّكُمْ كُنْتُمْ تَوَكَّلُونَ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرُزِقْتُمْ كَمَا تُرْزَقُ الطَّيْرُ، تَغْدُو خِمَاصًا وَتَرُوحُ بِطَانًا | If you trusted Allah as you truly should, He would provide for you as He provides for the birds. They go out hungry in the morning and come back full in the evening. | Tirmidhi 2344, Ibn Majah 4164 |  |
+| 3 | The Lucky Bracelet | Worship and du’a for Allah alone | إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ | You alone we worship, and You alone we ask for help. | Qurʾan 1:5 (Tanzil text) |  |
+| 4 | A Name on the Fridge | Allah’s beautiful Names | وَلِلَّهِ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ فَٱدْعُوهُ بِهَا | Allah has the most beautiful Names, so call on Him by them. | Qurʾan 7:180 (Tanzil text) |  |
+| 5 | The Boy Who Asked Questions | Ibrahim and the true Lord | قُلْنَا يَـٰنَارُ كُونِى بَرْدًا وَسَلَـٰمًا عَلَىٰٓ إِبْرَٰهِيمَ | We said: O fire, be cool and safe for Ibrahim. | Qurʾan 21:69 (Tanzil text) |  |
+| 6 | Ahad, Ahad | Holding on to Tawheed | وَإِلَـٰهُكُمْ إِلَـٰهٌ وَٰحِدٌ ۖ لَّآ إِلَـٰهَ إِلَّا هُوَ ٱلرَّحْمَـٰنُ ٱلرَّحِيمُ | Your God is One God. There is no god but Him, the Most Merciful, the Most Kind. | Qurʾan 2:163 (Tanzil text) |  |
+
+## Stories of the Prophets · Levels 2 and 3
+
+| # | Book | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
+|---|---|---|---|---|---|---|
+| 1 | Ibrahim and the Fire | Trusting Allah alone | قُلْنَا يَـٰنَارُ كُونِى بَرْدًا وَسَلَـٰمًا عَلَىٰٓ إِبْرَٰهِيمَ | We said: O fire, be cool and safe for Ibrahim. | Qurʾan 21:69 (Tanzil text) | **For Ustadh Issah** |
+| 2 | Nuh and the Ark | Obeying Allah when others laugh | وَقَالَ ٱرْكَبُوا۟ فِيهَا بِسْمِ ٱللَّهِ مَجْر۪ىٰهَا وَمُرْسَىٰهَآ ۚ إِنَّ رَبِّى لَغَفُورٌ رَّحِيمٌ | Nuh said: Ride in it. In the name of Allah it sails and it stops. My Lord is Forgiving and Merciful. | Qurʾan 11:41 (Tanzil text) | **For Ustadh Issah** |
+| 3 | Yunus and the Whale | Turning to Allah in hard times | لَّآ إِلَـٰهَ إِلَّآ أَنتَ سُبْحَـٰنَكَ إِنِّى كُنتُ مِنَ ٱلظَّـٰلِمِينَ | There is no god but You. Glory be to You. I have been one of those who did wrong. | Qurʾan 21:87 (Tanzil text) | **For Ustadh Issah** |
+| 4 | Musa and the Sea | Allah is with us | قَالَ كَلَّآ ۖ إِنَّ مَعِىَ رَبِّى سَيَهْدِينِ | Musa said: No! My Lord is with me. He will guide me. | Qurʾan 26:62 (Tanzil text) | **For Ustadh Issah** |
 
 ## The books, page by page
 
@@ -237,15 +248,15 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 **Quiz:** Where did Zara and Baba go? **Up a big hill** · How did Zara get to the top? **With small steps**
 **What would you do?** Something is hard to do. What do you do? (Give up / **Take small steps and keep going** / Cry all day)
 
-### Level 1, 12. Counting Stars with Jiddo (Remembering Allah)
+### Level 1, 12. Counting Stars with Grandpa Musa (Remembering Allah)
 
-1. The night is clear. Jiddo and Bilal sit outside on a blanket.
+1. The night is clear. Grandpa Musa and Bilal sit outside on a blanket.
 2. “Let’s count the stars,” says Bilal. “One, two, three… four…”
 3. “…ninety-nine, one hundred…” There are too many!
-4. Jiddo smiles. “Every star is Allah’s. Shall we say SubhanAllah for them?”
-   - *Tap:* Tap Jiddo to say SubhanAllah together. → SubhanAllah. SubhanAllah. SubhanAllah. Bilal feels calm and cosy.
+4. Grandpa Musa smiles. “Every star is Allah’s. Shall we say SubhanAllah for them?”
+   - *Tap:* Tap Grandpa Musa to say SubhanAllah together. → SubhanAllah. SubhanAllah. SubhanAllah. Bilal feels calm and cosy.
 5. A star shoots across the sky. Whoosh! Bilal gasps.
-6. Bilal falls asleep on Jiddo’s lap, still whispering, “SubhanAllah…”
+6. Bilal falls asleep on Grandpa Musa’s lap, still whispering, “SubhanAllah…”
 
 **Words:** star, moon, lantern
 **Quiz:** What did Bilal try to count? **The stars** · What did they say for the stars? **SubhanAllah**
@@ -323,9 +334,9 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 
 ### Level 1, 18. A Ride on Rosie the Camel (Kindness to animals)
 
-1. In the desert, Jiddo has a camel named Rosie. She is very, very tall.
+1. In the desert, Grandpa Musa has a camel named Rosie. She is very, very tall.
 2. Rosie has walked all morning. Her eyes look tired.
-3. “Can I ride her now?” asks Zara. Jiddo shakes his head. “First, she needs a drink.”
+3. “Can I ride her now?” asks Zara. Grandpa Musa shakes his head. “First, she needs a drink.”
 4. Help Zara give Rosie some water.
    - *Tap:* Tap the bucket to give Rosie water. → Glug, glug, glug! Rosie drinks and drinks. Then she kneels down for Zara.
 5. Zara climbs up. “Gently, Rosie,” she whispers. Swish, sway, swish, sway.
@@ -413,12 +424,12 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 
 ### Level 2, 4. The Lost Wallet at the Souk (Honesty with trusts)
 
-1. The souk was packed. Omar and Jiddo squeezed between stalls of spices, cloth and shiny pots.
+1. The souk was packed. Omar and Grandpa Musa squeezed between stalls of spices, cloth and shiny pots.
 2. Next to a stack of oranges, Omar spotted a brown leather wallet on the ground.
 3. He opened it. There was a fat bundle of money inside, and a card with a name: Uncle Sami.
 4. Omar thought about the new football he wanted. Nobody had seen him pick it up.
 5. But Allah had seen. And Uncle Sami must be so worried.
-   - *Tap:* Tap Omar to tell Jiddo. → “Jiddo, I found this. We need to find Uncle Sami.”
+   - *Tap:* Tap Omar to tell Grandpa Musa. → “Grandpa, I found this. We need to find Uncle Sami.”
 6. They hurried through the crowd. Near the bus stop, Uncle Sami was searching his pockets, his face pale.
 7. “My wages for the whole month!” he gasped when Omar handed it over. “Alhamdulillah!”
 8. Omar didn’t get the football that day. But on the way home his heart felt light, lighter than any ball.
@@ -478,12 +489,12 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 ### Level 2, 8. Moon Watchers (Waiting for Ramadan)
 
 1. Tonight might be the first night of Ramadan. But only if someone sees the new moon.
-2. Jiddo, Safiya and Hamza climbed the hill behind the masjid with a telescope.
-3. “Look low, just where the sun went down,” said Jiddo. “The new moon is as thin as a fingernail.”
+2. Grandpa Musa, Safiya and Hamza climbed the hill behind the masjid with a telescope.
+3. “Look low, just where the sun went down,” said Grandpa Musa. “The new moon is as thin as a fingernail.”
 4. Clouds drifted across the sky. They waited and waited. Hamza’s feet got cold.
 5. Then the clouds slid away. Safiya put her eye to the telescope.
    - *Tap:* Tap the telescope to look. → A thin silver curve! “I see it! There it is!”
-6. Jiddo looked too, and nodded. “Ramadan Mubarak!” They all hugged on the windy hill.
+6. Grandpa Musa looked too, and nodded. “Ramadan Mubarak!” They all hugged on the windy hill.
 7. They hurried down to tell Imam Rashid. Other moon watchers had seen it too.
 8. That night the masjid was full for the first taraweeh. Safiya kept looking out at her moon.
 
@@ -603,17 +614,17 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 **Quiz:** What did Zara make? **A volcano** · Whose volcano was in the garage? **Her cousin’s** · What did the judge write? **Your own work. Well explained.**
 **What would you do?** Your friend offers you their homework to copy. What do you do? (Copy it / **Do your own, even if it is hard** / Tear it up)
 
-### Level 2, 16. Jiddo’s Garden Mystery (Planting for others)
+### Level 2, 16. Grandpa Musa’s Garden Mystery (Planting for others)
 
-1. Every morning, something was nibbling Jiddo’s lettuce. Big holes, chewed leaves.
+1. Every morning, something was nibbling Grandpa Musa’s lettuce. Big holes, chewed leaves.
 2. “Let’s catch the thief!” said Maryam. She and Adam set up a hideout behind the shed.
 3. They waited quietly with a torch. An hour went by. Adam fell asleep.
 4. Rustle, rustle. Something moved between the leaves!
    - *Tap:* Tap the plant to shine the torch. → A mother rabbit and two tiny babies, munching away!
-5. In the morning Maryam asked, “Should we chase them away, Jiddo?”
-6. Jiddo smiled. “The Prophet ﷺ said when an animal eats from what you plant, it counts as charity.”
+5. In the morning Maryam asked, “Should we chase them away, Grandpa?”
+6. Grandpa Musa smiled. “The Prophet ﷺ said when an animal eats from what you plant, it counts as charity.”
 7. So they planted a second row of lettuce, just for the rabbits, by the fence.
-8. Now every morning, Maryam counts the bites. Each one is a little reward for Jiddo.
+8. Now every morning, Maryam counts the bites. Each one is a little reward for Grandpa Musa.
 
 **Words:** nibbling (eating with small bites), hideout (a secret place to hide and watch), rustle (a soft, crackling sound, like leaves moving), charity (a good deed or gift that helps others)
 **Quiz:** What was eating the lettuce? **Rabbits** · Who fell asleep? **Adam** · What did they plant for the rabbits? **A second row of lettuce**
@@ -651,20 +662,20 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 **Quiz:** What colour was the paint? **Blue** · How long did they not speak? **Three days** · What did Layla draw? **Two girls holding hands**
 **What would you do?** You had a fight with your friend yesterday. What do you do today? (Ignore them all week / **Say sorry and make up** / Tell everyone about it)
 
-### Level 2, 19. Get Well, Jiddo (Visiting the sick)
+### Level 2, 19. Get Well, Grandpa Musa (Visiting the sick)
 
-1. Jiddo had fallen and hurt his leg. He had to stay in hospital for a whole week.
+1. Grandpa Musa had fallen and hurt his leg. He had to stay in hospital for a whole week.
 2. Bilal was nervous about visiting. Hospitals smelled funny and beeped a lot.
 3. “Visiting someone who is ill is like walking in a garden of Jannah,” said Mama. “Let’s take him a surprise.”
-4. Bilal made a card. He drew Jiddo playing football with a bandage on his leg.
-5. At the hospital Jiddo looked tired. Bilal held out his card.
-   - *Tap:* Tap Bilal to give Jiddo the card. → Jiddo laughed so loudly a nurse peeked in. “That’s the best medicine yet!”
-6. Bilal read Jiddo a story. Mama made dua: “May Allah heal you quickly.”
-7. They visited every day that week. Each day Jiddo’s smile got bigger.
-8. On Friday, Jiddo walked out with a stick. “Football next week?” he winked. “In sha’ Allah!” said Bilal.
+4. Bilal made a card. He drew Grandpa Musa playing football with a bandage on his leg.
+5. At the hospital Grandpa Musa looked tired. Bilal held out his card.
+   - *Tap:* Tap Bilal to give Grandpa Musa the card. → Grandpa Musa laughed so loudly a nurse peeked in. “That’s the best medicine yet!”
+6. Bilal read Grandpa Musa a story. Mama made dua: “May Allah heal you quickly.”
+7. They visited every day that week. Each day Grandpa Musa’s smile got bigger.
+8. On Friday, Grandpa Musa walked out with a stick. “Football next week?” he winked. “In sha’ Allah!” said Bilal.
 
 **Words:** hospital (a place where doctors and nurses look after ill people), nervous (a bit scared or worried), nurse (a person who cares for people who are ill), heal (to get better and well again)
-**Quiz:** Why was Jiddo in hospital? **He hurt his leg** · What did Bilal draw on the card? **Jiddo playing football** · How often did they visit? **Every day that week**
+**Quiz:** Why was Grandpa Musa in hospital? **He hurt his leg** · What did Bilal draw on the card? **Grandpa Musa playing football** · How often did they visit? **Every day that week**
 **What would you do?** Your classmate is ill at home. What could you do? (**Send a card or a kind message** / Forget about them / Laugh)
 
 ### Level 2, 20. The Night of the Lanterns (Welcoming others)
@@ -770,12 +781,12 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 
 ### Tawheed, 1. Who Made the Moon? (Allah made everything)
 
-1. Zara and Jiddo sit in the garden. It is dark and cool.
-2. “Look, Jiddo! The moon is big and bright tonight.”
-3. Zara thinks hard. “Jiddo, who made the moon?”
-   - *Tap:* Tap Jiddo to hear his answer. → “Allah made the moon,” says Jiddo. “And every star too.”
+1. Zara and Grandpa Musa sit in the garden. It is dark and cool.
+2. “Look, Grandpa! The moon is big and bright tonight.”
+3. Zara thinks hard. “Grandpa, who made the moon?”
+   - *Tap:* Tap Grandpa Musa to hear his answer. → “Allah made the moon,” says Grandpa Musa. “And every star too.”
 4. Zara counts the stars. One, two, three, four… too many!
-5. “Who made me, Jiddo?” Jiddo laughs. “Allah made you too.”
+5. “Who made me, Grandpa?” Grandpa Musa laughs. “Allah made you too.”
 6. Zara looks up and whispers, “Subhanallah.” Then she gives a big yawn.
 
 **Words:** moon, star, tree
@@ -947,4 +958,80 @@ Each book ends with one hadith or ayah. The English is a simple meaning for youn
 **Words:** adhan (the call to prayer), slave (a person who was owned by another person and not free), Ahad (One: Allah is One, with no partner), furious (very, very angry)
 **Quiz:** Who chose Bilal to give the adhan? **Imam Rashid** · What did Bilal ibn Rabah keep saying? **Ahad, Ahad** · What does Ahad mean? **One**
 **What would you do?** Someone makes fun of you for praying at school. What can you do? (**Keep praying, and stay calm and kind** / Stop praying for ever / Shout at them)
+
+### Stories of the Prophets, 1. Ibrahim and the Fire (Trusting Allah alone)
+
+*Told from the Qurʾan: Al-Anbiya 21:51–70 and As-Saffat 37:83–98. For Ustadh Issah to check: every word given to a Prophet or to Allah is a faithful simple meaning of these ayat, and nothing is added.*
+
+1. Long ago, Allah gave a young man called Ibrahim (peace be upon him) wisdom. Allah chose him to be a Prophet.
+2. Ibrahim’s people carved statues out of stone and bowed down to them. Allah tells us in the Qurʾan that Ibrahim asked, “What are these statues you worship?”
+3. “We found our fathers worshipping them,” they said. Ibrahim said their real Lord is the Lord of the heavens and the earth.
+4. One day, when the people were away, Ibrahim broke the statues into pieces. He left only the biggest one.
+5. When they came back, they were furious. “Who has done this to our gods?” they asked.
+6. Allah tells us in the Qurʾan that Ibrahim told them, “Ask them, if they can speak.” But statues cannot speak, and the people knew it.
+7. Still they would not listen. “Burn him!” they shouted. They built a huge fire and threw Ibrahim into it.
+   - *Tap:* Tap the fire to hear what Allah said. → Allah tells us in the Qurʾan that He said, “O fire, be cool and safe for Ibrahim.”
+8. The fire did not hurt him at all. They had planned to harm Ibrahim, but Allah made their plan fail.
+
+**Words:** statue (a shape of a person or animal carved from stone or wood), worship (to pray to and obey. We worship Allah alone), furious (very, very angry), Prophet (a man Allah chose to bring His message to people)
+**Quiz:** What did Ibrahim’s people bow down to? **Statues of stone** · Which statue did Ibrahim leave? **The biggest one** · What did Allah tell the fire? **Be cool and safe for Ibrahim**
+**What would you do?** Everyone around you says something that is not true. What would Ibrahim do? (**Say the truth kindly, and trust Allah** / Pretend to agree with them / Make fun of them)
+
+### Stories of the Prophets, 2. Nuh and the Ark (Obeying Allah when others laugh)
+
+*Told from the Qurʾan: Hud 11:25–48. For Ustadh Issah to check: every word given to a Prophet or to Allah is a faithful simple meaning of these ayat, and nothing is added.*
+
+1. Allah sent the Prophet Nuh (peace be upon him) to his people with a clear warning. Allah tells us in the Qurʾan that Nuh said, “Worship only Allah. I fear for you a painful day.”
+2. The leaders laughed at him. “You are only a man like us,” they said. “And only the weakest of us follow you.”
+3. Nuh kept calling his people to Allah for a very long time. But only a few of them believed.
+4. Then Allah told Nuh to build an ark, a very big boat. Allah watched over him as he worked.
+5. Whenever the leaders walked past, they made fun of the ark. Nuh kept on building.
+6. When Allah’s command came, Nuh took a pair of every kind of animal. His family and the believers came too.
+   - *Tap:* Tap the ark to fill it. → Two by two, the animals went inside the ark.
+7. Allah tells us in the Qurʾan that Nuh said, “Ride in it. In the name of Allah it sails and it stops.” The ark sailed on waves as high as mountains.
+8. Allah tells us in the Qurʾan that Nuh called, “My son, come and ride with us!” His son said, “I will go up a mountain. It will keep me safe from the water.” But a wave came between them, and his son was among those who drowned.
+9. Allah tells us in the Qurʾan that He said, “O earth, swallow your water! O sky, hold back your rain!” The ark came to rest on Mount Judi.
+10. Nuh and the believers stepped out onto the land, safe, with peace and blessings from Allah.
+
+**Words:** warning (telling someone about a danger before it comes), ark (a very big boat), pair (two of the same kind, a male and a female), believers (people who believe in Allah and obey Him)
+**Quiz:** What did Allah tell Nuh to build? **An ark** · What did the leaders do when they walked past? **They made fun of the ark** · Where did the ark come to rest? **On Mount Judi**
+**What would you do?** People laugh at you for doing something good. What can you do? (**Keep doing it, like Nuh** / Stop at once / Laugh back at them)
+
+### Stories of the Prophets, 3. Yunus and the Whale (Turning to Allah in hard times)
+
+*Told from the Qurʾan: Al-Anbiya 21:87–88 and As-Saffat 37:139–148. For Ustadh Issah to check: every word given to a Prophet or to Allah is a faithful simple meaning of these ayat, and nothing is added.*
+
+1. Yunus (peace be upon him) was one of Allah’s messengers. Allah tells us his story in the Qurʾan.
+2. One day Yunus left his people in anger. He hurried to a ship that was full of people.
+3. Out at sea, the people on the ship drew lots. Yunus lost, and he went into the sea.
+4. A huge fish swallowed him. Many people call it a whale.
+5. Inside the fish it was very dark. Yunus called out to Allah from the darkness.
+6. Allah tells us in the Qurʾan that Yunus said, “There is no god but You. Glory be to You. I have done wrong.”
+7. Allah answered him and saved him from his sadness. Allah says He saves the believers in the same way.
+8. The fish put Yunus out on the open shore. He was weak and ill. Allah made a gourd plant grow over him.
+   - *Tap:* Tap the gourd plant. → Its big green leaves grew over Yunus while he was weak.
+9. Then Allah sent him to a hundred thousand people or more. They believed, and Allah let them enjoy life for a while.
+
+**Words:** ship (a big boat that carries people across the sea), swallow (to take something into the mouth and down inside), darkness (a place with no light at all), gourd (a climbing plant with big leaves and round fruit, like a pumpkin)
+**Quiz:** What swallowed Yunus? **A huge fish** · What did Yunus say in the darkness? **There is no god but You** · What grew over Yunus on the shore? **A gourd plant**
+**What would you do?** You did something wrong and now you feel sad. What can you do? (**Say sorry to Allah and ask Him for help** / Hide it and hope nobody knows / Blame someone else)
+
+### Stories of the Prophets, 4. Musa and the Sea (Allah is with us)
+
+*Told from the Qurʾan: Ash-Shuʿara 26:52–67. For Ustadh Issah to check: every word given to a Prophet or to Allah is a faithful simple meaning of these ayat, and nothing is added.*
+
+1. Musa (peace be upon him) and the Children of Israel lived under Firaun, a cruel king. Allah tells us in the Qurʾan that He told Musa, “Travel by night with My servants. You will be followed.”
+2. Firaun sent men to every city to gather his army. He said, “They are only a small group, and they have made us angry.”
+3. Musa and his people travelled through the night. At sunrise, Firaun and his army came after them.
+4. When the two groups saw each other, Musa’s people cried, “We will be caught!” In front of them was the sea.
+5. Allah tells us in the Qurʾan that Musa said, “No! My Lord is with me. He will guide me.”
+6. Allah told Musa to strike the sea with his staff. The sea split apart!
+   - *Tap:* Tap the sea to see what happened. → Allah tells us in the Qurʾan that each side was like a huge mountain.
+7. Musa and his people crossed on the path between the two sides. Allah saved them all.
+8. Firaun’s army went in after them. Then the water came back, and Allah drowned them.
+9. Allah tells us in the Qurʾan that in this there is a sign for people. Allah is the Mighty, the Merciful.
+
+**Words:** army (a very big group of soldiers), sunrise (the time in the morning when the sun comes up), staff (a long, strong walking stick), guide (to show someone the way)
+**Quiz:** When did Firaun’s army come after them? **At sunrise** · What did Musa say when his people were afraid? **My Lord is with me** · What did Musa strike the sea with? **His staff**
+**What would you do?** Something scary happens and you feel stuck. What would Musa do? (**Trust that Allah is with him** / Give up / Blame his friends)
 

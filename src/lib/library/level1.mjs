@@ -185,15 +185,15 @@ export const LEVEL1 = [
     quran: { s: 2, a: 286, w: [1, 6], en: 'Allah does not ask anyone to carry more than they can.' },
   },
   {
-    id: 'l1-stars', title: 'Counting Stars with Jiddo', theme: 'Remembering Allah', color: '#3D4E7A',
+    id: 'l1-stars', title: 'Counting Stars with Grandpa Musa', theme: 'Remembering Allah', color: '#3D4E7A',
     pages: [
-      { t: 'The night is clear. Jiddo and Bilal sit outside on a blanket.', art: { bg: 'garden', time: 'night', actors: [A('grandpa', 300, { face: 'calm' }), A('bilal', 440, { face: 'happy' })] } },
+      { t: 'The night is clear. Grandpa Musa and Bilal sit outside on a blanket.', art: { bg: 'garden', time: 'night', actors: [A('grandpa', 300, { face: 'calm' }), A('bilal', 440, { face: 'happy' })] } },
       { t: '“Let’s count the stars,” says Bilal. “One, two, three… four…”', art: { bg: 'garden', time: 'night', actors: [A('bilal', 380, { face: 'happy', pose: 'point' })], fx: [['sparkles', 560, 120]] } },
       { t: '“…ninety-nine, one hundred…” There are too many!', art: { bg: 'garden', time: 'night', actors: [A('bilal', 380, { face: 'surprised', pose: 'shrug' })], fx: [['sparkles', 200, 100], ['sparkles', 600, 140]] } },
-      { t: 'Jiddo smiles. “Every star is Allah’s. Shall we say SubhanAllah for them?”', art: { bg: 'garden', time: 'night', actors: [A('grandpa', 300, { face: 'happy', id: 'jiddo' }), A('bilal', 440, { face: 'calm' })] },
-        tap: { id: 'jiddo', prompt: 'Tap Jiddo to say SubhanAllah together.', say: 'SubhanAllah. SubhanAllah. SubhanAllah. Bilal feels calm and cosy.', after: { bg: 'garden', time: 'night', actors: [A('grandpa', 300, { face: 'calm', pose: 'dua' }), A('bilal', 440, { face: 'calm', pose: 'dua' })], fx: [['sparkles', 380, 120]] } } },
+      { t: 'Grandpa Musa smiles. “Every star is Allah’s. Shall we say SubhanAllah for them?”', art: { bg: 'garden', time: 'night', actors: [A('grandpa', 300, { face: 'happy', id: 'grandpa' }), A('bilal', 440, { face: 'calm' })] },
+        tap: { id: 'grandpa', prompt: 'Tap Grandpa Musa to say SubhanAllah together.', say: 'SubhanAllah. SubhanAllah. SubhanAllah. Bilal feels calm and cosy.', after: { bg: 'garden', time: 'night', actors: [A('grandpa', 300, { face: 'calm', pose: 'dua' }), A('bilal', 440, { face: 'calm', pose: 'dua' })], fx: [['sparkles', 380, 120]] } } },
       { t: 'A star shoots across the sky. Whoosh! Bilal gasps.', art: { bg: 'garden', time: 'night', actors: [A('bilal', 380, { face: 'surprised', pose: 'point' }), A('grandpa', 240, { face: 'happy' })], fx: [['sparkles', 620, 90]] } },
-      { t: 'Bilal falls asleep on Jiddo’s lap, still whispering, “SubhanAllah…”', art: { bg: 'garden', time: 'night', actors: [A('grandpa', 380, { face: 'happy', pose: 'hug' })], fx: [['zzz', 440, 220]] } },
+      { t: 'Bilal falls asleep on Grandpa Musa’s lap, still whispering, “SubhanAllah…”', art: { bg: 'garden', time: 'night', actors: [A('grandpa', 380, { face: 'happy', pose: 'hug' })], fx: [['zzz', 440, 220]] } },
     ],
     words: [{ w: 'star', p: 'star' }, { w: 'moon', p: 'moon' }, { w: 'lantern', p: 'lantern' }],
     quiz: [{ q: 'What did Bilal try to count?', a: 'The stars', w: ['The sheep', 'The cars'] }, { q: 'What did they say for the stars?', a: 'SubhanAllah', w: ['Hello', 'Goodbye'] }],
@@ -283,9 +283,9 @@ export const LEVEL1 = [
   {
     id: 'l1-camel', title: 'A Ride on Rosie the Camel', theme: 'Kindness to animals', color: '#C9955A',
     pages: [
-      { t: 'In the desert, Jiddo has a camel named Rosie. She is very, very tall.', art: { bg: 'desert', actors: [A('grandpa', 260), A('zara', 380, { face: 'surprised' })], props: [T('camel', 580, 440, { s: 1.2 })] } },
+      { t: 'In the desert, Grandpa Musa has a camel named Rosie. She is very, very tall.', art: { bg: 'desert', actors: [A('grandpa', 260), A('zara', 380, { face: 'surprised' })], props: [T('camel', 580, 440, { s: 1.2 })] } },
       { t: 'Rosie has walked all morning. Her eyes look tired.', art: { bg: 'desert', actors: [A('zara', 330, { face: 'calm' })], props: [T('camel', 520, 440, { s: 1.2 })] } },
-      { t: '“Can I ride her now?” asks Zara. Jiddo shakes his head. “First, she needs a drink.”', art: { bg: 'desert', actors: [A('grandpa', 300, { face: 'calm', pose: 'point' }), A('zara', 430, { face: 'surprised' })], props: [T('camel', 620, 440)] } },
+      { t: '“Can I ride her now?” asks Zara. Grandpa Musa shakes his head. “First, she needs a drink.”', art: { bg: 'desert', actors: [A('grandpa', 300, { face: 'calm', pose: 'point' }), A('zara', 430, { face: 'surprised' })], props: [T('camel', 620, 440)] } },
       { t: 'Help Zara give Rosie some water.', art: { bg: 'desert', actors: [A('zara', 320, { face: 'happy' })], props: [T('bucket', 440, 460, { id: 'bucket', s: 1.3 }), T('camel', 600, 440)] },
         tap: { id: 'bucket', prompt: 'Tap the bucket to give Rosie water.', say: 'Glug, glug, glug! Rosie drinks and drinks. Then she kneels down for Zara.', after: { bg: 'desert', actors: [A('zara', 320, { face: 'happy', pose: 'cheer' })], props: [T('bucket', 440, 460, { s: 1.3 }), T('camel', 600, 440)], fx: [['hearts', 600, 260]] } } },
       { t: 'Zara climbs up. “Gently, Rosie,” she whispers. Swish, sway, swish, sway.', art: { bg: 'desert', actors: [A('zara', 520, { face: 'happy', y: 330, s: 0.8, pose: 'cheer' }), A('grandpa', 300, { face: 'happy' })], props: [T('camel', 540, 440, { s: 1.3 })] } },

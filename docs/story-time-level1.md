@@ -1,7 +1,7 @@
 # Story Time · Level 1 (ages 4–8): teacher review sheet
 
 Twenty-two original picture stories written for Ta'aleem. The characters (Yusuf, Maryam, Adam, Mama, Baba,
-Jiddo, Teta, Bilal, Zara, Omar, Ustadha Huda, Aunty Salma, Uncle Sami) are made up; no Prophet or Companion is ever shown.
+Grandpa Musa, Teta, Bilal, Zara, Omar, Ustadha Huda, Aunty Salma, Uncle Sami) are made up; no Prophet or Companion is ever shown.
 Each story ends with one hadith or ayah. The English of each hadith is a simple meaning for young children; please check it.
 
 | # | Story | Manner | Hadith or ayah (Arabic) | Meaning given to children | Source | Checked by |
@@ -15,7 +15,7 @@ Each story ends with one hadith or ayah. The English of each hadith is a simple 
 | 7 | The Stone on the Path | Helping everyone | وَتُمِيطُ الْأَذَى عَنِ الطَّرِيقِ صَدَقَةٌ | Removing something harmful from the road is a charity. | Muslim 1009 | |
 | 8 | Jazakallahu Khayran, Uncle Sami! | Saying thank you | مَنْ لَا يَشْكُرُ النَّاسَ لَا يَشْكُرُ اللَّهَ | Whoever does not thank people does not thank Allah. | Tirmidhi 1954, Abu Dawud 4811 | |
 | 9 | The Angry Volcano | Staying calm | لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ | The strong person is not the one who wins a wrestle. The strong one is the one who controls himself when he is angry. | Bukhari 6114 | |
-| 10 | Jiddo’s Slow Steps | Respecting elders | لَيْسَ مِنَّا مَنْ لَمْ يَرْحَمْ صَغِيرَنَا وَيُوَقِّرْ كَبِيرَنَا | He is not one of us who is not merciful to our young ones and respectful to our elders. | Tirmidhi 1919 | |
+| 10 | Grandpa Musa’s Slow Steps | Respecting elders | لَيْسَ مِنَّا مَنْ لَمْ يَرْحَمْ صَغِيرَنَا وَيُوَقِّرْ كَبِيرَنَا | He is not one of us who is not merciful to our young ones and respectful to our elders. | Tirmidhi 1919 | |
 | 11 | Mama’s Busy Day | Helping our mother | أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أَبُوكَ | A man asked who most deserves his good company. The Prophet ﷺ said: your mother, then your mother, then your mother, then your father. | Bukhari 5971, Muslim 2548 | |
 | 12 | The Tap That Sang | Not wasting | وَكُلُوا۟ وَٱشْرَبُوا۟ وَلَا تُسْرِفُوٓا۟ | Eat and drink, but do not waste. | Qurʾan 7:31 (Tanzil text) | |
 | 13 | Bubble Hands | Keeping clean | الطُّهُورُ شَطْرُ الْإِيمَانِ | Being clean is half of faith. | Muslim 223 | |
@@ -51,7 +51,7 @@ Each story ends with one hadith or ayah. The English of each hadith is a simple 
 4. Adam lifted his right hand high. Can you help him?
    - *Tap:* Tap Adam to say “Bismillah!” with him. → “Bismillah!” said Adam, as loud as he could.
 5. Everyone clapped. Adam ate from his own plate with his right hand. He did not spill one grain of rice!
-6. When dinner was finished, Jiddo smiled and said, “Alhamdulillah!” And Adam said it too.
+6. When dinner was finished, Grandpa Musa smiled and said, “Alhamdulillah!” And Adam said it too.
 
 **Question:** What do we say before we eat? (Goodbye / **Bismillah** / Hooray)
 
@@ -105,12 +105,12 @@ Each story ends with one hadith or ayah. The English of each hadith is a simple 
 
 ### 7. The Stone on the Path (Helping everyone)
 
-1. Every Friday, Yusuf walks to the masjid with Jiddo. Jiddo walks slowly, with his wooden stick.
-2. Halfway there, Jiddo’s stick knocked against a big stone in the middle of the path. He nearly tripped!
+1. Every Friday, Yusuf walks to the masjid with Grandpa Musa. Grandpa Musa walks slowly, with his wooden stick.
+2. Halfway there, Grandpa Musa’s stick knocked against a big stone in the middle of the path. He nearly tripped!
 3. “Someone else might fall over it,” said Yusuf. “A little child, or someone who cannot see well.”
 4. Let’s help Yusuf make the path safe.
    - *Tap:* Tap the stone to move it off the path. → Heave-ho! Yusuf rolled the big stone to the side of the path.
-5. Jiddo’s eyes twinkled. “Masha’Allah, Yusuf! Moving something harmful out of the way is a charity.”
+5. Grandpa Musa’s eyes twinkled. “Masha’Allah, Yusuf! Moving something harmful out of the way is a charity.”
 6. On the way home, Yusuf picked up a banana peel and a sharp can, and put them in the bin. The path was safe for everyone!
 
 **Question:** Why did Yusuf move the stone? (**So that nobody would trip** / To keep it as a toy / To throw it)
@@ -139,17 +139,17 @@ Each story ends with one hadith or ayah. The English of each hadith is a simple 
 
 **Question:** What can we do when we feel angry? (Shout and hit / **Say A‘udhu billah, sit down and drink water** / Break things)
 
-### 10. Jiddo’s Slow Steps (Respecting elders)
+### 10. Grandpa Musa’s Slow Steps (Respecting elders)
 
 1. “Race you to the park!” shouted Bilal. The children ran ahead, laughing.
-2. But Zara looked back. Jiddo was walking very slowly with his stick, all alone, carrying a heavy bag.
-3. Zara wanted to run and play. But she also wanted to help Jiddo. What should she do?
-   - *Tap:* Tap Zara to go back and help Jiddo. → “Can I carry your bag, Jiddo? Let’s walk together.”
-4. Yusuf and Bilal saw Zara and came running back. They walked with Jiddo, step by slow step.
-5. At the park, Jiddo sat under a big tree and told them a story from when he was a little boy.
-6. Then Jiddo raised his hands. “May Allah bless you, my kind children.” Their hearts felt as big as the sky.
+2. But Zara looked back. Grandpa Musa was walking very slowly with his stick, all alone, carrying a heavy bag.
+3. Zara wanted to run and play. But she also wanted to help Grandpa Musa. What should she do?
+   - *Tap:* Tap Zara to go back and help Grandpa Musa. → “Can I carry your bag, Grandpa? Let’s walk together.”
+4. Yusuf and Bilal saw Zara and came running back. They walked with Grandpa Musa, step by slow step.
+5. At the park, Grandpa Musa sat under a big tree and told them a story from when he was a little boy.
+6. Then Grandpa Musa raised his hands. “May Allah bless you, my kind children.” Their hearts felt as big as the sky.
 
-**Question:** How did the children show respect to Jiddo? (They left him behind / **They carried his bag and walked with him** / They laughed at his slow steps)
+**Question:** How did the children show respect to Grandpa Musa? (They left him behind / **They carried his bag and walked with him** / They laughed at his slow steps)
 
 ### 11. Mama’s Busy Day (Helping our mother)
 
@@ -215,7 +215,7 @@ Each story ends with one hadith or ayah. The English of each hadith is a simple 
 
 1. Bilal wanted to learn Surah al-Ikhlas all in one go. He read it again and again and again.
 2. Soon his eyes felt heavy, and the words got all mixed up. “I can’t do it!” he said.
-3. Jiddo pointed at a little bird by the window. “See how it drinks? A little sip, then another. Let’s learn one ayah each day.”
+3. Grandpa Musa pointed at a little bird by the window. “See how it drinks? A little sip, then another. Let’s learn one ayah each day.”
 4. Monday, one ayah. Tuesday, the next one. Wednesday, one more. Can you help Bilal finish on Thursday?
    - *Tap:* Tap Bilal to read the last ayah with him. → Bilal knew all four ayahs! Masha’Allah!
 5. At weekend school, Bilal recited the whole surah to Ustadha Huda, without one mistake.
