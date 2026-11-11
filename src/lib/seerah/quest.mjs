@@ -552,7 +552,10 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
       });
     },
     // a mountain with an empty cave (an educational reconstruction); it stays for the rest of the episode
-    async mountain(s) { run._mt = props.mountain(s.x, s.z, { facing: s.facing ?? 0, height: s.height ?? 46 }); await wait(50); },
+    async mountain(s) { run._mt = props.mountain(s.x, s.z, { facing: s.facing ?? 0, height: s.height ?? 58, ...(s.sign ? { sign: s.sign } : {}) }); await wait(50); },
+    // date palms for an oasis, and a simple model of an early mosque courtyard (both stay for the episode)
+    async palms(s) { props.palms(s.x, s.z, s.n ?? 40, s.r ?? 60, s.seed ?? 5); await wait(30); },
+    async courtyard(s) { run._court = props.courtyard(s.x, s.z); await wait(30); },
     // watch only: the camera moves to the empty cave mouth at dusk; nothing and nobody is shown
     async cavewatch(s) {
       const mt = run._mt; if (!mt) return;

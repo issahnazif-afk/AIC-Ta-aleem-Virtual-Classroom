@@ -151,6 +151,32 @@ Classification: **established** (may become a mission) · **reported** (labelled
 | h-vine | 9 | 3/166 | established | pending |
 | h-dua | 9 | 3/166–167 | reported | pending |
 | h-addas | 9 | 3/167 | established | pending |
+| hj-13 | 10 | 3/217 | established | pending |
+| hj-when | 10 | 3/218 | established | pending |
+| hj-mounts | 10 | 3/218 | established | pending |
+| hj-800 | 10 | 3/218 | established | pending |
+| hj-joy | 10 | 3/218 | established | pending |
+| hj-guide | 10 | 3/218 | established | pending |
+| hj-trusts | 10 | 3/218–219 | established | pending |
+| hj-door | 10 | 3/219 | established | pending |
+| hj-thawr | 10 | 3/219 | established | pending |
+| hj-strange | 10 | 3/219 | reported | pending |
+| hj-asma | 10 | 3/219 | established | pending |
+| hj-two | 10 | 3/223 | established | pending |
+| hj-ship | 10 | 3/223–224 | reported | pending |
+| hj-nochain | 10 | 3/224 | established | pending |
+| hj-zubayr | 10 | 3/228 | established | pending |
+| hj-wait | 10 | 3/228 | established | pending |
+| hj-shade | 10 | 3/228 | established | pending |
+| hj-quba | 10 | 3/228 | established | pending |
+| m-knelt | 11 | 3/228–229 | established | pending |
+| m-bricks | 11 | 3/229 | established | pending |
+| m-mosque | 11 | 3/262 | established | pending |
+| m-anas | 11 | 3/277 | established | pending |
+| m-brother | 11 | 3/277 | reported | pending |
+| m-pairs | 11 | 3/277 | established | pending |
+| m-awf | 11 | 3/279 | established | pending |
+| m-adhan | 11 | 3/284 | established | pending |
 
 ## z-title · vol. 2, p. 303 · established
 
@@ -1215,3 +1241,205 @@ Classification: **established** (may become a mission) · **reported** (labelled
 قال فلما رآه ابنا ربيعة عتبة وشيبة وما لقي تحركت له رحمهما فدعوا غلاما لهما نصرانيا يقال له عداس [وقالا له] خذ قطفا من هذا العنب فضعه في هذا الطبق، ثم اذهب به إلى ذلك الرجل، فقل له يأكل منه. ففعل عداس، ثم ذهب به حتى وضعه بين يدي رسول الله صلى الله عليه وسلم ثم قال له: كل، فلما وضع رسول الله صلى الله عليه وسلم يده فيه قال: " بسم الله " ثم أكل، ثم نظر عداس في وجهه ثم قال: والله إن هذا الكلام ما يقوله أهل هذه البلاد. فقال له رسول الله صلى الله عليه وسلم ومن أهل أي بلاد أنت يا عداس وما دينك؟ قال نصراني، وأنا رجل من أهل نينوى. فقال رسول الله صلى الله عليه وسلم من قرية الرجل الصالح يونس بن متى. فقال له عداس: وما يدريك ما يونس بن متى؟ فقال رسول الله صلى الله عليه وسلم ذلك أخي، كان نبيا وأنا نبي.
 
 > When the two sons of Rabiʿa, ʿUtba and Shayba, saw him and what he had met, they felt for him as kin. They called a Christian servant of theirs named ʿAddas and told him: “Take a bunch of these grapes, put it on this plate, then take it to that man and tell him to eat from it.” ʿAddas did so, and set it before the Messenger of Allah ﷺ and said: “Eat.” When the Messenger of Allah ﷺ put his hand to it, he said “Bismillah”, then ate. ʿAddas looked at his face and said: “By Allah, the people of this land do not say these words.” The Messenger of Allah ﷺ said: “And which land are you from, ʿAddas, and what is your religion?” He said: “I am a Christian, a man from Nineveh.” The Messenger of Allah ﷺ said: “From the town of the righteous man Yunus ibn Matta.” ʿAddas said: “And how do you know who Yunus ibn Matta was?” The Messenger of Allah ﷺ said: “He is my brother. He was a prophet, and I am a prophet.”
+
+## hj-13 · vol. 3, p. 217 · established
+
+بعث النبي صلى الله عليه وسلم لأربعين سنة، فمكث فيها ثلاث عشرة يوحى إليه، ثم أمر بالهجرة فهاجر عشر سنين، ومات وهو ابن ثلاث وستين سنة.
+
+> [Ibn ʿAbbas said:] The Prophet ﷺ was sent at the age of forty. He stayed thirteen years [in Makkah] receiving revelation, then he was commanded to emigrate, and he lived as an emigrant for ten years. He died at the age of sixty-three.
+
+*Note:* Sahih al-Bukhari.
+
+## hj-when · vol. 3, p. 218 · established
+
+كانت هجرته عليه السلام في شهر ربيع الأول سنة ثلاث عشرة من بعثته عليه السلام وذلك في يوم الاثنين
+
+> His Hijrah, peace be upon him, was in the month of Rabiʿ al-Awwal, in the thirteenth year after he was sent, and it was on a Monday.
+
+*Note:* Ibn Kathir’s own words.
+
+## hj-mounts · vol. 3, p. 218 · established
+
+وكان أبو بكر حين استأذن رسول الله صلى الله عليه وسلم في الهجرة فقال له: لا تعجل لعل الله أن يجعل لك صاحبا، قد طمع بأن يكون رسول الله صلى الله عليه وسلم إنما يعني نفسه، فابتاع راحلتين فاحتبسهما في دار يعلفهما إعدادا لذلك.
+
+> When Abu Bakr had asked the Messenger of Allah ﷺ for permission to emigrate, he had said to him: “Do not hurry. Perhaps Allah will give you a companion.” Abu Bakr hoped that the Messenger of Allah ﷺ meant himself, so he bought two riding camels and kept them at his house, feeding them to be ready for it.
+
+*Note:* Ibn Ishaq.
+
+## hj-800 · vol. 3, p. 218 · established
+
+قال الواقدي: اشتراهما بثمانمائة درهم.
+
+> Al-Waqidi said: he bought them for eight hundred dirhams.
+
+## hj-joy · vol. 3, p. 218 · established
+
+كان لا يخطئ رسول الله صلى الله عليه وسلم إن يأتي بيت أبي بكر أحد طرفي النهار، إما بكرة، وإما عشية حتى إذا كان اليوم الذي أذن الله فيه رسوله صلى الله عليه وسلم في الهجرة والخروج من مكة من بين ظهري قومه أتانا رسول الله صلى الله عليه وسلم بالهاجرة في ساعة كان لا يأتي فيها، قالت فلما رآه أبو بكر قال: ما جاء رسول الله صلى الله عليه وسلم في هذه الساعة إلا لأمر حدث! قالت فلما دخل تأخر له أبو بكر عن سريره، فجلس رسول الله صلى الله عليه وسلم وليس عند رسول الله صلى الله عليه وسلم أحد إلا أنا وأختي أسماء بنت أبي بكر، فقال رسول الله صلى الله عليه وسلم: (أخرج عني من عندك " قال: يا رسول الله إنما هما ابنتاي ، وما ذاك فداك أبي وأمي؟ قال: " إن الله قد أذن لي في الخروج والهجرة " قالت: فقال أبو بكر: الصحبة يا رسول الله؟ قال: " الصحبة " قالت فوالله ما شعرت قط قبل ذلك اليوم أن أحدا يبكي من الفرح حتى رأيت أبا بكر يومئذ يبكي.
+
+> [ʿAʾisha said:] The Messenger of Allah ﷺ never failed to come to Abu Bakr’s house at one end of the day or the other, morning or evening. Then, on the day Allah gave His Messenger ﷺ permission to emigrate and leave Makkah, he came to us in the midday heat, at an hour when he never came. When Abu Bakr saw him he said: “The Messenger of Allah ﷺ has not come at this hour unless something has happened.” When he came in, Abu Bakr moved aside on his couch for him, and the Messenger of Allah ﷺ sat down. There was no one with him but me and my sister Asmaʾ bint Abi Bakr. The Messenger of Allah ﷺ said: “Send out whoever is with you.” He said: “O Messenger of Allah, they are only my two daughters. What is it, may my father and mother be your ransom?” He said: “Allah has given me permission to leave and emigrate.” Abu Bakr said: “The company, O Messenger of Allah?” He said: “The company.” By Allah, I had never known before that day that anyone could weep from joy, until I saw Abu Bakr weeping that day.
+
+*Note:* Ibn Ishaq, from ʿUrwa, from ʿAʾisha.
+
+## hj-guide · vol. 3, p. 218 · established
+
+ثم قال: يا نبي الله إن هاتين راحلتين كنت أعددتهما لهذا، فاستأجرا عبد الله بن أرقط قال ابن هشام: ويقال عبد الله بن أريقط. رجلا من بني الدئل بن بكر، وكانت أمه من بني سهم بن عمرو، وكان مشركا يدلهما على الطريق ودفعا إليه راحلتيهما، فكانتا عنده يرعاهما لميعادهما.
+
+> Then he said: “O Prophet of Allah, these are two camels I had made ready for this.” They hired ʿAbdullah ibn Arqat (Ibn Hisham says he is also called ʿAbdullah ibn Urayqit), a man of Banu al-Duʾil ibn Bakr whose mother was from Banu Sahm ibn ʿAmr. He was an idol-worshipper, and he was to show them the road. They handed their two camels to him, and he kept them, grazing them, until the time they had agreed.
+
+## hj-trusts · vol. 3, p. 218–219 · established
+
+أما علي، فإن رسول الله صلى الله عليه وسلم أمره أن يتخلف حتى يؤدي عن رسول الله صلى الله عليه وسلم الودائع التي كانت عنده للناس، وكان رسول الله صلى الله عليه وسلم وليس بمكة أحد عنده شئ يخشى عليه إلا وضعه عنده لما يعلم من صدقه وأمانته.
+
+> As for ʿAli, the Messenger of Allah ﷺ told him to stay behind and give back, on behalf of the Messenger of Allah ﷺ, the things people had left in his keeping. There was no one in Makkah who had something he feared for but left it with him, because they knew his truthfulness and his trustworthiness.
+
+*Note:* Ibn Ishaq. Compare Episode 4: Quraysh called him al-Amin.
+
+## hj-door · vol. 3, p. 219 · established
+
+فلما أجمع رسول الله صلى الله عليه وسلم [الخروج] أتى بأبكر بن أبي قحافة فخرجا من خوخة لأبي بكر في ظهر بيته.
+
+> When the Messenger of Allah ﷺ had made up his mind [to leave], he came to Abu Bakr ibn Abi Quhafa, and the two of them went out through a small door at the back of Abu Bakr’s house.
+
+*Note:* Ibn Ishaq.
+
+## hj-thawr · vol. 3, p. 219 · established
+
+ثم عمدا إلى غار بثور - جبل بأسفل مكة - فدخلاه، وأمر أبو بكر الصديق ابنه عبد الله أن يتسمع لهما ما يقول الناس فيهما نهاره، ثم يأتيهما إذا أمسى بما يكون في ذلك اليوم من الخبر. وأمر عامر بن فهيرة مولاه أن يرعى غنمه نهاره، ثم يريحها عليهما [يأتيهما] إذا أمسى في الغار. فكان عبد الله بن أبي بكر يكون في قريش نهاره معهم يسمع ما يأتمرون به، وما يقولون في شأن رسول الله صلى الله عليه وسلم وأبي بكر، ثم يأتيهما إذا أمسى فيخبرهما الخبر. وكان عامر بن فهيرة يرعى في رعيان أهل مكة، فإذا أمسى أراح عليهما غنم أبي بكر فاحتلبا وذبحا. فإذا غدا عبد الله بن أبي بكر من عندهما إلى مكة اتبع عامر بن فهيرة أثره بالغنم يعفي عليه.
+
+> Then they made for a cave in Thawr, a mountain below Makkah, and went into it. Abu Bakr told his son ʿAbdullah to listen during the day to what people were saying about them, and to come to them in the evening with the day’s news. He told his freed slave ʿAmir ibn Fuhayra to graze his sheep during the day and bring them to them in the evening at the cave. So ʿAbdullah ibn Abi Bakr spent his days among Quraysh, hearing what they were plotting and what they said about the Messenger of Allah ﷺ and Abu Bakr, then came to them in the evening and told them the news. ʿAmir ibn Fuhayra grazed with the shepherds of Makkah, and in the evening brought Abu Bakr’s sheep to them, and they milked and slaughtered. When ʿAbdullah ibn Abi Bakr went back from them to Makkah in the morning, ʿAmir ibn Fuhayra followed his tracks with the sheep to cover them.
+
+*Note:* Ibn Ishaq.
+
+## hj-strange · vol. 3, p. 219 · reported
+
+وقد حكى ابن جرير عن بعضهم أن رسول الله صلى الله عليه وسلم سبق الصديق في الذهاب إلى غار ثور، وأمر عليا أن يدله على مسيره ليلحقه، فلحقه في أثناء الطريق. وهذا غريب جدا وخلاف المشهور من أنهما خرجا معا.
+
+> Ibn Jarir reported from some that the Messenger of Allah ﷺ went to the cave of Thawr ahead of al-Siddiq, and told ʿAli to show him the way, and he caught up with him on the road. This is very strange, and against the well-known view that they left together.
+
+*Note:* Ibn Kathir calls this report very strange.
+
+## hj-asma · vol. 3, p. 219 · established
+
+وكانت أسماء بنت أبي بكر رضي الله عنها تأتيهما من الطعام إذا أمست بما يصلحهما
+
+> Asmaʾ bint Abi Bakr, may Allah be pleased with her, would bring them food in the evening, what they needed.
+
+*Note:* Ibn Ishaq.
+
+## hj-two · vol. 3, p. 223 · established
+
+قال قلت للنبي صلى الله عليه وسلم ونحن في الغار. لو أن أحدهم نظر إلى قدميه لأبصرنا تحت قدميه؟ فقال: " يا أبا بكر ما ظنك باثنين الله ثالثهما "
+
+> [Abu Bakr] said: I said to the Prophet ﷺ while we were in the cave: “If one of them looked down at his feet, he would see us beneath his feet.” He said: “O Abu Bakr, what do you think of two, when Allah is their third?”
+
+*Note:* Sahih al-Bukhari and Sahih Muslim.
+
+## hj-ship · vol. 3, p. 223–224 · reported
+
+وقد ذكر بعض أهل السير أن أبا بكر لما قال ذلك قال النبي صلى الله عليه وسلم: " لو جاؤنا من ههنا لذهبنا من هنا " فنظر الصديق إلى الغار قد انفرج من الجانب الآخر، وإذا البحر قد اتصل به، وسفينة مشدودة إلى جانبه.
+
+> Some writers of the Sira mention that when Abu Bakr said that, the Prophet ﷺ said: “If they come at us from here, we will go out from there”, and al-Siddiq looked and saw the cave open on the other side, with the sea joined to it and a ship tied up beside it.
+
+*Note:* Ibn Kathir says this has come with no chain at all, as the next passage shows.
+
+## hj-nochain · vol. 3, p. 224 · established
+
+وهذا ليس بمنكر من حيث القدرة العظيمة، ولكن لم يرد ذلك بإسناد قوي ولا ضعيف، ولسنا نثبت شيئا من تلقاء أنفسنا
+
+> This is not impossible for the Mighty Power, but it has not come with any chain, strong or weak, and we do not affirm anything on our own account.
+
+*Note:* Ibn Kathir’s own words.
+
+## hj-zubayr · vol. 3, p. 228 · established
+
+أن رسول الله صلى الله عليه وسلم لقي الزبير في ركب من المسلمين كانوا تجارا قافلين من الشام [إلى مكة] ، فكسى الزبير رسول الله صلى الله عليه وسلم وأبا بكر ثياب بياض
+
+> The Messenger of Allah ﷺ met al-Zubayr with a party of Muslims, merchants on their way back from al-Sham [to Makkah], and al-Zubayr gave the Messenger of Allah ﷺ and Abu Bakr white clothes to wear.
+
+*Note:* Sahih al-Bukhari, from ʿUrwa.
+
+## hj-wait · vol. 3, p. 228 · established
+
+وسمع المسلمون بالمدينة بمخرج رسول الله صلى الله عليه وسلم من مكة، فكانوا يغدون كل غداة إلى الحرة فينتظرونه حتى يردهم حر الظهيرة، فانقلبوا يوما بعد ما أطالوا انتظارهم، فلما أووا إلى بيوتهم أوفى رجل من اليهود على أطم من آطامهم لأمر ينظر إليه، فبصر برسول الله صلى الله عليه وسلم وأصحابه مبيضين يزول بهم السراب فلم يملك اليهودي أن قال بأعلا صوته: يا معشر العرب هذا جدكم الذي تنتظرون فثار المسلمون إلى السلاح فتلقوا رسول الله صلى الله عليه وسلم بظهر الحرة، فعدل بهم ذات اليمين حتى نزل بهم في بني عمرو بن عوف، وذلك يوم الاثنين من شهر ربيع الأول
+
+> The Muslims in Madinah heard that the Messenger of Allah ﷺ had left Makkah, and every morning they would go out to the lava field and wait for him until the midday heat drove them back. One day, after waiting a long time, they turned home. When they had gone into their houses, a Jewish man climbed one of their forts to look at something, and saw the Messenger of Allah ﷺ and his companions dressed in white, shimmering in the mirage. He could not stop himself calling out at the top of his voice: “People of the Arabs, here is your good fortune that you have been waiting for!” The Muslims hurried to their weapons and met the Messenger of Allah ﷺ at the edge of the lava field. He turned with them to the right until he stopped with them among Banu ʿAmr ibn ʿAwf, and that was on a Monday in the month of Rabiʿ al-Awwal.
+
+*Note:* Sahih al-Bukhari, continued.
+
+## hj-shade · vol. 3, p. 228 · established
+
+فقام أبو بكر للناس وجلس رسول الله صلى الله عليه وسلم صامتا فطفق من جاء من الأنصار ممن لم ير رسول الله صلى الله عليه وسلم يحيي أبا بكر حتى أصابت الشمس رسول الله صلى الله عليه وسلم، فأقبل أبو بكر حتى ظلل عليه بردائه. فعرف الناس رسول الله صلى الله عليه وسلم عند ذلك
+
+> Abu Bakr stood to greet the people, and the Messenger of Allah ﷺ sat in silence. Those of the Ansar who came and had never seen the Messenger of Allah ﷺ began greeting Abu Bakr, until the sun reached the Messenger of Allah ﷺ and Abu Bakr came and shaded him with his cloak. Then the people knew which one was the Messenger of Allah ﷺ.
+
+## hj-quba · vol. 3, p. 228 · established
+
+فلبث رسول الله صلى الله عليه وسلم في بني عمرو بن عوف بضع عشرة ليلة وأسس المسجد الذي أسس على التقوى وصلى فيه رسول الله صلى الله عليه وسلم
+
+> The Messenger of Allah ﷺ stayed among Banu ʿAmr ibn ʿAwf for some ten-odd nights. He founded the mosque that was founded on taqwa, and the Messenger of Allah ﷺ prayed in it.
+
+*Note:* This is the mosque of Quba.
+
+## m-knelt · vol. 3, p. 228–229 · established
+
+ثم ركب راحلته وسار يمشي معه الناس حتى بركت عند مسجد رسول الله صلى الله عليه وسلم بالمدينة، وهو يصلي فيه يومئذ رجال من المسلمين. وكان مربدا للتمر لسهيل وسهل غلامين يتيمين في حجر أسعد بن زرارة. فقال رسول الله صلى الله عليه وسلم حين بركت به راحلته: " هذا إن شاء الله المنزل "، ثم عاد رسول الله صلى الله عليه وسلم الغلامين فساومهما بالمربد ليتخذه مسجدا، فقالا بل نهبه لك يا رسول الله، فأبى رسول الله صلى الله عليه وسلم أن يقبله منهما هبة حتى ابتاعه منهما . ثم بناه مسجدا.
+
+> Then he rode his camel and went on, with the people walking beside him, until it knelt at the place of the Mosque of the Messenger of Allah ﷺ in Madinah, where some of the Muslims were praying at that time. It was a place for drying dates belonging to Suhayl and Sahl, two orphan boys in the care of Asʿad ibn Zurara. When his camel knelt with him, the Messenger of Allah ﷺ said: “This, if Allah wills, is the place to stay.” Then the Messenger of Allah ﷺ called the two boys and asked them the price of the drying place, to make it a mosque. They said: “No, we will give it to you, O Messenger of Allah.” The Messenger of Allah ﷺ refused to take it from them as a gift until he had bought it from them. Then he built it as a mosque.
+
+*Note:* Sahih al-Bukhari, from ʿUrwa.
+
+## m-bricks · vol. 3, p. 229 · established
+
+فطفق رسول الله صلى الله عليه وسلم ينقل معهم اللبن في بنيانه، وهو يقول حين ينقل اللبن: هذا الحمال لا حمال خيبر * هذا أبر ربنا وأطهر ويقول: لا هم إن الأجر أجر الآخرة * فارحم الأنصار والمهاجره
+
+> The Messenger of Allah ﷺ began carrying the mud bricks with them as they built it, saying as he carried them: “This load is not the load of Khaybar: this, our Lord, is more righteous and purer.” And he said: “O Allah, the reward is the reward of the Hereafter, so have mercy on the Ansar and the Muhajirun.”
+
+*Note:* Sahih al-Bukhari. These are lines of a Muslim poet that he repeated; the narrator was not told the poet’s name.
+
+## m-mosque · vol. 3, p. 262 · established
+
+أن المسجد كان على عهد رسول الله صلى الله عليه وسلم مبنيا باللبن، وسقفه الجريد، وعمده خشب النخل
+
+> [Ibn ʿUmar said] that in the time of the Messenger of Allah ﷺ the mosque was built of mud bricks, its roof was of palm branches, and its pillars were palm trunks.
+
+*Note:* Sahih al-Bukhari.
+
+## m-anas · vol. 3, p. 277 · established
+
+حالف النبي صلى الله عليه وسلم بين المهاجرين والأنصار في دارنا
+
+> [Anas said:] The Prophet ﷺ made a pact of brotherhood between the Muhajirun and the Ansar in our house.
+
+*Note:* Imam Ahmad.
+
+## m-brother · vol. 3, p. 277 · reported
+
+وآخى رسول الله صلى الله عليه وسلم بين أصحابه من المهاجرين والأنصار، فقال: - فيما بلغنا ونعوذ بالله أن نقول عليه ما لم يقل - " تآخوا في الله أخوين أخوين "
+
+> The Messenger of Allah ﷺ made brothers of his Companions from the Muhajirun and the Ansar, and he said, as it reached us (and we seek refuge in Allah from saying of him what he did not say): “Become brothers for the sake of Allah, two by two.”
+
+*Note:* Ibn Ishaq gives the words with “fima balaghana”, “as it reached us”, so they are shown as a report.
+
+## m-pairs · vol. 3, p. 277 · established
+
+وكان أبو بكر وخارجة بن زيد الخزرجي أخوين، وعمر بن الخطاب وعتبان بن مالك أخوين، وأبو عبيدة وسعد بن معاذ أخوين وعبد الرحمن بن عوف وسعد بن الربيع أخوين
+
+> Abu Bakr and Kharija ibn Zayd al-Khazraji were brothers; ʿUmar ibn al-Khattab and ʿItban ibn Malik were brothers; Abu ʿUbayda and Saʿd ibn Muʿadh were brothers; and ʿAbd al-Rahman ibn ʿAwf and Saʿd ibn al-Rabiʿ were brothers.
+
+*Note:* Ibn Ishaq’s list, which goes on with more pairs.
+
+## m-awf · vol. 3, p. 279 · established
+
+قدم عبد الرحمن بن عوف [المدينة] فآخى النبي صلى الله عليه وسلم بينه وبين سعد بن الربيع الأنصاري، فعرض عليه أن يناصفه أهله وماله فقال عبد الرحمن: بارك الله لك في أهلك ومالك، دلني على السوق. فربح شيئا من أقط وسمن
+
+> [Anas said:] ʿAbd al-Rahman ibn ʿAwf came [to Madinah], and the Prophet ﷺ made him a brother of Saʿd ibn al-Rabiʿ al-Ansari. Saʿd offered to share his household and his wealth with him, half and half. ʿAbd al-Rahman said: “May Allah bless you in your household and your wealth. Show me the market.” And he made a profit of some dried curd and butter.
+
+*Note:* Sahih al-Bukhari.
+
+## m-adhan · vol. 3, p. 284 · established
+
+إنها لرؤيا حق إن شاء الله، فقم مع بلال فألقها عليه، فليؤذن بها فإنه أندى صوتا منك " فلما أذن بها بلال سمعه عمر بن الخطاب وهو في بيته، فخرج إلى رسول الله صلى الله عليه وسلم وهو يجر رداءه وهو يقول: يا نبي الله والذي بعثك بالحق لقد رأيت مثل الذي رأى. فقال رسول الله فلله الحمد [على ذلك]
+
+> [He ﷺ said:] “It is a true dream, if Allah wills. Stand with Bilal and teach it to him, and let him call it, for his voice is more beautiful than yours.” When Bilal called it, ʿUmar ibn al-Khattab heard it in his house and came out to the Messenger of Allah ﷺ, dragging his cloak, saying: “O Prophet of Allah, by the One who sent you with the truth, I saw the same as he saw.” The Messenger of Allah ﷺ said: “To Allah be the praise [for that].”
+
+*Note:* Said to ʿAbdullah ibn Zayd, who had seen the words of the adhan in a dream. Narrated by Ibn Ishaq, Abu Dawud and al-Tirmidhi, who graded it sahih.

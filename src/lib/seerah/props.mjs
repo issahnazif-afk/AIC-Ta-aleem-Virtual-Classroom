@@ -373,5 +373,46 @@ export function makeProps(world) {
     return { at: { x, z }, door: { x, z: z + 11 }, remove() { scene.remove(g); solids.forEach(removeSolid); } };
   }
 
-  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, vine, PIECES, shatter };
+  // ── palm groves: date palms scattered over an area, for an oasis ──
+  function palms(cx, cz, n = 40, r = 60, seed = 5) {
+    let s = seed; const R = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+    const trunkM = new THREE.MeshStandardMaterial({ color: 0x7a5a3a, roughness: 1 }), leafM = new THREE.MeshStandardMaterial({ color: 0x3f8a3a, roughness: 0.9, side: THREE.DoubleSide });
+    const trunkG = new THREE.CylinderGeometry(0.16, 0.26, 1, 7), leafG = new THREE.PlaneGeometry(2.6, 0.7);
+    const g = new THREE.Group(), solids = [];
+    for (let i = 0; i < n; i++) {
+      const a = R() * Math.PI * 2, d = Math.sqrt(R()) * r, x = cx + Math.cos(a) * d, z = cz + Math.sin(a) * d;
+      if (world.protectedAt(x, z, 4) || Math.hypot(x - world.ARCHIVE.x, z - world.ARCHIVE.z) < 10) continue;
+      const h = 5 + R() * 4, y = H(x, z), p = new THREE.Group();
+      const t = new THREE.Mesh(trunkG, trunkM); t.scale.y = h; t.position.y = h / 2; t.rotation.z = (R() - 0.5) * 0.12; p.add(t);
+      for (let k = 0; k < 8; k++) { const l = new THREE.Mesh(leafG, leafM); const ang = (k / 8) * Math.PI * 2; l.position.set(Math.cos(ang) * 1.1, h - 0.1, Math.sin(ang) * 1.1); l.rotation.set(-Math.PI / 2 + 0.5, -ang, 0, 'YXZ'); p.add(l); }
+      p.position.set(x, y, z); g.add(p);
+      solids.push(addSolid(x - 0.25, x + 0.25, z - 0.25, z + 0.25, y - 1, y + h, { climb: false }));
+    }
+    scene.add(g);
+    return { remove() { scene.remove(g); solids.forEach(removeSolid); } };
+  }
+
+  // ── a simple model of an early mosque courtyard: mud-brick walls, palm-trunk pillars and a roof of palm branches ──
+  // it is protected: nothing here can be built on, broken or changed
+  function courtyard(x, z, { sign = 'A simple model of an early mosque' } = {}) {
+    clearAround(x, z, 16);
+    const y = flatten(x, z), g = new THREE.Group(); g.position.set(x, y, z); scene.add(g);
+    const brick = new THREE.MeshStandardMaterial({ map: stoneTex, color: 0xc8a57a, roughness: 1 }), trunk = new THREE.MeshStandardMaterial({ color: 0x7a5a3a, roughness: 1 });
+    const frond = new THREE.MeshStandardMaterial({ color: 0x8a9a4a, roughness: 1, side: THREE.DoubleSide });
+    const solids = [];
+    const W = 22, D = 18, Hh = 2.2;
+    const wall = (cx, cz, w, d) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, Hh, d), brick); m.position.set(cx, Hh / 2, cz); g.add(m); solids.push(addSolid(x + cx - w / 2, x + cx + w / 2, z + cz - d / 2, z + cz + d / 2, y - 1, y + Hh, { climb: false })); };
+    wall(0, -D / 2, W, 0.6); wall(-W / 2, 0, 0.6, D); wall(W / 2, 0, 0.6, D); wall(-W / 4 - 1.5, D / 2, W / 2 - 3, 0.6); wall(W / 4 + 1.5, D / 2, W / 2 - 3, 0.6);
+    // the covered part along the back wall: palm-trunk pillars holding a roof of palm branches
+    for (let i = -4; i <= 4; i++) for (const cz of [-D / 2 + 1.6, -D / 2 + 4.6]) {
+      const p = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.24, 3.2, 7), trunk); p.position.set(i * 2.4, 1.6, cz); g.add(p);
+      solids.push(addSolid(x + i * 2.4 - 0.22, x + i * 2.4 + 0.22, z + cz - 0.22, z + cz + 0.22, y - 1, y + 3.2, { climb: false }));
+    }
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(W - 1, 0.18, 6.4), frond); roof.position.set(0, 3.3, -D / 2 + 3.1); g.add(roof);
+    for (let i = 0; i < 18; i++) { const f = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 0.5), frond); f.position.set(-W / 2 + 1.5 + i * 1.15, 3.42, -D / 2 + 3.1); f.rotation.set(-Math.PI / 2, 0, 0.4 + (i % 3) * 0.3); g.add(f); }
+    const tag = label(sign, { w: 5.2, font: 38 }); tag.position.set(0, 4.6, D / 2 + 0.5); g.add(tag);
+    return { at: { x, z }, gate: { x, z: z + D / 2 + 4 }, inside: { x, z: z + 2 }, remove() { scene.remove(g); solids.forEach(removeSolid); } };
+  }
+
+  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, vine, palms, courtyard, PIECES, shatter };
 }

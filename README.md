@@ -476,8 +476,8 @@ checked the pending entries, record it with `node scripts/deen/check.mjs --appro
 
 ## The Seerah Quest (Levels 3 and 4)
 
-*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to the years before the Hijrah, played like a
-Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has nine connected episodes, from the days of ʿAbd al-Muttalib to the journey to al-Taʾif:
+*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to the first years in Madinah, played like a
+Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has eleven connected episodes, from the days of ʿAbd al-Muttalib to the first community in Madinah:
 
 1. **The Secret of Zamzam**: ʿAbd al-Muttalib's dream, the search by the House, the digging, the dispute with
    Quraysh, the journey north to the judge and the water that came out under his camel.
@@ -522,7 +522,16 @@ Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now 
    Talib died with its differing reports, al-Taʾif, the walled garden and ʿAddas (a simple model), the duʿaʾ shown as a
    report, and the Hall of the Hard Years.
 
-Episodes 10 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
+10. **The Great Migration to Madinah** (opens after Episode 9): the Hijrah in the thirteenth year, Abu Bakr weeping for
+    joy, ʿAli giving back what people had left in safe keeping, Jabal Thawr (an empty model), "what do you think of two,
+    when Allah is their third?", matching each helper to their task, the reports Ibn Kathir calls strange or without a
+    chain, the Hijrah map, and the people of Madinah waiting at the lava field. Nobody is shown on the road or in the cave.
+11. **Building the Muslim Community** (opens after Episode 10): an oasis of date palms, where the camel knelt and the land
+    bought from two orphans, a simple courtyard model of the first mosque (mud bricks, palm trunks, a palm-branch roof;
+    nothing in it can be built on or broken), the brotherhood of the Muhajirun and the Ansar, "Show me the market", the
+    first adhan and Bilal, and Build Your Community on the build plot.
+
+Episodes 12 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
 
 ### Roblox-style play (from Episode 3)
 
