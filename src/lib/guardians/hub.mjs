@@ -18,7 +18,8 @@ export function renderGuardiansHub(root, { level = 3, gl, onPlay }) {
   root.append(hero);
 
   // the next level to play
-  const next = LEVELS.find((L) => !done[L.id] && unlocked(L.id, done));
+  const mine = LEVELS.filter((L) => level > 2 || L.region === 1);   // Level 2 plays Region 1
+  const next = mine.find((L) => !done[L.id] && unlocked(L.id, done));
   if (next) {
     const go = el('button', 'btn btn-primary big gl-go', `${done[LEVELS[0].id] ? 'Continue your journey' : 'Start your journey'}: ${next.title}`); go.type = 'button';
     go.addEventListener('click', () => onPlay(next.id));
@@ -50,7 +51,7 @@ export function renderGuardiansHub(root, { level = 3, gl, onPlay }) {
   const bsec = el('section', 'gl-badges');
   bsec.append(el('h2', 'gl-region-t', 'Badges'));
   const brow = el('div', 'gl-badge-row');
-  for (const B of BADGES) {
+  for (const B of BADGES.filter((b) => level > 2 || ['first-steps', 'listener', 'patience', 'beacon-1'].includes(b.id))) {
     const has = (gl.badges ?? []).includes(B.id);
     const c = el('div', 'gl-badge' + (has ? ' has' : ''));
     const img = el('img'); img.src = B.url; img.alt = ''; img.width = 72; img.height = 72;

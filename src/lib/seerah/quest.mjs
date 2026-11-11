@@ -29,7 +29,7 @@ let narrator = true;
 function speakEn(text) { if (narrator) narrate(text, { voice: 'seerah' }); }
 const hush = () => stopNarration();
 
-export function playEpisode(root, { n, episode = null, onRead = null, badges = null, quality = 'medium', reciter, saved = {}, shared = {}, mode = 'explorer', gentle = false, avatar = null, archive = [], onStep, onSave, onBadge, onDone, onExit }) {
+export function playEpisode(root, { n, episode = null, onRead = null, range = null, badges = null, quality = 'medium', reciter, saved = {}, shared = {}, mode = 'explorer', gentle = false, avatar = null, archive = [], onStep, onSave, onBadge, onDone, onExit }) {
   const ep = episode ?? EPISODES.find((e) => e.n === n);
   const STG = ep.stages ?? STAGES;
   const M = MODES[mode] ?? MODES.explorer;
@@ -264,8 +264,9 @@ export function playEpisode(root, { n, episode = null, onRead = null, badges = n
       });
     },
     goto(s) {
+      s = spot(s);
       return new Promise((resolve) => {
-        const h = world.addHotspot({ id: s.id, x: s.x, z: s.z, label: s.label });
+        const h = world.addHotspot({ id: s.id, x: s.x, z: s.z, y: s.y ?? null, label: s.label });
         setObjective(s.objective);
         const done = () => { world.removeHotspot(s.id); world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); };
         world.onHotspot = (x) => { if (x === h) done(); };
@@ -1090,7 +1091,7 @@ export function playEpisode(root, { n, episode = null, onRead = null, badges = n
         if (res?.words) {
           await new Promise((resolve) => {
             const p = openPanel('read');
-            p.append(el('p', 'sq-kicker', 'The Sheikh listened'), el('h2', 'sq-h', res.good ? 'Well read!' : 'Reading complete'), el('p', 'sq-text', `You read ${res.words} words, and ${res.pct}% were right the first time.`));
+            p.append(el('p', 'sq-kicker', 'The Sheikh listened'), el('h2', 'sq-h', res.good ? 'Well read!' : 'Reading complete'), el('p', 'sq-text', s.mode === 'hifz' ? `You recited ${res.words} words from memory, and ${res.pct}% were right the first time.` : `You read ${res.words} words, and ${res.pct}% were right the first time.`));
             if (!res.good) p.append(el('p', 'sq-text', TEXT.readPractise));
             const ul = el('ul', 'sq-rewards'); for (const r of res.rewards ?? []) ul.append(el('li', null, r)); if (ul.children.length) p.append(ul);
             const b = nextBtn('Back to the adventure'); b.addEventListener('click', () => { closePanel(); resolve(); });
@@ -1112,24 +1113,25 @@ export function playEpisode(root, { n, episode = null, onRead = null, badges = n
     },
     // a trail of lanterns: walk to each one in turn and it lights up
     trail(s) {
+      if (s.walk) s = { ...s, points: walkPoints(s.walk) };
       return new Promise((resolve) => {
-        const posts = s.points.map(([x, z]) => world.lantern(x, z, { color: 0x8a7a5a, height: 2.2 }));
+        const posts = s.points.map(([x, z, y]) => world.lantern(x, z, { color: 0x8a7a5a, height: 2.2, y: y ?? null }));
         const total = s.points.length; let i = 0, h = null;
         const light = () => {
           if (!h) return;
           world.removeHotspot(h.id); h = null; posts[i].children.forEach((m) => m.material?.color?.setHex(0xffd36b)); play('lantern');
           const [x, z] = s.points[i], nx = s.points[i + 1];
-          if (nx) world.addLights([0.33, 0.66].map((k) => [x + (nx[0] - x) * k, world.heightAt(x + (nx[0] - x) * k, z + (nx[1] - z) * k) + 1.2, z + (nx[1] - z) * k]), 'trail');
+          if (nx) world.addLights([0.33, 0.66].map((k) => [x + (nx[0] - x) * k, (s.points[i][2] != null ? s.points[i][2] + (nx[2] - s.points[i][2]) * k : world.heightAt(x + (nx[0] - x) * k, z + (nx[1] - z) * k)) + 1.2, z + (nx[1] - z) * k]), 'trail');
           i++; next();
         };
         const next = () => {
           if (i >= total) { off(); world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); return; }
-          const [x, z] = s.points[i];
-          h = world.addHotspot({ id: `trail${i}`, x, z, label: s.label ?? 'A lantern', radius: 3.4 });
+          const [x, z, y] = s.points[i];
+          h = world.addHotspot({ id: `trail${i}`, x, z, y: y ?? null, label: s.label ?? 'A lantern', radius: 3.4 });
           setObjective(s.objective, `${i}/${total} lanterns`, i / total);
           if (TEST) root.dataset.target = h.id;
         };
-        const off = world.every(() => { if (!h) return; const me = world.player(); if (Math.hypot(me.x - h.x, me.z - h.z) < 2.4) light(); });
+        const off = world.every(() => { if (!h) return; const me = world.player(); if (Math.hypot(me.x - h.x, me.z - h.z) < 2.4 && (h.y == null || Math.abs(me.y - h.y) < 3)) light(); });
         world.onHotspot = (x) => { if (x === h) light(); };
         world.onNear = nearLabel('Light the lantern');
         near.onclick = () => { if (world.near() === h) light(); };
@@ -1143,7 +1145,7 @@ export function playEpisode(root, { n, episode = null, onRead = null, badges = n
         const prog = () => setObjective(s.objective, `${got}/${total} ${s.unit ?? 'pieces'}`, got / total);
         prog();
         for (const [x, z] of s.items) {
-          world.addThing(props.plank(), x, z, null, () => { got++; play('scroll'); say(s.each ?? 'You found a piece.', 1800); prog(); if (got >= total) { setObjective(''); resolve(); } });
+          world.addThing(s.thing === 'seed' ? props.seed() : props.plank(), x, z, null, () => { got++; play('scroll'); say(s.each ?? 'You found a piece.', 1800); prog(); if (got >= total) { setObjective(''); resolve(); } });
         }
         if (TEST) root.dataset.scrolls = JSON.stringify(s.items);
       });
@@ -1174,6 +1176,112 @@ export function playEpisode(root, { n, episode = null, onRead = null, badges = n
     },
     // the valley as earlier levels left it: the wheel turning, the bridge mended, the beacon's light
     async state(s) { const n = world.noor; if (!n) return; if (s.wheel) n.turnWheel(true); if (s.bridge) n.mendBridge(true); if (s.beacon != null) n.setBeacon(s.beacon); await wait(30); },
+    // listen to the reciter read the passage the child is memorising (their last range), or a short surah
+    listen(s) {
+      return new Promise((resolve) => {
+        const r = range?.();
+        const sur = r?.s1 ?? s.surah ?? 112, a1 = r?.a1 ?? 1, a2 = r ? (r.s2 === r.s1 ? Math.min(r.a2, a1 + 6) : a1 + 4) : (s.ayahs ?? 4);
+        const p = openPanel('recite');
+        p.append(el('p', 'sq-kicker', 'Listen'), el('h2', 'sq-h', s.title ?? 'Listen to the reciter'), el('p', 'sq-text', s.text),
+          el('p', 'sq-cite', r ? `${r.name ?? `Surah ${sur}`}, ayahs ${a1} to ${a2} (the passage you chose last time)` : `${s.name ?? `Surah ${sur}`}, ayahs ${a1} to ${a2}`));
+        const playB = el('button', 'btn', '▶ Listen'); playB.type = 'button';
+        let a = null, heard = false;
+        playB.addEventListener('click', async () => {
+          for (let i = a1; i <= a2 && !panel.hidden; i++) { a = new Audio(audioUrl(reciter, sur, i)); await new Promise((res) => { a.onended = res; a.onerror = res; a.play().catch(res); }); }
+          heard = true;
+        });
+        const n = nextBtn(); n.addEventListener('click', () => { a?.pause(); closePanel(); resolve(heard); });
+        p.append(playB, n);
+      });
+    },
+    // a memory game of shapes and tones (never sacred text): watch, then repeat; a wrong tap just shows it again
+    pattern(s) {
+      const SH = [['circle', '#E0A526', 262], ['triangle', '#3E7CB1', 330], ['square', '#2F8F6B', 392], ['star', '#B5523B', 523]];
+      const svg = (k) => ({ circle: '<circle cx="30" cy="30" r="20"/>', triangle: '<path d="M30 8 L52 50 H8 Z"/>', square: '<rect x="11" y="11" width="38" height="38" rx="4"/>', star: '<path d="M30 6 L36 23 L54 23 L40 34 L45 52 L30 41 L15 52 L20 34 L6 23 L24 23 Z"/>' }[k]);
+      let ac = null;
+      const tone = (f) => { if (!soundOn()) return; try { ac ??= new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; o.type = 'sine'; g.gain.setValueAtTime(0.0001, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.25, ac.currentTime + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.45); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.5); } catch {} };
+      const sound = s.mode === 'sound';
+      return new Promise((resolve) => {
+        const p = openPanel('pattern');
+        const rounds = s.rounds ?? [3, 4, 5];
+        const head = el('p', 'sq-kicker'), h = el('h2', 'sq-h', s.title), msg = el('p', 'sq-text', s.text);
+        const pad = el('div', 'sq-pattern');
+        const btns = SH.map(([k, c, f], i) => { const b = el('button', 'sq-pat'); b.type = 'button'; b.dataset.k = i; b.setAttribute('aria-label', k); b.innerHTML = `<svg viewBox="0 0 60 60" width="64" height="64" aria-hidden="true" fill="${c}">${svg(k)}</svg>`; pad.append(b); return b; });
+        const show = el('label', 'sq-pat-show'); const cb = el('input'); cb.type = 'checkbox'; show.append(cb, ' Show the pattern too'); show.hidden = !sound;
+        p.append(head, h, msg, pad, show);
+        let r = 0, seq = [], at = 0, busy = true;
+        const flash = (i, on) => btns[i].classList.toggle('lit', on);
+        const demo = async () => {
+          busy = true; at = 0; p.dataset.seq = '';
+          head.textContent = `Round ${r + 1} of ${rounds.length}`;
+          msg.textContent = sound ? 'Listen to the tones…' : 'Watch the pattern…';
+          await wait(TEST ? 50 : 700);
+          for (const i of seq) { if (!sound || cb.checked) flash(i, true); tone(SH[i][2]); await wait(TEST ? 30 : 520); flash(i, false); await wait(TEST ? 20 : 180); }
+          msg.textContent = 'Now you: tap the same pattern.'; busy = false;
+          if (TEST) p.dataset.seq = seq.join(',');
+        };
+        const newRound = () => { seq = Array.from({ length: rounds[r] }, () => Math.floor(Math.random() * 4)); demo(); };
+        btns.forEach((b, i) => b.addEventListener('click', async () => {
+          if (busy) return;
+          flash(i, true); tone(SH[i][2]); setTimeout(() => flash(i, false), 220);
+          if (i !== seq[at]) { busy = true; p.dataset.seq = ''; play('wrong'); msg.textContent = 'Not quite. Here it is again.'; await wait(TEST ? 30 : 900); demo(); return; }
+          at++;
+          if (at === seq.length) {
+            busy = true; p.dataset.seq = ''; play('plate'); r++;
+            if (r >= rounds.length) {
+              msg.textContent = s.good ?? 'You remembered every pattern.';
+              const n = nextBtn(); n.addEventListener('click', () => { ac?.close?.(); closePanel(); resolve(); }); p.append(n); n.focus({ preventScroll: true });
+            } else { msg.textContent = 'Well remembered! A longer one now.'; await wait(TEST ? 30 : 900); newRound(); }
+          }
+        }));
+        newRound();
+      });
+    },
+    // the roots: turn the tiles until the roots join the spring on the left to the tree on the right
+    roots(s) {
+      const N = 1, E = 2, S = 4, W = 8, rot = (m) => ((m << 1) | (m >> 3)) & 15;
+      const R = 4, C = 5, path = [[1, 0], [1, 1], [0, 1], [0, 2], [0, 3], [1, 3], [2, 3], [2, 4]], IN = [1, 0], OUT = [2, 4];
+      const need = Array.from({ length: R }, () => Array(C).fill(0));
+      const dir = (a, b) => (b[0] < a[0] ? N : b[0] > a[0] ? S : b[1] > a[1] ? E : W), opp = { [N]: S, [S]: N, [E]: W, [W]: E };
+      path.forEach((c, i) => { let m = 0; m |= i ? dir(c, path[i - 1]) : W; m |= i < path.length - 1 ? dir(c, path[i + 1]) : E; need[c[0]][c[1]] = m; });
+      const pieces = [N | S, N | E];
+      const tiles = [];
+      for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+        const want = need[r][c] || pieces[Math.floor(Math.random() * 2)];
+        let m = want, turns = 1 + Math.floor(Math.random() * 3); for (let k = 0; k < turns; k++) m = rot(m);
+        tiles.push({ r, c, m, want, onPath: !!need[r][c] });
+      }
+      return new Promise((resolve) => {
+        const p = openPanel('roots');
+        p.append(el('p', 'sq-kicker', 'Puzzle'), el('h2', 'sq-h', s.title), el('p', 'sq-text', s.text));
+        const grid = el('div', 'sq-roots'); grid.style.gridTemplateColumns = `auto repeat(${C}, 1fr) auto`;
+        const wrap = el('div', 'sq-roots-wrap'); wrap.append(grid);
+        const inL = el('span', 'sq-roots-end in', 'Spring'), outL = el('span', 'sq-roots-end out', 'Tree');
+        inL.style.gridRow = String(IN[0] + 1); inL.style.gridColumn = '1'; outL.style.gridRow = String(OUT[0] + 1); outL.style.gridColumn = String(C + 2);
+        grid.append(inL, outL);
+        p.append(wrap);
+        const after = el('div'); p.append(after);
+        const at = (r, c) => tiles[r * C + c];
+        const flow = () => {
+          const wet = new Set(); const st = at(...IN); if (!(st.m & W)) return wet;
+          const q = [IN]; wet.add(IN.join());
+          while (q.length) { const [r, c] = q.shift(), m = at(r, c).m; for (const [d, dr, dc] of [[N, -1, 0], [S, 1, 0], [E, 0, 1], [W, 0, -1]]) { const r2 = r + dr, c2 = c + dc; if (!(m & d) || r2 < 0 || r2 >= R || c2 < 0 || c2 >= C) continue; if (!(at(r2, c2).m & opp[d]) || wet.has(`${r2},${c2}`)) continue; wet.add(`${r2},${c2}`); q.push([r2, c2]); } }
+          return wet;
+        };
+        const lines = (m) => [[N, 'M30 30 V0'], [E, 'M30 30 H60'], [S, 'M30 30 V60'], [W, 'M30 30 H0']].filter(([d]) => m & d).map(([, dd]) => dd).join(' ');
+        let done = false;
+        const draw = () => {
+          const wet = flow();
+          tiles.forEach((t) => { const w = wet.has(`${t.r},${t.c}`); t.b.innerHTML = `<svg viewBox="0 0 60 60" aria-hidden="true"><path d="${lines(t.m)}" stroke="${w ? '#3FA7D6' : '#8A5A33'}" stroke-width="${w ? 12 : 10}" stroke-linecap="round" fill="none"/><circle cx="30" cy="30" r="${w ? 7 : 6}" fill="${w ? '#3FA7D6' : '#6B4226'}"/></svg>`; t.b.classList.toggle('wet', w); if (TEST) { let k = 0, m = t.m; while (t.onPath && m !== t.want && k < 4) { m = rot(m); k++; } t.b.dataset.need = String(t.onPath ? k : 0); } });
+          if (!done && wet.has(OUT.join()) && at(...OUT).m & E) {
+            done = true; play('award'); tiles.forEach((t) => (t.b.disabled = true));
+            const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); after.append(el('p', 'sq-good', s.good ?? 'The roots reach the spring, and the water flows.'), n); n.focus({ preventScroll: true });
+          }
+        };
+        tiles.forEach((t) => { const b = el('button', 'sq-root'); b.type = 'button'; b.setAttribute('aria-label', `Tile, row ${t.r + 1}, column ${t.c + 1}: tap to turn`); b.addEventListener('click', () => { if (done) return; t.m = rot(t.m); play('plate'); draw(); }); b.style.gridRow = String(t.r + 1); b.style.gridColumn = String(t.c + 2); t.b = b; grid.append(b); });
+        draw();
+      });
+    },
     async reward(s) {
       if (s.badge) award(s.badge);
       await card({ kicker: 'Reward', title: s.title, text: s.text });
@@ -1201,6 +1309,20 @@ export function playEpisode(root, { n, episode = null, onRead = null, badges = n
   }
 
   const score = { order: 0, quiz: null };
+  // places in the Memory Canopy named by the levels: a tree's deck, the foot of its spiral steps, the courtyard
+  function spot(s) {
+    const n = world.noor;
+    if (s.deck && n?.trees) { const t = n.trees[s.deck]; return { ...s, x: t.x + (s.dx ?? 0), z: t.z + (s.dz ?? t.D - 1.6), y: t.y }; }
+    if (s.foot && n?.stairFoot) return { ...s, ...n.stairFoot(s.foot) };
+    if (s.court && n?.courtyard) return { ...s, x: n.courtyard.x, z: n.courtyard.z + 4 };
+    return s;
+  }
+  // lanterns along a walkway between two decks, up in the trees
+  function walkPoints([a, b]) {
+    const A = world.noor.trees[a], B = world.noor.trees[b], dx = B.x - A.x, dz = B.z - A.z, L = Math.hypot(dx, dz), ux = dx / L, uz = dz / L;
+    const x0 = A.x + ux * (A.D - 1), z0 = A.z + uz * (A.D - 1), x1 = B.x - ux * (B.D - 1), z1 = B.z - uz * (B.D - 1);
+    return [0, 0.33, 0.66, 1].map((k) => [x0 + (x1 - x0) * k, z0 + (z1 - z0) * k, (A.y + B.y) / 2]);
+  }
   // after a camera flight, the camera goes back behind the explorer
   function backToPlayer() { const me = world.player(); world.place(me.x, me.z, me.x - Math.sin(me.camYaw) * 10, me.z - Math.cos(me.camYaw) * 10); }
   async function go() {

@@ -18,11 +18,15 @@ export const BADGES = [
   { id: 'listener', title: 'Careful Listener', how: 'Listen to the reciter, read, and match each note to its practice tip.', img: 'careful_listener.svg' },
   { id: 'patience', title: 'Patience', how: 'Find the planks, read, and mend the Bridge of Patience.', img: 'patience.svg' },
   { id: 'beacon-1', title: 'The First Beacon', how: 'Finish all three levels of Region 1.', img: 'first_beacon.svg' },
+  { id: 'focus', title: 'Focus', how: 'Climb the canopy, recite from memory, and remember every pattern.', img: 'focus.svg' },
+  { id: 'echo-keeper', title: 'Echo Keeper', how: 'Listen to the reciter, recite from memory, and repeat every echo.', img: 'echo_keeper.svg' },
+  { id: 'revision-garden', title: 'Revision Garden', how: 'Revise a passage, join the roots, and plan your next revision.', img: 'revision_garden.svg' },
+  { id: 'beacon-2', title: 'The Second Beacon', how: 'Finish all three levels of Region 2.', img: 'second_beacon.svg' },
 ].map((b) => ({ ...b, url: u(`guardians/badges/${b.img}`) }));
 
 export const REGIONS = [
   { n: 1, title: 'The First Beacon', theme: 'Foundations', text: 'A green valley at dawn, with a stream, a waterwheel and a quiet learning pavilion.', ready: true },
-  { n: 2, title: 'The Memory Canopy', theme: 'Hifz and revision', text: 'Giant trees and walkways in the leaves, for remembering what you learn.' },
+  { n: 2, title: 'The Memory Canopy', theme: 'Hifz and revision', text: 'Giant trees and walkways in the leaves, for remembering what you learn.', ready: true },
   { n: 3, title: 'The City of Wisdom', theme: 'Hadith and knowledge', text: 'A bright city square with an observatory and a learning hall.' },
   { n: 4, title: 'The Garden of Good Company', theme: 'Adab and character', text: 'A community garden and workshop, for kindness, honesty and care.' },
   { n: 5, title: 'The Beacon Summit', theme: 'Bringing it together', text: 'A high lookout where every beacon of Noor can be seen.' },
@@ -115,12 +119,82 @@ export const LEVELS = [
       { do: 'reflect', prompt: 'When something is hard to learn, what helps you be patient?', options: ['Taking one small step at a time', 'Asking for help', 'Trying again tomorrow', 'Remembering why I learn'], finish: 'Finish the level' },
     ],
   },
+  {
+    id: '2.1', region: 2, label: 'Level 2.1', title: 'The Pattern Walk', blurb: 'Climb the great trees, recite from memory, and remember the patterns.',
+    steps: [
+      { do: 'state', beacon: 0 },
+      { do: 'stage', id: 'A' },
+      { do: 'scene', time: 'dawn', at: [0, 40, 0, 0] },
+      { do: 'fly', shots: [[[70, 46, 30], [0, 20, -44], 0], [[24, 28, 4], [0, 20, -44], 6], [[0, 3.5, 34], [0, 3, 0], 4]] },
+      { do: 'guide', title: 'The Memory Canopy', text: 'Giant trees hold the light of memory here. Climb the spiral steps, cross the walkways in the leaves, and practise remembering.' },
+      { do: 'goto', id: 'court', court: true, label: 'The memory courtyard', objective: 'Go to the memory courtyard, the ring of standing stones.' },
+      { do: 'guide', title: 'How recall works', text: 'In a Hifz test, the Sheikh recites the start of an ayah. You carry on from memory until he stops you. If you get stuck, he helps you.' },
+      { do: 'stage', id: 'B' },
+      { do: 'goto', id: 'foot', foot: 'west', label: 'The spiral steps', objective: 'Go to the spiral steps of the west tree.' },
+      { do: 'guide', title: 'Climb!', text: 'Jump from step to step around the trunk. If you fall, you land softly on the forest floor, so just try again.' },
+      { do: 'goto', id: 'deck', deck: 'west', label: 'The west deck', objective: 'Climb the spiral steps to the deck.' },
+      { do: 'trail', walk: ['west', 'great'], label: 'A lantern', objective: 'Follow the lanterns along the walkway to the great tree.' },
+      { do: 'stage', id: 'C' },
+      { do: 'read', mode: 'hifz', kicker: 'Recite to the Sheikh', title: 'Recite from memory', text: 'Choose the passage you are memorising. The Sheikh recites the start of each ayah, and you carry on from memory.', button: 'Go and recite to the Sheikh' },
+      { do: 'stage', id: 'D' },
+      { do: 'pattern', title: 'The Pattern Walk', text: 'Watch the shapes light up, then tap them in the same order.', rounds: [3, 4, 5], good: 'You remembered every pattern.' },
+      { do: 'beacon', k: 0.25, title: 'A light in the leaves', text: 'Your recitation woke the beacon of the Memory Canopy.' },
+      { do: 'stage', id: 'E' },
+      { do: 'reward', badge: 'focus', title: 'Focus', text: 'You climbed, recited from memory and remembered every pattern.' },
+      { do: 'reflect', prompt: 'What helps you remember an ayah?', options: ['Repeating it many times', 'Listening to the reciter', 'Reading it before I sleep', 'Reciting it to someone'], finish: 'Finish the level' },
+    ],
+  },
+  {
+    id: '2.2', region: 2, label: 'Level 2.2', title: 'The Echo Chamber', blurb: 'Listen to the reciter, recite from memory, and play the echo game.',
+    steps: [
+      { do: 'state', beacon: 0.25 },
+      { do: 'stage', id: 'A' },
+      { do: 'scene', time: 'day', at: [0, 30, 0, -44] },
+      { do: 'guide', title: 'The Echo Hollow', text: 'Deep in the canopy, the hollow tree carries every sound. Reach it by the walkways high in the leaves.' },
+      { do: 'goto', id: 'foot', foot: 'great', label: 'The spiral steps', objective: 'Go to the spiral steps of the great tree.' },
+      { do: 'goto', id: 'deck', deck: 'great', label: 'The great deck', objective: 'Climb to the deck of the great tree.' },
+      { do: 'trail', walk: ['great', 'hollow'], label: 'A lantern', objective: 'Follow the lanterns to the hollow tree.' },
+      { do: 'stage', id: 'B' },
+      { do: 'listen', title: 'Listen first', text: 'Listen to the reciter read the passage you are memorising. Notice where he pauses.' },
+      { do: 'stage', id: 'C' },
+      { do: 'read', mode: 'hifz', kicker: 'Recite to the Sheikh', title: 'Recite from memory', text: 'Choose the passage you are memorising. The Sheikh recites the start of each ayah, and you carry on from memory.', button: 'Go and recite to the Sheikh' },
+      { do: 'stage', id: 'D' },
+      { do: 'reflect', prompt: 'Choose one tip to practise this week.', options: ['Recite each ayah three times without looking', 'Listen to the reciter, then recite along', 'Join the end of each ayah to the start of the next', 'Recite the passage to my family'], finish: 'Continue' },
+      { do: 'pattern', mode: 'sound', title: 'The Echo Game', text: 'Listen to the tones, then tap the shapes in the same order. Tick the box to see the pattern too.', rounds: [3, 4, 5], good: 'You repeated every echo.' },
+      { do: 'beacon', k: 0.5, title: 'Brighter', text: 'Listening and reciting made the beacon brighter.' },
+      { do: 'stage', id: 'E' },
+      { do: 'reward', badge: 'echo-keeper', title: 'Echo Keeper', text: 'You listened carefully, recited from memory and repeated every echo.' },
+      { do: 'reflect', prompt: 'How did listening first help you?', options: ['I knew where to pause', 'I remembered the words better', 'I heard how to say them', 'I felt calmer'], finish: 'Finish the level' },
+    ],
+  },
+  {
+    id: '2.3', region: 2, label: 'Level 2.3', title: 'The Roots of Revision', blurb: 'Revise a passage you know, join the roots, and light the beacon.',
+    steps: [
+      { do: 'state', beacon: 0.5 },
+      { do: 'stage', id: 'A' },
+      { do: 'scene', time: 'day', at: [0, 30, 34, -66] },
+      { do: 'guide', title: 'Revision', text: 'What we memorise stays strong when we come back to it. Today you revise a passage you learned before.' },
+      { do: 'goto', id: 'roots', x: 34, z: -64, label: 'The old tree', objective: 'Go to the roots of the old tree.' },
+      { do: 'stage', id: 'B' },
+      { do: 'pieces', thing: 'seed', items: [[-20, -40], [62, -48], [10, -104], [-62, -58]], unit: 'seeds', each: 'You found a seed.', objective: 'Find the four glowing seeds for the roots.' },
+      { do: 'stage', id: 'C' },
+      { do: 'read', mode: 'hifz', kicker: 'Revise with the Sheikh', title: 'Revise from memory', text: 'Choose a passage you memorised before, not a new one. Recite it to the Sheikh from memory.', button: 'Go and revise with the Sheikh' },
+      { do: 'stage', id: 'D' },
+      { do: 'roots', title: 'The Roots of Revision', text: 'Tap the tiles to turn them, until the roots join the spring to the old tree.' },
+      { do: 'goto', id: 'foot', foot: 'great', label: 'The spiral steps', objective: 'Go to the spiral steps of the great tree.' },
+      { do: 'goto', id: 'deck', deck: 'great', label: 'The beacon', objective: 'Climb to the beacon on the great deck.' },
+      { do: 'beacon', k: 1, title: 'The beacon shines', text: 'The beacon of the Memory Canopy shines in full. The road to the City of Wisdom opens next.' },
+      { do: 'stage', id: 'E' },
+      { do: 'reflect', prompt: 'When will you revise this passage again?', options: ['Tomorrow', 'In three days', 'At my next class', 'A little every day'], finish: 'Continue' },
+      { do: 'reward', badge: 'revision-garden', title: 'Revision Garden', text: 'You revised, joined the roots and planned your next revision. A Revision Garden grows in Noor.' },
+    ],
+  },
 ];
 
 // a level as an episode for the quest runner
 export function levelEpisode(id) {
   const L = LEVELS.find((x) => x.id === id);
-  return { ...L, n: id, theme: 'noor', stages: STAGES, label: L.label, guideKicker: 'Guardian’s guide', loading: 'Preparing the valley of Noor…', noArchive: true };
+  return { ...L, n: id, theme: L.region === 2 ? 'canopy' : 'noor', stages: STAGES, label: L.label, guideKicker: 'Guardian’s guide', loading: L.region === 2 ? 'Preparing the Memory Canopy…' : 'Preparing the valley of Noor…', noArchive: true };
 }
 
 // which levels the child can play: each opens when the one before it is finished

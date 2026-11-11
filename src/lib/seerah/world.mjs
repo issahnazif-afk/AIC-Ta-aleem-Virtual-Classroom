@@ -51,7 +51,8 @@ function glowMap() {
 }
 
 export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {}) {
-  const NOOR = theme === 'noor';   // Guardians of Light: the green valley of Noor (no Kaʿbah, no houses of Makkah)
+  const CANOPY = theme === 'canopy';
+  const NOOR = theme === 'noor' || CANOPY;   // Guardians of Light: the green valley of Noor (no Kaʿbah, no houses of Makkah)
   const Q = QUALITY[quality] ?? QUALITY.medium;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: quality !== 'low', powerPreference: 'high-performance' });
   renderer.setPixelRatio(Q.ratio);
@@ -105,8 +106,8 @@ export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {
     const r = Math.hypot(x * 0.9, z * 1.1);
     const ring = THREE.MathUtils.smoothstep(r, 210, 480);
     const m = (noise.noise(x / 200, z / 200) * 0.5 + 0.5) * 90 + noise.noise(x / 70, z / 70) * 14;
-    const d = Math.abs(z - streamZ(x)), chan = Math.abs(x) < 420 ? -2.6 * (1 - THREE.MathUtils.smoothstep(d, 3.6, 6.2)) : 0;
-    const hill = 9 * Math.exp(-((x * x) + (z + 150) * (z + 150)) / 1400);
+    const d = Math.abs(z - streamZ(x)), chan = !CANOPY && Math.abs(x) < 420 ? -2.6 * (1 - THREE.MathUtils.smoothstep(d, 3.6, 6.2)) : 0;
+    const hill = CANOPY ? 0 : 9 * Math.exp(-((x * x) + (z + 150) * (z + 150)) / 1400);
     return ring * m + (1 - ring) * (noise.noise(x / 50, z / 50) * 0.8 + hill + chan);
   } : (x, z) => {
     const r = Math.hypot(x * 0.9, z * 1.25);
@@ -118,7 +119,7 @@ export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {
     const x = pos.getX(i), z = pos.getZ(i), h = heightAt(x, z); pos.setY(i, h);
     const rock = THREE.MathUtils.smoothstep(h, NOOR ? 14 : 6, 40);
     const c = NOOR
-      ? (h < -0.8 ? new THREE.Color(0x8a7a5c) : new THREE.Color(0x6aa548).lerp(new THREE.Color(0x4f8a3a), Math.random() * 0.5).lerp(new THREE.Color(0x7d7a6c), rock)).multiplyScalar(0.92 + Math.random() * 0.1)
+      ? (h < -0.8 ? new THREE.Color(0x8a7a5c) : new THREE.Color(CANOPY ? 0x4f8a3a : 0x6aa548).lerp(new THREE.Color(CANOPY ? 0x3d6e2c : 0x4f8a3a), Math.random() * 0.5).lerp(new THREE.Color(0x7d7a6c), rock)).multiplyScalar(0.92 + Math.random() * 0.1)
       : new THREE.Color(0xc8a272).lerp(new THREE.Color(0x6e5a48), rock).multiplyScalar(0.9 + Math.random() * 0.12);
     col.push(c.r, c.g, c.b);
   }
@@ -195,30 +196,30 @@ export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {
 
   // ── hotspots: soft columns of light with a label; the student walks to them or taps them ──
   const hotspots = [];
-  function addHotspot({ id, x, z, label, color = 0xfbe3a6, radius = 4.5 }) {
+  function addHotspot({ id, x, z, y: hy = null, label, color = 0xfbe3a6, radius = 4.5 }) {
     const g = new THREE.Group();
-    const y = heightAt(x, z);
+    const y = hy ?? heightAt(x, z);
     const beam = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 1.4, 18, 24, 1, true), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false, fog: false }));
     beam.position.y = 9; g.add(beam);
     const orb = new THREE.Mesh(new THREE.SphereGeometry(0.45, 20, 16), new THREE.MeshBasicMaterial({ color })); orb.position.y = 1.4; g.add(orb);
     const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })); halo.scale.setScalar(3.5); halo.position.y = 1.4; g.add(halo);
     g.position.set(x, y, z);
     scene.add(g);
-    const h = { id, group: g, label, radius, x, z, active: true, orb };
+    const h = { id, group: g, label, radius, x, z, y: hy, active: true, orb };
     hotspots.push(h); return h;
   }
   function removeHotspot(id) { const i = hotspots.findIndex((h) => h.id === id); if (i >= 0) { scene.remove(hotspots[i].group); hotspots.splice(i, 1); } }
   function clearHotspots() { while (hotspots.length) removeHotspot(hotspots[0].id); }
 
   // lanterns for people (never figures): a warm light that can move
-  function lantern(x, z, { color = 0xffc46b, height = 1.3 } = {}) {
+  function lantern(x, z, { color = 0xffc46b, height = 1.3, y = null } = {}) {
     const g = new THREE.Group();
     const glass = new THREE.Mesh(new THREE.SphereGeometry(0.28, 12, 10), new THREE.MeshBasicMaterial({ color }));
     glass.position.y = height; g.add(glass);
     // a soft halo instead of a real light: dozens of real lights would make older computers struggle
     const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
     halo.scale.setScalar(2.4); halo.position.y = height; g.add(halo);
-    g.position.set(x, heightAt(x, z), z); scene.add(g); return g;
+    g.position.set(x, y ?? heightAt(x, z), z); scene.add(g); return g;
   }
   // a simple animal shape in the distance (a camel or the elephant), made of rounded blocks
   function creature(kind, x, z, s = 1) {
@@ -719,7 +720,7 @@ export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {
       }
       // the nearest marker within reach
       let best = null;
-      for (const h of hotspots) { const d = Math.hypot(h.x - P.pos.x, h.z - P.pos.z); if (d < h.radius && (!best || d < best.d)) best = { h, d }; }
+      for (const h of hotspots) { const d = Math.hypot(h.x - P.pos.x, h.z - P.pos.z); if (d < h.radius && (h.y == null || Math.abs(P.pos.y - h.y) < 3) && (!best || d < best.d)) best = { h, d }; }
       if ((best?.h ?? null) !== near) { near = best?.h ?? null; world.onNear?.(near); }
       // collecting
       if (!locked) {
@@ -753,7 +754,98 @@ export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }
-  const noor = NOOR ? buildNoor() : null;
+  const noor = CANOPY ? buildCanopy() : NOOR ? buildNoor() : null;
+  function buildCanopy() {
+    const bark = new THREE.MeshStandardMaterial({ color: 0x6b4a2e, roughness: 1, map: stoneTex });
+    const wood = new THREE.MeshStandardMaterial({ color: 0x9a6a3c, roughness: 0.9 });
+    const rope = new THREE.MeshStandardMaterial({ color: 0xd8c39a, roughness: 1 });
+    const stone = new THREE.MeshStandardMaterial({ color: 0xcfc6b4, roughness: 0.95, map: stoneTex });
+    const leafMat = new THREE.MeshStandardMaterial({ color: 0x2f7a3a, roughness: 0.85, flatShading: true });
+    const add = (m, x, y, z) => { m.position.set(x, y, z); m.castShadow = Q.shadows; m.receiveShadow = Q.shadows; scene.add(m); return m; };
+    const DECK = 20;   // the height of the decks and walkways
+    const TREES = { great: { x: 0, z: -44 }, west: { x: -42, z: -22 }, east: { x: 42, z: -22 }, hollow: { x: -34, z: -82 }, roots: { x: 34, z: -80 } };
+    const glowLeaves = [];
+    for (const [key, t] of Object.entries(TREES)) {
+      const by = heightAt(t.x, t.z), R = key === 'great' ? 4.6 : 3.6;
+      add(new THREE.Mesh(new THREE.CylinderGeometry(R * 0.85, R * 1.25, 62, 14), bark), t.x, by + 31, t.z);
+      addSolid(t.x - R, t.x + R, t.z - R, t.z + R, by - 1, by + 62, { climb: false });
+      // big roots at the foot
+      for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2 + 0.3; const r = add(new THREE.Mesh(new THREE.CylinderGeometry(0.5, 1.1, 7, 6), bark), t.x + Math.cos(a) * (R + 1.6), by + 0.6, t.z + Math.sin(a) * (R + 1.6)); r.rotation.set(Math.sin(a) * 1.2, 0, -Math.cos(a) * 1.2); }
+      // the crown: clusters of leaves high above the decks
+      for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2; const c = add(new THREE.Mesh(new THREE.IcosahedronGeometry(9 + Math.random() * 4, 0), leafMat), t.x + Math.cos(a) * 11, by + 50 + Math.random() * 8, t.z + Math.sin(a) * 11); c.castShadow = false; }
+      add(new THREE.Mesh(new THREE.IcosahedronGeometry(14, 0), leafMat), t.x, by + 60, t.z).castShadow = false;
+      // spiral steps around the trunk, just outside the deck: each one a little jump higher, the last one level with the deck
+      const n = Math.round(DECK / 1.05);
+      for (let i = 1; i <= n; i++) {
+        const a = i * 0.26 + (key === 'west' ? 1.6 : key === 'east' ? -1.6 : 0), rr = R + 5.8, sx = t.x + Math.cos(a) * rr, sz = t.z + Math.sin(a) * rr, sy = by + i * (DECK / n);
+        const st = add(new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.45, 2.1), wood), sx, sy - 0.22, sz); st.rotation.y = -a;
+        addSolid(sx - 1.15, sx + 1.15, sz - 1.15, sz + 1.15, sy - 0.45, sy);
+      }
+      // the deck: a square platform around the trunk, with a low rail
+      const D = R + 4.5;
+      add(new THREE.Mesh(new THREE.BoxGeometry(D * 2, 0.5, D * 2), wood), t.x, by + DECK - 0.25, t.z);
+      addSolid(t.x - D, t.x + D, t.z - D, t.z + D, by + DECK - 0.5, by + DECK);
+      for (const [dx, dz, w, d] of [[0, -D, D * 2, 0.15], [0, D, D * 2, 0.15], [-D, 0, 0.15, D * 2], [D, 0, 0.15, D * 2]]) add(new THREE.Mesh(new THREE.BoxGeometry(w, 0.12, d), rope), t.x + dx, by + DECK + 1, t.z + dz);
+      t.y = by + DECK; t.R = R; t.D = D;
+      // glowing leaves drifting around the deck
+      for (let i = 0; i < 10; i++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xc8f07a, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false })); sp.scale.setScalar(1.4); const a = Math.random() * 6.3, r = D + Math.random() * 6; sp.position.set(t.x + Math.cos(a) * r, by + DECK + 2 + Math.random() * 12, t.z + Math.sin(a) * r); sp.userData = { a, r, y0: sp.position.y, t: t }; scene.add(sp); glowLeaves.push(sp); }
+    }
+    // walkways between the decks (a row of planks; the solid is a chain of small boxes along the way)
+    const walk = (A, B) => {
+      const dx = B.x - A.x, dz = B.z - A.z, L = Math.hypot(dx, dz), ux = dx / L, uz = dz / L;
+      const x0 = A.x + ux * A.D, z0 = A.z + uz * A.D, x1 = B.x - ux * B.D, z1 = B.z - uz * B.D, len = Math.hypot(x1 - x0, z1 - z0), y = (A.y + B.y) / 2;
+      const m = add(new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.3, len + 1), wood), (x0 + x1) / 2, y - 0.15, (z0 + z1) / 2); m.rotation.y = Math.atan2(dx, dz);
+      for (const side of [-1, 1]) { const r = add(new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, len + 1), rope), (x0 + x1) / 2 - uz * side * 1.25, y + 1, (z0 + z1) / 2 + ux * side * 1.25); r.rotation.y = Math.atan2(dx, dz); }
+      for (let k = 0; k <= len; k += 0.8) { const x = x0 + ux * k, z = z0 + uz * k; addSolid(x - 1.1, x + 1.1, z - 1.1, z + 1.1, y - 0.3, y); }
+    };
+    walk(TREES.west, TREES.great); walk(TREES.great, TREES.east); walk(TREES.great, TREES.hollow); walk(TREES.great, TREES.roots);
+    // the memory courtyard on the forest floor: a ring of stone with six standing stones
+    const CY = { x: 0, z: 6 }, cy = heightAt(CY.x, CY.z);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(9, 9, 0.3, 40), stone), CY.x, cy + 0.15, CY.z);
+    for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2; add(new THREE.Mesh(new THREE.BoxGeometry(1.1, 3.2, 0.8), stone), CY.x + Math.cos(a) * 8, cy + 1.6, CY.z + Math.sin(a) * 8).rotation.y = -a; addSolid(CY.x + Math.cos(a) * 8 - 0.6, CY.x + Math.cos(a) * 8 + 0.6, CY.z + Math.sin(a) * 8 - 0.6, CY.z + Math.sin(a) * 8 + 0.6, cy - 1, cy + 3.2, { climb: false }); }
+    add(new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.4, 1, 12), wood), CY.x, cy + 0.5, CY.z);   // a reading stump
+    // smaller trees all around, so the giants stand in a forest
+    const keep = (x, z) => Object.values(TREES).some((t) => Math.hypot(x - t.x, z - t.z) < 16) || Math.hypot(x - CY.x, z - CY.z) < 14 || (Math.abs(x) < 10 && z > 0 && z < 50);
+    const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.4, 0.6, 6, 6), bark, 160);
+    const crowns = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(3.4, 0), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, flatShading: true }), 160);
+    const dd = new THREE.Object3D(); let n = 0, tries = 0;
+    while (n < 160 && tries++ < 4000) {
+      const a = Math.random() * Math.PI * 2, r = 24 + Math.random() * 220, x = Math.cos(a) * r, z = Math.sin(a) * r;
+      if (keep(x, z)) continue;
+      const h = heightAt(x, z), sc = 0.9 + Math.random() * 0.8;
+      dd.position.set(x, h + 3 * sc, z); dd.scale.set(sc, sc, sc); dd.rotation.set(0, Math.random() * 6, 0); dd.updateMatrix(); trunks.setMatrixAt(n, dd.matrix);
+      dd.position.set(x, h + 7 * sc, z); dd.updateMatrix(); crowns.setMatrixAt(n, dd.matrix);
+      crowns.setColorAt(n, new THREE.Color(0x2f7a3a).offsetHSL((Math.random() - 0.5) * 0.05, 0, (Math.random() - 0.5) * 0.12));
+      if (r < 110) addSolid(x - 0.6, x + 0.6, z - 0.6, z + 0.6, h - 1, h + 5, { climb: false });
+      n++;
+    }
+    trunks.count = crowns.count = n; scene.add(trunks, crowns);
+    // the second beacon: a crystal on a stone stand on the great tree's deck
+    const G = TREES.great, bx = G.x + G.D - 2, bz = G.z;
+    add(new THREE.Mesh(new THREE.CylinderGeometry(0.8, 1.1, 2.4, 8), stone), bx, G.y + 1.2, bz);
+    addSolid(bx - 0.9, bx + 0.9, bz - 0.9, bz + 0.9, G.y, G.y + 2.4, { climb: false });
+    const crystalMat = new THREE.MeshStandardMaterial({ color: 0x9fc8b4, emissive: 0xffd27a, emissiveIntensity: 0.05, roughness: 0.2 });
+    const crystal = add(new THREE.Mesh(new THREE.OctahedronGeometry(1.3, 0), crystalMat), bx, G.y + 3.8, bz);
+    const beamMat = new THREE.MeshBasicMaterial({ color: 0xffcf5a, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, fog: false });
+    const beam = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.4, 70, 16, 1, true), beamMat); beam.position.set(bx, G.y + 3.8 + 35, bz); scene.add(beam);
+    let beaconK = 0;
+    every((dt, t) => {
+      crystalMat.emissiveIntensity += (0.05 + beaconK * 2.2 - crystalMat.emissiveIntensity) * Math.min(1, dt * 1.5);
+      beamMat.opacity += (beaconK * 0.55 - beamMat.opacity) * Math.min(1, dt * 1.5); beam.visible = beamMat.opacity > 0.01;
+      crystal.rotation.y += dt * 0.5;
+      for (const sp of glowLeaves) { const u = sp.userData; u.a += dt * 0.15; sp.position.set(u.t.x + Math.cos(u.a) * u.r, u.y0 + Math.sin(t * 0.8 + u.a * 3) * 0.8, u.t.z + Math.sin(u.a) * u.r); }
+    });
+    // whoever falls from the trees lands softly on the forest floor (nothing is lost; climb again)
+    const deckOf = (k) => ({ x: TREES[k].x, z: TREES[k].z, y: TREES[k].y, D: TREES[k].D, R: TREES[k].R });
+    return {
+      streamZ: () => -1e9, courtyard: { ...CY, y: cy }, beacon: { x: bx, z: bz, y: G.y + 3.8 }, trees: Object.fromEntries(Object.keys(TREES).map((k) => [k, deckOf(k)])), deck: DECK,
+      setBeacon(k) { beaconK = THREE.MathUtils.clamp(k, 0, 1); },
+      turnWheel() {}, mendBridge() {},
+      // the foot of a tree's spiral steps, to start a climb
+      stairFoot(k) { const t = TREES[k], a = 0.26 + (k === 'west' ? 1.6 : k === 'east' ? -1.6 : 0), rr = t.R + 5.8; return { x: t.x + Math.cos(a) * (rr + 2.5), z: t.z + Math.sin(a) * (rr + 2.5) }; },
+      protectedAt: (x, z, r = 0) => Object.values(TREES).some((t) => Math.hypot(x - t.x, z - t.z) < t.D + 2 + r) || Math.hypot(x - CY.x, z - CY.z) < 10 + r,
+    };
+  }
   function buildNoor() {
     const wood = new THREE.MeshStandardMaterial({ color: 0x8a5a33, roughness: 0.9 });
     const stone = new THREE.MeshStandardMaterial({ color: 0xcfc6b4, roughness: 0.95, map: stoneTex });

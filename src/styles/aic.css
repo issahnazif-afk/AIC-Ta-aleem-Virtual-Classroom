@@ -1049,3 +1049,21 @@ body[data-paper="night"] .stage .w.live { background-image: linear-gradient(to l
 .sq-later { margin-top: 8px; width: 100%; }
 .sq-cite:empty { display: none; }
 .gl-hero h1.gl-h, .gl-hero .gl-h { color: #FFF8E6; }
+
+/* Guardians of Light, Region 2: the pattern game and the roots puzzle */
+.sq-pattern { display: grid; grid-template-columns: repeat(4, minmax(56px, 88px)); gap: 12px; justify-content: center; margin: 14px 0; }
+.sq-pat { aspect-ratio: 1; display: grid; place-items: center; border-radius: 16px; border: 3px solid #E6D9B8; background: #FFFDF6; cursor: pointer; transition: transform .12s, box-shadow .12s, background .12s; min-height: 56px; }
+.sq-pat svg { width: 70%; height: 70%; }
+.sq-pat.lit { background: #FFF1B8; border-color: #E0A526; box-shadow: 0 0 0 6px rgba(224, 165, 38, .35); transform: scale(1.08); }
+.sq-pat:focus-visible { outline: 3px solid #0E6B4E; outline-offset: 2px; }
+.sq-pat-show { display: flex; gap: 8px; align-items: center; justify-content: center; font-size: .95rem; }
+.sq-roots-wrap { display: flex; align-items: center; gap: 8px; justify-content: center; margin: 12px 0; }
+.sq-roots { display: grid; gap: 4px; width: min(470px, 86vw); align-items: center; }
+.sq-root { aspect-ratio: 1; padding: 0; border-radius: 8px; border: 2px solid #D8C7A2; background: #F3E6C8; cursor: pointer; min-width: 0; }
+.sq-root svg { display: block; width: 100%; height: 100%; }
+.sq-root.wet { background: #E2F2F8; border-color: #9CCFE3; }
+.sq-root:focus-visible { outline: 3px solid #0E6B4E; outline-offset: 1px; }
+.sq-roots-end { font-size: .8rem; font-weight: 800; padding: 6px 8px; border-radius: 8px; align-self: center; }
+.sq-roots-end.in { background: #3FA7D6; color: #fff; }
+.sq-roots-end.out { background: #6B4A2E; color: #fff; }
+@media (prefers-reduced-motion: reduce) { .sq-pat { transition: none; } .sq-pat.lit { transform: none; } }

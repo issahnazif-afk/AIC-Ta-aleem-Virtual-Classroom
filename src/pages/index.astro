@@ -2106,7 +2106,7 @@ const levels = [
     function glReadNow(s) {
       return new Promise((resolve) => {
         glRead = { resolve, s, result: null };
-        reciteLesson = null; choice.mode = 'reading'; noCam = false;
+        reciteLesson = null; choice.mode = s.mode === 'hifz' ? 'hifz' : 'reading'; noCam = false;
         show('s-check'); startCheck();
       });
     }
@@ -2140,6 +2140,7 @@ const levels = [
         mode: me.level >= 4 ? 'master' : 'explorer', gentle: (me.level || 3) <= 2,
         avatar: progress.seerah?.avatar, archive: [], shared: g,
         onRead: glReadNow,
+        range: () => { const r = store.get('range', null); return r ? { ...r, name: surahName(r.s1).en } : null; },
         onStep: (i) => { st.step = i; sqSaveSoon(); },
         onSave: () => sqSaveSoon(),
         onBadge: glAward,
@@ -2149,13 +2150,13 @@ const levels = [
           st.done = true; st.step = 0; g.done[id] = true;
           if (first) g.shards += 5;
           glGame?.stop(); glGame = null;
-          const all = GL_LEVELS.filter((x) => x.region === 1).every((x) => g.done[x.id]) && glAward('beacon-1');
+          const all = GL_LEVELS.filter((x) => x.region === L.region).every((x) => g.done[x.id]) && glAward(`beacon-${L.region}`);
           openGuardians();
           const box = document.createElement('div'); box.className = 'card sq-earned';
           const h = document.createElement('h2'); h.className = 'h2'; h.textContent = `${L.label} complete: ${L.title}`;
           const p = document.createElement('p'); p.textContent = first ? 'You earned 5 Noor Shards for finishing the level, and the next level is open.' : 'Well done for playing it again.';
           box.append(h, p); $('gl-hub').prepend(box);
-          if (all) sqBadge($('gl-hub'), 'beacon-1', sqSfx, GL_BADGES);
+          if (all) sqBadge($('gl-hub'), `beacon-${L.region}`, sqSfx, GL_BADGES);
           await sqSave();
           logGame({ token: me.token, game: { game: 'Guardians of Light', lesson: `${L.label}: ${L.title}`, rounds: read, first: good, accuracy: '', score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },

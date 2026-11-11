@@ -414,6 +414,13 @@ export function makeProps(world) {
     return { at: { x, z }, gate: { x, z: z + D / 2 + 4 }, inside: { x, z: z + 2 }, remove() { scene.remove(g); solids.forEach(removeSolid); } };
   }
 
+  // a glowing seed to pick up (Guardians of Light, the Roots of Revision)
+  function seed() {
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.IcosahedronGeometry(0.4, 1), new THREE.MeshStandardMaterial({ color: 0xb8e07a, emissive: 0x6fae2a, emissiveIntensity: 0.6, roughness: 0.4 })));
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xc8f07a, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false })); halo.scale.setScalar(2.6); g.add(halo);
+    return g;
+  }
   // a bridge plank to pick up (Guardians of Light): a wooden board with a soft glow so it can be seen in the grass
   function plank() {
     const g = new THREE.Group();
@@ -421,5 +428,5 @@ export function makeProps(world) {
     const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xffd27a, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false })); halo.scale.setScalar(3); g.add(halo);
     return g;
   }
-  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, vine, palms, courtyard, PIECES, shatter, plank };
+  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, vine, palms, courtyard, PIECES, shatter, plank, seed };
 }
