@@ -903,7 +903,7 @@ export function playEpisode(root, { n, episode = null, onRead = null, range = nu
           }
           const c = s.cases[i];
           const p = openPanel('scenario');
-          p.append(el('p', 'sq-kicker', `${s.title} · ${i + 1} of ${s.cases.length}`), el('p', 'sq-modern', TEXT.modern), el('h2', 'sq-h', c.q));
+          p.append(el('p', 'sq-kicker', `${s.title} · ${i + 1} of ${s.cases.length}`), el('p', 'sq-modern', s.modern ?? TEXT.modern), el('h2', 'sq-h', c.q));
           const opts = el('div', 'sq-opts'), after = el('div'); let tried = false, settled = false;
           c.options.forEach((o, k) => {
             const b = el('button', 'sq-opt', o); b.type = 'button'; if (TEST) b.dataset.answer = String(k === c.best);
@@ -1282,6 +1282,61 @@ export function playEpisode(root, { n, episode = null, onRead = null, range = nu
         draw();
       });
     },
+    // a hadith card: who is speaking, the exact Arabic, the meaning on a tap, and the reference (sunnah.com numbering)
+    stations(s) {
+      return new Promise((resolve) => {
+        const spots = world.noor?.stations ?? [];
+        const left = new Map();
+        s.items.forEach((it, k) => { const at = spots[k] ?? { x: 10 * k, z: 10 }; const h = world.addHotspot({ id: `st-${k}`, x: at.x, z: at.z + 4, label: it.label, radius: 4 }); left.set(h, it); });
+        const total = s.items.length;
+        const prog = () => setObjective(s.objective, `${total - left.size}/${total} stations`, (total - left.size) / total);
+        prog();
+        const visit = async (h) => {
+          const it = left.get(h); if (!it) return;
+          left.delete(h); world.removeHotspot(h.id); world.onHotspot = null; play('lantern');
+          await hadithCard(it, `Station ${total - left.size} of ${total}`);
+          prog();
+          if (!left.size) { world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); }
+          else world.onHotspot = visit;
+        };
+        world.onHotspot = visit; world.onNear = nearLabel('Read the station');
+        near.onclick = () => { const h = world.near(); if (h) visit(h); };
+        if (TEST) root.dataset.targets = [...left.keys()].map((h) => h.id).join(',');
+      });
+    },
+    async hadith(s) { await hadithCard(s, s.kicker ?? 'A hadith to study'); },
+    // questions: a wrong answer is never punished; the right one explains why
+    ask(s) {
+      return new Promise((resolve) => {
+        let i = 0, right = 0;
+        const next = () => {
+          if (i >= s.questions.length) {
+            const p = openPanel('ask');
+            p.append(el('p', 'sq-kicker', s.title ?? 'Questions'), el('h2', 'sq-h', `${right} of ${s.questions.length} right first time`), el('p', 'sq-text', s.done ?? 'Every answer you checked is knowledge you keep.'));
+            const n = nextBtn(); n.addEventListener('click', () => { closePanel(); score.quiz = { right, of: s.questions.length }; resolve(); }); p.append(n); n.focus({ preventScroll: true });
+            return;
+          }
+          const q = s.questions[i];
+          const p = openPanel('ask');
+          p.append(el('p', 'sq-kicker', `${s.title ?? 'Questions'} · ${i + 1} of ${s.questions.length}`), el('h2', 'sq-h', q.q));
+          const opts = el('div', 'sq-opts'), after = el('div'); let tried = false, settled = false;
+          shuffle([q.a, ...q.w]).forEach((o) => {
+            const b = el('button', 'sq-opt', o); b.type = 'button'; if (TEST) b.dataset.answer = String(o === q.a);
+            b.addEventListener('click', () => {
+              if (settled) return;
+              if (o === q.a) {
+                settled = true; if (!tried) right++; b.classList.add('right'); opts.querySelectorAll('button').forEach((x) => (x.disabled = true)); play('plate');
+                after.replaceChildren(); if (q.why) after.append(el('p', 'sq-text', q.why)); if (q.src) after.append(el('p', 'sq-cite', q.src));
+                const n = nextBtn(); n.addEventListener('click', () => { i++; next(); }); after.append(n); n.focus({ preventScroll: true });
+              } else { tried = true; b.disabled = true; b.classList.add('nope'); play('wrong'); after.replaceChildren(el('p', 'sq-text muted', 'Not quite. Think again and try another answer.')); }
+            });
+            opts.append(b);
+          });
+          p.append(opts, after); speakEn(q.q);
+        };
+        next();
+      });
+    },
     async reward(s) {
       if (s.badge) award(s.badge);
       await card({ kicker: 'Reward', title: s.title, text: s.text });
@@ -1315,6 +1370,8 @@ export function playEpisode(root, { n, episode = null, onRead = null, range = nu
     if (s.deck && n?.trees) { const t = n.trees[s.deck]; return { ...s, x: t.x + (s.dx ?? 0), z: t.z + (s.dz ?? t.D - 1.6), y: t.y }; }
     if (s.foot && n?.stairFoot) return { ...s, ...n.stairFoot(s.foot) };
     if (s.court && n?.courtyard) return { ...s, x: n.courtyard.x, z: n.courtyard.z + 4 };
+    if (s.place && n?.[s.place]?.door) return { ...s, ...n[s.place].door };
+    if (s.place === 'fountain' && n?.fountain) return { ...s, x: 0, z: 9 };
     return s;
   }
   // lanterns along a walkway between two decks, up in the trees
@@ -1322,6 +1379,24 @@ export function playEpisode(root, { n, episode = null, onRead = null, range = nu
     const A = world.noor.trees[a], B = world.noor.trees[b], dx = B.x - A.x, dz = B.z - A.z, L = Math.hypot(dx, dz), ux = dx / L, uz = dz / L;
     const x0 = A.x + ux * (A.D - 1), z0 = A.z + uz * (A.D - 1), x1 = B.x - ux * (B.D - 1), z1 = B.z - uz * (B.D - 1);
     return [0, 0.33, 0.66, 1].map((k) => [x0 + (x1 - x0) * k, z0 + (z1 - z0) * k, (A.y + B.y) / 2]);
+  }
+  // a hadith, with its reference: the Arabic first, then its meaning when the child asks for it
+  function hadithCard(it, kicker) {
+    return new Promise((resolve) => {
+      const p = openPanel('hadith');
+      p.append(el('p', 'sq-kicker', kicker));
+      if (it.title) p.append(el('h2', 'sq-h', it.title));
+      if (it.who) p.append(el('p', 'sq-text', it.who));
+      const ar = el('p', 'sq-hadith-ar', it.ar); ar.lang = 'ar'; ar.dir = 'rtl'; p.append(ar);
+      const en = el('p', 'sq-quote-en', it.en); en.hidden = true;
+      const show = el('button', 'btn sq-reveal', 'Show the meaning'); show.type = 'button';
+      show.addEventListener('click', () => { en.hidden = false; show.remove(); speakEn(it.en); });
+      const ref = el('p', 'sq-cite'); ref.append(`Reported in ${it.ref}  ·  `); const a = el('a', null, 'see it on sunnah.com'); a.href = it.url; a.target = '_blank'; a.rel = 'noopener'; ref.append(a);
+      p.append(show, en, ref);
+      if (it.lesson) p.append(el('p', 'sq-good', it.lesson));
+      const n = nextBtn(); n.addEventListener('click', () => { closePanel(); resolve(); }); p.append(n);
+      show.focus({ preventScroll: true });
+    });
   }
   // after a camera flight, the camera goes back behind the explorer
   function backToPlayer() { const me = world.player(); world.place(me.x, me.z, me.x - Math.sin(me.camYaw) * 10, me.z - Math.cos(me.camYaw) * 10); }

@@ -51,8 +51,8 @@ function glowMap() {
 }
 
 export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {}) {
-  const CANOPY = theme === 'canopy';
-  const NOOR = theme === 'noor' || CANOPY;   // Guardians of Light: the green valley of Noor (no Kaʿbah, no houses of Makkah)
+  const CANOPY = theme === 'canopy', CITY = theme === 'city';
+  const NOOR = theme === 'noor' || CANOPY || CITY;   // Guardians of Light: the green valley of Noor (no Kaʿbah, no houses of Makkah)
   const Q = QUALITY[quality] ?? QUALITY.medium;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: quality !== 'low', powerPreference: 'high-performance' });
   renderer.setPixelRatio(Q.ratio);
@@ -106,9 +106,10 @@ export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {
     const r = Math.hypot(x * 0.9, z * 1.1);
     const ring = THREE.MathUtils.smoothstep(r, 210, 480);
     const m = (noise.noise(x / 200, z / 200) * 0.5 + 0.5) * 90 + noise.noise(x / 70, z / 70) * 14;
-    const d = Math.abs(z - streamZ(x)), chan = !CANOPY && Math.abs(x) < 420 ? -2.6 * (1 - THREE.MathUtils.smoothstep(d, 3.6, 6.2)) : 0;
-    const hill = CANOPY ? 0 : 9 * Math.exp(-((x * x) + (z + 150) * (z + 150)) / 1400);
-    return ring * m + (1 - ring) * (noise.noise(x / 50, z / 50) * 0.8 + hill + chan);
+    const d = Math.abs(z - streamZ(x)), chan = !CANOPY && !CITY && Math.abs(x) < 420 ? -2.6 * (1 - THREE.MathUtils.smoothstep(d, 3.6, 6.2)) : 0;
+    const hill = CANOPY || CITY ? 0 : 9 * Math.exp(-((x * x) + (z + 150) * (z + 150)) / 1400);
+    const flat = CITY ? THREE.MathUtils.smoothstep(Math.hypot(x, z), 56, 84) : 1;   // the city square is level
+    return ring * m + (1 - ring) * (noise.noise(x / 50, z / 50) * 0.8 * flat + hill + chan);
   } : (x, z) => {
     const r = Math.hypot(x * 0.9, z * 1.25);
     const ring = THREE.MathUtils.smoothstep(r, 170, 420);           // the valley floor, then the mountains
@@ -754,7 +755,94 @@ export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }
-  const noor = CANOPY ? buildCanopy() : NOOR ? buildNoor() : null;
+  const noor = CITY ? buildCity() : CANOPY ? buildCanopy() : NOOR ? buildNoor() : null;
+  function buildCity() {
+    const stone = new THREE.MeshStandardMaterial({ color: 0xE2D6BE, roughness: 0.95 });   // light sandstone
+    const white = new THREE.MeshStandardMaterial({ color: 0xF2EDE2, roughness: 0.9 });
+    const sand = new THREE.MeshStandardMaterial({ color: 0xE3CFA8, roughness: 0.95 });
+    const roofM = new THREE.MeshStandardMaterial({ color: 0xD9CBB0, roughness: 0.95 });
+    const dark = new THREE.MeshStandardMaterial({ color: 0x5A4632, roughness: 0.9 });
+    const teal = new THREE.MeshStandardMaterial({ color: 0x2F6F62, roughness: 0.7 });
+    const waterMat = new THREE.MeshStandardMaterial({ color: 0x4F9FC0, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.85 });
+    const add = (m, x, y, z) => { m.position.set(x, y, z); m.castShadow = Q.shadows; m.receiveShadow = Q.shadows; scene.add(m); return m; };
+    const H = (x, z) => heightAt(x, z);
+    // the plaza and its fountain
+    add(new THREE.Mesh(new THREE.CylinderGeometry(50, 50, 0.3, 64), stone), 0, H(0, 0) + 0.15, 0);
+    const fy = H(0, 0);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(4.2, 4.6, 0.9, 32), white), 0, fy + 0.6, 0); addSolid(-4.2, 4.2, -4.2, 4.2, fy - 1, fy + 1.05, { climb: false });
+    add(new THREE.Mesh(new THREE.CylinderGeometry(3.9, 3.9, 0.1, 32), waterMat), 0, fy + 1.0, 0);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.7, 2.6, 12), white), 0, fy + 2.1, 0);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(1.6, 0.6, 0.5, 20), white), 0, fy + 3.4, 0);
+    // water gardens: long pools with low rims, and cypress trees
+    for (const [px, pz, w, d] of [[-24, 14, 6, 18], [24, -14, 6, 18], [-24, -18, 6, 14]]) {
+      const y = H(px, pz);
+      add(new THREE.Mesh(new THREE.BoxGeometry(w + 1, 0.5, d + 1), white), px, y + 0.25, pz);
+      add(new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), waterMat), px, y + 0.52, pz);
+      addSolid(px - (w + 1) / 2, px + (w + 1) / 2, pz - (d + 1) / 2, pz + (d + 1) / 2, y - 1, y + 0.55);
+    }
+    const cyp = new THREE.MeshStandardMaterial({ color: 0x2F6B3A, roughness: 0.9, flatShading: true });
+    for (let i = 0; i < 28; i++) {
+      const a = (i / 28) * Math.PI * 2, r = 52 + (i % 3) * 2.5, x = Math.cos(a) * r, z = Math.sin(a) * r;
+      if (x > 20 && z > 0 && z < 34) continue;   // the lane to the rooftop climb
+      const y = H(x, z);
+      add(new THREE.Mesh(new THREE.ConeGeometry(1.4, 8, 8), cyp), x, y + 4.4, z); addSolid(x - 0.6, x + 0.6, z - 0.6, z + 0.6, y - 1, y + 7, { climb: false });
+    }
+    // houses around the plaza: white and sand boxes with a dark door and a roof rim, kept off the lane and the great buildings
+    let seed = 13; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    for (let i = 0; i < 40; i++) {
+      const a = (i / 40) * Math.PI * 2 + rnd() * 0.05, r = 66 + rnd() * 50, x = Math.cos(a) * r, z = Math.sin(a) * r;
+      if ((x > 18 && z > -6 && z < 40) || Math.hypot(x, z + 86) < 26 || Math.hypot(x + 56, z + 6) < 26) continue;
+      const w = 9 + rnd() * 7, d = 8 + rnd() * 6, h = 5 + rnd() * 6, y = H(x, z);
+      const m = add(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), rnd() < 0.5 ? white : sand), x, y + h / 2, z);
+      m.rotation.y = 0;
+      add(new THREE.Mesh(new THREE.BoxGeometry(w + 0.6, 0.5, d + 0.6), roofM), x, y + h + 0.25, z);
+      const toC = Math.atan2(-x, -z), dx = Math.sin(toC), dz = Math.cos(toC);
+      add(new THREE.Mesh(new THREE.BoxGeometry(1.6, 2.6, 1.6), dark), x + dx * (d / 2), y + 1.3, z + dz * (d / 2));
+      addSolid(x - w / 2, x + w / 2, z - d / 2, z + d / 2, y - 1, y + h + 0.5);
+    }
+    // the learning hall: a raised floor, a row of columns and a pediment, open towards the plaza
+    const HL = { x: -56, z: -6 }, hy = H(HL.x, HL.z);
+    add(new THREE.Mesh(new THREE.BoxGeometry(18, 0.8, 28), stone), HL.x, hy + 0.4, HL.z); addSolid(HL.x - 9, HL.x + 9, HL.z - 14, HL.z + 14, hy - 1, hy + 0.8);
+    add(new THREE.Mesh(new THREE.BoxGeometry(12, 10, 26), white), HL.x - 3, hy + 5.8, HL.z); addSolid(HL.x - 9, HL.x + 3, HL.z - 13, HL.z + 13, hy, hy + 10.8, { climb: false });
+    for (let k = 0; k < 6; k++) { const cz = HL.z - 11 + k * 4.4; add(new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 9, 12), white), HL.x + 7.5, hy + 5.3, cz); addSolid(HL.x + 6.9, HL.x + 8.1, cz - 0.6, cz + 0.6, hy + 0.8, hy + 9.8, { climb: false }); }
+    add(new THREE.Mesh(new THREE.BoxGeometry(18, 1, 28), white), HL.x, hy + 10.3, HL.z);
+    add(new THREE.Mesh(new THREE.BoxGeometry(14, 1.2, 24), roofM), HL.x - 1, hy + 11.4, HL.z);
+    add(new THREE.Mesh(new THREE.BoxGeometry(0.4, 3.2, 6), dark), HL.x + 3.2, hy + 2.4, HL.z);
+    // the three stations: small pavilions with a lantern, around the plaza
+    const STATIONS = [{ x: 16, z: -30 }, { x: -18, z: 30 }, { x: 34, z: 4 }];
+    for (const st of STATIONS) {
+      const y = H(st.x, st.z);
+      add(new THREE.Mesh(new THREE.BoxGeometry(5, 0.4, 5), stone), st.x, y + 0.2, st.z);
+      for (const [cx, cz] of [[-2, -2], [2, -2], [-2, 2], [2, 2]]) add(new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.26, 3.6, 8), white), st.x + cx, y + 2.2, st.z + cz);
+      add(new THREE.Mesh(new THREE.ConeGeometry(3.8, 2, 4), teal), st.x, y + 5, st.z).rotation.y = Math.PI / 4;
+      st.y = y;
+    }
+    // the observatory: a round tower and a dome, with the beacon above it
+    const OB = { x: 0, z: -86 }, oy = H(OB.x, OB.z);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(8, 9, 16, 24), white), OB.x, oy + 8, OB.z); addSolid(OB.x - 8.5, OB.x + 8.5, OB.z - 8.5, OB.z + 8.5, oy - 1, oy + 16, { climb: false });
+    add(new THREE.Mesh(new THREE.SphereGeometry(8.4, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), teal), OB.x, oy + 16, OB.z);
+    add(new THREE.Mesh(new THREE.BoxGeometry(1.2, 6, 0.4), dark), OB.x, oy + 18, OB.z + 7.6).rotation.x = -0.5;
+    add(new THREE.Mesh(new THREE.BoxGeometry(3, 4, 0.5), dark), OB.x, oy + 2, OB.z + 8.8);
+    const by = oy + 28;
+    const crystalMat = new THREE.MeshStandardMaterial({ color: 0x9fb4c8, emissive: 0xffd27a, emissiveIntensity: 0.05, roughness: 0.2 });
+    const crystal = add(new THREE.Mesh(new THREE.OctahedronGeometry(2, 0), crystalMat), OB.x, by, OB.z);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 3.6, 8), white), OB.x, oy + 25, OB.z);
+    const beamMat = new THREE.MeshBasicMaterial({ color: 0xffcf5a, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, fog: false });
+    const beam = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.45, 90, 16, 1, true), beamMat); beam.position.set(OB.x, by + 45, OB.z); scene.add(beam);
+    let beaconK = 0;
+    every((dt) => {
+      crystalMat.emissiveIntensity += (0.05 + beaconK * 2.2 - crystalMat.emissiveIntensity) * Math.min(1, dt * 1.5);
+      beamMat.opacity += (beaconK * 0.55 - beamMat.opacity) * Math.min(1, dt * 1.5); beam.visible = beamMat.opacity > 0.01;
+      crystal.rotation.y += dt * 0.5;
+    });
+    return {
+      streamZ: () => -1e9, beacon: { x: OB.x, z: OB.z, y: by }, hall: { ...HL, y: hy, door: { x: HL.x + 12, z: HL.z } }, observatory: { ...OB, y: oy, door: { x: OB.x, z: OB.z + 13 } },
+      stations: STATIONS, fountain: { x: 0, z: 0 },
+      setBeacon(k) { beaconK = THREE.MathUtils.clamp(k, 0, 1); },
+      turnWheel() {}, mendBridge() {},
+      protectedAt: (x, z, r = 0) => Math.hypot(x, z) < 8 + r || Math.hypot(x - HL.x, z - HL.z) < 18 + r || Math.hypot(x - OB.x, z - OB.z) < 14 + r || STATIONS.some((st) => Math.hypot(x - st.x, z - st.z) < 5 + r),
+    };
+  }
   function buildCanopy() {
     const bark = new THREE.MeshStandardMaterial({ color: 0x6b4a2e, roughness: 1, map: stoneTex });
     const wood = new THREE.MeshStandardMaterial({ color: 0x9a6a3c, roughness: 0.9 });

@@ -10,6 +10,13 @@
 //   - Everything in Noor is fiction: no prophets, angels or sacred places are shown.
 // Level 2 (ages 6 to 8) plays Region 1 only, with the gentle climbs. Levels 3 and 4 play every region as it is built.
 import { u } from '../url.mjs';
+import { SUNNAH } from '../deen/sunnah.mjs';
+import { refText, refUrl } from '../deen/refs.mjs';
+import BANK from '../../data/question-bank.json';
+
+// Region 3 content, never typed here: a hadith by its id in the Sunnah set, a question by its id in the bank
+const HADITH = (id, extra = {}) => { const h = SUNNAH.find((x) => x.id === id); if (!h) throw new Error('No hadith ' + id); return { title: h.title, who: h.who, ar: h.ar, en: h.en, ref: h.src.map(refText).join(' and '), url: refUrl(h.src[0]), ...extra }; };
+const QUESTION = (id) => { const q = BANK.find((x) => x.id === id); if (!q) throw new Error('No question ' + id); return { q: q.prompt, a: q.answer, w: q.wrong, why: q.explain }; };
 
 export const STAGES = { A: 'Arrival', B: 'Explore', C: 'Read to the Sheikh', D: 'Restore', E: 'Reflect' };
 
@@ -22,12 +29,16 @@ export const BADGES = [
   { id: 'echo-keeper', title: 'Echo Keeper', how: 'Listen to the reciter, recite from memory, and repeat every echo.', img: 'echo_keeper.svg' },
   { id: 'revision-garden', title: 'Revision Garden', how: 'Revise a passage, join the roots, and plan your next revision.', img: 'revision_garden.svg' },
   { id: 'beacon-2', title: 'The Second Beacon', how: 'Finish all three levels of Region 2.', img: 'second_beacon.svg' },
+  { id: 'curious', title: 'Curious Mind', how: 'Visit the three stations, answer the questions and find the map clue.', img: 'curious_mind.svg' },
+  { id: 'words', title: 'Keeper of Words', how: 'Study a hadith with its reference and find its lesson.', img: 'keeper_of_words.svg' },
+  { id: 'questioner', title: 'Thoughtful Questioner', how: 'Know when to check, and when to ask your teacher.', img: 'thoughtful_questioner.svg' },
+  { id: 'beacon-3', title: 'The Third Beacon', how: 'Finish all three levels of Region 3.', img: 'third_beacon.svg' },
 ].map((b) => ({ ...b, url: u(`guardians/badges/${b.img}`) }));
 
 export const REGIONS = [
   { n: 1, title: 'The First Beacon', theme: 'Foundations', text: 'A green valley at dawn, with a stream, a waterwheel and a quiet learning pavilion.', ready: true },
   { n: 2, title: 'The Memory Canopy', theme: 'Hifz and revision', text: 'Giant trees and walkways in the leaves, for remembering what you learn.', ready: true },
-  { n: 3, title: 'The City of Wisdom', theme: 'Hadith and knowledge', text: 'A bright city square with an observatory and a learning hall.' },
+  { n: 3, title: 'The City of Wisdom', theme: 'Hadith and knowledge', text: 'A bright city square with an observatory and a learning hall.', ready: true },
   { n: 4, title: 'The Garden of Good Company', theme: 'Adab and character', text: 'A community garden and workshop, for kindness, honesty and care.' },
   { n: 5, title: 'The Beacon Summit', theme: 'Bringing it together', text: 'A high lookout where every beacon of Noor can be seen.' },
 ];
@@ -189,12 +200,91 @@ export const LEVELS = [
       { do: 'reward', badge: 'revision-garden', title: 'Revision Garden', text: 'You revised, joined the roots and planned your next revision. A Revision Garden grows in Noor.' },
     ],
   },
+  {
+    id: '3.1', region: 3, label: 'Level 3.1', title: 'The Questioner’s Courtyard', blurb: 'Visit the stations, read to the Sheikh, and answer the questions.',
+    steps: [
+      { do: 'state', beacon: 0 },
+      { do: 'stage', id: 'A' },
+      { do: 'scene', time: 'day', at: [0, 44, 0, 0] },
+      { do: 'fly', shots: [[[70, 50, 70], [0, 4, -40], 0], [[30, 22, 40], [0, 6, -40], 6], [[0, 3.5, 52], [0, 3, 20], 4]] },
+      { do: 'guide', title: 'The City of Wisdom', text: 'This city keeps knowledge safe. Good learners ask questions, check what they hear, and learn from people who know.' },
+      { do: 'goto', id: 'fountain', place: 'fountain', label: 'The fountain', objective: 'Go to the fountain in the middle of the square.' },
+      { do: 'stage', id: 'B' },
+      { do: 'stations', label: 'A station', objective: 'Visit the three stations around the square.', items: [
+        HADITH('learn', { label: 'The station of knowledge' }),
+        HADITH('easy', { label: 'The station of teaching' }),
+        HADITH('truth', { label: 'The station of truth' }),
+      ] },
+      { do: 'stage', id: 'C' },
+      { do: 'read', title: 'Read to the Sheikh', text: 'Choose the surah and ayahs your teacher gave you, and read them aloud from the mushaf. The Sheikh follows every word.' },
+      { do: 'stage', id: 'D' },
+      { do: 'ask', title: 'Questions of the courtyard', questions: ['Q056', 'Q058', 'Q062', 'Q063', 'Q069'].map(QUESTION) },
+      { do: 'parkour', title: 'The map clue', text: 'A map clue is on the highest roof. Jump across the rooftops and light the lantern there.', objective: 'Reach the lantern on the rooftops', course: { x: 40, z: 16, axis: 'x', kind: 'roof', seed: 9 }, scrolls: [] },
+      { do: 'beacon', k: 0.25, title: 'A light on the dome', text: 'Your reading and your questions woke the beacon on the observatory.' },
+      { do: 'stage', id: 'E' },
+      { do: 'reward', badge: 'curious', title: 'Curious Mind', text: 'You visited the stations, read to the Sheikh and answered the questions.' },
+      { do: 'reflect', prompt: 'Which station will you remember?', options: ['Seeking knowledge', 'Making things easy', 'Telling the truth'], finish: 'Finish the level' },
+    ],
+  },
+  {
+    id: '3.2', region: 3, label: 'Level 3.2', title: 'The Words We Preserve', blurb: 'Study a hadith with its reference, read, and find its lesson.',
+    steps: [
+      { do: 'state', beacon: 0.25 },
+      { do: 'stage', id: 'A' },
+      { do: 'scene', time: 'day', at: [-30, 4, -56, -6] },
+      { do: 'guide', title: 'The learning hall', text: 'In the learning hall, the words of the Prophet ﷺ are kept with care. Each one comes with where it is reported.' },
+      { do: 'goto', id: 'hall', place: 'hall', label: 'The learning hall', objective: 'Go into the learning hall.' },
+      { do: 'stage', id: 'B' },
+      { do: 'hadith', kicker: 'A hadith to study', ...HADITH('good-words', { lesson: 'Read the Arabic first. Then tap to see its meaning, and look at where it is reported.' }) },
+      { do: 'match', title: 'Words and where they are reported', text: 'Every hadith we learn comes with its reference. Match each one to where it is reported.', pairs: ['clean', 'good-word', 'no-anger', 'easy'].map((id) => { const h = HADITH(id); return [h.en, h.ref]; }), good: 'Every hadith matched to its reference.' },
+      { do: 'stage', id: 'C' },
+      { do: 'read', title: 'Read to the Sheikh', text: 'Choose the surah and ayahs your teacher gave you, and read them aloud from the mushaf. The Sheikh follows every word.' },
+      { do: 'stage', id: 'D' },
+      { do: 'scenario', title: 'Living the hadith', modern: 'A practice scenario from everyday life.', done: 'Saying something good, or staying quiet, keeps hearts safe.', cases: [
+        { q: 'A friend gets a bad mark and others start to joke about it. What do you say?', options: ['Something kind, or nothing at all', 'Join the joke so you fit in', 'Tell everyone else about it'], best: 0, why: 'The hadith teaches us to say something good, or stay quiet.', hint: 'Think of the hadith you just studied.' },
+        { q: 'You are angry with your brother and want to shout. What do you do?', options: ['Shout what you feel', 'Stay quiet until you are calm, then speak kindly', 'Say something hurtful quietly'], best: 1, why: 'Staying quiet until you can say something good follows the hadith.', hint: 'Which choice is good words, or silence?' },
+        { q: 'A new student says salam to you. What do you reply?', options: ['Ignore them', 'Wa alaikum assalam, with a smile', 'Laugh with your friends'], best: 1, why: 'A good word to a new student is a gift to them.', hint: 'Which choice is a good word?' },
+      ] },
+      { do: 'beacon', k: 0.5, title: 'Brighter', text: 'Studying the words of the Prophet ﷺ made the beacon brighter.' },
+      { do: 'stage', id: 'E' },
+      { do: 'reward', badge: 'words', title: 'Keeper of Words', text: 'You studied a hadith with its reference, read to the Sheikh and found its lesson.' },
+      { do: 'reflect', prompt: 'Why do we learn where a hadith is reported?', options: ['So we know it is real', 'So we can find it again', 'So we can show others where it is', 'All of these'], finish: 'Finish the level' },
+    ],
+  },
+  {
+    id: '3.3', region: 3, label: 'Level 3.3', title: 'The Observatory of Evidence', blurb: 'Know when to check and when to ask, read, and light the beacon.',
+    steps: [
+      { do: 'state', beacon: 0.5 },
+      { do: 'stage', id: 'A' },
+      { do: 'scene', time: 'dusk', at: [0, -50, 0, -86] },
+      { do: 'guide', title: 'The observatory', text: 'From the observatory, careful learners look closely before they decide. Some things we know, some we check, and some we ask about.' },
+      { do: 'goto', id: 'observatory', place: 'observatory', label: 'The observatory', objective: 'Go to the door of the observatory.' },
+      { do: 'stage', id: 'B' },
+      { do: 'sort', title: 'Know, check or ask?', bins: ['I know this', 'I need to check', 'I should ask my teacher'], done: 'Good learners know what they know, check what they hear, and ask people who know.', items: [
+        ['How many pillars of Islam are there? You learned it in class and checked it in your book.', 0],
+        ['A message online says something is a hadith, but it gives no reference.', 1],
+        ['You want to know how to make up a prayer you missed.', 2],
+        ['What is the first surah of the Qur’an? You read it in every prayer.', 0],
+        ['Someone tells you a story about the Prophet ﷺ, and you have never read it anywhere.', 1],
+        ['Your family asks you a question about a ruling for their fasting.', 2],
+      ] },
+      { do: 'stage', id: 'C' },
+      { do: 'read', title: 'Read to the Sheikh', text: 'Choose the surah and ayahs your teacher gave you, and read them aloud from the mushaf. The Sheikh follows every word.' },
+      { do: 'stage', id: 'D' },
+      { do: 'ask', title: 'Questions of the observatory', questions: ['Q059', 'Q065', 'Q067', 'Q070'].map(QUESTION) },
+      { do: 'parkour', title: 'To the top', text: 'Climb the rooftops to see the whole city. Light the lantern at the top.', objective: 'Reach the lantern at the top', course: { x: 40, z: 16, axis: 'x', kind: 'roof', seed: 21 }, scrolls: [] },
+      { do: 'beacon', k: 1, title: 'The third beacon', text: 'The beacon of the City of Wisdom shines in full. The Garden of Good Company opens next.' },
+      { do: 'stage', id: 'E' },
+      { do: 'reward', badge: 'questioner', title: 'Thoughtful Questioner', text: 'You know what you know, you check what you hear, and you ask your teacher.' },
+      { do: 'reflect', prompt: 'Who can you ask when you are not sure about your deen?', options: ['My teacher or Sheikh', 'My parents', 'A trusted book my teacher gave me', 'All of these'], finish: 'Finish the level' },
+    ],
+  },
 ];
 
 // a level as an episode for the quest runner
 export function levelEpisode(id) {
   const L = LEVELS.find((x) => x.id === id);
-  return { ...L, n: id, theme: L.region === 2 ? 'canopy' : 'noor', stages: STAGES, label: L.label, guideKicker: 'Guardian’s guide', loading: L.region === 2 ? 'Preparing the Memory Canopy…' : 'Preparing the valley of Noor…', noArchive: true };
+  return { ...L, n: id, theme: L.region === 3 ? 'city' : L.region === 2 ? 'canopy' : 'noor', stages: STAGES, label: L.label, guideKicker: 'Guardian’s guide', loading: L.region === 3 ? 'Preparing the City of Wisdom…' : L.region === 2 ? 'Preparing the Memory Canopy…' : 'Preparing the valley of Noor…', noArchive: true };
 }
 
 // which levels the child can play: each opens when the one before it is finished
