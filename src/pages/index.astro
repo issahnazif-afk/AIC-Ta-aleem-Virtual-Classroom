@@ -9,14 +9,14 @@ import '@fontsource/manrope/700.css';
 import '@fontsource/manrope/800.css';
 import '@fontsource/amiri/400.css';
 import '@fontsource/amiri/700.css';
-import '@fontsource/playfair-display/500.css';
-import '@fontsource/playfair-display/600.css';
-import '@fontsource/playfair-display/500-italic.css';
-import '@fontsource/playfair-display/600-italic.css';
+import '@fontsource/lora/500.css';
+import '@fontsource/lora/600.css';
+import '@fontsource/lora/500-italic.css';
 import '../styles/global.css';
 import '../styles/classroom.css';
 import '../styles/aic.css';
 import '../styles/deen.css';
+import '../styles/system.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
 import cfg from '../../site.config.mjs';
@@ -40,9 +40,6 @@ const levels = [
   <meta name="theme-color" content="#0E6B4E" />
   <link rel="icon" href={u('favicon-64.png')} type="image/png" />
   <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" />
   <link rel="preload" href={u('fonts/UthmanicHafs_V22.ttf')} as="font" type="font/ttf" crossorigin />
   <style is:inline set:html={`@font-face{font-family:"KFGQPC Hafs";src:url("${u('fonts/UthmanicHafs_V22.ttf')}") format("truetype");font-display:swap}`}></style>
 </head>
@@ -307,15 +304,14 @@ const levels = [
         <div class="stat"><b data-level-pill>Level 1</b><span>Your class</span></div>
         <div class="stat"><b id="h-hijri">—</b><span id="h-greg"></span></div>
         <div class="stat"><b data-stars-n>0</b><span>Ta'aleem Stars</span></div>
-        <div class="stat"><b data-streak>0</b><span>Days in a row</span></div>
       </div>
       <nav class="dest" aria-label="My dashboard">
-        <a href="#sec-lessons" data-dest="lessons"><span aria-hidden="true">📖</span>My Lessons</a>
-        <a href="#sec-play" data-dest="play"><span aria-hidden="true">🎯</span>Play &amp; Learn</a>
-        <a href="#sec-hifz" data-dest="hifz"><span aria-hidden="true">🕌</span>My Hifz</a>
-        <button type="button" data-dest="awards"><span aria-hidden="true">⭐</span>My Achievements</button>
-        <button type="button" data-dest="garden"><span aria-hidden="true">🌴</span>My Jannah Garden</button>
-        <button type="button" data-dest="kids" id="dest-kids" hidden><span aria-hidden="true">🏡</span>Picture home</button>
+        <a href="#sec-lessons" data-dest="lessons"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="1.5"/><path d="M9 3.5v17M12 8h4M12 11.5h4"/></svg>My Lessons</a>
+        <a href="#sec-play" data-dest="play"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9h10a4 4 0 0 1 4 4v1a3 3 0 0 1-5.3 1.9L14 14h-4l-1.7 1.9A3 3 0 0 1 3 14v-1a4 4 0 0 1 4-4z"/><path d="M8 11.5v2M7 12.5h2"/><circle cx="16" cy="12" r=".6" fill="currentColor"/></svg>Play &amp; Learn</a>
+        <a href="#sec-hifz" data-dest="hifz"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5z"/><path d="M12 6.5v13"/></svg>My Hifz</a>
+        <button type="button" data-dest="awards"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M8.5 13 7 21l5-2.5 5 2.5-1.5-8"/></svg>My Achievements</button>
+        <button type="button" data-dest="garden"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-9"/><path d="M12 12C12 8 9 6 5 6c0 4 3 6 7 6z"/><path d="M12 10c0-3 2.5-5 6-5 0 3.5-2.5 5-6 5z"/><path d="M6 21h12"/></svg>My Jannah Garden</button>
+        <button type="button" data-dest="kids" id="dest-kids" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg>Picture home</button>
       </nav>
     </div>
    </div>
