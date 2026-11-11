@@ -88,9 +88,9 @@ No streak counters, no public rankings, no "NEW" badges, no pressure words.
   white panels with a 1 px rule, ivory cards, forest buttons. Locked items are a quiet stone tone, not dark navy.
 - **Figures** (shards, seals, books read, stars): a ruled row of numbers, never glass pills.
 - **No streaks anywhere** (no fire emoji, no "days in a row"): nothing is lost by missing a day.
-- **Speakers and sound:** the drawn line speaker (), never 🔊 or 🔇.
+- **Speakers and sound:** the drawn line speaker (`ic-say`), never emoji speakers.
 - **Play & Make games:** level choice is a row of 8 px buttons with the chosen one in forest; every game with
-  controls to learn shows one "How to play" line under its title ( in ).
+  controls to learn shows one "How to play" line under its title (`help` in `src/lib/games/index.mjs`).
 - **Inside the 3D games** (the HUD, the panels) the game keeps its own look; change it only with the gameplay
   harnesses passing.
 
