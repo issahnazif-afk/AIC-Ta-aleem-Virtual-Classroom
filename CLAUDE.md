@@ -7,7 +7,9 @@ An Astro site (one page, `src/pages/index.astro`) published to GitHub Pages by `
 Read `docs/DESIGN_SYSTEM.md` and follow it. In short:
 - Use the tokens in `src/styles/system.css`. Do not add hard-coded colours.
 - Forest, ivory, sage and antique gold; Lora headings, Manrope text, Amiri for Arabic, KFGQPC Hafs for Qur'an only.
-- No gradients, glass, emoji icons, pill buttons, glowing effects or "AI template" card grids.
+- Two styles: the calm standard style (Levels 3 and 4, grown-up screens) and the young learners' style
+  (Levels 1 and 2: bright picture tiles, sound and bounce). Keep both; see the design guide.
+- No glass, emoji icons, glowing effects or "AI template" card grids in either style.
 - The home shows tiles only; details appear after a tile is opened.
 
 ## Religious content

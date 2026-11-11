@@ -8,6 +8,10 @@
 // second opens it. Levels 3 and 4: one tap opens, and an opened subject shows its activities with a line each.
 import { narrate, hush } from './narration.mjs';
 import { icon } from './home-icons.mjs';
+import { u } from './url.mjs';
+
+// Levels 1 and 2 (the young learners' style): the school's own Canva picture, a sunny mosque courtyard, under a soft veil
+const picture = () => '<picture class="kh-scene"><source media="(max-width: 700px)" srcset="' + u('img/home/scene-phone.webp') + '"><img src="' + u('img/home/scene-wide.webp') + '" alt="" width="1600" height="992" decoding="async" fetchpriority="high"></picture><div class="kh-veil" aria-hidden="true"></div>';
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
@@ -44,7 +48,7 @@ export function mountKidsHome(root, { level = 1, name = '', hijri = '', special 
   root.replaceChildren();
   root.className = 'kh kh-l' + level + (young ? ' kh-young' : ' kh-older');
   const stage = el('div', 'kh-stage');
-  stage.innerHTML = scene();
+  stage.innerHTML = young ? picture() : scene();
   const top = el('div', 'kh-top');
   const hi = el('h1', 'kh-hi'); hi.append('Assalamu alaikum', name ? ', ' : '', el('em', null, name ? `${name}` : ''));
   top.append(hi);
@@ -94,6 +98,7 @@ export function mountKidsHome(root, { level = 1, name = '', hijri = '', special 
     for (const p of list) {
       const b = el('button', 'kh-place'); b.type = 'button'; b.dataset.place = p.id;
       const ic = el('span', 'kh-ic'); ic.innerHTML = p.icon ?? icon('stories');
+      if (p.color) ic.style.setProperty('--c', p.color);
       const label = el('span', 'kh-label'); label.append(el('b', null, p.title));
       if (p.ar && level >= 2) { const a = el('span', 'kh-ar', p.ar); a.lang = 'ar'; a.dir = 'rtl'; label.append(a); }
       if (parent && p.text && !young) label.append(el('span', 'kh-text', p.text));

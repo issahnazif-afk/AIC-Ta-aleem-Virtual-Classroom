@@ -1,6 +1,10 @@
 # Ta'aleem design system
 
 The rules every screen of Ta'aleem follows. Read this before changing anything visual.
+
+**There are two styles.** Levels 3 and 4 (and every grown-up screen) use the calm **standard style** described
+first. Levels 1 and 2 (ages 4 to 8) use the **young learners' style** (see that section): brighter, drawn,
+with sound and bounce. The religious and content rules apply to both. Do not merge the two styles.
 It comes from the Professional Website Redesign Kit (Phases 1 and 2) and from Ta'aleem's own choices.
 
 Ta'aleem is an Islamic education platform. It should feel like a respected learning institution that uses
@@ -13,7 +17,8 @@ technology template or an AI-generated page.
 |---|---|
 | `src/styles/system.css` | The tokens (colours, type, spacing, corners) and the shared components. Loaded last. |
 | `src/lib/home-icons.mjs` | The one icon family (line icons in round medallions). |
-| `src/lib/kids-home.mjs` | The Classroom home for every level (the night scene, the greeting, the tiles). |
+| `src/lib/kids-home.mjs` | The Classroom home for every level (the night scene for Levels 3 and 4, the picture scene for Levels 1 and 2). |
+| `public/img/home/` | The school's own Canva pictures for the young learners' home (scene and five places). |
 
 Use the tokens. Do not write new hex colours into a stylesheet or a script: add a token, or use an existing one.
 
@@ -34,7 +39,7 @@ Use the tokens. Do not write new hex colours into a stylesheet or a script: add 
 On the dark night scene, text is ivory `#F7F4EA`, secondary text is ivory at 70 to 80%, and the one warm
 highlight (the child's name, an Arabic subject title) is light gold `#DCC48E`.
 
-**Never use:** purple or blue gradients, teal-to-blue skies, neon or candy colours, glossy multi-stop gradients
+**Never use (standard style):** purple or blue gradients, teal-to-blue skies, neon or candy colours, glossy multi-stop gradients
 on icons, bright yellow `#FFE08A`-style highlights, or the old greens `#0E6B4E` and `#12603A`.
 
 ## Type
@@ -64,11 +69,12 @@ on icons, bright yellow `#FFE08A`-style highlights, or the old greens `#0E6B4E` 
 - **Focus:** always visible: forest ring on light surfaces, gold ring on dark ones.
 - **Motion:** 150 to 250 ms, small movements only (2 to 3 px), and none under reduced motion.
 
-## The Classroom home (every level)
+## The Classroom home (Levels 3 and 4; Levels 1 and 2 follow the same structure in the young learners' style)
 
 The home answers one question: *what should I do next?*
 
-1. One calm scene: the forest night sky with fixed stars, a crescent and the mosque and palm skyline.
+1. One scene: for Levels 3 and 4 the forest night sky with fixed stars, a crescent and the mosque and palm skyline;
+   for Levels 1 and 2 the school's sunny courtyard picture.
 2. A centred greeting ("Assalamu alaikum, *Name*") and the Hijri date.
 3. One **Continue** button for the last activity opened.
 4. Big labelled tiles, and nothing else. **Details appear only after a tile is opened.**
@@ -80,6 +86,26 @@ The home answers one question: *what should I do next?*
 5. "Grown-up view: see every activity as a list" stays one tap away.
 
 No streak counters, no public rankings, no "NEW" badges, no pressure words.
+
+## Young learners' style (Levels 1 and 2, ages 4 to 8)
+
+Inspired by the best early-learning sites (for example Starfall): big bright pictures to tap, a friendly drawn world,
+sound first, bouncy feedback and very little text. Ta'aleem uses its **own** art and characters, never another
+site's art, layout, characters or branding.
+
+- **Scene:** the school's Canva picture (`public/img/home/scene-wide.webp`, `scene-phone.webp`) under a soft light veil.
+- **Tiles:** white, 26 px corners, a 3 px white border and a soft drop shadow. Each has a big round picture
+  (the Canva pictures, or the colourful drawn icons in `ICONS` in `src/lib/activities.mjs`) on its own soft
+  bright colour (`color` in `showKids()`). One short label, 16 to 19 px, extra-bold.
+- **Colour:** leaf green `--leaf` (`#23774A`) for the main action and highlights, `--leaf-deep` for the header,
+  sun yellow `--sun` (`#F6C64B`) for the hover border, and soft pastels behind the pictures. Text stays dark
+  (`#0F2A22`) for contrast.
+- **Sound first:** pointing at a tile says its name; on a touch screen the first tap says it and the second opens it.
+- **Motion:** a springy lift on hover (6 px up, 4% larger) and a bounce when a tile is said. None under reduced motion.
+- **Activity screens** for these levels (`body[data-age="young"]`): 14 px button corners, leaf-green primary
+  buttons, 20 to 22 px card corners.
+- **Still never:** emoji as icons, neon colours, glossy multi-stop gradients, glass, "NEW" badges, streaks or timers
+  that pressure a child.
 
 ## Activity and game screens
 
@@ -98,7 +124,8 @@ No streak counters, no public rankings, no "NEW" badges, no pressure words.
 
 - Never invent Qur'anic verses, hadith, Arabic text, translations, scholarly claims, teacher credentials,
   testimonials, statistics or accreditation.
-- Never use sacred text as decoration, a game token, an obstacle or a texture.
+- Never use sacred text as decoration, a game token, an obstacle or a texture (in both styles).
+- Never depict prophets, angels or the Companions, in any style. The Qur'an appears as text only in reading contexts.
 - Do not imply that an app replaces a qualified teacher.
 - Rewards say what earned them. Participation and teacher-verified mastery are kept apart.
 
