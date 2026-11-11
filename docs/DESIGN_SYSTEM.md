@@ -94,9 +94,11 @@ sound first, bouncy feedback and very little text. Ta'aleem uses its **own** art
 site's art, layout, characters or branding.
 
 - **Scene:** the school's Canva picture (`public/img/home/scene-wide.webp`, `scene-phone.webp`) under a soft light veil.
-- **Tiles:** white, 26 px corners, a 3 px white border and a soft drop shadow. The top of each tile is a soft
-  colour panel (4:3, 18 px corners, the place's own `color` in `showKids()`) holding the whole picture, never cropped
-  into a circle. One short label below, 16 to 19 px, extra-bold.
+- **Tiles:** no card and no box. Each picture is cut out around its own shape and stands on the scene with a
+  thin white sticker edge that follows its outline and a soft shadow (stacked `drop-shadow`s, never a square or
+  rectangle behind it). Hover or the first tap lifts it with a warm glow around the shape. The name (and the Arabic
+  at Level 2) sits in one small white pill under the picture. A place without a picture yet is a round badge in the
+  place's own `color` with the same white edge.
 - **Pictures:** the school's storybook set in `public/img/home/` (the two children, the teddy, the gift, the telescope,
   the mosque book, the Qur'an on its cushion and others), as transparent WebP about 360 px wide and 20 to 30 KB.
   New pictures from the school are prepared the same way: background removed from the edges inward, trimmed,
