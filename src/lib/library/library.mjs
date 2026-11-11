@@ -76,8 +76,8 @@ export function mountLibrary(root, { level = 1, progress = {}, onOpen, onLevel, 
 
   const pass = el('div', 'lb-passport');
   const stat = (big, small) => { const s = el('div', 'lb-stat'); s.append(el('b', null, big), el('small', null, small)); return s; };
-  pass.append(stat(`${read}/${shelf.books.length}`, 'books read'), stat(`★ ${stars}`, 'stars'), stat(`🔥 ${streak}`, streak === 1 ? 'day in a row' : 'days in a row'));
-  const goal = el('p', 'lb-goal', badge ? `🏅 ${badge[1]}! ` : '');
+  pass.append(stat(`${read}/${shelf.books.length}`, 'books read'), stat(`${stars}`, stars === 1 ? 'star' : 'stars'));   // no streak: nothing is lost by missing a day
+  const goal = el('p', 'lb-goal', badge ? `${badge[1]}. ` : '');
   if (nextBadge) goal.append(`Read ${nextBadge[0] - read} more ${nextBadge[0] - read === 1 ? 'book' : 'books'} to become a ${nextBadge[1]}.`);
   else if (read < shelf.books.length) goal.append(`Read ${shelf.books.length - read} more to fill your passport.`);
   else goal.append('You have read every book on this shelf. Masha’Allah!');

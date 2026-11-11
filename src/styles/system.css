@@ -260,3 +260,125 @@ body.cr { font-family: var(--font-ui); background: var(--ivory); color: var(--in
 .kh .kh-group-ar { justify-self: start; text-align: left; }
 .kh .kh-group-t { grid-column: 2; }
 .kh .kh-hi em { color: #DCC48E; font-style: italic; }
+
+/* ── Phase 4: the activity and game screens ───────────────── */
+
+/* the Seerah Quest home: a forest banner, white panels and cards, forest buttons */
+.sqh { display: grid; gap: var(--s-5); margin: var(--s-2) 0 var(--s-6); padding: 0; background: none; color: var(--ink); font-family: var(--font-ui); }
+.sqh-hero { position: relative; isolation: isolate; display: flex; align-items: center; gap: var(--s-5); padding: var(--s-6); border-radius: var(--r-large); border: 0; overflow: hidden; background: var(--forest); color: #F7F4EA; }
+.sqh-hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--pattern) center / 120px; opacity: .06; }
+.sqh-words { position: relative; flex: 1; min-width: 0; }
+.sqh-kicker { margin: 0; font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; font-weight: 800; color: #DCC48E; }
+.sqh .sqh-title { margin: 4px 0 6px; font-family: var(--font-display); font-weight: 600; font-size: clamp(30px, 4.4vw, 46px); line-height: 1.08; color: #F7F4EA; text-shadow: none; }
+.sqh-tag { margin: 0 0 8px; font-weight: 700; color: #DCC48E; }
+.sqh-lead { margin: 0 0 var(--s-5); max-width: 62ch; font-size: 15.5px; line-height: 1.6; color: rgba(247, 244, 234, .85); text-shadow: none; }
+.sqh-go { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 20px; border-radius: var(--r-control); border: 0; background: #F7F4EA; color: var(--forest); font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: none; }
+.sqh-go::after { content: ''; width: 18px; height: 18px; background: var(--arrow) center / 18px no-repeat; transition: transform var(--t-fast) var(--ease); }
+.sqh-go:hover { background: #fff; }
+.sqh-go:hover::after { transform: translateX(3px); }
+.sqh-go:active { transform: none; box-shadow: none; }
+.sqh-me { position: relative; flex: none; filter: none; }
+.sqh-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--s-5); align-items: start; }
+.sqh-panel { padding: var(--s-5); border-radius: var(--r-surface); border: 1px solid var(--rule); background: var(--white); box-shadow: none; }
+.sqh .sqh-h { margin: 0 0 var(--s-4); font-family: var(--font-display); font-weight: 600; font-size: 22px; color: var(--forest); }
+.sqh-h3 { margin: var(--s-4) 0 6px; font-size: 15px; color: var(--gold-text); }
+.sqh-side { display: grid; gap: var(--s-4); }
+.sqh-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--s-3); }
+.sqh-card { display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px 10px 14px; border-radius: 12px; border: 1px solid var(--rule); background: var(--ivory); color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: border-color var(--t-fast) var(--ease); }
+.sqh-card:not(:disabled):not(.soon):hover { transform: none; box-shadow: none; border-color: var(--forest); }
+.sqh-card:focus-visible { outline: 3px solid var(--forest); outline-offset: 2px; }
+.sqh-art { position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: var(--sage-soft); margin-bottom: 6px; }
+.sqh-art svg { display: block; width: 100%; height: 100%; }
+.sqh-lock { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(23, 61, 50, .5); }
+.sqh-n { font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; color: var(--gold-text); }
+.sqh .sqh-t { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.25; color: var(--ink); }
+.sqh-ar { font-family: Amiri, serif; font-size: 19px; color: var(--forest); align-self: flex-end; }
+.sqh-blurb { font-size: 13.5px; line-height: 1.5; color: var(--ink-muted); }
+.sqh-bar { display: block; height: 6px; margin-top: 8px; border-radius: 3px; background: #E6E0D0; overflow: hidden; }
+.sqh-bar i { display: block; height: 100%; background: var(--forest); }
+.sqh-pc { font-size: 12.5px; font-weight: 800; color: var(--forest); }
+.sqh-stats { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; color: var(--ink-muted); }
+.sqh-stats > span { display: inline-flex; align-items: center; gap: 2px; }
+.sqh-btn { margin-top: 8px; align-self: flex-start; padding: 8px 16px; border-radius: var(--r-control); background: var(--forest); border: 1px solid var(--forest); font-weight: 700; color: #fff; }
+.sqh-card.done { border-color: var(--sage); }
+.sqh-card.locked, .sqh-card.soon { background: #F1EEE5; color: var(--ink-muted); border-color: var(--rule); cursor: default; }
+.sqh-card.locked .sqh-n, .sqh-card.soon .sqh-n { color: var(--ink-muted); }
+.sqh-card.locked .sqh-blurb, .sqh-card.soon .sqh-blurb, .sqh-card.locked .sqh-stats, .sqh-card.locked .sqh-pc { color: var(--ink-muted); }
+.sqh-card.locked .sqh-t { color: var(--ink-muted); }
+.sqh-card.locked .sqh-btn { background: transparent; color: var(--ink-muted); border-color: var(--rule-strong); }
+.sqh-card.locked .sqh-ar { color: var(--ink-muted); }
+.sqh-card.soon .sqh-art { aspect-ratio: 16 / 7; }
+.sqh-preview { display: grid; place-items: center; padding: 8px; border-radius: 10px; background: var(--sage-soft); }
+.sqh-small { margin-top: var(--s-3); min-height: 44px; padding: 0 16px; border-radius: var(--r-control); border: 1px solid var(--forest); background: transparent; color: var(--forest); font: inherit; font-weight: 700; cursor: pointer; }
+.sqh-small:hover { background: var(--sage-soft); }
+.sqh-edit { display: grid; gap: 8px; margin-top: 10px; }
+.sqh-row { display: grid; gap: 4px; }
+.sqh-rl { font-size: 12.5px; font-weight: 800; letter-spacing: .04em; color: var(--gold-text); }
+.sqh-choice { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 6px; }
+.sqh-opt { min-height: 40px; padding: 0 12px; border-radius: var(--r-control); border: 1px solid var(--rule-strong); background: var(--white); color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+.sqh-opt[aria-pressed="true"] { background: var(--forest); color: #fff; border-color: var(--forest); font-weight: 700; }
+.sqh-sw { display: flex; flex-wrap: wrap; gap: 6px; }
+.sqh-sw button { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--rule-strong); box-shadow: none; cursor: pointer; }
+.sqh-sw button[aria-pressed="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--forest); }
+.sqh-blist { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+.sqh-badge { display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border-radius: 10px; background: var(--ivory); border: 1px solid var(--rule); text-align: center; }
+.sqh-badge img { filter: grayscale(1); opacity: .45; }
+.sqh-badge.got img { filter: none; opacity: 1; }
+.sqh-badge b { font-size: 13px; color: var(--ink); }
+.sqh-badge span { font-size: 11.5px; line-height: 1.4; color: var(--ink-muted); }
+.sqh-badge.got span { color: var(--forest); font-weight: 700; }
+.sqh-note { margin: 4px 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-muted); }
+.sqh-check { display: flex; gap: 8px; align-items: flex-start; margin: 8px 0; font-size: 14px; color: var(--ink); cursor: pointer; }
+.sqh-check input { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--forest); }
+.sqh-q { display: grid; gap: 4px; margin: 8px 0; }
+.sqh-sel { min-height: 40px; padding: 0 10px; border-radius: var(--r-control); border: 1px solid var(--rule-strong); background: var(--white); color: var(--ink); font: inherit; }
+.sqh-rules { margin: 0; padding: 12px 14px; border-radius: var(--r-control); background: var(--ivory); border: 1px solid var(--rule); font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+.sqh-preview-note { margin: 0; font-size: 12.5px; color: var(--terracotta-text); }
+.sqh .saw, .sq-play .saw { font-family: Amiri, serif; }
+.sqh-modal { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px; background: rgba(15, 42, 34, .6); }
+.sqh-modal-box { width: min(760px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding: 22px 24px; border-radius: var(--r-large); border: 1px solid var(--rule); background: var(--white); color: var(--ink); }
+.sqh-modal-box .sqh-h, .sqh .sqh-modal-box .sqh-h { color: var(--forest); }
+.sqh-modal-box .sqh-note { color: var(--ink-muted); }
+.sqh-modal-box .sqh-kicker { color: var(--gold-text); }
+.sq-earned { border: 1px solid #E6DAB9; border-radius: var(--r-surface); background: var(--gold-soft); color: var(--ink); }
+.cr .sq-earned :is(h2, .h2, p, li, b) { color: var(--ink); }
+@media (max-width: 900px) { .sqh-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .sqh-hero { flex-direction: column-reverse; align-items: flex-start; padding: var(--s-5); } .sqh-me svg { width: 80px; height: auto; } .sqh-cards { grid-template-columns: 1fr 1fr; gap: 8px; } .sqh .sqh-t { font-size: 15px; } .sqh-blurb { font-size: 12.5px; } }
+
+/* Guardians of Light home: a forest banner with ruled figures, not a glowing gradient */
+.gl-hero { border-radius: var(--r-large); padding: var(--s-6); background: var(--forest); box-shadow: none; isolation: isolate; }
+.gl-hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--pattern) center / 120px; opacity: .06; }
+.gl-ar, .gl-tag { color: #DCC48E; }
+.gl-lead { color: rgba(247, 244, 234, .85); }
+.gl-counts { gap: 0; border-top: 1px solid rgba(247, 244, 234, .16); border-bottom: 1px solid rgba(247, 244, 234, .16); max-width: 420px; }
+.gl-count { flex: 1; padding: 12px 18px 12px 0; border-radius: 0; background: none; border: 0; }
+.gl-count + .gl-count { padding-left: 18px; border-left: 1px solid rgba(247, 244, 234, .16); }
+.gl-count b { color: #F7F4EA; font-family: var(--font-display); font-weight: 600; }
+.gl-count span { color: rgba(247, 244, 234, .72); font-size: 13.5px; }
+.gl-region { border-radius: var(--r-surface); }
+.gl-level { border-width: 1px; border-radius: 12px; }
+.gl-level.open { box-shadow: none; border-color: var(--forest); }
+.gl-how { border-radius: var(--r-surface); background: var(--sage-soft); }
+
+/* the reading passport (Library, Stories of the Prophets, Knowing Allah): books and stars, no streak */
+.lb-passport { grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: var(--r-surface); background: var(--forest); box-shadow: none; }
+
+/* My Deen: the Hijri card and finished cards; achievement figures; story screens */
+.dn-hijri { background: var(--forest); color: #F7F4EA; }
+.dn-card.done { background: var(--sage-soft); border-color: var(--sage); }
+.aw-stat { border-radius: var(--r-surface); background: var(--forest); }
+.st-screen { background: var(--ivory); }
+
+/* speakers drawn as line icons */
+.ic-say { display: inline-block; vertical-align: -4px; flex: none; }
+.cr .gm-sound { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Play & Make: the frame, the level control and the sound switch, and "How to play" */
+.cr .gm { border-radius: var(--r-surface); border: 1px solid var(--rule); box-shadow: none; background: #FFFDF7; }
+.cr .gm-chip { min-height: 40px; padding: 0 14px; border-radius: var(--r-control); border: 1px solid var(--rule-strong); background: var(--white); font-weight: 700; }
+.cr .gm-chip[aria-checked="true"], .cr .gm-chip.on { border-color: var(--forest); background: var(--forest); color: #fff; }
+.cr .gm-chip:focus-visible, .cr .gm button:focus-visible, .cr .mz-board:focus-visible { outline: 3px solid var(--forest); outline-offset: 2px; }
+.cr .gm-big { border-radius: var(--r-control); }
+.cr .gm-end-stars { color: var(--gold); }
+.cr .gm-fact { border-radius: var(--r-control); border-color: var(--sage); }
+.cr .gm-how { margin: -4px 0 0; padding: 10px 14px; border-radius: var(--r-control); background: var(--sage-soft); color: var(--ink); font-size: 14.5px; line-height: 1.5; }

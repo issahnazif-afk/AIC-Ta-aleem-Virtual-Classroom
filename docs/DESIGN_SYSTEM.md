@@ -81,6 +81,19 @@ The home answers one question: *what should I do next?*
 
 No streak counters, no public rankings, no "NEW" badges, no pressure words.
 
+## Activity and game screens
+
+- **Home screens of an activity** (the Seerah Quest, Guardians of Light): a forest banner with a faint geometric
+  pattern, a Lora title, light-gold kicker, ivory text, and one ivory "Start" button with an arrow. Below it,
+  white panels with a 1 px rule, ivory cards, forest buttons. Locked items are a quiet stone tone, not dark navy.
+- **Figures** (shards, seals, books read, stars): a ruled row of numbers, never glass pills.
+- **No streaks anywhere** (no fire emoji, no "days in a row"): nothing is lost by missing a day.
+- **Speakers and sound:** the drawn line speaker (), never 🔊 or 🔇.
+- **Play & Make games:** level choice is a row of 8 px buttons with the chosen one in forest; every game with
+  controls to learn shows one "How to play" line under its title ( in ).
+- **Inside the 3D games** (the HUD, the panels) the game keeps its own look; change it only with the gameplay
+  harnesses passing.
+
 ## Content rules (from the kit)
 
 - Never invent Qur'anic verses, hadith, Arabic text, translations, scholarly claims, teacher credentials,

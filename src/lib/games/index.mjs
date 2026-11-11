@@ -12,8 +12,8 @@ import { MAZES } from './mazes.mjs';
 const maze = (id) => () => import('./maze.mjs').then((mod) => (stage, ctx) => mod.mountMaze(stage, ctx, MAZES[id]));
 
 export const GAMES = {
-  'maze-hijrah': { title: 'Makkah to Madinah', ar: 'مِنْ مَكَّةَ إِلَى الْمَدِينَةِ', levels: [1, 2, 3, 4], load: maze('hijrah') },
-  'maze-tarawih': { title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', levels: [1, 2, 3, 4], load: maze('tarawih') },
+  'maze-hijrah': { title: 'Makkah to Madinah', ar: 'مِنْ مَكَّةَ إِلَى الْمَدِينَةِ', levels: [1, 2, 3, 4], load: maze('hijrah'), help: 'How to play: guide the camel to Madinah with the arrow keys or the arrow buttons. The walls shift as you go, and from Level 2 a monster roams the maze: if it catches you, you start again.' },
+  'maze-tarawih': { title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', levels: [1, 2, 3, 4], load: maze('tarawih'), help: 'How to play: carry the lantern to the masjid with the arrow keys or the arrow buttons. The walls shift as you go, and from Level 2 a monster roams the maze: if it catches you, you start again.' },
 };
 
 export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onSave, onExit } = {}) {
@@ -41,13 +41,15 @@ export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onS
     tools.append(chips);
   }
   const snd = btn('gm-chip gm-sound', '', 'Sound effects');
-  const paintSnd = () => { snd.textContent = sfx.muted ? '🔇 Sound off' : '🔊 Sound on'; snd.setAttribute('aria-pressed', String(!sfx.muted)); };
+  const paintSnd = () => { snd.innerHTML = (sfx.muted ? '<svg class="ic-say" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></svg>' : '<svg class="ic-say" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>') + (sfx.muted ? 'Sound off' : 'Sound on'); snd.setAttribute('aria-pressed', String(!sfx.muted)); };
   snd.addEventListener('click', () => { sfx.setMuted(!sfx.muted); paintSnd(); });
   paintSnd();
   tools.append(snd);
   head.append(titles, tools);
   const stage = el('div', 'gm-stage');
-  root.append(head, stage);
+  root.append(head);
+  if (g.help) root.append(el('p', 'gm-how', g.help));
+  root.append(stage);
 
   async function start() {
     const my = ++run;

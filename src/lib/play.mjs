@@ -115,7 +115,7 @@ export function createDetective({ stage, level = 1, gender, ui, progress }) {
     let choices, answerKey = T.letter, label = (c) => c.letter;
     if (mode === 'listen' || mode === 'similar') {
       ask.textContent = mode === 'similar' ? 'Careful: these letters look alike. Which one did the Sheikh say?' : 'Listen. Which letter did the Sheikh say?';
-      const h = el('button', 'det-hear', '🔊'); h.type = 'button'; h.setAttribute('aria-label', 'Hear it again'); h.addEventListener('click', () => sayLetter(T)); show.append(h);
+      const h = el('button', 'det-hear'); h.innerHTML = '<svg class="ic-say" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>'; h.type = 'button'; h.setAttribute('aria-label', 'Hear it again'); h.addEventListener('click', () => sayLetter(T)); show.append(h);
       choices = letterChoices(T, mode === 'similar');
     } else if (mode === 'name') {
       ask.textContent = 'Find the letter with this name.';

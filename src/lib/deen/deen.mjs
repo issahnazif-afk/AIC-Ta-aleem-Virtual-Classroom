@@ -428,7 +428,7 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
         links.append(b);
       }
       li.append(links);
-      const say = btn('dn-say', '🔊', `Read: ${s.title}`); say.addEventListener('click', () => read([[s.title], [s.text, p.words]])); li.append(say);
+      const say = btn('dn-say', '', `Read: ${s.title}`); say.innerHTML = '<svg class="ic-say" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>'; say.addEventListener('click', () => read([[s.title], [s.text, p.words]])); li.append(say);
       ol.append(li);
     }
     view.append(ol);
@@ -442,7 +442,7 @@ export function mountDeen(root, { tab = 'duas', level = 1, progress = {}, recite
       if (e.quran) li.append(ayahBox(e.quran));
       if (e.quote) li.append(hadithBox(e.quote, [e.src], { cls: 'dn-hadith in-line' }).box);
       else if (e.src) li.append(srcLinks([e.src]));
-      const say = btn('dn-say', '🔊', `Read: ${e.title}`); say.addEventListener('click', () => read([[e.title], [e.text, p.words]])); li.append(say);
+      const say = btn('dn-say', '', `Read: ${e.title}`); say.innerHTML = '<svg class="ic-say" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>'; say.addEventListener('click', () => read([[e.title], [e.text, p.words]])); li.append(say);
       ol.append(li);
     }
     view.append(ol);
