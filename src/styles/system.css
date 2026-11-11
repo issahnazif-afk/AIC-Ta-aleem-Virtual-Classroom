@@ -183,3 +183,80 @@ body.cr { font-family: var(--font-ui); background: var(--ivory); color: var(--in
 @media (prefers-reduced-motion: reduce) {
   .cr *, .cr *::before, .cr *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
 }
+
+/* ── Phase 2: the Classroom home for every level (src/lib/kids-home.mjs) ──
+   A forest night scene, a centred greeting, one "Continue" action and big labelled tiles.
+   Details appear only after a tile is opened. */
+.kids-screen { min-height: 100vh; background: #0B211A; display: flex; flex-direction: column; }
+.kh-bar { display: flex; align-items: center; gap: 10px; padding: 10px max(16px, calc((100% - var(--content)) / 2)); background: #0E2620; border-bottom: 1px solid rgba(247, 244, 234, .1); color: #F7F4EA; }
+.kh-bar b { font-weight: 800; font-size: 16px; letter-spacing: -.01em; }
+.kh-bar .pill, .kh-bar .star-pill { background: rgba(247, 244, 234, .1); color: #EFE6CF; border-radius: var(--r-tag); }
+.kh-bar .btn { background: transparent; border: 1px solid rgba(247, 244, 234, .45); color: #F7F4EA; min-height: 40px; }
+.kh-bar .btn:hover { background: rgba(247, 244, 234, .08); border-color: #F7F4EA; color: #fff; }
+.kh { flex: 1; display: flex; flex-direction: column; gap: 0; padding: 0; }
+.kh-stage { position: relative; isolation: isolate; overflow: hidden; flex: 1; min-height: calc(100vh - 62px); border-radius: 0; padding: var(--s-7) 20px 190px; display: flex; flex-direction: column; align-items: center; gap: var(--s-5); box-sizing: border-box; }
+.kh-sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; }
+.kh-top { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.kh-hi { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; color: #F7F4EA; }
+.kh-hi em { font-style: italic; font-weight: 500; color: #DCC48E; }
+.kh-date { margin: 0; padding: 0; background: none; border-radius: 0; font-size: 14.5px; font-weight: 500; color: rgba(247, 244, 234, .7); }
+.kh-special { margin: 4px 0 0; padding: 4px 12px; border-radius: var(--r-tag); background: rgba(220, 196, 142, .16); color: #EADBB5; font-size: 13.5px; font-weight: 700; }
+.kh-next { display: inline-flex; align-items: center; gap: 12px; margin-top: var(--s-3); min-height: 48px; padding: 0 18px 0 16px; border: 0; border-radius: var(--r-control); background: #F7F4EA; color: var(--forest); font: inherit; cursor: pointer; transition: background var(--t-fast) var(--ease); }
+.kh-next::after { content: ''; width: 18px; height: 18px; background: var(--arrow) center / 18px no-repeat; transition: transform var(--t-fast) var(--ease); }
+.kh-next:hover { background: #fff; }
+.kh-next:hover::after { transform: translateX(3px); }
+.kh-next-k { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-text); }
+.kh-next b { font-weight: 700; font-size: 15.5px; }
+
+.kh-places { width: 100%; max-width: 980px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; flex: none; }
+.kh-young .kh-places { max-width: 1060px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.kh-place { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 10px; padding: 18px 10px 16px; border: 1px solid rgba(23, 61, 50, .08); border-radius: var(--r-surface); background: #F7F4EA; color: var(--ink); font: inherit; cursor: pointer; box-shadow: 0 1px 0 rgba(0, 0, 0, .2); transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease); }
+.kh-place:hover, .kh-place.armed, .kh-place.lit { transform: translateY(-2px); background: #FFFDF6; border-color: var(--gold); outline: none; }
+.kh-place:focus-visible { outline: 3px solid #DCC48E; outline-offset: 3px; }
+.kh-ic { display: block; width: auto; aspect-ratio: auto; border-radius: 0; background: none; box-shadow: none; }
+.hi-medal { display: grid; place-items: center; width: 68px; height: 68px; border-radius: 50%; background: var(--m-bg); color: var(--m-fg); }
+.hi-medal svg { width: 34px; height: 34px; }
+.kh-young .hi-medal { width: 80px; height: 80px; }
+.kh-young .hi-medal svg { width: 40px; height: 40px; }
+.kh-label { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+.kh-label b { font-size: 15.5px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+.kh-young .kh-label b { font-size: 17px; }
+.kh-ar { font-family: 'Amiri', var(--font-quran); font-size: 16px; line-height: 1.5; color: var(--forest); }
+.kh-text { margin-top: 4px; font-size: 13.5px; line-height: 1.45; color: var(--ink-muted); }
+
+/* an opened subject (Levels 3 and 4): a heading, then its activities as a list of rows */
+.kh-group { width: 100%; max-width: 980px; display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 6px 16px; color: #F7F4EA; }
+.kh-backbtn { grid-row: span 3; align-self: start; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px 0 10px; border: 1px solid rgba(247, 244, 234, .4); border-radius: var(--r-control); background: transparent; color: #F7F4EA; font: inherit; font-weight: 700; cursor: pointer; }
+.kh-backbtn:hover { background: rgba(247, 244, 234, .08); border-color: #F7F4EA; }
+.kh-backbtn:focus-visible { outline: 3px solid #DCC48E; outline-offset: 2px; }
+.kh-group-h { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(26px, 3vw, 36px); color: #F7F4EA; }
+.kh-group-ar { margin: 0; font-family: 'Amiri', serif; font-size: 20px; color: #DCC48E; }
+.kh-group-t { margin: 0; color: rgba(247, 244, 234, .78); font-size: 15.5px; }
+.kh-older .kh-places.kh-sub { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.kh-older .kh-sub .kh-place { flex-direction: row; align-items: center; text-align: left; gap: 16px; padding: 16px 18px; }
+.kh-older .kh-sub .kh-label { align-items: flex-start; text-align: left; }
+.kh-older .kh-sub .hi-medal { width: 56px; height: 56px; flex: none; }
+.kh-older .kh-sub .hi-medal svg { width: 28px; height: 28px; }
+.kh-young .kh-sub .kh-place, .kh-young .kh-group { max-width: 1060px; }
+
+.kh-classic { align-self: center; margin: 0; padding: 14px 0 22px; background: #0B211A; color: rgba(247, 244, 234, .75) !important; border: 0 !important; width: 100%; border-radius: 0; }
+.kh-classic:hover { color: #fff !important; }
+
+@media (max-width: 640px) {
+  .kh-stage { padding: var(--s-6) 14px 150px; gap: var(--s-4); }
+  .kh-places, .kh-young .kh-places { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .kh-place { padding: 14px 8px 12px; }
+  .hi-medal, .kh-young .hi-medal { width: 60px; height: 60px; }
+  .hi-medal svg, .kh-young .hi-medal svg { width: 30px; height: 30px; }
+  .kh-older .kh-places.kh-sub { grid-template-columns: 1fr; }
+  .kh-group { grid-template-columns: 1fr; }
+  .kh-backbtn { grid-row: auto; justify-self: start; }
+}
+@media (prefers-reduced-motion: reduce) { .kh-place { transition: none; } .kh-place:hover { transform: none; } }
+
+/* the greeting and the subject heading on the night scene (older rules from deen.css and .cr h1/h2 are reset) */
+.kh .kh-hi { color: #F7F4EA; text-shadow: none; -webkit-text-stroke: 0; }
+.kh .kh-group-h { color: #F7F4EA; }
+.kh .kh-group-ar { justify-self: start; text-align: left; }
+.kh .kh-group-t { grid-column: 2; }
+.kh .kh-hi em { color: #DCC48E; font-style: italic; }

@@ -20,7 +20,7 @@
 .eb-screen { position: fixed; inset: 0; z-index: 60; background: #2a211b; }
 .eb-reader {
   --bg: #FFFDF8; --paper: #FFFDF8; --surface: #FFFFFF; --ink: #221D18; --muted: #6A6055; --line: #E4DCCB; --field: #CDBFA6;
-  --accent: #12603A; --accent-ink: #FFFFFF; --accent-soft: #EAF3EC; --marker: #9A7A2E; --mark: #FBE3A6;
+  --accent: #173D32; --accent-ink: #FFFFFF; --accent-soft: #EAF3EC; --marker: #9A7A2E; --mark: #E6D3A0;
   --bar-bg: rgb(26 21 17 / .94); --bar-ink: #F5EFE4; --bar-dim: #C9BCA8;
   position: absolute; inset: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
   color: var(--ink); color-scheme: light; font-family: var(--font-ui); background: #2a211b; overflow: hidden;
@@ -205,9 +205,9 @@
 .eb-opts.big .eb-ar-inline { font-size: clamp(30px, 11cqw, 52px); }
 .eb-opt, .eb-m { padding: 1.4cqh 3cqw; border-radius: 12px; border: 3px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: clamp(12px, 3.6cqw, 20px); font-weight: 600; cursor: pointer; text-align: center; }
 .lv1 .eb-opt { font-size: clamp(14px, 4.4cqw, 22px); min-height: clamp(44px, 12cqh, 70px); }
-.eb-opt.right, .eb-m.right { border-color: #0E6B4E; background: #E6F2EC; color: #0B3D2C; }
+.eb-opt.right, .eb-m.right { border-color: #173D32; background: #E9EEE4; color: #0B3D2C; }
 .eb-opt.nope, .eb-m.nope { border-color: #C0563B; background: #FBEAE5; color: #5A1F12; animation: eb-shake .4s; }
-.eb-opt.show { border-color: #0E6B4E; border-style: dashed; }
+.eb-opt.show { border-color: #173D32; border-style: dashed; }
 .eb-m.pick { border-color: var(--book, var(--accent)); box-shadow: 0 0 0 3px var(--mark); }
 @keyframes eb-shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 .eb-hint.shake { animation-name: eb-shake-x; }
@@ -225,7 +225,7 @@
 .eb-in .eb-m { font-size: clamp(10px, 2.8cqw, 14px); padding: 4px 8px; }
 .eb-gap { font-size: clamp(13px, 4.2cqw, 21px); line-height: 1.6; margin: 0; }
 .eb-blank { display: inline-block; min-width: 4em; border-bottom: 3px solid var(--book, var(--accent)); text-align: center; color: var(--accent); font-weight: 700; }
-.eb-write { width: 100%; box-sizing: border-box; font: inherit; font-size: clamp(13px, 3.6cqw, 17px); line-height: 1.6; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--line); background: #FFFBF0; color: #14211B; resize: vertical; background-image: repeating-linear-gradient(180deg, transparent 0 calc(1.6em - 1px), #E8DFC9 calc(1.6em - 1px) 1.6em); background-attachment: local; }
+.eb-write { width: 100%; box-sizing: border-box; font: inherit; font-size: clamp(13px, 3.6cqw, 17px); line-height: 1.6; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--line); background: #FFFBF0; color: #292D29; resize: vertical; background-image: repeating-linear-gradient(180deg, transparent 0 calc(1.6em - 1px), #E8DFC9 calc(1.6em - 1px) 1.6em); background-attachment: local; }
 .eb-saved { color: var(--muted); font-size: clamp(10px, 2.8cqw, 13px); }
 .eb-dua, .eb-hadith, .eb-ayah { text-align: center; align-items: center; border-top: 6px solid var(--book, var(--accent)); }
 .eb-hadith .eb-ar { text-align: center; }

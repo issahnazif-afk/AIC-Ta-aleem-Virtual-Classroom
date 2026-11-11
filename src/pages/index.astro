@@ -714,6 +714,7 @@ const levels = [
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
     import { store } from '../lib/client.mjs';
     import { mountKidsHome } from '../lib/kids-home.mjs';
+    import { icon as homeIcon } from '../lib/home-icons.mjs';
     import { u as siteUrl } from '../lib/url.mjs';
     import { sunnahOfDay } from '../lib/deen/sunnah.mjs';
     import { hijri, hijriText, specialOn } from '../lib/deen/days.mjs';
@@ -1255,8 +1256,8 @@ const levels = [
         $('acts-' + (a.group || 'play')).append(b);
       }
       renderWorlds();
-      $('dest-kids').hidden = me.level > 2;
-      const kids = me.level <= 2 && !store.get('classicHome', false);
+      $('dest-kids').hidden = false;
+      const kids = !store.get('classicHome', false);
       if (kids) showKids(); else show('s-home');
       if (fresh) {
         progress = await getProgress({ token: me.token, username: me.username });
@@ -1267,33 +1268,63 @@ const levels = [
     // ── the picture home for Levels 1 and 2: big places to tap, each one says its name ──
     let kidsHome = null;
     function showKids() {
-      const act = (id) => forLevel(me.level).find((a) => a.id === id);
+      const mine = forLevel(me.level).filter((a) => a.kind !== 'soon');
+      const act = (id) => mine.find((a) => a.id === id);
       const go = (id) => () => { const a = act(id); if (a) openActivity(a); };
-      // the school's own Canva pictures (public/img/home/), where there is one for the place; drawn icons for the rest
-      const ART = new Set(['prophet', 'quran', 'sunnah', 'stories', 'prophets']);
-      const P = (id, title, ar, icon, color, open, extra = {}) => ({ id, title, ar, icon: ART.has(id) ? `<img src="${siteUrl(`img/home/${id}.webp`)}" alt="" width="160" height="160" decoding="async">` : ICONS[icon] ?? icon, color, open, ...extra });
-      const games = forLevel(me.level).filter((a) => a.group === 'play' && a.kind !== 'soon' && (!a.suggested || a.suggested.includes(me.level)))
-        .map((a) => P(a.id, a.title, a.ar, a.icon, '#FFF9EC', () => openActivity(a)));
-      const places = [
-        P('letters', 'My letters', 'حُرُوفِي', 'lantern', '#FBE3A6', go('alifba')),
-        P('duas', "My du'as", 'أَدْعِيَتِي', 'dua', '#E6F2EC', () => openDeen('duas')),
-        P('sunnah', 'Sunnah of the day', 'سُنَّةُ الْيَوْمِ', 'sunnah', '#FFF4CC', () => openDeen('sunnah')),
-        P('prophet', 'Our Prophet ﷺ', 'نَبِيُّنَا ﷺ', 'prophet', '#E3F0FA', () => openDeen('prophet')),
-        P('stories', 'Stories', 'قِصَص', 'stories', '#FDE7EC', go('stories')),
-        P('books', 'My books', 'كُتُبِي', 'books', '#E6F2EC', go('books')),
-        P('prophets', 'Stories of the Prophets', 'قَصَصُ ٱلْأَنْبِيَاء', 'prophets', '#E3F0FA', go('prophets')),
-        ...(me.level >= 2 ? [P('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', '#F1E9FB', go('library')), P('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', '#FFF9EC', go('tawheed'))] : []),
-        P('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFDF7', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
-        P('games', 'Games', 'أَلْعَاب', 'match', '#FFE9D6', null, { children: games }),
-        P('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F3E3BF', null, { children: ['maze-hijrah', 'maze-tarawih'].map(act).filter(Boolean).map((a) => P(a.id, a.title, a.ar, a.icon, '#FFF9EC', () => openActivity(a))) }),
-        P('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E3E8FA', () => openDeen('days')),
-        P('garden', 'My garden', 'حَدِيقَتِي', 'garden', '#DFF3DA', () => openGarden()),
-        P('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF4CC', () => openAwards()),
-      ];
+      // one family of line icons in muted medallions (src/lib/home-icons.mjs)
+      const ICON_OF = { hifz: 'hifz', reading: 'reading', recite: 'recite', alifba: 'letters', stories: 'stories', library: 'library', tawheed: 'tawheed', prophets: 'prophets', books: 'books', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', days: 'days', detective: 'detective', ayah: 'ayah', match: 'match', journey: 'journey', salah: 'salah', akhlaq: 'akhlaq', 'maze-hijrah': 'mazes', 'maze-tarawih': 'mazes', seerah: 'seerah', guardians: 'guardians' };
+      const P = (id, title, ar, ic, tone, open, extra = {}) => ({ id, title, ar, icon: homeIcon(ic, tone), open, ...extra });
+      const C = (a, tone) => P(a.id, a.title, a.ar, ICON_OF[a.id] ?? 'stories', tone, () => openActivity(a), { text: a.text });
+      const games = mine.filter((a) => a.group === 'play' && (!a.suggested || a.suggested.includes(me.level)));
+      let places;
+      if (me.level <= 2) {
+        // Levels 1 and 2: big places, one tap (or two on a touch screen) from each activity
+        places = [
+          P('letters', 'My letters', 'حُرُوفِي', 'letters', 'gold', go('alifba')),
+          P('duas', "My du'as", 'أَدْعِيَتِي', 'duas', 'sage', () => openDeen('duas')),
+          P('sunnah', 'Sunnah of the day', 'سُنَّةُ الْيَوْمِ', 'sunnah', 'gold', () => openDeen('sunnah')),
+          P('prophet', 'Our Prophet ﷺ', 'نَبِيُّنَا ﷺ', 'prophet', 'forest', () => openDeen('prophet')),
+          P('stories', 'Stories', 'قِصَص', 'stories', 'clay', go('stories')),
+          P('books', 'My books', 'كُتُبِي', 'books', 'sage', go('books')),
+          P('prophets', 'Stories of the Prophets', 'قَصَصُ ٱلْأَنْبِيَاء', 'prophets', 'forest', go('prophets')),
+          ...(me.level >= 2 ? [P('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', 'sand', go('library')), P('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', 'gold', go('tawheed'))] : []),
+          P('quran', 'Qur’an', 'ٱلْقُرْآن', 'quran', 'sage', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
+          ...(act('guardians') ? [P('guardians', 'Guardians of Light', 'حُرَّاسُ ٱلنُّور', 'guardians', 'gold', go('guardians'))] : []),
+          P('games', 'Games', 'أَلْعَاب', 'games', 'sand', null, { children: games.map((a) => C(a, 'sand')) }),
+          P('mazes', 'Mazes', 'مَتَاهَات', 'mazes', 'clay', null, { children: ['maze-hijrah', 'maze-tarawih'].map(act).filter(Boolean).map((a) => C(a, 'clay')) }),
+          P('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'days', 'forest', () => openDeen('days')),
+          P('garden', 'My garden', 'حَدِيقَتِي', 'garden', 'sage', () => openGarden()),
+          P('stars', 'My stars', 'نُجُومِي', 'stars', 'gold', () => openAwards()),
+        ];
+      } else {
+        // Levels 3 and 4: the subjects only; an opened subject shows its activities, each with one line
+        const W = Object.fromEntries(WORLDS.map((w) => [w.id, w]));
+        const subject = (wid, title, ic, tone, text) => {
+          const list = mine.filter((a) => (a.worlds ?? []).includes(wid));
+          return list.length ? P('w-' + wid, title, W[wid]?.ar, ic, tone, null, { text: text ?? W[wid]?.text, children: list.map((a) => C(a, tone)) }) : null;
+        };
+        const adventures = ['guardians', 'seerah', 'maze-hijrah', 'maze-tarawih'].map(act).filter(Boolean);
+        places = [
+          subject('quran', 'Qur’an', 'quran', 'sage', 'Recite to the Sheikh, memorise, revise and build the ayat.'),
+          subject('arabic', 'Arabic', 'arabic', 'sand'),
+          subject('tawheed', 'Knowing Allah', 'tawheed', 'gold'),
+          subject('seerah', 'Seerah', 'seerah', 'clay'),
+          subject('hadith', 'Hadith', 'hadith', 'forest'),
+          subject('akhlaq', 'Akhlaq', 'akhlaq', 'clay'),
+          subject('dua', 'Du’a & Salah', 'salah', 'sage'),
+          adventures.length ? P('adventures', 'Adventures', 'مُغَامَرَات', 'adventures', 'gold', null, { text: 'Read, explore and restore: the 3D adventures and the mazes.', children: adventures.map((a) => C(a, 'gold')) }) : null,
+          games.length ? P('games', 'Games', 'أَلْعَاب', 'games', 'sand', null, { text: 'Short games for letters, ayat, salah and good character.', children: games.map((a) => C(a, 'sand')) }) : null,
+          P('missions', 'Today’s missions', 'مَهَامُّ ٱلْيَوْم', 'missions', 'stone', () => { show('s-home'); setTimeout(() => document.querySelector('.daily')?.scrollIntoView({ block: 'start' }), 60); }),
+          P('awards', 'My achievements', 'إِنْجَازَاتِي', 'awards', 'gold', () => openAwards()),
+          P('garden', 'My Jannah Garden', 'حَدِيقَتِي', 'garden', 'sage', () => openGarden()),
+        ].filter(Boolean);
+      }
+      const last = act(store.get('lastAct', ''));
+      const next = last ? { title: last.title, open: () => openActivity(last) } : null;
       const h = hijri();
       kidsHome?.stop();
       kidsHome = mountKidsHome($('kh-root'), {
-        level: me.level, name: me.name.split(' ')[0], hijri: h ? `${hijriText(h)} AH` : '', special: specialOn(), places,
+        level: me.level, name: me.name.split(' ')[0], hijri: h ? `${hijriText(h)} AH` : '', special: specialOn(), places, next,
         onClassic: () => { store.set('classicHome', true); show('s-home'); },
       });
       show('s-kids');
@@ -1337,6 +1368,7 @@ const levels = [
     let activity = null;
     function openActivity(a) {
       activity = a;
+      if (a?.id) store.set('lastAct', a.id);
       if (a.kind === 'recite') {
         reciteLesson = null; choice.mode = a.mode; noCam = !!a.nocam;
         if (noCam) { stopMedia(); snap = ''; checkFast(); show('s-setup'); syncSetup(); }

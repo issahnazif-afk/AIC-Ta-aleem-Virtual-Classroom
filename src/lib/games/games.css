@@ -1,6 +1,6 @@
 /* Play & Make (src/lib/games/). The game box keeps its own light paper and dark ink under every reading theme
    (Night and Yellow make the page dark), like the My Deen cards. Loaded with the games, not with the classroom. */
-.gm { --g-paper: #FFFBF0; --g-ink: #14211B; --g-muted: #4F5B56; --g-line: #E8DCC0; --g-green: #0E6B4E; --g-gold: #C9A24A;
+.gm { --g-paper: #FFFBF0; --g-ink: #292D29; --g-muted: #4F5B56; --g-line: #E8DCC0; --g-green: #173D32; --g-gold: #B99A5B;
   position: relative; display: flex; flex-direction: column; gap: 14px; padding: 16px; border-radius: 22px;
   background: var(--g-paper); color: var(--g-ink); border: 2px solid var(--g-line); box-shadow: 0 8px 26px rgb(0 0 0 / .08); }
 .gm a { color: var(--g-green); }
@@ -11,7 +11,7 @@
 .gm-ar { margin: 0; font-family: var(--font-quran); font-size: 20px; color: var(--g-green); text-align: left; }
 .gm-tools, .gm-levels { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .gm-chip { padding: 7px 13px; border-radius: 999px; border: 2px solid #D5DDD8; background: #fff; color: var(--g-ink); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; min-height: 40px; }
-.gm-chip[aria-checked="true"], .gm-chip.on { border-color: var(--g-green); background: #E6F2EC; }
+.gm-chip[aria-checked="true"], .gm-chip.on { border-color: var(--g-green); background: #E9EEE4; }
 .gm-chip:focus-visible, .gm button:focus-visible, .mz-board:focus-visible { outline: 3px solid #4A90D9; outline-offset: 2px; }
 .gm-stage { position: relative; display: flex; flex-direction: column; gap: 12px; min-height: 240px; }
 .gm-loading { color: var(--g-muted); text-align: center; padding: 40px 0; }
@@ -24,7 +24,7 @@
 .gm-end-stars { margin: 0; font-size: 40px; letter-spacing: 4px; color: #E0A800; line-height: 1; }
 .gm-end-h { margin: 0; font-size: 24px; color: var(--g-ink); }
 .gm-end-line { margin: 0; color: var(--g-muted); }
-.gm-fact { max-width: 40em; padding: 12px 16px; border-radius: 16px; background: #E6F2EC; border: 1px solid #9AD1B6; text-align: left; }
+.gm-fact { max-width: 40em; padding: 12px 16px; border-radius: 16px; background: #E9EEE4; border: 1px solid #9AD1B6; text-align: left; }
 .gm-fact-k { margin: 0; font-size: 12.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--g-green); }
 .gm-fact-t { margin: 4px 0; font-size: 16px; line-height: 1.5; color: var(--g-ink); }
 .gm-fact-src { margin: 0; font-size: 13.5px; color: var(--g-muted); }
@@ -44,7 +44,7 @@
 .mz { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .mz-bar { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .mz-info { margin: 0; font-weight: 700; font-size: 15px; }
-.mz-chal { margin: 0; font-size: 14px; color: #8A5A12; font-weight: 700; }
+.mz-chal { margin: 0; font-size: 14px; color: #6B5426; font-weight: 700; }
 .mz-chal:empty { display: none; }
 .mz-board { width: min(100%, 560px, max(300px, calc(100vh - 330px))); border-radius: 14px; touch-action: none; }
 .mz-svg { display: block; width: 100%; height: auto; user-select: none; }
@@ -61,7 +61,7 @@
 .mz-wall.new { animation: mz-grow .4s ease-out; }
 @keyframes mz-shimmer { from { opacity: .25; } to { opacity: 1; } }
 @keyframes mz-grow { from { opacity: 0; stroke-width: 9; } }
-.mz-step { stroke: #C9A24A; stroke-width: 4; stroke-dasharray: 1 7; stroke-linecap: round; opacity: .8; }
+.mz-step { stroke: #B99A5B; stroke-width: 4; stroke-dasharray: 1 7; stroke-linecap: round; opacity: .8; }
 .mz-night .mz-step { stroke: #4A90D9; }
 .mz-token, .mz-roamer, .mz-monster { transition: transform .16s ease-out; }
 .mz-token > g { transform-box: fill-box; transform-origin: center; }
@@ -89,9 +89,9 @@
 @keyframes mz-wobble { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
 .mz-pad { display: grid; grid-template-columns: repeat(3, 64px); grid-template-areas: ". up ." "left down right"; gap: 8px; }
 .mz-l1 + .mz-pad, .gm-l1 .mz-pad, .gm-l2 .mz-pad { grid-template-columns: repeat(3, 84px); }
-.mz-arrow { height: 60px; border-radius: 18px; border: 3px solid #C9A24A; background: #FFF4CC; color: #14211B; font-size: 28px; font-weight: 800; cursor: pointer; touch-action: manipulation; box-shadow: 0 4px 0 #C9A24A; }
+.mz-arrow { height: 60px; border-radius: 18px; border: 3px solid #B99A5B; background: #FFF4CC; color: #292D29; font-size: 28px; font-weight: 800; cursor: pointer; touch-action: manipulation; box-shadow: 0 4px 0 #B99A5B; }
 .gm-l1 .mz-arrow, .gm-l2 .mz-arrow { height: 76px; font-size: 36px; }
-.mz-arrow:active { transform: translateY(3px); box-shadow: 0 1px 0 #C9A24A; }
+.mz-arrow:active { transform: translateY(3px); box-shadow: 0 1px 0 #B99A5B; }
 .mz-up { grid-area: up; } .mz-left { grid-area: left; } .mz-down { grid-area: down; } .mz-right { grid-area: right; }
 
 @media (prefers-reduced-motion: reduce) {
