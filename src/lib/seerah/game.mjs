@@ -17,6 +17,8 @@ export const STAGES = {
 
 // ── the game's own sentences (instructions only, never history); scripts/seerah/lint.mjs checks them with the writing rules ──
 export const TEXT = {
+  readPractise: 'The Sheikh marked some places to practise. Try them again slowly when you are ready.',
+  readLater: 'The next part of the adventure opens after your reading. Read now, or continue later. Your place is kept.',
   calm: 'Near the House we walk calmly: no running and no jumping here.',
   archive: 'Every passage you have read or found in this episode is kept here with its page. Open one to read it again, and tap Show the source for the Arabic.',
   archiveEmpty: 'Nothing here yet. Passages appear here as soon as you read them.',
@@ -103,10 +105,10 @@ export const badgeUrl = (b) => u(`seerah/badges/${b.img}`);
 export const iconUrl = (name) => u(`seerah/icons/icon_${name}.svg`);
 
 // the "Achievement unlocked" pop-up
-export function showBadge(host, id, sfx) {
-  const b = BADGES.find((x) => x.id === id); if (!b) return;
+export function showBadge(host, id, sfx, list = BADGES) {
+  const b = list.find((x) => x.id === id); if (!b) return;
   const box = document.createElement('div'); box.className = 'sq-award'; box.setAttribute('role', 'status');
-  const img = document.createElement('img'); img.src = badgeUrl(b); img.alt = ''; img.width = 96; img.height = 96;
+  const img = document.createElement('img'); img.src = b.url ?? badgeUrl(b); img.alt = ''; img.width = 96; img.height = 96;
   const k = document.createElement('p'); k.className = 'sq-award-k'; k.textContent = 'Achievement unlocked!';
   const t = document.createElement('p'); t.className = 'sq-award-t'; t.textContent = b.title;
   const h = document.createElement('p'); h.className = 'sq-award-h'; h.textContent = b.how;

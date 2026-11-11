@@ -50,7 +50,8 @@ function glowMap() {
   return (glow = new THREE.CanvasTexture(c));
 }
 
-export function createWorld(canvas, { quality = 'medium' } = {}) {
+export function createWorld(canvas, { quality = 'medium', theme = 'makkah' } = {}) {
+  const NOOR = theme === 'noor';   // Guardians of Light: the green valley of Noor (no Kaʿbah, no houses of Makkah)
   const Q = QUALITY[quality] ?? QUALITY.medium;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: quality !== 'low', powerPreference: 'high-performance' });
   renderer.setPixelRatio(Q.ratio);
@@ -81,7 +82,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
   })();
   // time of day: 'dusk' | 'night' | 'dawn' | 'day'
   function setTime(t) {
-    const P = { day: [55, 200, 0.0018, 0xd8c3a0, 2.4, 0.75, 0.55], dusk: [6, 250, 0.0026, 0xc48a5a, 1.4, 0.5, 0.42], dawn: [5, 95, 0.0024, 0xd9a07a, 1.2, 0.5, 0.45], night: [-12, 230, 0.003, 0x1b2236, 0.12, 0.22, 0.22] }[t] ?? [55, 200];
+    const P = NOOR ? { day: [50, 200, 0.0014, 0xc4dccf, 2.6, 0.95, 0.66], dusk: [8, 250, 0.0022, 0xd6a27a, 1.8, 0.7, 0.56], dawn: [10, 95, 0.002, 0xf0c9a6, 2.1, 0.85, 0.64], night: [-12, 230, 0.003, 0x1b2a36, 0.12, 0.25, 0.24] }[t] ?? [50, 200] : { day: [55, 200, 0.0018, 0xd8c3a0, 2.4, 0.75, 0.55], dusk: [6, 250, 0.0026, 0xc48a5a, 1.4, 0.5, 0.42], dawn: [5, 95, 0.0024, 0xd9a07a, 1.2, 0.5, 0.45], night: [-12, 230, 0.003, 0x1b2236, 0.12, 0.22, 0.22] }[t] ?? [55, 200];
     const [elev, az, fog, fogColor, sunI, hemiI, exp] = P;
     sunDir.setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - elev), THREE.MathUtils.degToRad(az));
     su.sunPosition.value.copy(sunDir);
@@ -98,7 +99,16 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
   const SIZE = 1600, SEG = Q.size;
   const tg = new THREE.PlaneGeometry(SIZE, SIZE, SEG, SEG); tg.rotateX(-Math.PI / 2);
   const pos = tg.attributes.position, col = [];
-  const heightAt = (x, z) => {
+  // Noor: a stream crosses the valley north of the pavilion; the beacon stands on a low hill beyond it
+  const streamZ = (x) => -46 + Math.sin(x / 35) * 5;
+  const heightAt = NOOR ? (x, z) => {
+    const r = Math.hypot(x * 0.9, z * 1.1);
+    const ring = THREE.MathUtils.smoothstep(r, 210, 480);
+    const m = (noise.noise(x / 200, z / 200) * 0.5 + 0.5) * 90 + noise.noise(x / 70, z / 70) * 14;
+    const d = Math.abs(z - streamZ(x)), chan = Math.abs(x) < 420 ? -2.6 * (1 - THREE.MathUtils.smoothstep(d, 3.6, 6.2)) : 0;
+    const hill = 9 * Math.exp(-((x * x) + (z + 150) * (z + 150)) / 1400);
+    return ring * m + (1 - ring) * (noise.noise(x / 50, z / 50) * 0.8 + hill + chan);
+  } : (x, z) => {
     const r = Math.hypot(x * 0.9, z * 1.25);
     const ring = THREE.MathUtils.smoothstep(r, 170, 420);           // the valley floor, then the mountains
     const m = (noise.noise(x / 180, z / 180) * 0.5 + 0.5) * 120 + noise.noise(x / 60, z / 60) * 18 + noise.noise(x / 18, z / 18) * 3;
@@ -106,8 +116,10 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
   };
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i), z = pos.getZ(i), h = heightAt(x, z); pos.setY(i, h);
-    const rock = THREE.MathUtils.smoothstep(h, 6, 40);
-    const c = new THREE.Color(0xc8a272).lerp(new THREE.Color(0x6e5a48), rock).multiplyScalar(0.9 + Math.random() * 0.12);
+    const rock = THREE.MathUtils.smoothstep(h, NOOR ? 14 : 6, 40);
+    const c = NOOR
+      ? (h < -0.8 ? new THREE.Color(0x8a7a5c) : new THREE.Color(0x6aa548).lerp(new THREE.Color(0x4f8a3a), Math.random() * 0.5).lerp(new THREE.Color(0x7d7a6c), rock)).multiplyScalar(0.92 + Math.random() * 0.1)
+      : new THREE.Color(0xc8a272).lerp(new THREE.Color(0x6e5a48), rock).multiplyScalar(0.9 + Math.random() * 0.12);
     col.push(c.r, c.g, c.b);
   }
   tg.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); tg.computeVertexNormals();
@@ -125,7 +137,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
   ring.position.set(-1.6, 4.1, 6.25); kaaba.add(ring);
   const hijr = new THREE.Mesh(new THREE.TorusGeometry(7.5, 0.5, 8, 40, Math.PI), new THREE.MeshStandardMaterial({ map: stoneTex, color: 0x9a8b78 }));
   hijr.rotation.x = Math.PI / 2; hijr.rotation.z = Math.PI; hijr.position.set(0, 0.4, -6); hijr.scale.set(1, 1, 1.6); kaaba.add(hijr);
-  scene.add(kaaba);
+  if (!NOOR) scene.add(kaaba);
 
 
   // ── solids: upright boxes the explorer stands on and bumps into (all lined up with the x and z axes) ──
@@ -133,13 +145,13 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
   function addSolid(x0, x1, z0, z1, y0, y1, { climb = true, mesh = null } = {}) { const s = { x0, x1, z0, z1, y0, y1, climb, mesh }; solids.push(s); return s; }
   function removeSolid(s) { const i = solids.indexOf(s); if (i >= 0) solids.splice(i, 1); }
   // the House is solid, and nobody climbs it: it is far too tall to jump, and it can never be climbed
-  addSolid(-5, 5, -6, 6, -1, 11, { climb: false });
+  if (!NOOR) addSolid(-5, 5, -6, 6, -1, 11, { climb: false });
 
   // a few dwellings of Makkah, low and plain, set back from the House
   const homeMat = new THREE.MeshStandardMaterial({ color: 0xd2b48c, roughness: 1, map: stoneTex });
   const roofMat = new THREE.MeshStandardMaterial({ color: 0xe8d2a6, roughness: 1 });
   const homes = [];
-  for (let i = 0; i < 46; i++) {
+  for (let i = 0; i < (NOOR ? 0 : 46); i++) {
     const a = (i / 46) * Math.PI * 2 + Math.random() * 0.1, r = 80 + Math.random() * 70;
     const x = Math.cos(a) * r * 1.1, z = Math.sin(a) * r * 0.8;
     const w = 6 + Math.random() * 6, d = 6 + Math.random() * 6, h = 3 + Math.random() * 3, base = heightAt(x, z);
@@ -155,7 +167,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
 
   // ── the Knowledge Archive: a small stone hall with shelves and a reading stand, open on the side facing the House ──
   const ARCHIVE = { x: -50, z: 18 };
-  (() => {
+  if (!NOOR) (() => {
     const { x, z } = ARCHIVE, y = heightAt(x, z), H = 4.6;
     const wall = (x0, x1, z0, z1) => { const m = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, H, z1 - z0), homeMat); m.position.set((x0 + x1) / 2, y + H / 2, (z0 + z1) / 2); scene.add(m); addSolid(x0, x1, z0, z1, y - 1, y + H, { climb: false }); };
     wall(x - 6, x - 5.4, z - 6, z + 6); wall(x - 6, x + 5, z - 6.6, z - 6); wall(x - 6, x + 5, z + 6, z + 6.6);
@@ -295,6 +307,12 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     const obj = scrollObj(), yy = y ?? heightAt(x, z) + 1.1;
     obj.position.set(x, yy, z); scene.add(obj);
     const p = { x, y: yy, z, r: 1.3, obj, kind: 'scroll', id, onTake };
+    pickups.push(p); return p;
+  }
+  function addThing(obj, x, z, y = null, onTake = null, id = '') {
+    const yy = y ?? heightAt(x, z) + 1.1;
+    obj.position.set(x, yy, z); scene.add(obj);
+    const p = { x, y: yy, z, r: 1.4, obj, kind: 'thing', id, onTake };
     pickups.push(p); return p;
   }
   function removePickup(p) { const i = pickups.indexOf(p); if (i >= 0) pickups.splice(i, 1); scene.remove(p.obj); }
@@ -457,7 +475,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
 
   // ── the explorer: third person, with walking, running, jumping and climbing onto ledges ──
   const P = { pos: new THREE.Vector3(0, 0, 40), vy: 0, vx: 0, vz: 0, yaw: 0, grounded: true, onSolid: null, coyote: 0, jumpQ: 0, climb: null, push: 0, air: 0 };
-  const PR = 0.38, STEP = 0.5, G = 28, JUMP = 9.6, WALK = 5.2, RUN = 9.2, CLIMB = 1.95, CALM = 17;
+  const PR = 0.38, STEP = 0.5, G = 28, JUMP = 9.6, WALK = 5.2, RUN = 9.2, CLIMB = 1.95, CALM = NOOR ? 0 : 17;
   let avatar = null;
   function setAvatar(av) {
     if (avatar) { scene.remove(avatar.root); scene.remove(avatar.blob); avatar.dispose(); }
@@ -735,14 +753,120 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }
+  const noor = NOOR ? buildNoor() : null;
+  function buildNoor() {
+    const wood = new THREE.MeshStandardMaterial({ color: 0x8a5a33, roughness: 0.9 });
+    const stone = new THREE.MeshStandardMaterial({ color: 0xcfc6b4, roughness: 0.95, map: stoneTex });
+    const pale = new THREE.MeshStandardMaterial({ color: 0xece4d2, roughness: 0.9 });
+    const add = (m, x, y, z) => { m.position.set(x, y, z); m.castShadow = Q.shadows; m.receiveShadow = Q.shadows; scene.add(m); return m; };
+    // the stream: a ribbon of water following the channel
+    const W = 4.4, wp = [], wi = [];
+    let i0 = 0;
+    for (let x = -420; x <= 420; x += 6, i0++) { const z = streamZ(x); wp.push(x, -0.9, z - W, x, -0.9, z + W); if (i0) { const a = (i0 - 1) * 2; wi.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); } }
+    const wg = new THREE.BufferGeometry(); wg.setAttribute('position', new THREE.Float32BufferAttribute(wp, 3)); wg.setIndex(wi); wg.computeVertexNormals();
+    const waterMat = new THREE.MeshStandardMaterial({ color: 0x4fa3c7, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.82, side: THREE.DoubleSide });
+    scene.add(new THREE.Mesh(wg, waterMat));
+    // trees, kept off the path, the stream and the learning places
+    const keep = (x, z) => (Math.abs(x) < 16 && z > -30 && z < 60) || Math.abs(z - streamZ(x)) < 10 || Math.hypot(x, z + 150) < 26 || Math.hypot(x + 30, z + 34) < 16 || Math.hypot(x - 26, z + 46) < 14;
+    const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.35, 0.5, 4, 6), wood, 170);
+    const crowns = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(2.8, 0), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, flatShading: true }), 170);
+    const d = new THREE.Object3D(); let n = 0, tries = 0;
+    while (n < 170 && tries++ < 4000) {
+      const a = Math.random() * Math.PI * 2, r = 30 + Math.random() * 230, x = Math.cos(a) * r, z = Math.sin(a) * r;
+      if (keep(x, z)) continue;
+      const h = heightAt(x, z), s = 0.8 + Math.random() * 0.7;
+      d.position.set(x, h + 2 * s, z); d.scale.set(s, s, s); d.rotation.set(0, Math.random() * 6, 0); d.updateMatrix(); trunks.setMatrixAt(n, d.matrix);
+      d.position.set(x, h + 5.2 * s, z); d.scale.set(s, s * (0.9 + Math.random() * 0.4), s); d.updateMatrix(); crowns.setMatrixAt(n, d.matrix);
+      crowns.setColorAt(n, new THREE.Color(0x3f8a3c).offsetHSL((Math.random() - 0.5) * 0.06, 0, (Math.random() - 0.5) * 0.12));
+      if (r < 120) addSolid(x - 0.5, x + 0.5, z - 0.5, z + 0.5, h - 1, h + 3.5, { climb: false });
+      n++;
+    }
+    trunks.count = crowns.count = n; trunks.castShadow = crowns.castShadow = Q.shadows; scene.add(trunks, crowns);
+    // the stone path from the meadow to the pavilion
+    for (let z = 40; z > -2; z -= 2.2) add(new THREE.Mesh(new THREE.BoxGeometry(3 + Math.random() * 0.6, 0.16, 1.8), stone), Math.sin(z / 9) * 1.4, heightAt(0, z) + 0.06, z);
+    // the learning pavilion: a raised floor, eight pillars and a roof, open on every side
+    const PV = { x: 0, z: -12 }, py = heightAt(PV.x, PV.z);
+    add(new THREE.Mesh(new THREE.BoxGeometry(14, 0.5, 14), stone), PV.x, py + 0.25, PV.z); addSolid(PV.x - 7, PV.x + 7, PV.z - 7, PV.z + 7, py - 1, py + 0.5);
+    for (const [cx, cz] of [[-6, -6], [6, -6], [-6, 6], [6, 6], [0, -6], [-6, 0], [6, 0]]) {
+      add(new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 5, 10), pale), PV.x + cx, py + 3, PV.z + cz);
+      addSolid(PV.x + cx - 0.45, PV.x + cx + 0.45, PV.z + cz - 0.45, PV.z + cz + 0.45, py + 0.5, py + 5.5, { climb: false });
+    }
+    add(new THREE.Mesh(new THREE.BoxGeometry(15, 0.6, 15), pale), PV.x, py + 5.8, PV.z);
+    add(new THREE.Mesh(new THREE.ConeGeometry(10.4, 3.6, 4), new THREE.MeshStandardMaterial({ color: 0x2f6f62, roughness: 0.7 })), PV.x, py + 7.9, PV.z).rotation.y = Math.PI / 4;
+    add(new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.9, 1), wood), PV.x, py + 0.95, PV.z - 2);
+    add(new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.06, 0.8), new THREE.MeshStandardMaterial({ color: 0x2e4057 })), PV.x, py + 1.45, PV.z - 2).rotation.x = -0.3;
+    // the beacon on its hill: a stone tower and a crystal that gathers light as the valley is restored
+    const BX = 0, BZ = -150, by = heightAt(BX, BZ);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(2.2, 3.4, 16, 8), stone), BX, by + 8, BZ); addSolid(BX - 2.6, BX + 2.6, BZ - 2.6, BZ + 2.6, by - 1, by + 16, { climb: false });
+    const crystalMat = new THREE.MeshStandardMaterial({ color: 0x9fb4c8, emissive: 0xffd27a, emissiveIntensity: 0.05, roughness: 0.2 });
+    const crystal = add(new THREE.Mesh(new THREE.OctahedronGeometry(2.2, 0), crystalMat), BX, by + 19, BZ);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xffd27a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    halo.scale.setScalar(26); halo.position.set(BX, by + 19, BZ); scene.add(halo);
+    // a column of light rises from the crystal as the beacon gathers light (seen even against a bright sky)
+    const beamMat = new THREE.MeshBasicMaterial({ color: 0xffcf5a, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, fog: false });
+    const beam = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 0.5, 90, 16, 1, true), beamMat); beam.position.set(BX, by + 19 + 45, BZ); scene.add(beam);
+    let beaconK = 0;
+    // the waterwheel beside the stream, with a dry channel that fills when it turns
+    const WX = -30, wz = streamZ(WX) + 5.4, wheel = new THREE.Group();
+    wheel.add(new THREE.Mesh(new THREE.TorusGeometry(3, 0.25, 8, 28), wood));
+    for (let i = 0; i < 8; i++) { const sp = new THREE.Mesh(new THREE.BoxGeometry(0.2, 6, 0.2), wood); sp.rotation.z = (i / 8) * Math.PI; wheel.add(sp); const pd = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.12, 1.4), wood); const a = (i / 8) * Math.PI * 2; pd.position.set(Math.cos(a) * 3, Math.sin(a) * 3, 0); pd.rotation.z = a; wheel.add(pd); }
+    wheel.rotation.y = Math.PI / 2; wheel.position.set(WX, 2.2, wz - 2.5); scene.add(wheel);
+    add(new THREE.Mesh(new THREE.BoxGeometry(0.6, 3, 0.6), wood), WX - 0.2, 1.2, wz - 1); add(new THREE.Mesh(new THREE.BoxGeometry(0.6, 3, 0.6), wood), WX - 0.2, 1.2, wz - 4);
+    const canalY = heightAt(WX, wz + 8) + 0.05;
+    add(new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 18), new THREE.MeshStandardMaterial({ color: 0x8a7a5c, roughness: 1 })), WX, canalY, wz + 9);
+    const canal = add(new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.12, 18), waterMat), WX, canalY + 0.06, wz + 9); canal.scale.z = 0.001; canal.visible = false;
+    let spin = 0;
+    // the broken bridge: two stone ends, and planks; three are missing until the bridge is mended
+    const BRX = 26, bz = streamZ(BRX);
+    add(new THREE.Mesh(new THREE.BoxGeometry(6, 0.8, 2.4), stone), BRX, heightAt(BRX, bz + 7) + 0.1, bz + 6.6);
+    add(new THREE.Mesh(new THREE.BoxGeometry(6, 0.8, 2.4), stone), BRX, heightAt(BRX, bz - 7) + 0.1, bz - 6.6);
+    const planks = [];
+    for (let i = 0; i < 9; i++) { const p = add(new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.25, 1.15), wood), BRX, 0.35, bz - 4.6 + i * 1.15); p.userData.y = 0.35; planks.push(p); }
+    const broken = [planks[1], planks[4], planks[7]];
+    broken.forEach((p) => { p.visible = false; });
+    let mended = false;
+    // the fast water: anyone who steps into the stream is helped back to the bank they came from
+    let lastBank = 1;
+    every(() => {
+      const zs = streamZ(P.pos.x), side = Math.sign(P.pos.z - zs) || 1;
+      if (Math.abs(P.pos.z - zs) > 6.5) lastBank = side;
+      if (P.pos.y < -1.2 && !locked && !cine) { teleport(P.pos.x, zs + lastBank * 8); world.onSplash?.(); }
+    });
+    every((dt) => {
+      if (spin) wheel.rotation.x -= dt * spin;
+      if (canal.visible && canal.scale.z < 1) canal.scale.z = Math.min(1, canal.scale.z + dt * 0.4);
+      halo.material.opacity += (beaconK * 0.95 - halo.material.opacity) * Math.min(1, dt * 1.5);
+      crystalMat.emissiveIntensity += (0.05 + beaconK * 2.2 - crystalMat.emissiveIntensity) * Math.min(1, dt * 1.5);
+      crystal.rotation.y += dt * 0.4;
+      beamMat.opacity += (beaconK * 0.55 - beamMat.opacity) * Math.min(1, dt * 1.5); beam.visible = beamMat.opacity > 0.01;
+    });
+    return {
+      streamZ, pavilion: { ...PV, y: py }, beacon: { x: BX, z: BZ, y: by + 19 }, wheel: { x: WX, z: wz }, bridge: { x: BRX, z: bz },
+      setBeacon(k) { beaconK = THREE.MathUtils.clamp(k, 0, 1); },
+      turnWheel(on = true) { spin = on ? 1.6 : 0; if (on) canal.visible = true; if (on && !canal.scale.z) canal.scale.z = 0.001; },
+      mendBridge(instant = false) {
+        if (mended) return; mended = true;
+        addSolid(BRX - 2.8, BRX + 2.8, bz - 5.2, bz + 5.2, -3, 0.48);
+        broken.forEach((p, i) => {
+          p.visible = true;
+          if (instant) return;
+          p.position.y = 6; const t0 = performance.now() + i * 450;
+          const off = every(() => { const k = Math.min(1, Math.max(0, (performance.now() - t0) / 700)); p.position.y = 6 + (p.userData.y - 6) * k; if (k >= 1) off(); });
+        });
+      },
+      get mended() { return mended; },
+      protectedAt: (x, z, r = 0) => Math.hypot(x - PV.x, z - PV.z) < 10 + r || Math.hypot(x - BX, z - BZ) < 8 + r || Math.abs(z - streamZ(x)) < 8 + r,
+    };
+  }
   const world = {
     THREE, scene, camera, renderer, heightAt, setTime, addHotspot: addHotspotStyled, removeHotspot, clearHotspots, lantern, creature, flock, spring, well,
     fly, place, teleport, setPad, jump, setAvatar, setGlow, kaaba, ring, onHotspot: null, onNear: null, time: 'day', ARCHIVE,
-    addLights, addScroll, removePickup, poof, buildCourse, clearCourse, helpCourse,
+    addLights, addScroll, addThing, removePickup, poof, buildCourse, clearCourse, helpCourse,
     get course() { return course; },
     strike, setCarry(v) { P.carry = !!v; },
     // the House and the ground around it are protected: nothing is built, broken or climbed there
-    protectedAt: (x, z, r = 0) => Math.hypot(x, z) < CALM + 6 + r,
+    protectedAt: (x, z, r = 0) => (NOOR ? noor.protectedAt(x, z, r) : Math.hypot(x, z) < CALM + 6 + r),
+    noor,
     // the parts the props (props.mjs) build with
     k: { scene, addSolid, removeSolid, clearAround, glowMap, stoneTex, homeMat, roofMat, Q, P, over, floorAt, get locked() { return locked; } },
     lock(v) { locked = v; if (v) { keys.clear(); P.vx = P.vz = 0; } },
@@ -754,6 +878,7 @@ export function createWorld(canvas, { quality = 'medium' } = {}) {
     fps: () => fps,
     aim(x, z) { cam.yaw = Math.atan2(-(x - P.pos.x), -(z - P.pos.z)); hold = false; },   // turn the camera (and so the stick) towards a point
     start() { resize(); snapCam(); requestAnimationFrame(frame); },
+    pause(v) { if (v) { running = false; return; } if (!running) { running = true; lastT = performance.now(); resize(); requestAnimationFrame(frame); } },
     dispose() { running = false; ro.disconnect(); removeEventListener('keydown', onKey); removeEventListener('keyup', onKey); removeEventListener('blur', blurKeys); renderer.dispose(); },
   };
   setTime('day');

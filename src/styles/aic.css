@@ -1005,3 +1005,47 @@ body[data-paper="night"] .stage .w.live { background-image: linear-gradient(to l
 .sq-share-f.right { border-color: #0E6B4E; background: #E6F2EC; }
 .sq-share-f.nope { border-color: #C0563B; animation: sq-shake .4s; }
 @media (prefers-reduced-motion: reduce) { .sq-share-f.nope { animation: none; } }
+
+/* ── Guardians of Light: the home of the valley of Noor ── */
+.gl-main { max-width: 1100px; }
+.gl-hero { position: relative; overflow: hidden; border-radius: 22px; padding: 28px 26px 22px; color: #FFF8E6; background: radial-gradient(circle at 78% 18%, rgba(255, 214, 120, .55), transparent 34%), linear-gradient(160deg, #10324a 0%, #1d5a4a 58%, #3f8a3c 100%); box-shadow: 0 10px 30px rgba(10, 30, 20, .18); }
+.gl-ar { font-family: 'KFGQPC Hafs', 'Amiri', serif; font-size: 1.6rem; margin: 0; color: #FFE08A; }
+.gl-h { font-family: var(--font-display); font-size: clamp(1.9rem, 4.5vw, 2.8rem); margin: 2px 0 4px; }
+.gl-tag { margin: 0 0 8px; font-weight: 700; color: #FFE08A; letter-spacing: .02em; }
+.gl-lead { margin: 0 0 16px; max-width: 46ch; line-height: 1.5; }
+.gl-counts { display: flex; gap: 12px; flex-wrap: wrap; }
+.gl-count { display: flex; align-items: baseline; gap: 8px; padding: 8px 16px; border-radius: 999px; background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 224, 138, .5); }
+.gl-count b { font-size: 1.4rem; color: #FFE08A; }
+.gl-go { margin: 18px 0 6px; width: 100%; }
+.gl-region { margin-top: 18px; padding: 18px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); }
+.gl-region.later { opacity: .72; }
+.gl-region-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.gl-region-n { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--marker); }
+.gl-region-t { font-family: var(--font-display); font-size: 1.35rem; margin: 0; }
+.gl-region-theme { font-size: .85rem; color: var(--muted); }
+.gl-region-text, .gl-soon, .gl-note { color: var(--muted); margin: 6px 0 10px; }
+.gl-levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.gl-level { display: flex; flex-direction: column; gap: 4px; text-align: left; padding: 14px; border-radius: 14px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; font: inherit; min-height: 44px; }
+.gl-level b { font-size: 1.05rem; }
+.gl-level-n { font-size: .78rem; font-weight: 800; color: var(--marker); text-transform: uppercase; letter-spacing: .06em; }
+.gl-level-b { font-size: .9rem; color: var(--muted); }
+.gl-level-s { margin-top: 4px; font-size: .82rem; font-weight: 700; color: var(--accent); }
+.gl-level.open { border-color: var(--aic-gold); box-shadow: 0 0 0 3px rgba(194, 159, 75, .18); }
+.gl-level.done { border-color: var(--accent); }
+.gl-level.locked { cursor: not-allowed; opacity: .6; }
+.gl-level.locked .gl-level-s { color: var(--muted); }
+.gl-level:not(:disabled):hover, .gl-level:focus-visible { border-color: var(--accent); outline: none; }
+.gl-badges { margin-top: 18px; }
+.gl-badge-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 10px; }
+.gl-badge { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; padding: 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.gl-badge img { filter: grayscale(1); opacity: .45; }
+.gl-badge.has img { filter: none; opacity: 1; }
+.gl-badge span { font-size: .8rem; color: var(--muted); }
+.gl-how { margin: 18px 0 30px; padding: 14px 18px; border-radius: 14px; background: var(--accent-soft); }
+.gl-how summary { cursor: pointer; font-weight: 800; }
+.gl-how li { margin: 6px 0; }
+.sq-rewards { margin: 10px 0 4px; padding-left: 1.2em; font-weight: 700; color: #0E6B4E; }
+.sq-rewards li { margin: 4px 0; }
+.sq-later { margin-top: 8px; width: 100%; }
+.sq-cite:empty { display: none; }
+.gl-hero h1.gl-h, .gl-hero .gl-h { color: #FFF8E6; }

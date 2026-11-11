@@ -392,6 +392,20 @@ const levels = [
   </section>
   <section class="screen sq-screen" id="s-seerah-play" hidden aria-label="The Seerah Quest"><div id="sq-root"></div></section>
 
+  <!-- Guardians of Light: the home of the valley of Noor, then the 3D level ─────────────── -->
+  <section class="screen flow" id="s-guardians" hidden aria-labelledby="gl-title">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · Guardians of Light</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main gl-main">
+      <h1 id="gl-title" class="sq-sr">Guardians of Light</h1>
+      <div id="gl-hub"></div>
+    </div>
+  </section>
+  <section class="screen sq-screen" id="s-guardians-play" hidden aria-label="Guardians of Light"><div id="gl-root"></div></section>
+
   <!-- Story Time: the shelf, then the book ─────────────── -->
   <section class="screen flow" id="s-stories" hidden aria-labelledby="sh-h">
     <header class="topbar">
@@ -621,6 +635,7 @@ const levels = [
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Virtual Classroom</small></span></div>
       <div class="row push">
+        <button class="btn btn-primary" type="button" id="r-gl" hidden>Back to the adventure</button>
         <button class="btn" type="button" id="r-home">Classroom</button>
         <button class="btn btn-primary" type="button" id="r-new">New session</button>
         <button class="btn" type="button" id="r-out">Sign out</button>
@@ -697,6 +712,8 @@ const levels = [
     import { EPISODES as SQ_EPISODES } from '../lib/seerah/episodes.mjs';
     import { renderHub as renderSeerahHub, STEP_VERSION as SQ_V } from '../lib/seerah/hub.mjs';
     import { BADGES as SQ_BADGES, showBadge as sqBadge, sfx as sqSfx } from '../lib/seerah/game.mjs';
+    import { LEVELS as GL_LEVELS, BADGES as GL_BADGES, levelEpisode as glEpisode } from '../lib/guardians/levels.mjs';
+    import { renderGuardiansHub } from '../lib/guardians/hub.mjs';
     import { createEngine } from '../lib/engine.mjs';
     import { LEVELS, CATEGORIES, gradeOf, mistakesTotal, topMistakes, review, newSessionId } from '../lib/session.mjs';
     import { store } from '../lib/client.mjs';
@@ -901,7 +918,7 @@ const levels = [
     }
     $('retake').addEventListener('click', () => { const v = $('cam'); if (v.readyState >= 2) { snap = snapshot(v); $('snap').src = snap; $('snap-title').textContent = `Login snapshot taken · ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; } });
     $('tone').addEventListener('click', () => { testTone(); setCheck('ck-spk', true, 'Did you hear a tone? If not, check your volume.'); });
-    $('ck-back').addEventListener('click', () => { stopMedia(); if (reciteLesson) { reciteLesson = null; openLesson(18); } else goHome(); });
+    $('ck-back').addEventListener('click', () => { stopMedia(); if (glRead) { glBack(); return; } if (reciteLesson) { reciteLesson = null; openLesson(18); } else goHome(); });
     const FAST = { ready: [true, 'On-device, words appear quickly'], downloading: [null, 'Downloading the Arabic speech pack (one time)…'], downloadable: [null, 'The Arabic speech pack downloads when you continue'], unavailable: [false, 'Online listening (this computer has no on-device Arabic)'], unsupported: [false, 'Online listening (use Chrome for the fastest tracking)'] };
     const fastStatus = (st) => { const [ok, t] = FAST[st] ?? FAST.unsupported; setCheck('ck-fast', ok, t); };
     function checkFast() { if (localAsr) { preloadQaaf(); setCheck('ck-fast', true, 'The Qāf speech model, on this computer'); return; } prepareFastListening({ onStatus: fastStatus }); }
@@ -1152,6 +1169,8 @@ const levels = [
       }
       if (!res.perAyah.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = 'No ayahs were recited.'; strip.append(p); }
       show('s-report');
+      if (glRead) glRead.result = { words: t.words, first: t.first };
+      $('r-gl').hidden = !glRead;
       if (t.words) showEarned($('r-earned'), record(progress, { kind: res.mode, key: `${res.mode}:${passage}`, score: Math.round((t.first / t.words) * 100), gardenPalms: palms() }));
       else $('r-earned').hidden = true;
       saveProgress({ token: me.token, username: me.username, progress });
@@ -1194,7 +1213,8 @@ const levels = [
       if (noCam) { show('s-setup'); syncSetup(); } else { show('s-check'); startCheck(); }
     });
     $('r-out').addEventListener('click', () => signOut());
-    $('r-home').addEventListener('click', () => { stopMedia(); goHome(); });
+    $('r-home').addEventListener('click', () => { stopMedia(); if (glRead) { glBack(); return; } goHome(); });
+    $('r-gl').addEventListener('click', () => { stopMedia(); glBack(); });
 
     // ── Alif Ba: the Jannah Garden, its 18 lessons and their games (src/lib/lessons.mjs) ───
     const SURAH_META = JSON.parse(document.body.dataset.surahs || '[]');
@@ -1329,6 +1349,7 @@ const levels = [
       else if (a.kind === 'alifba') goHub();
       else if (a.kind === 'play') openPlay(a);
       else if (a.kind === 'seerah') openSeerah();
+      else if (a.kind === 'guardians') openGuardians();
       else if (a.kind === 'stories') openStories();
       else if (a.kind === 'library') openLibrary(undefined, a.shelf || 'library');
       else if (a.kind === 'books') openBooks();
@@ -2065,6 +2086,78 @@ const levels = [
           if (SQ_EPISODES.length >= 14 && SQ_EPISODES.every((x) => sq[x.n]?.done) && sqAward('master')) setTimeout(() => sqBadge($('sq-hub'), 'master', sqSfx), champ ? 4500 : 0);
           await sqSave();
           logGame({ token: me.token, game: { game: 'The Seerah Quest', lesson: `Episode ${n}: ${ep.title}`, rounds: quiz?.of ?? '', first: quiz?.right ?? '', accuracy: acc, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+        },
+      });
+    }
+    // ── Guardians of Light (src/lib/guardians/): read to the Sheikh, and restore the light of the valley of Noor ──
+    // Rewards (spec/02, with Ta'aleem's choice that the Sheikh checks readings at once): 10 Noor Shards for a finished
+    // reading, 1 Mastery Seal when 70% or more is right the first time, 5 Noor Shards for a finished level.
+    let glGame = null, glRead = null;
+    const GL_GOOD = 70;
+    const glState = () => { const g = (progress.guardians ??= {}); g.done ??= {}; g.badges ??= []; g.shards ??= 0; g.seals ??= 0; return g; };
+    function openGuardians() {
+      stopSound();
+      renderGuardiansHub($('gl-hub'), { level: me.level || 3, gl: glState(), onPlay: startGuardian });
+      renderDashboard();
+      show('s-guardians');
+    }
+    function glAward(id) { const g = glState(); if (g.badges.includes(id) || !GL_BADGES.some((b) => b.id === id)) return false; g.badges.push(id); sqSave(); return true; }
+    // a reading for the adventure: the camera check, the set-up and the Mujawwadah classroom, then back to the level
+    function glReadNow(s) {
+      return new Promise((resolve) => {
+        glRead = { resolve, s, result: null };
+        reciteLesson = null; choice.mode = 'reading'; noCam = false;
+        show('s-check'); startCheck();
+      });
+    }
+    function glBack() {
+      const r = glRead; glRead = null; $('r-gl').hidden = true;
+      show('s-guardians-play');
+      if (!r) return;
+      const w = r.result?.words ?? 0, pct = w ? Math.round((r.result.first / w) * 100) : 0, good = pct >= GL_GOOD;
+      const rewards = [];
+      if (w) {
+        const g = glState(); g.shards += 10; rewards.push('+10 Noor Shards for finishing your reading');
+        if (good) { g.seals += 1; rewards.push('+1 Mastery Seal: the Sheikh checked your reading'); }
+        sqSave();
+      }
+      r.resolve({ words: w, pct, good, rewards });
+    }
+    // test hook (?test=1 only): finish the reading that the adventure is waiting for, as if the Sheikh had listened
+    if (/[?&]test=1\b/.test(location.search)) window.__gl = { read: (words, first) => { if (glRead) { glRead.result = { words, first }; glBack(); } }, waiting: () => !!glRead };
+    async function startGuardian(id) {
+      const quality = store.get(SQ_KEY, matchMedia('(max-width: 820px)').matches ? 'low' : 'medium');
+      glRead = null;
+      const g = glState(), st = (g[id] ??= {});
+      if (st.done) st.step = 0;
+      show('s-guardians-play');
+      const t0 = Date.now();
+      const { playEpisode } = await import('../lib/seerah/quest.mjs');
+      glGame?.stop();
+      const L = GL_LEVELS.find((x) => x.id === id);
+      glGame = playEpisode($('gl-root'), {
+        n: id, episode: glEpisode(id), badges: GL_BADGES, quality, reciter: reciter(), saved: st,
+        mode: me.level >= 4 ? 'master' : 'explorer', gentle: (me.level || 3) <= 2,
+        avatar: progress.seerah?.avatar, archive: [], shared: g,
+        onRead: glReadNow,
+        onStep: (i) => { st.step = i; sqSaveSoon(); },
+        onSave: () => sqSaveSoon(),
+        onBadge: glAward,
+        onExit: async () => { glGame = null; await sqSave(); openGuardians(); },
+        onDone: async ({ read, good }) => {
+          const first = !st.done;
+          st.done = true; st.step = 0; g.done[id] = true;
+          if (first) g.shards += 5;
+          glGame?.stop(); glGame = null;
+          const all = GL_LEVELS.filter((x) => x.region === 1).every((x) => g.done[x.id]) && glAward('beacon-1');
+          openGuardians();
+          const box = document.createElement('div'); box.className = 'card sq-earned';
+          const h = document.createElement('h2'); h.className = 'h2'; h.textContent = `${L.label} complete: ${L.title}`;
+          const p = document.createElement('p'); p.textContent = first ? 'You earned 5 Noor Shards for finishing the level, and the next level is open.' : 'Well done for playing it again.';
+          box.append(h, p); $('gl-hub').prepend(box);
+          if (all) sqBadge($('gl-hub'), 'beacon-1', sqSfx, GL_BADGES);
+          await sqSave();
+          logGame({ token: me.token, game: { game: 'Guardians of Light', lesson: `${L.label}: ${L.title}`, rounds: read, first: good, accuracy: '', score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },
       });
     }

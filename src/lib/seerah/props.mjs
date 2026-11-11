@@ -414,5 +414,12 @@ export function makeProps(world) {
     return { at: { x, z }, gate: { x, z: z + D / 2 + 4 }, inside: { x, z: z + 2 }, remove() { scene.remove(g); solids.forEach(removeSolid); } };
   }
 
-  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, vine, palms, courtyard, PIECES, shatter };
+  // a bridge plank to pick up (Guardians of Light): a wooden board with a soft glow so it can be seen in the grass
+  function plank() {
+    const g = new THREE.Group();
+    const b = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.18, 0.55), new THREE.MeshStandardMaterial({ map: plankTexture(), roughness: 0.9 })); b.rotation.z = 0.25; g.add(b);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap(), color: 0xffd27a, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false })); halo.scale.setScalar(3); g.add(halo);
+    return g;
+  }
+  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, vine, palms, courtyard, PIECES, shatter, plank };
 }

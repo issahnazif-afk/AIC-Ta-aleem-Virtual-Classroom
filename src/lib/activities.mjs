@@ -110,6 +110,9 @@ export const ACTIVITIES = [
   // The Seerah Quest: a 3D journey through the history before the Prophet ﷺ, from Ibn Kathir's al-Bidaya wa'l-Nihaya only.
   { id: 'seerah', worlds: ['seerah'], kind: 'seerah', icon: 'seerah', group: 'play', levels: [3, 4], suggested: [3, 4],
     title: 'The Seerah Quest', ar: 'رِحْلَةُ ٱلسِّيرَة', text: 'Walk through Makkah before the Prophet ﷺ: the well of Zamzam and the Year of the Elephant, told only from Ibn Kathir.' },
+  // Guardians of Light: read to the Sheikh, and each reading restores the light of the valley of Noor (src/lib/guardians/).
+  { id: 'guardians', worlds: ['quran'], kind: 'guardians', icon: 'beacon', group: 'hifz', levels: [2, 3, 4], suggested: [2, 3, 4],
+    title: 'Guardians of Light', ar: 'حُرَّاسُ ٱلنُّور', text: 'Read to the Sheikh, and bring the light back to the valley of Noor, one adventure at a time.' },
 ];
 
 // The learning worlds: one subject each, a strand that runs from Level 1 to Level 4 (docs/CURRICULUM_PATH.md).
@@ -124,6 +127,7 @@ export const WORLDS = [
 ];
 
 export const ICONS = {
+  beacon: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M0 58 Q16 44 32 50 T64 46 V64 H0 Z" fill="#5CA04A"/><path d="M27 54 L29 22 H35 L37 54 Z" fill="#CFC6B4" stroke="#8A7A5C" stroke-width="1.5"/><path d="M32 6 L39 16 L32 26 L25 16 Z" fill="#FFE08A" stroke="#C9A24A" stroke-width="2"/><g stroke="#F6C64B" stroke-width="2.5" stroke-linecap="round"><path d="M32 2 V0 M44 10 L48 7 M20 10 L16 7 M46 18 H51 M18 18 H13"/></g></svg>',
   prophets: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M0 46 q8 -4 16 0 t16 0 t16 0 t16 0 V64 H0 Z" fill="#4FA9D9"/><path d="M8 36 H56 L50 48 H14 Z" fill="#8A5A33"/><rect x="20" y="24" width="24" height="12" fill="#B07A4A"/><path d="M17 24 L32 15 L47 24 Z" fill="#6B4226"/><circle cx="27" cy="30" r="2.5" fill="#FFE9B0"/><circle cx="37" cy="30" r="2.5" fill="#FFE9B0"/><path d="M48 8 a7 7 0 1 0 6 10 a6 6 0 1 1 -6 -10 Z" fill="#F6C64B"/></svg>',
   tawheed: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 4 L38 18 L53 13 L47 27 L60 35 L45 39 L48 54 L35 46 L32 60 L29 46 L16 54 L19 39 L4 35 L17 27 L11 13 L26 18 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><circle cx="32" cy="33" r="13" fill="#0E6B4E"/><text x="32" y="40" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="17" fill="#FBE3A6">أَحَد</text></svg>',
   hifz: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M8 14 Q20 10 32 16 Q44 10 56 14 V50 Q44 46 32 52 Q20 46 8 50 Z" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2.5"/><path d="M32 16 V52" stroke="#0E6B4E" stroke-width="2"/><circle cx="46" cy="22" r="9" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><path d="M42 22 l3 3 5-6" fill="none" stroke="#0E6B4E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',

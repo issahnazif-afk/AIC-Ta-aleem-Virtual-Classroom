@@ -16,7 +16,7 @@ const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls)
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const shuffle = (xs) => { const a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const TEST = typeof location !== 'undefined' && /[?&]test=1\b/.test(location.search);
-export const cite = (p) => `al-Bidaya wa'l-Nihaya ${p.vol}/${p.page}`;
+export const cite = (p) => (p ? `al-Bidaya wa'l-Nihaya ${p.vol}/${p.page}` : '');
 const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 // ﷺ in its own span, so it can be given a font that has it
 const withSawText = (node, text) => String(text).split('ﷺ').forEach((part, i) => { if (i) node.append(el('span', 'saw', 'ﷺ')); node.append(part); });
@@ -29,8 +29,9 @@ let narrator = true;
 function speakEn(text) { if (narrator) narrate(text, { voice: 'seerah' }); }
 const hush = () => stopNarration();
 
-export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, shared = {}, mode = 'explorer', gentle = false, avatar = null, archive = [], onStep, onSave, onBadge, onDone, onExit }) {
-  const ep = EPISODES.find((e) => e.n === n);
+export function playEpisode(root, { n, episode = null, onRead = null, badges = null, quality = 'medium', reciter, saved = {}, shared = {}, mode = 'explorer', gentle = false, avatar = null, archive = [], onStep, onSave, onBadge, onDone, onExit }) {
+  const ep = episode ?? EPISODES.find((e) => e.n === n);
+  const STG = ep.stages ?? STAGES;
   const M = MODES[mode] ?? MODES.explorer;
   const courseMode = gentle ? 'gentle' : mode;
   saved.scrolls ??= []; saved.lanterns ??= [];
@@ -41,7 +42,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
   // ── the HUD ──
   const top = el('div', 'sq-top');
   const title = el('div', 'sq-title'); const stageEl = el('span', 'sq-stage-l');
-  title.append(el('b', null, `Episode ${ep.n} · ${ep.title}`), stageEl);
+  title.append(el('b', null, `${ep.label ?? `Episode ${ep.n}`} · ${ep.title}`), stageEl);
   const counters = el('div', 'sq-counters');
   const cLight = el('span', 'sq-c'), cScroll = el('span', 'sq-c'), cLantern = el('span', 'sq-c');
   const ico = (src, alt) => { const i = el('img'); i.src = src; i.alt = alt; i.width = 22; i.height = 22; return i; };
@@ -79,11 +80,11 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
   btns.append(smashB, useB, jumpB); touch.append(stick, btns);
   // the build bar (only while building)
   const buildBar = el('div', 'sq-buildbar'); buildBar.hidden = true;
-  const loading = el('div', 'sq-loading', 'Preparing the valley of Makkah…');
+  const loading = el('div', 'sq-loading', ep.loading ?? 'Preparing the valley of Makkah…');
   root.append(canvas, top, tracker, mapC, near, toast, banner, buildBar, panel, touch, loading);
 
   let world, props, stopped = false;
-  try { world = createWorld(canvas, { quality }); props = makeProps(world); }
+  try { world = createWorld(canvas, { quality, theme: ep.theme }); props = makeProps(world); }
   catch (err) { loading.textContent = 'This computer could not start the 3D view (WebGL). Try another browser, or ask your teacher.'; return { stop() {} }; }
   smashB.addEventListener('pointerdown', (e) => { e.preventDefault(); world.strike(); });
   // building materials are kept with the student's progress, shared by every episode
@@ -96,8 +97,10 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
 
   // ── counters ──
   let lights = 0;
+  if (ep.noArchive) archBtn.hidden = true;
   const draw = () => { lightN.textContent = String(lights); scrollN.textContent = `${saved.scrolls.length}/${allScrolls.length}`; lanternN.textContent = `${saved.lanterns.length}/${allLanterns}`; };
   draw();
+  cScroll.hidden = !allScrolls.length; cLantern.hidden = !allLanterns;
   world.onLight = () => { lights++; saved.lightsBest = Math.max(saved.lightsBest ?? 0, lights); play('light'); draw(); onSave?.({ light: 1 }); };
   world.onJump = () => play('jump');
   world.onLand = () => play('land');
@@ -105,7 +108,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
   world.onCalm = (inCalm) => { if (inCalm && Date.now() - calmSaid > 20000) { calmSaid = Date.now(); say(TEXT.calm, 4200); } };
   world.onCalmJump = () => say(TEXT.calm, 3000);
   function say(t, ms = 2400) { toast.textContent = t; toast.classList.add('on'); clearTimeout(say.t); say.t = setTimeout(() => toast.classList.remove('on'), ms); }
-  function award(id) { if (onBadge?.(id)) showBadge(root, id, play); }
+  function award(id) { if (onBadge?.(id)) showBadge(root, id, play, badges ?? undefined); }
   function addArchive(id) { if (id && !archive.includes(id)) { archive.push(id); onSave?.({}); } }
 
   // ── touch controls: a stick to move (push it all the way to run), Jump, and Look for the markers ──
@@ -235,8 +238,8 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
   const wells = {};
   const run = {
     async stage(s) {
-      stageEl.textContent = `Stage ${s.id} · ${STAGES[s.id]}`;
-      banner.replaceChildren(el('span', null, `Stage ${s.id}`), el('b', null, STAGES[s.id]));
+      stageEl.textContent = `Stage ${s.id} · ${STG[s.id]}`;
+      banner.replaceChildren(el('span', null, `Stage ${s.id}`), el('b', null, STG[s.id]));
       banner.hidden = false; banner.classList.remove('out'); void banner.offsetWidth; banner.classList.add('in');
       setTimeout(() => banner.classList.add('out'), 2200); setTimeout(() => { banner.hidden = true; banner.classList.remove('in', 'out'); }, 2800);
       await wait(TEST ? 50 : 900);
@@ -248,7 +251,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
       const [pos, look] = s.shots[s.shots.length - 1];
       if (pos[1] - world.heightAt(pos[0], pos[2]) < 8) world.place(pos[0], pos[2], look[0], look[2], { snap: false });
     },
-    async guide(s) { await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text }); },
+    async guide(s) { await card({ kicker: ep.guideKicker ?? 'Explorer’s guide', title: s.title, text: s.text }); },
     async narrate(s) { for (const id of s.ids) { const p = SOURCES[id]; await card({ kicker: 'From the history', text: p.en, src: p }); } },
     async note(s) { for (const id of s.ids) { const p = SOURCES[id]; await card({ kicker: 'A report', text: p.en, src: p, reported: true }); } },
     async quote(s) {
@@ -1068,13 +1071,120 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
         ask();
       });
     },
+    // ── Guardians of Light ──
+    // the child goes to the classroom and reads to the Sheikh; the adventure waits and carries on afterwards
+    async read(s) {
+      let intro = true;
+      for (;;) {
+        if (intro) await new Promise((resolve) => {
+          const p = openPanel('read');
+          p.append(el('p', 'sq-kicker', s.kicker ?? 'Read to the Sheikh'), el('h2', 'sq-h', s.title), el('p', 'sq-text', s.text));
+          const b = nextBtn(s.button ?? 'Go and read to the Sheikh'); b.addEventListener('click', () => { closePanel(); resolve(); });
+          p.append(b); b.focus({ preventScroll: true }); speakEn(s.text);
+        });
+        intro = false;
+        world.lock(true); world.pause(true); hush();
+        const res = onRead ? await onRead(s) : { words: 24, pct: 92, good: true, rewards: ['Test reading'] };
+        if (stopped) return;
+        world.pause(false); world.lock(false);
+        if (res?.words) {
+          await new Promise((resolve) => {
+            const p = openPanel('read');
+            p.append(el('p', 'sq-kicker', 'The Sheikh listened'), el('h2', 'sq-h', res.good ? 'Well read!' : 'Reading complete'), el('p', 'sq-text', `You read ${res.words} words, and ${res.pct}% were right the first time.`));
+            if (!res.good) p.append(el('p', 'sq-text', TEXT.readPractise));
+            const ul = el('ul', 'sq-rewards'); for (const r of res.rewards ?? []) ul.append(el('li', null, r)); if (ul.children.length) p.append(ul);
+            const b = nextBtn('Back to the adventure'); b.addEventListener('click', () => { closePanel(); resolve(); });
+            p.append(b); b.focus({ preventScroll: true }); play(res.good ? 'award' : 'lantern');
+          });
+          score.read = (score.read ?? 0) + 1; score.good = (score.good ?? 0) + (res.good ? 1 : 0);
+          return;
+        }
+        // back without reading: the next part opens after the reading, and the place is kept
+        const again = await new Promise((resolve) => {
+          const p = openPanel('read');
+          p.append(el('p', 'sq-kicker', 'Read to the Sheikh'), el('h2', 'sq-h', 'Read when you are ready'), el('p', 'sq-text', TEXT.readLater));
+          const now = nextBtn('Read now'); now.addEventListener('click', () => { closePanel(); resolve(true); });
+          const later = el('button', 'btn sq-later', 'Continue later'); later.type = 'button'; later.addEventListener('click', () => { closePanel(); resolve(false); });
+          p.append(now, later); now.focus({ preventScroll: true });
+        });
+        if (!again) { stop(); onExit?.(); return new Promise(() => {}); }
+      }
+    },
+    // a trail of lanterns: walk to each one in turn and it lights up
+    trail(s) {
+      return new Promise((resolve) => {
+        const posts = s.points.map(([x, z]) => world.lantern(x, z, { color: 0x8a7a5a, height: 2.2 }));
+        const total = s.points.length; let i = 0, h = null;
+        const light = () => {
+          if (!h) return;
+          world.removeHotspot(h.id); h = null; posts[i].children.forEach((m) => m.material?.color?.setHex(0xffd36b)); play('lantern');
+          const [x, z] = s.points[i], nx = s.points[i + 1];
+          if (nx) world.addLights([0.33, 0.66].map((k) => [x + (nx[0] - x) * k, world.heightAt(x + (nx[0] - x) * k, z + (nx[1] - z) * k) + 1.2, z + (nx[1] - z) * k]), 'trail');
+          i++; next();
+        };
+        const next = () => {
+          if (i >= total) { off(); world.onHotspot = null; world.onNear = null; near.hidden = true; useB.disabled = true; setObjective(''); resolve(); return; }
+          const [x, z] = s.points[i];
+          h = world.addHotspot({ id: `trail${i}`, x, z, label: s.label ?? 'A lantern', radius: 3.4 });
+          setObjective(s.objective, `${i}/${total} lanterns`, i / total);
+          if (TEST) root.dataset.target = h.id;
+        };
+        const off = world.every(() => { if (!h) return; const me = world.player(); if (Math.hypot(me.x - h.x, me.z - h.z) < 2.4) light(); });
+        world.onHotspot = (x) => { if (x === h) light(); };
+        world.onNear = nearLabel('Light the lantern');
+        near.onclick = () => { if (world.near() === h) light(); };
+        next();
+      });
+    },
+    // pieces to find around the valley (for the bridge): each is picked up by walking into it
+    pieces(s) {
+      return new Promise((resolve) => {
+        const total = s.items.length; let got = 0;
+        const prog = () => setObjective(s.objective, `${got}/${total} ${s.unit ?? 'pieces'}`, got / total);
+        prog();
+        for (const [x, z] of s.items) {
+          world.addThing(props.plank(), x, z, null, () => { got++; play('scroll'); say(s.each ?? 'You found a piece.', 1800); prog(); if (got >= total) { setObjective(''); resolve(); } });
+        }
+        if (TEST) root.dataset.scrolls = JSON.stringify(s.items);
+      });
+    },
+    // the waterwheel turns and the water runs into the garden channel
+    async wheel(s) {
+      const w = world.noor.wheel;
+      world.noor.turnWheel(true); play('award');
+      await world.fly([[[w.x + 14, 7, w.z + 14], [w.x, 2, w.z - 1], 0], [[w.x + 9, 5, w.z + 10], [w.x, 2, w.z - 1], TEST ? 0.2 : 3]]);
+      await wait(TEST ? 50 : 900); backToPlayer();
+      if (s.text) await card({ kicker: ep.guideKicker, title: s.title, text: s.text });
+    },
+    // the missing planks drop into place, and the bridge can be crossed
+    async bridge(s) {
+      const b = world.noor.bridge;
+      world.noor.mendBridge();
+      await world.fly([[[b.x + 13, 8, b.z + 12], [b.x, 0, b.z], 0], [[b.x + 9, 6, b.z + 9], [b.x, 0, b.z], TEST ? 0.3 : 2.6]]);
+      await wait(TEST ? 50 : 600); play('award'); backToPlayer();
+      if (s.text) await card({ kicker: ep.guideKicker, title: s.title, text: s.text });
+    },
+    // the beacon on the hill gathers light
+    async beacon(s) {
+      const b = world.noor.beacon;
+      await world.fly([[[b.x + 26, b.y + 6, b.z + 62], [b.x, b.y, b.z], 0], [[b.x + 16, b.y + 2, b.z + 40], [b.x, b.y, b.z], TEST ? 0.2 : 2.4]]);
+      world.noor.setBeacon(s.k ?? 1); play('award');
+      await wait(TEST ? 50 : 2200); backToPlayer();
+      if (s.text) await card({ kicker: ep.guideKicker, title: s.title, text: s.text });
+    },
+    // the valley as earlier levels left it: the wheel turning, the bridge mended, the beacon's light
+    async state(s) { const n = world.noor; if (!n) return; if (s.wheel) n.turnWheel(true); if (s.bridge) n.mendBridge(true); if (s.beacon != null) n.setBeacon(s.beacon); await wait(30); },
+    async reward(s) {
+      if (s.badge) award(s.badge);
+      await card({ kicker: 'Reward', title: s.title, text: s.text });
+    },
     reflect(s) {
       return new Promise((resolve) => {
         const p = openPanel('reflect');
         p.append(el('p', 'sq-kicker', 'Reflection'), el('h2', 'sq-h', s.prompt));
         const opts = el('div', 'sq-opts');
         s.options.forEach((o) => { const b = el('button', 'sq-opt', o); b.type = 'button'; b.addEventListener('click', () => { opts.querySelectorAll('button').forEach((x) => x.classList.toggle('right', x === b)); n.disabled = false; }); opts.append(b); });
-        const n = nextBtn('Finish the episode'); n.disabled = true; n.addEventListener('click', () => { closePanel(); resolve(); });
+        const n = nextBtn(s.finish ?? 'Finish the episode'); n.disabled = true; n.addEventListener('click', () => { closePanel(); resolve(); });
         p.append(opts, el('p', 'sq-text muted', 'There is no wrong answer here. Think about it, and choose.'), n);
         speakEn(s.prompt);
       });
@@ -1091,13 +1201,15 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
   }
 
   const score = { order: 0, quiz: null };
+  // after a camera flight, the camera goes back behind the explorer
+  function backToPlayer() { const me = world.player(); world.place(me.x, me.z, me.x - Math.sin(me.camYaw) * 10, me.z - Math.cos(me.camYaw) * 10); }
   async function go() {
     const start = Math.min(saved.step ?? 0, ep.steps.length - 1);
     // when resuming, set the scene and the stage from the last ones before the saved step
     if (start > 0) {
       const before = [...ep.steps.slice(0, start)].reverse();
       const sc = before.find((s) => s.do === 'scene'); if (sc) await run.scene(sc);
-      const st = before.find((s) => s.do === 'stage'); if (st) stageEl.textContent = `Stage ${st.id} · ${STAGES[st.id]}`;
+      const st = before.find((s) => s.do === 'stage'); if (st) stageEl.textContent = `Stage ${st.id} · ${STG[st.id]}`;
     }
     for (let i = start; i < ep.steps.length && !stopped; i++) {
       const s = ep.steps[i];
@@ -1106,7 +1218,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
       if (stopped) return;
       onStep?.(i + 1);
     }
-    if (!stopped) onDone?.({ quiz: score.quiz, order: score.order, lights, scrolls: saved.scrolls.length, of: allScrolls.length });
+    if (!stopped) onDone?.({ read: score.read ?? 0, good: score.good ?? 0, quiz: score.quiz, order: score.order, lights, scrolls: saved.scrolls.length, of: allScrolls.length });
   }
   go();
   function stop() { stopped = true; hush(); world?.dispose(); root.replaceChildren(); if (TEST) delete window.__sq; }
