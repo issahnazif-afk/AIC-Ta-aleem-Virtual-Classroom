@@ -311,7 +311,7 @@ export function makeProps(world) {
 
   // ── a mountain with a leaning peak and an empty cave in the bend (Jabal al-Nour, as the book describes Hiraʾ) ──
   // a respectful, empty reconstruction: the cave can be seen but not entered, and nobody is ever shown in or near it
-  function mountain(x, z, { height = 58, radius = 26, facing = 0, sign = 'Jabal al-Nour (a model)' } = {}) {
+  function mountain(x, z, { height = 58, radius = 26, facing = 0, sign = 'Jabal al-Nour (a model)', cave = true } = {}) {
     clearAround(x, z, radius + 8);
     const y = flatten(x, z), g = new THREE.Group(); g.position.set(x, y, z); g.rotation.y = facing; scene.add(g);
     const rock = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 1, flatShading: true, vertexColors: true });
@@ -336,10 +336,10 @@ export function makeProps(world) {
     for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2 + 0.3, b = new THREE.Mesh(new THREE.DodecahedronGeometry(2 + (i % 3), 0), rock2); b.position.set(Math.cos(a) * radius * 0.95, 1, Math.sin(a) * radius * 0.95); b.rotation.set(i, i * 2, 0); if (Math.abs(Math.cos(a)) > 0.35 || Math.sin(a) < 0) g.add(b); }
     // the cave: a dark opening in the front slope, with a rocky ledge in front of it
     const cz = radius * (1 - 3.4 / height);   // the slope at the height of the cave
-    const ledge = new THREE.Mesh(new THREE.BoxGeometry(10, 1.2, 7), rock2); ledge.position.set(0, 0.6, cz + 3); g.add(ledge);
-    const frame = new THREE.Mesh(new THREE.TorusGeometry(1.7, 0.55, 6, 12, Math.PI), rock2); frame.position.set(0, 2.2, cz + 0.6); g.add(frame);
+    const ledge = new THREE.Mesh(new THREE.BoxGeometry(10, 1.2, 7), rock2); ledge.position.set(0, 0.6, cz + 3); if (cave) g.add(ledge);
+    const frame = new THREE.Mesh(new THREE.TorusGeometry(1.7, 0.55, 6, 12, Math.PI), rock2); frame.position.set(0, 2.2, cz + 0.6); if (cave) g.add(frame);
     const mouthM = new THREE.MeshBasicMaterial({ color: 0x2a1d14 }), mouth = new THREE.Mesh(new THREE.BoxGeometry(3, 3.4, 3.2), mouthM);
-    mouth.position.set(0, 2.4, cz - 0.9); g.add(mouth);
+    mouth.position.set(0, 2.4, cz - 0.9); if (cave) g.add(mouth);
     const radius0 = radius; radius = cz / 0.92;   // the rest of the code places things relative to the cave front
     void radius0;
     const glowIn = glowSprite(0xffd9a0, 6); glowIn.position.set(0, 2.4, radius * 0.92 + 0.9); glowIn.material.opacity = 0.0; g.add(glowIn);
@@ -349,11 +349,11 @@ export function makeProps(world) {
     const toW = (lx, lz) => [x + lx * c + lz * s, z - lx * s + lz * c];
     const [bx, bz] = toW(0, 0), [lx, lz] = toW(0, radius * 0.92 + 2);
     const body = addSolid(bx - radius * 0.85, bx + radius * 0.85, bz - radius * 0.85, bz + radius * 0.85, y - 1, y + height, { climb: false });
-    const shelf = addSolid(lx - 4.5, lx + 4.5, lz - 3, lz + 3, y - 1, y + 1.2);
+    const shelf = cave ? addSolid(lx - 4.5, lx + 4.5, lz - 3, lz + 3, y - 1, y + 1.2) : null;
     let glowK = 0, glowTo = 0;
     world.every((dt) => { glowK += (glowTo - glowK) * Math.min(1, dt * 0.8); glowIn.material.opacity = glowK; mouthM.color.setRGB(0.1 + glowK * 0.35, 0.07 + glowK * 0.22, 0.05 + glowK * 0.1); });
     const [fx, fz] = toW(0, radius * 0.92 + 7);
-    return { front: { x: fx, z: fz }, cave: { x: lx, z: lz, y: y + 2.6 }, top: { x: bx, y: y + height, z: bz }, glow(v) { glowTo = v ? 0.85 : 0; }, remove() { scene.remove(g); removeSolid(body); removeSolid(shelf); } };
+    return { front: { x: fx, z: fz }, cave: { x: lx, z: lz, y: y + 2.6 }, top: { x: bx, y: y + height, z: bz }, glow(v) { glowTo = v ? 0.85 : 0; }, remove() { scene.remove(g); removeSolid(body); if (shelf) removeSolid(shelf); } };
   }
 
   // ── a garden wall with a grapevine trellis giving shade (the walled garden at al-Taʾif, a simple model) ──

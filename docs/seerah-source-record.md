@@ -177,6 +177,49 @@ Classification: **established** (may become a mission) · **reported** (labelled
 | m-pairs | 11 | 3/277 | established | pending |
 | m-awf | 11 | 3/279 | established | pending |
 | m-adhan | 11 | 3/284 | established | pending |
+| bd-night | 12 | 3/326 | established | pending |
+| bd-water | 12 | 3/326 | established | pending |
+| bd-hubab | 12 | 3/326–327 | reported | pending |
+| bd-313 | 12 | 3/328 | established | pending |
+| bd-talut | 12 | 3/328 | established | pending |
+| bd-date | 12 | 3/367 | established | pending |
+| bd-ayyub | 12 | 3/367 | reported | pending |
+| bd-teach | 12 | 3/397 | established | pending |
+| ud-dates | 12 | 4/107 | established | pending |
+| ud-name | 12 | 4/11 | established | pending |
+| ud-archers | 12 | 4/28 | established | pending |
+| ud-left | 12 | 4/28 | established | pending |
+| kh-date | 12 | 4/107 | established | pending |
+| kh-four | 12 | 4/107 | reported | pending |
+| kh-dig | 12 | 4/109 | established | pending |
+| kh-salman | 12 | 4/109 | reported | pending |
+| kh-cold | 12 | 4/109–110 | established | pending |
+| kh-answer | 12 | 4/110 | established | pending |
+| kh-earth | 12 | 4/110 | established | pending |
+| tr-date | 13 | 4/188 | established | pending |
+| tr-strange | 13 | 4/188 | reported | pending |
+| tr-names | 13 | 4/192 | established | pending |
+| tr-terms | 13 | 4/192–193 | established | pending |
+| tr-distress | 13 | 4/193 | established | pending |
+| tr-fath | 13 | 4/202 | established | pending |
+| fa-march | 13 | 4/325 | established | pending |
+| fa-12 | 13 | 4/325 | reported | pending |
+| fa-safe | 13 | 4/331 | established | pending |
+| fa-tawaf | 13 | 4/344 | established | pending |
+| fa-adam | 13 | 4/344 | reported | pending |
+| fa-tulaqa | 13 | 4/344 | reported | pending |
+| fa-key | 13 | 4/344 | reported | pending |
+| fw-once | 14 | 5/126 | established | pending |
+| fw-perfect | 14 | 5/125 | established | pending |
+| fw-umar | 14 | 5/195 | established | pending |
+| fw-arafah | 14 | 5/166 | established | pending |
+| fw-blood | 14 | 5/166 | established | pending |
+| fw-women | 14 | 5/166 | established | pending |
+| fw-book | 14 | 5/166 | established | pending |
+| fw-monday | 14 | 5/275 | established | pending |
+| fw-look | 14 | 5/275 | established | pending |
+| fw-forenoon | 14 | 5/275 | reported | pending |
+| fw-siddiq | 14 | 4/35 | established | pending |
 
 ## z-title · vol. 2, p. 303 · established
 
@@ -1443,3 +1486,337 @@ Classification: **established** (may become a mission) · **reported** (labelled
 > [He ﷺ said:] “It is a true dream, if Allah wills. Stand with Bilal and teach it to him, and let him call it, for his voice is more beautiful than yours.” When Bilal called it, ʿUmar ibn al-Khattab heard it in his house and came out to the Messenger of Allah ﷺ, dragging his cloak, saying: “O Prophet of Allah, by the One who sent you with the truth, I saw the same as he saw.” The Messenger of Allah ﷺ said: “To Allah be the praise [for that].”
 
 *Note:* Said to ʿAbdullah ibn Zayd, who had seen the words of the adhan in a dream. Narrated by Ibn Ishaq, Abu Dawud and al-Tirmidhi, who graded it sahih.
+
+## bd-night · vol. 3, p. 326 · established
+
+وقد بات رسول الله صلى الله عليه وسلم تلك الليلة يصلي إلى جذم شجرة هناك، ويكثر في سجوده أن يقول " يا حي يا قيوم " يكرر ذلك ويلظ به عليه السلام.
+
+> The Messenger of Allah ﷺ spent that night praying beside the stump of a tree there, often saying in his prostration “Ya Hayy, ya Qayyum”, O Ever-Living, O Self-Sustaining, repeating it and holding on to it, peace be upon him.
+
+*Note:* The night before Badr.
+
+## bd-water · vol. 3, p. 326 · established
+
+قال ابن إسحاق: فخرج رسول الله صلى الله عليه وسلم يبادرهم إلى الماء حتى جاء أدنى ماء من بدر نزل به.
+
+> Ibn Ishaq said: The Messenger of Allah ﷺ set out to reach the water before them, and when he came to the nearest water of Badr he stopped there.
+
+## bd-hubab · vol. 3, p. 326–327 · reported
+
+فحدثت عن رجال من بني سلمة أنهم ذكروا أن الحباب بن منذر بن الجموح. قال: يا رسول الله أرأيت هذا المنزل أمنزلا أنزلكه الله ليس لنا أن نتقدمه ولا نتأخر عنه، أم هو الرأي والحرب والمكيدة؟ قال بل هو الرأي والحرب والمكيدة. قال يا رسول الله فإن هذا ليس بمنزل فامض بالناس حتى نأتي أدنى ماء من القوم، فننزله، ثم نغور ما وراءه من القلب، ثم نبني عليه حوضا فنملؤه ماء ثم نقاتل القوم فنشرب ولا يشربون. فقال رسول الله صلى الله عليه وسلم: " لقد أشرت بالرأي "
+
+> I was told by men of Banu Salima that al-Hubab ibn al-Mundhir ibn al-Jamuh said: “O Messenger of Allah, this place where we have stopped: is it a place Allah has brought you to, so that we may not move forward or back from it, or is it a matter of opinion, war and planning?” He said: “It is a matter of opinion, war and planning.” He said: “O Messenger of Allah, this is not the right place. Take the people on until we reach the water nearest to them, and stop there. Then we will stop up the wells beyond it, build a basin by it and fill it with water. Then we will fight them: we will drink and they will not.” The Messenger of Allah ﷺ said: “You have given good advice.”
+
+*Note:* Ibn Ishaq gives this from men he does not name (“I was told”), so it is shown as a report. The game shows no fighting.
+
+## bd-313 · vol. 3, p. 328 · established
+
+قلت: وقد كان أصحاب رسول الله صلى الله عليه وسلم يومئذ ثلاثمائة وثلاثة عشر رجلا
+
+> I say: the Companions of the Messenger of Allah ﷺ that day were three hundred and thirteen men.
+
+*Note:* Ibn Kathir’s own words.
+
+## bd-talut · vol. 3, p. 328 · established
+
+كنا نتحدث أن أصحاب بدر ثلثمائة ويضع عشرة على عدة أصحاب طالوت الذين جاوزوا معه النهر، وما جاوزه معه إلا مؤمن
+
+> [al-Baraʾ said:] We used to say that the people of Badr were three hundred and ten-odd, the same number as the companions of Talut who crossed the river with him, and none crossed it with him but a believer.
+
+*Note:* Sahih al-Bukhari.
+
+## bd-date · vol. 3, p. 367 · established
+
+قال البيهقي: والمشهور عن أهل المغازي أن ذلك لسبع عشرة ليلة مضت من شهر رمضان.
+
+> Al-Bayhaqi said: The well-known view among the writers of the campaigns is that it was on the seventeenth night of the month of Ramadan.
+
+## bd-ayyub · vol. 3, p. 367 · reported
+
+سئل أبو أيوب الأنصاري عن يوم بدر فقال: إما لسبع عشرة خلت، أو ثلاث عشرة خلت
+
+> Abu Ayyub al-Ansari was asked about the day of Badr, and said: either the seventeenth, or the thirteenth …
+
+*Note:* He gives more than one day, so it is shown as a report.
+
+## bd-teach · vol. 3, p. 397 · established
+
+كان ناس من الأسرى يوم بدر لم يكن لهم فداء فجعل رسول الله صلى الله عليه وسلم فداءهم أن يعلموا أولاد الأنصار الكتابة
+
+> [Ibn ʿAbbas said:] Some of the captives on the day of Badr had no ransom, so the Messenger of Allah ﷺ made their ransom that they should teach the children of the Ansar to write.
+
+*Note:* Imam Ahmad.
+
+## ud-dates · vol. 4, p. 107 · established
+
+والصحيح قول الجمهور أن أحدا في شوال سنة ثلاث، وأن الخندق في شوال سنة خمس من الهجرة
+
+> The correct view is that of the majority: Uhud was in Shawwal of the year three, and the Trench in Shawwal of the year five after the Hijrah.
+
+*Note:* Ibn Kathir’s own words.
+
+## ud-name · vol. 4, p. 11 · established
+
+سمي أحد أحدا لتوحده من بين تلك الجبال وفي الصحيح " أحد جبل يحبنا ونحبه "
+
+> Uhud was named Uhud because it stands alone among those mountains. In the Sahih: “Uhud is a mountain that loves us, and we love it.”
+
+## ud-archers · vol. 4, p. 28 · established
+
+وأجلس النبي صلى الله عليه وسلم جيشا من الرماة وأمر عليهم عبد الله بن جبير وقال: لا تبرحوا، إن رأيتمونا ظهرنا عليهم فلا تبرحوا، وإن رأيتموهم ظهورا علينا فلا تعينونا.
+
+> The Prophet ﷺ placed a group of archers, put ʿAbdullah ibn Jubayr in command of them, and said: “Do not leave your place. If you see that we have overcome them, do not leave your place. And if you see them overcoming us, do not come down to help us.”
+
+*Note:* From al-Baraʾ, in Sahih al-Bukhari.
+
+## ud-left · vol. 4, p. 28 · established
+
+فأخذوا يقولون: الغنيمة الغنيمة! فقال عبد الله: عهد إلي النبي صلى الله عليه وسلم أن لا تبرحوا. فأبوا
+
+> They began to say: “The spoils! The spoils!” ʿAbdullah said: “The Prophet ﷺ made me promise that you would not leave your place.” But they would not listen.
+
+*Note:* Sahih al-Bukhari, continued. The book goes on to tell of the losses that followed; the game does not show them.
+
+## kh-date · vol. 4, p. 107 · established
+
+وقد كانت غزوة الخندق في شوال سنة خمس من الهجرة نص على ذلك ابن إسحاق وعروة بن الزبير وقتادة والبيهقي وغير واحد من العلماء سلفا وخلفا
+
+> The campaign of the Trench was in Shawwal of the year five after the Hijrah. Ibn Ishaq, ʿUrwa ibn al-Zubayr, Qatada, al-Bayhaqi and many scholars, early and later, stated this.
+
+## kh-four · vol. 4, p. 107 · reported
+
+وقد روى موسى بن عقبة، عن الزهري أنه قال: ثم كانت وقعة الأحزاب في شوال سنة أربع.
+
+> Musa ibn ʿUqba narrated from al-Zuhri that he said: Then came the battle of the Confederates, in Shawwal of the year four.
+
+*Note:* Another view; Ibn Kathir gives the year five as correct.
+
+## kh-dig · vol. 4, p. 109 · established
+
+فلما سمع بهم رسول الله صلى الله عليه وسلم وما أجمعوا له من الأمر، ضرب الخندق على المدينة.
+
+> When the Messenger of Allah ﷺ heard of them and of what they had agreed on, he had a trench dug around Madinah.
+
+*Note:* Ibn Ishaq.
+
+## kh-salman · vol. 4, p. 109 · reported
+
+قال ابن هشام: يقال: إن الذي أشار به سلمان.
+
+> Ibn Hisham said: It is said that the one who advised it was Salman.
+
+*Note:* “It is said”, so it is shown as a report.
+
+## kh-cold · vol. 4, p. 109–110 · established
+
+خرج رسول الله صلى الله عليه وسلم إلى الخندق فإذا المهاجرون والأنصار يحفرون في غداة باردة ولم يكن لهم عبيد يعملون ذلك لهم، فلما رأى ما بهم من النصب والجوع قال: " اللهم إن العيش عيش الآخرة * فاغفر الأنصار والمهاجره "
+
+> [Anas said:] The Messenger of Allah ﷺ went out to the trench, and there were the Muhajirun and the Ansar digging on a cold morning. They had no slaves to do the work for them. When he saw how tired and hungry they were, he said: “O Allah, the true life is the life of the Hereafter, so forgive the Ansar and the Muhajirun.”
+
+*Note:* Sahih al-Bukhari.
+
+## kh-answer · vol. 4, p. 110 · established
+
+جعل المهاجرون والأنصار يحفرون الخندق حول المدينة وينقلون التراب على متونهم ويقولون: نحن الذين بايعوا محمدا * على الإسلام ما بقينا أبدا قال يقول النبي صلى الله عليه وسلم مجيبا لهم " اللهم إنه لا خير إلا خير الآخره، فبارك في الأنصار والمهاجره "
+
+> [Anas said:] The Muhajirun and the Ansar began digging the trench around Madinah, carrying the earth on their backs and saying: “We are the ones who have pledged to Muhammad, to hold to Islam as long as we live.” The Prophet ﷺ answered them: “O Allah, there is no good but the good of the Hereafter, so bless the Ansar and the Muhajirun.”
+
+*Note:* Sahih al-Bukhari.
+
+## kh-earth · vol. 4, p. 110 · established
+
+كان رسول الله صلى الله عليه وسلم ينقل التراب يوم الخندق حتى أغمر بطنه أو اغبر بطنه يقول: والله لولا الله ما اهتدينا * ولا تصدقنا ولا صلينا فأنزلن سكينة علينا * وثبت الأقدام إن لاقينا إن الألى قد بغوا علينا * إذا أرادوا فتنة أبينا ورفع بها صوته: أبينا، أبينا .
+
+> [al-Baraʾ said:] The Messenger of Allah ﷺ was carrying earth on the day of the Trench, until the dust covered his stomach, saying: “By Allah, without Allah we would not have been guided, nor given charity, nor prayed. So send down calm upon us, and make our feet firm if we meet them. Those people have wronged us; when they wanted to turn us from our faith, we refused.” And he raised his voice with it: “We refused, we refused.”
+
+*Note:* Sahih al-Bukhari and Sahih Muslim.
+
+## tr-date · vol. 4, p. 188 · established
+
+وقد كانت في ذي القعدة سنة ست بلا خلاف.
+
+> It was in Dhu al-Qaʿda of the year six, without disagreement.
+
+*Note:* About al-Hudaybiyya.
+
+## tr-strange · vol. 4, p. 188 · reported
+
+خرج رسول الله صلى الله عليه وسلم إلى الحديبية في رمضان وكانت الحديبية في شوال. وهذا غريب جدا عن عروة.
+
+> [ʿUrwa said:] The Messenger of Allah ﷺ set out for al-Hudaybiyya in Ramadan, and al-Hudaybiyya was in Shawwal. This is very strange from ʿUrwa.
+
+*Note:* Ibn Kathir calls this very strange.
+
+## tr-names · vol. 4, p. 192 · established
+
+ثم دعا رسول الله صلى الله عليه وسلم علي بن أبي طالب رضي الله عنه فقال اكتب بسم الله الرحمن الرحيم قال: فقال سهيل لا أعرف هذا ولكن اكتب باسمك اللهم، قال: فقال رسول الله صلى الله عليه وسلم اكتب باسمك اللهم فكتبها، ثم قال: اكتب هذا ما صالح عليه محمد رسول الله سهيل بن عمرو. قال فقال سهيل: لو شهدت أنك رسول الله لم أقاتلك. ولكن اكتب اسمك واسم أبيك. قال فقال رسول الله: اكتب هذا ما صالح عليه محمد بن عبد الله سهيل بن عمرو
+
+> Then the Messenger of Allah ﷺ called ʿAli ibn Abi Talib and said: “Write: Bismillah al-Rahman al-Rahim.” Suhayl said: “I do not know this. Write: Bismika Allahumma, in Your name, O Allah.” The Messenger of Allah ﷺ said: “Write: Bismika Allahumma”, and he wrote it. Then he said: “Write: This is what Muhammad, the Messenger of Allah, has agreed with Suhayl ibn ʿAmr.” Suhayl said: “If I bore witness that you are the Messenger of Allah, I would not have fought you. Write your name and your father’s name.” The Messenger of Allah ﷺ said: “Write: This is what Muhammad ibn ʿAbdullah has agreed with Suhayl ibn ʿAmr.”
+
+*Note:* Ibn Ishaq.
+
+## tr-terms · vol. 4, p. 192–193 · established
+
+اصطلحا على وضع الحرب عن الناس عشر سنين يأمن فيهن الناس ويكف بعضهم عن بعض، على أنه من أتى محمدا من قريش بغير إذن وليه رده عليهم، ومن جاء قريشا ممن مع محمد لم يردوه عليه، وأن بيننا عيبة مكفوفة، وأنه لا إسلال ولا إغلال، وأنه من أحب أن يدخل في عقد محمد وعهده دخل فيه، ومن أحب أن يدخل في عقد قريش وعهدهم دخل فيه. فتواثبت خزاعة فقالوا: نحن في عقد محمد وعهده وتواثبت بنو بكر فقالوا: نحن في عقد قريش وعهدهم، وأنك ترجع عامك هذا فلا تدخل علينا مكة، وأنه إذا كان عام قابل خرجنا عنك فدخلتها بأصحابك، فأقمت بها ثلاثا معك سلاح الراكب السيوف في القرب لا تدخلها بغيرها.
+
+> They agreed to lay down war between the people for ten years, in which people would be safe and hold back from one another; that whoever came to Muhammad from Quraysh without his guardian’s permission, he would send back to them, and whoever came to Quraysh from those with Muhammad, they would not send back to him; that between us there would be a sealed chest, with no stealing and no betrayal; and that whoever wished to enter into the pact and covenant of Muhammad could do so, and whoever wished to enter into the pact and covenant of Quraysh could do so. Khuzaʿa jumped up and said: “We are in the pact and covenant of Muhammad”, and Banu Bakr jumped up and said: “We are in the pact and covenant of Quraysh.” And that you go back this year and do not enter Makkah against us; and next year we will go out from it for you, and you will enter it with your companions and stay three days, with only a rider’s weapons, swords in their sheaths, and you will not enter it with anything else.
+
+*Note:* Ibn Ishaq. “A sealed chest” means that what was agreed would be kept safe and not broken.
+
+## tr-distress · vol. 4, p. 193 · established
+
+وقد كان أصحاب رسول الله صلى الله عليه وسلم قد خرجوا وهم لا يشكون في الفتح لرؤيا رآها رسول الله صلى الله عليه وسلم، فلما رأوا ما رأوا من الصلح والرجوع وما تحمل عليه رسول الله صلى الله عليه وسلم في نفسه دخل على الناس من ذلك أمر عظيم حتى كادوا يهلكون
+
+> The Companions of the Messenger of Allah ﷺ had set out with no doubt that they would enter Makkah, because of a dream the Messenger of Allah ﷺ had seen. When they saw the peace and the turning back, and what the Messenger of Allah ﷺ had taken on himself, it weighed on the people so heavily that they were almost overcome.
+
+## tr-fath · vol. 4, p. 202 · established
+
+لقد أنزلت علي الليلة سورة لهي أحب إلي مما طلعت عليه الشمس
+
+> [He ﷺ said:] “Tonight a surah has been sent down to me that is dearer to me than everything the sun rises on.”
+
+*Note:* Said to ʿUmar on the way back from al-Hudaybiyya, in Sahih al-Bukhari. It is Surah al-Fath, which the game plays from the reciter.
+
+## fa-march · vol. 4, p. 325 · established
+
+وخرج لعشر مضين من شهر رمضان فصام وصام الناس معه، حتى إذا كان بالكديد بين عسفان وأمج أفطر، ثم مضى حتى نزل من الظهران في عشرة آلاف من المسلمين
+
+> He set out when ten days of Ramadan had passed, and he fasted and the people fasted with him, until at al-Kadid, between ʿUsfan and Amaj, he broke his fast. Then he went on until he stopped at Marr al-Zahran with ten thousand Muslims.
+
+*Note:* Ibn Ishaq, from Ibn ʿAbbas.
+
+## fa-12 · vol. 4, p. 325 · reported
+
+وقال عروة بن الزبير: كان معه اثنا عشر ألفا.
+
+> ʿUrwa ibn al-Zubayr said: there were twelve thousand with him.
+
+*Note:* Another count.
+
+## fa-safe · vol. 4, p. 331 · established
+
+من دخل دار أبي سفيان فهو آمن - وكانت بأعلا مكة - ومن دخل دار حكيم بن حزام فهو آمن - وكانت بأسفل مكة - ومن أغلق بابه فهو آمن "
+
+> “Whoever enters the house of Abu Sufyan is safe” (it was in upper Makkah), “whoever enters the house of Hakim ibn Hizam is safe” (it was in lower Makkah), “and whoever shuts his door is safe.”
+
+*Note:* From the account of al-ʿAbbas, through Ibn Ishaq.
+
+## fa-tawaf · vol. 4, p. 344 · established
+
+أن رسول الله صلى الله عليه وسلم لما نزل بمكة واطمأن الناس، خرج حتى جاء البيت فطاف به سبعا على راحلته يستلم الركن بمحجن في يده، فلما قضى طوافه دعا عثمان بن طلحة فأخذ منه مفتاح الكعبة، ففتحت له فدخلها
+
+> When the Messenger of Allah ﷺ had settled in Makkah and the people were calm, he went out to the House and went round it seven times on his camel, touching the Corner with a crooked stick in his hand. When he had finished going round, he called ʿUthman ibn Talha and took the key of the Kaʿbah from him. It was opened for him, and he went in.
+
+*Note:* Ibn Ishaq, from Safiyya bint Shayba.
+
+## fa-adam · vol. 4, p. 344 · reported
+
+يا معشر قريش إن الله قد أذهب عنكم نخوة الجاهلية وتعظمها بالآباء، الناس من آدم وآدم من تراب "
+
+> “People of Quraysh, Allah has taken away from you the pride of the time before Islam and its boasting about forefathers. People come from Adam, and Adam is from dust.”
+
+*Note:* Ibn Ishaq gives this speech from “some of the people of knowledge”, without naming them, so it is shown as a report. He then recited al-Hujurat 13, which the game plays from the reciter.
+
+## fa-tulaqa · vol. 4, p. 344 · reported
+
+يا معشر قريش ما ترون أني فاعل فيكم؟ " قالوا خيرا أخ كريم وابن أخ كريم، قال: " اذهبوا فأنتم الطلقاء "
+
+> “People of Quraysh, what do you think I will do with you?” They said: “Good. A noble brother, and the son of a noble brother.” He said: “Go, you are free.”
+
+*Note:* From the same report of Ibn Ishaq, from unnamed people of knowledge.
+
+## fa-key · vol. 4, p. 344 · reported
+
+فقام إليه علي بن أبي طالب ومفتاح الكعبة في يده، فقال: يا رسول الله اجمع لنا الحجابة مع السقاية صلى الله عليك؟ فقال رسول الله صلى الله عليه وسلم " أين عثمان بن طلحة؟ " فدعي له، فقال " هاك مفتاحك يا عثمان اليوم يوم بر ووفاء "
+
+> ʿAli ibn Abi Talib came to him with the key of the Kaʿbah in his hand and said: “O Messenger of Allah, give us the keeping of the House together with the watering of the pilgrims, Allah bless you.” The Messenger of Allah ﷺ said: “Where is ʿUthman ibn Talha?” He was called, and he said: “Here is your key, ʿUthman. Today is a day of goodness and faithfulness.”
+
+*Note:* From the same report of Ibn Ishaq.
+
+## fw-once · vol. 5, p. 126 · established
+
+لم يحج من المدينة إلا حجة واحدة وأنه اعتمر قبلها ثلاث عمر
+
+> … that he, peace be upon him, made Hajj only once from Madinah, and that before it he made three ʿumras.
+
+*Note:* Ibn Kathir’s chapter heading. It is the Farewell Pilgrimage.
+
+## fw-perfect · vol. 5, p. 125 · established
+
+فلما بين لهم شريعة الحج، ووضحه وشرحه أنزل الله عز وجل عليه وهو واقف بعرفة
+
+> When he had shown them the law of the Hajj, made it clear and explained it, Allah, Mighty and Majestic, sent down to him while he was standing at ʿArafa: [al-Maʾida 3].
+
+*Note:* Ibn Kathir’s own words. The verse is recited by the reciter in the game.
+
+## fw-umar · vol. 5, p. 195 · established
+
+يا أمير المؤمنين إنكم تقرأون آية في كتابكم لو علينا معشر اليهود نزلت لاتخذنا ذلك اليوم عيدا. قال وأي آية هي؟ قال: قوله تعالى: * (اليوم أكملت لكم دينكم وأتممت عليكم نعمتي ورضيت لكم الإسلام دينا) * [المائدة: 3] فقال عمر: والله إني لأعلم اليوم الذي نزلت على رسول الله صلى الله عليه وسلم، والساعة التي نزلت فيها على رسول الله صلى الله عليه وسلم عشية عرفة في يوم جمعة .
+
+> [A man of the Jews said to ʿUmar:] “Commander of the Believers, you recite a verse in your Book which, if it had come down to us Jews, we would have taken that day as a festival.” He said: “Which verse?” He said: “This day I have perfected your religion for you, completed My favour upon you, and chosen Islam as your religion.” ʿUmar said: “By Allah, I know the day it was sent down to the Messenger of Allah ﷺ, and the hour it was sent down: the evening of ʿArafa, on a Friday.”
+
+*Note:* Sahih al-Bukhari and Sahih Muslim. The words of the verse are given in meaning.
+
+## fw-arafah · vol. 5, p. 166 · established
+
+حتى أتى عرفة فوجد القبة قد ضربت له بنمرة، فنزل بها حتى إذا زاغت الشمس أمر بالقصواء فرحلت له [فركب] فأتى بطن الوادي، فخطب الناس.
+
+> … until he came to ʿArafa and found that a tent had been put up for him at Namira, and he stayed in it. When the sun had passed its height, he asked for al-Qaswaʾ, and she was saddled for him [and he rode]. He came to the bottom of the valley and spoke to the people.
+
+*Note:* From the hadith of Jabir, in Sahih Muslim.
+
+## fw-blood · vol. 5, p. 166 · established
+
+إن دماءكم وأموالكم حرام عليكم كحرمة يومكم هذا في شهركم هذا في بلدكم هذا، ألا كل شئ من أمر الجاهلية تحت قدمي موضوع
+
+> “Your blood and your property are sacred to you, as sacred as this day of yours, in this month of yours, in this land of yours. Every matter of the time before Islam is put away under my feet.”
+
+*Note:* From the sermon, in the hadith of Jabir. Each part of the sermon is shown as the book gives it, and parts are never joined into one quotation.
+
+## fw-women · vol. 5, p. 166 · established
+
+واتقوا الله في النساء فإنكم أخذتموهن بأمانة الله
+
+> “And fear Allah concerning women, for you have taken them as a trust from Allah.”
+
+*Note:* From the sermon, in the hadith of Jabir.
+
+## fw-book · vol. 5, p. 166 · established
+
+وقد تركت فيكم ما لم تضلوا بعده إن اعتصمتم به: كتاب الله وأنتم تسألون عني فما أنتم قائلون؟ قالوا: نشهد أنك قد بلغت ونصحت وأديت. فقال بأصبعه السبابة يرفعها إلى السماء وينكتها إلى الناس، اللهم اشهد اللهم اشهد ثلاث مرات.
+
+> “I have left among you something after which you will not go astray if you hold fast to it: the Book of Allah. And you will be asked about me, so what will you say?” They said: “We bear witness that you have conveyed the message, given sincere counsel and done your duty.” He raised his forefinger to the sky and pointed it at the people: “O Allah, bear witness. O Allah, bear witness”, three times.
+
+*Note:* From the sermon, in the hadith of Jabir.
+
+## fw-monday · vol. 5, p. 275 · established
+
+لا خلاف أنه عليه السلام توفي يوم الاثنين.
+
+> There is no disagreement that he, peace be upon him, passed away on a Monday.
+
+*Note:* Ibn Kathir’s own words. Told gently: nothing of it is shown.
+
+## fw-look · vol. 5, p. 275 · established
+
+آخر نظرة نظرتها إلى رسول الله يوم الاثنين كشف الستارة والناس خلف أبي بكر فنظرت إلى وجهه كأنه ورقة مصحف، فأراد الناس أن ينحرفوا فأشار إليهم أن امكثوا وألقى السجف، وتوفي من آخر ذلك اليوم.
+
+> [Anas said:] The last look I had at the Messenger of Allah ﷺ was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the mushaf. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day.
+
+*Note:* Ibn Kathir notes that this hadith is in the Sahih.
+
+## fw-forenoon · vol. 5, p. 275 · reported
+
+توفي رسول الله صلى الله عليه وسلم يوم الاثنين قبل أن ينتصف النهار.
+
+> [al-Awzaʿi said:] The Messenger of Allah ﷺ passed away on the Monday, before the middle of the day.
+
+*Note:* Another view on the hour; Ibn Kathir says the hadith in the Sahih points to after midday.
+
+## fw-siddiq · vol. 4, p. 35 · established
+
+وقد خطب الصديق رضي الله عنه في أول مقام قامه بعد وفاة رسول الله صلى الله عليه وسلم فقال: أيها الناس، من كان يعبد محمدا فإن محمدا قد مات، ومن كان يعبد الله فإن الله حي لا يموت.
+
+> Al-Siddiq gave a speech in the first place he stood after the passing of the Messenger of Allah ﷺ, and said: “O people, whoever worshipped Muhammad, Muhammad has died. And whoever worships Allah, Allah is Ever-Living and does not die.”
+
+*Note:* He then recited Al ʿImran 144, which the game plays from the reciter.

@@ -2061,6 +2061,8 @@ const levels = [
           const er = document.createElement('div'); box.append(h, p, er); showEarned(er, e);
           $('sq-hub').prepend(box);
           if (champ) sqBadge($('sq-hub'), 'champion', sqSfx);
+          // Master of the Seerah: every one of the fourteen episodes finished
+          if (SQ_EPISODES.length >= 14 && SQ_EPISODES.every((x) => sq[x.n]?.done) && sqAward('master')) setTimeout(() => sqBadge($('sq-hub'), 'master', sqSfx), champ ? 4500 : 0);
           await sqSave();
           logGame({ token: me.token, game: { game: 'The Seerah Quest', lesson: `Episode ${n}: ${ep.title}`, rounds: quiz?.of ?? '', first: quiz?.right ?? '', accuracy: acc, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },

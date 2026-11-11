@@ -489,8 +489,8 @@ checked the pending entries, record it with `node scripts/deen/check.mjs --appro
 
 ## The Seerah Quest (Levels 3 and 4)
 
-*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to the first years in Madinah, played like a
-Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has eleven connected episodes, from the days of ʿAbd al-Muttalib to the first community in Madinah:
+*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to the end of his life ﷺ, played like a
+Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It has fourteen connected episodes, from the well of Zamzam to the Farewell Pilgrimage:
 
 1. **The Secret of Zamzam**: ʿAbd al-Muttalib's dream, the search by the House, the digging, the dispute with
    Quraysh, the journey north to the judge and the water that came out under his camel.
@@ -544,7 +544,21 @@ Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now 
     nothing in it can be built on or broken), the brotherhood of the Muhajirun and the Ansar, "Show me the market", the
     first adhan and Bilal, and Build Your Community on the build plot.
 
-Episodes 12 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
+12. **Badr, Uhud and the Trench** (opens after Episode 11): three events studied from the book, with no fighting shown or
+    played and no battle scored: the night of prayer before Badr, the 313, the captives who could pay their ransom by
+    teaching children to write (and spelling كتب), Jabal Uhud (a model) and the archers' command, "Hold your post" (a game
+    about keeping to what you were asked), the trench dug together in the cold, a model earth bank, and Surah al-Ahzab 9
+    from the reciter.
+13. **The Treaty and the Return to Makkah** (opens after Episode 12): the treaty of al-Hudaybiyya and its terms rebuilt in
+    order, the believers' distress, Surah al-Fath from the reciter, Keeping an Agreement (scenarios from today), the march
+    of ten thousand in Ramadan, safety for whoever shut his door, a quiet morning at the House with nobody shown, and the
+    speech at the door and the key returned to ʿUthman ibn Talha, shown as reports because Ibn Ishaq does not name his source.
+14. **The Final Years and the Legacy** (opens after Episode 13): the one Hajj from Madinah, the verse sent down at ʿArafa
+    (al-Maʾida 3, from the reciter), parts of the Farewell Sermon from the hadith of Jabir (never joined into one
+    quotation), A Lasting Legacy (scenarios from today), his passing ﷺ told gently in words only, Abu Bakr's words and Al
+    ʿImran 144, and the Grand Seerah Hall with a challenge across all fourteen episodes.
+
+All fourteen episodes of the design archive are now built.
 
 ### Roblox-style play (from Episode 3)
 
@@ -565,7 +579,7 @@ Episodes 12 to 14 (the titles from the design archive) show on the hub as locked
 - **New badges:** *Guardian of Trust* (every Trust Challenge answered the trustworthy way first time), *Treasure
   Discoverer* (open a chest), *Puzzle Master* (a puzzle room with no wrong plate) *Master Builder* (twenty pieces),
   *Mountain Climber* (the mountain path in Episode 5) and *Master Navigator* (the sea map in Episode 8 with no reef touched).
-  *Seerah Champion* still counts Episodes 1 and 2.
+  *Seerah Champion* still counts Episodes 1 and 2, and *Master of the Seerah* is given when all fourteen episodes are finished.
 
 ### How it plays
 

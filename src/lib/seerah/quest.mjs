@@ -552,7 +552,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
       });
     },
     // a mountain with an empty cave (an educational reconstruction); it stays for the rest of the episode
-    async mountain(s) { run._mt = props.mountain(s.x, s.z, { facing: s.facing ?? 0, height: s.height ?? 58, ...(s.sign ? { sign: s.sign } : {}) }); await wait(50); },
+    async mountain(s) { run._mt = props.mountain(s.x, s.z, { facing: s.facing ?? 0, height: s.height ?? 58, ...(s.sign ? { sign: s.sign } : {}), cave: s.cave !== false }); await wait(50); },
     // date palms for an oasis, and a simple model of an early mosque courtyard (both stay for the episode)
     async palms(s) { props.palms(s.x, s.z, s.n ?? 40, s.r ?? 60, s.seed ?? 5); await wait(30); },
     async courtyard(s) { run._court = props.courtyard(s.x, s.z); await wait(30); },
@@ -741,6 +741,29 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
         });
         p.append(row, box);
       });
+    },
+    // hold your post: stand on the marked spot until the count runs out; gold lights appear around as a temptation,
+    // and leaving the spot starts the count again (a game about keeping to what you were asked, never a battle)
+    async hold(s) {
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text, extra: TEXT.hold });
+      world.place(s.x, s.z + 3, s.x, s.z);
+      const post = world.addHotspot({ id: 'post', x: s.x, z: s.z, label: 'Your post', radius: 0.01, color: 0x9fe6ff });
+      const need = TEST ? 1 : s.seconds ?? 20; let held = 0, resets = 0, spawnT = 0, n = 0;
+      const prog = () => setObjective(s.objective, `Hold: ${Math.max(0, Math.ceil(need - held))} s`, Math.min(1, held / need));
+      prog();
+      if (TEST) root.dataset.hold = JSON.stringify([s.x, s.z]);
+      await new Promise((resolve) => {
+        const u = world.every((dt) => {
+          const me = world.player(), on = Math.hypot(me.x - s.x, me.z - s.z) < 2.2;
+          if (on) held += dt; else if (held > 0) { held = 0; resets++; play('wrong'); say(TEXT.holdReset, 2200); }
+          spawnT += dt; if (spawnT > 2.5 && n < 12) { spawnT = 0; n++; const a = Math.random() * Math.PI * 2, r = 6 + Math.random() * 5, x = s.x + Math.cos(a) * r, z = s.z + Math.sin(a) * r; world.addLights([[x, world.heightAt(x, z) + 1, z]], 'tempt'); }
+          prog();
+          if (held >= need) { u(); resolve(); }
+        });
+        void post;
+      });
+      world.removeHotspot('post'); setObjective(''); play('lantern');
+      await card({ kicker: 'Well done', title: resets ? 'You held your post' : 'You never left your post', text: resets ? `You held your post in the end, after ${resets} restart${resets > 1 ? 's' : ''}.` : 'Not one step away, even with the gold lights so close.' });
     },
     // lantern records: each person from the book is a lantern in the valley (never a figure); walking up to one
     // lights it and opens the passage about them
@@ -954,7 +977,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
     // carry blocks from the pile to the wooden learning model; each block raises it by one course
     async carry(s) {
       await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text, extra: TEXT.carry });
-      const m = props.model(s.x, s.z, { courses: s.n });
+      const m = props.model(s.x, s.z, { courses: s.n, ...(s.sign ? { text: s.sign } : {}) });
       world.place(m.pileAt.x + 1, m.pileAt.z + 5, m.pileAt.x, m.pileAt.z);
       let holding = false;
       const prog = () => setObjective(holding ? s.objective2 ?? 'Carry the block to the model.' : s.objective, `Courses ${m.built}/${s.n}`, m.built / s.n);

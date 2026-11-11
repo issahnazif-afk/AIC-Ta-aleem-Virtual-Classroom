@@ -27,7 +27,7 @@ export const TEXT = {
   helpers: 'Stepping stones have appeared in the gaps to help you.',
   lanternTitle: 'You lit the lantern',
   lanternText: 'Well done. The lantern at the top is shining, and the whole climb is behind you.',
-  hubLead: 'Explore Makkah from the days of ʿAbd al-Muttalib to the years when Quraysh called the Prophet ﷺ al-Amin. Everything you read comes from one book: al-Bidaya wa\'l-Nihaya by Imam Ibn Kathir. Each event shows its volume and page, and you can open the Arabic. Where the book says a report is uncertain, the game tells you so.',
+  hubLead: 'Journey through the whole Seerah, from the well of Zamzam to the Farewell Pilgrimage, in fourteen episodes. Everything you read comes from one book: al-Bidaya wa\'l-Nihaya by Imam Ibn Kathir. Each event shows its volume and page, and you can open the Arabic. Where the book says a report is uncertain, the game tells you so.',
   hubRules: 'The Prophet ﷺ, the Companions and the people of the time are never shown. People appear only as lanterns. Moments that were from Allah alone are scenes to watch, not to play. The only figure in the world is your own explorer. Only practice pots and crates can be smashed, and nothing is ever built, broken or climbed at the House.',
   smash: 'Press F or tap Smash next to a practice pot or crate. Pots take two hits and crates take three.',
   yardNote: 'Only the practice pots and crates in the yard can be smashed. They give you bricks and wood for your build plot.',
@@ -42,6 +42,8 @@ export const TEXT = {
   lanterns: 'Each lantern holds the record of a person from the book. Walk up to a lantern to read it.',
   modern: 'A practice scenario from today. It is not from the Seerah.',
   ladder: 'Push towards a ladder to climb it. Let go to hang on, and jump to let go.',
+  hold: 'Stand inside the ring of light until the count runs out. Gold lights will appear around you. If you step out, the count starts again.',
+  holdReset: 'You left your post, so the count starts again.',
   solo: 'You explore on your own: there are no other players in this world.',
   later: 'Coming after source review, in sha Allah.',
   gentleLabel: 'Gentle jumps: short gaps and a flag on every roof.',
@@ -95,7 +97,7 @@ export const BADGES = [
   { id: 'builder', title: 'Master Builder', img: 'badge_master_builder.svg', how: 'Place twenty pieces on your build plot.' },
   { id: 'climber', title: 'Mountain Climber', img: 'badge_mountain_climber.svg', how: 'Reach the lantern on the mountain path in Episode 5.' },
   { id: 'navigator', title: 'Master Navigator', img: 'badge_master_navigator.svg', how: 'Sail across the sea map in Episode 8 without touching a reef.' },
-  { id: 'master', title: 'Master of the Seerah', img: 'badge_master_of_seerah.svg', how: 'Opens when all fourteen episodes are ready and finished.', later: true },
+  { id: 'master', title: 'Master of the Seerah', img: 'badge_master_of_seerah.svg', how: 'Finish all fourteen episodes of the Seerah Quest.' },
 ];
 export const badgeUrl = (b) => u(`seerah/badges/${b.img}`);
 export const iconUrl = (name) => u(`seerah/icons/icon_${name}.svg`);
