@@ -79,6 +79,39 @@ Classification: **established** (may become a mission) · **reported** (labelled
 | k-nights | 4 | 2/370 | established | pending |
 | k-first | 4 | 2/370 | reported | pending |
 | k-amin | 4 | 2/370–371 | established | pending |
+| r-age | 5 | 3/5 | established | pending |
+| r-43 | 5 | 3/5 | reported | pending |
+| r-place | 5 | 3/9 | established | pending |
+| r-jiwar | 5 | 3/18 | established | pending |
+| r-dreams | 5 | 3/5 | established | pending |
+| r-hira | 5 | 3/5 | established | pending |
+| r-iqra | 5 | 3/5 | established | pending |
+| r-qari | 5 | 3/11 | established | pending |
+| r-return | 5 | 3/5 | established | pending |
+| r-kalla | 5 | 3/5–6 | established | pending |
+| r-waraqa | 5 | 3/6 | established | pending |
+| r-pause | 5 | 3/6 | established | pending |
+| r-muddathir | 5 | 3/6 | established | pending |
+| r-monday | 5 | 3/10 | established | pending |
+| r-rabi | 5 | 3/11 | reported | pending |
+| r-ramadan | 5 | 3/11 | established | pending |
+| r-17 | 5 | 3/11 | reported | pending |
+| f-secret | 6 | 3/33 | established | pending |
+| f-khadija | 6 | 3/33 | established | pending |
+| f-ali | 6 | 3/34 | established | pending |
+| f-zayd | 6 | 3/34 | established | pending |
+| f-afif | 6 | 3/35 | established | pending |
+| f-first4 | 6 | 3/25 | established | pending |
+| f-others | 6 | 3/36 | reported | pending |
+| f-kalbi | 6 | 3/35 | reported | pending |
+| f-abubakr | 6 | 3/36–37 | established | pending |
+| f-trader | 6 | 3/39 | established | pending |
+| f-five | 6 | 3/39 | reported | pending |
+| f-eight | 6 | 3/39 | established | pending |
+| f-spread | 6 | 3/50 | established | pending |
+| f-shiab | 6 | 3/50 | established | pending |
+| f-three | 6 | 3/50 | established | pending |
+| f-safa | 6 | 3/51 | established | pending |
 
 ## z-title · vol. 2, p. 303 · established
 
@@ -611,3 +644,251 @@ Classification: **established** (may become a mission) · **reported** (labelled
 فكان أول داخل دخل رسول الله صلى الله عليه وسلم. فلما رأوه قالوا: هذا الأمين رضينا، هذا محمد. فلما انتهى إليهم وأخبروه الخبر، قال رسول الله صلى الله عليه وسلم: " هلموا إلي ثوبا " فأتي به، وأخذ الركن فوضعه فيه بيده، ثم قال: " لتأخذ كل قبيلة بناحية من الثوب . ثم ارفعوه جميعا " ففعلوا حتى إذا بلغوا به موضعه وضعه هو بيده صلى الله عليه وسلم. ثم بنى عليه. وكانت قريش تسمي رسول الله صلى الله عليه وسلم الأمين.
 
 > The first one to come in was the Messenger of Allah ﷺ. When they saw him, they said: “This is al-Amin, the trustworthy one. We are content. This is Muhammad.” When he reached them and they told him about it, the Messenger of Allah ﷺ said: “Bring me a cloth.” It was brought, and he took the Corner [the Black Stone] and placed it in it with his own hand. Then he said: “Let each clan take hold of a side of the cloth, then lift it all together.” They did so, until when they had brought it to its place, he set it there with his own hand ﷺ. Then the building went on over it. Quraysh used to call the Messenger of Allah ﷺ al-Amin.
+
+## r-age · vol. 3, p. 5 · established
+
+وذكر أول شئ أنزل عليه من القرآن العظيم كان ذلك وله صلى الله عليه وآله من العمر أربعون سنة.
+
+> … and the first thing of the Mighty Qurʾan to be sent down to him. That was when he ﷺ was forty years old.
+
+*Note:* The chapter heading and its first line.
+
+## r-43 · vol. 3, p. 5 · reported
+
+وحكى ابن جرير عن ابن عباس وسعيد بن المسيب: أنه كان عمره إذ ذاك ثلاثا وأربعين سنة.
+
+> Ibn Jarir reported from Ibn ʿAbbas and Saʿid ibn al-Musayyib that he was forty-three years old at that time.
+
+*Note:* Given by Ibn Kathir as another view (“hakā”, he reported).
+
+## r-place · vol. 3, p. 9 · established
+
+وهو جبل بأعلى مكة على ثلاثة أميال منها عن يسار المار إلى منى، له قلة مشرفة على الكعبة منحنية والغار في تلك الحنية
+
+> [Hiraʾ] is a mountain in upper Makkah, three miles from it, on the left of whoever goes to Mina. It has a peak that leans over, facing the Kaʿbah, and the cave is in that bend.
+
+*Note:* Ibn Kathir’s own description.
+
+## r-jiwar · vol. 3, p. 18 · established
+
+كان رسول الله صلى الله عليه وسلم يجاور في حراء في كل سنة شهرا بتحنث قال وكان ذلك مما يحبب به قريش في الجاهلية. والتحنث التبرز. فكان رسول الله صلى الله عليه وسلم يجاور ذلك الشهر من كل سنة، يطعم من جاءه من المساكين، فإذا قضى جواره من شهره ذلك، كان أول ما يبدأ به، إذا انصرف من جواره، الكعبة، قبل أن يدخل بيته، فيطوف بها سبعا أو ما شاء الله من ذلك، ثم يرجع إلى بيته
+
+> The Messenger of Allah ﷺ used to stay at Hiraʾ for one month every year, in devotion. That was something Quraysh held dear in the time before Islam. The Messenger of Allah ﷺ would stay that month every year, feeding the poor who came to him. When he had finished his month, the first thing he did when he left, before going into his house, was go to the Kaʿbah and go round it seven times, or as many as Allah willed. Then he would go back to his house.
+
+*Note:* From ʿUbayd ibn ʿUmayr, through Ibn Ishaq.
+
+## r-dreams · vol. 3, p. 5 · established
+
+أول ما بدئ به رسول الله صلى الله عليه وآله من الوحي الرؤيا الصالحة في النوم، وكان لا يرى رؤيا إلا جاءت مثل فلق الصبح
+
+> [ʿAʾisha said:] The first of the revelation that came to the Messenger of Allah ﷺ was true dreams in his sleep. He did not see a dream but it came true like the breaking of dawn.
+
+*Note:* From the hadith of ʿAʾisha in Sahih al-Bukhari.
+
+## r-hira · vol. 3, p. 5 · established
+
+ثم حبب إليه الخلاء فكان يخلو بغار حراء فيتحنث فيه - وهو التعبد - الليالي ذوات العدد قبل أن ينزع إلى أهله ويتزود لذلك، ثم يرجع إلى خديجة فيتزود لمثلها حتى جاءه الحق وهو في غار حراء.
+
+> Then being alone was made dear to him. He would go alone to the cave of Hiraʾ and worship there for a number of nights, before going back to his family, and he would take provisions for that. Then he would go back to Khadija and take provisions for the same again, until the truth came to him while he was in the cave of Hiraʾ.
+
+*Note:* Sahih al-Bukhari, continued.
+
+## r-iqra · vol. 3, p. 5 · established
+
+فجاءه الملك فقال: اقرأ. فقال: ما أنا بقارئ. قال: فأخذني فغطني حتى بلغ مني الجهد ثم أرسلني. فقال: اقرأ، فقلت: ما أنا بقارئ، فأخذني فغطني الثانية حتى بلغ مني الجهد ثم أرسلني. فقال: اقرأ، فقلت: ما أنا بقارئ فأخذني فغطني الثالثة حتى بلغ مني الجهد. ثم أرسلني فقال:
+
+> The angel came to him and said: “Read.” He said: “I am not one who reads.” He said: “Then he took hold of me and pressed me until I was exhausted, then let me go and said: ‘Read.’ I said: ‘I am not one who reads.’ He took hold of me and pressed me a second time until I was exhausted, then let me go and said: ‘Read.’ I said: ‘I am not one who reads.’ He took hold of me and pressed me a third time until I was exhausted. Then he let me go and said:”
+
+*Note:* Sahih al-Bukhari, continued. The verses that follow, the opening of Surah al-ʿAlaq, are recited by the reciter in the game, not narrated. Nothing of this is shown.
+
+## r-qari · vol. 3, p. 11 · established
+
+فالصحيح أن قوله " ما أنا بقارئ " نفي أي لست ممن يحسن القراءة.
+
+> The correct view is that his words “I am not one who reads” are a denial: that is, “I am not someone who knows how to read.”
+
+*Note:* Ibn Kathir’s explanation.
+
+## r-return · vol. 3, p. 5 · established
+
+فرجع بها رسول الله صلى الله عليه وآله يرجف فؤاده فدخل على خديجة بنت خويلد. فقال: زملوني زملوني، فزملوه حتى ذهب عنه الروع. فقال لخديجة وأخبرها الخبر - لقد خشيت على نفسي.
+
+> The Messenger of Allah ﷺ went back with them, his heart trembling, and went in to Khadija bint Khuwaylid. He said: “Cover me, cover me.” They covered him until the fear left him. He told Khadija what had happened and said to her: “I feared for myself.”
+
+*Note:* Sahih al-Bukhari, continued.
+
+## r-kalla · vol. 3, p. 5–6 · established
+
+فقالت خديجة: كلا والله لا يخزيك الله أبدا. إنك لتصل الرحم وتقري الضيف، وتحمل الكل، وتكسب المعدوم، وتعين على نوائب الحق
+
+> Khadija said: “No, by Allah, Allah will never disgrace you. You keep the ties of kinship, you honour the guest, you carry the burden of the weak, you give to those who have nothing, and you help in the hardships that come by right.”
+
+*Note:* Sahih al-Bukhari, continued.
+
+## r-waraqa · vol. 3, p. 6 · established
+
+فانطلقت به خديجة حتى أتت ورقة بن نوفل بن أسد بن عبد العزى ابن عم خديجة. وكان امرأ قد تنصر في الجاهلية وكان يكتب الكتاب العبراني فيكتب من الإنجيل بالعبرانية ما شاء الله أن يكتب. وكان شيخا كبيرا قد عمي. فقالت له خديجة: يا ابن عم! اسمع من ابن أخيك فقال له ورقة: يا ابن أخي ماذا ترى؟ فأخبره رسول الله صلى الله عليه وسلم خبر ما أري. فقال له ورقة: هذا الناموس الذي كان ينزل على موسى، يا ليتني فيها جذعا ، ليتني أكون حيا، إذ يخرجك قومك. فقال رسول الله صلى الله عليه وسلم: " أو مخرجي هم؟ " فقال: نعم. لم يأت رجل بمثل ما جئت به إلا عودي. وإن يدركني يومك أنصرك نصرا مؤزرا.
+
+> Then Khadija took him to Waraqa ibn Nawfal ibn Asad ibn ʿAbd al-ʿUzza, Khadija’s cousin. He had become a Christian in the time before Islam. He used to write in Hebrew, and wrote from the Injil in Hebrew as much as Allah willed. He was a very old man who had become blind. Khadija said to him: “Cousin, listen to your nephew.” Waraqa said: “Nephew, what do you see?” The Messenger of Allah ﷺ told him what he had seen. Waraqa said: “This is the Namus who came down to Musa. I wish I were young now. I wish I could be alive when your people drive you out.” The Messenger of Allah ﷺ said: “Will they drive me out?” He said: “Yes. No man has ever brought what you have brought without being treated as an enemy. If I live to see your day, I will support you with all my strength.”
+
+*Note:* Sahih al-Bukhari, continued. The Namus means the angel who brought revelation.
+
+## r-pause · vol. 3, p. 6 · established
+
+ثم لم ينشب ورقة أن توفي وفتر الوحي فترة.
+
+> Then before long Waraqa died, and the revelation paused for a while.
+
+*Note:* The lines after this, which al-Zuhri gives as “what reached us”, are not used.
+
+## r-muddathir · vol. 3, p. 6 · established
+
+بينا أنا أمشي إذ سمعت صوتا من السماء فرفعت بصري فإذا الملك الذي جاءني بحراء جالس على كرسي بين السماء والأرض. فرعبت منه. فرجعت فقلت: زملوني، زملوني فأنزل الله:
+
+> [He ﷺ said:] “While I was walking, I heard a voice from the sky. I raised my eyes, and there was the angel who had come to me at Hiraʾ, sitting on a chair between the sky and the earth. I was afraid of him. I went back and said: ‘Cover me, cover me.’ Then Allah sent down:”
+
+*Note:* From Jabir ibn ʿAbdullah, in Sahih al-Bukhari. The verses that follow, the opening of Surah al-Muddaththir, are recited by the reciter in the game.
+
+## r-monday · vol. 3, p. 10 · established
+
+وهكذا قال عبيد بن عمير وأبو جعفر الباقر وغير واحد من العلماء: أنه عليه الصلاة والسلام أوحي إليه يوم الاثنين، وهذا ما لا خلاف فيه بينهم.
+
+> So said ʿUbayd ibn ʿUmayr, Abu Jaʿfar al-Baqir and more than one of the scholars: that revelation came to him on a Monday. There is no disagreement among them about this.
+
+## r-rabi · vol. 3, p. 11 · reported
+
+ثم قيل: كان ذلك في شهر ربيع الأول
+
+> Then it was said: that was in the month of Rabiʿ al-Awwal.
+
+*Note:* One of the views Ibn Kathir lists (“qila”, it was said).
+
+## r-ramadan · vol. 3, p. 11 · established
+
+والمشهور أنه بعث عليه الصلاة والسلام في شهر رمضان، كما نص على ذلك عبيد بن عمير، ومحمد بن إسحاق وغيرهما.
+
+> The well-known view is that he was sent as a prophet in the month of Ramadan, as ʿUbayd ibn ʿUmayr, Muhammad ibn Ishaq and others stated.
+
+## r-17 · vol. 3, p. 11 · reported
+
+وروى الواقدي بسنده عن أبي جعفر الباقر أنه قال: كان ابتداء الوحي إلى رسول الله صلى الله عليه وسلم يوم الاثنين، لسبع عشرة ليلة خلت من رمضان وقيل في الرابع والعشرين منه.
+
+> Al-Waqidi narrated with his chain from Abu Jaʿfar al-Baqir: the revelation to the Messenger of Allah ﷺ began on a Monday, the seventeenth night of Ramadan. And it was said: on the twenty-fourth of it.
+
+*Note:* Two views on the night within Ramadan.
+
+## f-secret · vol. 3, p. 33 · established
+
+وجعل رسول الله صلى الله عليه وسلم يذكر جميع ما أنعم الله به عليه وعلى العباد من النبوة سرا إلى من يطمئن إليه من أهله.
+
+> The Messenger of Allah ﷺ began to speak of all that Allah had blessed him and His servants with, of prophethood, in secret, to those of his family he trusted.
+
+*Note:* Ibn Ishaq.
+
+## f-khadija · vol. 3, p. 33 · established
+
+وقال ابن إسحاق: وكانت خديجة أول من آمن بالله ورسوله، وصدق بما جاء به.
+
+> Ibn Ishaq said: Khadija was the first to believe in Allah and His Messenger, and to accept as true what he brought.
+
+## f-ali · vol. 3, p. 34 · established
+
+ثم إن علي بن أبي طالب - رضي الله عنه - جاء بعد ذلك بيوم وهما يصليان. فقال علي يا محمد ما هذا؟ قال دين الله الذي اصطفى لنفسه، وبعث به رسله، فأدعوك إلى الله وحده لا شريك له، وإلى عبادته. وأن تكفر باللات والعزى. فقال علي: هذا أمر لم أسمع به قبل اليوم، فلست بقاض أمرا حتى أحدث به أبا طالب. فكره رسول الله صلى الله عليه وسلم أن يفشي عليه سره قبل أن يستعلن أمره. فقال له: يا علي إذا لم تسلم فاكتم. فمكث علي تلك الليلة، ثم إن الله أوقع في قلب علي الإسلام، فأصبح غاديا إلى رسول الله صلى الله عليه وسلم حتى جاءه فقال ماذا عرضت علي يا محمد؟ فقال. له رسول الله صلى الله عليه وسلم: " تشهد أن لا إله إلا الله وحده لا شريك له وتكفر بالات والعزى، وتبرأ من الأنداد " ففعل علي وأسلم
+
+> Then ʿAli ibn Abi Talib came a day after that, while the two of them were praying. ʿAli said: “Muhammad, what is this?” He said: “The religion of Allah, which He chose for Himself and sent His messengers with. I call you to Allah alone, who has no partner, and to His worship, and to reject al-Lat and al-ʿUzza.” ʿAli said: “This is something I have never heard of before today. I will not decide anything until I have spoken to Abu Talib.” The Messenger of Allah ﷺ did not want his secret spread before his call was made public, so he said: “ʿAli, if you do not accept Islam, then keep it to yourself.” ʿAli stayed that night, and then Allah put Islam into ʿAli’s heart. In the morning he came early to the Messenger of Allah ﷺ and said: “What did you offer me, Muhammad?” The Messenger of Allah ﷺ said: “That you bear witness that there is no god but Allah alone, who has no partner, reject al-Lat and al-ʿUzza, and free yourself of false gods.” ʿAli did so, and accepted Islam.
+
+*Note:* Ibn Ishaq. Al-Lat and al-ʿUzza were idols of Makkah; the game names them only as the text does and never shows them.
+
+## f-zayd · vol. 3, p. 34 · established
+
+وأسلم ابن حارثة - يعني زيدا - فمكثا قريبا من شهر يختلف علي إلى رسول الله صلى الله عليه وسلم
+
+> Ibn Haritha, meaning Zayd, accepted Islam too. The two of them stayed like that for nearly a month, with ʿAli coming and going to the Messenger of Allah ﷺ.
+
+## f-afif · vol. 3, p. 35 · established
+
+كنت امرءا تاجرا فقدمت منى أيام الحج، وكان العباس بن عبد المطلب امرءا تاجرا، فأتيته أبتاع منه وأبيعه، قال فبينا نحن [عنده] إذ خرج رجل من خباء فقام يصلي تجاه الكعبة، ثم خرجت امرأة فقامت [معه] تصلي، وخرج غلام فقام يصلي معه. فقلت: يا عباس ما هذا الدين؟ إن هذا الدين ما ندري ما هو فقال: هذا محمد بن عبد الله يزعم أن الله أرسله [به] ، وأن كنوز كسرى وقيصر ستفتح عليه، وهذه امرأته خديجة بنت خويلد آمنت به، وهذا الغلام ابن عمه علي بن أبي طالب آمن به. قال عفيف: فليتني كنت آمنت يومئذ فكنت أكون ثانيا .
+
+> [ʿAfif said:] I was a merchant, and I came to Mina in the days of the Hajj. Al-ʿAbbas ibn ʿAbd al-Muttalib was a merchant too, and I went to him to buy and sell. While we were with him, a man came out of a tent and stood praying facing the Kaʿbah. Then a woman came out and stood praying with him, and a boy came out and stood praying with him. I said: “ʿAbbas, what is this religion? We do not know what it is.” He said: “This is Muhammad ibn ʿAbdullah. He says that Allah has sent him with it, and that the treasures of Kisra and Qaysar will be opened to him. This is his wife Khadija bint Khuwaylid, who believes in him, and this boy is his cousin ʿAli ibn Abi Talib, who believes in him.” ʿAfif said: “If only I had believed that day, so that I could have been the second.”
+
+*Note:* Ibn Ishaq, through Yunus ibn Bukayr. Nothing of this scene is shown in the game.
+
+## f-first4 · vol. 3, p. 25 · established
+
+فكان أول من بادر إلى التصديق من الرجال الأحرار أبو بكر الصديق، ومن الغلمان علي بن أبي طالب، ومن النساء خديجة بنت خويلد زوجته عليه السلام، ومن الموالي مولاه زيد بن حارثة الكلبي رضي الله عنهم وأرضاهم .
+
+> The first to hurry to believe were: of the free men, Abu Bakr al-Siddiq; of the boys, ʿAli ibn Abi Talib; of the women, Khadija bint Khuwaylid, his wife, peace be upon him; and of the freed slaves, his freed slave Zayd ibn Haritha al-Kalbi, may Allah be pleased with them all.
+
+*Note:* Ibn Kathir’s own words.
+
+## f-others · vol. 3, p. 36 · reported
+
+وقال آخرون: أول من أسلم من هذه الأمة أبو بكر الصديق
+
+> Others said: the first of this Ummah to accept Islam was Abu Bakr al-Siddiq.
+
+*Note:* One of the views Ibn Kathir lists before bringing them together.
+
+## f-kalbi · vol. 3, p. 35 · reported
+
+قال الكلبي: أسلم وهو ابن تسع سنين.
+
+> Al-Kalbi said: he [ʿAli] accepted Islam when he was nine years old.
+
+*Note:* Other reports say ten; the book gives more than one age.
+
+## f-abubakr · vol. 3, p. 36–37 · established
+
+وأول من أسلم من الرجال الأحرار أبو بكر الصديق، وإسلامه كان أنفع من إسلام من تقدم ذكرهم إذ كان صدرا معظما، ورئيسا في قريش مكرما، وصاحب مال، وداعية إلى الإسلام. وكان محببا متألفا يبذل المال في طاعة الله ورسوله
+
+> The first of the free men to accept Islam was Abu Bakr al-Siddiq, and his Islam brought more benefit than that of those mentioned before, because he was a man of high standing, an honoured chief in Quraysh, a man of wealth, and one who called others to Islam. He was loved and brought people together, and spent his wealth in obedience to Allah and His Messenger.
+
+*Note:* Ibn Kathir’s own words.
+
+## f-trader · vol. 3, p. 39 · established
+
+وكان رجلا تاجرا ذا خلق ومعروف، وكان رجال قومه يأتونه ويألفونه لغير واحد من الأمر، لعلمه وتجارته وحسن مجالسته.
+
+> [Abu Bakr] was a merchant of good character and kindness. The men of his people would come to him and enjoy his company for more than one reason: his knowledge, his trade and his good company.
+
+*Note:* Ibn Ishaq.
+
+## f-five · vol. 3, p. 39 · reported
+
+فجعل يدعو إلى الإسلام من وثق به من قومه ممن يغشاه ويجلس إليه فأسلم على يديه - فيما بلغني - الزبير بن العوام، وعثمان بن عفان، وطلحة بن عبيد الله، وسعد بن أبي وقاص وعبد الرحمن بن عوف رضي الله عنهم
+
+> He began to call to Islam those of his people he trusted, who came and sat with him. At his hands, as I have been told, these accepted Islam: al-Zubayr ibn al-ʿAwwam, ʿUthman ibn ʿAffan, Talha ibn ʿUbaydullah, Saʿd ibn Abi Waqqas and ʿAbd al-Rahman ibn ʿAwf, may Allah be pleased with them.
+
+*Note:* Ibn Ishaq gives this with “fima balaghani”, “as I have been told”, so it is shown as a report.
+
+## f-eight · vol. 3, p. 39 · established
+
+فانطلقوا إلى رسول الله صلى الله عليه وسلم ومعهم أبو بكر. فعرض عليهم الإسلام وقرأ عليهم القرآن وأنبأهم بحق الإسلام فآمنوا ، وكان هؤلاء النفر الثمانية الذين سبقوا [الناس] في الإسلام صدقوا رسول الله صلى الله عليه وسلم وآمنوا بما جاء من عند الله.
+
+> They went to the Messenger of Allah ﷺ, with Abu Bakr. He offered them Islam, recited the Qurʾan to them and told them the truth of Islam, and they believed. These were the eight who came before [the people] to Islam. They believed the Messenger of Allah ﷺ and believed in what came from Allah.
+
+## f-spread · vol. 3, p. 50 · established
+
+ثم دخل الناس [في الإسلام] أرسالا من الرجال والنساء حتى فشا أمر الإسلام بمكة وتحدث به.
+
+> Then people entered [Islam] in group after group, men and women, until the news of Islam spread in Makkah and people talked about it.
+
+## f-shiab · vol. 3, p. 50 · established
+
+قال وكان أصحاب رسول الله صلى الله عليه وسلم إذا صلوا ذهبوا في الشعاب واستخفوا بصلاتهم من قومهم.
+
+> When the Companions of the Messenger of Allah ﷺ prayed, they would go out into the mountain passes and hide their prayer from their people.
+
+## f-three · vol. 3, p. 50 · established
+
+قال ابن إسحاق: ثم أمر الله رسوله صلى الله عليه وسلم بعد ثلاث سنين من البعثة بأن يصدع بما أمر، وأن يصبر على أذى المشركين.
+
+> Ibn Ishaq said: Then, three years after he was sent, Allah commanded His Messenger ﷺ to proclaim openly what he had been commanded, and to be patient with the harm of the idol-worshippers.
+
+## f-safa · vol. 3, p. 51 · established
+
+لما أنزل الله: (وأنذر عشيرتك الأقربين) أتى النبي صلى الله عليه وسلم الصفا فصعد عليه ثم نادى " يا صباحاه " فاجتمع الناس إليه بين رجل يجئ إليه وبين رجل يبعث رسوله، فقال رسول الله صلى الله عليه وسلم: " يا بني عبد المطلب يا بني فهر، يا بني كعب أرأيتم لو أخبرتكم أن خيلا بسفح هذا الجبل تريد أن تغير عليكم صدقتموني؟ " قالوا نعم! قال: " فإني نذير لكم بين يدي عذاب شديد "
+
+> [Ibn ʿAbbas said:] When Allah sent down “And warn your nearest relatives” [al-Shuʿaraʾ 214], the Prophet ﷺ came to al-Safa, climbed it, and called out: “Ya sabahah!”, the call of alarm. The people gathered to him, some coming themselves and some sending someone. The Messenger of Allah ﷺ said: “Banu ʿAbd al-Muttalib, Banu Fihr, Banu Kaʿb, if I told you that horsemen at the foot of this mountain wanted to attack you, would you believe me?” They said: “Yes.” He said: “Then I am a warner to you, before a severe punishment.”
+
+*Note:* From Imam Ahmad; also in al-Bukhari and Muslim. The words of the verse are given in meaning.

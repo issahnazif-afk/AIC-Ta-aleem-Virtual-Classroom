@@ -1,0 +1,16 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mcbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3A2A4A"/><stop offset="100%" stop-color="#1A1226"/></linearGradient>
+    <linearGradient id="mcring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F2C894"/><stop offset="50%" stop-color="#B07A50"/><stop offset="100%" stop-color="#F2C894"/></linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#mcbg)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="url(#mcring)" stroke-width="4"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#B07A50" stroke-width="1" stroke-dasharray="3,3"/>
+  <circle cx="84" cy="34" r="3" fill="#FFF3C4"/><circle cx="36" cy="30" r="1.6" fill="#FFF3C4"/>
+  <!-- a rocky peak with a winding path of lights to a lantern near the top -->
+  <path d="M26 82 L50 44 L58 52 L66 36 L94 82 Z" fill="#8C735C" stroke="#F2C894" stroke-width="1.2"/>
+  <path d="M40 80 Q56 74 50 66 Q44 58 58 56 Q68 54 62 46" fill="none" stroke="#FFD36B" stroke-width="1.6" stroke-dasharray="2,3"/>
+  <circle cx="62" cy="44" r="4" fill="#FFD36B"/><circle cx="62" cy="44" r="8" fill="#FFD36B" opacity=".25"/>
+  <path d="M 28 90 Q 60 100 92 90 L 92 98 Q 60 110 28 98 Z" fill="#B07A50"/>
+  <text x="60" y="97" text-anchor="middle" font-family="Georgia, serif" font-size="6.6" fill="#1A1226" font-weight="bold" letter-spacing="0.5">MOUNTAIN CLIMBER</text>
+</svg>

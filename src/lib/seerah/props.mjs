@@ -309,5 +309,52 @@ export function makeProps(world) {
     return { pileAt, at: { x, z }, addCourse, roof, get built() { return built; }, courses, remove() { scene.remove(g); removeSolid(solid); } };
   }
 
-  return { label, yard, hitNearest, breakIt, vault, plot, model, PIECES, shatter };
+  // ── a mountain with a leaning peak and an empty cave in the bend (Jabal al-Nour, as the book describes Hiraʾ) ──
+  // a respectful, empty reconstruction: the cave can be seen but not entered, and nobody is ever shown in or near it
+  function mountain(x, z, { height = 58, radius = 26, facing = 0, sign = 'Jabal al-Nour (a model)' } = {}) {
+    clearAround(x, z, radius + 8);
+    const y = flatten(x, z), g = new THREE.Group(); g.position.set(x, y, z); g.rotation.y = facing; scene.add(g);
+    const rock = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 1, flatShading: true, vertexColors: true });
+    const rock2 = new THREE.MeshStandardMaterial({ color: 0xa88566, roughness: 1, flatShading: true });
+    // the body: a faceted cone, its sides broken up into ridges and gullies, its peak leaning forward over the cave
+    const geo = new THREE.ConeGeometry(radius, height, 11, 8);
+    const pos = geo.attributes.position, cols = [];
+    const n3 = (a, b, c) => Math.sin(a * 1.7 + b * 2.3) * 0.5 + Math.sin(b * 3.1 - c * 1.3) * 0.3 + Math.sin(c * 2.7 + a * 0.9) * 0.2;
+    for (let i = 0; i < pos.count; i++) {
+      const vx = pos.getX(i), vy = pos.getY(i), vz = pos.getZ(i), t = (vy + height / 2) / height;   // 0 at the foot, 1 at the top
+      // the front foot, where the cave is, stays smooth so the opening sits on the slope
+      const front = vz > radius * 0.3 && t < 0.3 ? Math.max(0, 1 - Math.abs(vx) / (radius * 0.6)) : 0;
+      const bump = 1 + n3(vx * 0.3, vy * 0.2, vz * 0.3) * 0.32 * (1 - t * 0.6) * (1 - front);
+      const lean = t * t * radius * 0.42;                                                              // the peak bends towards the front (+z)
+      pos.setXYZ(i, vx * bump, vy + n3(vx, vz, vy) * 1.2 * (1 - t) * (1 - front), vz * bump + lean);
+      const shade = 0.82 + n3(vx * 2, vy, vz * 2) * 0.12 + t * 0.1;
+      cols.push(0.6 * shade, 0.45 * shade, 0.33 * shade);
+    }
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3)); geo.computeVertexNormals();
+    const body0 = new THREE.Mesh(geo, rock); body0.position.y = height / 2 - 1; body0.castShadow = Q.shadows; body0.receiveShadow = Q.shadows; g.add(body0);
+    // a few boulders round the foot
+    for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2 + 0.3, b = new THREE.Mesh(new THREE.DodecahedronGeometry(2 + (i % 3), 0), rock2); b.position.set(Math.cos(a) * radius * 0.95, 1, Math.sin(a) * radius * 0.95); b.rotation.set(i, i * 2, 0); if (Math.abs(Math.cos(a)) > 0.35 || Math.sin(a) < 0) g.add(b); }
+    // the cave: a dark opening in the front slope, with a rocky ledge in front of it
+    const cz = radius * (1 - 3.4 / height);   // the slope at the height of the cave
+    const ledge = new THREE.Mesh(new THREE.BoxGeometry(10, 1.2, 7), rock2); ledge.position.set(0, 0.6, cz + 3); g.add(ledge);
+    const frame = new THREE.Mesh(new THREE.TorusGeometry(1.7, 0.55, 6, 12, Math.PI), rock2); frame.position.set(0, 2.2, cz + 0.6); g.add(frame);
+    const mouthM = new THREE.MeshBasicMaterial({ color: 0x2a1d14 }), mouth = new THREE.Mesh(new THREE.BoxGeometry(3, 3.4, 3.2), mouthM);
+    mouth.position.set(0, 2.4, cz - 0.9); g.add(mouth);
+    const radius0 = radius; radius = cz / 0.92;   // the rest of the code places things relative to the cave front
+    void radius0;
+    const glowIn = glowSprite(0xffd9a0, 6); glowIn.position.set(0, 2.4, radius * 0.92 + 0.9); glowIn.material.opacity = 0.0; g.add(glowIn);
+    const tag = label(sign, { w: 5.2, font: 38 }); tag.position.set(0, 7.2, radius * 0.92 + 3); g.add(tag);
+    // solid: nobody walks into the mountain or the cave; the ledge in front can be stood on
+    const c = Math.cos(facing), s = Math.sin(facing);
+    const toW = (lx, lz) => [x + lx * c + lz * s, z - lx * s + lz * c];
+    const [bx, bz] = toW(0, 0), [lx, lz] = toW(0, radius * 0.92 + 2);
+    const body = addSolid(bx - radius * 0.85, bx + radius * 0.85, bz - radius * 0.85, bz + radius * 0.85, y - 1, y + height, { climb: false });
+    const shelf = addSolid(lx - 4.5, lx + 4.5, lz - 3, lz + 3, y - 1, y + 1.2);
+    let glowK = 0, glowTo = 0;
+    world.every((dt) => { glowK += (glowTo - glowK) * Math.min(1, dt * 0.8); glowIn.material.opacity = glowK; mouthM.color.setRGB(0.1 + glowK * 0.35, 0.07 + glowK * 0.22, 0.05 + glowK * 0.1); });
+    const [fx, fz] = toW(0, radius * 0.92 + 7);
+    return { front: { x: fx, z: fz }, cave: { x: lx, z: lz, y: y + 2.6 }, top: { x: bx, y: y + height, z: bz }, glow(v) { glowTo = v ? 0.85 : 0; }, remove() { scene.remove(g); removeSolid(body); removeSolid(shelf); } };
+  }
+
+  return { label, yard, hitNearest, breakIt, vault, plot, model, mountain, PIECES, shatter };
 }

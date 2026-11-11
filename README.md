@@ -476,8 +476,8 @@ checked the pending entries, record it with `node scripts/deen/check.mjs --appro
 
 ## The Seerah Quest (Levels 3 and 4)
 
-*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to his thirty-fifth year, played like a
-Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has four connected episodes, from the days of ʿAbd al-Muttalib to the rebuilding of the Kaʿbah:
+*From Darkness to Light*: a 3D adventure through Makkah from before the Prophet ﷺ was born to the first years of Islam, played like a
+Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now has six connected episodes, from the days of ʿAbd al-Muttalib to the first open call to Islam:
 
 1. **The Secret of Zamzam**: ʿAbd al-Muttalib's dream, the search by the House, the digging, the dispute with
    Quraysh, the journey north to the judge and the water that came out under his camel.
@@ -496,7 +496,19 @@ Roblox-style explorer game. It is under Play & Learn for Levels 3 and 4. It now 
    over the Stone, "This is al-Amin, we are content"), a wooden learning model the student raises by carrying blocks,
    and the Hall of Trust puzzle room.
 
-Episodes 5 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
+5. **The First Revelation** (opens after Episode 4): Jabal al-Nour as Ibn Kathir describes it (a leaning peak with the
+   cave in its bend, an empty model that cannot be entered), the yearly month at Hiraʾ, the hadith of ʿAʾisha from
+   al-Bukhari (true dreams, the cave, "Read"), the opening of Surah al-ʿAlaq and of Surah al-Muddaththir heard from the
+   reciter (and put in order by ear, from the reciter's clips), Khadija's words and Waraqa ibn Nawfal, an evidence check
+   on the date, and the Hall of the First Words. The revelation is told only in words: the cave stays empty, with no
+   light or effect for the moment, and nothing of it can be played.
+6. **The First Believers** (opens after Episode 5): the call in secret, five lanterns (Khadija, ʿAli, Zayd, Abu Bakr and
+   the five who followed him, shown as a report), matching who was first in each group as Ibn Kathir brings the views
+   together, ʿAfif's account, the lantern relay through Makkah, prayer hidden in the passes, the open call after three
+   years and the call from al-Safa, the Knowledge Under Pressure scenarios (from today, labelled), and the Hall of the
+   First Believers.
+
+Episodes 7 to 14 (the titles from the design archive) show on the hub as locked cards, "coming after source review".
 
 ### Roblox-style play (from Episode 3)
 
@@ -515,7 +527,8 @@ Episodes 5 to 14 (the titles from the design archive) show on the hub as locked 
 - **Lantern records, the family chart, matching, the evidence check and the learning model** (carry blocks from the
   pile and set them on the model to raise it course by course).
 - **New badges:** *Guardian of Trust* (every Trust Challenge answered the trustworthy way first time), *Treasure
-  Discoverer* (open a chest), *Puzzle Master* (a puzzle room with no wrong plate) and *Master Builder* (twenty pieces).
+  Discoverer* (open a chest), *Puzzle Master* (a puzzle room with no wrong plate) *Master Builder* (twenty pieces) and
+  *Mountain Climber* (the mountain path in Episode 5).
   *Seerah Champion* still counts Episodes 1 and 2.
 
 ### How it plays

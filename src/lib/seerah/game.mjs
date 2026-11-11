@@ -93,6 +93,7 @@ export const BADGES = [
   { id: 'treasure', title: 'Treasure Discoverer', img: 'badge_treasure_discoverer.svg', how: 'Open a hidden chest in a puzzle room.' },
   { id: 'puzzle', title: 'Puzzle Master', img: 'badge_puzzle_master.svg', how: 'Solve a puzzle room without stepping on a wrong plate.' },
   { id: 'builder', title: 'Master Builder', img: 'badge_master_builder.svg', how: 'Place twenty pieces on your build plot.' },
+  { id: 'climber', title: 'Mountain Climber', img: 'badge_mountain_climber.svg', how: 'Reach the lantern on the mountain path in Episode 5.' },
   { id: 'master', title: 'Master of the Seerah', img: 'badge_master_of_seerah.svg', how: 'Opens when all fourteen episodes are ready and finished.', later: true },
 ];
 export const badgeUrl = (b) => u(`seerah/badges/${b.img}`);

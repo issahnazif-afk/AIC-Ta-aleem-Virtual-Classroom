@@ -64,7 +64,7 @@ for (const ep of EPISODES) {
     for (const id of s.do === 'tree' ? s.srcs : s.do === 'match' ? [s.src] : []) if (!read.has(id)) errors.push(`Episode ${ep.n}: the ${s.do} uses "${id}" before it is read.`);
     if (s.do === 'classify') for (const id of s.ids) if (!passages.get(id)) errors.push(`Episode ${ep.n}: classify uses a missing passage "${id}".`);
     // the game's own English (instructions, practice scenarios) passes the writing rules
-    const own = ['stage', 'scrolls', 'parkour', 'archive', 'guide', 'smash', 'vault', 'carry', 'build', 'lanterns', 'tree', 'match'].includes(s.do) ? [s.title, s.text, s.objective, s.objective2]
+    const own = ['stage', 'scrolls', 'parkour', 'archive', 'guide', 'smash', 'vault', 'carry', 'build', 'lanterns', 'tree', 'match', 'relay', 'ayahorder', 'recite', 'cavewatch'].includes(s.do) ? [s.title, s.text, s.objective, s.objective2, s.done]
       : s.do === 'scenario' ? [s.done, ...s.cases.flatMap((c) => [c.q, c.why, ...c.options])] : s.do === 'classify' ? [s.title, s.done] : [];
     for (const t of own.filter(Boolean)) for (const p of lintText(t, 3)) errors.push(`Episode ${ep.n} ${s.do}: ${p} in "${t.slice(0, 50)}…"`);
   }

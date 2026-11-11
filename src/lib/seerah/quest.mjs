@@ -345,7 +345,7 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
         if (!saved.lanterns.includes(s.course.seed)) saved.lanterns.push(s.course.seed);
         const best = saved.best ?? null; if (timer && (best == null || time < best)) saved.best = Math.round(time);
         draw(); onSave?.({});
-        award('explorer');
+        award('explorer'); if (s.badge) award(s.badge);
         const beat = timer ? (time <= target ? `You beat the time: ${mmss(time)}.` : `Your time: ${mmss(time)}. Try to beat ${mmss(target)} next time.`) : '';
         await card({ kicker: 'Lantern lit', title: TEXT.lanternTitle, text: `${TEXT.lanternText} ${beat}`.trim() });
       });
@@ -541,15 +541,82 @@ export function playEpisode(root, { n, quality = 'medium', reciter, saved = {}, 
     recite(s) {
       return new Promise((resolve) => {
         const p = openPanel('recite');
-        p.append(el('p', 'sq-kicker', 'The Qurʾan'), el('h2', 'sq-h', 'Surah al-Fil'), el('p', 'sq-text', 'Listen to the reciter. (The Qurʾan is recited from the reciter, never narrated by the game.)'));
-        const play = el('button', 'btn', '▶ Listen to the surah'); play.type = 'button';
+        p.append(el('p', 'sq-kicker', 'The Qurʾan'), el('h2', 'sq-h', s.title ?? 'Surah al-Fil'), el('p', 'sq-text', s.text ?? 'Listen to the reciter. (The Qurʾan is recited from the reciter, never narrated by the game.)'));
+        const play = el('button', 'btn', s.title ? '▶ Listen to the verses' : '▶ Listen to the surah'); play.type = 'button';
         let a = null;
         play.addEventListener('click', async () => {
-          for (let i = 1; i <= s.ayahs && !panel.hidden; i++) { a = new Audio(audioUrl(reciter, s.surah, i)); await new Promise((r) => { a.onended = r; a.onerror = r; a.play().catch(r); }); }
+          for (let i = s.from ?? 1; i <= (s.from ?? 1) + s.ayahs - 1 && !panel.hidden; i++) { a = new Audio(audioUrl(reciter, s.surah, i)); await new Promise((r) => { a.onended = r; a.onerror = r; a.play().catch(r); }); }
         });
         const n = nextBtn(); n.addEventListener('click', () => { a?.pause(); closePanel(); resolve(); });
         p.append(play, n);
       });
+    },
+    // a mountain with an empty cave (an educational reconstruction); it stays for the rest of the episode
+    async mountain(s) { run._mt = props.mountain(s.x, s.z, { facing: s.facing ?? 0, height: s.height ?? 46 }); await wait(50); },
+    // watch only: the camera moves to the empty cave mouth at dusk; nothing and nobody is shown
+    async cavewatch(s) {
+      const mt = run._mt; if (!mt) return;
+      world.setTime('dusk');   // no light or effect marks the moment: the cave stays empty and natural, and only the words tell it
+      const c = mt.cave, f = mt.front;
+      await card({ kicker: 'Watch', text: s.text });
+      await world.fly([[[f.x + 10, c.y + 9, f.z + 16], [c.x, c.y, c.z], 0], [[f.x + 2, c.y + 3, f.z + 6], [c.x, c.y, c.z], TEST ? 0.3 : 7]]);
+      await wait(TEST ? 50 : 1200);
+    },
+    // put the ayahs in order by ear: each clip is the reciter's recording (no Qurʾan text is typed by the game)
+    ayahorder(s) {
+      return new Promise((resolve) => {
+        const p = openPanel('order');
+        p.append(el('p', 'sq-kicker', 'The Qurʾan'), el('h2', 'sq-h', s.title), el('p', 'sq-text', s.text));
+        let a = null;
+        const stopA = () => { try { a?.pause(); } catch {} };
+        const hear = (i) => new Promise((r) => { stopA(); a = new Audio(audioUrl(reciter, s.surah, i)); a.onended = r; a.onerror = r; a.play().catch(r); });
+        const all = el('button', 'btn', '▶ Listen to all the verses in order'); all.type = 'button';
+        all.addEventListener('click', async () => { for (let i = 1; i <= s.ayahs && !panel.hidden; i++) await hear(i); });
+        const line = el('ol', 'sq-line'), pool = el('div', 'sq-pool');
+        let at = 1, tries = 0;
+        shuffle(Array.from({ length: s.ayahs }, (_, k) => k + 1)).forEach((n, k) => {
+          const b = el('button', 'sq-chip', `▶ Clip ${'ABCDEFG'[k]}`); b.type = 'button'; if (TEST) b.dataset.answer = n - 1;
+          b.addEventListener('click', () => {
+            hear(n);
+            if (n === at) { b.remove(); line.append(el('li', null, `Ayah ${n}: Clip ${'ABCDEFG'[k]}`)); at++; play('plate'); if (at > s.ayahs) { score.order += tries === 0 ? 1 : 0; const nx = nextBtn(); nx.addEventListener('click', () => { stopA(); closePanel(); resolve(); }); p.append(el('p', 'sq-good', 'That is the order of the verses.'), nx); } }
+            else { tries++; b.classList.add('nope'); setTimeout(() => b.classList.remove('nope'), 450); }
+          });
+          pool.append(b);
+        });
+        p.append(all, el('p', 'sq-text muted', 'Tap a clip to hear it. If it is the next verse, it goes into the list.'), line, pool);
+      });
+    },
+    // the lantern relay: carry the light from lantern to lantern through the town (a symbolic game)
+    async relay(s) {
+      await card({ kicker: 'Explorer’s guide', title: s.title, text: s.text });
+      const L = s.points.map(([x, z]) => ({ x, z, l: world.lantern(x, z, { color: 0x6a5a40, height: 2 }), lit: false }));
+      const litOne = (q) => { q.lit = true; q.l.children.forEach((m) => m.material.color.setHex(0xffd36b)); q.l.children[1].scale.setScalar(4); };
+      litOne(L[0]);
+      world.place(L[0].x, L[0].z + 3, L[1].x, L[1].z);
+      let at = 1;
+      const timer = M.timer && !gentle; let t0 = null;
+      const beacon = world.addHotspot({ id: 'relay', x: L[1].x, z: L[1].z, label: 'The next lantern', radius: 0.01 });
+      const prog = () => setObjective(s.objective, `Lanterns ${at}/${L.length}`, at / L.length);
+      prog();
+      if (TEST) root.dataset.relay = JSON.stringify(s.points);
+      await new Promise((resolve) => {
+        const u = world.every(() => {
+          const me = world.player(), q = L[at];
+          if (t0 == null && Math.hypot(me.x - L[0].x, me.z - L[0].z) > 4) t0 = performance.now();
+          if (timer && t0 != null) { trT.hidden = false; trT.textContent = `Time ${mmss((performance.now() - t0) / 1000)}`; }
+          if (Math.hypot(me.x - q.x, me.z - q.z) < 2.6) {
+            litOne(q); play('lantern');
+            const p0 = L[at - 1], pts = []; for (let i = 1; i < 6; i++) pts.push([p0.x + ((q.x - p0.x) * i) / 6, world.heightAt(p0.x + ((q.x - p0.x) * i) / 6, p0.z + ((q.z - p0.z) * i) / 6) + 1.4, p0.z + ((q.z - p0.z) * i) / 6]);
+            world.addLights(pts, 'relay');
+            at++; prog();
+            world.removeHotspot('relay');
+            if (at >= L.length) { u(); trT.hidden = true; setObjective(''); resolve(); return; }
+            world.addHotspot({ id: 'relay', x: L[at].x, z: L[at].z, label: 'The next lantern', radius: 0.01 });
+          }
+        });
+        void beacon;
+      });
+      if (s.done) await card({ kicker: 'Lanterns lit', title: s.doneTitle ?? 'Every lantern is lit', text: s.done });
     },
     // lantern records: each person from the book is a lantern in the valley (never a figure); walking up to one
     // lights it and opens the passage about them
