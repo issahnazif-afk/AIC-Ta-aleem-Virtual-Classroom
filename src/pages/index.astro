@@ -1258,7 +1258,7 @@ const levels = [
       }
       renderWorlds();
       $('dest-kids').hidden = false;
-      const kids = !store.get('classicHome', false);
+      const kids = !store.get(classicKey(), false);
       if (kids) showKids(); else show('s-home');
       if (fresh) {
         progress = await getProgress({ token: me.token, username: me.username });
@@ -1267,6 +1267,8 @@ const levels = [
       renderDashboard();
     }
     // ── the picture home for Levels 1 and 2: big places to tap, each one says its name ──
+    // the list view ('Grown-up view') is remembered for one student on this device, not for every account on it
+    const classicKey = () => 'classicHome:' + (me.username || 'guest');
     let kidsHome = null;
     function showKids() {
       const mine = forLevel(me.level).filter((a) => a.kind !== 'soon');
@@ -1332,7 +1334,7 @@ const levels = [
       kidsHome?.stop();
       kidsHome = mountKidsHome($('kh-root'), {
         level: me.level, name: me.name.split(' ')[0], hijri: h ? `${hijriText(h)} AH` : '', special: specialOn(), places, next,
-        onClassic: () => { store.set('classicHome', true); show('s-home'); },
+        onClassic: () => { store.set(classicKey(), true); show('s-home'); },
       });
       show('s-kids');
     }
@@ -1822,7 +1824,7 @@ const levels = [
       const d = x.dataset.dest;
       if (d === 'awards') openAwards();
       else if (d === 'garden') openGarden();
-      else if (d === 'kids') { store.set('classicHome', false); showKids(); }
+      else if (d === 'kids') { store.set(classicKey(), false); showKids(); }
       else { e.preventDefault(); $('sec-' + d)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     }));
     function openAwards() {
