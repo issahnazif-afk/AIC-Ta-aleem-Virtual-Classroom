@@ -41,9 +41,20 @@ class Kokoro:
             else: out.append(''.join(c for c in core if c in self.vocab))
             if tail: out.append(' ')
         return re.sub(r' +', ' ', ''.join(out)).strip()
+    MAX = 500   # the model reads at most 509 sounds at once
     def generate(self, text, voice, speed=1.0):
         ph = self.sounds(text)
-        ids = [self.vocab[c] for c in ph if c in self.vocab][:510]
+        ids = [self.vocab[c] for c in ph if c in self.vocab]
+        if len(ids) > self.MAX:
+            # a very long sentence: read it in parts, split at a comma, semicolon, colon or dash (else between words)
+            # near the middle, with a short breath between them
+            cuts = [m.end() for m in re.finditer(r'[,;:—–]\s+', text)] or [m.end() for m in re.finditer(r'\s+', text)]
+            if cuts:
+                at = min(cuts, key=lambda c: abs(c - len(text) / 2))
+                a, pa = self.generate(text[:at].strip(), voice, speed)
+                b, pb = self.generate(text[at:].strip(), voice, speed)
+                return np.concatenate([a, np.zeros(int(self.sample_rate * 0.22), np.float32), b]), pa + ' ' + pb
+            ids = ids[:self.MAX]
         style = self.voices[self.names.index(voice), len(ids)][None, :]
         audio = self.sess.run(None, {'tokens': np.array([[0, *ids, 0]], dtype=np.int64), 'style': style, 'speed': np.array([speed], dtype=np.float32)})[0]
         return np.asarray(audio, np.float32).reshape(-1), ph
