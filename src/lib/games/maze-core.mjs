@@ -179,3 +179,72 @@ export function fullUp(mons, cell) {
   for (const x of out) mons.splice(mons.indexOf(x), 1);
   return out;
 }
+
+// ── things in the maze (the stages): pick-ups, the key, the tunnels ──
+// A thing never sits on a dead end (stepping there would wake the monster), on the start or the goal, or on another
+// thing. When a wall shift turns its cell into a dead end, it moves to the nearest safe cell (relocate).
+const safe = (m, c, taken) => c !== m.start && c !== m.goal && degree(m, c) >= 2 && !taken.has(c);
+
+// count cells for things, at least `min` steps from the start; spread: prefer cells off the direct way to the goal
+export function placeItems(m, count, rnd = Math.random, { taken = [], min = 3, spread = false } = {}) {
+  const busy = new Set(taken), d = distances(m, m.start), out = [];
+  const way = new Set(pathBetween(m, m.start, m.goal) ?? []);
+  for (let k = 0; k < count; k++) {
+    let pool = [];
+    for (let c = 0; c < m.n; c++) if (safe(m, c, busy) && d[c] >= min) pool.push(c);
+    if (spread) {
+      // a detour: cells away from the direct way are much more likely
+      const off = pool.filter((c) => !way.has(c));
+      if (off.length && rnd() < 0.85) pool = off;
+    }
+    if (!pool.length) for (let c = 0; c < m.n; c++) if (safe(m, c, busy)) pool.push(c);
+    if (!pool.length) break;
+    const c = pool[Math.floor(rnd() * pool.length)];
+    out.push(c); busy.add(c);
+  }
+  return out;
+}
+// the nearest safe cell to c (along the passages), not in taken; c itself if it is still safe
+export function relocate(m, c, taken = []) {
+  const busy = new Set(taken); busy.delete(c);
+  if (safe(m, c, busy)) return c;
+  const d = distances(m, c);
+  let best = -1;
+  for (let x = 0; x < m.n; x++) if (d[x] > 0 && safe(m, x, busy) && (best < 0 || d[x] < d[best])) best = x;
+  return best < 0 ? c : best;
+}
+// two tunnel ends, far apart along the passages and away from the start and the goal, so a tunnel is a clever
+// shortcut but never skips most of the maze: the way through the tunnel stays at least `keep` of the way without it
+export function placeTunnels(m, rnd = Math.random, taken = [], keep = 0.6) {
+  const busy = new Set(taken), ds = distances(m, m.start), dg = distances(m, m.goal);
+  const cands = [];
+  for (let c = 0; c < m.n; c++) if (safe(m, c, busy) && ds[c] >= 3 && dg[c] >= 3) cands.push(c);
+  if (cands.length < 2) return null;
+  const plain = pathBetween(m, m.start, m.goal).length;
+  let best = null;
+  for (let t = 0; t < 60; t++) {
+    const a = cands[Math.floor(rnd() * cands.length)], b = cands[Math.floor(rnd() * cands.length)];
+    if (a === b) continue;
+    const ab = distances(m, a)[b];
+    if (ab < 4 || (pathWith(m, m.start, m.goal, [a, b])?.length ?? 0) < plain * keep) continue;
+    if (!best || ab > best[2]) best = [a, b, ab];
+  }
+  return best ? [best[0], best[1]] : null;
+}
+// The other end of a tunnel, or -1
+export const tunnelEnd = (tunnels, c) => (tunnels ? (c === tunnels[0] ? tunnels[1] : c === tunnels[1] ? tunnels[0] : -1) : -1);
+// The way from a to b when a tunnel joins two cells. A tunnel is optional: the traveller stands on one end and
+// chooses to go through (one move), so it can never trap anyone. Returns the cells in order (a tunnel trip shows as
+// the far end straight after the near end), or null.
+export function pathWith(m, a, b, tunnels = null) {
+  const prev = new Int32Array(m.n).fill(-2); prev[a] = -1;
+  const q = [a];
+  for (let i = 0; i < q.length && prev[b] === -2; i++) {
+    const c = q[i], o = tunnelEnd(tunnels, c);
+    for (const x of o >= 0 ? [...neighbours(m, c), o] : neighbours(m, c)) if (prev[x] === -2) { prev[x] = c; q.push(x); }
+  }
+  if (prev[b] === -2) return null;
+  const p = [];
+  for (let c = b; c !== -1; c = prev[c]) p.push(c);
+  return p.reverse();
+}

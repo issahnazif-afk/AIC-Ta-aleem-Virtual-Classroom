@@ -1,9 +1,10 @@
 // Play & Make: games and activities for young learners (mazes, word search, snakes and ladders, the family tree,
 // guess who, the Seerah timeline, building games, colouring, and small daily tools). The classroom loads this file
 // only when a student opens one of them, and each game loads its own code when it starts.
-//   mountGame(root, { id, level, progress, earn, flash, onSave, onExit }) → { stop() }
+//   mountGame(root, { id, level, progress, earn, flash, onSave, onExit, record, leaderboard }) → { stop() }
 //     earn(kind, key, score, good) → what was earned (the classroom records the Ta'aleem Stars); flash(earned)
-// Each entry in GAMES: { title, ar, levels: the levels it adapts to, load: () => (stage, ctx) => { stop() } }.
+// Each entry in GAMES: { title, ar, levels: the levels it adapts to, stages: true for a game with its own stage map,
+//   load: () => (stage, ctx) => { stop() } }.
 // The level chips let a student try an easier or harder level than their own.
 import './games.css';
 import { el, btn, sfx, sayer, hush, store } from './kit.mjs';
@@ -12,11 +13,11 @@ import { MAZES } from './mazes.mjs';
 const maze = (id) => () => import('./maze.mjs').then((mod) => (stage, ctx) => mod.mountMaze(stage, ctx, MAZES[id]));
 
 export const GAMES = {
-  'maze-hijrah': { title: 'Makkah to Madinah', ar: 'مِنْ مَكَّةَ إِلَى الْمَدِينَةِ', levels: [1, 2, 3, 4], load: maze('hijrah'), help: 'How to play: guide the camel to Madinah with the arrow keys or the arrow buttons. The walls shift as you go, and from Level 2 a monster roams the maze: if it catches you, you start again.' },
-  'maze-tarawih': { title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', levels: [1, 2, 3, 4], load: maze('tarawih'), help: 'How to play: carry the lantern to the masjid with the arrow keys or the arrow buttons. The walls shift as you go, and from Level 2 a monster roams the maze: if it catches you, you start again.' },
+  'maze-hijrah': { title: 'Makkah to Madinah', ar: 'مِنْ مَكَّةَ إِلَى الْمَدِينَةِ', levels: [1, 2, 3, 4], stages: true, load: maze('hijrah'), help: 'How to play: guide the camel to Madinah with the arrow keys, a swipe or the arrow buttons. Each stage brings something new: dates to collect, moving walls, monsters, a key for the gate, a sandstorm and more. Finish a stage to open the next one.' },
+  'maze-tarawih': { title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', levels: [1, 2, 3, 4], stages: true, load: maze('tarawih'), help: 'How to play: carry the lantern to the masjid with the arrow keys, a swipe or the arrow buttons. Each stage brings something new: stars to collect, moving walls, monsters, a key for the gate, dark nights and more. Finish a stage to open the next one.' },
 };
 
-export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onSave, onExit } = {}) {
+export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onSave, onExit, record, leaderboard } = {}) {
   const g = GAMES[id];
   root.replaceChildren();
   root.className = 'gm';
@@ -30,7 +31,8 @@ export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onS
   const ar = el('p', 'gm-ar', g.ar); ar.lang = 'ar'; ar.dir = 'rtl';
   titles.append(el('h2', 'gm-title', g.title), ar);
   const tools = el('div', 'gm-tools');
-  if (g.levels.length > 1) {
+  // a game with stages (the mazes) has its own stage map instead of the level chips
+  if (g.levels.length > 1 && !g.stages) {
     const chips = el('div', 'gm-levels'); chips.setAttribute('role', 'radiogroup'); chips.setAttribute('aria-label', 'Level');
     for (const n of g.levels) {
       const c = btn('gm-chip'); c.innerHTML = `<span class="gm-lv-word">Level </span>${n}`; c.setAttribute('aria-label', `Level ${n}`); c.setAttribute('role', 'radio'); c.dataset.level = n;
@@ -63,6 +65,10 @@ export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onS
       id, level: lv, own, progress, store, sfx, say: sayer(lv),
       earn: ({ kind = 'game', key, score = 1, good = false }) => { const e = earn?.(kind, key, score, good); flash?.(e); onSave?.(); return e; },
       save: () => onSave?.(),
+      // a finished maze stage: logged to the class sheet and the class leaderboard (index.astro)
+      record: record ? (r) => record({ ...r, game: id }) : undefined,
+      // the class leaderboard for this game, shown over the game
+      leaderboard: leaderboard ? (key) => leaderboard(key ?? id, stage) : undefined,
       exit: () => onExit?.(),
     };
     game = mount(stage, ctx);

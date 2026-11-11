@@ -121,6 +121,30 @@ export async function logGame({ token, game }) {
   try { return await post({ action: 'game', token, game }); } catch { return { ok: false }; }
 }
 
+// ── the maze leaderboard (the student's own class; first name and initial; recitation is never ranked) ──
+// In demo mode (no web app address) the board is the players on this device.
+const DEMO_BOARD = 'qc-mazeboard';
+const short = (full) => { const p = String(full || '').trim().split(/\s+/); return p.length > 1 ? `${p[0]} ${p[p.length - 1][0].toUpperCase()}.` : p[0] || 'Student'; };
+function demoBoard() { try { return JSON.parse(localStorage.getItem(DEMO_BOARD) || '[]'); } catch { return []; } }
+export async function logMaze({ token, username, name, maze }) {
+  if (isDemo()) {
+    const b = demoBoard(); b.push({ u: username, name: short(name), ...maze, at: Date.now() });
+    try { localStorage.setItem(DEMO_BOARD, JSON.stringify(b.slice(-500))); } catch {}
+    return { ok: true, demo: true };
+  }
+  try { return await post({ action: 'maze', token, maze }); } catch { return { ok: false }; }
+}
+export async function mazeBoard({ token, username, maze }) {
+  if (isDemo()) {
+    const best = {};
+    for (const x of demoBoard()) if (x.maze === maze) { const b = best[x.u]; if (!b || x.stage > b.stage || (x.stage === b.stage && x.secs < b.secs)) best[x.u] = x; }
+    const rows = Object.values(best).sort((a, b) => b.stage - a.stage || a.secs - b.secs);
+    const i = rows.findIndex((x) => x.u === username);
+    return { ok: true, demo: true, className: 'This device', total: rows.length, rows: rows.slice(0, 10).map((x, k) => ({ rank: k + 1, name: x.name, stage: x.stage, secs: x.secs, stars: x.stars, me: x.u === username })), mine: i >= 0 ? { rank: i + 1, stage: rows[i].stage, secs: rows[i].secs } : null };
+  }
+  try { return await post({ action: 'maze-board', token, maze }); } catch { return { ok: false, error: 'network' }; }
+}
+
 // The approved questions from the "Question bank" tab of the admin sheet.
 export async function fetchQuestions({ token }) {
   if (isDemo()) return { ok: true, demo: true, questions: null };

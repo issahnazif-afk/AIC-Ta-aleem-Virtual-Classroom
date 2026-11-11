@@ -20,6 +20,7 @@ const P = {
   recite: '<rect x="9" y="3.5" width="6" height="10" rx="3"/><path d="M6 11a6 6 0 0 0 12 0"/><path d="M12 17v3.5M9 20.5h6"/>',
   ayah: '<rect x="3.5" y="5" width="7" height="5" rx="1.2"/><rect x="13.5" y="5" width="7" height="5" rx="1.2"/><rect x="7" y="14" width="10" height="5" rx="1.2" stroke-dasharray="2 2"/><path d="m14 10-1.5 3"/>',
   games: '<path d="M10 4h4v3a2 2 0 1 0 0 4v3h-3a2 2 0 1 1-4 0H4v-4h0a2 2 0 1 0 0-4V4h3"/><path d="M14 14h6v6h-6zM14 17h-2"/>',
+  trophy: '<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v3M9 20h6M10 16h4v4h-4z"/>',
   mazes: '<path d="M4 4h16v16H4z"/><path d="M8 4v8h4M16 8v8h-8M12 16v4"/>',
   days: '<rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 9.5h16M8.5 3.5v4M15.5 3.5v4"/><path d="M14 13.2a2.6 2.6 0 1 0 1.2 3.6 2.1 2.1 0 1 1-1.2-3.6z"/>',
   garden: '<path d="M12 21v-9"/><path d="M12 12C12 8 9 6 5 6c0 4 3 6 7 6z"/><path d="M12 10c0-3 2.5-5 6-5 0 3.5-2.5 5-6 5z"/><path d="M6 21h12"/>',

@@ -27,6 +27,8 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let mode = 'hifz';
+  let byHeart = false;         // reading flow, words hidden: "Follow my recitation"
+  const shown = () => mode === 'reading' && !byHeart;   // the words are on the page before they are read
   let meta = null;
   let scopeAyahs = [];
   let questions = [];
@@ -54,7 +56,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       ? { s, a: 0, key: `${s}:0`, label: `${sura.en}, Bismillah`, ar: sura.bismillah, page: ay.page }
       : { s, a: ay.a, key: `${s}:${ay.a}`, label: `${sura.en} ${s}:${ay.a}`, ar: ay.ar, page: ay.page };
     it.words = tokenize(it.ar, it.a ? it.key : null);
-    it.words.forEach((w, i) => Object.assign(w, { item: it, wi: i, state: mode === 'reading' ? 'todo' : 'hidden', page: it.page, mistake: false }));
+    it.words.forEach((w, i) => Object.assign(w, { item: it, wi: i, state: shown() ? 'todo' : 'hidden', page: it.page, mistake: false }));
     return it;
   }
   function buildQuestion(qn) {
@@ -90,7 +92,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
 
   // ── starting ────────────────────────────────────────────────
   async function startHifz(range, { questionsN = null, span = null } = {}) {
-    mode = 'hifz';
+    mode = 'hifz'; byHeart = false;
     scopeAyahs = await loadScope(range);
     if (!scopeAyahs.length) throw new Error('There are no ayahs in that range.');
     const pages = new Set(scopeAyahs.map((x) => x.ay.page)).size;
@@ -112,8 +114,9 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     return { questions: questions.length };
   }
 
-  async function startReading(range) {
-    mode = 'reading';
+  async function startFollow(range) { const r = await startReading(range, true); return r; }
+  async function startReading(range, hide = false) {
+    mode = 'reading'; byHeart = hide;
     scopeAyahs = await loadScope(range);
     if (!scopeAyahs.length) throw new Error('There are no ayahs in that range.');
     questions = [{ start: 0, end: scopeAyahs.length - 1 }];
@@ -134,7 +137,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     items = q.items; flat = items.flatMap((it) => it.words);
     q.flat = flat;
     pos = 0; wrongStreak = 0; queue.length = 0; follower.clearBack();
-    ui.progress?.({ qi, n: questions.length, mode });
+    ui.progress?.({ qi, n: questions.length, mode: byHeart ? 'follow' : mode });
     await renderPage(flat[0].page, qi > 0);
     if (mode === 'hifz') await sheikhRecites();
     else beginReading();
@@ -143,8 +146,13 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   function beginReading() {
     phase = 'answer';
     const first = items.find((it) => it.a) ?? items[0];
-    say('listening', 'read', `Read from ${first.label}. The Sheikh is listening.`);
-    status('Read aloud from the highlighted word. Each word changes colour when it is read correctly.');
+    if (byHeart) {
+      say('listening', 'read', `Recite from memory, from ${first.label}. The Sheikh is following you.`);
+      status('Recite from memory. Each word appears as you say it. If you stop, the Sheikh gives you the next word.');
+    } else {
+      say('listening', 'read', `Read from ${first.label}. The Sheikh is listening.`);
+      status('Read aloud from the highlighted word. Each word changes colour when it is read correctly.');
+    }
     updateCurrent();
     startListening();
     armSilence();
@@ -240,7 +248,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     let cls = 'w hidden';
     if (w.state === 'shown') cls = 'w read';
     else if (w.state === 'skipped') cls = 'w out';
-    else if (w.state === 'todo' || w.state === 'queued') cls = mode === 'reading' ? 'w todo' : 'w hidden';
+    else if (w.state === 'todo' || w.state === 'queued') cls = shown() ? 'w todo' : 'w hidden';
     const sp = el('span', cls, w.display);
     if (w.state === 'shown') { if (w.helped) sp.classList.add('helped'); else if (w.mistake) sp.classList.add('weak'); else if (w.unclear) sp.classList.add('unclear'); }
     else if (w.mistake) sp.classList.add('missed');
@@ -248,7 +256,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     return sp;
   }
   function markerSpan(it, a) {
-    const mk = el('span', 'mk w' + (it.done || mode === 'reading' ? '' : ' hidden'), `﴿${arNum(a)}﴾`);
+    const mk = el('span', 'mk w' + (it.done || shown() ? '' : ' hidden'), `﴿${arNum(a)}﴾`);
     it.mk = mk;
     return mk;
   }
@@ -261,7 +269,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     const map = new Map(items.map((it) => [it.key, it]));
     const size = sizeNow();
     return buildPaper(p, { getJson, pad, items: map, wordSpan, markerSpan, script: 'plain', layout: size === 'page' ? 'fixed' : 'flow' }).then((paper) => {
-      paper.classList.add(mode === 'reading' ? 'context' : 'outlines', size === 'page' ? 'mp-fixed' : 'mp-big');
+      paper.classList.add(shown() ? 'context' : 'outlines', size === 'page' ? 'mp-fixed' : 'mp-big');
       if (size !== 'page') paper.dataset.size = size;
       return paper;
     });
@@ -436,9 +444,9 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     const tail = mode === 'reading' ? P('barakallah') : ratio >= 0.85 ? P('barakallah') : P('revise');
     const head = mode === 'reading' ? null : P('enough');
     const ar = [head?.ar, praise.ar, tail.ar].filter(Boolean).join('، ');
-    const en = [mode === 'reading' ? 'You have reached the end of the passage.' : head.en, praise.en, tail.en].join(' ');
+    const en = [mode === 'reading' ? (byHeart ? 'You have recited to the end of the passage from memory.' : 'You have reached the end of the passage.') : head.en, praise.en, tail.en].join(' ');
     sheikh('stop', ar, en);
-    status(mode === 'reading' ? 'Reading complete.' : 'Question complete.', 'good');
+    status(mode === 'reading' ? (byHeart ? 'Recitation complete.' : 'Reading complete.') : 'Question complete.', 'good');
     ui.questionDone?.({ qi, n: questions.length });
     chime();
     if (head) await speakP(head);
@@ -497,7 +505,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     const passage = passageText();
     const perAyah = [...ayahMarks.values()].sort((a, b) => a.s - b.s || a.a - b.a).map((x) => ({ ...x, marks: [...x.marks] }));
     const weakAyahs = perAyah.filter((x) => x.marks.some((m) => m === 'wrong' || m === 'prompt')).map((x) => `${x.s}:${x.a}`);
-    ui.finished?.({ mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, ms: Date.now() - startedAt });
+    ui.finished?.({ mode: byHeart ? 'follow' : mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, ms: Date.now() - startedAt });
   }
 
   // ── the live cursor ─────────────────────────────────────────
@@ -590,9 +598,9 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
 
   // ── controls the page can call ──────────────────────────────
   return {
-    startHifz, startReading, relayout,
+    startHifz, startReading, startFollow, relayout,
     get phase() { return phase; },
-    get mode() { return mode; },
+    get mode() { return byHeart ? 'follow' : mode; },
     get hintsAllowed() { return L.hints; },
     hint() { if (L.hints && phase === 'answer' && pos < flat.length) accept(1, 'help'); },
     async repeatOpening() { if (mode === 'hifz' && phase === 'answer') { clearSilence(); await sheikhRecites(true); } },

@@ -116,6 +116,16 @@ name and that password. Each recording is saved to a **Sheikh voice** folder ins
 listed in the **Voice** tab (clip, file, when, by whom, size). To take a recording away, use *Remove recording* in
 the Studio (or delete its row). Students cannot record or change anything: they only play the recordings.
 
+## The maze leaderboard
+
+Every finished maze stage is written to a **Maze board** tab in the class log (made the first time a student
+finishes a stage). Students see their own class only, each classmate once by first name and the first letter of
+the family name, ranked by the highest stage reached and then the quickest time on it. Recitation is never ranked.
+To remove a row (for example a test run), delete it from the Maze board tab; the board updates within a minute.
+
+To switch it on for an existing set-up, paste the new `Code.gs` and make a **New version** of the deployment
+(see *Changing the script later*). Until then the leaderboard says it is not switched on yet.
+
 ## Updating an existing set-up (for this version)
 
 1. Open the admin sheet → **Extensions → Apps Script**, replace everything with the new `Code.gs` (keep your folder

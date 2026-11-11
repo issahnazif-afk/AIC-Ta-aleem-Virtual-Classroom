@@ -107,3 +107,61 @@
   .gm { padding: 10px; border-radius: 16px; }
   .mz-pad, .gm-l1 .mz-pad, .gm-l2 .mz-pad { grid-template-columns: repeat(3, 72px); }
 }
+
+/* ── the maze stages: the stage map, the "something new" card, the things in the maze, fog and tunnels ── */
+.mz-pick { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 6px 0 4px; }
+.mz-pick-head { text-align: center; }
+.mz-pick-h { margin: 0; font-size: 22px; color: var(--g-ink); }
+.mz-pick-sub { margin: 2px 0 0; color: var(--g-muted); font-size: 15px; }
+.mz-stones { list-style: none; margin: 0; padding: 14px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(8px, 2.4vw, 16px); width: min(100%, 540px); box-sizing: border-box; border-radius: 22px; background: #F3E3BF; border: 3px solid #D9BF8A; }
+.mz-pick.mz-night .mz-stones { background: #DCE5F7; border-color: #9FB2DD; }
+.mz-stones li { display: flex; justify-content: center; }
+.mz-stone { position: relative; width: 100%; max-width: 84px; aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 0;
+  border: 3px solid #B99A5B; background: #FFF9EC; color: #292D29; font: inherit; cursor: pointer; box-shadow: 0 4px 0 #B99A5B; transition: transform .15s; touch-action: manipulation; }
+.mz-pick.mz-night .mz-stone { border-color: #4A6FB5; box-shadow: 0 4px 0 #4A6FB5; }
+.mz-stone:hover:not(:disabled) { transform: translateY(-3px); }
+.mz-stone:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #B99A5B; }
+.mz-stone-n { font-size: clamp(18px, 4.6vw, 26px); font-weight: 800; line-height: 1; }
+.mz-stone-stars { font-size: clamp(9px, 2.2vw, 13px); letter-spacing: 1px; color: #D99A00; line-height: 1.2; }
+.mz-stone-new { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: #fff; background: #E85A71; border-radius: 999px; padding: 1px 6px; margin-top: 2px; }
+.mz-stone.done { background: #FFF1C4; }
+.mz-stone.next { border-color: #0E6B4E; box-shadow: 0 4px 0 #0E6B4E, 0 0 0 5px rgb(246 198 75 / .55); animation: mz-next 1.4s ease-in-out infinite alternate; }
+.mz-stone.final:not(.locked) { background: #FCE7A8; }
+.mz-stone.locked { cursor: not-allowed; background: #EDE7DA; color: #8A8376; border-color: #C9C0AE; box-shadow: 0 3px 0 #C9C0AE; }
+.mz-stone-lock { position: absolute; right: 6%; bottom: 6%; color: #8A8376; }
+@keyframes mz-next { to { transform: translateY(-4px); } }
+
+.mz-top { display: flex; align-items: center; gap: 12px; }
+.mz-back { display: inline-flex; align-items: center; gap: 4px; min-height: 40px; padding: 6px 14px 6px 10px; border-radius: 999px; border: 2px solid #D5DDD8; background: #fff; color: var(--g-ink); font: inherit; font-weight: 700; font-size: 14px; cursor: pointer; }
+.mz-stage { margin: 0; font-weight: 800; font-size: 16px; color: var(--g-green); }
+.mz { position: relative; }
+.mz-big .mz-wall, .mz-big .mz-border { stroke-width: 3.2; }
+.mz-intro { position: absolute; left: 50%; top: 40px; transform: translateX(-50%); --tx: -50%; z-index: 3; width: min(460px, 94%); box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px 20px; border-radius: 20px; background: #fff; border: 3px solid var(--g-gold); box-shadow: 0 16px 40px rgb(0 0 0 / .25); text-align: center; animation: gm-in .4s cubic-bezier(.2, 1.4, .4, 1); }
+.mz-intro-k { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #E85A71; }
+.mz-intro-t { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.45; color: var(--g-ink); }
+.mz-intro-art.chaser .mon > path:nth-of-type(1), .mz-intro-art.chaser .mon > path:nth-of-type(2) { fill: #F2994A; stroke: #B5651D; }
+
+.mz-gem > *, .mz-key > *, .mz-lock > * { transform-box: fill-box; transform-origin: center; }
+.mz-gem > * { animation: mz-bob 1.6s ease-in-out infinite alternate; }
+.mz-key > * { animation: mz-bob 1.2s ease-in-out infinite alternate; filter: drop-shadow(0 0 4px #F6C64B); }
+.mz-gem.got > *, .mz-key.got > * { animation: mz-got .5s ease-in forwards; }
+.mz-lock.open > * { animation: mz-got .6s ease-in forwards; }
+@keyframes mz-bob { to { transform: translateY(-3px); } }
+@keyframes mz-got { to { transform: translateY(-14px) scale(1.5); opacity: 0; } }
+.mz-fog { pointer-events: none; }
+.mz-sand .mz-fog { fill: #C9A877; opacity: .96; }
+.mz-night .mz-fog { fill: #0B1330; opacity: .95; }
+.mz-light { transition: cx .16s ease-out, cy .16s ease-out; }
+.mz-token.tunnel > g { animation: mz-dive .45s ease-in; transform-box: fill-box; transform-origin: center; }
+@keyframes mz-dive { 50% { transform: scale(.2); opacity: .2; } }
+.mz-tunnel-b { min-height: 48px; padding: 8px 18px; border-radius: 16px; font-weight: 800; font-size: 16px; background: #FFF4CC !important; border: 3px solid #B99A5B !important; }
+.mz-tunnel-b[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .mz-stone.next, .mz-gem > *, .mz-key > *, .mz-intro, .mz-token.tunnel > g { animation: none; }
+  .mz-light { transition: none; }
+}
+@media (max-width: 480px) {
+  .mz-stones { padding: 10px; gap: 8px; }
+  .mz-stone { border-width: 2px; }
+  .mz-intro { top: 10px; }
+}

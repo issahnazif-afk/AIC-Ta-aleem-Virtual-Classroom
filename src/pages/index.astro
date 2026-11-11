@@ -197,6 +197,14 @@ const levels = [
         <p class="muted lead">Choose your level and what to recite.</p>
       </div>
       <div>
+        <h2 class="h2">How do you want to recite?</h2>
+        <div class="cards3 su-modes" role="radiogroup" aria-label="How to recite">
+          <button type="button" class="pick" role="radio" aria-checked="false" data-mode="hifz"><b>Hifz test</b><span>The Sheikh recites an opening, you carry on from memory.</span></button>
+          <button type="button" class="pick" role="radio" aria-checked="false" data-mode="follow"><b>Follow my recitation</b><span>Recite your range from memory. The Sheikh follows every word.</span></button>
+          <button type="button" class="pick" role="radio" aria-checked="false" data-mode="reading"><b>Read from the mushaf</b><span>The words are on the page. The Sheikh follows as you read.</span></button>
+        </div>
+      </div>
+      <div>
         <h2 class="h2">Your level</h2>
         <div class="cards4" role="radiogroup" aria-label="Level">
           {levels.map(([id, name, text]) => (
@@ -683,7 +691,7 @@ const levels = [
   <script>
     import { configure, isDemo, login, register, listClasses, setGender, sendSession, flushOutbox } from '../lib/classlog.mjs';
     import { phrase, praiseFor, speak } from '../lib/phrases.mjs';
-    import { getProgress, saveProgress, logGame } from '../lib/classlog.mjs';
+    import { getProgress, saveProgress, logGame, logMaze, mazeBoard } from '../lib/classlog.mjs';
     import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, lookalikes } from '../lib/alifba.mjs';
     import { createLanterns } from '../lib/lanterns.mjs';
     import { LESSONS, GAMES, SPEEDS, STOPS, DUAS, SURAHS, examples, forms, syllable, syllableItems, basketsFor } from '../lib/lessons.mjs';
@@ -943,15 +951,20 @@ const levels = [
     toSel.addEventListener('change', () => { $('su-a2').value = String(maxAyah(toSel)); $('su-a2').max = String(maxAyah(toSel)); syncSetup(); });
     ['su-a1', 'su-a2', 'su-q'].forEach((id) => $(id).addEventListener('input', syncSetup));
     document.querySelectorAll('[data-level]').forEach((b) => b.addEventListener('click', () => { choice.level = b.dataset.level; syncSetup(); }));
+    document.querySelectorAll('#s-setup [data-mode]').forEach((b) => b.addEventListener('click', () => { choice.mode = b.dataset.mode; syncSetup(); }));
+    // the name of each way to recite, on the set-up screen, in the classroom and on the report
+    const MODE_NAME = { hifz: 'Hifz test', follow: 'Follow my recitation', reading: 'Mujawwadah' };
+    const modeTitle = (m) => (m === 'hifz' ? 'Hifz test' : m === 'follow' ? 'Follow my recitation · from memory' : noCam ? 'Recite · no camera' : 'Mujawwadah · reading from the mushaf');
     function syncSetup() {
       document.querySelectorAll('[data-level]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.level === choice.level)));
       document.querySelectorAll('#s-setup [data-hifz-only]').forEach((x) => (x.hidden = choice.mode !== 'hifz'));
+      document.querySelectorAll('#s-setup [data-mode]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.mode === choice.mode)));
       const hifz = choice.mode === 'hifz';
-      $('su-h').textContent = hifz ? 'Hifz test' : noCam ? 'Recite · no camera' : 'Mujawwadah · reading from the mushaf';
-      $('start').textContent = hifz ? 'Start Hifz test' : 'Open the mushaf';
+      $('su-h').textContent = modeTitle(choice.mode);
+      $('start').textContent = hifz ? 'Start Hifz test' : choice.mode === 'follow' ? 'Start reciting' : 'Open the mushaf';
       const s1 = fromSel.selectedOptions[0].textContent.replace(/^\d+\.\s*/, ''), s2 = toSel.selectedOptions[0].textContent.replace(/^\d+\.\s*/, '');
       const r = s1 === s2 ? `${s1} ${$('su-a1').value}–${$('su-a2').value}` : `${s1} ${$('su-a1').value} to ${s2} ${$('su-a2').value}`;
-      $('su-sum').textContent = `${hifz ? 'Hifz test' : noCam ? 'Recite' : 'Mujawwadah'} · ${LEVELS[choice.level].name} · ${r}`;
+      $('su-sum').textContent = `${choice.mode === 'reading' && noCam ? 'Recite' : MODE_NAME[choice.mode] ?? 'Mujawwadah'} · ${LEVELS[choice.level].name} · ${r}`;
     }
     $('su-back').addEventListener('click', () => { if (noCam) { noCam = false; goHome(); } else show('s-check'); });
     $('start').addEventListener('click', startSession);
@@ -995,7 +1008,7 @@ const levels = [
 
     let awayAt = 0;
     function onGaze(state, why) {
-      if (!engine || engine.mode !== 'hifz') return;
+      if (!engine || (engine.mode !== 'hifz' && engine.mode !== 'follow')) return;
       const self = $('self-tile');
       self.dataset.state = state;
       $('self-label').textContent = state === 'ok' ? 'You · face visible' : state === 'noface' ? 'You · face not visible' : 'You · looking away';
@@ -1034,7 +1047,7 @@ const levels = [
       $('s-class').dataset.mode = choice.mode;
       document.querySelectorAll('#s-class [data-hifz-only]').forEach((x) => (x.hidden = !hifz));
       document.querySelectorAll('#s-class [data-reading-only]').forEach((x) => (x.hidden = hifz));
-      $('c-title').textContent = hifz ? 'Hifz test' : noCam ? 'Recite · no camera' : 'Mujawwadah · reading from the mushaf';
+      $('c-title').textContent = modeTitle(choice.mode);
       $('s-class').toggleAttribute('data-nocam', noCam);
       $('c-level').textContent = LEVELS[choice.level].name;
       $('notes').replaceChildren(); notesN = 0; $('notes-n').textContent = 'None yet'; $('c-notes-n').textContent = '';
@@ -1044,6 +1057,14 @@ const levels = [
       $('self-tile').dataset.state = 'ok'; $('self-label').textContent = 'You · live';
       show('s-class');
       setSheikh('idle', '', '');
+      // a word with the Sheikh first: he greets the student, asks how they are and says what he has noticed
+      {
+        const { sheikhChat } = await import('../lib/sheikh-chat.mjs');
+        const sname = (n) => fromSel.querySelector(`option[value="${n}"]`)?.textContent.replace(/^\d+\.\s*/, '') ?? '';
+        const label = s1 === s2 ? `${sname(s1)} ${a1}–${a2}` : `${sname(s1)} ${a1} to ${sname(s2)} ${a2}`;
+        await sheikhChat($('stage'), { name: me.name, mode: choice.mode, range: { s1, a1, s2, a2 }, label, progress, onSave: () => saveProgress({ token: me.token, username: me.username, progress }) });
+        if ($('s-class').hidden) return;   // the student left the classroom during the chat
+      }
       sessionStart = Date.now(); clearInterval(timerT); timerT = setInterval(tickTimer, 1000); tickTimer();
 
       engine = createEngine({
@@ -1063,7 +1084,7 @@ const levels = [
         },
       });
       $('hint').hidden = !engine.hintsAllowed;
-      if (hifz && stream?.getVideoTracks().length) {
+      if ((hifz || choice.mode === 'follow') && stream?.getVideoTracks().length) {
         try {
           const base = watcher?.baseline ?? null;
           watcher?.stop();
@@ -1074,6 +1095,7 @@ const levels = [
       }
       try {
         if (hifz) await engine.startHifz({ s1, a1, s2, a2 }, { questionsN: $('su-q').value ? Number($('su-q').value) : null });
+        else if (choice.mode === 'follow') await engine.startFollow({ s1, a1, s2, a2 });
         else await engine.startReading({ s1, a1, s2, a2 });
       } catch (err) {
         $('su-err').textContent = err.message || String(err);
@@ -1120,7 +1142,7 @@ const levels = [
 
     // ── 5 · report and class log ─────────────────────────────
     let lastEntry = null;
-    function endSession(res) {
+    async function endSession(res) {
       clearInterval(timerT);
       watcher?.stop();
       const t = res.tally;
@@ -1137,7 +1159,7 @@ const levels = [
       $('r-title').textContent = `Session complete, ${me.name.split(' ')[0]}`;
       { const pr = phrase(t.words ? praiseFor(t.words ? t.first / t.words : 0, t.prompt, t.hint) : 'ahsant', me.gender); $('r-praise').textContent = pr.ar; $('r-praise').hidden = !t.words; }
       const fmt = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      $('r-sub').textContent = `${hifz ? 'Hifz test' : 'Mujawwadah'} · ${passage} · ${LEVELS[choice.level].name} · Hafs · ${endTime.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}, ${fmt(new Date(sessionStart))} to ${fmt(endTime)}`;
+      $('r-sub').textContent = `${MODE_NAME[res.mode] ?? 'Mujawwadah'} · ${passage} · ${LEVELS[choice.level].name} · Hafs · ${endTime.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}, ${fmt(new Date(sessionStart))} to ${fmt(endTime)}`;
       $('r-snap').src = snap || ''; $('r-snap').hidden = !snap;
       $('m-time').textContent = `${minutes} min`;
       $('m-q-l').textContent = hifz ? 'Questions' : 'Ayahs read';
@@ -1170,6 +1192,12 @@ const levels = [
       $('r-gl').hidden = !glRead;
       if (t.words) showEarned($('r-earned'), record(progress, { kind: res.mode, key: `${res.mode}:${passage}`, score: Math.round((t.first / t.words) * 100), gardenPalms: palms() }));
       else $('r-earned').hidden = true;
+      if (t.words) {
+        const { remember } = await import('../lib/sheikh-chat.mjs');
+        const rg = store.get('range', null);
+        remember(progress, { mode: res.mode, label: passage, range: rg, pct: Math.round((t.first / t.words) * 100), counts: { words: t.words, wrong: t.wrong, prompt: t.prompt, hint: t.hint, back: t.back, unclear: t.unclear },
+          weak: res.perAyah.filter((a) => a.marks.some((m) => m === 'wrong' || m === 'prompt')).map((a) => a.label ?? `ayah ${a.a}`).slice(0, 3) });
+      }
       saveProgress({ token: me.token, username: me.username, progress });
       if (reciteLesson && !hifz) {   // Alif Ba, Lesson 18: a surah recited well grows the palm
         if (t.words && t.first / t.words >= 0.7) {
@@ -1275,7 +1303,7 @@ const levels = [
       const act = (id) => mine.find((a) => a.id === id);
       const go = (id) => () => { const a = act(id); if (a) openActivity(a); };
       // one family of line icons in muted medallions (src/lib/home-icons.mjs)
-      const ICON_OF = { hifz: 'hifz', reading: 'reading', recite: 'recite', alifba: 'letters', stories: 'stories', library: 'library', tawheed: 'tawheed', prophets: 'prophets', books: 'books', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', days: 'days', detective: 'detective', ayah: 'ayah', match: 'match', journey: 'journey', salah: 'salah', akhlaq: 'akhlaq', 'maze-hijrah': 'mazes', 'maze-tarawih': 'mazes', seerah: 'seerah', guardians: 'guardians' };
+      const ICON_OF = { hifz: 'hifz', reading: 'reading', recite: 'recite', alifba: 'letters', stories: 'stories', library: 'library', tawheed: 'tawheed', prophets: 'prophets', books: 'books', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', days: 'days', detective: 'detective', ayah: 'ayah', match: 'match', journey: 'journey', salah: 'salah', akhlaq: 'akhlaq', 'maze-hijrah': 'mazes', 'maze-tarawih': 'mazes', 'maze-board': 'trophy', seerah: 'seerah', guardians: 'guardians' };
       const P = (id, title, ar, ic, tone, open, extra = {}) => ({ id, title, ar, icon: homeIcon(ic, tone), open, ...extra });
       const C = (a, tone) => P(a.id, a.title, a.ar, ICON_OF[a.id] ?? 'stories', tone, () => openActivity(a), { text: a.text });
       const games = mine.filter((a) => a.group === 'play' && (!a.suggested || a.suggested.includes(me.level)));
@@ -1303,7 +1331,7 @@ const levels = [
           Y('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFBEF', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
           ...(act('guardians') ? [Y('guardians', 'Guardians of Light', 'حُرَّاسُ ٱلنُّور', 'beacon', '#FFF0C2', go('guardians'))] : []),
           Y('games', 'Games', 'أَلْعَاب', 'match', '#FFE4CC', null, { children: games.map(YC) }),
-          Y('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F6E3BC', null, { children: ['maze-hijrah', 'maze-tarawih'].map(act).filter(Boolean).map(YC) }),
+          Y('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F6E3BC', null, { children: ['maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean).map(YC) }),
           Y('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E0E6FA', () => openDeen('days')),
           Y('garden', 'My garden', 'حَدِيقَتِي', 'garden', '#DDF2D6', () => openGarden()),
           Y('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF0C2', () => openAwards()),
@@ -1315,7 +1343,7 @@ const levels = [
           const list = mine.filter((a) => (a.worlds ?? []).includes(wid));
           return list.length ? P('w-' + wid, title, W[wid]?.ar, ic, tone, null, { text: text ?? W[wid]?.text, children: list.map((a) => C(a, tone)) }) : null;
         };
-        const adventures = ['guardians', 'seerah', 'maze-hijrah', 'maze-tarawih'].map(act).filter(Boolean);
+        const adventures = ['guardians', 'seerah', 'maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean);
         places = [
           subject('quran', 'Qur’an', 'quran', 'sage', 'Recite to the Sheikh, memorise, revise and build the ayat.'),
           subject('arabic', 'Arabic', 'arabic', 'sand'),
@@ -1398,17 +1426,35 @@ const levels = [
     }
     // ── Play & Make (src/lib/games/): loaded only when a game is first opened ──
     let gamesMod = null, gameView = null;
+    const MAZE_LIST = [{ id: 'hijrah', title: 'Makkah to Madinah' }, { id: 'tarawih', title: 'To the masjid for Tarawih' }];
+    const boardFetch = (maze) => mazeBoard({ token: me.token, username: me.username, maze });
     async function openGames(id) {
       stopSound();
       const { mountGame } = await (gamesMod ??= import('../lib/games/index.mjs'));
       gameView?.stop();
       show('s-games');
+      if (id === 'maze-board') {   // the class leaderboard as a page of its own (from the home)
+        const { showBoard } = await import('../lib/games/board.mjs');
+        const root = $('gm-root'); root.replaceChildren(); root.className = 'gm';
+        const h = document.createElement('div'); h.className = 'gm-head';
+        h.innerHTML = '<div class="gm-titles"><h2 class="gm-title">Maze leaderboard</h2><p class="gm-ar" lang="ar" dir="rtl">لَوْحَةُ ٱلْأَبْطَالِ</p></div>';
+        root.append(h);
+        gameView = { stop() {} };
+        showBoard(root, { mazes: MAZE_LIST, fetch: boardFetch });
+        return;
+      }
       gameView = mountGame($('gm-root'), {
         id, level: me.level || 1, progress,
         earn: (kind, key, score, good) => { const e = record(progress, { kind, key, score, good, gardenPalms: palms() }); renderDashboard(); return e; },
         flash: (e) => flash(e),
         onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
         onExit: () => goHome(),
+        record: (r) => logMaze({ token: me.token, username: me.username, name: me.name, maze: { maze: r.maze, stage: r.stage, secs: r.secs, moves: r.moves, gobbles: r.gobbles, stars: r.stars } }),
+        leaderboard: async (key, host) => {
+          const { showBoard } = await import('../lib/games/board.mjs');
+          const mz = String(key).replace(/^maze-/, '');
+          showBoard(host, { mazes: MAZE_LIST, start: MAZE_LIST.some((m) => m.id === mz) ? mz : MAZE_LIST[0].id, fetch: boardFetch, onClose: () => {} });
+        },
       });
       renderDashboard();
     }

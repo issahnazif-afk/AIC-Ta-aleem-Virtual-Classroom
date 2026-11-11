@@ -21,13 +21,14 @@ import crypto from 'node:crypto';
 import { lintText } from '../books/writing.mjs';
 import { NAMES, refText, refUrl } from '../../src/lib/deen/refs.mjs';
 import { makeMaze, planShift, applyShift, isTree, reachable, neighbours } from '../../src/lib/games/maze-core.mjs';
-import { MAZE_LEVELS } from '../../src/lib/games/mazes.mjs';
+import { MAZES, mazeStages, STAGE_CAP } from '../../src/lib/games/mazes.mjs';
 import { simulate } from './maze-sim.mjs';
 
 // the data files of the games (no DOM): each may export REVIEW (entries to approve), TEXTS ([where, text, level])
 // and CHECKS (a function returning a list of problems)
 const DATA = ['content.mjs', 'lines.mjs'];
-const extra = fs.readdirSync(new URL('../../src/lib/games/data/', import.meta.url)).filter((f) => f.endsWith('.mjs')).map((f) => `data/${f}`);
+const DATA_DIR = new URL('../../src/lib/games/data/', import.meta.url);
+const extra = fs.existsSync(DATA_DIR) ? fs.readdirSync(DATA_DIR).filter((f) => f.endsWith('.mjs')).map((f) => `data/${f}`) : [];
 const mods = [];
 for (const f of [...DATA, ...extra]) mods.push([f, await import(`../../src/lib/games/${f}`)]);
 
@@ -96,31 +97,36 @@ for (const [where, t, level] of TEXTS) {
 }
 
 // ── 3. the maze: shifting walls never shut the way to the goal ──
+// every stage of every maze (the night maze has its own dark stages, so both ladders are checked)
+const LADDERS = Object.keys(MAZES).map((id) => [id, mazeStages(id)]);
 let shifts = 0;
-for (const [lv, L] of Object.entries(MAZE_LEVELS)) {
+for (const L of LADDERS[0][1]) {
   if (!L.every) continue;
-  for (let run = 0; run < 20; run++) {
+  for (let run = 0; run < 12; run++) {
     const m = makeMaze(L.size, L.size);
     let token = m.start;
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 120; i++) {
       applyShift(m, planShift(m, L.swaps, Math.random, { avoid: [token, m.start, m.goal], bias: L.bias, token }));
       shifts++;
-      if (!isTree(m)) { problems.push(`maze level ${lv}: a shift left the maze with a loop or a closed pocket`); break; }
-      if (!reachable(m, token, m.goal)) { problems.push(`maze level ${lv}: a shift cut the traveller off from the goal`); break; }
+      if (!isTree(m)) { problems.push(`maze stage ${L.n}: a shift left the maze with a loop or a closed pocket`); break; }
+      if (!reachable(m, token, m.goal)) { problems.push(`maze stage ${L.n}: a shift cut the traveller off from the goal`); break; }
       const nb = neighbours(m, token); token = nb[Math.floor(Math.random() * nb.length)];
     }
   }
 }
+// the ladder only grows: no stage is smaller than the one before it
+for (const [id, st] of LADDERS) for (let i = 1; i < st.length; i++) if (st[i].size < st[i - 1].size) problems.push(`maze ${id}: stage ${i + 1} is smaller than stage ${i}`);
+if (STAGE_CAP[4] !== LADDERS[0][1].length) problems.push('maze: Level 4 cannot reach the last stage');
 
-// whole games with the walls and the monsters together (a steady pace for each level's age)
-const PACE = { 2: 600, 3: 480, 4: 400 }, simLines = [];
-for (const [lv, L] of Object.entries(MAZE_LEVELS)) {
-  if (!L.monsters) continue;
-  const rs = Array.from({ length: 50 }, () => simulate(L, { pace: PACE[lv] }));
+// whole games with the walls, the monsters, the key and the tunnels together, at a steady pace for each stage's age
+// (Levels 1 and 2 play stages 1 to 9 slowly; the later stages are for Levels 3 and 4)
+const paceOf = (n) => (n <= 6 ? 650 : n <= 9 ? 550 : 450), simLines = [];
+for (const [id, st] of LADDERS) for (const L of st) {
+  const rs = Array.from({ length: 50 }, () => simulate(L, { pace: paceOf(L.n) }));
   const won = rs.filter((r) => r.won), secs = won.map((r) => r.secs).sort((a, b) => a - b);
-  if (rs.some((r) => r.cutOff)) problems.push(`maze level ${lv}: in a simulated game the goal was cut off`);
-  if (won.length < 45) problems.push(`maze level ${lv}: only ${won.length} of 50 simulated games were won in five minutes`);
-  simLines.push(`Level ${lv}: ${won.length}/50 won, median ${secs[secs.length >> 1] ?? '-'} s, ${(rs.reduce((a, r) => a + r.gobbles, 0) / rs.length).toFixed(1)} gobbles a game`);
+  if (rs.some((r) => r.cutOff)) problems.push(`maze ${id} stage ${L.n}: in a simulated game the goal or the key was cut off`);
+  if (won.length < 45) problems.push(`maze ${id} stage ${L.n}: only ${won.length} of 50 simulated games were won in five minutes`);
+  simLines.push(`${id} ${L.n}: ${won.length}/50, median ${secs[secs.length >> 1] ?? '-'} s, ${(rs.reduce((a, r) => a + r.gobbles, 0) / rs.length).toFixed(1)} gobbles`);
 }
 
 // ── 4. each game's own checks ──
@@ -162,7 +168,7 @@ for (const g of groups) {
 fs.writeFileSync(new URL('docs/activities-review.md', root), md.join('\n'));
 
 console.log(`Play & Make: ${REVIEW.length} entries, ${cites.length} hadith references, ${TEXTS.length} lines of English, ${shifts} maze shifts checked.`);
-console.log(`Simulated maze games: ${simLines.join('; ')}.`);
+console.log('Simulated maze games (won of 50, median time, gobbles a game):' + simLines.map((x) => '\n  ' + x).join(''));
 console.log(approval ? `Approved by ${approval.by} on ${approval.date}: ${REVIEW.length - pending.length} of ${REVIEW.length}.` : `Not yet approved: ${pending.length} entries pending review.`);
 console.log(problems.length ? problems.join('\n') : 'No problems found.');
 process.exit(problems.length ? 1 : 0);

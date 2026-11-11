@@ -101,6 +101,8 @@ function doPost(e) {
     if (body.action === 'progress') return json(getProgress(body));
     if (body.action === 'save-progress') return json(saveProgress(body));
     if (body.action === 'game') return json(logGame(body));
+    if (body.action === 'maze') return json(logMaze(body));
+    if (body.action === 'maze-board') return json(mazeBoard(body));
     if (body.action === 'questions') return json(listQuestions(body));
     if (body.action === 'voice-list') return json(voiceList());
     if (body.action === 'voice-clip') return json(voiceClip(body));
@@ -405,6 +407,76 @@ function logGame(body) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// ── the maze leaderboard ─────────────────────────────────────────────
+// Every finished maze stage is one row in the class log's "Maze board" tab. The board a student sees is their own
+// class only: each classmate once, by first name and the first letter of the family name, ranked by the highest
+// stage reached, then the fewest seconds on that stage. Recitation is never ranked.
+const MAZE_TAB = 'Maze board';
+const MAZE_HEADERS = ['When', 'Name', 'Username', 'Maze', 'Stage', 'Seconds', 'Moves', 'Gobbled', 'Stars'];
+function mazeSheet(cls) {
+  const ss = classLog(cls);
+  let sh = ss.getSheetByName(MAZE_TAB);
+  if (!sh) {
+    sh = ss.insertSheet(MAZE_TAB);
+    sh.appendRow(MAZE_HEADERS);
+    sh.getRange(1, 1, 1, MAZE_HEADERS.length).setFontWeight('bold').setBackground('#FBE3A6');
+    sh.setFrozenRows(1);
+    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+  }
+  return sh;
+}
+function shortName(full) {
+  const p = String(full || '').trim().split(/\s+/);
+  return p.length > 1 ? p[0] + ' ' + p[p.length - 1].charAt(0).toUpperCase() + '.' : (p[0] || 'Student');
+}
+function logMaze(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const cls = findClass(r.st.v[S.cls]);
+  if (!cls) return { ok: false, error: 'class-removed' };
+  const g = body.maze || {};
+  const n = (v) => (typeof v === 'number' && isFinite(v) ? v : '');
+  if (!/^[a-z0-9-]{1,40}$/.test(String(g.maze || '')) || !(g.stage >= 1 && g.stage <= 99)) return { ok: false, error: 'bad-request' };
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    mazeSheet(cls).appendRow([new Date(), String(r.st.v[S.name]), String(r.st.v[S.user]), String(g.maze), n(g.stage), n(g.secs), n(g.moves), n(g.gobbles), n(g.stars)]);
+  } finally {
+    lock.releaseLock();
+  }
+  CacheService.getScriptCache().remove('maze-board:' + cls.code + ':' + g.maze);
+  return { ok: true };
+}
+function mazeBoard(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const cls = findClass(r.st.v[S.cls]);
+  if (!cls) return { ok: false, error: 'class-removed' };
+  const maze = String(body.maze || '');
+  const key = 'maze-board:' + cls.code + ':' + maze;
+  const cache = CacheService.getScriptCache();
+  let rows = null;
+  const hit = cache.get(key);
+  if (hit) rows = JSON.parse(hit);
+  else {
+    const sh = mazeSheet(cls);
+    const best = {};
+    const data = sh.getLastRow() > 1 ? sh.getRange(2, 1, sh.getLastRow() - 1, MAZE_HEADERS.length).getValues() : [];
+    data.forEach(function (v) {
+      if (String(v[3]) !== maze) return;
+      const u = String(v[2]), stage = Number(v[4]) || 0, secs = Number(v[5]) || 99999;
+      const b = best[u];
+      if (!b || stage > b.stage || (stage === b.stage && secs < b.secs)) best[u] = { u: u, name: shortName(v[1]), stage: stage, secs: secs, stars: Number(v[8]) || 0 };
+    });
+    rows = Object.keys(best).map(function (k) { return best[k]; }).sort(function (a, b) { return b.stage - a.stage || a.secs - b.secs; });
+    cache.put(key, JSON.stringify(rows), 60);
+  }
+  const me = String(r.st.v[S.user]);
+  const mine = rows.findIndex(function (x) { return x.u === me; });
+  const out = rows.slice(0, 10).map(function (x, i) { return { rank: i + 1, name: x.name, stage: x.stage, secs: x.secs, stars: x.stars, me: x.u === me }; });
+  return { ok: true, className: cls.name, rows: out, mine: mine >= 0 ? { rank: mine + 1, stage: rows[mine].stage, secs: rows[mine].secs } : null, total: rows.length };
 }
 
 // ── the Voice Studio: teachers record the Sheikh's voice ──────────────

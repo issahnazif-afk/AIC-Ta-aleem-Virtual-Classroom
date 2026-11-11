@@ -1,3 +1,4 @@
+import { MAZES, STAGE_INTROS } from './mazes.mjs';
 // The English lines the Play & Make games read aloud for Levels 1 and 2. scripts/voice/narration-list.mjs lists
 // them for the recorded storyteller voice, and scripts/games/check.mjs runs them through the writing check.
 // No DOM here: this file is also read by Node.
@@ -12,5 +13,8 @@ export const MAZE_LINES = {
   won: 'You made it! Masha Allah!',
 };
 
-export const ALL_LINES = [...Object.values(MAZE_LINES)];
+// the cards that say what is new at a maze stage (read aloud at Levels 1 and 2), for both mazes
+export const MAZE_INTRO_LINES = Object.values(MAZES).flatMap((d) => Object.values(STAGE_INTROS).map((f) => f(d)));
+
+export const ALL_LINES = [...Object.values(MAZE_LINES), ...new Set(MAZE_INTRO_LINES)];
 export const TEXTS = ALL_LINES.map((t) => ['read-aloud line', t, 2]);

@@ -481,3 +481,58 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .kh-young .kh-label:not(.kh-sr) { display: flex; flex-direction: column; align-items: center; gap: 0; max-width: 100%; padding: 4px 14px 5px; border-radius: 18px; background: rgb(255 255 255 / .94); box-shadow: 0 2px 6px rgb(15 42 34 / .14); }
 .kh-young .kh-label .kh-ar { line-height: 1.5; }
 @media (prefers-reduced-motion: reduce) { .kh-young .kh-ic.kh-pic img { transition: none; } }
+
+/* ── the maze leaderboard (src/lib/games/board.mjs) ── */
+.lb-board { width: 100%; max-width: 640px; margin: 8px auto 24px; }
+.lb-board.lb-over { position: fixed; inset: 0; z-index: 80; max-width: none; margin: 0; display: grid; place-items: center; padding: 16px; background: rgb(15 42 34 / .45); box-sizing: border-box; }
+.lb-card { width: 100%; max-width: 560px; max-height: calc(100dvh - 32px); overflow: auto; box-sizing: border-box; padding: 18px 18px 14px; border-radius: 18px; background: var(--ivory, #F7F4EA); border: 1px solid var(--rule, #e3dccb); box-shadow: 0 18px 50px rgb(15 42 34 / .25); }
+.lb-board:not(.lb-over) .lb-card { box-shadow: none; }
+.lb-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lb-h { margin: 0; font-family: Lora, serif; font-size: 1.35rem; color: var(--forest, #173D32); }
+.lb-close { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rule, #e3dccb); background: #fff; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--forest, #173D32); }
+.lb-tabs { display: flex; gap: 6px; margin: 12px 0 4px; flex-wrap: wrap; }
+.lb-tab { padding: 7px 14px; border-radius: 999px; border: 1px solid var(--rule, #e3dccb); background: #fff; font: inherit; font-weight: 700; color: var(--forest, #173D32); cursor: pointer; }
+.lb-tab[aria-selected="true"] { background: var(--forest, #173D32); border-color: var(--forest, #173D32); color: #fff; }
+.lb-sub { margin: 10px 0 6px; color: #5b6b63; font-size: .92rem; }
+.lb-msg, .lb-mine { margin: 14px 0; color: #34463e; }
+.lb-mine { font-weight: 700; color: var(--forest, #173D32); }
+.lb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.lb-row { display: grid; grid-template-columns: 36px 1fr auto auto; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--rule, #e3dccb); }
+.lb-row.me { border-color: var(--gold, #B99A5B); background: #FFF8E6; }
+.lb-rank { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #EEF1EC; font-weight: 800; color: var(--forest, #173D32); }
+.lb-row.top1 .lb-rank { background: #F6C343; color: #4a3500; }
+.lb-row.top2 .lb-rank { background: #D9DEE3; color: #2d3a44; }
+.lb-row.top3 .lb-rank { background: #E3B18A; color: #4a2a10; }
+.lb-name { font-weight: 700; color: #1d2c26; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb-stage { font-weight: 800; color: var(--forest, #173D32); }
+.lb-time { color: #5b6b63; font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: right; }
+.lb-note { margin: 12px 0 0; font-size: .82rem; color: #6a776f; }
+@media (max-width: 420px) { .lb-row { grid-template-columns: 30px 1fr auto; } .lb-time { grid-column: 2 / 4; text-align: left; font-size: .85rem; margin-top: -4px; } }
+
+/* ── recitation set-up: how to recite (Hifz test, Follow my recitation, Read from the mushaf) ── */
+.su-modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 720px) { .su-modes { grid-template-columns: 1fr; } }
+
+/* ── a word with the Sheikh before reciting (src/lib/sheikh-chat.mjs) ── */
+.sc-chat { display: grid; place-items: center; min-height: 100%; padding: 16px; box-sizing: border-box; }
+.sc-card { width: 100%; max-width: 620px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 18px; background: var(--ivory, #F7F4EA); border: 1px solid var(--rule, #e3dccb); box-shadow: 0 14px 40px rgb(15 42 34 / .14); }
+.sc-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.sc-head b { font-family: Lora, serif; font-size: 1.15rem; color: var(--forest, #173D32); }
+.sc-tools { display: flex; gap: 6px; }
+.sc-sound, .sc-skip { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--rule, #e3dccb); background: #fff; font: inherit; font-size: .88rem; font-weight: 700; color: var(--forest, #173D32); cursor: pointer; }
+.sc-log { display: flex; flex-direction: column; gap: 8px; max-height: min(52vh, 420px); overflow-y: auto; padding: 4px 2px; }
+.sc-msg { margin: 0; max-width: 86%; padding: 10px 14px; border-radius: 16px; line-height: 1.5; font-size: 1.02rem; }
+.sc-msg.sheikh { align-self: flex-start; background: #fff; border: 1px solid var(--rule, #e3dccb); border-bottom-left-radius: 4px; color: #1d2c26; }
+.sc-msg.sheikh.typing { color: #8a968f; letter-spacing: 3px; }
+.sc-msg.me { align-self: flex-end; background: var(--forest, #173D32); color: #fff; border-bottom-right-radius: 4px; }
+.sc-replies { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; min-height: 44px; }
+.sc-reply { padding: 9px 14px; border-radius: 999px; border: 1.5px solid var(--forest, #173D32); background: #fff; color: var(--forest, #173D32); font: inherit; font-weight: 700; cursor: pointer; }
+.sc-reply:hover, .sc-reply:focus-visible { background: #EAF2EC; }
+.sc-go { padding: 12px 22px; border-radius: 999px; border: 0; background: var(--forest, #173D32); color: #fff; font: inherit; font-weight: 800; font-size: 1.05rem; cursor: pointer; }
+@media (prefers-reduced-motion: no-preference) { .sc-msg { animation: sc-in .25s ease-out; } @keyframes sc-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } } }
+.sc-quote { align-self: stretch; margin: 2px 0 4px; padding: 12px 14px; border-radius: 14px; background: #fff; border: 1px solid var(--rule, #e3dccb); border-left: 4px solid var(--gold, #B99A5B); }
+.sc-quote-ar { margin: 0 0 6px; font-family: Amiri, serif; font-size: 1.45rem; line-height: 1.9; color: var(--forest, #173D32); text-align: right; }
+.sc-quote-ar.quran { font-family: 'KFGQPC Hafs', Amiri, serif; }
+.sc-quote-en { margin: 0; font-style: italic; color: #1d2c26; }
+.sc-quote-ref { margin: 6px 0 0; font-size: .85rem; color: var(--gold-text, #7A6232); }
+.sc-quote-ref a { color: inherit; }
