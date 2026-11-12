@@ -162,7 +162,6 @@ export function renderHub(root, { level = 3, gender = '', sq, quality, onQuality
   grid.append(eps, side);
   hub.append(grid);
   const rules = el('p', 'sqh-rules'); withSaw(rules, TEXT.hubRules); hub.append(rules);
-  hub.append(el('p', 'sqh-preview-note', 'Preview: the English translations are waiting for an Islamic Studies teacher\'s review.'));
   root.append(hub);
   return { quality: () => q.value };
 }

@@ -1,7 +1,8 @@
 // The extra hadith the Sheikh can quote in conversation (src/data/sheikh-hadith.json), from Sahih al-Bukhari and
 // Sahih Muslim only, in the English of hadith-api (fawazahmed0, the numbering of sunnah.com). Chosen by hand for
 // children: manners, kindness, family, neighbours, anger, the Qur'an and learning. Only spacing is tidied and a
-// missing closing quotation mark added; the words are as published.
+// missing closing quotation mark added; the words are as published. Ustadh Issah reviewed and approved these 40
+// on 12 November 2026: a hadith added to PICKED later needs his review too.
 //   node scripts/sheikh/hadith.mjs
 import fs from 'node:fs';
 import path from 'node:path';
@@ -38,5 +39,5 @@ for (const [c, nums] of Object.entries(PICKED)) {
     out.push({ c, n, en: tidy(h.text) });
   }
 }
-fs.writeFileSync(file('src/data/sheikh-hadith.json'), JSON.stringify({ source: 'hadith-api by fawazahmed0 (The Unlicense), English of sunnah.com; Sahih al-Bukhari and Sahih Muslim', hadith: out }, null, 1) + '\n');
+fs.writeFileSync(file('src/data/sheikh-hadith.json'), JSON.stringify({ source: 'hadith-api by fawazahmed0 (The Unlicense), English of sunnah.com; Sahih al-Bukhari and Sahih Muslim', reviewed: 'The 40 below: Ustadh Issah, 12 November 2026', hadith: out }, null, 1) + '\n');
 console.log(out.length, 'hadith written');

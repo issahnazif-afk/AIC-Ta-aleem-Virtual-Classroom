@@ -1,225 +1,225 @@
 # The Seerah Quest · source record
 
 Every historical passage used in the game, from Ibn Kathir, al-Bidaya wa'l-Nihaya (البداية والنهاية), ed. ʿAli Shiri, Dar Ihyaʾ al-Turath al-ʿArabi, Beirut, 1408/1988 (al-Maktaba al-Shamela no. 8376); digital text: OpenITI 0774IbnKathir.Bidaya.Shamela0008376-ara2.
-The Arabic is copied mechanically from the edition by `scripts/seerah/sources.py`. Translations are ours; please review them.
+The Arabic is copied mechanically from the edition by `scripts/seerah/sources.py`. Translations are ours; every one was reviewed and approved by Ustadh Issah on 12 November 2026.
 Classification: **established** (may become a mission) · **reported** (labelled note only) · **excluded** (not used).
 
 | ID | Episode | Vol./page | Class | Reviewer |
 |---|---|---|---|---|
-| z-title | 1 | 2/303 | established | pending |
-| z-dream | 1 | 2/303 | established | pending |
-| z-dig | 1 | 2/303 | established | pending |
-| z-claim | 1 | 2/303 | established | pending |
-| z-journey | 1 | 2/303 | established | pending |
-| z-graves | 1 | 2/303 | established | pending |
-| z-spring | 1 | 2/303 | established | pending |
-| z-verdict | 1 | 2/304 | established | pending |
-| z-where | 1 | 2/304 | reported | pending |
-| z-umawi | 1 | 2/304 | reported | pending |
-| z-arrows | 1 | 2/304–305 | excluded | pending |
-| z-siqaya | 1 | 2/305 | established | pending |
-| e-qullays | 2 | 2/211 | established | pending |
-| e-anger | 2 | 2/212 | established | pending |
-| e-march | 2 | 2/212 | established | pending |
-| e-nufayl | 2 | 2/212–213 | established | pending |
-| e-taif | 2 | 2/213 | established | pending |
-| e-camels | 2 | 2/213 | established | pending |
-| e-hunata | 2 | 2/214 | established | pending |
-| e-friends | 2 | 2/214 | established | pending |
-| e-meeting | 2 | 2/214 | established | pending |
-| e-offer | 2 | 2/214–215 | excluded | pending |
-| e-mountains | 2 | 2/215 | established | pending |
-| e-dua | 2 | 2/215 | established | pending |
-| e-peaks | 2 | 2/215 | established | pending |
-| e-elephant | 2 | 2/215–216 | established | pending |
-| e-birds | 2 | 2/216 | established | pending |
-| e-abraha | 2 | 2/217 | established | pending |
-| e-surah | 2 | 2/217 | established | pending |
-| e-meaning | 2 | 2/219 | established | pending |
-| e-year | 2 | 2/219 | established | pending |
-| b-monday | 3 | 2/319 | established | pending |
-| b-month | 3 | 2/320 | established | pending |
-| b-day2 | 3 | 2/320 | reported | pending |
-| b-day8 | 3 | 2/320 | reported | pending |
-| b-day12 | 3 | 2/320 | reported | pending |
-| b-year | 3 | 2/321 | established | pending |
-| b-qays | 3 | 2/321 | established | pending |
-| b-other | 3 | 2/321 | reported | pending |
-| b-agreed | 3 | 2/322 | established | pending |
-| b-amina | 3 | 2/322 | established | pending |
-| b-father | 3 | 2/322 | established | pending |
-| b-madinah | 3 | 2/322 | established | pending |
-| b-28 | 3 | 2/323 | reported | pending |
-| b-orphan | 3 | 2/323 | established | pending |
-| b-kharbudh | 3 | 2/323 | reported | pending |
-| b-halima | 3 | 2/333 | established | pending |
-| b-milk | 3 | 2/333 | established | pending |
-| b-grand | 3 | 2/340 | established | pending |
-| b-abwa | 3 | 2/340 | established | pending |
-| b-abbas | 3 | 2/344 | established | pending |
-| b-abutalib | 3 | 2/344 | established | pending |
-| t-shepherd | 4 | 2/360 | established | pending |
-| t-cause | 4 | 2/355–356 | established | pending |
-| t-call | 4 | 2/356 | established | pending |
-| t-pact | 4 | 2/356 | established | pending |
-| t-fudul | 4 | 2/355 | established | pending |
-| t-trade | 4 | 2/358 | established | pending |
-| t-profit | 4 | 2/358 | established | pending |
-| t-qualities | 4 | 2/358 | reported | pending |
-| t-marry | 4 | 2/360 | established | pending |
-| k-dates | 4 | 2/321 | established | pending |
-| k-stones | 4 | 2/350 | established | pending |
-| k-age | 4 | 2/368 | established | pending |
-| k-ship | 4 | 2/368 | established | pending |
-| k-carpenter | 4 | 2/368 | established | pending |
-| k-pure | 4 | 2/368 | established | pending |
-| k-sides | 4 | 2/369 | established | pending |
-| k-walid | 4 | 2/369 | established | pending |
-| k-gather | 4 | 2/370 | established | pending |
-| k-nights | 4 | 2/370 | established | pending |
-| k-first | 4 | 2/370 | reported | pending |
-| k-amin | 4 | 2/370–371 | established | pending |
-| r-age | 5 | 3/5 | established | pending |
-| r-43 | 5 | 3/5 | reported | pending |
-| r-place | 5 | 3/9 | established | pending |
-| r-jiwar | 5 | 3/18 | established | pending |
-| r-dreams | 5 | 3/5 | established | pending |
-| r-hira | 5 | 3/5 | established | pending |
-| r-iqra | 5 | 3/5 | established | pending |
-| r-qari | 5 | 3/11 | established | pending |
-| r-return | 5 | 3/5 | established | pending |
-| r-kalla | 5 | 3/5–6 | established | pending |
-| r-waraqa | 5 | 3/6 | established | pending |
-| r-pause | 5 | 3/6 | established | pending |
-| r-muddathir | 5 | 3/6 | established | pending |
-| r-monday | 5 | 3/10 | established | pending |
-| r-rabi | 5 | 3/11 | reported | pending |
-| r-ramadan | 5 | 3/11 | established | pending |
-| r-17 | 5 | 3/11 | reported | pending |
-| f-secret | 6 | 3/33 | established | pending |
-| f-khadija | 6 | 3/33 | established | pending |
-| f-ali | 6 | 3/34 | established | pending |
-| f-zayd | 6 | 3/34 | established | pending |
-| f-afif | 6 | 3/35 | established | pending |
-| f-first4 | 6 | 3/25 | established | pending |
-| f-others | 6 | 3/36 | reported | pending |
-| f-kalbi | 6 | 3/35 | reported | pending |
-| f-abubakr | 6 | 3/36–37 | established | pending |
-| f-trader | 6 | 3/39 | established | pending |
-| f-five | 6 | 3/39 | reported | pending |
-| f-eight | 6 | 3/39 | established | pending |
-| f-spread | 6 | 3/50 | established | pending |
-| f-shiab | 6 | 3/50 | established | pending |
-| f-three | 6 | 3/50 | established | pending |
-| f-safa | 6 | 3/51 | established | pending |
-| bl-hard | 7 | 3/74 | established | pending |
-| bl-who | 7 | 3/74 | established | pending |
-| bl-seven | 7 | 3/75 | established | pending |
-| bl-waraqa | 7 | 3/74–75 | reported | pending |
-| bl-doubt | 7 | 3/75 | established | pending |
-| bl-freed | 7 | 3/75 | established | pending |
-| bl-nahdiyya | 7 | 3/75 | established | pending |
-| bl-quhafa | 7 | 3/75 | established | pending |
-| bl-verses | 7 | 3/75 | reported | pending |
-| bl-yasir | 7 | 3/76 | reported | pending |
-| ab-why | 8 | 3/85 | established | pending |
-| ab-first | 8 | 3/85 | established | pending |
-| ab-when | 8 | 3/84 | established | pending |
-| ab-82 | 8 | 3/85 | reported | pending |
-| ab-umm | 8 | 3/92 | established | pending |
-| ab-envoys | 8 | 3/92 | established | pending |
-| ab-leather | 8 | 3/92 | established | pending |
-| ab-fair | 8 | 3/92 | established | pending |
-| ab-ask | 8 | 3/93 | established | pending |
-| ab-taught | 8 | 3/93 | established | pending |
-| ab-chose | 8 | 3/93–94 | established | pending |
-| ab-maryam | 8 | 3/94 | established | pending |
-| ab-isa | 8 | 3/94 | established | pending |
-| ab-safe | 8 | 3/94 | established | pending |
-| h-shib | 9 | 3/105 | established | pending |
-| h-pact | 9 | 3/105 | established | pending |
-| h-years | 9 | 3/105–106 | established | pending |
-| h-bed | 9 | 3/106 | established | pending |
-| h-regret | 9 | 3/106 | established | pending |
-| h-termite | 9 | 3/106 | established | pending |
-| h-hung | 9 | 3/106 | reported | pending |
-| h-sameyear | 9 | 3/156 | established | pending |
-| h-3days | 9 | 3/156 | reported | pending |
-| h-35 | 9 | 3/156 | reported | pending |
-| h-nalat | 9 | 3/151 | established | pending |
-| h-taif | 9 | 3/166 | established | pending |
-| h-vine | 9 | 3/166 | established | pending |
-| h-dua | 9 | 3/166–167 | reported | pending |
-| h-addas | 9 | 3/167 | established | pending |
-| hj-13 | 10 | 3/217 | established | pending |
-| hj-when | 10 | 3/218 | established | pending |
-| hj-mounts | 10 | 3/218 | established | pending |
-| hj-800 | 10 | 3/218 | established | pending |
-| hj-joy | 10 | 3/218 | established | pending |
-| hj-guide | 10 | 3/218 | established | pending |
-| hj-trusts | 10 | 3/218–219 | established | pending |
-| hj-door | 10 | 3/219 | established | pending |
-| hj-thawr | 10 | 3/219 | established | pending |
-| hj-strange | 10 | 3/219 | reported | pending |
-| hj-asma | 10 | 3/219 | established | pending |
-| hj-two | 10 | 3/223 | established | pending |
-| hj-ship | 10 | 3/223–224 | reported | pending |
-| hj-nochain | 10 | 3/224 | established | pending |
-| hj-zubayr | 10 | 3/228 | established | pending |
-| hj-wait | 10 | 3/228 | established | pending |
-| hj-shade | 10 | 3/228 | established | pending |
-| hj-quba | 10 | 3/228 | established | pending |
-| m-knelt | 11 | 3/228–229 | established | pending |
-| m-bricks | 11 | 3/229 | established | pending |
-| m-mosque | 11 | 3/262 | established | pending |
-| m-anas | 11 | 3/277 | established | pending |
-| m-brother | 11 | 3/277 | reported | pending |
-| m-pairs | 11 | 3/277 | established | pending |
-| m-awf | 11 | 3/279 | established | pending |
-| m-adhan | 11 | 3/284 | established | pending |
-| bd-night | 12 | 3/326 | established | pending |
-| bd-water | 12 | 3/326 | established | pending |
-| bd-hubab | 12 | 3/326–327 | reported | pending |
-| bd-313 | 12 | 3/328 | established | pending |
-| bd-talut | 12 | 3/328 | established | pending |
-| bd-date | 12 | 3/367 | established | pending |
-| bd-ayyub | 12 | 3/367 | reported | pending |
-| bd-teach | 12 | 3/397 | established | pending |
-| ud-dates | 12 | 4/107 | established | pending |
-| ud-name | 12 | 4/11 | established | pending |
-| ud-archers | 12 | 4/28 | established | pending |
-| ud-left | 12 | 4/28 | established | pending |
-| kh-date | 12 | 4/107 | established | pending |
-| kh-four | 12 | 4/107 | reported | pending |
-| kh-dig | 12 | 4/109 | established | pending |
-| kh-salman | 12 | 4/109 | reported | pending |
-| kh-cold | 12 | 4/109–110 | established | pending |
-| kh-answer | 12 | 4/110 | established | pending |
-| kh-earth | 12 | 4/110 | established | pending |
-| tr-date | 13 | 4/188 | established | pending |
-| tr-strange | 13 | 4/188 | reported | pending |
-| tr-names | 13 | 4/192 | established | pending |
-| tr-terms | 13 | 4/192–193 | established | pending |
-| tr-distress | 13 | 4/193 | established | pending |
-| tr-fath | 13 | 4/202 | established | pending |
-| fa-march | 13 | 4/325 | established | pending |
-| fa-12 | 13 | 4/325 | reported | pending |
-| fa-safe | 13 | 4/331 | established | pending |
-| fa-tawaf | 13 | 4/344 | established | pending |
-| fa-adam | 13 | 4/344 | reported | pending |
-| fa-tulaqa | 13 | 4/344 | reported | pending |
-| fa-key | 13 | 4/344 | reported | pending |
-| fw-once | 14 | 5/126 | established | pending |
-| fw-perfect | 14 | 5/125 | established | pending |
-| fw-umar | 14 | 5/195 | established | pending |
-| fw-arafah | 14 | 5/166 | established | pending |
-| fw-blood | 14 | 5/166 | established | pending |
-| fw-women | 14 | 5/166 | established | pending |
-| fw-book | 14 | 5/166 | established | pending |
-| fw-monday | 14 | 5/275 | established | pending |
-| fw-look | 14 | 5/275 | established | pending |
-| fw-forenoon | 14 | 5/275 | reported | pending |
-| fw-siddiq | 14 | 4/35 | established | pending |
+| z-title | 1 | 2/303 | established | Ustadh Issah, 12 November 2026 |
+| z-dream | 1 | 2/303 | established | Ustadh Issah, 12 November 2026 |
+| z-dig | 1 | 2/303 | established | Ustadh Issah, 12 November 2026 |
+| z-claim | 1 | 2/303 | established | Ustadh Issah, 12 November 2026 |
+| z-journey | 1 | 2/303 | established | Ustadh Issah, 12 November 2026 |
+| z-graves | 1 | 2/303 | established | Ustadh Issah, 12 November 2026 |
+| z-spring | 1 | 2/303 | established | Ustadh Issah, 12 November 2026 |
+| z-verdict | 1 | 2/304 | established | Ustadh Issah, 12 November 2026 |
+| z-where | 1 | 2/304 | reported | Ustadh Issah, 12 November 2026 |
+| z-umawi | 1 | 2/304 | reported | Ustadh Issah, 12 November 2026 |
+| z-arrows | 1 | 2/304–305 | excluded | Ustadh Issah, 12 November 2026 |
+| z-siqaya | 1 | 2/305 | established | Ustadh Issah, 12 November 2026 |
+| e-qullays | 2 | 2/211 | established | Ustadh Issah, 12 November 2026 |
+| e-anger | 2 | 2/212 | established | Ustadh Issah, 12 November 2026 |
+| e-march | 2 | 2/212 | established | Ustadh Issah, 12 November 2026 |
+| e-nufayl | 2 | 2/212–213 | established | Ustadh Issah, 12 November 2026 |
+| e-taif | 2 | 2/213 | established | Ustadh Issah, 12 November 2026 |
+| e-camels | 2 | 2/213 | established | Ustadh Issah, 12 November 2026 |
+| e-hunata | 2 | 2/214 | established | Ustadh Issah, 12 November 2026 |
+| e-friends | 2 | 2/214 | established | Ustadh Issah, 12 November 2026 |
+| e-meeting | 2 | 2/214 | established | Ustadh Issah, 12 November 2026 |
+| e-offer | 2 | 2/214–215 | excluded | Ustadh Issah, 12 November 2026 |
+| e-mountains | 2 | 2/215 | established | Ustadh Issah, 12 November 2026 |
+| e-dua | 2 | 2/215 | established | Ustadh Issah, 12 November 2026 |
+| e-peaks | 2 | 2/215 | established | Ustadh Issah, 12 November 2026 |
+| e-elephant | 2 | 2/215–216 | established | Ustadh Issah, 12 November 2026 |
+| e-birds | 2 | 2/216 | established | Ustadh Issah, 12 November 2026 |
+| e-abraha | 2 | 2/217 | established | Ustadh Issah, 12 November 2026 |
+| e-surah | 2 | 2/217 | established | Ustadh Issah, 12 November 2026 |
+| e-meaning | 2 | 2/219 | established | Ustadh Issah, 12 November 2026 |
+| e-year | 2 | 2/219 | established | Ustadh Issah, 12 November 2026 |
+| b-monday | 3 | 2/319 | established | Ustadh Issah, 12 November 2026 |
+| b-month | 3 | 2/320 | established | Ustadh Issah, 12 November 2026 |
+| b-day2 | 3 | 2/320 | reported | Ustadh Issah, 12 November 2026 |
+| b-day8 | 3 | 2/320 | reported | Ustadh Issah, 12 November 2026 |
+| b-day12 | 3 | 2/320 | reported | Ustadh Issah, 12 November 2026 |
+| b-year | 3 | 2/321 | established | Ustadh Issah, 12 November 2026 |
+| b-qays | 3 | 2/321 | established | Ustadh Issah, 12 November 2026 |
+| b-other | 3 | 2/321 | reported | Ustadh Issah, 12 November 2026 |
+| b-agreed | 3 | 2/322 | established | Ustadh Issah, 12 November 2026 |
+| b-amina | 3 | 2/322 | established | Ustadh Issah, 12 November 2026 |
+| b-father | 3 | 2/322 | established | Ustadh Issah, 12 November 2026 |
+| b-madinah | 3 | 2/322 | established | Ustadh Issah, 12 November 2026 |
+| b-28 | 3 | 2/323 | reported | Ustadh Issah, 12 November 2026 |
+| b-orphan | 3 | 2/323 | established | Ustadh Issah, 12 November 2026 |
+| b-kharbudh | 3 | 2/323 | reported | Ustadh Issah, 12 November 2026 |
+| b-halima | 3 | 2/333 | established | Ustadh Issah, 12 November 2026 |
+| b-milk | 3 | 2/333 | established | Ustadh Issah, 12 November 2026 |
+| b-grand | 3 | 2/340 | established | Ustadh Issah, 12 November 2026 |
+| b-abwa | 3 | 2/340 | established | Ustadh Issah, 12 November 2026 |
+| b-abbas | 3 | 2/344 | established | Ustadh Issah, 12 November 2026 |
+| b-abutalib | 3 | 2/344 | established | Ustadh Issah, 12 November 2026 |
+| t-shepherd | 4 | 2/360 | established | Ustadh Issah, 12 November 2026 |
+| t-cause | 4 | 2/355–356 | established | Ustadh Issah, 12 November 2026 |
+| t-call | 4 | 2/356 | established | Ustadh Issah, 12 November 2026 |
+| t-pact | 4 | 2/356 | established | Ustadh Issah, 12 November 2026 |
+| t-fudul | 4 | 2/355 | established | Ustadh Issah, 12 November 2026 |
+| t-trade | 4 | 2/358 | established | Ustadh Issah, 12 November 2026 |
+| t-profit | 4 | 2/358 | established | Ustadh Issah, 12 November 2026 |
+| t-qualities | 4 | 2/358 | reported | Ustadh Issah, 12 November 2026 |
+| t-marry | 4 | 2/360 | established | Ustadh Issah, 12 November 2026 |
+| k-dates | 4 | 2/321 | established | Ustadh Issah, 12 November 2026 |
+| k-stones | 4 | 2/350 | established | Ustadh Issah, 12 November 2026 |
+| k-age | 4 | 2/368 | established | Ustadh Issah, 12 November 2026 |
+| k-ship | 4 | 2/368 | established | Ustadh Issah, 12 November 2026 |
+| k-carpenter | 4 | 2/368 | established | Ustadh Issah, 12 November 2026 |
+| k-pure | 4 | 2/368 | established | Ustadh Issah, 12 November 2026 |
+| k-sides | 4 | 2/369 | established | Ustadh Issah, 12 November 2026 |
+| k-walid | 4 | 2/369 | established | Ustadh Issah, 12 November 2026 |
+| k-gather | 4 | 2/370 | established | Ustadh Issah, 12 November 2026 |
+| k-nights | 4 | 2/370 | established | Ustadh Issah, 12 November 2026 |
+| k-first | 4 | 2/370 | reported | Ustadh Issah, 12 November 2026 |
+| k-amin | 4 | 2/370–371 | established | Ustadh Issah, 12 November 2026 |
+| r-age | 5 | 3/5 | established | Ustadh Issah, 12 November 2026 |
+| r-43 | 5 | 3/5 | reported | Ustadh Issah, 12 November 2026 |
+| r-place | 5 | 3/9 | established | Ustadh Issah, 12 November 2026 |
+| r-jiwar | 5 | 3/18 | established | Ustadh Issah, 12 November 2026 |
+| r-dreams | 5 | 3/5 | established | Ustadh Issah, 12 November 2026 |
+| r-hira | 5 | 3/5 | established | Ustadh Issah, 12 November 2026 |
+| r-iqra | 5 | 3/5 | established | Ustadh Issah, 12 November 2026 |
+| r-qari | 5 | 3/11 | established | Ustadh Issah, 12 November 2026 |
+| r-return | 5 | 3/5 | established | Ustadh Issah, 12 November 2026 |
+| r-kalla | 5 | 3/5–6 | established | Ustadh Issah, 12 November 2026 |
+| r-waraqa | 5 | 3/6 | established | Ustadh Issah, 12 November 2026 |
+| r-pause | 5 | 3/6 | established | Ustadh Issah, 12 November 2026 |
+| r-muddathir | 5 | 3/6 | established | Ustadh Issah, 12 November 2026 |
+| r-monday | 5 | 3/10 | established | Ustadh Issah, 12 November 2026 |
+| r-rabi | 5 | 3/11 | reported | Ustadh Issah, 12 November 2026 |
+| r-ramadan | 5 | 3/11 | established | Ustadh Issah, 12 November 2026 |
+| r-17 | 5 | 3/11 | reported | Ustadh Issah, 12 November 2026 |
+| f-secret | 6 | 3/33 | established | Ustadh Issah, 12 November 2026 |
+| f-khadija | 6 | 3/33 | established | Ustadh Issah, 12 November 2026 |
+| f-ali | 6 | 3/34 | established | Ustadh Issah, 12 November 2026 |
+| f-zayd | 6 | 3/34 | established | Ustadh Issah, 12 November 2026 |
+| f-afif | 6 | 3/35 | established | Ustadh Issah, 12 November 2026 |
+| f-first4 | 6 | 3/25 | established | Ustadh Issah, 12 November 2026 |
+| f-others | 6 | 3/36 | reported | Ustadh Issah, 12 November 2026 |
+| f-kalbi | 6 | 3/35 | reported | Ustadh Issah, 12 November 2026 |
+| f-abubakr | 6 | 3/36–37 | established | Ustadh Issah, 12 November 2026 |
+| f-trader | 6 | 3/39 | established | Ustadh Issah, 12 November 2026 |
+| f-five | 6 | 3/39 | reported | Ustadh Issah, 12 November 2026 |
+| f-eight | 6 | 3/39 | established | Ustadh Issah, 12 November 2026 |
+| f-spread | 6 | 3/50 | established | Ustadh Issah, 12 November 2026 |
+| f-shiab | 6 | 3/50 | established | Ustadh Issah, 12 November 2026 |
+| f-three | 6 | 3/50 | established | Ustadh Issah, 12 November 2026 |
+| f-safa | 6 | 3/51 | established | Ustadh Issah, 12 November 2026 |
+| bl-hard | 7 | 3/74 | established | Ustadh Issah, 12 November 2026 |
+| bl-who | 7 | 3/74 | established | Ustadh Issah, 12 November 2026 |
+| bl-seven | 7 | 3/75 | established | Ustadh Issah, 12 November 2026 |
+| bl-waraqa | 7 | 3/74–75 | reported | Ustadh Issah, 12 November 2026 |
+| bl-doubt | 7 | 3/75 | established | Ustadh Issah, 12 November 2026 |
+| bl-freed | 7 | 3/75 | established | Ustadh Issah, 12 November 2026 |
+| bl-nahdiyya | 7 | 3/75 | established | Ustadh Issah, 12 November 2026 |
+| bl-quhafa | 7 | 3/75 | established | Ustadh Issah, 12 November 2026 |
+| bl-verses | 7 | 3/75 | reported | Ustadh Issah, 12 November 2026 |
+| bl-yasir | 7 | 3/76 | reported | Ustadh Issah, 12 November 2026 |
+| ab-why | 8 | 3/85 | established | Ustadh Issah, 12 November 2026 |
+| ab-first | 8 | 3/85 | established | Ustadh Issah, 12 November 2026 |
+| ab-when | 8 | 3/84 | established | Ustadh Issah, 12 November 2026 |
+| ab-82 | 8 | 3/85 | reported | Ustadh Issah, 12 November 2026 |
+| ab-umm | 8 | 3/92 | established | Ustadh Issah, 12 November 2026 |
+| ab-envoys | 8 | 3/92 | established | Ustadh Issah, 12 November 2026 |
+| ab-leather | 8 | 3/92 | established | Ustadh Issah, 12 November 2026 |
+| ab-fair | 8 | 3/92 | established | Ustadh Issah, 12 November 2026 |
+| ab-ask | 8 | 3/93 | established | Ustadh Issah, 12 November 2026 |
+| ab-taught | 8 | 3/93 | established | Ustadh Issah, 12 November 2026 |
+| ab-chose | 8 | 3/93–94 | established | Ustadh Issah, 12 November 2026 |
+| ab-maryam | 8 | 3/94 | established | Ustadh Issah, 12 November 2026 |
+| ab-isa | 8 | 3/94 | established | Ustadh Issah, 12 November 2026 |
+| ab-safe | 8 | 3/94 | established | Ustadh Issah, 12 November 2026 |
+| h-shib | 9 | 3/105 | established | Ustadh Issah, 12 November 2026 |
+| h-pact | 9 | 3/105 | established | Ustadh Issah, 12 November 2026 |
+| h-years | 9 | 3/105–106 | established | Ustadh Issah, 12 November 2026 |
+| h-bed | 9 | 3/106 | established | Ustadh Issah, 12 November 2026 |
+| h-regret | 9 | 3/106 | established | Ustadh Issah, 12 November 2026 |
+| h-termite | 9 | 3/106 | established | Ustadh Issah, 12 November 2026 |
+| h-hung | 9 | 3/106 | reported | Ustadh Issah, 12 November 2026 |
+| h-sameyear | 9 | 3/156 | established | Ustadh Issah, 12 November 2026 |
+| h-3days | 9 | 3/156 | reported | Ustadh Issah, 12 November 2026 |
+| h-35 | 9 | 3/156 | reported | Ustadh Issah, 12 November 2026 |
+| h-nalat | 9 | 3/151 | established | Ustadh Issah, 12 November 2026 |
+| h-taif | 9 | 3/166 | established | Ustadh Issah, 12 November 2026 |
+| h-vine | 9 | 3/166 | established | Ustadh Issah, 12 November 2026 |
+| h-dua | 9 | 3/166–167 | reported | Ustadh Issah, 12 November 2026 |
+| h-addas | 9 | 3/167 | established | Ustadh Issah, 12 November 2026 |
+| hj-13 | 10 | 3/217 | established | Ustadh Issah, 12 November 2026 |
+| hj-when | 10 | 3/218 | established | Ustadh Issah, 12 November 2026 |
+| hj-mounts | 10 | 3/218 | established | Ustadh Issah, 12 November 2026 |
+| hj-800 | 10 | 3/218 | established | Ustadh Issah, 12 November 2026 |
+| hj-joy | 10 | 3/218 | established | Ustadh Issah, 12 November 2026 |
+| hj-guide | 10 | 3/218 | established | Ustadh Issah, 12 November 2026 |
+| hj-trusts | 10 | 3/218–219 | established | Ustadh Issah, 12 November 2026 |
+| hj-door | 10 | 3/219 | established | Ustadh Issah, 12 November 2026 |
+| hj-thawr | 10 | 3/219 | established | Ustadh Issah, 12 November 2026 |
+| hj-strange | 10 | 3/219 | reported | Ustadh Issah, 12 November 2026 |
+| hj-asma | 10 | 3/219 | established | Ustadh Issah, 12 November 2026 |
+| hj-two | 10 | 3/223 | established | Ustadh Issah, 12 November 2026 |
+| hj-ship | 10 | 3/223–224 | reported | Ustadh Issah, 12 November 2026 |
+| hj-nochain | 10 | 3/224 | established | Ustadh Issah, 12 November 2026 |
+| hj-zubayr | 10 | 3/228 | established | Ustadh Issah, 12 November 2026 |
+| hj-wait | 10 | 3/228 | established | Ustadh Issah, 12 November 2026 |
+| hj-shade | 10 | 3/228 | established | Ustadh Issah, 12 November 2026 |
+| hj-quba | 10 | 3/228 | established | Ustadh Issah, 12 November 2026 |
+| m-knelt | 11 | 3/228–229 | established | Ustadh Issah, 12 November 2026 |
+| m-bricks | 11 | 3/229 | established | Ustadh Issah, 12 November 2026 |
+| m-mosque | 11 | 3/262 | established | Ustadh Issah, 12 November 2026 |
+| m-anas | 11 | 3/277 | established | Ustadh Issah, 12 November 2026 |
+| m-brother | 11 | 3/277 | reported | Ustadh Issah, 12 November 2026 |
+| m-pairs | 11 | 3/277 | established | Ustadh Issah, 12 November 2026 |
+| m-awf | 11 | 3/279 | established | Ustadh Issah, 12 November 2026 |
+| m-adhan | 11 | 3/284 | established | Ustadh Issah, 12 November 2026 |
+| bd-night | 12 | 3/326 | established | Ustadh Issah, 12 November 2026 |
+| bd-water | 12 | 3/326 | established | Ustadh Issah, 12 November 2026 |
+| bd-hubab | 12 | 3/326–327 | reported | Ustadh Issah, 12 November 2026 |
+| bd-313 | 12 | 3/328 | established | Ustadh Issah, 12 November 2026 |
+| bd-talut | 12 | 3/328 | established | Ustadh Issah, 12 November 2026 |
+| bd-date | 12 | 3/367 | established | Ustadh Issah, 12 November 2026 |
+| bd-ayyub | 12 | 3/367 | reported | Ustadh Issah, 12 November 2026 |
+| bd-teach | 12 | 3/397 | established | Ustadh Issah, 12 November 2026 |
+| ud-dates | 12 | 4/107 | established | Ustadh Issah, 12 November 2026 |
+| ud-name | 12 | 4/11 | established | Ustadh Issah, 12 November 2026 |
+| ud-archers | 12 | 4/28 | established | Ustadh Issah, 12 November 2026 |
+| ud-left | 12 | 4/28 | established | Ustadh Issah, 12 November 2026 |
+| kh-date | 12 | 4/107 | established | Ustadh Issah, 12 November 2026 |
+| kh-four | 12 | 4/107 | reported | Ustadh Issah, 12 November 2026 |
+| kh-dig | 12 | 4/109 | established | Ustadh Issah, 12 November 2026 |
+| kh-salman | 12 | 4/109 | reported | Ustadh Issah, 12 November 2026 |
+| kh-cold | 12 | 4/109–110 | established | Ustadh Issah, 12 November 2026 |
+| kh-answer | 12 | 4/110 | established | Ustadh Issah, 12 November 2026 |
+| kh-earth | 12 | 4/110 | established | Ustadh Issah, 12 November 2026 |
+| tr-date | 13 | 4/188 | established | Ustadh Issah, 12 November 2026 |
+| tr-strange | 13 | 4/188 | reported | Ustadh Issah, 12 November 2026 |
+| tr-names | 13 | 4/192 | established | Ustadh Issah, 12 November 2026 |
+| tr-terms | 13 | 4/192–193 | established | Ustadh Issah, 12 November 2026 |
+| tr-distress | 13 | 4/193 | established | Ustadh Issah, 12 November 2026 |
+| tr-fath | 13 | 4/202 | established | Ustadh Issah, 12 November 2026 |
+| fa-march | 13 | 4/325 | established | Ustadh Issah, 12 November 2026 |
+| fa-12 | 13 | 4/325 | reported | Ustadh Issah, 12 November 2026 |
+| fa-safe | 13 | 4/331 | established | Ustadh Issah, 12 November 2026 |
+| fa-tawaf | 13 | 4/344 | established | Ustadh Issah, 12 November 2026 |
+| fa-adam | 13 | 4/344 | reported | Ustadh Issah, 12 November 2026 |
+| fa-tulaqa | 13 | 4/344 | reported | Ustadh Issah, 12 November 2026 |
+| fa-key | 13 | 4/344 | reported | Ustadh Issah, 12 November 2026 |
+| fw-once | 14 | 5/126 | established | Ustadh Issah, 12 November 2026 |
+| fw-perfect | 14 | 5/125 | established | Ustadh Issah, 12 November 2026 |
+| fw-umar | 14 | 5/195 | established | Ustadh Issah, 12 November 2026 |
+| fw-arafah | 14 | 5/166 | established | Ustadh Issah, 12 November 2026 |
+| fw-blood | 14 | 5/166 | established | Ustadh Issah, 12 November 2026 |
+| fw-women | 14 | 5/166 | established | Ustadh Issah, 12 November 2026 |
+| fw-book | 14 | 5/166 | established | Ustadh Issah, 12 November 2026 |
+| fw-monday | 14 | 5/275 | established | Ustadh Issah, 12 November 2026 |
+| fw-look | 14 | 5/275 | established | Ustadh Issah, 12 November 2026 |
+| fw-forenoon | 14 | 5/275 | reported | Ustadh Issah, 12 November 2026 |
+| fw-siddiq | 14 | 4/35 | established | Ustadh Issah, 12 November 2026 |
 
 ## z-title · vol. 2, p. 303 · established
 

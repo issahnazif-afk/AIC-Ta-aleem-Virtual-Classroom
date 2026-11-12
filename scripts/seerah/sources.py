@@ -750,15 +750,18 @@ def main(path):
         v1, p1 = page_at(text, i); v2, p2 = page_at(text, j - 1)
         out.append({'id': pid, 'episode': ep, 'vol': v1, 'page': p1 if p1 == p2 else f'{p1}–{p2}', 'class': cls,
                     'ar': clean(text[i:j]), 'en': en, 'note': note, 'review': 'pending'})
+        o = old.get(pid)
+        if o and o.get('en') == en and o.get('review') == 'reviewed':
+            out[-1].update(review='reviewed', reviewer=o.get('reviewer', ''))
     os.makedirs(os.path.join(ROOT, 'src', 'data', 'seerah'), exist_ok=True)
     json.dump({'edition': EDITION, 'passages': out}, open(os.path.join(ROOT, 'src', 'data', 'seerah', 'sources.json'), 'w'), ensure_ascii=False, indent=1)
     os.makedirs(os.path.join(ROOT, 'docs'), exist_ok=True)
     md = ['# The Seerah Quest · source record', '',
           f"Every historical passage used in the game, from {EDITION['work']}, {EDITION['edition']}; digital text: {EDITION['digital']}.",
-          'The Arabic is copied mechanically from the edition by `scripts/seerah/sources.py`. Translations are ours; please review them.',
+          'The Arabic is copied mechanically from the edition by `scripts/seerah/sources.py`. Translations are ours; each passage shows who reviewed it.',
           'Classification: **established** (may become a mission) · **reported** (labelled note only) · **excluded** (not used).', '',
           '| ID | Episode | Vol./page | Class | Reviewer |', '|---|---|---|---|---|']
-    md += [f"| {p['id']} | {p['episode']} | {p['vol']}/{p['page']} | {p['class']} | {p['review']} |" for p in out]
+    md += [f"| {p['id']} | {p['episode']} | {p['vol']}/{p['page']} | {p['class']} | {p.get('reviewer') or p['review']} |" for p in out]
     for p in out:
         md += ['', f"## {p['id']} · vol. {p['vol']}, p. {p['page']} · {p['class']}", '', p['ar'], '', f"> {p['en']}"]
         if p['note']: md += ['', f"*Note:* {p['note']}"]
