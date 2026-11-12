@@ -1103,7 +1103,7 @@ const courage = {
 };
 
 export default {
-  id: 'moral-stories', title: 'Islamic Stories for Kids', ar: 'قِصَصٌ إِسْلَامِيَّة', level: 2, ages: '6–9', color: '#E59A3C',
+  id: 'moral-stories', title: 'Islamic Stories for Kids', ar: 'قِصَصُ ٱلْأَطْفَال', level: 2, ages: '6–9', color: '#E59A3C',
   cover: 'books/moral-stories/001.webp',
   about: 'Grandpa Musa tells the village children seven stories under the olive tree, each about one good manner.',
   unit: 'stories',

@@ -1,5 +1,5 @@
 // The Ta’aleem Books: the school's own books (made in Canva) as interactive digital books.
-//   mountBookShelf(root, { level, progress, onOpen })                  the shelf: books for my level first, then the rest
+//   mountBookShelf(root, { books, progress, onOpen })                  the shelf: the books given (the student's level only)
 //   openEbook(root, book, { progress, reciter, onChapter, onExit, onSave })
 //      onChapter({ book, chapter, index, stars, first, total })   when a chapter is finished
 //      onSave()                                                   after the reading place changes (to save progress)
@@ -105,11 +105,9 @@ export const doneCount = (progress, b) => Object.keys(progress.books?.[b.id]?.do
 // ── the shelf ───────────────────────────────────────────────
 export function mountBookShelf(root, { books, level = 1, progress = {}, onOpen }) {
   root.replaceChildren();
-  const mine = books.filter((b) => b.level === level || b.levels?.includes(level));
-  const rest = books.filter((b) => !mine.includes(b));
-  const group = (title, list) => {
+  // the page passes only the books for the student's level (booksFor in src/lib/books/index.mjs)
+  const group = (list) => {
     if (!list.length) return;
-    root.append(el('h2', 'eb-shelf-h', title));
     const grid = el('div', 'eb-shelf');
     for (const b of list) {
       const done = doneCount(progress, b), n = chapterCount(b);
@@ -118,16 +116,15 @@ export function mountBookShelf(root, { books, level = 1, progress = {}, onOpen }
       const bar = el('span', 'eb-bar'); const fill = el('i'); fill.style.width = `${Math.round((done / n) * 100)}%`; bar.append(fill);
       card.append(img, el('b', 'eb-book-t', b.title));
       if (b.ar) card.append(arEl('span', 'eb-book-ar', b.ar));
-      card.append(el('span', 'eb-book-meta', `Level ${b.levels ? b.levels.join('–') : b.level} · ages ${b.ages}`), bar,
+      card.append(el('span', 'eb-book-meta', `Ages ${b.ages}`), bar,
         el('small', 'eb-book-done', done ? `${done} of ${n} ${b.unit ?? 'chapters'} done` : `${n} ${b.unit ?? 'chapters'}`));
-      card.setAttribute('aria-label', `${b.title}. Level ${b.level}, ages ${b.ages}. ${done} of ${n} done.`);
+      card.setAttribute('aria-label', `${b.title}. Ages ${b.ages}. ${done} of ${n} done.`);
       card.addEventListener('click', () => onOpen?.(b));
       grid.append(card);
     }
     root.append(grid);
   };
-  group(mine.length ? 'Books for my class' : 'All books', mine.length ? mine : books);
-  if (mine.length) group('More books', rest);
+  group(books);
 }
 
 // page types with an activity that must be finished before the book turns on

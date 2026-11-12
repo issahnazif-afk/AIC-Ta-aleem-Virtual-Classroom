@@ -486,14 +486,14 @@ const levels = [
   <!-- The Ta’aleem Books: the school's Canva books as interactive books (src/lib/books/) ─── -->
   <section class="screen flow" id="s-books" hidden aria-labelledby="bk-h">
     <header class="topbar">
-      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · Ta’aleem Books</small></span></div>
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · My Books</small></span></div>
       <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
       <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
     </header>
     <div class="flow-main">
-      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Ta’aleem Books · كُتُبُ تَعْلِيم</p>
-      <h1 id="bk-h">Our school books</h1>
-      <p class="muted lead">The books from your class, ready to read on the screen. Tap the letters to hear them, colour the pages, answer the questions and collect your stars.</p>
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Books · كُتُبِي</p>
+      <h1 id="bk-h">My Books</h1>
+      <p class="muted lead">The books for your level, ready to read on the screen. Tap the letters to hear them, colour the pages, answer the questions and collect your stars.</p>
       <div id="bk-root"></div>
       <p class="preview-note">For teachers: the hadith, du'a and ayat in these books are listed in docs/books-review.md. Please check them before class.</p>
     </div>
@@ -2092,12 +2092,14 @@ const levels = [
     let ebook = null;
     // the books load only when the shelf is first opened, so the classroom's first page stays light
     let booksMod = null;
-    const loadBooks = () => (booksMod ??= Promise.all([import('../lib/books/index.mjs'), import('../lib/books/ebook.mjs')]).then(([a, b]) => ({ HUDA_BOOKS: a.BOOKS, ...b })));
+    const loadBooks = () => (booksMod ??= Promise.all([import('../lib/books/index.mjs'), import('../lib/books/ebook.mjs')]).then(([a, b]) => ({ booksFor: a.booksFor, ...b })));
     async function openBooks() {
       ebook?.stop(); ebook = null;
       stopSound();
-      const { HUDA_BOOKS, mountBookShelf } = await loadBooks();
-      mountBookShelf($('bk-root'), { books: HUDA_BOOKS, level: me.level || 1, progress, onOpen: readEbook });
+      const { booksFor, mountBookShelf } = await loadBooks();
+      // only the books for the student's own level (a class with no level number, like Admin, sees them all)
+      const lv = /\d/.test(String(me.className || '')) ? me.level : 0;
+      mountBookShelf($('bk-root'), { books: booksFor(lv), progress, onOpen: readEbook });
       renderDashboard();
       show('s-books');
     }

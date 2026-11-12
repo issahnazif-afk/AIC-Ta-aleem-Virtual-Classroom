@@ -69,8 +69,8 @@ export const ACTIVITIES = [
   // The Ta’aleem Books: the school's own Canva books as interactive digital books, one shelf for every level (src/lib/books/).
   {
     id: 'books', worlds: ['arabic', 'dua', 'akhlaq', 'hadith', 'tawheed'], kind: 'books', icon: 'books', group: 'lessons', suggested: [1, 2, 3, 4],
-    title: 'Ta’aleem Books', ar: 'كُتُبُ تَعْلِيم',
-    text: 'Our school books to read, tap, colour and answer: Arabic letters, du\'a, stories, hadith and Tawheed.',
+    title: 'My Books', ar: 'كُتُبِي',
+    text: 'The books for your level to read, tap, colour and answer, with stars to collect.',
   },
   // My Deen (src/lib/deen/): du'as, the Sunnah of the day, Our Prophet ﷺ and the special days. Qur'an and sound hadith only.
   {
