@@ -1,6 +1,14 @@
 # Ta'aleem Virtual Classroom
 
-An Astro site (one page, `src/pages/index.astro`) published to GitHub Pages by `.github/workflows/deploy.yml`.
+An Astro site published to GitHub Pages by `.github/workflows/deploy.yml`:
+- the children's classroom: one page, `src/pages/index.astro`;
+- the adults' Quran Library at /quran/: `src/pages/quran/` and `src/quran/` (layout, components, styles, the libs
+  that differ from the classroom's), its data built by `scripts/quran/build-data.mjs` into `public/quran/data/`.
+  Every page needs an adult account (`src/quran/lib/account.mjs`, the Adults tab of `apps-script/Code.gs`), except
+  sign-in, About and Privacy (`open` on the layout). Links there go through `src/quran/lib/url.mjs` (`u()` adds
+  /quran/; models, audio and mediapipe stay shared at the root). The speech tracker, its worker and the recitation
+  matching (`src/lib/tracker.mjs`, `qaaf-worker.mjs`, `track-recognition.mjs`, `recite.mjs`, `features.mjs`)
+  are shared by both: a fix there reaches children and adults.
 
 ## Before any visual change
 
@@ -22,5 +30,5 @@ never write text. Run `node scripts/sheikh/try.mjs` after changing the library o
 
 ## Checks
 
-`npm run build` must pass. Keep sign-in, the class log (Apps Script), the Sheikh's speech checking and the
+`npm run build` must pass. Keep sign-in (children and adults), the class log (Apps Script), the Sheikh's speech checking and the
 3D games (Seerah Quest, Guardians of Light) working.

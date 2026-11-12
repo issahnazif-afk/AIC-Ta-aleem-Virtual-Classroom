@@ -71,6 +71,32 @@ accounts were made before the Gender column existed are asked once, the next tim
 - **Remove a student:** delete their row.
 - **Stop new sign-ups for a level:** change that level's class password. Existing accounts keep working.
 
+## Adult accounts (the Quran Library, taaleem.ca/quran/)
+
+Adults reach the Quran Library from the **Adults** door on the classroom's welcome screen (or at taaleem.ca/quran/).
+Every page there needs an account. Adults create their own: full name, Brother or Sister (so the Sheikh addresses
+them properly), a username and a password of at least 8 characters. **No class password is needed.**
+
+They are kept in their own **Adults** tab, made the first time someone registers (nothing to set up):
+
+| Username | Full name | Gender | Joined | Last sign-in | Reset password | Saved (bookmarks, last read, settings) | Hifz tests | Last activity |
+|---|---|---|---|---|---|---|---|---|
+
+- One username is one person across the whole site: an adult cannot take a student's username, or the reverse.
+  A student's sign-in never opens an adult account, and an adult's never opens a student's.
+- Their bookmarks, last reading place, Recite and Hifz test set-ups and reading settings are saved to the
+  **Saved** column, so they follow them to another device. Signing out clears them from the device.
+- Each finished Hifz test adds a row to the **Adult sessions** tab: time, name, passage, words recited, right first
+  time (%), prompts, hints, grade and the words to revise.
+- **An adult forgot their password:** type a temporary password in their **Reset password** cell and tell them,
+  as for students.
+- **Remove an adult** (or when they ask for their data to be deleted): delete their row, and their rows in
+  Adult sessions.
+- Against automated sign-ups: a hidden form field that only robots fill in, at most 120 new adult accounts an
+  hour (`ADULT_SIGNUPS_PER_HOUR`), and 10 wrong passwords in 15 minutes locks that username for 15 minutes.
+- A Google Sheet stays quick up to a few thousand accounts. If the adults' section grows far beyond that, move
+  accounts to a proper database.
+
 ## Games, stars and badges
 
 Each game a student plays (Alif Ba and Play & Learn) is added to a **Games** tab inside their class's session log
@@ -190,6 +216,9 @@ board and tell parents before turning it on.
    students or class logs, and it never overwrites a Question bank that already has rows.
 3. **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy.** The URL stays the same.
 4. Ask a teacher to review the Question bank and set **Approved** to `Yes` on the rows to use.
+
+Adult accounts need only steps 1 and 3: the Adults and Adult sessions tabs are made by themselves when the first
+adult registers. Until the new version is deployed, the adults' sign-up says accounts are not switched on yet.
 
 ## What each row holds
 

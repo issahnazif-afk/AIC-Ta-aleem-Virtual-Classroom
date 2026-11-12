@@ -9,3 +9,7 @@ public/mediapipe/
 public/models/
 public/audio/voice/
 public/audio/narration/
+
+# the adult Quran Library: made by scripts/quran/build-data.mjs (downloads cached in .cache/)
+public/quran/data/
+.cache/

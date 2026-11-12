@@ -1,0 +1,144 @@
+---
+// The adults' Quran Library (taaleem.ca/quran/). Every page needs an adult account, except the sign-in page and
+// About & Privacy (open). Brought over from the Qa-af Wal Quran-ul-Majeed app.
+import '../styles/global.css';
+import cfg from '../config.mjs';
+import siteCfg from '../../../site.config.mjs';
+import { u, site } from '../lib/url.mjs';
+import AppBar from '../components/AppBar.astro';
+import { getMeta } from '../lib/data.mjs';
+
+interface Props { title?: string; description?: string; active?: string; app?: boolean; open?: boolean; }
+const { title, description = 'Read, listen to and study the Quran from open, authentic sources.', active = '', app = false, open = false } = Astro.props;
+const localAsr = getMeta().localAsr ? '1' : '';   // the Qāf model is published with the site
+const fullTitle = title ? `${title} | ${cfg.appName}` : cfg.appName;
+const signin = u('signin/');
+const nav = [
+  ['read', 'Listen', 'surah/1/'],
+  ['mushaf', 'Mushaf', 'page/1/'],
+  ['practice', 'Recite', 'practice/'],
+  ['test', 'Hifz test', 'test/'],
+  ['letters', 'Letters', 'letters/'],
+  ['resources', 'Resources', 'resources/'],
+  ['search', 'Search', 'search/'],
+  ['saved', 'Saved', 'saved/'],
+  ['about', 'About & sources', 'about/'],
+];
+---
+<!doctype html>
+<html lang="en" data-app={app ? '1' : undefined}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#0E6B4E" />
+  <link rel="icon" href={site('favicon-64.png')} type="image/png" />
+  <link rel="apple-touch-icon" href={site('apple-touch-icon.png')} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="preload" href={site('fonts/UthmanicHafs_V22.ttf')} as="font" type="font/ttf" crossorigin />
+  <style is:inline set:html={`@font-face{font-family:"KFGQPC Hafs";src:url("${site('fonts/UthmanicHafs_V22.ttf')}") format("truetype");font-display:swap}` +
+    (cfg.riwayat ?? []).map((r) => `@font-face{font-family:"KFGQPC ${r.id}";src:url("${u('fonts/' + r.font)}") format("truetype");font-display:swap}:root[data-riwayah="${r.id}"] .rw{font-family:"KFGQPC ${r.id}","KFGQPC Hafs",serif}`).join('')}></style>
+  <script is:inline define:vars={{ open, signin }}>
+    (function () {
+      // adults sign in first (their account is kept on this device once they have)
+      if (!open) {
+        var acct = null;
+        try { acct = JSON.parse(localStorage.getItem('ql-account') || 'null'); } catch (e) {}
+        if (!acct || !acct.token) {
+          document.documentElement.style.visibility = 'hidden';
+          location.replace(signin + '?next=' + encodeURIComponent(location.pathname + location.search + location.hash));
+          return;
+        }
+      }
+      try {
+        var t = localStorage.getItem('ql-theme');
+        if (t) document.documentElement.dataset.theme = t;
+        var pp = localStorage.getItem('ql-paper');
+        if (pp) document.documentElement.dataset.paper = pp;
+        if (localStorage.getItem('ql-bold')) document.documentElement.setAttribute('data-bold', '');
+        // app mode: the focus views (no site header or footer)
+        var q = new URLSearchParams(location.search);
+        var native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+        if (q.get('app') === '1' || native || document.documentElement.dataset.app === '1') sessionStorage.setItem('ql-app', '1');
+        if (q.get('app') === '0') sessionStorage.removeItem('ql-app');
+        if (sessionStorage.getItem('ql-app') === '1') document.documentElement.dataset.app = '1';
+        var sc = localStorage.getItem('ql-script'); if (sc) document.documentElement.dataset.script = JSON.parse(sc);
+        var rw = localStorage.getItem('ql-riwayah'); if (rw) document.documentElement.dataset.riwayah = JSON.parse(rw);
+        var s = localStorage.getItem('ql-arabic-size');
+        if (s) document.documentElement.style.setProperty('--arabic-size', s + 'px');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body data-local-asr={localAsr} data-log-url={siteCfg.classLogUrl} data-signin={signin}>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href={u()}><span class="brand-mark" aria-hidden="true">ق</span>{cfg.appName}</a>
+      <nav class="site-nav" aria-label="Main">
+        {nav.map(([id, label, href]) => (
+          <a href={u(href)} aria-current={active === id ? 'page' : undefined}>{label}</a>
+        ))}
+      </nav>
+      <div class="hdr-end">
+      <div class="acct" id="acct" hidden>
+        <span class="acct-name" title="Signed in"><span class="acct-dot" aria-hidden="true"></span><b id="acct-name"></b></span>
+        <button class="btn acct-out" type="button" id="sign-out" aria-label="Sign out"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"></path></svg><span class="acct-out-text">Sign out</span></button>
+      </div>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch light or dark theme">
+        <svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+      </button>
+      </div>
+    </div>
+  </header>
+  <AppBar />
+  <main id="main">
+    <slot />
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>Quran text: <a href="https://tanzil.net" rel="noopener">Tanzil Project</a>, shown verbatim. Every other dataset is credited on <a href={u('about/')}>About &amp; sources</a>.</span>
+      <span><a href={site()}>Ta'aleem children's classroom</a> · <a href={u('privacy/')}>Privacy</a></span>
+    </div>
+  </footer>
+  <script>
+    import { u } from '../lib/url.mjs';
+    import { me, save, signOut, logTest } from '../lib/account.mjs';
+    const btn = document.getElementById('theme-toggle');
+    btn?.addEventListener('click', () => {
+      const root = document.documentElement;
+      const dark = root.dataset.theme
+        ? root.dataset.theme === 'dark'
+        : matchMedia('(prefers-color-scheme: dark)').matches;
+      const next = dark ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem('ql-theme', next); } catch {}
+    });
+
+    // the signed-in adult: their name, signing out, and saving their bookmarks and settings to their account
+    const a = me();
+    if (a) {
+      document.getElementById('acct-name').textContent = a.name.split(' ')[0];
+      document.getElementById('acct').hidden = false;
+      document.getElementById('sign-out').addEventListener('click', async (e) => {
+        e.currentTarget.disabled = true;
+        await signOut();
+        location.assign(u('signin/'));
+      });
+      // saved soon after each page opens, every 30 seconds, and when leaving (if anything changed)
+      setTimeout(() => save(), 2500);
+      setInterval(() => save(), 30000);
+      addEventListener('pagehide', () => save({ leaving: true }));
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save({ leaving: true }); });
+      document.addEventListener('ql:test-result', (e) => logTest(e.detail));
+    }
+
+    if ('serviceWorker' in navigator && !import.meta.env.PUBLIC_APP_BUILD) {
+      navigator.serviceWorker.register(u('sw.js'), { scope: u() }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

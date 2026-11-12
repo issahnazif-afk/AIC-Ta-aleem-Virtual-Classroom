@@ -1,0 +1,96 @@
+---
+// Adults sign in, or create their account (a username and a password; no class password).
+import Base from '../../../quran/layouts/Base.astro';
+---
+<Base title="Sign in" description="Sign in to the Ta'aleem Quran Library, or create your account." open>
+  <div class="auth">
+    <div>
+      <h1>Assalamu alaikum</h1>
+      <p class="lede">Read, listen to and memorise the Qur’an, and recite to the Sheikh. Sign in with your username and password, or create your account.</p>
+    </div>
+    <div class="auth-tabs" role="tablist" aria-label="Sign in or create an account">
+      <button type="button" role="tab" id="tab-in" aria-selected="true" aria-controls="f-in">Sign in</button>
+      <button type="button" role="tab" id="tab-up" aria-selected="false" aria-controls="f-up">Create account</button>
+    </div>
+    <p class="fine" id="demo-note" hidden>This copy of the site is not connected to the centre’s server, so your account is kept on this device only.</p>
+
+    <form class="card" id="f-in" role="tabpanel" aria-labelledby="tab-in" novalidate>
+      <label class="fld"><span>Username</span><input id="in-user" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required /></label>
+      <label class="fld"><span>Password</span><input id="in-pass" type="password" autocomplete="current-password" required /></label>
+      <p class="err" id="in-err" role="alert"></p>
+      <button class="btn btn-primary" type="submit" id="in-go">Sign in</button>
+      <p class="fine">Forgot your password? Ask Al-Huda Islamic Centre to reset it.</p>
+    </form>
+
+    <form class="card" id="f-up" role="tabpanel" aria-labelledby="tab-up" novalidate hidden>
+      <label class="fld"><span>Full name</span><input id="up-name" type="text" autocomplete="name" maxlength="80" required /></label>
+      <fieldset class="fld">
+        <legend>I am a</legend>
+        <div class="pair">
+          <label><input type="radio" name="up-g" value="m" />Brother</label>
+          <label><input type="radio" name="up-g" value="f" />Sister</label>
+        </div>
+        <small class="hint">So the Sheikh speaks to you properly: أَحْسَنْتَ to a brother, أَحْسَنْتِ to a sister.</small>
+      </fieldset>
+      <label class="fld"><span>Choose a username</span><input id="up-user" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="24" required /><small class="hint">3 to 24 letters or numbers; you may use . _ or - but no spaces.</small></label>
+      <label class="fld"><span>Choose a password</span><input id="up-pass" type="password" autocomplete="new-password" required /><small class="hint">At least 8 characters.</small></label>
+      <label class="fld"><span>Type it again</span><input id="up-pass2" type="password" autocomplete="new-password" required /></label>
+      <label class="trap" aria-hidden="true">Website<input id="up-web" type="text" tabindex="-1" autocomplete="off" /></label>
+      <p class="err" id="up-err" role="alert"></p>
+      <button class="btn btn-primary" type="submit" id="up-go">Create account</button>
+      <p class="fine">Your name, username and saved places are kept by Al-Huda Islamic Centre. See <a href="../privacy/">Privacy</a>.</p>
+    </form>
+  </div>
+
+  <script>
+    import { u } from '../../../quran/lib/url.mjs';
+    import { me, isDemo, register, login } from '../../../quran/lib/account.mjs';
+    const $ = (id) => document.getElementById(id);
+    // where to go once signed in: the page they came from (only within the Quran Library)
+    const next = (() => {
+      const n = new URLSearchParams(location.search).get('next') || '';
+      return n.startsWith(u()) && !n.startsWith(u('signin/')) && !n.startsWith('//') ? n : u();
+    })();
+    if (me()) location.replace(next);
+    $('demo-note').hidden = !isDemo();
+
+    const tabs = [['tab-in', 'f-in'], ['tab-up', 'f-up']];
+    function show(which) {
+      for (const [t, f] of tabs) { const on = t === which; $(t).setAttribute('aria-selected', String(on)); $(f).hidden = !on; }
+      $(which === 'tab-in' ? 'in-user' : 'up-name').focus();
+    }
+    for (const [t] of tabs) $(t).addEventListener('click', () => show(t));
+    if (location.hash === '#new') show('tab-up');
+
+    async function busy(btn, label, work) {
+      const was = btn.textContent;
+      btn.disabled = true; btn.textContent = label;
+      try { return await work(); } finally { btn.disabled = false; btn.textContent = was; }
+    }
+
+    $('f-in').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = $('in-err'); err.textContent = '';
+      const username = $('in-user').value.trim(), password = $('in-pass').value;
+      if (!username || !password) { err.textContent = 'Enter your username and password.'; return; }
+      const r = await busy($('in-go'), 'Signing in…', () => login({ username, password }));
+      if (r.ok) location.replace(next); else err.textContent = r.message;
+    });
+
+    $('f-up').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = $('up-err'); err.textContent = '';
+      const name = $('up-name').value.trim().replace(/\s+/g, ' ');
+      const gender = document.querySelector('input[name="up-g"]:checked')?.value ?? '';
+      const username = $('up-user').value.trim().toLowerCase();
+      const password = $('up-pass').value;
+      if (name.length < 3) { err.textContent = 'Enter your full name.'; $('up-name').focus(); return; }
+      if (!gender) { err.textContent = 'Choose Brother or Sister.'; return; }
+      if (!/^[a-z0-9][a-z0-9._-]{2,23}$/.test(username)) { err.textContent = 'Usernames are 3 to 24 letters or numbers, and may use . _ or - (no spaces).'; $('up-user').focus(); return; }
+      if (password.length < 8) { err.textContent = 'Choose a password of at least 8 characters.'; $('up-pass').focus(); return; }
+      if (password !== $('up-pass2').value) { err.textContent = 'The two passwords are not the same.'; $('up-pass2').focus(); return; }
+      const r = await busy($('up-go'), 'Creating your account…', () => register({ name, gender, username, password, website: $('up-web').value }));
+      if (r.ok) location.replace(next); else err.textContent = r.message;
+    });
+  </script>
+</Base>

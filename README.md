@@ -703,6 +703,25 @@ and syllables* above). You can record some now and the rest later.
 | `test-over-m.mp3` | ٱنْتَهَى ٱلِٱخْتِبَارُ، جَزَاكَ ٱللَّهُ خَيْرًا | The test is over. May Allah reward you. |
 | `test-over-f.mp3` | ٱنْتَهَى ٱلِٱخْتِبَارُ، جَزَاكِ ٱللَّهُ خَيْرًا | The test is over. May Allah reward you. |
 
+## The adults' Quran Library (taaleem.ca/quran/)
+
+The welcome screen has a fifth door, **Adults**, beside Levels 1 to 4. It opens the Quran Library, brought over from
+the Qa-af Wal Quran-ul-Majeed app into this same site:
+
+- **Listen** (each surah with the Sahih International translation and four reciters), the **Mushaf** (604 pages,
+  one or two at a time), **Recite** (the words turn green as you read), the **Hifz test** with the Sheikh,
+  **Letters**, **Search**, **Saved** bookmarks and **Resources** (every dataset, to download).
+- **Accounts.** Adults register with their name, Brother or Sister, a username and a password (no class
+  password), and sign in on every device. Every page needs signing in, except About and Privacy. Bookmarks, the
+  last reading place, set-ups and reading settings follow the account; each finished Hifz test is recorded.
+  See *Adult accounts* in `apps-script/README.md`.
+- **The Sheikh speaks to a sister as a sister** in the Hifz test (اقرئي، أحسنتِ، حسبكِ).
+- The pages live in `src/pages/quran/`; their layout, styles and the files that differ from the classroom's in
+  `src/quran/`. The speech tracker and the recitation matching are the classroom's own, shared.
+- Its data is built by `scripts/quran/build-data.mjs` (part of `npm run data`) into `public/quran/data/`.
+  Word-by-word meanings appear only when the repository has the Quran Foundation secrets `QF_CLIENT_ID` and
+  `QF_CLIENT_SECRET`.
+
 ## Putting it online
 
 1. Create a GitHub repository called **AIC-Ta-aleem-Virtual-Classroom** and push this folder to `main`.

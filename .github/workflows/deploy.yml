@@ -79,6 +79,9 @@ jobs:
         env:
           # Settings → Secrets and variables → Actions → Variables → CLASS_LOG_URL
           CLASS_LOG_URL: ${{ vars.CLASS_LOG_URL }}
+          # optional: word-by-word meanings in the adults' Quran Library (Quran Foundation API keys, as repository secrets)
+          QF_CLIENT_ID: ${{ secrets.QF_CLIENT_ID }}
+          QF_CLIENT_SECRET: ${{ secrets.QF_CLIENT_SECRET }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v5.0.0
         with:

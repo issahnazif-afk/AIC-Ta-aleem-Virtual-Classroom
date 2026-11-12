@@ -10,7 +10,8 @@
  *   • signs students in with their username and password (passwords are stored only as salted hashes),
  *   • keeps ONE folder per class in your shared Drive folder ("Level 1"), holding that class's
  *     Google Sheet ("Level 1 · session log") and a "Snapshots" folder with the login photos,
- *   • adds one row per finished session to the class's sheet.
+ *   • adds one row per finished session to the class's sheet,
+ *   • keeps the adults' accounts for the Quran Library (taaleem.ca/quran/) in their own "Adults" tab.
  *
  * Set up once (full steps in apps-script/README.md):
  *   1. Create a Google Sheet called "Ta'aleem classroom admin". Extensions → Apps Script. Paste this file.
@@ -112,6 +113,11 @@ function doPost(e) {
     if (body.action === 'log') return json(logSession(body));
     if (body.action === 'sheikh-on') return json({ ok: true, on: !!sheikhKey() });
     if (body.action === 'sheikh-talk') return json(sheikhTalk(body));
+    if (body.action === 'adult-register') return json(adultRegister(body));
+    if (body.action === 'adult-login') return json(adultLogin(body));
+    if (body.action === 'adult-progress') return json(adultProgress(body));
+    if (body.action === 'adult-save-progress') return json(adultSaveProgress(body));
+    if (body.action === 'adult-log') return json(adultLog(body));
     return json({ ok: false, error: 'unknown-action' });
   } catch (err) {
     console.error(err);
@@ -220,7 +226,7 @@ function register(body) {
   lock.waitLock(20000);
   try {
     const sh = studentsSheet();
-    if (findStudent(sh, username)) return { ok: false, error: 'username-taken' };
+    if (findStudent(sh, username) || usernameTaken(username)) return { ok: false, error: 'username-taken' };
     const salt = Utilities.getUuid();
     sh.appendRow([username, name, cls.name, new Date(), new Date(), '', hashPassword(password, salt), salt, GENDER[gender]]);
   } finally {
@@ -755,3 +761,161 @@ function listQuestions(body) {
 // STARTER QUESTIONS (made by scripts/questions/starter.py)
 const STARTER_QUESTIONS = [["Q001", "match", "pair", "Names of Allah", "1-4", "ٱلرَّحْمَٰن · Ar-Rahman", "The Most Gracious", "", ""], ["Q002", "match", "pair", "Names of Allah", "1-4", "ٱلرَّحِيم · Ar-Rahim", "The Most Merciful", "", ""], ["Q003", "match", "pair", "Names of Allah", "1-4", "ٱلْمَلِك · Al-Malik", "The King", "", ""], ["Q004", "match", "pair", "Names of Allah", "1-4", "ٱلْقُدُّوس · Al-Quddus", "The Most Holy", "", ""], ["Q005", "match", "pair", "Names of Allah", "1-4", "ٱلسَّلَام · As-Salam", "The Source of Peace", "", ""], ["Q006", "match", "pair", "Names of Allah", "1-4", "ٱلْخَالِق · Al-Khaliq", "The Creator", "", ""], ["Q007", "match", "pair", "Names of Allah", "1-4", "ٱلرَّزَّاق · Ar-Razzaq", "The Provider", "", ""], ["Q008", "match", "pair", "Names of Allah", "1-4", "ٱلْعَلِيم · Al-ʿAlim", "The All-Knowing", "", ""], ["Q009", "match", "pair", "Names of Allah", "1-4", "ٱلسَّمِيع · As-Samiʿ", "The All-Hearing", "", ""], ["Q010", "match", "pair", "Names of Allah", "1-4", "ٱلْبَصِير · Al-Basir", "The All-Seeing", "", ""], ["Q011", "match", "pair", "Names of Allah", "1-4", "ٱلْغَفُور · Al-Ghafur", "The Most Forgiving", "", ""], ["Q012", "match", "pair", "Names of Allah", "1-4", "ٱلْوَدُود · Al-Wadud", "The Most Loving", "", ""], ["Q013", "match", "pair", "Arabic words", "1-4", "كِتَاب", "book", "", ""], ["Q014", "match", "pair", "Arabic words", "1-4", "قَلَم", "pen", "", ""], ["Q015", "match", "pair", "Arabic words", "1-4", "بَيْت", "house", "", ""], ["Q016", "match", "pair", "Arabic words", "1-4", "مَسْجِد", "masjid, place of prayer", "", ""], ["Q017", "match", "pair", "Arabic words", "1-4", "شَمْس", "sun", "", ""], ["Q018", "match", "pair", "Arabic words", "1-4", "قَمَر", "moon", "", ""], ["Q019", "match", "pair", "Arabic words", "1-4", "مَاء", "water", "", ""], ["Q020", "match", "pair", "Arabic words", "1-4", "بَاب", "door", "", ""], ["Q021", "match", "pair", "Arabic words", "1-4", "وَلَد", "boy", "", ""], ["Q022", "match", "pair", "Arabic words", "1-4", "بِنْت", "girl", "", ""], ["Q023", "match", "pair", "Arabic words", "1-4", "أُمّ", "mother", "", ""], ["Q024", "match", "pair", "Arabic words", "1-4", "أَب", "father", "", ""], ["Q025", "match", "pair", "Prophets", "2-4", "Prophet Adam (AS)", "The first human, created by Allah", "", ""], ["Q026", "match", "pair", "Prophets", "2-4", "Prophet Nuh (AS)", "Built the Ark", "", ""], ["Q027", "match", "pair", "Prophets", "2-4", "Prophet Ibrahim (AS)", "Built the Kaʿbah with his son Ismaʿil", "", ""], ["Q028", "match", "pair", "Prophets", "2-4", "Prophet Yusuf (AS)", "Was thrown into a well by his brothers", "", ""], ["Q029", "match", "pair", "Prophets", "2-4", "Prophet Musa (AS)", "Was given the Tawrah", "", ""], ["Q030", "match", "pair", "Prophets", "2-4", "Prophet Dawud (AS)", "Was given the Zabur", "", ""], ["Q031", "match", "pair", "Prophets", "2-4", "Prophet Sulayman (AS)", "Understood the speech of birds and ants", "", ""], ["Q032", "match", "pair", "Prophets", "2-4", "Prophet Yunus (AS)", "Was swallowed by a great fish", "", ""], ["Q033", "match", "pair", "Prophets", "2-4", "Prophet ʿIsa (AS)", "Spoke as a baby in the cradle", "", ""], ["Q034", "match", "pair", "Prophets", "2-4", "Prophet Muhammad ﷺ", "The last Prophet, given the Qurʾan", "", ""], ["Q035", "match", "pair", "Duas and when we say them", "1-4", "بِسْمِ ٱللَّهِ", "Before eating", "", ""], ["Q036", "match", "pair", "Duas and when we say them", "1-4", "ٱلْحَمْدُ لِلَّهِ", "After eating", "", ""], ["Q037", "match", "pair", "Duas and when we say them", "1-4", "بِٱسْمِكَ ٱللَّهُمَّ أَمُوتُ وَأَحْيَا", "Before sleeping", "", ""], ["Q038", "match", "pair", "Duas and when we say them", "1-4", "ٱلْحَمْدُ لِلَّهِ ٱلَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ ٱلنُّشُورُ", "On waking up", "", ""], ["Q039", "match", "pair", "Duas and when we say them", "1-4", "بِسْمِ ٱللَّهِ تَوَكَّلْتُ عَلَى ٱللَّهِ", "Leaving the house", "", ""], ["Q040", "match", "pair", "Duas and when we say them", "1-4", "ٱللَّهُمَّ ٱفْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", "Entering the masjid", "", ""], ["Q041", "match", "pair", "Duas and when we say them", "1-4", "رَبِّ زِدْنِي عِلْمًا", "Asking for more knowledge", "", ""], ["Q042", "match", "pair", "Duas and when we say them", "1-4", "ٱلسَّلَامُ عَلَيْكُمْ", "Greeting a Muslim", "", ""], ["Q043", "match", "pair", "Duas and when we say them", "1-4", "جَزَاكَ ٱللَّهُ خَيْرًا", "Thanking someone", "", ""], ["Q044", "match", "pair", "Islamic words", "2-4", "Salah", "The five daily prayers", "", ""], ["Q045", "match", "pair", "Islamic words", "2-4", "Zakah", "Giving part of our wealth to people in need", "", ""], ["Q046", "match", "pair", "Islamic words", "2-4", "Sawm", "Fasting in Ramadan", "", ""], ["Q047", "match", "pair", "Islamic words", "2-4", "Hajj", "The pilgrimage to Makkah", "", ""], ["Q048", "match", "pair", "Islamic words", "2-4", "Shahadah", "Declaring that there is no god but Allah and Muhammad ﷺ is His Messenger", "", ""], ["Q049", "match", "pair", "Islamic words", "2-4", "Wudu", "Washing before prayer", "", ""], ["Q050", "match", "pair", "Islamic words", "2-4", "Qiblah", "The direction of the Kaʿbah, which we face in prayer", "", ""], ["Q051", "match", "pair", "Islamic words", "2-4", "Sunnah", "The way of the Prophet ﷺ", "", ""], ["Q052", "match", "pair", "Islamic words", "2-4", "Hadith", "A report of what the Prophet ﷺ said or did", "", ""], ["Q053", "match", "pair", "Islamic words", "2-4", "Iman", "Faith", "", ""], ["Q054", "match", "pair", "Islamic words", "2-4", "Adhan", "The call to prayer", "", ""], ["Q055", "match", "pair", "Islamic words", "2-4", "Sadaqah", "Charity we give freely", "", ""], ["Q056", "journey", "choice", "Knowledge Garden", "1-4", "How many pillars of Islam are there?", "5", "3 | 6 | 10", "The five pillars are the Shahadah, Salah, Zakah, Sawm and Hajj."], ["Q057", "journey", "choice", "Knowledge Garden", "1-4", "How many obligatory prayers do Muslims pray each day?", "5", "3 | 2 | 7", "Fajr, Dhuhr, ʿAsr, Maghrib and ʿIsha."], ["Q058", "journey", "choice", "Knowledge Garden", "2-4", "Which pillar is the declaration of faith?", "Shahadah", "Sawm | Hajj | Zakah", "The Shahadah is saying, and believing, that there is no god but Allah and that Muhammad ﷺ is His Messenger."], ["Q059", "journey", "choice", "Knowledge Garden", "1-4", "In which month do Muslims fast?", "Ramadan", "Shawwal | Muharram | Rajab", "Fasting in Ramadan is one of the five pillars."], ["Q060", "journey", "choice", "Knowledge Garden", "2-4", "Where do Muslims go for Hajj?", "Makkah", "Madinah | Jerusalem | Cairo", "Hajj is the pilgrimage to the Kaʿbah in Makkah."], ["Q061", "journey", "choice", "Knowledge Garden", "2-4", "Which pillar means giving part of your wealth to people in need?", "Zakah", "Salah | Hajj | Shahadah", "Zakah purifies our wealth and helps those in need."], ["Q062", "journey", "choice", "Knowledge Garden", "1-4", "What is the first surah of the Qurʾan?", "Al-Fatihah", "Al-Baqarah | An-Nas | Al-Ikhlas", "Al-Fatihah, “The Opening”, begins the Qurʾan and is recited in every rakʿah."], ["Q063", "journey", "choice", "Knowledge Garden", "2-4", "How many surahs are in the Qurʾan?", "114", "99 | 30 | 120", "The Qurʾan has 114 surahs."], ["Q064", "journey", "choice", "Knowledge Garden", "1-4", "What is the last surah of the Qurʾan?", "An-Nas", "Al-Falaq | Al-Fatihah | Al-Ikhlas", "An-Nas, “Mankind”, is the 114th surah."], ["Q065", "journey", "choice", "Knowledge Garden", "1-4", "To which Prophet was the Qurʾan revealed?", "Muhammad ﷺ", "Musa (AS) | ʿIsa (AS) | Ibrahim (AS)", "The Qurʾan was revealed to the Prophet Muhammad ﷺ."], ["Q066", "journey", "choice", "Knowledge Garden", "2-4", "Which angel brought the revelation to the Prophet ﷺ?", "Jibril (AS)", "Mikaʾil (AS) | Israfil (AS) | Malik", "The angel Jibril brought the revelation."], ["Q067", "journey", "choice", "Knowledge Garden", "3-4", "In which month did the revelation of the Qurʾan begin?", "Ramadan", "Dhul-Hijjah | Muharram | Shaʿban", "The Qurʾan began to be revealed in Ramadan."], ["Q068", "journey", "choice", "Knowledge Garden", "3-4", "Which is the longest surah of the Qurʾan?", "Al-Baqarah", "Al-Fatihah | Ya-Sin | Al-Kahf", "Al-Baqarah, the second surah, is the longest."], ["Q069", "journey", "choice", "Knowledge Garden", "2-4", "How many ayahs are in Surah Al-Fatihah?", "7", "5 | 6 | 10", "Al-Fatihah has seven ayahs."], ["Q070", "journey", "choice", "Knowledge Garden", "1-4", "Which surah begins “Say, He is Allah, the One”?", "Al-Ikhlas", "Al-Falaq | An-Nas | Al-Kawthar", "Surah Al-Ikhlas, the 112th surah."], ["Q071", "journey", "choice", "Arabic Valley", "1-4", "How many letters are in the Arabic alphabet?", "28", "26 | 30 | 24", "There are 28 letters, from Alif to Ya."], ["Q072", "journey", "choice", "Arabic Valley", "1-4", "What does كِتَاب mean?", "Book", "Pen | House | Door", "كِتَاب (kitab) means book. The Qurʾan is called al-Kitab, the Book."], ["Q073", "journey", "choice", "Arabic Valley", "1-4", "What does مَسْجِد mean?", "Place of prayer", "School | Market | Garden", "مَسْجِد (masjid) is the place where Muslims pray together."], ["Q074", "journey", "choice", "Arabic Valley", "1-4", "What does مَاء mean?", "Water", "Moon | Sun | Tree", "مَاء (maʾ) means water."], ["Q075", "journey", "choice", "Arabic Valley", "2-4", "Which sign makes a letter sound “i”?", "Kes-ra", "Fat-ha | Dom-ma | Sukun", "Kes-ra is written below the letter and gives the sound “i”."], ["Q076", "journey", "choice", "Arabic Valley", "2-4", "Which letters are the Madd letters?", "ا و ي", "ب ت ث | ر ز س | ل م ن", "Alif, waw and ya without a vowel of their own lengthen the sound."], ["Q077", "journey", "choice", "Arabic Valley", "3-4", "Which letter comes after nun with sukun in Iqlab?", "ب", "ل | م | ع", "Before ب, the nun becomes a meem sound with ghunnah."], ["Q078", "journey", "choice", "Seerah Library", "1-4", "In which city was the Prophet Muhammad ﷺ born?", "Makkah", "Madinah | Taʾif | Jerusalem", "The Prophet ﷺ was born in Makkah."], ["Q079", "journey", "choice", "Seerah Library", "2-4", "What was the name of the Prophet’s mother?", "Aminah", "Khadijah | Fatimah | Halimah", "His mother was Aminah bint Wahb."], ["Q080", "journey", "choice", "Seerah Library", "2-4", "To which city did the Prophet ﷺ make the Hijrah?", "Madinah", "Taʾif | Jerusalem | Damascus", "The Prophet ﷺ migrated from Makkah to Madinah."], ["Q081", "journey", "choice", "Seerah Library", "2-4", "Who was the first wife of the Prophet ﷺ?", "Khadijah (RA)", "ʿAʾishah (RA) | Hafsah (RA) | Sawdah (RA)", "Khadijah (RA) was his first wife and the first to believe in him."], ["Q082", "journey", "choice", "Seerah Library", "3-4", "In which cave did the first revelation come?", "Hira", "Thawr | Uhud | ʿArafat", "The first revelation came in the cave of Hira, on Jabal an-Nur."], ["Q083", "journey", "choice", "Seerah Library", "1-4", "Which Prophet built the Ark?", "Nuh (AS)", "Musa (AS) | Yunus (AS) | ʿIsa (AS)", "Allah commanded Prophet Nuh to build the Ark."], ["Q084", "journey", "choice", "Seerah Library", "1-4", "Which Prophet was swallowed by a great fish?", "Yunus (AS)", "Yusuf (AS) | Nuh (AS) | Adam (AS)", "Prophet Yunus called on Allah from inside the fish, and Allah saved him."], ["Q085", "journey", "choice", "Seerah Library", "1-4", "Who was the first human and the first Prophet?", "Adam (AS)", "Nuh (AS) | Ibrahim (AS) | Idris (AS)", "Adam (AS) was the first human, created by Allah."], ["Q086", "journey", "choice", "Seerah Library", "2-4", "Which Prophet built the Kaʿbah with his son Ismaʿil?", "Ibrahim (AS)", "Musa (AS) | Dawud (AS) | Nuh (AS)", "Prophet Ibrahim and his son Ismaʿil raised the foundations of the Kaʿbah."], ["Q087", "journey", "choice", "Seerah Library", "2-4", "Which Prophet was thrown into a well by his brothers?", "Yusuf (AS)", "Yunus (AS) | Ayyub (AS) | Harun (AS)", "Prophet Yusuf was patient, and Allah raised him to honour in Egypt."], ["Q088", "journey", "choice", "Seerah Library", "3-4", "Which Prophet is known for his patience through a long illness?", "Ayyub (AS)", "Yusuf (AS) | Lut (AS) | Hud (AS)", "Prophet Ayyub stayed patient and thankful to Allah."], ["Q089", "journey", "choice", "Seerah Library", "3-4", "Which Prophet’s brother Harun helped him?", "Musa (AS)", "Ismaʿil (AS) | Yahya (AS) | Shuʿayb (AS)", "Prophet Musa asked Allah to make his brother Harun his helper."], ["Q090", "journey", "choice", "Garden of Good Manners", "1-4", "What do we say before we start eating?", "Bismillah", "Alhamdulillah | SubhanAllah | Allahu Akbar", "We begin in the Name of Allah."], ["Q091", "journey", "choice", "Garden of Good Manners", "1-4", "Which hand do we eat with?", "The right hand", "The left hand", "The Prophet ﷺ taught us to eat with the right hand."], ["Q092", "journey", "choice", "Garden of Good Manners", "1-4", "How do we greet another Muslim?", "Assalamu ʿalaykum", "Good luck | Jazakallahu khayran | Bismillah", "Spreading salam brings people closer together."], ["Q093", "journey", "choice", "Garden of Good Manners", "2-4", "Someone sneezes and says “Alhamdulillah”. What do we reply?", "Yarhamukallah", "Bismillah | Allahu Akbar | Inshaʾ Allah", "We say “Yarhamukallah”, may Allah have mercy on you."], ["Q094", "journey", "choice", "Garden of Good Manners", "1-4", "What do we say about something we plan to do later?", "Inshaʾ Allah", "Mashaʾ Allah | SubhanAllah | Astaghfirullah", "Inshaʾ Allah: if Allah wills."], ["Q095", "journey", "choice", "Garden of Good Manners", "1-4", "What do we say when we see something beautiful?", "Mashaʾ Allah", "Astaghfirullah | Bismillah | Inshaʾ Allah", "Mashaʾ Allah: it is what Allah has willed."], ["Q096", "journey", "choice", "Garden of Good Manners", "2-4", "What do we say when we ask Allah to forgive us?", "Astaghfirullah", "Alhamdulillah | Mashaʾ Allah | Inshaʾ Allah", "Astaghfirullah: I seek Allah’s forgiveness."], ["Q097", "journey", "choice", "Garden of Good Manners", "1-4", "What must we do before we pray?", "Make wudu", "Eat a meal | Go for a run | Sleep", "Wudu, washing in the way we are taught, comes before Salah."], ["Q098", "salah", "order", "The steps", "1-4", "The first rakʿah, in order", "Make the intention (niyyah) | Say “Allahu Akbar” (takbir) | Stand and recite Subhanaka and Al-Fatihah, then a surah | Bow (rukuʿ): “Subhana Rabbiyal ʿAzim” | Rise: “Samiʿ Allahu liman hamidah” | Prostrate (sujud): “Subhana Rabbiyal Aʿla” | Sit between the two sujud | Prostrate a second time", "", "Please check the order and wording with your teacher’s method of teaching Salah."], ["Q099", "salah", "order", "The steps", "2-4", "The end of a two-rakʿah prayer, in order", "Second rakʿah: Al-Fatihah and a surah | Bow (rukuʿ) | Rise from rukuʿ | Two sujud | Sit and recite At-Tahiyyat | Recite the Salat Ibrahimiyya | Make a duʿa | Salam to the right | Salam to the left", "", ""], ["Q100", "salah", "pair", "What we say, and when", "1-4", "Allahu Akbar", "Starting the prayer (takbir)", "", ""], ["Q101", "salah", "pair", "What we say, and when", "1-4", "Al-Fatihah", "Standing (qiyam)", "", ""], ["Q102", "salah", "pair", "What we say, and when", "1-4", "Subhana Rabbiyal ʿAzim", "Bowing (rukuʿ)", "", ""], ["Q103", "salah", "pair", "What we say, and when", "1-4", "Samiʿ Allahu liman hamidah", "Rising from rukuʿ", "", ""], ["Q104", "salah", "pair", "What we say, and when", "1-4", "Subhana Rabbiyal Aʿla", "Prostration (sujud)", "", ""], ["Q105", "salah", "pair", "What we say, and when", "1-4", "At-Tahiyyat", "Sitting at the end", "", ""], ["Q106", "salah", "pair", "What we say, and when", "1-4", "Assalamu ʿalaykum wa rahmatullah", "Ending the prayer", "", ""], ["Q107", "salah", "choice", "Prayer facts", "1-4", "How many obligatory (fard) rakʿahs are in Fajr?", "2", "3 | 4", "Fajr has two fard rakʿahs."], ["Q108", "salah", "choice", "Prayer facts", "1-4", "How many obligatory (fard) rakʿahs are in Dhuhr?", "4", "2 | 3", "Dhuhr has four fard rakʿahs."], ["Q109", "salah", "choice", "Prayer facts", "2-4", "How many obligatory (fard) rakʿahs are in ʿAsr?", "4", "2 | 3", "ʿAsr has four fard rakʿahs."], ["Q110", "salah", "choice", "Prayer facts", "1-4", "How many obligatory (fard) rakʿahs are in Maghrib?", "3", "2 | 4", "Maghrib has three fard rakʿahs."], ["Q111", "salah", "choice", "Prayer facts", "2-4", "How many obligatory (fard) rakʿahs are in ʿIsha?", "4", "2 | 3", "ʿIsha has four fard rakʿahs."], ["Q112", "salah", "choice", "Prayer facts", "1-4", "Which prayer is prayed before sunrise?", "Fajr", "Dhuhr | ʿIsha", "Fajr is the dawn prayer."], ["Q113", "salah", "choice", "Prayer facts", "1-4", "Which prayer is prayed just after sunset?", "Maghrib", "ʿAsr | Fajr", "Maghrib comes right after the sun sets."], ["Q114", "salah", "choice", "Prayer facts", "1-4", "Which direction do we face when we pray?", "The Qiblah, towards the Kaʿbah", "Any direction | Towards the sunrise", "Muslims everywhere face the Kaʿbah in Makkah."], ["Q115", "salah", "choice", "Prayer facts", "1-4", "What do we do before Salah to be clean?", "Wudu", "Eat | Sleep", "Wudu is the washing we do before prayer."], ["Q116", "akhlaq", "choice", "What would you do?", "1-4", "Your friend falls over in the playground. What do you do?", "Help them up and check they are okay", "Laugh with the others | Walk away | Tell them to watch where they go", "Muslims look after one another, like one body."], ["Q117", "akhlaq", "choice", "What would you do?", "1-4", "You find a wallet on the floor at the masjid. What do you do?", "Give it to the imam or a teacher so it can be returned", "Keep it | Take the money and leave the wallet | Hide it somewhere", "Returning what belongs to someone else is keeping an amanah, a trust."], ["Q118", "akhlaq", "choice", "What would you do?", "1-4", "Your mother asks for help setting the table while you are playing. What do you do?", "Stop and help her with a smile", "Pretend you did not hear | Say “later” and forget | Complain loudly", "Allah tells us to be kind and good to our parents."], ["Q119", "akhlaq", "choice", "What would you do?", "1-4", "A classmate gives a wrong answer and others laugh. What do you do?", "Encourage them kindly", "Laugh too | Tell everyone about it later | Make a joke about it", "Making fun of others hurts them; a kind word lifts them up."], ["Q120", "akhlaq", "choice", "What would you do?", "1-4", "A new student is sitting alone at lunch. What do you do?", "Invite them to sit with you", "Leave them alone | Whisper about them | Take their seat", "Welcoming others and making them feel included is good character."], ["Q121", "akhlaq", "choice", "What would you do?", "2-4", "Someone is calling another child names. What do you do?", "Speak up kindly and tell a teacher", "Join in | Laugh along | Film it on a phone", "We stand up for others and never take part in bullying."], ["Q122", "akhlaq", "choice", "What would you do?", "1-4", "You broke your sister’s toy by accident. What do you do?", "Tell the truth and say sorry", "Hide it | Blame someone else | Say nothing", "Honesty is part of a Muslim’s character, even when it is hard."], ["Q123", "akhlaq", "choice", "What would you do?", "1-4", "An elderly neighbour is carrying heavy shopping. What do you do?", "Offer to help carry it", "Watch from the window | Hurry past | Ask to be paid first", "Islam teaches us to honour our elders and be good to our neighbours."], ["Q124", "akhlaq", "choice", "What would you do?", "1-4", "You have sweets and your brother has none. What do you do?", "Share with him", "Eat them all quickly | Hide them | Show them off", "Sharing brings love between family members."], ["Q125", "akhlaq", "choice", "What would you do?", "2-4", "You hear the adhan while you are playing a game. What do you do?", "Pause the game and get ready to pray", "Turn up the volume | Keep playing until it ends | Say you will pray much later", "Answering the call to prayer shows our love for Allah."], ["Q126", "akhlaq", "choice", "What would you do?", "2-4", "Someone is rude to you. What do you do?", "Stay calm and answer kindly", "Shout back | Push them | Be rude to them next time", "Controlling our anger and answering with kindness is strength."], ["Q127", "akhlaq", "choice", "What would you do?", "1-4", "You want to use something that belongs to your friend. What do you do?", "Ask permission first", "Take it while they are not looking | Hide it for later | Use it and say nothing", "We respect what belongs to others and ask before we take."], ["Q128", "daily", "deed", "Character mission", "1-4", "Say salam to everyone in your family today", "", "", ""], ["Q129", "daily", "deed", "Character mission", "1-4", "Help at home without being asked", "", "", ""], ["Q130", "daily", "deed", "Character mission", "1-4", "Say Bismillah before every meal today", "", "", ""], ["Q131", "daily", "deed", "Character mission", "1-4", "Make duʿa for your parents", "", "", ""], ["Q132", "daily", "deed", "Character mission", "1-4", "Smile at someone and say something kind", "", "", ""], ["Q133", "daily", "deed", "Character mission", "1-4", "Thank someone and say “Jazakallahu khayran”", "", "", ""], ["Q134", "daily", "deed", "Character mission", "1-4", "Tidy your room", "", "", ""], ["Q135", "daily", "deed", "Character mission", "1-4", "Listen to or read a short surah", "", "", ""], ["Q136", "daily", "deed", "Character mission", "1-4", "Give something to someone who needs it", "", "", ""], ["Q137", "daily", "deed", "Character mission", "1-4", "Say “Alhamdulillah” for three blessings you have", "", "", ""], ["Q138", "daily", "deed", "Character mission", "1-4", "Help a younger brother, sister or friend", "", "", ""], ["Q139", "daily", "deed", "Character mission", "1-4", "Speak kindly all day", "", "", ""], ["Q140", "daily", "deed", "Character mission", "1-4", "Make wudu carefully before a prayer", "", "", ""], ["Q141", "daily", "deed", "Character mission", "1-4", "Forgive someone who upset you", "", "", ""]];
 // END STARTER QUESTIONS
+
+// ── adults (the Quran Library at taaleem.ca/quran/) ─────────────
+// Adults create their own account with a username and password; no class password is needed. They are kept in
+// their own "Adults" tab, apart from the students, and their finished Hifz tests go to the "Adult sessions" tab.
+// Both tabs are made the first time they are needed. To reset an adult's password, type a temporary one in the
+// "Reset password" column of the Adults tab, as for students.
+const ADULTS_TAB = 'Adults';
+const ADULT_HEADERS = ['Username', 'Full name', 'Gender', 'Joined', 'Last sign-in', 'Reset password', 'Password hash', 'Salt', 'Saved (bookmarks, last read, settings)', 'Hifz tests', 'Last activity'];
+const A = { user: 0, name: 1, gender: 2, joined: 3, last: 4, reset: 5, hash: 6, salt: 7, progress: 8, tests: 9, lastActivity: 10 };
+const ADULT_LOG_TAB = 'Adult sessions';
+const ADULT_LOG_HEADERS = ['Time', 'Full name', 'Username', 'Gender', 'Session type', 'Passage', 'Questions', 'Words recited', 'Right first time (%)', 'Prompts', 'Hints used', 'Grade', 'Words to revise'];
+const ADULT_GENDER = { m: 'Brother', f: 'Sister' };
+const ADULT_PREFIX = 'adult:';                 // in sign-in tokens, so a student's token never opens an adult account (or the reverse)
+const ADULT_SIGNUPS_PER_HOUR = 120;            // all new adult accounts together, against automated sign-ups
+const LOGIN_TRIES = 10;                        // wrong passwords allowed per username in 15 minutes
+
+function adultsSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(ADULTS_TAB);
+  if (!sh) {
+    sh = ss.insertSheet(ADULTS_TAB);
+    sh.appendRow(ADULT_HEADERS);
+    sh.getRange(1, 1, 1, ADULT_HEADERS.length).setFontWeight('bold');
+    sh.getRange(1, A.reset + 1).setBackground('#FBE3A6').setNote('Type a temporary password here to reset an adult\'s password. It is cleared once they sign in with it.');
+    sh.setFrozenRows(1);
+    sh.getRange('D:E').setNumberFormat('yyyy-mm-dd hh:mm');
+    sh.hideColumns(A.hash + 1, 2);
+  }
+  return sh;
+}
+
+function findAdult(sh, username) {
+  const want = String(username || '').trim().toLowerCase();
+  if (!want) return null;
+  const rows = sh.getDataRange().getValues();
+  for (let r = 1; r < rows.length; r++) if (String(rows[r][A.user]).trim().toLowerCase() === want) return { row: r + 1, v: rows[r] };
+  return null;
+}
+
+// one username for one person across the whole site: students and adults
+function usernameTaken(username) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const st = ss.getSheetByName(STUDENTS_TAB);
+  if (st && findStudent(st, username)) return true;
+  const ad = ss.getSheetByName(ADULTS_TAB);
+  return !!(ad && findAdult(ad, username));
+}
+
+function adultAccount(v) {
+  return { ok: true, username: String(v[A.user]), name: String(v[A.name]), gender: v[A.gender] === ADULT_GENDER.f ? 'f' : 'm', token: makeToken(ADULT_PREFIX + String(v[A.user]).toLowerCase()) };
+}
+
+function adultRegister(body) {
+  if (String(body.website || '')) return { ok: false, error: 'bad-request' };   // a field people never see: only robots fill it in
+  const name = String(body.name || '').trim().replace(/\s+/g, ' ');
+  const username = String(body.username || '').trim().toLowerCase();
+  const password = String(body.password || '');
+  if (name.length < 3 || name.length > 80) return { ok: false, error: 'no-name' };
+  if (!USERNAME_RE.test(username)) return { ok: false, error: 'bad-username' };
+  if (password.length < 8 || password.length > 200) return { ok: false, error: 'short-password' };
+  const gender = String(body.gender || '');
+  if (!ADULT_GENDER[gender]) return { ok: false, error: 'bad-gender' };
+
+  const cache = CacheService.getScriptCache();
+  const hour = 'adult-signups-' + Math.floor(Date.now() / 36e5);
+  const count = Number(cache.get(hour) || 0);
+  if (count >= ADULT_SIGNUPS_PER_HOUR) return { ok: false, error: 'busy' };
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  let row;
+  try {
+    if (usernameTaken(username)) return { ok: false, error: 'username-taken' };
+    const sh = adultsSheet();
+    const salt = Utilities.getUuid();
+    row = [username, name, ADULT_GENDER[gender], new Date(), new Date(), '', hashPassword(password, salt), salt, '', 0, new Date()];
+    sh.appendRow(row);
+    cache.put(hour, String(count + 1), 3700);
+  } finally {
+    lock.releaseLock();
+  }
+  return adultAccount(row);
+}
+
+function adultLogin(body) {
+  const username = String(body.username || '').trim().toLowerCase();
+  const cache = CacheService.getScriptCache();
+  const triesKey = 'adult-tries-' + username.slice(0, 40);
+  const tries = Number(cache.get(triesKey) || 0);
+  if (tries >= LOGIN_TRIES) return { ok: false, error: 'too-many' };
+  const sh = adultsSheet();
+  const ad = findAdult(sh, username);
+  const password = String(body.password || '');
+  let ok = false;
+  if (ad) {
+    ok = !!ad.v[A.hash] && hashPassword(password, String(ad.v[A.salt])) === String(ad.v[A.hash]);
+    const reset = String(ad.v[A.reset] || '');
+    if (!ok && reset && password === reset) {
+      // the temporary password from the centre becomes their password
+      const salt = Utilities.getUuid();
+      sh.getRange(ad.row, A.reset + 1).setValue('');
+      sh.getRange(ad.row, A.hash + 1, 1, 2).setValues([[hashPassword(password, salt), salt]]);
+      ok = true;
+    }
+  }
+  if (!ok) { cache.put(triesKey, String(tries + 1), 900); return { ok: false, error: 'bad-login' }; }
+  cache.remove(triesKey);
+  sh.getRange(ad.row, A.last + 1).setValue(new Date());
+  return adultAccount(ad.v);
+}
+
+function adult(body) {
+  const who = readToken(body.token);
+  if (!who || who.indexOf(ADULT_PREFIX) !== 0) return { error: 'signed-out' };
+  const sh = adultsSheet();
+  const ad = findAdult(sh, who.slice(ADULT_PREFIX.length));
+  if (!ad) return { error: 'signed-out' };
+  return { sh, ad };
+}
+
+function adultProgress(body) {
+  const r = adult(body);
+  if (r.error) return { ok: false, error: r.error };
+  let progress = {};
+  try { progress = JSON.parse(String(r.ad.v[A.progress] || '{}')); } catch (err) { progress = {}; }
+  return { ok: true, progress };
+}
+
+function adultSaveProgress(body) {
+  const r = adult(body);
+  if (r.error) return { ok: false, error: r.error };
+  const text = JSON.stringify(body.progress || {});
+  if (text.length > 45000) return { ok: false, error: 'too-big' };   // a Sheets cell holds 50,000 characters
+  r.sh.getRange(r.ad.row, A.progress + 1).setValue(text);
+  r.sh.getRange(r.ad.row, A.lastActivity + 1).setValue(new Date());
+  return { ok: true };
+}
+
+function adultLog(body) {
+  const r = adult(body);
+  if (r.error) return { ok: false, error: r.error };
+  const t = body.test || {};
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let lg = ss.getSheetByName(ADULT_LOG_TAB);
+  if (!lg) {
+    lg = ss.insertSheet(ADULT_LOG_TAB);
+    lg.appendRow(ADULT_LOG_HEADERS);
+    lg.getRange(1, 1, 1, ADULT_LOG_HEADERS.length).setFontWeight('bold');
+    lg.setFrozenRows(1);
+    lg.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+  }
+  const cut = (x, n) => String(x == null ? '' : x).slice(0, n);
+  const num = (x) => (x !== '' && x != null && isFinite(Number(x)) ? Number(x) : '');
+  lg.appendRow([new Date(), String(r.ad.v[A.name]), String(r.ad.v[A.user]), String(r.ad.v[A.gender]), cut(t.kind || 'Hifz test', 40), cut(t.passage, 200),
+    num(t.questions), num(t.words), num(t.rightPct), num(t.prompts), num(t.hints), cut(t.grade, 40), cut(t.revise, 1000)]);
+  r.sh.getRange(r.ad.row, A.tests + 1, 1, 2).setValues([[Number(r.ad.v[A.tests] || 0) + 1, new Date()]]);
+  return { ok: true };
+}
