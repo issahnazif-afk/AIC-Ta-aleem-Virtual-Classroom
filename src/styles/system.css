@@ -541,4 +541,7 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .sc-mic { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; border: 0; background: var(--gold, #B99A5B); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
 .sc-mic.on { background: #B3412E; }
 @media (prefers-reduced-motion: no-preference) { .sc-mic.on { animation: sc-pulse 1.2s ease-in-out infinite; } @keyframes sc-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(179 65 46 / .45); } 50% { box-shadow: 0 0 0 8px rgb(179 65 46 / 0); } } }
+.sc-type { display: flex; gap: 8px; }
+.sc-type input { flex: 1; min-width: 0; padding: 9px 14px; border-radius: 999px; border: 1.5px solid var(--rule, #e3dccb); background: #fff; color: inherit; font: inherit; }
+.sc-type input:focus-visible { outline: 2px solid var(--forest, #173D32); outline-offset: 1px; }
 .sc-heard { margin: 0; align-self: flex-end; max-width: 86%; font-style: italic; color: #5c6a63; font-size: .95rem; text-align: right; }

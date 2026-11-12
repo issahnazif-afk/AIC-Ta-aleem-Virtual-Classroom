@@ -126,6 +126,54 @@ To remove a row (for example a test run), delete it from the Maze board tab; the
 To switch it on for an existing set-up, paste the new `Code.gs` and make a **New version** of the deployment
 (see *Changing the script later*). Until then the leaderboard says it is not switched on yet.
 
+## Talking with the Sheikh (AI, off until you add a key)
+
+Before each recitation the Sheikh chats with the student. Without this setting he understands answers that match
+his buttons ("I'm fine", "my mum", "Surah Yaseen"). With it, he also understands answers in the student's own words,
+and before the recitation he asks "Is there anything you would like to ask me?". The student can speak or type a
+question.
+
+**How he answers.** An AI model (Claude, by Anthropic) reads what the student said and chooses the Sheikh's reply
+from his **library** (`public/data/sheikh-library.json`, made from `src/lib/sheikh-library.mjs`). The model can only
+answer with the ids of library lines: the answer format allows nothing else, so the Sheikh never says words that are
+not in the library. The library holds:
+
+- short everyday lines (encouragement, "I am sorry to hear that", "Please ask your teacher") with no religious claims;
+- the hadith of My Deen (checked and approved);
+- 40 hadith from Sahih al-Bukhari and Sahih Muslim (English of sunnah.com, from hadith-api; `src/data/sheikh-hadith.json`);
+- the ayat of the Reading Library;
+- Ibn Kathir's *al-Bidaya wa'l-Nihaya* (the "established" Seerah Quest passages).
+
+If nothing in the library answers a religious question, he says *"That is a very good question. … Please ask your
+teacher or your parents."* If a student says they are hurt or unsafe, he tells them to talk to their parents or
+teacher today. Every line is recorded in his voice when the site is built.
+
+**Turn it on**
+
+1. Make an API key at **console.anthropic.com** (Settings → API keys). Set a monthly spend limit there too
+   (Settings → Limits).
+2. Paste the new `Code.gs` and make a **New version** of the deployment (see *Changing the script later*).
+3. In the Apps Script editor: **Project Settings (gear) → Script properties → Add script property**:
+   `ANTHROPIC_API_KEY` = your key. Save.
+4. Choose **testSheikh** in the function list and press **Run**. The log shows what the Sheikh would say to three test
+   sentences, for example `why should I be kind to my neighbours → {"ok":true,"answer":-1,"say":["c-good-question","h-b6136"]}`.
+
+Optional script properties:
+
+| Property | What it does | Default |
+|---|---|---|
+| `SHEIKH_MODEL` | The AI model. `claude-haiku-5-5` is faster and costs far less; `claude-opus-5-5` judges best. | `claude-opus-5-5` |
+| `SHEIKH_DAILY_LIMIT` | The most AI replies a day for the whole school. Each student also has at most 60 a day. | `2000` |
+| `SHEIKH_LIBRARY_URL` | Where the library is published. | `https://taaleem.ca/data/sheikh-library.json` |
+
+**Cost.** Each reply sends the library (about 20,000 tokens, cached by Anthropic for a few minutes between replies)
+and gets a short answer. On `claude-opus-5-5` that is roughly 1 to 10 cents a reply. On `claude-haiku-5-5` it is
+well under a cent. The daily limit caps the total. Delete the `ANTHROPIC_API_KEY` property to turn it off at once.
+
+**Privacy.** Only the Sheikh's question, the answer buttons and the words the student said (as text) are sent to
+Anthropic. Names, usernames and recordings are never sent. Students must be signed in to use it. Check with your
+board and tell parents before turning it on.
+
 ## Updating an existing set-up (for this version)
 
 1. Open the admin sheet → **Extensions → Apps Script**, replace everything with the new `Code.gs` (keep your folder

@@ -85,6 +85,7 @@ const SYN = {
   'I love it': ['love', 'like', 'enjoy', 'great', 'fun', 'amazing'],
   'It is okay': ['okay', 'ok', 'fine', 'alright', 'its ok', 'not bad'],
   'It is hard for me': ['hard', 'difficult', 'tough', 'not easy', 'struggle'],
+  'No questions, let us begin': ['no', 'nope', 'nothing', 'no questions', 'no question', 'no thanks', 'no thank you', 'not really', 'begin', 'start', 'lets begin', 'lets start', 'bismillah', 'ready'],
   'Bismillah, let us begin': ['bismillah', 'begin', 'start', 'ready', 'go', 'lets go', 'lets start', 'yes', 'yeah', 'ok', 'okay'],
 };
 const norm = (s) => ' ' + String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ’'ʿ]/g, '').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim() + ' ';

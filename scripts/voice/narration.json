@@ -37453,6 +37453,50 @@
   ]
  },
  {
+  "key": "28756858",
+  "reader": "sheikh",
+  "text": "Before we begin, is there anything you would like to ask me? You can say it, or type it.",
+  "parts": [
+   [
+    "narrator",
+    "Before we begin, is there anything you would like to ask me? You can say it, or type it."
+   ]
+  ]
+ },
+ {
+  "key": "ca66b872",
+  "reader": "sheikh",
+  "text": "Is there anything else you would like to ask me?",
+  "parts": [
+   [
+    "narrator",
+    "Is there anything else you would like to ask me?"
+   ]
+  ]
+ },
+ {
+  "key": "7eb0f036",
+  "reader": "sheikh",
+  "text": "That is a very good question.",
+  "parts": [
+   [
+    "narrator",
+    "That is a very good question."
+   ]
+  ]
+ },
+ {
+  "key": "b8560d8f",
+  "reader": "sheikh",
+  "text": "I only tell you what I can find in our books, and I do not have an answer for that one. Please ask your teacher or your parents, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "I only tell you what I can find in our books, and I do not have an answer for that one. Please ask your teacher or your parents, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
   "key": "13f9bde7",
   "reader": "sheikh",
   "text": "I observe you have missed your recitation for 2 days. What could be the reason?",
@@ -38934,6 +38978,3537 @@
    [
     "narrator",
     "My Lord, give me more knowledge."
+   ]
+  ]
+ },
+ {
+  "key": "051e2cc5",
+  "reader": "sheikh",
+  "text": "Alhamdulillah! I am so happy to hear that.",
+  "parts": [
+   [
+    "narrator",
+    "{alhˌamdulillˈɑːh}! I am so happy to hear that."
+   ]
+  ]
+ },
+ {
+  "key": "29ffc1b3",
+  "reader": "sheikh",
+  "text": "Masha’Allah, that is wonderful.",
+  "parts": [
+   [
+    "narrator",
+    "{mˌɑːʃɑːllˈɑːh}, that is wonderful."
+   ]
+  ]
+ },
+ {
+  "key": "4d18dd6a",
+  "reader": "sheikh",
+  "text": "I am so sorry. That is very sad. May Allah give you and your family patience and comfort.",
+  "parts": [
+   [
+    "narrator",
+    "I am so sorry. That is very sad. May {allˈɑːh} give you and your family patience and comfort."
+   ]
+  ]
+ },
+ {
+  "key": "f4bee9fd",
+  "reader": "sheikh",
+  "text": "May Allah grant you a quick recovery. Rest well, and come back when you are ready.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} grant you a quick recovery. Rest well, and come back when you are ready."
+   ]
+  ]
+ },
+ {
+  "key": "ca22e27d",
+  "reader": "sheikh",
+  "text": "It is normal to feel worried sometimes. Make dua, do your best, and leave the rest to Allah.",
+  "parts": [
+   [
+    "narrator",
+    "It is normal to feel worried sometimes. Make {dˈuːɑː}, do your best, and leave the rest to {allˈɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "653e7494",
+  "reader": "sheikh",
+  "text": "Thank you for telling me.",
+  "parts": [
+   [
+    "narrator",
+    "Thank you for telling me."
+   ]
+  ]
+ },
+ {
+  "key": "d683e6cf",
+  "reader": "sheikh",
+  "text": "You are most welcome. May Allah bless you.",
+  "parts": [
+   [
+    "narrator",
+    "You are most welcome. May {allˈɑːh} bless you."
+   ]
+  ]
+ },
+ {
+  "key": "ed19010a",
+  "reader": "sheikh",
+  "text": "Jazak Allahu khayran. That is very kind of you.",
+  "parts": [
+   [
+    "narrator",
+    "Jazak Allahu khayran. That is very kind of you."
+   ]
+  ]
+ },
+ {
+  "key": "ecda05cb",
+  "reader": "sheikh",
+  "text": "I am not sure about that, and I do not want to tell you something that is not right. Your teacher will know.",
+  "parts": [
+   [
+    "narrator",
+    "I am not sure about that, and I do not want to tell you something that is not right. Your teacher will know."
+   ]
+  ]
+ },
+ {
+  "key": "82f4df26",
+  "reader": "sheikh",
+  "text": "Thank you for telling me. That sounds important. Please tell your parents or your teacher about it today. They care about you and they can help.",
+  "parts": [
+   [
+    "narrator",
+    "Thank you for telling me. That sounds important. Please tell your parents or your teacher about it today. They care about you and they can help."
+   ]
+  ]
+ },
+ {
+  "key": "22250b08",
+  "reader": "sheikh",
+  "text": "I am the Sheikh of this classroom. I listen to your recitation and help you learn, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "I am the {ʃˈeɪx} of this classroom. I listen to your recitation and help you learn, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "967c9e9c",
+  "reader": "sheikh",
+  "text": "I am a computer helper made for your school. Your real teachers are the best people to ask about anything important.",
+  "parts": [
+   [
+    "narrator",
+    "I am a computer helper made for your school. Your real teachers are the best people to ask about anything important."
+   ]
+  ]
+ },
+ {
+  "key": "ba016cc0",
+  "reader": "sheikh",
+  "text": "Alhamdulillah, I am well, thank you for asking. And I am happy to see you here.",
+  "parts": [
+   [
+    "narrator",
+    "{alhˌamdulillˈɑːh}, I am well, thank you for asking. And I am happy to see you here."
+   ]
+  ]
+ },
+ {
+  "key": "1e497c52",
+  "reader": "sheikh",
+  "text": "That made me smile!",
+  "parts": [
+   [
+    "narrator",
+    "That made me smile!"
+   ]
+  ]
+ },
+ {
+  "key": "dc7e8a8b",
+  "reader": "sheikh",
+  "text": "Now, let us come back to our Quran.",
+  "parts": [
+   [
+    "narrator",
+    "Now, let us come back to our {kʊɹˈɑːn}."
+   ]
+  ]
+ },
+ {
+  "key": "55c2f42f",
+  "reader": "sheikh",
+  "text": "Keep going, step by step. Allah loves the one who keeps trying.",
+  "parts": [
+   [
+    "narrator",
+    "Keep going, step by step. {allˈɑːh} loves the one who keeps trying."
+   ]
+  ]
+ },
+ {
+  "key": "51cf09c0",
+  "reader": "sheikh",
+  "text": "A little every day is better than a lot once in a while.",
+  "parts": [
+   [
+    "narrator",
+    "A little every day is better than a lot once in a while."
+   ]
+  ]
+ },
+ {
+  "key": "f08c4e49",
+  "reader": "sheikh",
+  "text": "The more you recite, the easier it becomes. Let us practise together.",
+  "parts": [
+   [
+    "narrator",
+    "The more you recite, the easier it becomes. Let us practise together."
+   ]
+  ]
+ },
+ {
+  "key": "3548cbd1",
+  "reader": "sheikh",
+  "text": "Let us try together. I am here to help you.",
+  "parts": [
+   [
+    "narrator",
+    "Let us try together. I am here to help you."
+   ]
+  ]
+ },
+ {
+  "key": "f732acc3",
+  "reader": "sheikh",
+  "text": "I know it can feel hard. We will go one small step at a time, and I will help you.",
+  "parts": [
+   [
+    "narrator",
+    "I know it can feel hard. We will go one small step at a time, and I will help you."
+   ]
+  ]
+ },
+ {
+  "key": "48077d0e",
+  "reader": "sheikh",
+  "text": "Mistakes are how we learn. Do not worry about them. I will help you fix them.",
+  "parts": [
+   [
+    "narrator",
+    "Mistakes are how we learn. Do not worry about them. I will help you fix them."
+   ]
+  ]
+ },
+ {
+  "key": "4faab92c",
+  "reader": "sheikh",
+  "text": "A good way to start is to listen to the reciter first, then read it yourself, slowly.",
+  "parts": [
+   [
+    "narrator",
+    "A good way to start is to listen to the reciter first, then read it yourself, slowly."
+   ]
+  ]
+ },
+ {
+  "key": "ee762e02",
+  "reader": "sheikh",
+  "text": "You can find that in My Deen, in the classroom. Have a look after our recitation.",
+  "parts": [
+   [
+    "narrator",
+    "You can find that in My Deen, in the classroom. Have a look after our recitation."
+   ]
+  ]
+ },
+ {
+  "key": "986eedc9",
+  "reader": "sheikh",
+  "text": "You can learn that dua in My Deen, under My Duas.",
+  "parts": [
+   [
+    "narrator",
+    "You can learn that {dˈuːɑː} in My Deen, under My Duas."
+   ]
+  ]
+ },
+ {
+  "key": "fdf0cbb0",
+  "reader": "sheikh",
+  "text": "You can read more stories like that in Story Time and the Reading Library.",
+  "parts": [
+   [
+    "narrator",
+    "You can read more stories like that in Story Time and the Reading Library."
+   ]
+  ]
+ },
+ {
+  "key": "03a349c9",
+  "reader": "sheikh",
+  "text": "You can travel through the life of the Prophet, peace be upon him, in the Seerah Quest.",
+  "parts": [
+   [
+    "narrator",
+    "You can travel through the life of the Prophet, peace be upon him, in the Seerah Quest."
+   ]
+  ]
+ },
+ {
+  "key": "4f4c4ad3",
+  "reader": "sheikh",
+  "text": "May Allah bless your family and keep you all together.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} bless your family and keep you all together."
+   ]
+  ]
+ },
+ {
+  "key": "1d369cbd",
+  "reader": "sheikh",
+  "text": "May Allah reward your parents for all they do for you.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} reward your parents for all they do for you."
+   ]
+  ]
+ },
+ {
+  "key": "3ed31fbc",
+  "reader": "sheikh",
+  "text": "Good friends are a blessing. Choose friends who help you to be good.",
+  "parts": [
+   [
+    "narrator",
+    "Good friends are a blessing. Choose friends who help you to be good."
+   ]
+  ]
+ },
+ {
+  "key": "ab22db6b",
+  "reader": "sheikh",
+  "text": "Being kind is always the best choice.",
+  "parts": [
+   [
+    "narrator",
+    "Being kind is always the best choice."
+   ]
+  ]
+ },
+ {
+  "key": "464ef0fd",
+  "reader": "sheikh",
+  "text": "Saying sorry and making peace is brave. I am proud of you for thinking about it.",
+  "parts": [
+   [
+    "narrator",
+    "Saying sorry and making peace is brave. I am proud of you for thinking about it."
+   ]
+  ]
+ },
+ {
+  "key": "2f0d622d",
+  "reader": "sheikh",
+  "text": "Remember to pray on time. It brings peace to the heart.",
+  "parts": [
+   [
+    "narrator",
+    "Remember to pray on time. It brings peace to the heart."
+   ]
+  ]
+ },
+ {
+  "key": "5379a85b",
+  "reader": "sheikh",
+  "text": "May Allah bless you and accept your good deeds.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} bless you and accept your good deeds."
+   ]
+  ]
+ },
+ {
+  "key": "5eb64935",
+  "reader": "sheikh",
+  "text": "Eid Mubarak! May Allah fill your days with happiness.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈiːd mubˈɑːɹak}! May {allˈɑːh} fill your days with happiness."
+   ]
+  ]
+ },
+ {
+  "key": "91288891",
+  "reader": "sheikh",
+  "text": "May Allah bless your studies and make them easy for you.",
+  "parts": [
+   [
+    "narrator",
+    "May {allˈɑːh} bless your studies and make them easy for you."
+   ]
+  ]
+ },
+ {
+  "key": "c524e2fd",
+  "reader": "sheikh",
+  "text": "In sha’ Allah, you will do well.",
+  "parts": [
+   [
+    "narrator",
+    "{inʃˈɑːllˌɑːh}, you will do well."
+   ]
+  ]
+ },
+ {
+  "key": "81e929ef",
+  "reader": "sheikh",
+  "text": "Ameen.",
+  "parts": [
+   [
+    "narrator",
+    "Ameen."
+   ]
+  ]
+ },
+ {
+  "key": "cc590e12",
+  "reader": "sheikh",
+  "text": "Let us keep our words kind and gentle, in sha’ Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Let us keep our words kind and gentle, {inʃˈɑːllˌɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "f66e915c",
+  "reader": "sheikh",
+  "text": "Whenever you are ready, we can begin.",
+  "parts": [
+   [
+    "narrator",
+    "Whenever you are ready, we can begin."
+   ]
+  ]
+ },
+ {
+  "key": "831c1f58",
+  "reader": "sheikh",
+  "text": "Assalamu alaykum. May Allah keep you safe. I look forward to our next recitation.",
+  "parts": [
+   [
+    "narrator",
+    "{assalˈɑːmu alˈaɪkum}. May {allˈɑːh} keep you safe. I look forward to our next recitation."
+   ]
+  ]
+ },
+ {
+  "key": "92253ae9",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said to a boy: O boy, say Bismillah, eat with your right hand, and eat from what is in front of you.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said to a boy: O boy, say {bismillˈɑːh}, eat with your right hand, and eat from what is in front of you."
+   ]
+  ]
+ },
+ {
+  "key": "8756b543",
+  "reader": "sheikh",
+  "text": "Let me tell you what the Prophet ﷺ taught us.",
+  "parts": [
+   [
+    "narrator",
+    "Let me tell you what the Prophet , peace be upon him, taught us."
+   ]
+  ]
+ },
+ {
+  "key": "98277403",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Your smile in the face of your brother is a charity for you.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Your smile in the face of your brother is a charity for you."
+   ]
+  ]
+ },
+ {
+  "key": "24cc5ad1",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Spread salam between you.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Spread {salˈɑːm} between you."
+   ]
+  ]
+ },
+ {
+  "key": "82e51ef1",
+  "reader": "sheikh",
+  "text": "A man asked the Prophet ﷺ what is best in Islam. He said: Feed people, and say salam to those you know and those you do not know.",
+  "parts": [
+   [
+    "narrator",
+    "A man asked the Prophet , peace be upon him, what is best in Islam. He said: Feed people, and say {salˈɑːm} to those you know and those you do not know."
+   ]
+  ]
+ },
+ {
+  "key": "aabf9532",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: If it were not too hard for my people (or he said: for people), I would tell them to use the miswak with every prayer.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: If it were not too hard for my people (or he said: for people), I would tell them to use the {miswˈɑːk} with every prayer."
+   ]
+  ]
+ },
+ {
+  "key": "8b5db3ce",
+  "reader": "sheikh",
+  "text": "Aishah said: The Prophet ﷺ liked to start with the right: putting on his shoes, combing his hair, making wudu, and in everything he did.",
+  "parts": [
+   [
+    "narrator",
+    "Aishah said: The Prophet , peace be upon him, liked to start with the right: putting on his shoes, combing his hair, making {wʊdˈuː}, and in everything he did."
+   ]
+  ]
+ },
+ {
+  "key": "4312d0e8",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: When you go to bed, make wudu as you do for the prayer, then lie down on your right side.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: When you go to bed, make {wʊdˈuː} as you do for the prayer, then lie down on your right side."
+   ]
+  ]
+ },
+ {
+  "key": "c7979a0b",
+  "reader": "sheikh",
+  "text": "Anas said: The Messenger of Allah ﷺ used to take three breaths while drinking.",
+  "parts": [
+   [
+    "narrator",
+    "Anas said: The Messenger of {allˈɑːh} , peace be upon him, used to take three breaths while drinking."
+   ]
+  ]
+ },
+ {
+  "key": "3cd4a86e",
+  "reader": "sheikh",
+  "text": "Anas said about the Prophet ﷺ: He told people not to drink standing up.",
+  "parts": [
+   [
+    "narrator",
+    "Anas said about the Prophet , peace be upon him,: He told people not to drink standing up."
+   ]
+  ]
+ },
+ {
+  "key": "35feaead",
+  "reader": "sheikh",
+  "text": "Aishah was asked what the Prophet ﷺ did at home. She said: He used to help his family with their work. When it was time to pray, he went out to the prayer.",
+  "parts": [
+   [
+    "narrator",
+    "Aishah was asked what the Prophet , peace be upon him, did at home. She said: He used to help his family with their work. When it was time to pray, he went out to the prayer."
+   ]
+  ]
+ },
+ {
+  "key": "203b0bf4",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Feed the hungry, visit the sick, and set the prisoner free.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Feed the hungry, visit the sick, and set the prisoner free."
+   ]
+  ]
+ },
+ {
+  "key": "4b6e344d",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ told of a man who gave water to a thirsty dog, and Allah forgave him. The Companions asked if there is a reward for kindness to animals. He said: There is a reward for kindness to every living thing.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, told of a man who gave water to a thirsty dog, and {allˈɑːh} forgave him. The Companions asked if there is a reward for kindness to animals. He said: There is a reward for kindness to every living thing."
+   ]
+  ]
+ },
+ {
+  "key": "f63d30e1",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said that faith has many branches: and the smallest of them is moving something harmful out of the road.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said that faith has many branches: and the smallest of them is moving something harmful out of the road."
+   ]
+  ]
+ },
+ {
+  "key": "63bbb8a2",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Whoever believes in Allah and the Last Day should say something good or stay quiet.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Whoever believes in {allˈɑːh} and the Last Day should say something good or stay quiet."
+   ]
+  ]
+ },
+ {
+  "key": "eb41ae2c",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Jibril kept telling me to be good to the neighbour, until I thought he would make the neighbour inherit.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: {dʒibɹˈiːl} kept telling me to be good to the neighbour, until I thought he would make the neighbour inherit."
+   ]
+  ]
+ },
+ {
+  "key": "69bba48a",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: He is not one of us who is not merciful to our young ones and does not respect our old ones.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: He is not one of us who is not merciful to our young ones and does not respect our old ones."
+   ]
+  ]
+ },
+ {
+  "key": "0910cc69",
+  "reader": "sheikh",
+  "text": "A man asked the Prophet ﷺ for advice, again and again. Each time he said: Do not get angry.",
+  "parts": [
+   [
+    "narrator",
+    "A man asked the Prophet , peace be upon him, for advice, again and again. Each time he said: Do not get angry."
+   ]
+  ]
+ },
+ {
+  "key": "e40cb4ee",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Make things easy and do not make them hard. Give good news and do not drive people away.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Make things easy and do not make them hard. Give good news and do not drive people away."
+   ]
+  ]
+ },
+ {
+  "key": "229c3f31",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: None of you truly believes until he loves for his brother what he loves for himself.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: None of you truly believes until he loves for his brother what he loves for himself."
+   ]
+  ]
+ },
+ {
+  "key": "8d3b1aa2",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: When two Muslims meet and shake hands, they are forgiven before they part.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: When two Muslims meet and shake hands, they are forgiven before they part."
+   ]
+  ]
+ },
+ {
+  "key": "9123a28a",
+  "reader": "sheikh",
+  "text": "Abu Hurayrah said: The Prophet ﷺ never found fault with any food. If he liked it, he ate it, and if not, he left it.",
+  "parts": [
+   [
+    "narrator",
+    "Abu Hurayrah said: The Prophet , peace be upon him, never found fault with any food. If he liked it, he ate it, and if not, he left it."
+   ]
+  ]
+ },
+ {
+  "key": "77aa7c1f",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Allah is pleased with a servant who eats some food and praises Him for it, or drinks a drink and praises Him for it.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: {allˈɑːh} is pleased with a servant who eats some food and praises Him for it, or drinks a drink and praises Him for it."
+   ]
+  ]
+ },
+ {
+  "key": "a73b9d68",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: When one of you goes into the masjid, he should pray two rak'ahs before he sits down.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: When one of you goes into the {mˈasdʒid}, he should pray two rak'ahs before he sits down."
+   ]
+  ]
+ },
+ {
+  "key": "3b8d355f",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ was asked about fasting on Monday. He said: That is the day I was born.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, was asked about fasting on Monday. He said: That is the day I was born."
+   ]
+  ]
+ },
+ {
+  "key": "c8e75205",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Protect yourselves from the Fire, even with half a date.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Protect yourselves from the Fire, even with half a date."
+   ]
+  ]
+ },
+ {
+  "key": "51374665",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said that Friday is one of the best days: So send many prayers on me on that day.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said that Friday is one of the best days: So send many prayers on me on that day."
+   ]
+  ]
+ },
+ {
+  "key": "4c3dc807",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: The du'a of a Muslim for his brother when he is not there is answered. An angel is beside him. Each time he asks for good for his brother, the angel says: Ameen, and the same for you.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: The du'a of a Muslim for his brother when he is not there is answered. An angel is beside him. Each time he asks for good for his brother, the angel says: Ameen, and the same for you."
+   ]
+  ]
+ },
+ {
+  "key": "c880c44b",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: When one of you yawns, he should put his hand over his mouth.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: When one of you yawns, he should put his hand over his mouth."
+   ]
+  ]
+ },
+ {
+  "key": "0a546990",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ named five things from the fitrah, the natural way. One of them is: cutting the nails.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, named five things from the fitrah, the natural way. One of them is: cutting the nails."
+   ]
+  ]
+ },
+ {
+  "key": "1b535d9e",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Gentleness is never in anything without making it beautiful, and it is never taken out of anything without spoiling it.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Gentleness is never in anything without making it beautiful, and it is never taken out of anything without spoiling it."
+   ]
+  ]
+ },
+ {
+  "key": "d117fc85",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Truthfulness leads to goodness, and goodness leads to Jannah.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Truthfulness leads to goodness, and goodness leads to {dʒˈanna}."
+   ]
+  ]
+ },
+ {
+  "key": "88678f52",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Whoever does not thank people has not thanked Allah.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Whoever does not thank people has not thanked {allˈɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "07d01f87",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: A good word is a charity.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: A good word is a charity."
+   ]
+  ]
+ },
+ {
+  "key": "e6f9ff1b",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Whoever says SubhanAllahi wa bihamdihi a hundred times in a day, his sins are wiped away, even if they were like the foam of the sea.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Whoever says Subhaan Allahi wa bihamdihi a hundred times in a day, his sins are wiped away, even if they were like the foam of the sea."
+   ]
+  ]
+ },
+ {
+  "key": "c9b8c309",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Whoever walks a path looking for knowledge, Allah makes easy for him a path to Jannah.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Whoever walks a path looking for knowledge, {allˈɑːh} makes easy for him a path to {dʒˈanna}."
+   ]
+  ]
+ },
+ {
+  "key": "28ce6bb2",
+  "reader": "sheikh",
+  "text": "Abu Barzah said: The Messenger of Allah ﷺ did not like sleeping before Isha, or talking after it.",
+  "parts": [
+   [
+    "narrator",
+    "Abu Barzah said: The Messenger of {allˈɑːh} , peace be upon him, did not like sleeping before {iʃˈɑː}, or talking after it."
+   ]
+  ]
+ },
+ {
+  "key": "2a0ce651",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Food for one is enough for two, and food for two is enough for four.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Food for one is enough for two, and food for two is enough for four."
+   ]
+  ]
+ },
+ {
+  "key": "39b47fc9",
+  "reader": "sheikh",
+  "text": "A man came to the Messenger of Allah ﷺ and asked: O Messenger of Allah, who most deserves my good company? He said: Your mother. The man asked: Then who? He said: Your mother. He asked: Then who? He said: Your mother. He asked: Then who? He said: Then your father.",
+  "parts": [
+   [
+    "narrator",
+    "A man came to the Messenger of {allˈɑːh} , peace be upon him, and asked: O Messenger of {allˈɑːh}, who most deserves my good company? He said: Your mother. The man asked: Then who? He said: Your mother. He asked: Then who? He said: Your mother. He asked: Then who? He said: Then your father."
+   ]
+  ]
+ },
+ {
+  "key": "30b1ad15",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Purity is half of faith.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Purity is half of faith."
+   ]
+  ]
+ },
+ {
+  "key": "b0734b7f",
+  "reader": "sheikh",
+  "text": "He ﷺ said: Whoever is not merciful will not be shown mercy.",
+  "parts": [
+   [
+    "narrator",
+    "He , peace be upon him, said: Whoever is not merciful will not be shown mercy."
+   ]
+  ]
+ },
+ {
+  "key": "338ccf04",
+  "reader": "sheikh",
+  "text": "Abu Hurayrah said: The Messenger of Allah ﷺ kissed his grandson al-Hasan while al-Aqra' was sitting with him. Al-Aqra' said: I have ten children and I have never kissed any of them. The Messenger of Allah ﷺ looked at him and said: Whoever is not merciful will not be shown mercy.",
+  "parts": [
+   [
+    "narrator",
+    "Abu Hurayrah said: The Messenger of {allˈɑːh} , peace be upon him, kissed his grandson al-Hasan while al-Aqra' was sitting with him. Al-Aqra' said: I have ten children and I have never kissed any of them. The Messenger of {allˈɑːh} , peace be upon him, looked at him and said: Whoever is not merciful will not be shown mercy."
+   ]
+  ]
+ },
+ {
+  "key": "e4697cd4",
+  "reader": "sheikh",
+  "text": "He ﷺ called the people of Makkah together at the hill of as-Safa and asked: If I told you that horsemen in the valley were about to attack you, would you believe me? They said: Yes. We have only ever known you to tell the truth.",
+  "parts": [
+   [
+    "narrator",
+    "He , peace be upon him, called the people of {mˈakka} together at the hill of as-Safa and asked: If I told you that horsemen in the valley were about to attack you, would you believe me? They said: Yes. We have only ever known you to tell the truth."
+   ]
+  ]
+ },
+ {
+  "key": "1bb504ef",
+  "reader": "sheikh",
+  "text": "Jabir said: The Prophet ﷺ was never asked for anything and said no.",
+  "parts": [
+   [
+    "narrator",
+    "Jabir said: The Prophet , peace be upon him, was never asked for anything and said no."
+   ]
+  ]
+ },
+ {
+  "key": "b70f7aea",
+  "reader": "sheikh",
+  "text": "Anas said: I had a little brother called Abu Umayr. I think he had just been weaned. Whenever the Prophet ﷺ came, he would say: O Abu Umayr, what did the little bird do? It was a little bird that he played with.",
+  "parts": [
+   [
+    "narrator",
+    "Anas said: I had a little brother called Abu Umayr. I think he had just been weaned. Whenever the Prophet , peace be upon him, came, he would say: O Abu Umayr, what did the little bird do? It was a little bird that he played with."
+   ]
+  ]
+ },
+ {
+  "key": "8f6f04ff",
+  "reader": "sheikh",
+  "text": "Anas said: I served the Prophet ﷺ for ten years. He never said to me Uff, and never said: Why did you do that? or: Why didn't you do that?",
+  "parts": [
+   [
+    "narrator",
+    "Anas said: I served the Prophet , peace be upon him, for ten years. He never said to me Uff, and never said: Why did you do that? or: Why didn't you do that?"
+   ]
+  ]
+ },
+ {
+  "key": "9a1f01ce",
+  "reader": "sheikh",
+  "text": "Jarir said: Since I became Muslim, the Prophet ﷺ never kept me away, and he never saw me without smiling at me.",
+  "parts": [
+   [
+    "narrator",
+    "Jarir said: Since I became Muslim, the Prophet , peace be upon him, never kept me away, and he never saw me without smiling at me."
+   ]
+  ]
+ },
+ {
+  "key": "41a5bcf0",
+  "reader": "sheikh",
+  "text": "He ﷺ said: Real patience is at the first moment of the hurt.",
+  "parts": [
+   [
+    "narrator",
+    "He , peace be upon him, said: Real patience is at the first moment of the hurt."
+   ]
+  ]
+ },
+ {
+  "key": "409d386b",
+  "reader": "sheikh",
+  "text": "He ﷺ prayed at night until his feet were swollen. Aishah said: Why do you do this, O Messenger of Allah, when Allah has forgiven you everything? He said: Should I not love to be a thankful servant?",
+  "parts": [
+   [
+    "narrator",
+    "He , peace be upon him, prayed at night until his feet were swollen. Aishah said: Why do you do this, O Messenger of {allˈɑːh}, when {allˈɑːh} has forgiven you everything? He said: Should I not love to be a thankful servant?"
+   ]
+  ]
+ },
+ {
+  "key": "aa0bdc0a",
+  "reader": "sheikh",
+  "text": "One night the people of Madinah heard a frightening noise. He ﷺ had already ridden out to check, and he came back saying: Do not be afraid, do not be afraid.",
+  "parts": [
+   [
+    "narrator",
+    "One night the people of Madinah heard a frightening noise. He , peace be upon him, had already ridden out to check, and he came back saying: Do not be afraid, do not be afraid."
+   ]
+  ]
+ },
+ {
+  "key": "861514cb",
+  "reader": "sheikh",
+  "text": "A man gave a gift to one of his sons only. He ﷺ said: Fear Allah, and be fair between your children.",
+  "parts": [
+   [
+    "narrator",
+    "A man gave a gift to one of his sons only. He , peace be upon him, said: Fear {allˈɑːh}, and be fair between your children."
+   ]
+  ]
+ },
+ {
+  "key": "f86e3bb9",
+  "reader": "sheikh",
+  "text": "He ﷺ said: Allah did not send any Prophet who did not look after sheep. His Companions asked: And you? He said: Yes. I looked after them for the people of Makkah, for a few coins.",
+  "parts": [
+   [
+    "narrator",
+    "He , peace be upon him, said: {allˈɑːh} did not send any Prophet who did not look after sheep. His Companions asked: And you? He said: Yes. I looked after them for the people of {mˈakka}, for a few coins."
+   ]
+  ]
+ },
+ {
+  "key": "1de39f76",
+  "reader": "sheikh",
+  "text": "Aishah said: He used to go alone to the cave of Hira and worship Allah there.",
+  "parts": [
+   [
+    "narrator",
+    "Aishah said: He used to go alone to the cave of Hira and worship {allˈɑːh} there."
+   ]
+  ]
+ },
+ {
+  "key": "9255dbe2",
+  "reader": "sheikh",
+  "text": "The people of Makkah said to him: We have only ever known you to tell the truth.",
+  "parts": [
+   [
+    "narrator",
+    "The people of {mˈakka} said to him: We have only ever known you to tell the truth."
+   ]
+  ]
+ },
+ {
+  "key": "6e70c0d0",
+  "reader": "sheikh",
+  "text": "Abu Bakr was afraid they would be seen. He ﷺ said: O Abu Bakr, what do you think of two people when Allah is the third with them?",
+  "parts": [
+   [
+    "narrator",
+    "Abu Bakr was afraid they would be seen. He , peace be upon him, said: O Abu Bakr, what do you think of two people when {allˈɑːh} is the third with them?"
+   ]
+  ]
+ },
+ {
+  "key": "bd203044",
+  "reader": "sheikh",
+  "text": "Anas said: They carried the stones, chanting as they worked, and the Prophet ﷺ was with them.",
+  "parts": [
+   [
+    "narrator",
+    "Anas said: They carried the stones, chanting as they worked, and the Prophet , peace be upon him, was with them."
+   ]
+  ]
+ },
+ {
+  "key": "972ce697",
+  "reader": "sheikh",
+  "text": "Abdullah ibn Mas'ud said: The Prophet ﷺ entered Makkah on the day of the conquest. There were three hundred and sixty idols around the Ka'bah. He struck them with a stick in his hand, saying: The truth has come and falsehood has gone.",
+  "parts": [
+   [
+    "narrator",
+    "Abdullah {ˈibn} Mas'ud said: The Prophet , peace be upon him, entered {mˈakka} on the day of the conquest. There were three hundred and sixty idols around the Ka'bah. He struck them with a stick in his hand, saying: The truth has come and falsehood has gone."
+   ]
+  ]
+ },
+ {
+  "key": "96b68dcc",
+  "reader": "sheikh",
+  "text": "Aishah said: The Prophet ﷺ passed away when he was sixty-three.",
+  "parts": [
+   [
+    "narrator",
+    "Aishah said: The Prophet , peace be upon him, passed away when he was sixty-three."
+   ]
+  ]
+ },
+ {
+  "key": "b1be0c1a",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: The best day the sun rises on is Friday.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: The best day the sun rises on is Friday."
+   ]
+  ]
+ },
+ {
+  "key": "ecba27e6",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Deeds are shown to Allah on Monday and Thursday, and I love my deeds to be shown while I am fasting.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Deeds are shown to {allˈɑːh} on Monday and Thursday, and I love my deeds to be shown while I am fasting."
+   ]
+  ]
+ },
+ {
+  "key": "9179f1d7",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said to Abu Dharr: If you fast three days of the month, fast the thirteenth, the fourteenth and the fifteenth.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said to Abu Dharr: If you fast three days of the month, fast the thirteenth, the fourteenth and the fifteenth."
+   ]
+  ]
+ },
+ {
+  "key": "ebaf9311",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: The best fasting after Ramadan is in Allah's month, Muharram.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: The best fasting after {ɹamadˈɑːn} is in {allˈɑːhz} month, Muharram."
+   ]
+  ]
+ },
+ {
+  "key": "635407e9",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Fasting the day of Ashura: I hope Allah will forgive for it the year before.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Fasting the day of Ashura: I hope {allˈɑːh} will forgive for it the year before."
+   ]
+  ]
+ },
+ {
+  "key": "a5181149",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Look for Laylat al-Qadr in the odd nights of the last ten nights of Ramadan.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Look for Laylat al-Qadr in the odd nights of the last ten nights of {ɹamadˈɑːn}."
+   ]
+  ]
+ },
+ {
+  "key": "142378fa",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Allah has given you two better days in their place: the day of al-Adha and the day of al-Fitr.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: {allˈɑːh} has given you two better days in their place: the day of al-Adha and the day of al-Fitr."
+   ]
+  ]
+ },
+ {
+  "key": "1ed63d7a",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: No good deeds on other days are better than good deeds on these ten days.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: No good deeds on other days are better than good deeds on these ten days."
+   ]
+  ]
+ },
+ {
+  "key": "4c352ec1",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ said: Fasting the Day of Arafah: I hope Allah will forgive for it the year before and the year after.",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, said: Fasting the Day of Arafah: I hope {allˈɑːh} will forgive for it the year before and the year after."
+   ]
+  ]
+ },
+ {
+  "key": "4703f7af",
+  "reader": "sheikh",
+  "text": "Narrated Ibn Masud: The Prophet ﷺ used to take care of us in preaching by selecting a suitable time, so that we might not get bored. (He abstained from pestering us with sermons and knowledge all the time)",
+  "parts": [
+   [
+    "narrator",
+    "Narrated {ˈibn} Masud: The Prophet , peace be upon him, used to take care of us in preaching by selecting a suitable time, so that we might not get bored. (He abstained from pestering us with sermons and knowledge all the time)"
+   ]
+  ]
+ },
+ {
+  "key": "677b66c6",
+  "reader": "sheikh",
+  "text": "Narrated Ibn Abbas: Once the Prophet ﷺ embraced me and said, \"O Allah! Bestow on him the knowledge of the Book (Qur'an)\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated {ˈibn} Abbas: Once the Prophet , peace be upon him, embraced me and said, \"O {allˈɑːh}! Bestow on him the knowledge of the Book (Qur'an)\""
+   ]
+  ]
+ },
+ {
+  "key": "ded805b8",
+  "reader": "sheikh",
+  "text": "Narrated Mahmud bin Rabia: When I was a boy of five, I remember, the Prophet ﷺ took water from a bucket (used for getting water out of a well) with his mouth and threw it on my face",
+  "parts": [
+   [
+    "narrator",
+    "Narrated {mahmˈuːd} bin Rabia: When I was a boy of five, I remember, the Prophet , peace be upon him, took water from a bucket (used for getting water out of a well) with his mouth and threw it on my face"
+   ]
+  ]
+ },
+ {
+  "key": "a36d48fa",
+  "reader": "sheikh",
+  "text": "Narrated Uthman: The Prophet ﷺ said, \"The best among you (Muslims) are those who learn the Qur'an and teach it\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Uthman: The Prophet , peace be upon him, said, \"The best among you (Muslims) are those who learn the Qur'an and teach it\""
+   ]
+  ]
+ },
+ {
+  "key": "bbb8bad2",
+  "reader": "sheikh",
+  "text": "Narrated Ibn Umar: Allah's Messenger ﷺ said, \"The example of the person who knows the Qur'an by heart is like the owner of tied camels. If he keeps them tied, he will control them, but if he releases them, they will run away\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated {ˈibn} Umar: {allˈɑːhz} Messenger , peace be upon him, said, \"The example of the person who knows the Qur'an by heart is like the owner of tied camels. If he keeps them tied, he will control them, but if he releases them, they will run away\""
+   ]
+  ]
+ },
+ {
+  "key": "50767012",
+  "reader": "sheikh",
+  "text": "Narrated Abu Musa: The Prophet ﷺ said, \"Commit yourself to the Qur'an, for by Him in whose Hand is my soul, it is surely more prone to break away than a camel in its bind\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abu {mˈuːsa}: The Prophet , peace be upon him, said, \"Commit yourself to the Qur'an, for by Him in whose Hand is my soul, it is surely more prone to break away than a camel in its bind\""
+   ]
+  ]
+ },
+ {
+  "key": "e42701e1",
+  "reader": "sheikh",
+  "text": "Narrated Aisha: The Prophet ﷺ heard a man reciting the Qur'an in the mosque and said, \"May Allah bestow His Mercy on him, as he has reminded me of such-and-such Verses of such a Surah\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Aisha: The Prophet , peace be upon him, heard a man reciting the Qur'an in the mosque and said, \"May {allˈɑːh} bestow His Mercy on him, as he has reminded me of such-and-such Verses of such a {sˈuːɹa}\""
+   ]
+  ]
+ },
+ {
+  "key": "04d17c11",
+  "reader": "sheikh",
+  "text": "Narrated Abdullah: That the Prophet ﷺ said to him, \"Recite the Qur'an to me.\" Abdullah said, \"Shall I recite (the Qur'an) to you while it has been revealed to you?\" He said, \"I like to hear it from others\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abdullah: That the Prophet , peace be upon him, said to him, \"Recite the Qur'an to me.\" Abdullah said, \"Shall I recite (the Qur'an) to you while it has been revealed to you?\" He said, \"I like to hear it from others\""
+   ]
+  ]
+ },
+ {
+  "key": "f91c4277",
+  "reader": "sheikh",
+  "text": "Narrated Abdullah bin Amr: Allah's Messenger ﷺ said to me, \"Recite the whole Qur'an in one month's time.\" I said, \"But I have power (to do more than that).\" Allah's Messenger ﷺ said, \"Then finish the recitation of the Qur'an in seven days, and do not finish it in less than this period\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abdullah bin Amr: {allˈɑːhz} Messenger , peace be upon him, said to me, \"Recite the whole Qur'an in one month's time.\" I said, \"But I have power (to do more than that).\" {allˈɑːhz} Messenger , peace be upon him, said, \"Then finish the recitation of the Qur'an in seven days, and do not finish it in less than this period\""
+   ]
+  ]
+ },
+ {
+  "key": "2760aae3",
+  "reader": "sheikh",
+  "text": "Narrated An-Numan bin Bashir: Allah's Messenger ﷺ said, \"You see the believers as regards their being merciful among themselves and showing love among themselves and being kind, resembling one body, so that, if any part of the body is not well then the whole body shares the sleeplessness (insomnia) and fever with it\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated An-Numan bin Bashir: {allˈɑːhz} Messenger , peace be upon him, said, \"You see the believers as regards their being merciful among themselves and showing love among themselves and being kind, resembling one body, so that, if any part of the body is not well then the whole body shares the sleeplessness (insomnia) and fever with it\""
+   ]
+  ]
+ },
+ {
+  "key": "598dce7c",
+  "reader": "sheikh",
+  "text": "Narrated Anas bin Malik: The Prophet ﷺ said, \"If any Muslim plants any plant and a human being or an animal eats of it, he will be rewarded as if he had given that much in charity\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Anas bin Malik: The Prophet , peace be upon him, said, \"If any Muslim plants any plant and a human being or an animal eats of it, he will be rewarded as if he had given that much in charity\""
+   ]
+  ]
+ },
+ {
+  "key": "3e614d03",
+  "reader": "sheikh",
+  "text": "Narrated Anas bin Malik: Allah's Messenger ﷺ said, \"Do not hate one another, and do not be jealous of one another, and do not desert each other, and O, Allah's worshipers! Be brothers. Lo! It is not permissible for any Muslim to desert (not talk to) his brother (Muslim) for more than three days\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Anas bin Malik: {allˈɑːhz} Messenger , peace be upon him, said, \"Do not hate one another, and do not be jealous of one another, and do not desert each other, and O, {allˈɑːhz} worshipers! Be brothers. Lo! It is not permissible for any Muslim to desert (not talk to) his brother (Muslim) for more than three days\""
+   ]
+  ]
+ },
+ {
+  "key": "d94271a0",
+  "reader": "sheikh",
+  "text": "Narrated Abu Huraira: Allah's Messenger ﷺ said, \"The strong is not the one who overcomes the people by his strength, but the strong is the one who controls himself while in anger\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abu Huraira: {allˈɑːhz} Messenger , peace be upon him, said, \"The strong is not the one who overcomes the people by his strength, but the strong is the one who controls himself while in anger\""
+   ]
+  ]
+ },
+ {
+  "key": "9d23d79f",
+  "reader": "sheikh",
+  "text": "Narrated Anas bin Malik: The Prophet ﷺ said, \"Make things easy for the people, and do not make it difficult for them, and make them calm (with glad tidings) and do not repulse (them)\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Anas bin Malik: The Prophet , peace be upon him, said, \"Make things easy for the people, and do not make it difficult for them, and make them calm (with glad tidings) and do not repulse (them)\""
+   ]
+  ]
+ },
+ {
+  "key": "877cb364",
+  "reader": "sheikh",
+  "text": "Narrated Anas bin Malik: The Prophet ﷺ used to mix with us to the extent that he would say to a younger brother of mine, 'O Aba Umair! What did the Nughair (a kind of bird) do?",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Anas bin Malik: The Prophet , peace be upon him, used to mix with us to the extent that he would say to a younger brother of mine, 'O Aba Umair! What did the Nughair (a kind of bird) do?"
+   ]
+  ]
+ },
+ {
+  "key": "c97726a7",
+  "reader": "sheikh",
+  "text": "Narrated Abu Huraira: The Prophet ﷺ said, \"Whoever believes in Allah and the Last Day, should not hurt his neighbor and whoever believes in Allah and the Last Day, should serve his guest generously and whoever believes in Allah and the Last Day, should speak what is good or keep silent\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abu Huraira: The Prophet , peace be upon him, said, \"Whoever believes in {allˈɑːh} and the Last Day, should not hurt his neighbor and whoever believes in {allˈɑːh} and the Last Day, should serve his guest generously and whoever believes in {allˈɑːh} and the Last Day, should speak what is good or keep silent\""
+   ]
+  ]
+ },
+ {
+  "key": "24de76ce",
+  "reader": "sheikh",
+  "text": "Narrated Abdullah: The Prophet ﷺ said, \"Everyone will be with those whom he loves\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abdullah: The Prophet , peace be upon him, said, \"Everyone will be with those whom he loves\""
+   ]
+  ]
+ },
+ {
+  "key": "df9bcc9c",
+  "reader": "sheikh",
+  "text": "Narrated Anas bin Malik: Two men sneezed before the Prophet. The Prophet ﷺ said to one of them, \"May Allah bestow His Mercy on you,\" but he did not say that to the other. On being asked (why), the Prophet ﷺ said, \"That one praised Allah (at the time of sneezing), while the other did not praise Allah\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Anas bin Malik: Two men sneezed before the Prophet. The Prophet , peace be upon him, said to one of them, \"May {allˈɑːh} bestow His Mercy on you,\" but he did not say that to the other. On being asked (why), the Prophet , peace be upon him, said, \"That one praised {allˈɑːh} (at the time of sneezing), while the other did not praise {allˈɑːh}\""
+   ]
+  ]
+ },
+ {
+  "key": "b3e68d52",
+  "reader": "sheikh",
+  "text": "Narrated Abu Huraira: Allah's Messenger ﷺ said, \"The younger person should greet the older one, and the walking person should greet the sitting one, and the small number of persons should greet the large number of persons\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abu Huraira: {allˈɑːhz} Messenger , peace be upon him, said, \"The younger person should greet the older one, and the walking person should greet the sitting one, and the small number of persons should greet the large number of persons\""
+   ]
+  ]
+ },
+ {
+  "key": "cdf117a4",
+  "reader": "sheikh",
+  "text": "Narrated 'Abdullah bin 'Amr: A man asked the Prophet, \"What Islamic traits are the best?\" The Prophet said, \"Feed the people, and greet those whom you know and those whom you do not know\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated 'Abdullah bin 'Amr: A man asked the Prophet, \"What Islamic traits are the best?\" The Prophet said, \"Feed the people, and greet those whom you know and those whom you do not know\""
+   ]
+  ]
+ },
+ {
+  "key": "0b45dd32",
+  "reader": "sheikh",
+  "text": "Narrated Abu Aiyub: The Prophet ﷺ said, \"It is not lawful for a Muslim to desert (not to speak to) his brother Muslim for more than three days while meeting, one turns his face to one side and the other turns his face to the other side. Lo! The better of the two is the one who starts greeting the other\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abu Aiyub: The Prophet , peace be upon him, said, \"It is not lawful for a Muslim to desert (not to speak to) his brother Muslim for more than three days while meeting, one turns his face to one side and the other turns his face to the other side. Lo! The better of the two is the one who starts greeting the other\""
+   ]
+  ]
+ },
+ {
+  "key": "cc185e2d",
+  "reader": "sheikh",
+  "text": "Narrated Anas: Whenever Allah's Messenger ﷺ greeted somebody, he used to greet him three times, and if he spoke a sentence, he used to repeat it thrice",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Anas: Whenever {allˈɑːhz} Messenger , peace be upon him, greeted somebody, he used to greet him three times, and if he spoke a sentence, he used to repeat it thrice"
+   ]
+  ]
+ },
+ {
+  "key": "004df840",
+  "reader": "sheikh",
+  "text": "Narrated Aisha: Allah's Messenger ﷺ said, \"Do good deeds properly, sincerely and moderately and know that your deeds will not make you enter Paradise, and that the most beloved deed to Allah is the most regular and constant even if it were little\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Aisha: {allˈɑːhz} Messenger , peace be upon him, said, \"Do good deeds properly, sincerely and moderately and know that your deeds will not make you enter Paradise, and that the most beloved deed to {allˈɑːh} is the most regular and constant even if it were little\""
+   ]
+  ]
+ },
+ {
+  "key": "da4daf9e",
+  "reader": "sheikh",
+  "text": "Narrated Aisha: The Prophet ﷺ was asked, \"What deeds are loved most by Allah?\" He said, \"The most regular constant deeds even though they may be few.\" He added, 'Don't take upon yourselves, except the deeds which are within your ability",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Aisha: The Prophet , peace be upon him, was asked, \"What deeds are loved most by {allˈɑːh}?\" He said, \"The most regular constant deeds even though they may be few.\" He added, 'Don't take upon yourselves, except the deeds which are within your ability"
+   ]
+  ]
+ },
+ {
+  "key": "96f4da04",
+  "reader": "sheikh",
+  "text": "Narrated Abdullah bin Amr: The Prophet ﷺ said, \"A Muslim is the one who avoids harming Muslims with his tongue or his hands. And a Muhajir (an emigrant) is the one who gives up (abandons) all what Allah has forbidden\"",
+  "parts": [
+   [
+    "narrator",
+    "Narrated Abdullah bin Amr: The Prophet , peace be upon him, said, \"A Muslim is the one who avoids harming Muslims with his tongue or his hands. And a Muhajir (an emigrant) is the one who gives up (abandons) all what {allˈɑːh} has forbidden\""
+   ]
+  ]
+ },
+ {
+  "key": "ff6da817",
+  "reader": "sheikh",
+  "text": "It has been narrated on the authority of Abu Huraira that the, Messenger of Allah ﷺ said: While a man walks along a path, finds a thorny twig lying on the way and puts it aside, Allah would appreciate it and forgive him The Prophet ﷺ said: The martyrs are of five kinds: one who dies of plague; one who dies of diarrhoea (or cholera) ; one who is drowned; one who is buried under debris and one who dies fighting in the way of Allah",
+  "parts": [
+   [
+    "narrator",
+    "It has been narrated on the authority of Abu Huraira that the, Messenger of {allˈɑːh} , peace be upon him, said: While a man walks along a path, finds a thorny twig lying on the way and puts it aside, {allˈɑːh} would appreciate it and forgive him The Prophet , peace be upon him, said: The martyrs are of five kinds: one who dies of plague; one who dies of diarrhoea (or cholera) ; one who is drowned; one who is buried under debris and one who dies fighting in the way of {allˈɑːh}"
+   ]
+  ]
+ },
+ {
+  "key": "273ad4cd",
+  "reader": "sheikh",
+  "text": "Anas b. Malik reported that when Allah's Messenger ﷺ happened to pass by young boys he would great them",
+  "parts": [
+   [
+    "narrator",
+    "Anas b. Malik reported that when {allˈɑːhz} Messenger , peace be upon him, happened to pass by young boys he would great them"
+   ]
+  ]
+ },
+ {
+  "key": "a4ab3543",
+  "reader": "sheikh",
+  "text": "Abu Huraira reported that a person came to Allah, 's Messenger ﷺ and said: Who among the people is most deserving of a fine treatment from my hand? He said: Your mother. He again said: Then who (is the next one)? He said: Again it is your mother (who deserves the best treatment from you). He said: Then who (is the next one)? He (the Holy Prophet) said: Again, it is your mother. He (again) said: Then who? Thereupon he said: Then it is your father. In the hadith transmitted on the authority of Qutalba, there is no mention of the word\" the people\"",
+  "parts": [
+   [
+    "narrator",
+    "Abu Huraira reported that a person came to {allˈɑːh}, 's Messenger , peace be upon him, and said: Who among the people is most deserving of a fine treatment from my hand? He said: Your mother. He again said: Then who (is the next one)? He said: Again it is your mother (who deserves the best treatment from you). He said: Then who (is the next one)? He (the Holy Prophet) said: Again, it is your mother. He (again) said: Then who? Thereupon he said: Then it is your father. In the {hadˈiːθ} transmitted on the authority of Qutalba, there is no mention of the word\" the people\""
+   ]
+  ]
+ },
+ {
+  "key": "87a6b536",
+  "reader": "sheikh",
+  "text": "Ibn Dinar reported that a desert Arab met Abdullah b. 'Umar on the way to Mecca. 'Abdullah greeted him and mounted him upon the donkey on which he had been riding and gave him the turban that he had on his head. Ibn Dinar (further) reported: We said to him ('Abdullah b. 'Umar): May Allah do good to you, these are desert Arabs and they are satisfied even with meagre (things). Thereupon Abdullah said: His father was loved dearly by 'Umar b. Khattib and I heard Allah's Messenger ﷺ as saying: The finest act of goodness on the part of a son is to treat kindly the loved ones of his father",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} Dinar reported that a desert Arab met Abdullah b. 'Umar on the way to Mecca. 'Abdullah greeted him and mounted him upon the donkey on which he had been riding and gave him the turban that he had on his head. {ˈibn} Dinar (further) reported: We said to him ('Abdullah b. 'Umar): May {allˈɑːh} do good to you, these are desert Arabs and they are satisfied even with meagre (things). Thereupon Abdullah said: His father was loved dearly by 'Umar b. Khattib and I heard {allˈɑːhz} Messenger , peace be upon him, as saying: The finest act of goodness on the part of a son is to treat kindly the loved ones of his father"
+   ]
+  ]
+ },
+ {
+  "key": "9aa17590",
+  "reader": "sheikh",
+  "text": "Nawwas b. Sam'an al-Ansari reported: I asked Allah's Messenger ﷺ about virtue and vice. He said: Virtue is a kind disposition and vice is what rankles in your heart and that you disapprove that people should come to know of it",
+  "parts": [
+   [
+    "narrator",
+    "Nawwas b. Sam'an al-Ansari reported: I asked {allˈɑːhz} Messenger , peace be upon him, about virtue and vice. He said: Virtue is a kind disposition and vice is what rankles in your heart and that you disapprove that people should come to know of it"
+   ]
+  ]
+ },
+ {
+  "key": "0c0d07f9",
+  "reader": "sheikh",
+  "text": "Abu Huraira reported Allah's Messenger ﷺ as saying: Don't nurse grudge and don't bid him out for raising the price and don't nurse aversion or enmity and don't enter into a transaction when the others have entered into that transaction and be as fellow-brothers and servants of Allah. A Muslim is the brother of a Muslim. He neither oppresses him nor humiliates him nor looks down upon him. The piety is here, (and while saying so) he pointed towards his chest thrice. It is a serious evil for a Muslim that he should look down upon his brother Muslim. All things of a Muslim are inviolable for his brother in faith: his blood, his wealth and his honour",
+  "parts": [
+   [
+    "narrator",
+    "Abu Huraira reported {allˈɑːhz} Messenger , peace be upon him, as saying: Don't nurse grudge and don't bid him out for raising the price and don't nurse aversion or enmity and don't enter into a transaction when the others have entered into that transaction and be as fellow-brothers and servants of {allˈɑːh}. A Muslim is the brother of a Muslim. He neither oppresses him nor humiliates him nor looks down upon him. The piety is here, (and while saying so) he pointed towards his chest thrice. It is a serious evil for a Muslim that he should look down upon his brother Muslim. All things of a Muslim are inviolable for his brother in faith: his blood, his wealth and his honour"
+   ]
+  ]
+ },
+ {
+  "key": "4779be2c",
+  "reader": "sheikh",
+  "text": "Abu Huraira reported Allah's Messenger ﷺ as saying: Charity does not decrease wealth, no one forgives another except that Allah increases his honor, and no one humbles himself for the sake of Allah except that Allah raises his status",
+  "parts": [
+   [
+    "narrator",
+    "Abu Huraira reported {allˈɑːhz} Messenger , peace be upon him, as saying: Charity does not decrease wealth, no one forgives another except that {allˈɑːh} increases his honor, and no one humbles himself for the sake of {allˈɑːh} except that {allˈɑːh} raises his status"
+   ]
+  ]
+ },
+ {
+  "key": "2b427a6e",
+  "reader": "sheikh",
+  "text": "Abu Barza reported: I said: Allah's Messenger, teach me something so that I may derive benefit from it. He said: Remove the troublesome thing from the paths of the Muslims",
+  "parts": [
+   [
+    "narrator",
+    "Abu Barza reported: I said: {allˈɑːhz} Messenger, teach me something so that I may derive benefit from it. He said: Remove the troublesome thing from the paths of the Muslims"
+   ]
+  ]
+ },
+ {
+  "key": "db404239",
+  "reader": "sheikh",
+  "text": "A'isha reported Allah's Messenger ﷺ as saying: Gabriel impressed upon me (kind treatment) towards the neighbour (so much) that I thought as if he would confer upon him the (right) of inheritance",
+  "parts": [
+   [
+    "narrator",
+    "A'{iʃˈɑː} reported {allˈɑːhz} Messenger , peace be upon him, as saying: Gabriel impressed upon me (kind treatment) towards the neighbour (so much) that I thought as if he would confer upon him the (right) of inheritance"
+   ]
+  ]
+ },
+ {
+  "key": "3d410bf3",
+  "reader": "sheikh",
+  "text": "Abu Dharr reported: Allah's Apostle ﷺ said to me: Don't consider anything insignificant out of good things even if it is that you meet your brother with a cheerful countenance",
+  "parts": [
+   [
+    "narrator",
+    "Abu Dharr reported: {allˈɑːhz} Apostle , peace be upon him, said to me: Don't consider anything insignificant out of good things even if it is that you meet your brother with a cheerful countenance"
+   ]
+  ]
+ },
+ {
+  "key": "63d579d7",
+  "reader": "sheikh",
+  "text": "Abu Huraira reported Allah's Messenger ﷺ as saying: Two are the expressions which are light on the tongue, but heavy in scale, dear to the Compassionate One: \" Hallowed be Allah and praise is due to Him\" ;\" Hallowed be Allah, the Great\"",
+  "parts": [
+   [
+    "narrator",
+    "Abu Huraira reported {allˈɑːhz} Messenger , peace be upon him, as saying: Two are the expressions which are light on the tongue, but heavy in scale, dear to the Compassionate One: \" Hallowed be {allˈɑːh} and praise is due to Him\" ;\" Hallowed be {allˈɑːh}, the Great\""
+   ]
+  ]
+ },
+ {
+  "key": "e64a7da0",
+  "reader": "sheikh",
+  "text": "Khaula bint Hakim Sulamiyya reported: I heard Allah's Messenger ﷺ as saying: When anyone lands at a place, and then says: \" I seek refuge in the Perfect Word of Allah from the evil of what He has created,\" nothing would harm him until he marches from that stopping place",
+  "parts": [
+   [
+    "narrator",
+    "Khaula bint Hakim Sulamiyya reported: I heard {allˈɑːhz} Messenger , peace be upon him, as saying: When anyone lands at a place, and then says: \" I seek refuge in the Perfect Word of {allˈɑːh} from the evil of what He has created,\" nothing would harm him until he marches from that stopping place"
+   ]
+  ]
+ },
+ {
+  "key": "def6ed70",
+  "reader": "sheikh",
+  "text": "The believers are brothers and sisters.",
+  "parts": [
+   [
+    "narrator",
+    "The believers are brothers and sisters."
+   ]
+  ]
+ },
+ {
+  "key": "54c62190",
+  "reader": "sheikh",
+  "text": "If you tried to count Allah’s blessings, you could never count them all.",
+  "parts": [
+   [
+    "narrator",
+    "If you tried to count {allˈɑːhz} blessings, you could never count them all."
+   ]
+  ]
+ },
+ {
+  "key": "0536aeb8",
+  "reader": "sheikh",
+  "text": "Do good. Allah loves those who do good.",
+  "parts": [
+   [
+    "narrator",
+    "Do good. {allˈɑːh} loves those who do good."
+   ]
+  ]
+ },
+ {
+  "key": "4a30b843",
+  "reader": "sheikh",
+  "text": "Those who hold back their anger and forgive people.",
+  "parts": [
+   [
+    "narrator",
+    "Those who hold back their anger and forgive people."
+   ]
+  ]
+ },
+ {
+  "key": "64260ae7",
+  "reader": "sheikh",
+  "text": "Allah tells you to give back the things you are trusted with to their owners.",
+  "parts": [
+   [
+    "narrator",
+    "{allˈɑːh} tells you to give back the things you are trusted with to their owners."
+   ]
+  ]
+ },
+ {
+  "key": "aca0d5eb",
+  "reader": "sheikh",
+  "text": "Whoever puts their trust in Allah, He is enough for them.",
+  "parts": [
+   [
+    "narrator",
+    "Whoever puts their trust in {allˈɑːh}, He is enough for them."
+   ]
+  ]
+ },
+ {
+  "key": "10416f3e",
+  "reader": "sheikh",
+  "text": "So race each other to do good.",
+  "parts": [
+   [
+    "narrator",
+    "So race each other to do good."
+   ]
+  ]
+ },
+ {
+  "key": "970150cd",
+  "reader": "sheikh",
+  "text": "Eat of its fruit when it gives fruit.",
+  "parts": [
+   [
+    "narrator",
+    "Eat of its fruit when it gives fruit."
+   ]
+  ]
+ },
+ {
+  "key": "6909cfbb",
+  "reader": "sheikh",
+  "text": "Do not spread harm on the earth after it has been set right.",
+  "parts": [
+   [
+    "narrator",
+    "Do not spread harm on the earth after it has been set right."
+   ]
+  ]
+ },
+ {
+  "key": "3694b905",
+  "reader": "sheikh",
+  "text": "Keep your promises. You will be asked about your promises.",
+  "parts": [
+   [
+    "narrator",
+    "Keep your promises. You will be asked about your promises."
+   ]
+  ]
+ },
+ {
+  "key": "d2a9a02c",
+  "reader": "sheikh",
+  "text": "Glory be to the One who has made this work for us, when we could never have done it ourselves.",
+  "parts": [
+   [
+    "narrator",
+    "Glory be to the One who has made this work for us, when we could never have done it ourselves."
+   ]
+  ]
+ },
+ {
+  "key": "e0b81949",
+  "reader": "sheikh",
+  "text": "We made you into nations and tribes so that you may get to know one another.",
+  "parts": [
+   [
+    "narrator",
+    "We made you into nations and tribes so that you may get to know one another."
+   ]
+  ]
+ },
+ {
+  "key": "134fe55b",
+  "reader": "sheikh",
+  "text": "Allah is the Creator of everything.",
+  "parts": [
+   [
+    "narrator",
+    "{allˈɑːh} is the Creator of everything."
+   ]
+  ]
+ },
+ {
+  "key": "a672c6d9",
+  "reader": "sheikh",
+  "text": "Say: He is Allah, the One.",
+  "parts": [
+   [
+    "narrator",
+    "Say: He is {allˈɑːh}, the One."
+   ]
+  ]
+ },
+ {
+  "key": "c20cd455",
+  "reader": "sheikh",
+  "text": "Allah is the One who provides.",
+  "parts": [
+   [
+    "narrator",
+    "{allˈɑːh} is the One who provides."
+   ]
+  ]
+ },
+ {
+  "key": "0ef5336c",
+  "reader": "sheikh",
+  "text": "When My servants ask about Me, I am near.",
+  "parts": [
+   [
+    "narrator",
+    "When My servants ask about Me, I am near."
+   ]
+  ]
+ },
+ {
+  "key": "e06625b3",
+  "reader": "sheikh",
+  "text": "Every good thing you have is from Allah.",
+  "parts": [
+   [
+    "narrator",
+    "Every good thing you have is from {allˈɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "77369765",
+  "reader": "sheikh",
+  "text": "He sees everything.",
+  "parts": [
+   [
+    "narrator",
+    "He sees everything."
+   ]
+  ]
+ },
+ {
+  "key": "42898d7f",
+  "reader": "sheikh",
+  "text": "Our Lord, You did not create this for nothing. Glory be to You.",
+  "parts": [
+   [
+    "narrator",
+    "Our Lord, You did not create this for nothing. Glory be to You."
+   ]
+  ]
+ },
+ {
+  "key": "0e40c9d3",
+  "reader": "sheikh",
+  "text": "You alone we worship, and You alone we ask for help.",
+  "parts": [
+   [
+    "narrator",
+    "You alone we worship, and You alone we ask for help."
+   ]
+  ]
+ },
+ {
+  "key": "7a4cbb83",
+  "reader": "sheikh",
+  "text": "Allah has the most beautiful Names, so call on Him by them.",
+  "parts": [
+   [
+    "narrator",
+    "{allˈɑːh} has the most beautiful Names, so call on Him by them."
+   ]
+  ]
+ },
+ {
+  "key": "b572e89e",
+  "reader": "sheikh",
+  "text": "We said: O fire, be cool and safe for Ibrahim.",
+  "parts": [
+   [
+    "narrator",
+    "We said: O fire, be cool and safe for {ibɹɑːhˈiːm}."
+   ]
+  ]
+ },
+ {
+  "key": "ea353067",
+  "reader": "sheikh",
+  "text": "Your God is One God. There is no god but Him, the Most Merciful, the Most Kind.",
+  "parts": [
+   [
+    "narrator",
+    "Your God is One God. There is no god but Him, the Most Merciful, the Most Kind."
+   ]
+  ]
+ },
+ {
+  "key": "7c49def4",
+  "reader": "sheikh",
+  "text": "Nuh said: Ride in it. In the name of Allah it sails and it stops. My Lord is Forgiving and Merciful.",
+  "parts": [
+   [
+    "narrator",
+    "{nˈuːh} said: Ride in it. In the name of {allˈɑːh} it sails and it stops. My Lord is Forgiving and Merciful."
+   ]
+  ]
+ },
+ {
+  "key": "449b3e23",
+  "reader": "sheikh",
+  "text": "There is no god but You. Glory be to You. I have been one of those who did wrong.",
+  "parts": [
+   [
+    "narrator",
+    "There is no god but You. Glory be to You. I have been one of those who did wrong."
+   ]
+  ]
+ },
+ {
+  "key": "725869dc",
+  "reader": "sheikh",
+  "text": "Musa said: No! My Lord is with me. He will guide me.",
+  "parts": [
+   [
+    "narrator",
+    "{mˈuːsa} said: No! My Lord is with me. He will guide me."
+   ]
+  ]
+ },
+ {
+  "key": "fb7d34bf",
+  "reader": "sheikh",
+  "text": "The renewed digging of Zamzam by Abd al-Muttalib ibn Hashim. Its traces had been worn away after the tribe of Jurhum filled it in, and so it remained until his time.",
+  "parts": [
+   [
+    "narrator",
+    "The renewed digging of {zˈamzam} by Abd al-Muttalib {ˈibn} {hˈɑːʃim}. Its traces had been worn away after the tribe of {dʒˈuɹhum} filled it in, and so it remained until his time."
+   ]
+  ]
+ },
+ {
+  "key": "45db5361",
+  "reader": "sheikh",
+  "text": "Ibn Kathir tells us in his book of history:",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} Kathir tells us in his book of history:"
+   ]
+  ]
+ },
+ {
+  "key": "b0041335",
+  "reader": "sheikh",
+  "text": "When its matter had been made clear to him and its place had been shown to him, and he knew he had been told the truth, he set out in the morning with his pickaxe, and with him his son al-Harith ibn Abd al-Muttalib, who was his only son at that time. He dug, and when the stone lining of the old well appeared, Abd al-Muttalib called out “Allahu akbar”, and Quraysh knew that he had found what he was looking for.",
+  "parts": [
+   [
+    "narrator",
+    "When its matter had been made clear to him and its place had been shown to him, and he knew he had been told the truth, he set out in the morning with his pickaxe, and with him his son al-Harith {ˈibn} Abd al-Muttalib, who was his only son at that time. He dug, and when the stone lining of the old well appeared, Abd al-Muttalib called out “{allˌɑːhu ˈakbaɹ}”, and {kuɹˈaɪʃ} knew that he had found what he was looking for."
+   ]
+  ]
+ },
+ {
+  "key": "3fad1e19",
+  "reader": "sheikh",
+  "text": "They came to him and said: “Abd al-Muttalib, this is the well of our father Ismail, and we have a right to it. Give us a share in it with you.” He said: “I will not. This matter was given to me alone, out of all of you.” They said: “Then be fair to us, for we will not leave you until we have taken you to judgement over it.”",
+  "parts": [
+   [
+    "narrator",
+    "They came to him and said: “Abd al-Muttalib, this is the well of our father {ismɑːˈiːl}, and we have a right to it. Give us a share in it with you.” He said: “I will not. This matter was given to me alone, out of all of you.” They said: “Then be fair to us, for we will not leave you until we have taken you to judgement over it.”"
+   ]
+  ]
+ },
+ {
+  "key": "2ad67fea",
+  "reader": "sheikh",
+  "text": "He said: “Choose whomever you wish to judge between us.” They said: “The soothsayer of Banu Sad ibn Hudhaym.” He agreed. She lived in the highlands of al-Sham. Abd al-Muttalib rode out with a group of his family, and a group rode from every clan of Quraysh. In those days the land between was open desert. When they were part of the way, Abd al-Muttalib and his companions ran out of water. They grew so thirsty that they were sure they would die. They asked the others for water, but they refused, saying: “We are in the desert, and we fear for ourselves what has happened to you.”",
+  "parts": [
+   [
+    "narrator",
+    "He said: “Choose whomever you wish to judge between us.” They said: “The soothsayer of Banu Sad {ˈibn} Hudhaym.” He agreed. She lived in the highlands of al-Sham. Abd al-Muttalib rode out with a group of his family, and a group rode from every clan of {kuɹˈaɪʃ}. In those days the land between was open desert. When they were part of the way, Abd al-Muttalib and his companions ran out of water. They grew so thirsty that they were sure they would die. They asked the others for water, but they refused, saying: “We are in the desert, and we fear for ourselves what has happened to you.”"
+   ]
+  ]
+ },
+ {
+  "key": "d6809c3a",
+  "reader": "sheikh",
+  "text": "Abd al-Muttalib said: “I think each of you should dig his own grave while you still have the strength, so that whenever one dies his companions can bury him, until only one man is left. The loss of one man is easier than the loss of a whole caravan.” They said: “What you advise is good.” Each man dug a grave for himself, and they sat waiting for death, thirsty.",
+  "parts": [
+   [
+    "narrator",
+    "Abd al-Muttalib said: “I think each of you should dig his own grave while you still have the strength, so that whenever one dies his companions can bury him, until only one man is left. The loss of one man is easier than the loss of a whole caravan.” They said: “What you advise is good.” Each man dug a grave for himself, and they sat waiting for death, thirsty."
+   ]
+  ]
+ },
+ {
+  "key": "b73ab727",
+  "reader": "sheikh",
+  "text": "All of them. Then they said: “By Allah, the judgement has been given for you against us. By Allah, we will never dispute with you over Zamzam. The One who gave you this water in this desert is the One who gave you Zamzam. Go back to your watering of the pilgrims, rightly guided.” He went back and they went back with him. They never reached the soothsayer, and they left him and Zamzam alone.",
+  "parts": [
+   [
+    "narrator",
+    "All of them. Then they said: “By {allˈɑːh}, the judgement has been given for you against us. By {allˈɑːh}, we will never dispute with you over {zˈamzam}. The One who gave you this water in this desert is the One who gave you {zˈamzam}. Go back to your watering of the pilgrims, rightly guided.” He went back and they went back with him. They never reached the soothsayer, and they left him and {zˈamzam} alone."
+   ]
+  ]
+ },
+ {
+  "key": "fc354546",
+  "reader": "sheikh",
+  "text": "Then Abd al-Muttalib set up the watering of the pilgrims from Zamzam. Ibn Ishaq and others mention that there were many wells in Makkah before Zamzam appeared in the time of Abd al-Muttalib … and Zamzam surpassed all the wells, and all the people turned to it, because of its place by the Sacred Mosque, its excellence over all other water, and because it is the well of Ismail son of Ibrahim.",
+  "parts": [
+   [
+    "narrator",
+    "Then Abd al-Muttalib set up the watering of the pilgrims from {zˈamzam}. {ˈibn} {ishˈɑːk} and others mention that there were many wells in {mˈakka} before {zˈamzam} appeared in the time of Abd al-Muttalib … and {zˈamzam} surpassed all the wells, and all the people turned to it, because of its place by the Sacred Mosque, its excellence over all other water, and because it is the well of {ismɑːˈiːl} son of {ibɹɑːhˈiːm}."
+   ]
+  ]
+ },
+ {
+  "key": "a9a4e08e",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: Then Abraha built al-Qullays in Sanaa, a church whose like had not been seen anywhere on earth in its time, and he wrote to the Negus: “I have built for you a church like none ever built for a king before you, and I will not stop until I have turned the pilgrimage of the Arabs to it.”",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: Then {ˈabɹaha} built al-Qullays in Sanaa, a church whose like had not been seen anywhere on earth in its time, and he wrote to the Negus: “I have built for you a church like none ever built for a king before you, and I will not stop until I have turned the pilgrimage of the Arabs to it.”"
+   ]
+  ]
+ },
+ {
+  "key": "c7a6aaa4",
+  "reader": "sheikh",
+  "text": "When the Arabs spoke of Abraha’s letter to the Negus, a man of Kinanah was angered. He went to al-Qullays and showed his contempt for it, then went back to his own land. Abraha was told that a man from the people of the House in Makkah had done this when he heard of Abraha’s plan to turn the pilgrimage away from it. Abraha was enraged, and swore that he would march on the House and destroy it.",
+  "parts": [
+   [
+    "narrator",
+    "When the Arabs spoke of {ˈabɹahaz} letter to the Negus, a man of {kinˈɑːna} was angered. He went to al-Qullays and showed his contempt for it, then went back to his own land. {ˈabɹaha} was told that a man from the people of the House in {mˈakka} had done this when he heard of {ˈabɹahaz} plan to turn the pilgrimage away from it. {ˈabɹaha} was enraged, and swore that he would march on the House and destroy it."
+   ]
+  ]
+ },
+ {
+  "key": "3ca67c04",
+  "reader": "sheikh",
+  "text": "Then he ordered the Abyssinians to prepare, and they made ready. He set out, taking the elephant with him. The Arabs heard of it and were horrified, and they saw it as their duty to fight him when they heard that he meant to destroy the Kabah, the Sacred House of Allah. A man of the nobles and kings of Yemen called Dhu Nafr called his people and other Arabs to fight Abraha and defend the Sacred House. He met him in battle, but Dhu Nafr and his men were defeated, and Dhu Nafr was taken captive.",
+  "parts": [
+   [
+    "narrator",
+    "Then he ordered the Abyssinians to prepare, and they made ready. He set out, taking the elephant with him. The Arabs heard of it and were horrified, and they saw it as their duty to fight him when they heard that he meant to destroy the Kabah, the Sacred House of {allˈɑːh}. A man of the nobles and kings of Yemen called Dhu Nafr called his people and other Arabs to fight {ˈabɹaha} and defend the Sacred House. He met him in battle, but Dhu Nafr and his men were defeated, and Dhu Nafr was taken captive."
+   ]
+  ]
+ },
+ {
+  "key": "0f491a9e",
+  "reader": "sheikh",
+  "text": "When Abraha reached the land of Khatham, Nufayl ibn Habib al-Khathami came against him with the two tribes of Khatham and the Arabs who followed him. Abraha defeated him and took him captive. When he meant to kill him, Nufayl said: “O king, do not kill me, for I will be your guide in the land of the Arabs.” So Abraha let him go.",
+  "parts": [
+   [
+    "narrator",
+    "When {ˈabɹaha} reached the land of Khatham, Nufayl {ˈibn} Habib al-Khathami came against him with the two tribes of Khatham and the Arabs who followed him. {ˈabɹaha} defeated him and took him captive. When he meant to kill him, Nufayl said: “O king, do not kill me, for I will be your guide in the land of the Arabs.” So {ˈabɹaha} let him go."
+   ]
+  ]
+ },
+ {
+  "key": "1fd338f0",
+  "reader": "sheikh",
+  "text": "He took him along as his guide. When he passed by al-Taʾif, Masud ibn Muattib came out to him with men of Thaqif and said: “O king, we will not oppose you. This house of ours is not the House you want. You want the House in Makkah, and we will send someone with you to guide you to it.” They sent Abu Righal with him to show him the way to Makkah. Abraha set out with Abu Righal until he brought him to al-Mughammas.",
+  "parts": [
+   [
+    "narrator",
+    "He took him along as his guide. When he passed by al-Taif, Masud {ˈibn} Muattib came out to him with men of {θakˈiːf} and said: “O king, we will not oppose you. This house of ours is not the House you want. You want the House in {mˈakka}, and we will send someone with you to guide you to it.” They sent Abu Righal with him to show him the way to {mˈakka}. {ˈabɹaha} set out with Abu Righal until he brought him to al-Mughammas."
+   ]
+  ]
+ },
+ {
+  "key": "934d89c0",
+  "reader": "sheikh",
+  "text": "When Abraha camped at al-Mughammas, he sent an Abyssinian called al-Aswad ibn Mafsud with horsemen to Makkah. He drove off to Abraha the wealth of the people of Tihama, from Quraysh and others, and among it were two hundred camels of Abd al-Muttalib ibn Hashim, who was then the eldest and leader of Quraysh. Quraysh, Kinanah, Hudhayl and the others in the Haram thought of fighting him; then they knew they had no power to fight him, and they left it.",
+  "parts": [
+   [
+    "narrator",
+    "When {ˈabɹaha} camped at al-Mughammas, he sent an Abyssinian called al-Aswad {ˈibn} Mafsud with horsemen to {mˈakka}. He drove off to {ˈabɹaha} the wealth of the people of {tihˈɑːma}, from {kuɹˈaɪʃ} and others, and among it were two hundred camels of Abd al-Muttalib {ˈibn} {hˈɑːʃim}, who was then the eldest and leader of {kuɹˈaɪʃ}. {kuɹˈaɪʃ}, {kinˈɑːna}, Hudhayl and the others in the Haram thought of fighting him; then they knew they had no power to fight him, and they left it."
+   ]
+  ]
+ },
+ {
+  "key": "4b2c811b",
+  "reader": "sheikh",
+  "text": "Abd al-Muttalib went back to Quraysh, told them the news, and ordered them to leave Makkah and take refuge on the mountain tops, out of fear of the harm the army would do to them. Then Abd al-Muttalib stood and took hold of the ring of the door of the Kabah, and a group of Quraysh stood with him, calling on Allah and asking Him for help against Abraha and his army.",
+  "parts": [
+   [
+    "narrator",
+    "Abd al-Muttalib went back to {kuɹˈaɪʃ}, told them the news, and ordered them to leave {mˈakka} and take refuge on the mountain tops, out of fear of the harm the army would do to them. Then Abd al-Muttalib stood and took hold of the ring of the door of the Kabah, and a group of {kuɹˈaɪʃ} stood with him, calling on {allˈɑːh} and asking Him for help against {ˈabɹaha} and his army."
+   ]
+  ]
+ },
+ {
+  "key": "7ca1b836",
+  "reader": "sheikh",
+  "text": "And Abd al-Muttalib said, holding the ring of the door of the Kabah: “O Allah, a man protects his own dwelling, so protect Your dwelling. Let their cross and their might never overcome Your might tomorrow. And if You leave them and our qibla, then command what You will.” Ibn Hisham said: this is what is authentic of it.",
+  "parts": [
+   [
+    "narrator",
+    "And Abd al-Muttalib said, holding the ring of the door of the Kabah: “O {allˈɑːh}, a man protects his own dwelling, so protect Your dwelling. Let their cross and their might never overcome Your might tomorrow. And if You leave them and our qibla, then command what You will.” {ˈibn} Hisham said: this is what is authentic of it."
+   ]
+  ]
+ },
+ {
+  "key": "efca0351",
+  "reader": "sheikh",
+  "text": "Then Abd al-Muttalib let go of the ring of the door of the Kabah, and he and the Quraysh with him went off to the mountain peaks to shelter there and wait to see what Abraha would do.",
+  "parts": [
+   [
+    "narrator",
+    "Then Abd al-Muttalib let go of the ring of the door of the Kabah, and he and the {kuɹˈaɪʃ} with him went off to the mountain peaks to shelter there and wait to see what {ˈabɹaha} would do."
+   ]
+  ]
+ },
+ {
+  "key": "ae087587",
+  "reader": "sheikh",
+  "text": "And Allah sent upon them birds from the sea, like swallows, each bird carrying three stones: one in its beak and two in its feet, like chickpeas and lentils. No one they struck escaped, though not all of them were struck. They fled, rushing back along the road by which they had come.",
+  "parts": [
+   [
+    "narrator",
+    "And {allˈɑːh} sent upon them birds from the sea, like swallows, each bird carrying three stones: one in its beak and two in its feet, like chickpeas and lentils. No one they struck escaped, though not all of them were struck. They fled, rushing back along the road by which they had come."
+   ]
+  ]
+ },
+ {
+  "key": "88c14f6b",
+  "reader": "sheikh",
+  "text": "Abraha was struck in his body, and they took him away with them.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈabɹaha} was struck in his body, and they took him away with them."
+   ]
+  ]
+ },
+ {
+  "key": "b59e0724",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: When Allah sent Muhammad ﷺ, among the blessings Allah reminded Quraysh of was His turning back the Abyssinians from them, for the sake of their survival. He, the Most High, said: [Surah al-Fil]",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: When {allˈɑːh} sent {muhˈammad} , peace be upon him,, among the blessings {allˈɑːh} reminded {kuɹˈaɪʃ} of was His turning back the Abyssinians from them, for the sake of their survival. He, the Most High, said: [{sˈuːɹa} al-Fil]"
+   ]
+  ]
+ },
+ {
+  "key": "77036765",
+  "reader": "sheikh",
+  "text": "What Allah did to the People of the Elephant was not a victory for Quraysh … rather, the victory was for the Sacred House, as a sign and a preparation for the sending of Muhammad ﷺ.",
+  "parts": [
+   [
+    "narrator",
+    "What {allˈɑːh} did to the People of the Elephant was not a victory for {kuɹˈaɪʃ} … rather, the victory was for the Sacred House, as a sign and a preparation for the sending of {muhˈammad} , peace be upon him,."
+   ]
+  ]
+ },
+ {
+  "key": "0ff9718b",
+  "reader": "sheikh",
+  "text": "I say: in its year the Messenger of Allah ﷺ was born, according to the well-known view.",
+  "parts": [
+   [
+    "narrator",
+    "I say: in its year the Messenger of {allˈɑːh} , peace be upon him, was born, according to the well-known view."
+   ]
+  ]
+ },
+ {
+  "key": "a1dae8d5",
+  "reader": "sheikh",
+  "text": "He was born, blessings and peace be upon him, on a Monday, because of what Muslim narrated in his Sahih, from the hadith of Ghaylan ibn Jarir from Abdullah ibn Mabad al-Zimmani from Abu Qatada: a Bedouin said, “O Messenger of Allah, what do you say about fasting on Monday?” He said: “That is the day on which I was born, and on which revelation was sent down to me.”",
+  "parts": [
+   [
+    "narrator",
+    "He was born, blessings and peace be upon him, on a Monday, because of what Muslim narrated in his Sahih, from the {hadˈiːθ} of Ghaylan {ˈibn} Jarir from Abdullah {ˈibn} Mabad al-Zimmani from Abu Qatada: a Bedouin said, “O Messenger of {allˈɑːh}, what do you say about fasting on Monday?” He said: “That is the day on which I was born, and on which revelation was sent down to me.”"
+   ]
+  ]
+ },
+ {
+  "key": "ea8b0acb",
+  "reader": "sheikh",
+  "text": "Then the majority hold that it was in the month of Rabi al-Awwal.",
+  "parts": [
+   [
+    "narrator",
+    "Then the majority hold that it was in the month of Rabi al-Awwal."
+   ]
+  ]
+ },
+ {
+  "key": "27a82443",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: His birth, blessings and peace be upon him, was in the Year of the Elephant, and this is what is well known from the majority. Ibrahim ibn al-Mundhir al-Hizami said: It is something none of our scholars doubts, that he, blessings and peace be upon him, was born in the Year of the Elephant, and was sent as a prophet at the head of forty years from the Elephant.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: His birth, blessings and peace be upon him, was in the Year of the Elephant, and this is what is well known from the majority. {ibɹɑːhˈiːm} {ˈibn} al-Mundhir al-Hizami said: It is something none of our scholars doubts, that he, blessings and peace be upon him, was born in the Year of the Elephant, and was sent as a prophet at the head of forty years from the Elephant."
+   ]
+  ]
+ },
+ {
+  "key": "d19a8ee2",
+  "reader": "sheikh",
+  "text": "Muhammad ibn Ishaq said: al-Muttalib ibn Abdullah ibn Qays ibn Makhrama told me, from his father, from his grandfather Qays ibn Makhrama, who said: “I and the Messenger of Allah ﷺ were born in the Year of the Elephant. We were the same age.”",
+  "parts": [
+   [
+    "narrator",
+    "{muhˈammad} {ˈibn} {ishˈɑːk} said: al-Muttalib {ˈibn} Abdullah {ˈibn} Qays {ˈibn} Makhrama told me, from his father, from his grandfather Qays {ˈibn} Makhrama, who said: “I and the Messenger of {allˈɑːh} , peace be upon him, were born in the Year of the Elephant. We were the same age.”"
+   ]
+  ]
+ },
+ {
+  "key": "981f01f4",
+  "reader": "sheikh",
+  "text": "Khalifa ibn Khayyat said: What is agreed upon is that he, peace be upon him, was born in the Year of the Elephant.",
+  "parts": [
+   [
+    "narrator",
+    "Khalifa {ˈibn} Khayyat said: What is agreed upon is that he, peace be upon him, was born in the Year of the Elephant."
+   ]
+  ]
+ },
+ {
+  "key": "be05af5a",
+  "reader": "sheikh",
+  "text": "[Abd al-Muttalib] went, as mentioned before, and married him [his son Abdullah] to the noblest lady of Quraysh: Amina bint Wahb ibn Abd Manaf ibn Zuhra, of the clan of Zuhra.",
+  "parts": [
+   [
+    "narrator",
+    "[Abd al-Muttalib] went, as mentioned before, and married him [his son Abdullah] to the noblest lady of {kuɹˈaɪʃ}: Amina bint Wahb {ˈibn} Abd Manaf {ˈibn} Zuhra, of the clan of Zuhra."
+   ]
+  ]
+ },
+ {
+  "key": "3c41224d",
+  "reader": "sheikh",
+  "text": "The point is that when his mother was expecting him, his father Abdullah died while he was still unborn, according to the well-known view.",
+  "parts": [
+   [
+    "narrator",
+    "The point is that when his mother was expecting him, his father Abdullah died while he was still unborn, according to the well-known view."
+   ]
+  ]
+ },
+ {
+  "key": "3ec40189",
+  "reader": "sheikh",
+  "text": "What al-Waqidi and his scribe, the hafiz Muhammad ibn Sad, judged most likely is that his father died while he, blessings and peace be upon him, was still unborn in his mother’s womb. This is the deepest kind of being an orphan, and its highest rank.",
+  "parts": [
+   [
+    "narrator",
+    "What al-Waqidi and his scribe, the hafiz {muhˈammad} {ˈibn} Sad, judged most likely is that his father died while he, blessings and peace be upon him, was still unborn in his mother’s womb. This is the deepest kind of being an orphan, and its highest rank."
+   ]
+  ]
+ },
+ {
+  "key": "2b8a88f8",
+  "reader": "sheikh",
+  "text": "Muhammad ibn Ishaq said: A nurse was found for him, blessings and peace be upon him: Halima bint Abi Dhuʾayb.",
+  "parts": [
+   [
+    "narrator",
+    "{muhˈammad} {ˈibn} {ishˈɑːk} said: A nurse was found for him, blessings and peace be upon him: Halima bint Abi Dhuayb."
+   ]
+  ]
+ },
+ {
+  "key": "a9d3e984",
+  "reader": "sheikh",
+  "text": "And his brother and sisters, blessings and peace be upon him, by nursing: Abdullah ibn al-Harith, Unaysa bint al-Harith, and Hudhafa bint al-Harith, who is al-Shaymaʾ.",
+  "parts": [
+   [
+    "narrator",
+    "And his brother and sisters, blessings and peace be upon him, by nursing: Abdullah {ˈibn} al-Harith, Unaysa bint al-Harith, and Hudhafa bint al-Harith, who is al-Shayma."
+   ]
+  ]
+ },
+ {
+  "key": "00ee7cd2",
+  "reader": "sheikh",
+  "text": "So the Messenger of Allah ﷺ was with his mother Amina bint Wahb and his grandfather Abd al-Muttalib, in Allah’s care and keeping. Allah made him grow up well, for the honour He intended for him.",
+  "parts": [
+   [
+    "narrator",
+    "So the Messenger of {allˈɑːh} , peace be upon him, was with his mother Amina bint Wahb and his grandfather Abd al-Muttalib, in {allˈɑːhz} care and keeping. {allˈɑːh} made him grow up well, for the honour He intended for him."
+   ]
+  ]
+ },
+ {
+  "key": "54cea7df",
+  "reader": "sheikh",
+  "text": "… that the mother of the Messenger of Allah ﷺ, Amina, died when he was six years old, at al-Abwaʾ, between Makkah and Madinah. She had brought him to visit his uncles’ family, Banu Adi ibn al-Najjar, and she died on the way back with him to Makkah.",
+  "parts": [
+   [
+    "narrator",
+    "… that the mother of the Messenger of {allˈɑːh} , peace be upon him,, Amina, died when he was six years old, at al-Abwa, between {mˈakka} and Madinah. She had brought him to visit his uncles’ family, Banu Adi {ˈibn} al-Najjar, and she died on the way back with him to {mˈakka}."
+   ]
+  ]
+ },
+ {
+  "key": "61595e02",
+  "reader": "sheikh",
+  "text": "When Abd al-Muttalib ibn Hashim died, the watering of the pilgrims and Zamzam passed after him to his son al-Abbas, one of the youngest of his brothers. It stayed with him until Islam came, and the Messenger of Allah ﷺ left it in his hands.",
+  "parts": [
+   [
+    "narrator",
+    "When Abd al-Muttalib {ˈibn} {hˈɑːʃim} died, the watering of the pilgrims and {zˈamzam} passed after him to his son al-Abbas, one of the youngest of his brothers. It stayed with him until Islam came, and the Messenger of {allˈɑːh} , peace be upon him, left it in his hands."
+   ]
+  ]
+ },
+ {
+  "key": "18e62d16",
+  "reader": "sheikh",
+  "text": "After his grandfather Abd al-Muttalib, the Messenger of Allah ﷺ was with his uncle Abu Talib, because Abd al-Muttalib had entrusted him to him, and because Abu Talib was the full brother of his father Abdullah: their mother was Fatima bint Amr ibn Aʾidh ibn Imran ibn Makhzum. Abu Talib was the one who took charge of the Messenger of Allah ﷺ after his grandfather; he was in his care and with him.",
+  "parts": [
+   [
+    "narrator",
+    "After his grandfather Abd al-Muttalib, the Messenger of {allˈɑːh} , peace be upon him, was with his uncle Abu Talib, because Abd al-Muttalib had entrusted him to him, and because Abu Talib was the full brother of his father Abdullah: their mother was Fatima bint Amr {ˈibn} Aidh {ˈibn} Imran {ˈibn} Makhzum. Abu Talib was the one who took charge of the Messenger of {allˈɑːh} , peace be upon him, after his grandfather; he was in his care and with him."
+   ]
+  ]
+ },
+ {
+  "key": "ea9fe521",
+  "reader": "sheikh",
+  "text": "[The Messenger of Allah ﷺ said:] “Allah did not send any prophet except that he was a shepherd.” His companions said to him: “And you, O Messenger of Allah?” He said: “And I tended them for the people of Makkah for a few qirats.”",
+  "parts": [
+   [
+    "narrator",
+    "[The Messenger of {allˈɑːh} , peace be upon him, said:] “{allˈɑːh} did not send any prophet except that he was a shepherd.” His companions said to him: “And you, O Messenger of {allˈɑːh}?” He said: “And I tended them for the people of {mˈakka} for a few qirats.”"
+   ]
+  ]
+ },
+ {
+  "key": "dcc202be",
+  "reader": "sheikh",
+  "text": "Its cause was that a man from Zubayd came to Makkah with goods. Al-As ibn Waʾil bought them from him and then held back what he owed him. The man from Zubayd asked the allied clans, Abd al-Dar, Makhzum, Jumah, Sahm and Adi ibn Kab, to help him against him, and they refused to help against al-As ibn Waʾil.",
+  "parts": [
+   [
+    "narrator",
+    "Its cause was that a man from Zubayd came to {mˈakka} with goods. Al-As {ˈibn} Wail bought them from him and then held back what he owed him. The man from Zubayd asked the allied clans, Abd al-Dar, Makhzum, Jumah, Sahm and Adi {ˈibn} Kab, to help him against him, and they refused to help against al-As {ˈibn} Wail."
+   ]
+  ]
+ },
+ {
+  "key": "585afec5",
+  "reader": "sheikh",
+  "text": "When the man from Zubayd saw how badly he was treated, he climbed up on Abu Qubays at sunrise, while Quraysh were sitting in their gatherings around the Kabah, and called out at the top of his voice.",
+  "parts": [
+   [
+    "narrator",
+    "When the man from Zubayd saw how badly he was treated, he climbed up on Abu Qubays at sunrise, while {kuɹˈaɪʃ} were sitting in their gatherings around the Kabah, and called out at the top of his voice."
+   ]
+  ]
+ },
+ {
+  "key": "b10f171d",
+  "reader": "sheikh",
+  "text": "[The Messenger of Allah ﷺ said:] “I witnessed, in the house of Abdullah ibn Judan, an alliance which, if I were called to it in Islam, I would answer. They allied to return what is owed to its rightful people, and that no wrongdoer would overpower someone wronged.”",
+  "parts": [
+   [
+    "narrator",
+    "[The Messenger of {allˈɑːh} , peace be upon him, said:] “I witnessed, in the house of Abdullah {ˈibn} Judan, an alliance which, if I were called to it in Islam, I would answer. They allied to return what is owed to its rightful people, and that no wrongdoer would overpower someone wronged.”"
+   ]
+  ]
+ },
+ {
+  "key": "4489e37c",
+  "reader": "sheikh",
+  "text": "When he came back to Makkah to Khadija with her goods, she sold what he had brought, and it came to double, or nearly.",
+  "parts": [
+   [
+    "narrator",
+    "When he came back to {mˈakka} to {xadˈiːdʒa} with her goods, she sold what he had brought, and it came to double, or nearly."
+   ]
+  ]
+ },
+ {
+  "key": "edcbf574",
+  "reader": "sheikh",
+  "text": "Ibn Hisham said: The Messenger of Allah ﷺ was twenty-five years old when he married Khadija. More than one of the people of knowledge told me so, among them Abu Amr al-Madani.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} Hisham said: The Messenger of {allˈɑːh} , peace be upon him, was twenty-five years old when he married {xadˈiːdʒa}. More than one of the people of knowledge told me so, among them Abu Amr al-Madani."
+   ]
+  ]
+ },
+ {
+  "key": "b0300ac3",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: al-Fijar was twenty years after the Elephant. The building of the Kabah was fifteen years after al-Fijar, and his being sent as a prophet was five years after its building.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: al-Fijar was twenty years after the Elephant. The building of the Kabah was fifteen years after al-Fijar, and his being sent as a prophet was five years after its building."
+   ]
+  ]
+ },
+ {
+  "key": "bbd7b019",
+  "reader": "sheikh",
+  "text": "When the Kabah was built, the Messenger of Allah ﷺ went to carry stones.",
+  "parts": [
+   [
+    "narrator",
+    "When the Kabah was built, the Messenger of {allˈɑːh} , peace be upon him, went to carry stones."
+   ]
+  ]
+ },
+ {
+  "key": "30ffd77d",
+  "reader": "sheikh",
+  "text": "When the Messenger of Allah ﷺ was thirty-five years old, Quraysh gathered to build the Kabah. They had been wanting to do it, to give it a roof, but they were afraid to take it down. It was only loose stones laid without mortar, a little higher than a man, and they wanted to raise it and roof it.",
+  "parts": [
+   [
+    "narrator",
+    "When the Messenger of {allˈɑːh} , peace be upon him, was thirty-five years old, {kuɹˈaɪʃ} gathered to build the Kabah. They had been wanting to do it, to give it a roof, but they were afraid to take it down. It was only loose stones laid without mortar, a little higher than a man, and they wanted to raise it and roof it."
+   ]
+  ]
+ },
+ {
+  "key": "abc26dcd",
+  "reader": "sheikh",
+  "text": "The sea had thrown up a ship at Jeddah, belonging to a merchant of the Romans, and it was broken up. They took its timber and made it ready for the roof.",
+  "parts": [
+   [
+    "narrator",
+    "The sea had thrown up a ship at Jeddah, belonging to a merchant of the Romans, and it was broken up. They took its timber and made it ready for the roof."
+   ]
+  ]
+ },
+ {
+  "key": "ec75eda9",
+  "reader": "sheikh",
+  "text": "There was in Makkah a Coptic man who was a carpenter, and he got ready for them some of what was needed.",
+  "parts": [
+   [
+    "narrator",
+    "There was in {mˈakka} a Coptic man who was a carpenter, and he got ready for them some of what was needed."
+   ]
+  ]
+ },
+ {
+  "key": "41fdec3b",
+  "reader": "sheikh",
+  "text": "He said: “People of Quraysh, put nothing of your earnings into its building except what is good and lawful.”",
+  "parts": [
+   [
+    "narrator",
+    "He said: “People of {kuɹˈaɪʃ}, put nothing of your earnings into its building except what is good and lawful.”"
+   ]
+  ]
+ },
+ {
+  "key": "3db1aa2a",
+  "reader": "sheikh",
+  "text": "Then Quraysh divided the Kabah between them. The side of the door was for Banu Abd Manaf and Zuhra. Between the Black Corner and the Yemeni Corner was for Banu Makhzum and the clans of Quraysh who joined them. The back of the Kabah was for Banu Jumah and Sahm. The side of al-Hijr was for Banu Abd al-Dar ibn Qusayy, Banu Asad ibn Abd al-Uzza and Banu Adi ibn Kab: that is al-Hatim.",
+  "parts": [
+   [
+    "narrator",
+    "Then {kuɹˈaɪʃ} divided the Kabah between them. The side of the door was for Banu Abd Manaf and Zuhra. Between the Black Corner and the Yemeni Corner was for Banu Makhzum and the clans of {kuɹˈaɪʃ} who joined them. The back of the Kabah was for Banu Jumah and Sahm. The side of al-Hijr was for Banu Abd al-Dar {ˈibn} Qusayy, Banu Asad {ˈibn} Abd al-Uzza and Banu Adi {ˈibn} Kab: that is al-Hatim."
+   ]
+  ]
+ },
+ {
+  "key": "fc8981c4",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: Then the clans of Quraysh gathered stones to build it, each clan gathering on its own. Then they built it until the building reached the place of the Corner [the Black Stone], and they quarrelled over it: every clan wanted to raise it to its place, and not the others.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: Then the clans of {kuɹˈaɪʃ} gathered stones to build it, each clan gathering on its own. Then they built it until the building reached the place of the Corner [the Black Stone], and they quarrelled over it: every clan wanted to raise it to its place, and not the others."
+   ]
+  ]
+ },
+ {
+  "key": "5082f380",
+  "reader": "sheikh",
+  "text": "Quraysh stayed like that for four or five nights. Then they gathered in the Mosque, consulted one another and agreed to be fair.",
+  "parts": [
+   [
+    "narrator",
+    "{kuɹˈaɪʃ} stayed like that for four or five nights. Then they gathered in the Mosque, consulted one another and agreed to be fair."
+   ]
+  ]
+ },
+ {
+  "key": "1f8ed995",
+  "reader": "sheikh",
+  "text": "… and the first thing of the Mighty Qurʾan to be sent down to him. That was when he ﷺ was forty years old.",
+  "parts": [
+   [
+    "narrator",
+    "… and the first thing of the Mighty {kʊɹˈɑːn} to be sent down to him. That was when he , peace be upon him, was forty years old."
+   ]
+  ]
+ },
+ {
+  "key": "bc0d1ea8",
+  "reader": "sheikh",
+  "text": "[Hiraʾ] is a mountain in upper Makkah, three miles from it, on the left of whoever goes to Mina. It has a peak that leans over, facing the Kabah, and the cave is in that bend.",
+  "parts": [
+   [
+    "narrator",
+    "[Hira] is a mountain in upper {mˈakka}, three miles from it, on the left of whoever goes to Mina. It has a peak that leans over, facing the Kabah, and the cave is in that bend."
+   ]
+  ]
+ },
+ {
+  "key": "6443def7",
+  "reader": "sheikh",
+  "text": "The Messenger of Allah ﷺ used to stay at Hiraʾ for one month every year, in devotion. That was something Quraysh held dear in the time before Islam. The Messenger of Allah ﷺ would stay that month every year, feeding the poor who came to him. When he had finished his month, the first thing he did when he left, before going into his house, was go to the Kabah and go round it seven times, or as many as Allah willed. Then he would go back to his house.",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, used to stay at Hira for one month every year, in devotion. That was something {kuɹˈaɪʃ} held dear in the time before Islam. The Messenger of {allˈɑːh} , peace be upon him, would stay that month every year, feeding the poor who came to him. When he had finished his month, the first thing he did when he left, before going into his house, was go to the Kabah and go round it seven times, or as many as {allˈɑːh} willed. Then he would go back to his house."
+   ]
+  ]
+ },
+ {
+  "key": "c54dcbac",
+  "reader": "sheikh",
+  "text": "[Aʾisha said:] The first of the revelation that came to the Messenger of Allah ﷺ was true dreams in his sleep. He did not see a dream but it came true like the breaking of dawn.",
+  "parts": [
+   [
+    "narrator",
+    "[Aisha said:] The first of the revelation that came to the Messenger of {allˈɑːh} , peace be upon him, was true dreams in his sleep. He did not see a dream but it came true like the breaking of dawn."
+   ]
+  ]
+ },
+ {
+  "key": "c25aa859",
+  "reader": "sheikh",
+  "text": "Then being alone was made dear to him. He would go alone to the cave of Hiraʾ and worship there for a number of nights, before going back to his family, and he would take provisions for that. Then he would go back to Khadija and take provisions for the same again, until the truth came to him while he was in the cave of Hiraʾ.",
+  "parts": [
+   [
+    "narrator",
+    "Then being alone was made dear to him. He would go alone to the cave of Hira and worship there for a number of nights, before going back to his family, and he would take provisions for that. Then he would go back to {xadˈiːdʒa} and take provisions for the same again, until the truth came to him while he was in the cave of Hira."
+   ]
+  ]
+ },
+ {
+  "key": "2cecded9",
+  "reader": "sheikh",
+  "text": "The angel came to him and said: “Read.” He said: “I am not one who reads.” He said: “Then he took hold of me and pressed me until I was exhausted, then let me go and said: ‘Read.’ I said: ‘I am not one who reads.’ He took hold of me and pressed me a second time until I was exhausted, then let me go and said: ‘Read.’ I said: ‘I am not one who reads.’ He took hold of me and pressed me a third time until I was exhausted. Then he let me go and said:”",
+  "parts": [
+   [
+    "narrator",
+    "The angel came to him and said: “Read.” He said: “I am not one who reads.” He said: “Then he took hold of me and pressed me until I was exhausted, then let me go and said: ‘Read.’ I said: ‘I am not one who reads.’ He took hold of me and pressed me a second time until I was exhausted, then let me go and said: ‘Read.’ I said: ‘I am not one who reads.’ He took hold of me and pressed me a third time until I was exhausted. Then he let me go and said:”"
+   ]
+  ]
+ },
+ {
+  "key": "7c8ba09a",
+  "reader": "sheikh",
+  "text": "The correct view is that his words “I am not one who reads” are a denial: that is, “I am not someone who knows how to read.”",
+  "parts": [
+   [
+    "narrator",
+    "The correct view is that his words “I am not one who reads” are a denial: that is, “I am not someone who knows how to read.”"
+   ]
+  ]
+ },
+ {
+  "key": "baf94524",
+  "reader": "sheikh",
+  "text": "The Messenger of Allah ﷺ went back with them, his heart trembling, and went in to Khadija bint Khuwaylid. He said: “Cover me, cover me.” They covered him until the fear left him. He told Khadija what had happened and said to her: “I feared for myself.”",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, went back with them, his heart trembling, and went in to {xadˈiːdʒa} bint Khuwaylid. He said: “Cover me, cover me.” They covered him until the fear left him. He told {xadˈiːdʒa} what had happened and said to her: “I feared for myself.”"
+   ]
+  ]
+ },
+ {
+  "key": "f90de274",
+  "reader": "sheikh",
+  "text": "Khadija said: “No, by Allah, Allah will never disgrace you. You keep the ties of kinship, you honour the guest, you carry the burden of the weak, you give to those who have nothing, and you help in the hardships that come by right.”",
+  "parts": [
+   [
+    "narrator",
+    "{xadˈiːdʒa} said: “No, by {allˈɑːh}, {allˈɑːh} will never disgrace you. You keep the ties of kinship, you honour the guest, you carry the burden of the weak, you give to those who have nothing, and you help in the hardships that come by right.”"
+   ]
+  ]
+ },
+ {
+  "key": "26c8acd8",
+  "reader": "sheikh",
+  "text": "Then before long Waraqa died, and the revelation paused for a while.",
+  "parts": [
+   [
+    "narrator",
+    "Then before long Waraqa died, and the revelation paused for a while."
+   ]
+  ]
+ },
+ {
+  "key": "05b1a99b",
+  "reader": "sheikh",
+  "text": "[He ﷺ said:] “While I was walking, I heard a voice from the sky. I raised my eyes, and there was the angel who had come to me at Hiraʾ, sitting on a chair between the sky and the earth. I was afraid of him. I went back and said: ‘Cover me, cover me.’ Then Allah sent down:”",
+  "parts": [
+   [
+    "narrator",
+    "[He , peace be upon him, said:] “While I was walking, I heard a voice from the sky. I raised my eyes, and there was the angel who had come to me at Hira, sitting on a chair between the sky and the earth. I was afraid of him. I went back and said: ‘Cover me, cover me.’ Then {allˈɑːh} sent down:”"
+   ]
+  ]
+ },
+ {
+  "key": "ab8b680b",
+  "reader": "sheikh",
+  "text": "So said Ubayd ibn Umayr, Abu Jafar al-Baqir and more than one of the scholars: that revelation came to him on a Monday. There is no disagreement among them about this.",
+  "parts": [
+   [
+    "narrator",
+    "So said Ubayd {ˈibn} Umayr, Abu Jafar al-Baqir and more than one of the scholars: that revelation came to him on a Monday. There is no disagreement among them about this."
+   ]
+  ]
+ },
+ {
+  "key": "b5c69669",
+  "reader": "sheikh",
+  "text": "The well-known view is that he was sent as a prophet in the month of Ramadan, as Ubayd ibn Umayr, Muhammad ibn Ishaq and others stated.",
+  "parts": [
+   [
+    "narrator",
+    "The well-known view is that he was sent as a prophet in the month of {ɹamadˈɑːn}, as Ubayd {ˈibn} Umayr, {muhˈammad} {ˈibn} {ishˈɑːk} and others stated."
+   ]
+  ]
+ },
+ {
+  "key": "07eb6f45",
+  "reader": "sheikh",
+  "text": "The Messenger of Allah ﷺ began to speak of all that Allah had blessed him and His servants with, of prophethood, in secret, to those of his family he trusted.",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, began to speak of all that {allˈɑːh} had blessed him and His servants with, of prophethood, in secret, to those of his family he trusted."
+   ]
+  ]
+ },
+ {
+  "key": "a9ab1595",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: Khadija was the first to believe in Allah and His Messenger, and to accept as true what he brought.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: {xadˈiːdʒa} was the first to believe in {allˈɑːh} and His Messenger, and to accept as true what he brought."
+   ]
+  ]
+ },
+ {
+  "key": "4f112a55",
+  "reader": "sheikh",
+  "text": "Ibn Haritha, meaning Zayd, accepted Islam too. The two of them stayed like that for nearly a month, with Ali coming and going to the Messenger of Allah ﷺ.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} Haritha, meaning Zayd, accepted Islam too. The two of them stayed like that for nearly a month, with Ali coming and going to the Messenger of {allˈɑːh} , peace be upon him,."
+   ]
+  ]
+ },
+ {
+  "key": "67689c8b",
+  "reader": "sheikh",
+  "text": "The first to hurry to believe were: of the free men, Abu Bakr al-Siddiq; of the boys, Ali ibn Abi Talib; of the women, Khadija bint Khuwaylid, his wife, peace be upon him; and of the freed slaves, his freed slave Zayd ibn Haritha al-Kalbi, may Allah be pleased with them all.",
+  "parts": [
+   [
+    "narrator",
+    "The first to hurry to believe were: of the free men, Abu Bakr al-Siddiq; of the boys, Ali {ˈibn} Abi Talib; of the women, {xadˈiːdʒa} bint Khuwaylid, his wife, peace be upon him; and of the freed slaves, his freed slave Zayd {ˈibn} Haritha al-Kalbi, may {allˈɑːh} be pleased with them all."
+   ]
+  ]
+ },
+ {
+  "key": "aa86cdf0",
+  "reader": "sheikh",
+  "text": "The first of the free men to accept Islam was Abu Bakr al-Siddiq, and his Islam brought more benefit than that of those mentioned before, because he was a man of high standing, an honoured chief in Quraysh, a man of wealth, and one who called others to Islam. He was loved and brought people together, and spent his wealth in obedience to Allah and His Messenger.",
+  "parts": [
+   [
+    "narrator",
+    "The first of the free men to accept Islam was Abu Bakr al-Siddiq, and his Islam brought more benefit than that of those mentioned before, because he was a man of high standing, an honoured chief in {kuɹˈaɪʃ}, a man of wealth, and one who called others to Islam. He was loved and brought people together, and spent his wealth in obedience to {allˈɑːh} and His Messenger."
+   ]
+  ]
+ },
+ {
+  "key": "2eb0d4d0",
+  "reader": "sheikh",
+  "text": "[Abu Bakr] was a merchant of good character and kindness. The men of his people would come to him and enjoy his company for more than one reason: his knowledge, his trade and his good company.",
+  "parts": [
+   [
+    "narrator",
+    "[Abu Bakr] was a merchant of good character and kindness. The men of his people would come to him and enjoy his company for more than one reason: his knowledge, his trade and his good company."
+   ]
+  ]
+ },
+ {
+  "key": "1941db78",
+  "reader": "sheikh",
+  "text": "They went to the Messenger of Allah ﷺ, with Abu Bakr. He offered them Islam, recited the Qurʾan to them and told them the truth of Islam, and they believed. These were the eight who came before [the people] to Islam. They believed the Messenger of Allah ﷺ and believed in what came from Allah.",
+  "parts": [
+   [
+    "narrator",
+    "They went to the Messenger of {allˈɑːh} , peace be upon him,, with Abu Bakr. He offered them Islam, recited the {kʊɹˈɑːn} to them and told them the truth of Islam, and they believed. These were the eight who came before [the people] to Islam. They believed the Messenger of {allˈɑːh} , peace be upon him, and believed in what came from {allˈɑːh}."
+   ]
+  ]
+ },
+ {
+  "key": "721e7662",
+  "reader": "sheikh",
+  "text": "Then people entered [Islam] in group after group, men and women, until the news of Islam spread in Makkah and people talked about it.",
+  "parts": [
+   [
+    "narrator",
+    "Then people entered [Islam] in group after group, men and women, until the news of Islam spread in {mˈakka} and people talked about it."
+   ]
+  ]
+ },
+ {
+  "key": "25f4663d",
+  "reader": "sheikh",
+  "text": "When the Companions of the Messenger of Allah ﷺ prayed, they would go out into the mountain passes and hide their prayer from their people.",
+  "parts": [
+   [
+    "narrator",
+    "When the Companions of the Messenger of {allˈɑːh} , peace be upon him, prayed, they would go out into the mountain passes and hide their prayer from their people."
+   ]
+  ]
+ },
+ {
+  "key": "96425eac",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: Then, three years after he was sent, Allah commanded His Messenger ﷺ to proclaim openly what he had been commanded, and to be patient with the harm of the idol-worshippers.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: Then, three years after he was sent, {allˈɑːh} commanded His Messenger , peace be upon him, to proclaim openly what he had been commanded, and to be patient with the harm of the idol-worshippers."
+   ]
+  ]
+ },
+ {
+  "key": "89e49c66",
+  "reader": "sheikh",
+  "text": "[Ibn Abbas said:] When Allah sent down “And warn your nearest relatives” [al-Shuaraʾ 214], the Prophet ﷺ came to al-Safa, climbed it, and called out: “Ya sabahah!”, the call of alarm. The people gathered to him, some coming themselves and some sending someone. The Messenger of Allah ﷺ said: “Banu Abd al-Muttalib, Banu Fihr, Banu Kab, if I told you that horsemen at the foot of this mountain wanted to attack you, would you believe me?” They said: “Yes.” He said: “Then I am a warner to you, before a severe punishment.”",
+  "parts": [
+   [
+    "narrator",
+    "[{ˈibn} Abbas said:] When {allˈɑːh} sent down “And warn your nearest relatives” [al-Shuara 214], the Prophet , peace be upon him, came to al-Safa, climbed it, and called out: “Ya sabahah!”, the call of alarm. The people gathered to him, some coming themselves and some sending someone. The Messenger of {allˈɑːh} , peace be upon him, said: “Banu Abd al-Muttalib, Banu Fihr, Banu Kab, if I told you that horsemen at the foot of this mountain wanted to attack you, would you believe me?” They said: “Yes.” He said: “Then I am a warner to you, before a severe punishment.”"
+   ]
+  ]
+ },
+ {
+  "key": "5441d15c",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: Then they turned on those of his Companions who had accepted Islam and followed the Messenger of Allah ﷺ. Every clan set upon the Muslims among them, imprisoning them and tormenting them with beatings, hunger and thirst, and with the burning ground of Makkah when the heat was fierce: those they could overpower, to turn them away from their religion. Some gave way because of the severity of what struck them, and some stood firm against them, and Allah protected them.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: Then they turned on those of his Companions who had accepted Islam and followed the Messenger of {allˈɑːh} , peace be upon him,. Every clan set upon the Muslims among them, imprisoning them and tormenting them with beatings, hunger and thirst, and with the burning ground of {mˈakka} when the heat was fierce: those they could overpower, to turn them away from their religion. Some gave way because of the severity of what struck them, and some stood firm against them, and {allˈɑːh} protected them."
+   ]
+  ]
+ },
+ {
+  "key": "0fbdb9e4",
+  "reader": "sheikh",
+  "text": "Bilal, [later] the freed slave of Abu Bakr, belonged to some of Banu Jumah, born a slave among them. He was Bilal ibn Rabah, and his mother’s name was Hamama. He was true in his Islam and pure of heart.",
+  "parts": [
+   [
+    "narrator",
+    "{bilˈɑːl}, [later] the freed slave of Abu Bakr, belonged to some of Banu Jumah, born a slave among them. He was {bilˈɑːl} {ˈibn} Rabah, and his mother’s name was Hamama. He was true in his Islam and pure of heart."
+   ]
+  ]
+ },
+ {
+  "key": "fefaa95e",
+  "reader": "sheikh",
+  "text": "I say: Some have found this difficult, because Waraqa died after the sending, during the pause in revelation, and people only accepted Islam after “O you wrapped up” was sent down. So how could Waraqa have passed by Bilal while he was tormented? This needs looking into.",
+  "parts": [
+   [
+    "narrator",
+    "I say: Some have found this difficult, because Waraqa died after the sending, during the pause in revelation, and people only accepted Islam after “O you wrapped up” was sent down. So how could Waraqa have passed by {bilˈɑːl} while he was tormented? This needs looking into."
+   ]
+  ]
+ },
+ {
+  "key": "3bfaa351",
+  "reader": "sheikh",
+  "text": "Then Ibn Ishaq mentions Abu Bakr passing by Bilal while he was being tormented. He bought him from Umayya in exchange for a slave of his, set him free, and released him from the torment.",
+  "parts": [
+   [
+    "narrator",
+    "Then {ˈibn} {ishˈɑːk} mentions Abu Bakr passing by {bilˈɑːl} while he was being tormented. He bought him from Umayya in exchange for a slave of his, set him free, and released him from the torment."
+   ]
+  ]
+ },
+ {
+  "key": "f898bd11",
+  "reader": "sheikh",
+  "text": "And al-Nahdiyya and her daughter: he bought them from Banu Abd al-Dar. Their mistress had sent them to grind flour for her, and he heard her say to them: “By Allah, I will never free you.” Abu Bakr said: “Release yourself from that oath, Umm so-and-so.” She said: “You release yourself! You have spoilt them, so free them yourself.” He said: “How much are they?” She said: “Such and such.” He said: “I have taken them, and they are free. Give her back her flour.” They said: “Shall we not finish grinding it first, Abu Bakr, and then give it back to her?” He said: “That too, if you wish.”",
+  "parts": [
+   [
+    "narrator",
+    "And al-Nahdiyya and her daughter: he bought them from Banu Abd al-Dar. Their mistress had sent them to grind flour for her, and he heard her say to them: “By {allˈɑːh}, I will never free you.” Abu Bakr said: “Release yourself from that oath, Umm so-and-so.” She said: “You release yourself! You have spoilt them, so free them yourself.” He said: “How much are they?” She said: “Such and such.” He said: “I have taken them, and they are free. Give her back her flour.” They said: “Shall we not finish grinding it first, Abu Bakr, and then give it back to her?” He said: “That too, if you wish.”"
+   ]
+  ]
+ },
+ {
+  "key": "2fc1f875",
+  "reader": "sheikh",
+  "text": "Abu Quhafa said to his son Abu Bakr: “My son, I see you freeing weak people. If only, when you did what you did, you had freed strong men who would protect you and stand up for you.” Abu Bakr said: “Father, I only want what I want.”",
+  "parts": [
+   [
+    "narrator",
+    "Abu Quhafa said to his son Abu Bakr: “My son, I see you freeing weak people. If only, when you did what you did, you had freed strong men who would protect you and stand up for you.” Abu Bakr said: “Father, I only want what I want.”"
+   ]
+  ]
+ },
+ {
+  "key": "46b52cd7",
+  "reader": "sheikh",
+  "text": "It was the first emigration in Islam. The first of the Muslims to go out were Uthman ibn Affan and his wife Ruqayya, the daughter of the Messenger of Allah ﷺ.",
+  "parts": [
+   [
+    "narrator",
+    "It was the first emigration in Islam. The first of the Muslims to go out were Uthman {ˈibn} Affan and his wife Ruqayya, the daughter of the Messenger of {allˈɑːh} , peace be upon him,."
+   ]
+  ]
+ },
+ {
+  "key": "e7d86e38",
+  "reader": "sheikh",
+  "text": "Al-Waqidi narrated that they set out for it in Rajab, in the fifth year after the sending, and that the first of them to emigrate were eleven men and four women. They reached the sea, some walking and some riding, and hired a ship to Abyssinia for half a dinar.",
+  "parts": [
+   [
+    "narrator",
+    "Al-Waqidi narrated that they set out for it in Rajab, in the fifth year after the sending, and that the first of them to emigrate were eleven men and four women. They reached the sea, some walking and some riding, and hired a ship to Abyssinia for half a dinar."
+   ]
+  ]
+ },
+ {
+  "key": "7aa45f90",
+  "reader": "sheikh",
+  "text": "[Umm Salama said:] So we went out to it in groups until we had all gathered there. We settled in the best of homes, next to the best of neighbours, safe in our religion, and we feared no wrong there.",
+  "parts": [
+   [
+    "narrator",
+    "[Umm Salama said:] So we went out to it in groups until we had all gathered there. We settled in the best of homes, next to the best of neighbours, safe in our religion, and we feared no wrong there."
+   ]
+  ]
+ },
+ {
+  "key": "0f5994fe",
+  "reader": "sheikh",
+  "text": "When Quraysh saw that we had found a home and safety, they were jealous of us. They agreed to send to the Negus about us, to have us driven out of his land and sent back to them. They sent Amr ibn al-As and Abdullah ibn Abi Rabia, and gathered gifts for him and for his generals, and did not leave out a single general without preparing a gift for him.",
+  "parts": [
+   [
+    "narrator",
+    "When {kuɹˈaɪʃ} saw that we had found a home and safety, they were jealous of us. They agreed to send to the Negus about us, to have us driven out of his land and sent back to them. They sent Amr {ˈibn} al-As and Abdullah {ˈibn} Abi Rabia, and gathered gifts for him and for his generals, and did not leave out a single general without preparing a gift for him."
+   ]
+  ]
+ },
+ {
+  "key": "0c6ccfda",
+  "reader": "sheikh",
+  "text": "One of the gifts from Makkah he liked best was leather.",
+  "parts": [
+   [
+    "narrator",
+    "One of the gifts from {mˈakka} he liked best was leather."
+   ]
+  ]
+ },
+ {
+  "key": "3edd5b7a",
+  "reader": "sheikh",
+  "text": "He became angry and said: “No, by the life of Allah! I will not hand them back until I have called them, spoken to them and seen what their matter is. They are people who sought refuge in my land and chose my protection over anyone else’s. If they are as these men say, I will hand them back. If they are otherwise, I will protect them and not come between them and their people, and I will not please these two.”",
+  "parts": [
+   [
+    "narrator",
+    "He became angry and said: “No, by the life of {allˈɑːh}! I will not hand them back until I have called them, spoken to them and seen what their matter is. They are people who sought refuge in my land and chose my protection over anyone else’s. If they are as these men say, I will hand them back. If they are otherwise, I will protect them and not come between them and their people, and I will not please these two.”"
+   ]
+  ]
+ },
+ {
+  "key": "95335dae",
+  "reader": "sheikh",
+  "text": "In Ziyad’s version from Ibn Ishaq: “He called us to Allah, to declare Him One and worship Him, and to leave the stones and idols that we and our fathers worshipped besides Him. He commanded us to speak the truth, to fulfil trusts, to keep the ties of kinship, to be good neighbours, and to keep away from forbidden things and from bloodshed. He forbade us shameful deeds, false speech, eating the wealth of the orphan and slandering chaste women. He commanded us to worship Allah and associate nothing with Him, and commanded us prayer, zakat and fasting.”",
+  "parts": [
+   [
+    "narrator",
+    "In Ziyad’s version from {ˈibn} {ishˈɑːk}: “He called us to {allˈɑːh}, to declare Him One and worship Him, and to leave the stones and idols that we and our fathers worshipped besides Him. He commanded us to speak the truth, to fulfil trusts, to keep the ties of kinship, to be good neighbours, and to keep away from forbidden things and from bloodshed. He forbade us shameful deeds, false speech, eating the wealth of the orphan and slandering chaste women. He commanded us to worship {allˈɑːh} and associate nothing with Him, and commanded us prayer, zakat and fasting.”"
+   ]
+  ]
+ },
+ {
+  "key": "e96bf0f4",
+  "reader": "sheikh",
+  "text": "He said: “Come, recite to me some of what he brought.” So he recited to him the beginning of Kaf Ha Ya Ayn Sad [Surah Maryam]. By Allah, the Negus wept until his beard was wet, and his bishops wept until their scrolls were wet [when they heard what he recited to them]. Then he said [to them]: “This speech comes from the same lamp-niche that Musa brought. Go, rightly guided. No, by Allah, I will not hand them over to you, and I will not please you.”",
+  "parts": [
+   [
+    "narrator",
+    "He said: “Come, recite to me some of what he brought.” So he recited to him the beginning of Kaf Ha Ya Ayn Sad [{sˈuːɹa} {mˈaɹjam}]. By {allˈɑːh}, the Negus wept until his beard was wet, and his bishops wept until their scrolls were wet [when they heard what he recited to them]. Then he said [to them]: “This speech comes from the same lamp-niche that {mˈuːsa} brought. Go, rightly guided. No, by {allˈɑːh}, I will not hand them over to you, and I will not please you.”"
+   ]
+  ]
+ },
+ {
+  "key": "8d85744a",
+  "reader": "sheikh",
+  "text": "Jafar said to him: “We say: he is the servant of Allah and His messenger, His spirit and His word, which He cast into Maryam, the virgin, devoted to Allah.” The Negus lowered his hand to the ground and took a little stick between his fingers, and said: “Isa ibn Maryam is not more than what you have said by the length of this little stick.”",
+  "parts": [
+   [
+    "narrator",
+    "Jafar said to him: “We say: he is the servant of {allˈɑːh} and His messenger, His spirit and His word, which He cast into {mˈaɹjam}, the virgin, devoted to {allˈɑːh}.” The Negus lowered his hand to the ground and took a little stick between his fingers, and said: “Isa {ˈibn} {mˈaɹjam} is not more than what you have said by the length of this little stick.”"
+   ]
+  ]
+ },
+ {
+  "key": "f2cf7638",
+  "reader": "sheikh",
+  "text": "“Go: you are suyum in the land”, that is, safe in the land. “Whoever insults you will pay a fine. Whoever insults you will pay a fine. Whoever insults you will pay a fine”, three times. “I would not want a dabr, and to have hurt one man of you.”",
+  "parts": [
+   [
+    "narrator",
+    "“Go: you are suyum in the land”, that is, safe in the land. “Whoever insults you will pay a fine. Whoever insults you will pay a fine. Whoever insults you will pay a fine”, three times. “I would not want a dabr, and to have hurt one man of you.”"
+   ]
+  ]
+ },
+ {
+  "key": "a971df2b",
+  "reader": "sheikh",
+  "text": "When Abu Talib saw what the people were doing, he gathered Banu Abd al-Muttalib and told them to bring the Messenger of Allah ﷺ into their valley and protect him from those who wanted to kill him. The Muslims and the non-Muslims among them agreed on this: some did it out of family loyalty, and some out of faith and certainty.",
+  "parts": [
+   [
+    "narrator",
+    "When Abu Talib saw what the people were doing, he gathered Banu Abd al-Muttalib and told them to bring the Messenger of {allˈɑːh} , peace be upon him, into their valley and protect him from those who wanted to kill him. The Muslims and the non-Muslims among them agreed on this: some did it out of family loyalty, and some out of faith and certainty."
+   ]
+  ]
+ },
+ {
+  "key": "a3031b8d",
+  "reader": "sheikh",
+  "text": "The idol-worshippers of Quraysh met and agreed not to sit with them, not to trade with them and not to enter their houses, until they handed over the Messenger of Allah ﷺ to be killed. In their plotting they wrote a document of pledges and promises never to accept peace from Banu Hashim and never to show them pity until they handed him over.",
+  "parts": [
+   [
+    "narrator",
+    "The idol-worshippers of {kuɹˈaɪʃ} met and agreed not to sit with them, not to trade with them and not to enter their houses, until they handed over the Messenger of {allˈɑːh} , peace be upon him, to be killed. In their plotting they wrote a document of pledges and promises never to accept peace from Banu {hˈɑːʃim} and never to show them pity until they handed him over."
+   ]
+  ]
+ },
+ {
+  "key": "3613421a",
+  "reader": "sheikh",
+  "text": "Banu Hashim stayed in their valley for three years, and the hardship and strain on them grew severe. Quraysh cut them off from the markets: of the food that came to Makkah and the goods for sale, they let none reach them, but hurried to it first and bought it.",
+  "parts": [
+   [
+    "narrator",
+    "Banu {hˈɑːʃim} stayed in their valley for three years, and the hardship and strain on them grew severe. {kuɹˈaɪʃ} cut them off from the markets: of the food that came to {mˈakka} and the goods for sale, they let none reach them, but hurried to it first and bought it."
+   ]
+  ]
+ },
+ {
+  "key": "545af4bc",
+  "reader": "sheikh",
+  "text": "When people went to bed, Abu Talib would tell the Messenger of Allah ﷺ to lie down on his own bed, so that anyone who meant to harm him by a plot or a sudden attack would see it. Then, when people were asleep, he would tell one of his sons, his brothers or his cousins to lie down on the bed of the Messenger of Allah ﷺ, and tell the Messenger of Allah ﷺ to go to one of their beds and sleep there.",
+  "parts": [
+   [
+    "narrator",
+    "When people went to bed, Abu Talib would tell the Messenger of {allˈɑːh} , peace be upon him, to lie down on his own bed, so that anyone who meant to harm him by a plot or a sudden attack would see it. Then, when people were asleep, he would tell one of his sons, his brothers or his cousins to lie down on the bed of the Messenger of {allˈɑːh} , peace be upon him,, and tell the Messenger of {allˈɑːh} , peace be upon him, to go to one of their beds and sleep there."
+   ]
+  ]
+ },
+ {
+  "key": "411ef4a5",
+  "reader": "sheikh",
+  "text": "At the end of three years, men of Banu Abd Manaf, of Qusayy, and others of Quraysh whose mothers were from Banu Hashim, began to blame one another. They saw that they had cut the ties of kinship and made light of what was right. That same night they agreed to break the treacherous pact they had made, and to free themselves of it.",
+  "parts": [
+   [
+    "narrator",
+    "At the end of three years, men of Banu Abd Manaf, of Qusayy, and others of {kuɹˈaɪʃ} whose mothers were from Banu {hˈɑːʃim}, began to blame one another. They saw that they had cut the ties of kinship and made light of what was right. That same night they agreed to break the treacherous pact they had made, and to free themselves of it."
+   ]
+  ]
+ },
+ {
+  "key": "8b7d04da",
+  "reader": "sheikh",
+  "text": "And Allah sent the termite against their document, and it ate away every pledge and promise in it.",
+  "parts": [
+   [
+    "narrator",
+    "And {allˈɑːh} sent the termite against their document, and it ate away every pledge and promise in it."
+   ]
+  ]
+ },
+ {
+  "key": "8bec1f49",
+  "reader": "sheikh",
+  "text": "Muhammad ibn Ishaq said: Khadija and Abu Talib died in the same year.",
+  "parts": [
+   [
+    "narrator",
+    "{muhˈammad} {ˈibn} {ishˈɑːk} said: {xadˈiːdʒa} and Abu Talib died in the same year."
+   ]
+  ]
+ },
+ {
+  "key": "c4c551cb",
+  "reader": "sheikh",
+  "text": "[He ﷺ said:] “Quraysh did nothing to me that I disliked until Abu Talib died.”",
+  "parts": [
+   [
+    "narrator",
+    "[He , peace be upon him, said:] “{kuɹˈaɪʃ} did nothing to me that I disliked until Abu Talib died.”"
+   ]
+  ]
+ },
+ {
+  "key": "b2e51651",
+  "reader": "sheikh",
+  "text": "When Abu Talib died, Quraysh did harm to the Messenger of Allah ﷺ that they had never done in his uncle Abu Talib’s lifetime. So the Messenger of Allah ﷺ went out to al-Taʾif, seeking help and protection from Thaqif against his people, and hoping they would accept from him what he brought them from Allah, Most High. He went out to them alone.",
+  "parts": [
+   [
+    "narrator",
+    "When Abu Talib died, {kuɹˈaɪʃ} did harm to the Messenger of {allˈɑːh} , peace be upon him, that they had never done in his uncle Abu Talib’s lifetime. So the Messenger of {allˈɑːh} , peace be upon him, went out to al-Taif, seeking help and protection from {θakˈiːf} against his people, and hoping they would accept from him what he brought them from {allˈɑːh}, Most High. He went out to them alone."
+   ]
+  ]
+ },
+ {
+  "key": "0703e909",
+  "reader": "sheikh",
+  "text": "They did not do as he asked. They set their foolish ones and their slaves on him, insulting him and shouting at him, until people gathered round him and drove him to a walled garden belonging to Utba ibn Rabia and Shayba ibn Rabia, who were in it. The foolish ones of Thaqif who had followed him turned back, and he went to the shade of a grapevine and sat in it.",
+  "parts": [
+   [
+    "narrator",
+    "They did not do as he asked. They set their foolish ones and their slaves on him, insulting him and shouting at him, until people gathered round him and drove him to a walled garden belonging to Utba {ˈibn} Rabia and Shayba {ˈibn} Rabia, who were in it. The foolish ones of {θakˈiːf} who had followed him turned back, and he went to the shade of a grapevine and sat in it."
+   ]
+  ]
+ },
+ {
+  "key": "a5716a4f",
+  "reader": "sheikh",
+  "text": "[Ibn Abbas said:] The Prophet ﷺ was sent at the age of forty. He stayed thirteen years [in Makkah] receiving revelation, then he was commanded to emigrate, and he lived as an emigrant for ten years. He died at the age of sixty-three.",
+  "parts": [
+   [
+    "narrator",
+    "[{ˈibn} Abbas said:] The Prophet , peace be upon him, was sent at the age of forty. He stayed thirteen years [in {mˈakka}] receiving revelation, then he was commanded to emigrate, and he lived as an emigrant for ten years. He died at the age of sixty-three."
+   ]
+  ]
+ },
+ {
+  "key": "fc8c12a9",
+  "reader": "sheikh",
+  "text": "His Hijrah, peace be upon him, was in the month of Rabi al-Awwal, in the thirteenth year after he was sent, and it was on a Monday.",
+  "parts": [
+   [
+    "narrator",
+    "His Hijrah, peace be upon him, was in the month of Rabi al-Awwal, in the thirteenth year after he was sent, and it was on a Monday."
+   ]
+  ]
+ },
+ {
+  "key": "995edbcc",
+  "reader": "sheikh",
+  "text": "When Abu Bakr had asked the Messenger of Allah ﷺ for permission to emigrate, he had said to him: “Do not hurry. Perhaps Allah will give you a companion.” Abu Bakr hoped that the Messenger of Allah ﷺ meant himself, so he bought two riding camels and kept them at his house, feeding them to be ready for it.",
+  "parts": [
+   [
+    "narrator",
+    "When Abu Bakr had asked the Messenger of {allˈɑːh} , peace be upon him, for permission to emigrate, he had said to him: “Do not hurry. Perhaps {allˈɑːh} will give you a companion.” Abu Bakr hoped that the Messenger of {allˈɑːh} , peace be upon him, meant himself, so he bought two riding camels and kept them at his house, feeding them to be ready for it."
+   ]
+  ]
+ },
+ {
+  "key": "846fbfd3",
+  "reader": "sheikh",
+  "text": "Al-Waqidi said: he bought them for eight hundred dirhams.",
+  "parts": [
+   [
+    "narrator",
+    "Al-Waqidi said: he bought them for eight hundred dirhams."
+   ]
+  ]
+ },
+ {
+  "key": "bc80c2b8",
+  "reader": "sheikh",
+  "text": "Then he said: “O Prophet of Allah, these are two camels I had made ready for this.” They hired Abdullah ibn Arqat (Ibn Hisham says he is also called Abdullah ibn Urayqit), a man of Banu al-Duʾil ibn Bakr whose mother was from Banu Sahm ibn Amr. He was an idol-worshipper, and he was to show them the road. They handed their two camels to him, and he kept them, grazing them, until the time they had agreed.",
+  "parts": [
+   [
+    "narrator",
+    "Then he said: “O Prophet of {allˈɑːh}, these are two camels I had made ready for this.” They hired Abdullah {ˈibn} Arqat ({ˈibn} Hisham says he is also called Abdullah {ˈibn} Urayqit), a man of Banu al-Duil {ˈibn} Bakr whose mother was from Banu Sahm {ˈibn} Amr. He was an idol-worshipper, and he was to show them the road. They handed their two camels to him, and he kept them, grazing them, until the time they had agreed."
+   ]
+  ]
+ },
+ {
+  "key": "e50f3f80",
+  "reader": "sheikh",
+  "text": "As for Ali, the Messenger of Allah ﷺ told him to stay behind and give back, on behalf of the Messenger of Allah ﷺ, the things people had left in his keeping. There was no one in Makkah who had something he feared for but left it with him, because they knew his truthfulness and his trustworthiness.",
+  "parts": [
+   [
+    "narrator",
+    "As for Ali, the Messenger of {allˈɑːh} , peace be upon him, told him to stay behind and give back, on behalf of the Messenger of {allˈɑːh} , peace be upon him,, the things people had left in his keeping. There was no one in {mˈakka} who had something he feared for but left it with him, because they knew his truthfulness and his trustworthiness."
+   ]
+  ]
+ },
+ {
+  "key": "6e0caf7b",
+  "reader": "sheikh",
+  "text": "When the Messenger of Allah ﷺ had made up his mind [to leave], he came to Abu Bakr ibn Abi Quhafa, and the two of them went out through a small door at the back of Abu Bakr’s house.",
+  "parts": [
+   [
+    "narrator",
+    "When the Messenger of {allˈɑːh} , peace be upon him, had made up his mind [to leave], he came to Abu Bakr {ˈibn} Abi Quhafa, and the two of them went out through a small door at the back of Abu Bakr’s house."
+   ]
+  ]
+ },
+ {
+  "key": "cee36678",
+  "reader": "sheikh",
+  "text": "Asmaʾ bint Abi Bakr, may Allah be pleased with her, would bring them food in the evening, what they needed.",
+  "parts": [
+   [
+    "narrator",
+    "Asma bint Abi Bakr, may {allˈɑːh} be pleased with her, would bring them food in the evening, what they needed."
+   ]
+  ]
+ },
+ {
+  "key": "2f1f1592",
+  "reader": "sheikh",
+  "text": "[Abu Bakr] said: I said to the Prophet ﷺ while we were in the cave: “If one of them looked down at his feet, he would see us beneath his feet.” He said: “O Abu Bakr, what do you think of two, when Allah is their third?”",
+  "parts": [
+   [
+    "narrator",
+    "[Abu Bakr] said: I said to the Prophet , peace be upon him, while we were in the cave: “If one of them looked down at his feet, he would see us beneath his feet.” He said: “O Abu Bakr, what do you think of two, when {allˈɑːh} is their third?”"
+   ]
+  ]
+ },
+ {
+  "key": "782e4346",
+  "reader": "sheikh",
+  "text": "This is not impossible for the Mighty Power, but it has not come with any chain, strong or weak, and we do not affirm anything on our own account.",
+  "parts": [
+   [
+    "narrator",
+    "This is not impossible for the Mighty Power, but it has not come with any chain, strong or weak, and we do not affirm anything on our own account."
+   ]
+  ]
+ },
+ {
+  "key": "b062383f",
+  "reader": "sheikh",
+  "text": "The Messenger of Allah ﷺ met al-Zubayr with a party of Muslims, merchants on their way back from al-Sham [to Makkah], and al-Zubayr gave the Messenger of Allah ﷺ and Abu Bakr white clothes to wear.",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, met al-Zubayr with a party of Muslims, merchants on their way back from al-Sham [to {mˈakka}], and al-Zubayr gave the Messenger of {allˈɑːh} , peace be upon him, and Abu Bakr white clothes to wear."
+   ]
+  ]
+ },
+ {
+  "key": "d7275aa0",
+  "reader": "sheikh",
+  "text": "Abu Bakr stood to greet the people, and the Messenger of Allah ﷺ sat in silence. Those of the Ansar who came and had never seen the Messenger of Allah ﷺ began greeting Abu Bakr, until the sun reached the Messenger of Allah ﷺ and Abu Bakr came and shaded him with his cloak. Then the people knew which one was the Messenger of Allah ﷺ.",
+  "parts": [
+   [
+    "narrator",
+    "Abu Bakr stood to greet the people, and the Messenger of {allˈɑːh} , peace be upon him, sat in silence. Those of the Ansar who came and had never seen the Messenger of {allˈɑːh} , peace be upon him, began greeting Abu Bakr, until the sun reached the Messenger of {allˈɑːh} , peace be upon him, and Abu Bakr came and shaded him with his cloak. Then the people knew which one was the Messenger of {allˈɑːh} , peace be upon him,."
+   ]
+  ]
+ },
+ {
+  "key": "d5ab4093",
+  "reader": "sheikh",
+  "text": "The Messenger of Allah ﷺ stayed among Banu Amr ibn Awf for some ten-odd nights. He founded the mosque that was founded on taqwa, and the Messenger of Allah ﷺ prayed in it.",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, stayed among Banu Amr {ˈibn} Awf for some ten-odd nights. He founded the mosque that was founded on taqwa, and the Messenger of {allˈɑːh} , peace be upon him, prayed in it."
+   ]
+  ]
+ },
+ {
+  "key": "96e64905",
+  "reader": "sheikh",
+  "text": "The Messenger of Allah ﷺ began carrying the mud bricks with them as they built it, saying as he carried them: “This load is not the load of Khaybar: this, our Lord, is more righteous and purer.” And he said: “O Allah, the reward is the reward of the Hereafter, so have mercy on the Ansar and the Muhajirun.”",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, began carrying the mud bricks with them as they built it, saying as he carried them: “This load is not the load of Khaybar: this, our Lord, is more righteous and purer.” And he said: “O {allˈɑːh}, the reward is the reward of the Hereafter, so have mercy on the Ansar and the Muhajirun.”"
+   ]
+  ]
+ },
+ {
+  "key": "421decd4",
+  "reader": "sheikh",
+  "text": "[Ibn Umar said] that in the time of the Messenger of Allah ﷺ the mosque was built of mud bricks, its roof was of palm branches, and its pillars were palm trunks.",
+  "parts": [
+   [
+    "narrator",
+    "[{ˈibn} Umar said] that in the time of the Messenger of {allˈɑːh} , peace be upon him, the mosque was built of mud bricks, its roof was of palm branches, and its pillars were palm trunks."
+   ]
+  ]
+ },
+ {
+  "key": "6a6ef5d6",
+  "reader": "sheikh",
+  "text": "[Anas said:] The Prophet ﷺ made a pact of brotherhood between the Muhajirun and the Ansar in our house.",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] The Prophet , peace be upon him, made a pact of brotherhood between the Muhajirun and the Ansar in our house."
+   ]
+  ]
+ },
+ {
+  "key": "82f73c94",
+  "reader": "sheikh",
+  "text": "Abu Bakr and Kharija ibn Zayd al-Khazraji were brothers; Umar ibn al-Khattab and Itban ibn Malik were brothers; Abu Ubayda and Sad ibn Muadh were brothers; and Abd al-Rahman ibn Awf and Sad ibn al-Rabi were brothers.",
+  "parts": [
+   [
+    "narrator",
+    "Abu Bakr and Kharija {ˈibn} Zayd al-Khazraji were brothers; Umar {ˈibn} al-Khattab and Itban {ˈibn} Malik were brothers; Abu Ubayda and Sad {ˈibn} Muadh were brothers; and Abd al-Rahman {ˈibn} Awf and Sad {ˈibn} al-Rabi were brothers."
+   ]
+  ]
+ },
+ {
+  "key": "c771485d",
+  "reader": "sheikh",
+  "text": "[Anas said:] Abd al-Rahman ibn Awf came [to Madinah], and the Prophet ﷺ made him a brother of Sad ibn al-Rabi al-Ansari. Sad offered to share his household and his wealth with him, half and half. Abd al-Rahman said: “May Allah bless you in your household and your wealth. Show me the market.” And he made a profit of some dried curd and butter.",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] Abd al-Rahman {ˈibn} Awf came [to Madinah], and the Prophet , peace be upon him, made him a brother of Sad {ˈibn} al-Rabi al-Ansari. Sad offered to share his household and his wealth with him, half and half. Abd al-Rahman said: “May {allˈɑːh} bless you in your household and your wealth. Show me the market.” And he made a profit of some dried curd and butter."
+   ]
+  ]
+ },
+ {
+  "key": "ed67cf1e",
+  "reader": "sheikh",
+  "text": "[He ﷺ said:] “It is a true dream, if Allah wills. Stand with Bilal and teach it to him, and let him call it, for his voice is more beautiful than yours.” When Bilal called it, Umar ibn al-Khattab heard it in his house and came out to the Messenger of Allah ﷺ, dragging his cloak, saying: “O Prophet of Allah, by the One who sent you with the truth, I saw the same as he saw.” The Messenger of Allah ﷺ said: “To Allah be the praise [for that].”",
+  "parts": [
+   [
+    "narrator",
+    "[He , peace be upon him, said:] “It is a true dream, if {allˈɑːh} wills. Stand with {bilˈɑːl} and teach it to him, and let him call it, for his voice is more beautiful than yours.” When {bilˈɑːl} called it, Umar {ˈibn} al-Khattab heard it in his house and came out to the Messenger of {allˈɑːh} , peace be upon him,, dragging his cloak, saying: “O Prophet of {allˈɑːh}, by the One who sent you with the truth, I saw the same as he saw.” The Messenger of {allˈɑːh} , peace be upon him, said: “To {allˈɑːh} be the praise [for that].”"
+   ]
+  ]
+ },
+ {
+  "key": "465687b4",
+  "reader": "sheikh",
+  "text": "The Messenger of Allah ﷺ spent that night praying beside the stump of a tree there, often saying in his prostration “Ya Hayy, ya Qayyum”, O Ever-Living, O Self-Sustaining, repeating it and holding on to it, peace be upon him.",
+  "parts": [
+   [
+    "narrator",
+    "The Messenger of {allˈɑːh} , peace be upon him, spent that night praying beside the stump of a tree there, often saying in his prostration “Ya Hayy, ya Qayyum”, O Ever-Living, O Self-Sustaining, repeating it and holding on to it, peace be upon him."
+   ]
+  ]
+ },
+ {
+  "key": "bbb18ef0",
+  "reader": "sheikh",
+  "text": "Ibn Ishaq said: The Messenger of Allah ﷺ set out to reach the water before them, and when he came to the nearest water of Badr he stopped there.",
+  "parts": [
+   [
+    "narrator",
+    "{ˈibn} {ishˈɑːk} said: The Messenger of {allˈɑːh} , peace be upon him, set out to reach the water before them, and when he came to the nearest water of Badr he stopped there."
+   ]
+  ]
+ },
+ {
+  "key": "6c1dc243",
+  "reader": "sheikh",
+  "text": "I say: the Companions of the Messenger of Allah ﷺ that day were three hundred and thirteen men.",
+  "parts": [
+   [
+    "narrator",
+    "I say: the Companions of the Messenger of {allˈɑːh} , peace be upon him, that day were three hundred and thirteen men."
+   ]
+  ]
+ },
+ {
+  "key": "53888b9f",
+  "reader": "sheikh",
+  "text": "[al-Baraʾ said:] We used to say that the people of Badr were three hundred and ten-odd, the same number as the companions of Talut who crossed the river with him, and none crossed it with him but a believer.",
+  "parts": [
+   [
+    "narrator",
+    "[al-Bara said:] We used to say that the people of Badr were three hundred and ten-odd, the same number as the companions of Talut who crossed the river with him, and none crossed it with him but a believer."
+   ]
+  ]
+ },
+ {
+  "key": "0ce35b13",
+  "reader": "sheikh",
+  "text": "Al-Bayhaqi said: The well-known view among the writers of the campaigns is that it was on the seventeenth night of the month of Ramadan.",
+  "parts": [
+   [
+    "narrator",
+    "Al-Bayhaqi said: The well-known view among the writers of the campaigns is that it was on the seventeenth night of the month of {ɹamadˈɑːn}."
+   ]
+  ]
+ },
+ {
+  "key": "af60929a",
+  "reader": "sheikh",
+  "text": "[Ibn Abbas said:] Some of the captives on the day of Badr had no ransom, so the Messenger of Allah ﷺ made their ransom that they should teach the children of the Ansar to write.",
+  "parts": [
+   [
+    "narrator",
+    "[{ˈibn} Abbas said:] Some of the captives on the day of Badr had no ransom, so the Messenger of {allˈɑːh} , peace be upon him, made their ransom that they should teach the children of the Ansar to write."
+   ]
+  ]
+ },
+ {
+  "key": "609ad631",
+  "reader": "sheikh",
+  "text": "The correct view is that of the majority: Uhud was in Shawwal of the year three, and the Trench in Shawwal of the year five after the Hijrah.",
+  "parts": [
+   [
+    "narrator",
+    "The correct view is that of the majority: Uhud was in Shawwal of the year three, and the Trench in Shawwal of the year five after the Hijrah."
+   ]
+  ]
+ },
+ {
+  "key": "87440d5d",
+  "reader": "sheikh",
+  "text": "Uhud was named Uhud because it stands alone among those mountains. In the Sahih: “Uhud is a mountain that loves us, and we love it.”",
+  "parts": [
+   [
+    "narrator",
+    "Uhud was named Uhud because it stands alone among those mountains. In the Sahih: “Uhud is a mountain that loves us, and we love it.”"
+   ]
+  ]
+ },
+ {
+  "key": "0c698523",
+  "reader": "sheikh",
+  "text": "The Prophet ﷺ placed a group of archers, put Abdullah ibn Jubayr in command of them, and said: “Do not leave your place. If you see that we have overcome them, do not leave your place. And if you see them overcoming us, do not come down to help us.”",
+  "parts": [
+   [
+    "narrator",
+    "The Prophet , peace be upon him, placed a group of archers, put Abdullah {ˈibn} Jubayr in command of them, and said: “Do not leave your place. If you see that we have overcome them, do not leave your place. And if you see them overcoming us, do not come down to help us.”"
+   ]
+  ]
+ },
+ {
+  "key": "0486870f",
+  "reader": "sheikh",
+  "text": "They began to say: “The spoils! The spoils!” Abdullah said: “The Prophet ﷺ made me promise that you would not leave your place.” But they would not listen.",
+  "parts": [
+   [
+    "narrator",
+    "They began to say: “The spoils! The spoils!” Abdullah said: “The Prophet , peace be upon him, made me promise that you would not leave your place.” But they would not listen."
+   ]
+  ]
+ },
+ {
+  "key": "c3a6ca9d",
+  "reader": "sheikh",
+  "text": "The campaign of the Trench was in Shawwal of the year five after the Hijrah. Ibn Ishaq, Urwa ibn al-Zubayr, Qatada, al-Bayhaqi and many scholars, early and later, stated this.",
+  "parts": [
+   [
+    "narrator",
+    "The campaign of the Trench was in Shawwal of the year five after the Hijrah. {ˈibn} {ishˈɑːk}, Urwa {ˈibn} al-Zubayr, Qatada, al-Bayhaqi and many scholars, early and later, stated this."
+   ]
+  ]
+ },
+ {
+  "key": "1ad61f89",
+  "reader": "sheikh",
+  "text": "When the Messenger of Allah ﷺ heard of them and of what they had agreed on, he had a trench dug around Madinah.",
+  "parts": [
+   [
+    "narrator",
+    "When the Messenger of {allˈɑːh} , peace be upon him, heard of them and of what they had agreed on, he had a trench dug around Madinah."
+   ]
+  ]
+ },
+ {
+  "key": "d39257e8",
+  "reader": "sheikh",
+  "text": "[Anas said:] The Messenger of Allah ﷺ went out to the trench, and there were the Muhajirun and the Ansar digging on a cold morning. They had no slaves to do the work for them. When he saw how tired and hungry they were, he said: “O Allah, the true life is the life of the Hereafter, so forgive the Ansar and the Muhajirun.”",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] The Messenger of {allˈɑːh} , peace be upon him, went out to the trench, and there were the Muhajirun and the Ansar digging on a cold morning. They had no slaves to do the work for them. When he saw how tired and hungry they were, he said: “O {allˈɑːh}, the true life is the life of the Hereafter, so forgive the Ansar and the Muhajirun.”"
+   ]
+  ]
+ },
+ {
+  "key": "2b52fc3f",
+  "reader": "sheikh",
+  "text": "[Anas said:] The Muhajirun and the Ansar began digging the trench around Madinah, carrying the earth on their backs and saying: “We are the ones who have pledged to Muhammad, to hold to Islam as long as we live.” The Prophet ﷺ answered them: “O Allah, there is no good but the good of the Hereafter, so bless the Ansar and the Muhajirun.”",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] The Muhajirun and the Ansar began digging the trench around Madinah, carrying the earth on their backs and saying: “We are the ones who have pledged to {muhˈammad}, to hold to Islam as long as we live.” The Prophet , peace be upon him, answered them: “O {allˈɑːh}, there is no good but the good of the Hereafter, so bless the Ansar and the Muhajirun.”"
+   ]
+  ]
+ },
+ {
+  "key": "e0cfcd9a",
+  "reader": "sheikh",
+  "text": "[al-Baraʾ said:] The Messenger of Allah ﷺ was carrying earth on the day of the Trench, until the dust covered his stomach, saying: “By Allah, without Allah we would not have been guided, nor given charity, nor prayed. So send down calm upon us, and make our feet firm if we meet them. Those people have wronged us; when they wanted to turn us from our faith, we refused.” And he raised his voice with it: “We refused, we refused.”",
+  "parts": [
+   [
+    "narrator",
+    "[al-Bara said:] The Messenger of {allˈɑːh} , peace be upon him, was carrying earth on the day of the Trench, until the dust covered his stomach, saying: “By {allˈɑːh}, without {allˈɑːh} we would not have been guided, nor given charity, nor prayed. So send down calm upon us, and make our feet firm if we meet them. Those people have wronged us; when they wanted to turn us from our faith, we refused.” And he raised his voice with it: “We refused, we refused.”"
+   ]
+  ]
+ },
+ {
+  "key": "57df07cf",
+  "reader": "sheikh",
+  "text": "It was in Dhu al-Qada of the year six, without disagreement.",
+  "parts": [
+   [
+    "narrator",
+    "It was in Dhu al-Qada of the year six, without disagreement."
+   ]
+  ]
+ },
+ {
+  "key": "b5e8b365",
+  "reader": "sheikh",
+  "text": "The Companions of the Messenger of Allah ﷺ had set out with no doubt that they would enter Makkah, because of a dream the Messenger of Allah ﷺ had seen. When they saw the peace and the turning back, and what the Messenger of Allah ﷺ had taken on himself, it weighed on the people so heavily that they were almost overcome.",
+  "parts": [
+   [
+    "narrator",
+    "The Companions of the Messenger of {allˈɑːh} , peace be upon him, had set out with no doubt that they would enter {mˈakka}, because of a dream the Messenger of {allˈɑːh} , peace be upon him, had seen. When they saw the peace and the turning back, and what the Messenger of {allˈɑːh} , peace be upon him, had taken on himself, it weighed on the people so heavily that they were almost overcome."
+   ]
+  ]
+ },
+ {
+  "key": "592db986",
+  "reader": "sheikh",
+  "text": "[He ﷺ said:] “Tonight a surah has been sent down to me that is dearer to me than everything the sun rises on.”",
+  "parts": [
+   [
+    "narrator",
+    "[He , peace be upon him, said:] “Tonight a {sˈuːɹa} has been sent down to me that is dearer to me than everything the sun rises on.”"
+   ]
+  ]
+ },
+ {
+  "key": "3ddc0f56",
+  "reader": "sheikh",
+  "text": "He set out when ten days of Ramadan had passed, and he fasted and the people fasted with him, until at al-Kadid, between Usfan and Amaj, he broke his fast. Then he went on until he stopped at Marr al-Zahran with ten thousand Muslims.",
+  "parts": [
+   [
+    "narrator",
+    "He set out when ten days of {ɹamadˈɑːn} had passed, and he fasted and the people fasted with him, until at al-Kadid, between Usfan and Amaj, he broke his fast. Then he went on until he stopped at Marr al-Zahran with ten thousand Muslims."
+   ]
+  ]
+ },
+ {
+  "key": "223ce9a3",
+  "reader": "sheikh",
+  "text": "“Whoever enters the house of Abu Sufyan is safe” (it was in upper Makkah), “whoever enters the house of Hakim ibn Hizam is safe” (it was in lower Makkah), “and whoever shuts his door is safe.”",
+  "parts": [
+   [
+    "narrator",
+    "“Whoever enters the house of Abu Sufyan is safe” (it was in upper {mˈakka}), “whoever enters the house of Hakim {ˈibn} Hizam is safe” (it was in lower {mˈakka}), “and whoever shuts his door is safe.”"
+   ]
+  ]
+ },
+ {
+  "key": "9c760b51",
+  "reader": "sheikh",
+  "text": "When the Messenger of Allah ﷺ had settled in Makkah and the people were calm, he went out to the House and went round it seven times on his camel, touching the Corner with a crooked stick in his hand. When he had finished going round, he called Uthman ibn Talha and took the key of the Kabah from him. It was opened for him, and he went in.",
+  "parts": [
+   [
+    "narrator",
+    "When the Messenger of {allˈɑːh} , peace be upon him, had settled in {mˈakka} and the people were calm, he went out to the House and went round it seven times on his camel, touching the Corner with a crooked stick in his hand. When he had finished going round, he called Uthman {ˈibn} Talha and took the key of the Kabah from him. It was opened for him, and he went in."
+   ]
+  ]
+ },
+ {
+  "key": "e523ef62",
+  "reader": "sheikh",
+  "text": "… that he, peace be upon him, made Hajj only once from Madinah, and that before it he made three umras.",
+  "parts": [
+   [
+    "narrator",
+    "… that he, peace be upon him, made {hˈadʒ} only once from Madinah, and that before it he made three umras."
+   ]
+  ]
+ },
+ {
+  "key": "89b82c43",
+  "reader": "sheikh",
+  "text": "When he had shown them the law of the Hajj, made it clear and explained it, Allah, Mighty and Majestic, sent down to him while he was standing at Arafa: [al-Maʾida 3].",
+  "parts": [
+   [
+    "narrator",
+    "When he had shown them the law of the {hˈadʒ}, made it clear and explained it, {allˈɑːh}, Mighty and Majestic, sent down to him while he was standing at Arafa: [al-Maida 3]."
+   ]
+  ]
+ },
+ {
+  "key": "c527d274",
+  "reader": "sheikh",
+  "text": "[A man of the Jews said to Umar:] “Commander of the Believers, you recite a verse in your Book which, if it had come down to us Jews, we would have taken that day as a festival.” He said: “Which verse?” He said: “This day I have perfected your religion for you, completed My favour upon you, and chosen Islam as your religion.” Umar said: “By Allah, I know the day it was sent down to the Messenger of Allah ﷺ, and the hour it was sent down: the evening of Arafa, on a Friday.”",
+  "parts": [
+   [
+    "narrator",
+    "[A man of the Jews said to Umar:] “Commander of the Believers, you recite a verse in your Book which, if it had come down to us Jews, we would have taken that day as a festival.” He said: “Which verse?” He said: “This day I have perfected your religion for you, completed My favour upon you, and chosen Islam as your religion.” Umar said: “By {allˈɑːh}, I know the day it was sent down to the Messenger of {allˈɑːh} , peace be upon him,, and the hour it was sent down: the evening of Arafa, on a Friday.”"
+   ]
+  ]
+ },
+ {
+  "key": "6b473bc6",
+  "reader": "sheikh",
+  "text": "… until he came to Arafa and found that a tent had been put up for him at Namira, and he stayed in it. When the sun had passed its height, he asked for al-Qaswaʾ, and she was saddled for him [and he rode]. He came to the bottom of the valley and spoke to the people.",
+  "parts": [
+   [
+    "narrator",
+    "… until he came to Arafa and found that a tent had been put up for him at Namira, and he stayed in it. When the sun had passed its height, he asked for al-Qaswa, and she was saddled for him [and he rode]. He came to the bottom of the valley and spoke to the people."
+   ]
+  ]
+ },
+ {
+  "key": "f6d24c47",
+  "reader": "sheikh",
+  "text": "“Your blood and your property are sacred to you, as sacred as this day of yours, in this month of yours, in this land of yours. Every matter of the time before Islam is put away under my feet.”",
+  "parts": [
+   [
+    "narrator",
+    "“Your blood and your property are sacred to you, as sacred as this day of yours, in this month of yours, in this land of yours. Every matter of the time before Islam is put away under my feet.”"
+   ]
+  ]
+ },
+ {
+  "key": "cf5f985b",
+  "reader": "sheikh",
+  "text": "“And fear Allah concerning women, for you have taken them as a trust from Allah.”",
+  "parts": [
+   [
+    "narrator",
+    "“And fear {allˈɑːh} concerning women, for you have taken them as a trust from {allˈɑːh}.”"
+   ]
+  ]
+ },
+ {
+  "key": "2fa5232b",
+  "reader": "sheikh",
+  "text": "“I have left among you something after which you will not go astray if you hold fast to it: the Book of Allah. And you will be asked about me, so what will you say?” They said: “We bear witness that you have conveyed the message, given sincere counsel and done your duty.” He raised his forefinger to the sky and pointed it at the people: “O Allah, bear witness. O Allah, bear witness”, three times.",
+  "parts": [
+   [
+    "narrator",
+    "“I have left among you something after which you will not go astray if you hold fast to it: the Book of {allˈɑːh}. And you will be asked about me, so what will you say?” They said: “We bear witness that you have conveyed the message, given sincere counsel and done your duty.” He raised his forefinger to the sky and pointed it at the people: “O {allˈɑːh}, bear witness. O {allˈɑːh}, bear witness”, three times."
+   ]
+  ]
+ },
+ {
+  "key": "83bcf7ed",
+  "reader": "sheikh",
+  "text": "There is no disagreement that he, peace be upon him, passed away on a Monday.",
+  "parts": [
+   [
+    "narrator",
+    "There is no disagreement that he, peace be upon him, passed away on a Monday."
+   ]
+  ]
+ },
+ {
+  "key": "e4116fe9",
+  "reader": "sheikh",
+  "text": "[Anas said:] The last look I had at the Messenger of Allah ﷺ was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the mushaf. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day.",
+  "parts": [
+   [
+    "narrator",
+    "[Anas said:] The last look I had at the Messenger of {allˈɑːh} , peace be upon him, was on the Monday. He drew back the curtain while the people were praying behind Abu Bakr. I looked at his face, as if it were a page of the {mˈʊshaf}. The people were about to turn, but he signalled to them to stay where they were, and let the curtain fall. He passed away at the end of that day."
+   ]
+  ]
+ },
+ {
+  "key": "4c2a7391",
+  "reader": "sheikh",
+  "text": "Al-Siddiq gave a speech in the first place he stood after the passing of the Messenger of Allah ﷺ, and said: “O people, whoever worshipped Muhammad, Muhammad has died. And whoever worships Allah, Allah is Ever-Living and does not die.”",
+  "parts": [
+   [
+    "narrator",
+    "Al-Siddiq gave a speech in the first place he stood after the passing of the Messenger of {allˈɑːh} , peace be upon him,, and said: “O people, whoever worshipped {muhˈammad}, {muhˈammad} has died. And whoever worships {allˈɑːh}, {allˈɑːh} is Ever-Living and does not die.”"
    ]
   ]
  }

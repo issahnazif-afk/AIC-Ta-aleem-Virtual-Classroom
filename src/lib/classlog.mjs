@@ -166,3 +166,14 @@ export async function voiceClip(id) {
 export const voiceCheck = (password) => post({ action: 'voice-check', password }).catch(() => ({ ok: false, error: 'network' }));
 export const voiceSave = (b) => post({ action: 'voice-save', ...b }, { timeout: 60000 }).catch(() => ({ ok: false, error: 'network' }));
 export const voiceDelete = (b) => post({ action: 'voice-delete', ...b }).catch(() => ({ ok: false, error: 'network' }));
+
+// Talking with the Sheikh: an AI model (on the class server) chooses which of his library lines answer what the
+// student said (apps-script/Code.gs, sheikhTalk). Off in demo mode, and until the school adds its AI key.
+export async function sheikhOn() {
+  if (isDemo()) return false;
+  try { return !!(await post({ action: 'sheikh-on' }, { timeout: 8000 })).on; } catch { return false; }
+}
+export async function sheikhTalk({ token, phase, question, options, said, recent }) {
+  if (isDemo()) return { ok: false, error: 'off' };
+  try { return await post({ action: 'sheikh-talk', token, phase, question, options, said, recent }, { timeout: 15000 }); } catch { return { ok: false, error: 'network' }; }
+}

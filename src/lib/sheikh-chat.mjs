@@ -22,6 +22,12 @@
 // He speaks with a recorded human voice (an older man; see allSpoken below), and the student can answer him out loud:
 // after each question he listens (the browser's speech recognition, English), and what the student says is matched
 // to one of the answers (src/lib/listen-en.mjs). The answers are always there to tap as well.
+//
+// When the class server has an AI key (think, below), he also understands answers in the student's own words, and
+// before the recitation the student can ask him anything. An AI model chooses his reply from his library
+// (src/lib/sheikh-library.mjs): everyday lines and quotations from the site's checked sources, all recorded in his
+// voice. The model can only choose ids from that library, so he never says anything that is not in it.
+//   think: { on() → Promise<boolean>, talk({ phase, question, options, said, recent }) → Promise<{ ok, answer, say }> }
 
 import { VOICES, clipKey } from './narration-text.mjs';
 import { canListen, listen, matchReply } from './listen-en.mjs';
@@ -192,7 +198,7 @@ const KNOW = [
 // aloud must be known when the site is built. Where the screen shows something that changes (the student's name, the
 // passage, the exact ayah), he says the same sentence without it. allSpoken() lists every sentence he can say;
 // scripts/voice/narration-list.mjs records each one.
-const spk = (t) => String(t).replace(/As-salamu alaykum/g, 'Assalamu alaykum').replace(/Qur’an/g, 'Quran').replace(/du’a/g, 'dua').replace(/ʿ/g, '');
+export const spk = (t) => String(t).replace(/As-salamu alaykum/g, 'Assalamu alaykum').replace(/Qur’an/g, 'Quran').replace(/du’a/g, 'dua').replace(/ʿ/g, '');
 const L = {
   hello: 'As-salamu alaykum! It is good to see you again.',
   helloNew: 'As-salamu alaykum! I am the Sheikh, and I will listen to your recitation.',
@@ -232,7 +238,13 @@ const L = {
   ready: 'Bismillah. Whenever you are ready.',
   again: 'Sorry, I did not quite catch that. Could you say it again?',
   tap: 'That is all right. You can tap your answer instead.',
+  askMe: 'Before we begin, is there anything you would like to ask me? You can say it, or type it.',
+  anyMore: 'Is there anything else you would like to ask me?',
+  goodQ: 'That is a very good question.',
+  askTeacher: 'I only tell you what I can find in our books, and I do not have an answer for that one. Please ask your teacher or your parents, in sha’ Allah.',
 };
+export const NO_QUESTION = 'No questions, let us begin';
+const ASKED = '(asked)';
 const twoWeeks = (n) => n > 14;
 const S = {
   away: (n) => `I observe you have missed your recitation for ${twoWeeks(n) ? 'more than two weeks' : `${n} days`}. What could be the reason?`,
@@ -283,7 +295,18 @@ const MIC_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" str
 
 // micButton: the classroom's own microphone button, which talks to the Sheikh while the chat is open;
 // onMic(on): told when the Sheikh is listening, so that button can show it
-export function sheikhChat(host, { name = '', mode = 'reading', range, label = 'this passage', progress = {}, onSave, micButton, onMic } = {}) {
+// the Sheikh's library (public/data/sheikh-library.json, made by scripts/sheikh/library.mjs), by id
+let libP = null;
+function libraryById() {
+  libP ??= (async () => {
+    const { u } = await import('./url.mjs');
+    const j = await fetch(u('data/sheikh-library.json')).then((r) => (r.ok ? r.json() : null), () => null);
+    return Object.fromEntries((j?.lines ?? []).map((x) => [x.id, x]));
+  })();
+  return libP;
+}
+
+export function sheikhChat(host, { name = '', mode = 'reading', range, label = 'this passage', progress = {}, onSave, micButton, onMic, think } = {}) {
   return new Promise((resolve) => {
     const m = mind(progress);
     const first = name.split(' ')[0] || 'my student';
@@ -365,6 +388,10 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
       const a = await advice(key);
       if (!a || stopped) return;
       await say(a.intro);
+      await quoteCard(a);
+    }
+    async function quoteCard(a) {
+      if (stopped) return;
       const c = el('div', 'sc-quote');
       if (a.ar) { const ar = el('p', 'sc-quote-ar' + (a.ref.startsWith('Qur') ? ' quran' : ''), a.ar); ar.lang = 'ar'; ar.dir = 'rtl'; c.append(ar); }
       c.append(el('p', 'sc-quote-en', a.en));
@@ -374,18 +401,86 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
       log.append(c); log.scrollTop = log.scrollHeight;
       await talk(a.en);
     }
+
+    // ── his mind: the AI chooses lines from his library (only when the class server has it turned on) ──
+    const mindP = think?.on ? Promise.resolve().then(() => think.on()).then((v) => !!v, () => false) : Promise.resolve(false);
+    let mindOn = false;
+    mindP.then((v) => { mindOn = v; if (v) libraryById(); });
+    const recent = [];
+    async function thinkAbout(phase, question, options, said) {
+      if (!mindOn) return null;
+      const dots = add('sc-sheikh typing', '…');
+      try {
+        const r = await think.talk({ phase, question: spk(question ?? ''), options, said, recent: recent.slice(-12) });
+        if (!r?.ok) return null;
+        const lib = await libraryById();
+        return { answer: Number.isInteger(r.answer) ? r.answer : -1, say: (r.say ?? []).filter((id) => lib[id]) };
+      } catch { return null; } finally { dots.remove(); }
+    }
+    async function sayLines(ids) {
+      const lib = await libraryById();
+      for (const id of ids) {
+        const x = lib[id];
+        if (!x || stopped) continue;
+        recent.push(id);
+        if (x.kind === 'line') await say(x.text);
+        else { await say(x.intro); await quoteCard({ ar: x.ar, en: x.text, ref: x.ref, url: x.url }); }
+      }
+    }
     // the answers as buttons, and the Sheikh listening for the student to say one
-    function choose(options, { go = false } = {}) {
-      return new Promise((r) => {
+    // q: the question he asked (as he said it); ask: the student may ask him anything (choose then resolves to
+    // ASKED once he has replied, or to the one option when they have nothing to ask)
+    const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+    function choose(options, { go = false, q = '', ask = false } = {}) {
+      return new Promise((resolveChoice) => {
+        let typed = null;
+        const r = (v) => { typed?.remove(); resolveChoice(v); };
         replies.replaceChildren();
-        let answered = false, tries = 0, mic = null;
-        const answer = (opt, said) => {
-          if (answered) return; answered = true; listenNow = null;
-          rec?.stop(); rec = null; setMic(false); heard.hidden = true;
-          replies.replaceChildren();
-          if (!go) add('sc-me', said && said.length > 1 ? said.charAt(0).toUpperCase() + said.slice(1) : opt);
+        let answered = false, tries = 0, mic = null, busy = false;
+        const settle = () => { answered = true; listenNow = null; rec?.stop(); rec = null; setMic(false); heard.hidden = true; replies.replaceChildren(); };
+        const answer = async (opt, said, lines = []) => {
+          if (answered) return;
+          settle();
+          if (!go) add('sc-me', said && said.length > 1 ? cap(said) : opt);
+          if (lines.length) await sayLines(lines);
           r(opt);
         };
+        // what the student said that the answer buttons do not cover: the AI chooses his reply.
+        // Returns false when there was no reply (the usual "say it again" follows).
+        async function understand(said, matched) {
+          if (busy || answered || stopped) return true;
+          busy = true;
+          heard.textContent = `“${said}”`;
+          const res = await thinkAbout(ask ? 'question' : 'answer', q, options, said);
+          busy = false;
+          if (answered || stopped) return true;
+          if (!res) {                                        // no reply from the class server
+            if (matched) { answer(matched, said); return true; }
+            if (ask) { settle(); add('sc-me', cap(said)); await say(L.goodQ); await say(L.askTeacher); r(ASKED); return true; }
+            return false;
+          }
+          if (res.answer >= 0 && options[res.answer]) { answer(options[res.answer], said, res.say); return true; }
+          if (matched && !ask) { answer(matched, said, res.say); return true; }
+          if (!res.say.length || res.say.every((id) => id === 'c-again')) return false;
+          if (ask) { settle(); add('sc-me', cap(said)); await sayLines(res.say); r(ASKED); return true; }
+          add('sc-me', cap(said)); heard.hidden = true;      // a reply, then he waits for the answer again
+          await sayLines(res.say);
+          if (!answered && !stopped && autoListen) hear();
+          return true;
+        }
+        if (ask) {                                           // or type the question
+          typed = el('form', 'sc-type');
+          const inp = el('input'); inp.type = 'text'; inp.maxLength = 200; inp.placeholder = 'Type your question'; inp.setAttribute('aria-label', 'Type your question for the Sheikh');
+          const send = el('button', 'sc-reply', 'Ask'); send.type = 'submit';
+          typed.append(inp, send);
+          typed.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const t = inp.value.trim(); if (!t || answered || busy) return;
+            inp.value = ''; rec?.stop();
+            if (!(await understand(t, null)) && !answered) { add('sc-me', cap(t)); await say(L.goodQ); await say(L.askTeacher); settle(); r(ASKED); }
+          });
+          replies.after(typed);
+        }
         for (const text of options) {
           const b = el('button', go ? 'sc-go' : 'sc-reply', text); b.type = 'button';
           b.addEventListener('click', () => answer(text));
@@ -412,8 +507,13 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
           }
           const said = (res.heard ?? [])[0] ?? '';
           const opt = said ? matchReply(res.heard, options) : null;
-          if (opt) return answer(opt, go ? '' : said);
+          const words = said.split(/\s+/).filter(Boolean).length;
+          // a short answer that fits a button is enough; anything longer or unmatched goes to his mind, when it is on
+          if (opt && (go || !mindOn || words <= (ask ? 3 : 5))) return answer(opt, go ? '' : said);
           if (!said) { heard.hidden = true; return; }    // silence: he waits; the student can tap or press the microphone
+          if (mindOn && !go && await understand(said, opt)) return;
+          if (answered || stopped) return;
+          if (opt) return answer(opt, said);
           heard.textContent = `“${said}”`;
           tries++;
           if (tries <= 2) { await say(L.again); if (!answered && !stopped) hear(); }
@@ -430,7 +530,7 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
         replies.querySelector('button')?.focus({ preventScroll: true });
       });
     }
-    async function ask(topic, q, options, aloud = q) { await say(q, aloud); if (stopped) return null; const a = await choose(options); note(m, topic, q, a); onSave?.(); return a; }
+    async function ask(topic, q, options, aloud = q) { await say(q, aloud); if (stopped) return null; const a = await choose(options, { q: aloud }); note(m, topic, q, a); onSave?.(); return a; }
 
     (async () => {
       const obs = observations({ progress, mode, range });
@@ -541,6 +641,17 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
       else if (mode === 'follow') await say(`Today, recite ${label} from memory. I will follow every word, and give you the next word only if you stop.`, L.todayFollow);
       else await say(`Today, read ${label} from the mushaf. I will follow every word.`, L.todayReading);
       if (Math.random() < 0.5) await quote('more');
+      if (stopped) return;
+
+      // 8. anything the student would like to ask him (when his mind is on): up to three questions
+      if (await mindP && !stopped) {
+        await say(L.askMe);
+        for (let i = 0; i < 3 && !stopped; i++) {
+          const a = await choose([NO_QUESTION], { q: i ? L.anyMore : L.askMe, ask: true });
+          if (a !== ASKED || stopped) break;
+          if (i < 2) await say(L.anyMore);
+        }
+      }
       if (stopped) return;
       await say(L.ready);
       onSave?.();

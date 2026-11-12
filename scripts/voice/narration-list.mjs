@@ -90,6 +90,10 @@ for (const ep of EPISODES) for (const s of ep.steps) {
 // The Sheikh's chat before a recitation (src/lib/sheikh-chat.mjs): every sentence he can say, in his own voice
 const { allSpoken } = await import('../../src/lib/sheikh-chat.mjs');
 for (const t of await allSpoken()) add('sheikh', t);
+// and everything in his conversation library (src/lib/sheikh-library.mjs), which the AI chooses from
+const { spk } = await import('../../src/lib/sheikh-chat.mjs');
+const { library } = await import('../../src/lib/sheikh-library.mjs');
+for (const x of await library()) { add('sheikh', spk(x.text)); if (x.intro) add('sheikh', spk(x.intro)); }
 
 const list = [...out.values()];
 fs.writeFileSync(new URL('./narration.json', import.meta.url), JSON.stringify(list, null, 1) + '\n');

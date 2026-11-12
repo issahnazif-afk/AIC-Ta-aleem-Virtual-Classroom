@@ -691,7 +691,7 @@ const levels = [
   <script>
     import { configure, isDemo, login, register, listClasses, setGender, sendSession, flushOutbox } from '../lib/classlog.mjs';
     import { phrase, praiseFor, speak } from '../lib/phrases.mjs';
-    import { getProgress, saveProgress, logGame, logMaze, mazeBoard } from '../lib/classlog.mjs';
+    import { getProgress, saveProgress, logGame, logMaze, mazeBoard, sheikhOn, sheikhTalk } from '../lib/classlog.mjs';
     import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, lookalikes } from '../lib/alifba.mjs';
     import { createLanterns } from '../lib/lanterns.mjs';
     import { LESSONS, GAMES, SPEEDS, STOPS, DUAS, SURAHS, examples, forms, syllable, syllableItems, basketsFor } from '../lib/lessons.mjs';
@@ -1064,7 +1064,9 @@ const levels = [
         const label = s1 === s2 ? `${sname(s1)} ${a1}–${a2}` : `${sname(s1)} ${a1} to ${sname(s2)} ${a2}`;
         await sheikhChat($('stage'), { name: me.name, mode: choice.mode, range: { s1, a1, s2, a2 }, label, progress, onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
           // the classroom's microphone button talks to the Sheikh while the chat is open
-          micButton: $('mic'), onMic: (on) => { $('mic').setAttribute('aria-pressed', String(on)); $('mic-t').textContent = on ? 'Listening' : 'Talk to the Sheikh'; } });
+          micButton: $('mic'), onMic: (on) => { $('mic').setAttribute('aria-pressed', String(on)); $('mic-t').textContent = on ? 'Listening' : 'Talk to the Sheikh'; },
+          // his mind (an AI on the class server choosing from his library), when the school has turned it on
+          think: { on: sheikhOn, talk: (req) => sheikhTalk({ token: me.token, ...req }) } });
         $('mic').setAttribute('aria-pressed', 'false'); $('mic-t').textContent = 'Microphone';
         if ($('s-class').hidden) return;   // the student left the classroom during the chat
       }
