@@ -49,7 +49,7 @@ import Base from '../../../quran/layouts/Base.astro';
     // where to go once signed in: the page they came from (only within the Quran Library)
     const next = (() => {
       const n = new URLSearchParams(location.search).get('next') || '';
-      return n.startsWith(u()) && !n.startsWith(u('signin/')) && !n.startsWith('//') ? n : u();
+      return n.startsWith(u()) && !n.startsWith(u('signin/')) && !n.startsWith('//') ? n : u('app/');
     })();
     if (me()) location.replace(next);
     $('demo-note').hidden = !isDemo();
