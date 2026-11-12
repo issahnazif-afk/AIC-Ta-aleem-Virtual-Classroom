@@ -17,7 +17,8 @@ Read `docs/DESIGN_SYSTEM.md` and follow it. In short:
 Never invent Qur'an text, hadith, translations or scholarly claims. Seerah content comes only from
 `src/data/seerah/sources.json` (Ibn Kathir); run `npm run seerah` after changing it.
 The Sheikh's conversation library (`src/lib/sheikh-library.mjs`) only quotes those checked sources word for word;
-the AI on the class server can only choose ids from it, never write text.
+the on-device model (src/lib/sheikh-local.mjs) and the optional AI on the class server can only choose ids from it,
+never write text. Run `node scripts/sheikh/try.mjs` after changing the library or the matching.
 
 ## Checks
 

@@ -23,10 +23,11 @@
 // after each question he listens (the browser's speech recognition, English), and what the student says is matched
 // to one of the answers (src/lib/listen-en.mjs). The answers are always there to tap as well.
 //
-// When the class server has an AI key (think, below), he also understands answers in the student's own words, and
-// before the recitation the student can ask him anything. An AI model chooses his reply from his library
-// (src/lib/sheikh-library.mjs): everyday lines and quotations from the site's checked sources, all recorded in his
-// voice. The model can only choose ids from that library, so he never says anything that is not in it.
+// He also understands answers in the student's own words, and before the recitation the student can ask him
+// anything. His reply is chosen from his library (src/lib/sheikh-library.mjs): everyday lines and quotations from the
+// site's checked sources, all recorded in his voice, so he never says anything that is not in it. It is chosen by a
+// small free model on the student's own device (src/lib/sheikh-local.mjs), or, when the class server has an AI key
+// (think, below), by that AI, which can likewise only choose ids from the library.
 //   think: { on() → Promise<boolean>, talk({ phase, question, options, said, recent }) → Promise<{ ok, answer, say }> }
 
 import { VOICES, clipKey } from './narration-text.mjs';
@@ -301,7 +302,7 @@ function libraryById() {
   libP ??= (async () => {
     const { u } = await import('./url.mjs');
     const j = await fetch(u('data/sheikh-library.json')).then((r) => (r.ok ? r.json() : null), () => null);
-    return Object.fromEntries((j?.lines ?? []).map((x) => [x.id, x]));
+    return { byId: Object.fromEntries((j?.lines ?? []).map((x) => [x.id, x])), intros: j?.intros ?? {} };
   })();
   return libP;
 }
@@ -402,29 +403,48 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
       await talk(a.en);
     }
 
-    // ── his mind: the AI chooses lines from his library (only when the class server has it turned on) ──
-    const mindP = think?.on ? Promise.resolve().then(() => think.on()).then((v) => !!v, () => false) : Promise.resolve(false);
+    // ── his mind: he chooses his reply from his library ──
+    // With an AI key on the class server, the AI chooses; otherwise a small free model on this device does
+    // (src/lib/sheikh-local.mjs), so nothing the student says leaves the device. Either way every reply is a
+    // recorded line from the library. It starts loading now, while he greets the student.
+    let mindKind = null, local = null;
+    const serverP = think?.on ? Promise.resolve().then(() => think.on()).then((v) => !!v, () => false) : Promise.resolve(false);
+    const mindP = serverP.then(async (server) => {
+      if (server) return 'server';
+      local = await import('./sheikh-local.mjs').then((x) => x.loadLocalMind()).catch(() => null);
+      return local ? 'local' : null;
+    }).then((k) => { mindKind = k; if (k) libraryById(); return !!k; });
     let mindOn = false;
-    mindP.then((v) => { mindOn = v; if (v) libraryById(); });
+    mindP.then((v) => { mindOn = v; });
     const recent = [];
     async function thinkAbout(phase, question, options, said) {
       if (!mindOn) return null;
       const dots = add('sc-sheikh typing', '…');
+      const t0 = Date.now();
       try {
-        const r = await think.talk({ phase, question: spk(question ?? ''), options, said, recent: recent.slice(-12) });
+        const r = mindKind === 'server'
+          ? await think.talk({ phase, question: spk(question ?? ''), options, said, recent: recent.slice(-12) })
+          : { ok: true, ...(await local.think({ phase, options, said, recent: recent.slice(-12) })) };
         if (!r?.ok) return null;
         const lib = await libraryById();
-        return { answer: Number.isInteger(r.answer) ? r.answer : -1, say: (r.say ?? []).filter((id) => lib[id]) };
+        const wait = 650 - (Date.now() - t0);                 // a moment to think, as a person would
+        if (wait > 0) await new Promise((res) => setTimeout(res, wait));
+        return { answer: Number.isInteger(r.answer) ? r.answer : -1, say: (r.say ?? []).filter((id) => lib.byId[id]) };
       } catch { return null; } finally { dots.remove(); }
     }
+    let lastIntro = '';
     async function sayLines(ids) {
       const lib = await libraryById();
       for (const id of ids) {
-        const x = lib[id];
+        const x = lib.byId[id];
         if (!x || stopped) continue;
         recent.push(id);
-        if (x.kind === 'line') await say(x.text);
-        else { await say(x.intro); await quoteCard({ ar: x.ar, en: x.text, ref: x.ref, url: x.url }); }
+        if (x.kind === 'line') { await say(x.text); continue; }
+        // a different opening from last time, so he does not sound the same
+        const opts = (lib.intros[x.kind] ?? [x.intro]).filter((t) => t !== lastIntro);
+        lastIntro = opts[Math.floor(Math.random() * opts.length)] ?? x.intro;
+        await say(lastIntro);
+        await quoteCard({ ar: x.ar, en: x.text, ref: x.ref, url: x.url });
       }
     }
     // the answers as buttons, and the Sheikh listening for the student to say one
@@ -644,7 +664,7 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
       if (stopped) return;
 
       // 8. anything the student would like to ask him (when his mind is on): up to three questions
-      if (await mindP && !stopped) {
+      if (await Promise.race([mindP, new Promise((r) => setTimeout(() => r(false), 6000))]) && !stopped) {
         await say(L.askMe);
         for (let i = 0; i < 3 && !stopped; i++) {
           const a = await choose([NO_QUESTION], { q: i ? L.anyMore : L.askMe, ask: true });

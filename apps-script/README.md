@@ -126,15 +126,22 @@ To remove a row (for example a test run), delete it from the Maze board tab; the
 To switch it on for an existing set-up, paste the new `Code.gs` and make a **New version** of the deployment
 (see *Changing the script later*). Until then the leaderboard says it is not switched on yet.
 
-## Talking with the Sheikh (AI, off until you add a key)
+## Talking with the Sheikh (free on the student's device; optional AI)
 
-Before each recitation the Sheikh chats with the student. Without this setting he understands answers that match
-his buttons ("I'm fine", "my mum", "Surah Yaseen"). With it, he also understands answers in the student's own words,
-and before the recitation he asks "Is there anything you would like to ask me?". The student can speak or type a
+Before each recitation the Sheikh chats with the student. He understands answers in the student's own words, and
+before the recitation he asks "Is there anything you would like to ask me?". The student can speak or type a
 question.
 
-**How he answers.** An AI model (Claude, by Anthropic) reads what the student said and chooses the Sheikh's reply
-from his **library** (`public/data/sheikh-library.json`, made from `src/lib/sheikh-library.mjs`). The model can only
+**Free, with nothing to set up.** By default a small sentence model (all-MiniLM-L6-v2, Apache 2.0, about 23 MB,
+downloaded once by the student's browser) finds the library line closest in meaning to what the student said. It
+runs on the student's own device: nothing they say is sent anywhere, and there is no cost. It quotes a hadith, ayah
+or Ibn Kathir passage only when it clearly answers the question (and Ibn Kathir only for questions the library
+lists); otherwise he says it is a good question for their teacher. `node scripts/sheikh/try.mjs` checks it on 68
+sentences a child might say.
+
+**Optional: an AI model.** For a better understanding of unusual questions, the class server can ask an AI model
+(Claude, by Anthropic) instead. This costs money (see below) and is off until you add a key. The AI reads what the
+student said and chooses the Sheikh's reply from his **library** (`public/data/sheikh-library.json`, made from `src/lib/sheikh-library.mjs`). The model can only
 answer with the ids of library lines: the answer format allows nothing else, so the Sheikh never says words that are
 not in the library. The library holds:
 
@@ -148,7 +155,7 @@ If nothing in the library answers a religious question, he says *"That is a very
 teacher or your parents."* If a student says they are hurt or unsafe, he tells them to talk to their parents or
 teacher today. Every line is recorded in his voice when the site is built.
 
-**Turn it on**
+**Turn the AI on** (not needed for the free version)
 
 1. Make an API key at **console.anthropic.com** (Settings → API keys). Set a monthly spend limit there too
    (Settings → Limits).

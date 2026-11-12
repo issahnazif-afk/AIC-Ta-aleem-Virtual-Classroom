@@ -92,8 +92,9 @@ const { allSpoken } = await import('../../src/lib/sheikh-chat.mjs');
 for (const t of await allSpoken()) add('sheikh', t);
 // and everything in his conversation library (src/lib/sheikh-library.mjs), which the AI chooses from
 const { spk } = await import('../../src/lib/sheikh-chat.mjs');
-const { library } = await import('../../src/lib/sheikh-library.mjs');
-for (const x of await library()) { add('sheikh', spk(x.text)); if (x.intro) add('sheikh', spk(x.intro)); }
+const { library, INTROS } = await import('../../src/lib/sheikh-library.mjs');
+for (const x of await library()) add('sheikh', spk(x.text));
+for (const t of Object.values(INTROS).flat()) add('sheikh', spk(t));
 
 const list = [...out.values()];
 fs.writeFileSync(new URL('./narration.json', import.meta.url), JSON.stringify(list, null, 1) + '\n');

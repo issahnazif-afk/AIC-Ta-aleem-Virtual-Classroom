@@ -41,10 +41,10 @@ export function listen({ onWords, maxMs = 9000, lang = 'en-US' } = {}) {
 
 // The ways a child might say each answer. The answer's own words always count too; a longer phrase that matches
 // beats a shorter one, so "not good" goes to "Not so good" and not to "I am good".
-const SYN = {
+export const SYN = {
   'Alhamdulillah, I am good': ['good', 'fine', 'great', 'well', 'alhamdulillah', 'okay', 'ok', 'happy', 'awesome', 'amazing', 'im good', 'very good'],
   'A little tired': ['tired', 'sleepy', 'exhausted', 'a bit tired', 'little tired'],
-  'Not so good': ['not good', 'not so good', 'not great', 'not well', 'not fine', 'not okay', 'bad', 'sad', 'sick', 'unwell', 'upset', 'ill'],
+  'Not so good': ['not good', 'not so good', 'not great', 'not well', 'not fine', 'not okay', 'bad', 'sad', 'sick', 'unwell', 'upset', 'ill', 'not feeling well', 'my stomach hurts', 'i have a headache', 'i feel sick'],
   'Much better, alhamdulillah': ['better', 'much better', 'good', 'fine', 'great', 'yes', 'yeah', 'alhamdulillah'],
   'Still the same': ['same', 'still', 'not better', 'no', 'not really', 'still tired'],
   'Yes, alhamdulillah': ['yes', 'yeah', 'yep', 'better', 'fine', 'good', 'alhamdulillah'],
@@ -58,7 +58,7 @@ const SYN = {
   'I was busy with school': ['busy', 'school', 'homework', 'exam', 'exams', 'test', 'tests', 'studying'],
   'I forgot': ['forgot', 'forget', 'didnt remember', 'did not remember'],
   'I was unwell': ['sick', 'ill', 'unwell', 'fever', 'cold', 'flu', 'hospital', 'not well', 'poorly', 'doctor'],
-  'I was travelling': ['travel', 'travelling', 'traveling', 'travelled', 'traveled', 'trip', 'holiday', 'vacation', 'visiting', 'away'],
+  'I was travelling': ['travel', 'travelling', 'traveling', 'travelled', 'traveled', 'trip', 'holiday', 'vacation', 'visiting', 'away', 'visited family', 'went to visit', 'went abroad', 'on a plane', 'back home', 'umrah'],
   'I recited with my teacher': ['teacher', 'class', 'madrasa', 'madrasah', 'masjid', 'mosque', 'ustadh', 'ustadha', 'sheikh'],
   'I would rather not say': ['rather not', 'dont want', 'do not want', 'not say', 'private', 'no reason', 'nothing', 'secret'],
   'Going well': ['well', 'good', 'great', 'yes', 'fine', 'going well'],
