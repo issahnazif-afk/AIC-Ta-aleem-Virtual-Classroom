@@ -10,6 +10,7 @@ const sections = [
   { key: 'listen', ar: 'الاستماع', en: 'Listen' },
   { key: 'recite', ar: 'التلاوة', en: 'Recite' },
   { key: 'hifz', ar: 'اختبار الحفظ', en: 'Hifz test' },
+  { key: 'tajweed', ar: 'التجويد', en: 'Learn Tajweed' },
 ];
 ---
 <Base title="Home" app>
@@ -83,6 +84,7 @@ const sections = [
                 {x.key === 'listen' && <><path d="M4 15v-3a8 8 0 0 1 16 0v3"></path><rect x="3" y="14" width="4" height="6" rx="1.5"></rect><rect x="17" y="14" width="4" height="6" rx="1.5"></rect></>}
                 {x.key === 'recite' && <><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"></path></>}
                 {x.key === 'hifz' && <><circle cx="12" cy="9" r="6"></circle><path d="M9 14.5 7 22l5-3 5 3-2-7.5"></path><path d="m9.5 9 1.8 1.8L14.8 7.3"></path></>}
+                {x.key === 'tajweed' && <><rect x="2" y="4" width="20" height="13" rx="1.5"></rect><path d="M6 9.5c1.6-1.2 3.2 1.2 4.8 0M13 9.5h5M6 13h12"></path><path d="M7 17l-2 4M17 17l2 4"></path></>}
               </g>
             </g>
           </svg>
@@ -109,7 +111,6 @@ const sections = [
       </label>
       <a class="rw-learn" id="home-learn" href="#" hidden></a>
       <small id="home-rw-note" hidden></small>
-      <a class="rw-learn" id="home-tajweed" href={u('tajweed/')}>Learn tajweed with the Sheikh ›</a>
     </div>
 
     <nav class="grid" aria-label="More">
@@ -151,7 +152,7 @@ const sections = [
     rwSel.value = rwGet();
     showRw();
     rwSel.addEventListener('change', () => { try { localStorage.setItem('ql-riwayah', JSON.stringify(rwSel.value)); } catch {} showRw(); });
-    const names = [['المصحف', 'Mushaf'], ['الاستماع', 'Listen'], ['التلاوة', 'Recite'], ['اختبار الحفظ', 'Hifz test']];
+    const names = [['المصحف', 'Mushaf'], ['الاستماع', 'Listen'], ['التلاوة', 'Recite'], ['اختبار الحفظ', 'Hifz test'], ['التجويد', 'Learn Tajweed']];
     const stage = document.getElementById('stage');
     const covers = [...stage.querySelectorAll('.cover')];
     const dots = [...document.querySelectorAll('#dots button')];
@@ -188,6 +189,7 @@ const sections = [
         u(`page/${page}/?app=1&listen=1&k=${lr.s}:${lr.a}`),
         u(`practice/?app=1`),
         u(`test/?app=1`),
+        u(`tajweed/?app=1`),
       ][i];
     }
     covers.forEach((c, i) => c.addEventListener('click', async () => {
