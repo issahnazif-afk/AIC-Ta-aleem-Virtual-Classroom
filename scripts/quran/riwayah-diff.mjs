@@ -48,12 +48,15 @@ const NATIVE = {
   qumbul: { file: 'qumbul-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/qumbul/data/QumbulData_v07.json' },
 };
 
+export const fromGitHub = (url) => url.replace('https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/', 'https://raw.githubusercontent.com/fawazahmed0/quran-api/1/');
 async function load(src) {
   const f = path.join(CACHE, src.file);
   if (!fs.existsSync(f)) {
     fs.mkdirSync(CACHE, { recursive: true });
-    const r = await fetch(src.url);
-    if (!r.ok) throw new Error(`${src.url}: ${r.status}`);
+    // jsDelivr refuses some files of the quran-api repository ("package size exceeded"): then GitHub's own copy
+    let r = null;
+    for (const url of [src.url, fromGitHub(src.url)]) { r = await fetch(url).catch(() => null); if (r?.ok) break; }
+    if (!r?.ok) throw new Error(`${src.url}: ${r?.status ?? 'no answer'} (and from GitHub)`);
     fs.writeFileSync(f, await r.text());
   }
   const j = JSON.parse(fs.readFileSync(f, 'utf8'));

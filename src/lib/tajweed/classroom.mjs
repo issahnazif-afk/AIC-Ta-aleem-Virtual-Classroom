@@ -198,6 +198,7 @@ export function startTajweed({ root, aud = 'l4', progKey = 'ql-tjc', exit, start
     const me = newScene(); const t = list[i];
     const rule = t.rules[r % t.rules.length]; const exs = await examplesOf(rule);
     if (me !== scene) return;
+    if (!exs.length) { quiz(i); return; }   // no examples (the build could not make them): straight to the questions
     x = (x + exs.length) % exs.length; const e = exs[x];
     setUrl(`topic=${t.id}&do=mushaf`);
     boardWrap.hidden = true; paper.hidden = false; paper.replaceChildren(); syllabus(i);

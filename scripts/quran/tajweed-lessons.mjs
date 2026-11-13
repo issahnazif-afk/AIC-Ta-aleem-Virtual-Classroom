@@ -19,6 +19,9 @@ const SUK = '[ْۡ]';                 // sukūn (both forms)
 const THROAT = 'ءأإؤئآعحغخه';
 const MAX_WORDS = 12, KEEP = 24;
 
+// the examples are a help, never a reason to stop the site's build: any surprise in the text skips them
+process.on('uncaughtException', (e) => { console.warn(`– Tajweed lessons skipped: ${e.message}`); process.exit(0); });
+let skipped = 0;
 if (!fs.existsSync(path.join(DATA, 'tajweed', '001.json'))) { console.log('– Tajweed lessons skipped (no tajweed text)'); process.exit(0); }
 
 // mark the span of a tajweed class inside a word as the focus
@@ -41,7 +44,7 @@ for (let s = 1; s <= 114; s++) {
   if (!fs.existsSync(file)) continue;
   const j = JSON.parse(fs.readFileSync(file, 'utf8'));
   for (const [a, words] of Object.entries(j)) {
-    if (words.length > MAX_WORDS) continue;
+    if (!Array.isArray(words) || words.length > MAX_WORDS) continue;
     const k = `${s}:${a}`, j30 = s >= 78 || s === 1;
     const P = words.map(strip);
     // the first place a rule is found in the āyah is the example; d lists every word where it is found
@@ -53,7 +56,7 @@ for (let s = 1; s <= 114; s++) {
       hits.set(rule, { k, i, n, w: ws, d: span, j30, ...(t ? { t } : {}) });
     };
     const once = () => true;
-    words.forEach((h, i) => {
+    words.forEach((h, i) => { try {
       const p = P[i], last = i === words.length - 1, next = P[i + 1] ?? '';
       // the sun lām (marked) and the moon lām (a lām with sukūn after the waṣl alif)
       if (h.includes('tj-laam_shamsiyah') && once('shams')) ex('shams', i, 1, { [i]: focusClass(h, 'laam_shamsiyah') });
@@ -77,7 +80,7 @@ for (let s = 1; s <= 114; s++) {
         const endsHere = lastSpan && lastSpan[1] === cls && !/[ء-يٱ]/.test(strip(h.slice(lastSpan.index + lastSpan[0].length)));
         const pair = endsHere && !last && startsWithSpan(words[i + 1], cls);
         if (cross && !pair) continue;
-        if ((rule === 'idgham_g' || rule === 'idgham_n') && !/[نً-ٍ]/.test(strip(h.match(new RegExp(`<span class="tj-${cls}">([^<]*)</span>`))[0]))) continue;
+        if ((rule === 'idgham_g' || rule === 'idgham_n') && !/[نً-ٍ]/.test(strip(h.match(new RegExp(`<span class="tj-${cls}">([^<]*)</span>`))?.[0] ?? ''))) continue;
         if (!once(rule)) continue;
         ex(rule, i, pair ? 2 : 1, pair ? { [i]: focusClass(h, cls, 'last'), [i + 1]: focusClass(words[i + 1], cls) } : { [i]: focusClass(h, cls) });
       }
@@ -88,7 +91,7 @@ for (let s = 1; s <= 114; s++) {
       // the madd
       if (h.includes('tj-madda_normal') && once('madd_t')) ex('madd_t', i, 1, { [i]: focusClass(h, 'madda_normal') });
       if (h.includes('tj-madda_obligatory')) {
-        const mm = /<span class="tj-madda_obligatory">([^<]*)<\/span>(.*)$/.exec(h); const rest = strip(mm[2]).split(' ')[0];
+        const mm = /<span class="tj-madda_obligatory">([^<]*)<\/span>(.*)$/.exec(h); const rest = mm ? strip(mm[2]).split(' ')[0] : '';
         if (/[ءأإؤئ]/.test(rest.slice(0, 2)) && once('muttasil')) ex('muttasil', i, 1, { [i]: focusClass(h, 'madda_obligatory') });
         else if (!rest.replace(/[ً-ْٰ۟-ۭ]/g, '') && !last && /^[وف]?[أإءآ]/.test(next) && once('munfasil')) ex('munfasil', i, 2, { [i]: focusClass(h, 'madda_obligatory', 'last'), [i + 1]: focusPlain(next, next.search(/[أإءآ]/), 1) });
       }
@@ -101,7 +104,7 @@ for (let s = 1; s <= 114; s++) {
       // the pause signs, and Ḥafṣ's saktah (the small sīn)
       { const m = /[ۖۗۚۛۘۙ]/.exec(p); if (m && !last && once('waqf')) ex('waqf', i, 1, { [i]: focusPlain(p, m.index, 1) }, { 'ۘ': 'lazim', 'ۙ': 'la', 'ۚ': 'jaiz', 'ۖ': 'sila', 'ۗ': 'qila', 'ۛ': 'muanaqa' }[m[0]]); }
       { const m = /ۜ/.exec(p); if (m) ex('sakt', i, 1, { [i]: focusPlain(p, m.index - 1, 2) }); }
-    });
+    } catch { skipped++; } });
     for (const [rule, e] of hits) add(rule, e);
   }
 }
@@ -117,4 +120,4 @@ for (const [rule, list] of Object.entries(R)) {
   out[rule] = pick;
 }
 fs.writeFileSync(path.join(DATA, 'tajweed-lessons.json'), JSON.stringify({ rules: out }));
-console.log(`✓ Tajweed lessons: ${Object.entries(out).map(([r, l]) => `${r} ${l.length}${l.filter((x) => x.j30).length ? ` (${l.filter((x) => x.j30).length} short)` : ''}`).join(', ')}`);
+console.log(`✓ Tajweed lessons${skipped ? ` (${skipped} words skipped)` : ''}: ${Object.entries(out).map(([r, l]) => `${r} ${l.length}${l.filter((x) => x.j30).length ? ` (${l.filter((x) => x.j30).length} short)` : ''}`).join(', ')}`);

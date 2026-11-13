@@ -322,7 +322,9 @@ async function readRiwayat() {
   const out = [];
   for (const r of cfg.riwayat ?? []) {
     try {
-      const j = await getJson(`https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/${r.edition}.json`, `rw-${r.id}.json`);
+      // jsDelivr refuses some files of this repository ("package size exceeded"): then GitHub's own copy
+      const j = await getJson(`https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/${r.edition}.json`, `rw-${r.id}.json`, { tries: 2 })
+        .catch(() => getJson(`https://raw.githubusercontent.com/fawazahmed0/quran-api/1/editions/${r.edition}.json`, `rw-${r.id}.json`));
       const bySurah = {};
       for (const v of j.quran) (bySurah[v.chapter] ??= {})[v.verse] = riwayahDisplay(v.text, r.id);
       const n = Object.values(bySurah).reduce((t, x) => t + Object.keys(x).length, 0);

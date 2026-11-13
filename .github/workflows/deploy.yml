@@ -75,6 +75,14 @@ jobs:
           python3 -m pip install --quiet --break-system-packages kokoro-onnx onnxruntime numpy soundfile pyworld scipy "setuptools<81" || python3 -m pip install --quiet kokoro-onnx onnxruntime numpy soundfile pyworld scipy "setuptools<81"
           curl -fsSL --retry 3 https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2 | tar xj -C /tmp
           python3 scripts/voice/make_narration.py /tmp/kokoro-multi-lang-v1_0
+      # keep the new recordings at once, so a later failure in the build does not throw them away
+      - name: Save the narration clips
+        if: steps.narration.outputs.cache-hit != 'true'
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: public/audio/narration
+          key: narration3-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py', 'scripts/voice/kokoro_direct.py') }}
       - name: Build data and site
         env:
           # Settings → Secrets and variables → Actions → Variables → CLASS_LOG_URL
