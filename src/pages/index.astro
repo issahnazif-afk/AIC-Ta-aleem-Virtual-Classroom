@@ -19,6 +19,7 @@ import '../styles/deen.css';
 import '../styles/system.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
+import TajweedRoom from '../components/TajweedRoom.astro';
 import cfg from '../../site.config.mjs';
 import { u } from '../lib/url.mjs';
 
@@ -453,6 +454,9 @@ const levels = [
     </header>
     <div id="kh-root"></div>
   </section>
+
+  <!-- The Tajweed classroom for Levels 3 and 4 (src/lib/tajweed/, loaded when opened) ─── -->
+  <section class="screen tj-screen" id="s-tajweed" hidden aria-label="Tajweed classroom" style="--tjc-top: 0px"><TajweedRoom /></section>
 
   <!-- Play & Make: mazes, word search, snakes and ladders and the other games (src/lib/games/, loaded when opened) ─── -->
   <section class="screen flow" id="s-games" hidden aria-labelledby="gm-h">
@@ -1309,7 +1313,7 @@ const levels = [
       const act = (id) => mine.find((a) => a.id === id);
       const go = (id) => () => { const a = act(id); if (a) openActivity(a); };
       // one family of line icons in muted medallions (src/lib/home-icons.mjs)
-      const ICON_OF = { hifz: 'hifz', reading: 'reading', recite: 'recite', alifba: 'letters', stories: 'stories', library: 'library', tawheed: 'tawheed', prophets: 'prophets', books: 'books', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', days: 'days', detective: 'detective', ayah: 'ayah', match: 'match', journey: 'journey', salah: 'salah', akhlaq: 'akhlaq', 'maze-hijrah': 'mazes', 'maze-tarawih': 'mazes', 'maze-board': 'trophy', seerah: 'seerah', guardians: 'guardians' };
+      const ICON_OF = { hifz: 'hifz', reading: 'reading', recite: 'recite', alifba: 'letters', stories: 'stories', library: 'library', tawheed: 'tawheed', prophets: 'prophets', books: 'books', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', days: 'days', detective: 'detective', ayah: 'ayah', match: 'match', journey: 'journey', salah: 'salah', akhlaq: 'akhlaq', 'maze-hijrah': 'mazes', 'maze-tarawih': 'mazes', 'maze-board': 'trophy', seerah: 'seerah', guardians: 'guardians', tajweed: 'tajweed' };
       const P = (id, title, ar, ic, tone, open, extra = {}) => ({ id, title, ar, icon: homeIcon(ic, tone), open, ...extra });
       const C = (a, tone) => P(a.id, a.title, a.ar, ICON_OF[a.id] ?? 'stories', tone, () => openActivity(a), { text: a.text });
       const games = mine.filter((a) => a.group === 'play' && (!a.suggested || a.suggested.includes(me.level)));
@@ -1429,6 +1433,16 @@ const levels = [
       else if (a.kind === 'books') openBooks();
       else if (a.kind === 'deen') openDeen(a.view);
       else if (a.kind === 'games') openGames(a.game);
+      else if (a.kind === 'tajweed') openTajweed();
+    }
+    // ── the Tajweed classroom (src/lib/tajweed/): Level 3 and Level 4 each have their own course ──
+    let tajweedRun = null;
+    async function openTajweed() {
+      stopSound();
+      const { startTajweed } = await import('../lib/tajweed/classroom.mjs');
+      tajweedRun?.stop();
+      show('s-tajweed');
+      tajweedRun = startTajweed({ root: $('s-tajweed'), aud: me.level >= 4 ? 'l4' : 'l3', progKey: `qc-tajweed-${me.username}`, exit: { label: 'Home', go: () => goHome() } });
     }
     // ── Play & Make (src/lib/games/): loaded only when a game is first opened ──
     let gamesMod = null, gameView = null;

@@ -98,6 +98,9 @@ for (const t of Object.values(INTROS).flat()) add('sheikh', spk(t));
 // the riwāyah classroom (src/quran/lib/riwayat/course.mjs): every topic he teaches and everything he says around it
 const { allLines: riwayahLines } = await import('../../src/quran/lib/riwayat/course.mjs');
 for (const t of riwayahLines()) add('sheikh', t);
+// the tajweed classroom (src/lib/tajweed/course.mjs): every point of every level's course, and the lines around it
+const { allLines: tajweedLines } = await import('../../src/lib/tajweed/course.mjs');
+for (const t of tajweedLines()) add('sheikh', t);
 
 const list = [...out.values()];
 fs.writeFileSync(new URL('./narration.json', import.meta.url), JSON.stringify(list, null, 1) + '\n');

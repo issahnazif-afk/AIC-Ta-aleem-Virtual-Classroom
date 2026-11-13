@@ -38,6 +38,7 @@ const P = {
   match: '<rect x="3.5" y="5" width="8" height="11" rx="1.2" transform="rotate(-8 7.5 10.5)"/><rect x="12.5" y="7" width="8" height="11" rx="1.2" transform="rotate(8 16.5 12.5)"/><path d="m14.6 12.6 1.5 1.5 2.4-2.8"/>',
   journey: '<path d="M4 18c4-1 3-6 8-6s4-5 8-6"/><circle cx="4" cy="18" r="1.4"/><path d="M18 3v5l2.5-1.2L18 5.5"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
+  tajweed: '<rect x="3.5" y="4.5" width="17" height="12" rx="1.2"/><path d="M7 9.5c1.5-1 3 1 4.5 0M13 9.5h4M7 13h10"/><path d="M8 16.5 6.5 20.5M16 16.5l1.5 4"/>',
 };
 // the tones of the medallions (background, icon colour), all from the Ta'aleem palette
 export const TONES = {

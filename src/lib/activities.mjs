@@ -6,7 +6,7 @@
 // An entry with  kind: 'soon'  shows as "Coming soon" until it is ready.
 //
 //   id      unique name
-//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Ta’aleem Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'games' (Play & Make, src/lib/games/) | 'soon'
+//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Ta’aleem Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'games' (Play & Make, src/lib/games/) | 'tajweed' (the Tajweed classroom, src/lib/tajweed/) | 'soon'
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
 //   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs); for 'games': an id in GAMES (src/lib/games/index.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
@@ -36,6 +36,12 @@ export const ACTIVITIES = [
     id: 'recite', worlds: ['quran'], kind: 'recite', mode: 'reading', nocam: true, icon: 'mushaf', group: 'hifz',
     title: 'Recite (no camera)', ar: 'ٱلتِّلَاوَة',
     text: 'Practise on your own: recite from the mushaf with the Sheikh following every word. Only the microphone is used.',
+  },
+  // The Tajweed classroom (src/lib/tajweed/): the Sheikh teaches each rule on the board, shows it in the mushaf, then tests.
+  {
+    id: 'tajweed', worlds: ['quran'], kind: 'tajweed', icon: 'tajweed', group: 'lessons', levels: [3, 4], suggested: [3, 4],
+    title: 'Tajweed with the Sheikh', ar: 'ٱلتَّجْوِيد',
+    text: 'The Sheikh teaches each rule on the board, shows it in the Qur’an, then you practise and answer his questions.',
   },
   {
     id: 'alifba', worlds: ['arabic'], kind: 'alifba', icon: 'lantern', group: 'lessons',
@@ -134,6 +140,7 @@ export const WORLDS = [
 ];
 
 export const ICONS = {
+  tajweed: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><rect x="5" y="9" width="54" height="38" rx="3" fill="#8A5A34"/><rect x="9" y="13" width="46" height="30" rx="2" fill="#22392F"/><text x="32" y="33" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="17" fill="#F6E7B0">نّ مّ</text><path d="M14 38 H50" stroke="#F3F1E8" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M22 47 L18 58 M42 47 L46 58" stroke="#8A5A34" stroke-width="3" stroke-linecap="round"/><rect x="40" y="44" width="9" height="3" rx="1" fill="#F4F2EA"/></svg>',
   beacon: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M0 58 Q16 44 32 50 T64 46 V64 H0 Z" fill="#5CA04A"/><path d="M27 54 L29 22 H35 L37 54 Z" fill="#CFC6B4" stroke="#8A7A5C" stroke-width="1.5"/><path d="M32 6 L39 16 L32 26 L25 16 Z" fill="#FFE08A" stroke="#C9A24A" stroke-width="2"/><g stroke="#F6C64B" stroke-width="2.5" stroke-linecap="round"><path d="M32 2 V0 M44 10 L48 7 M20 10 L16 7 M46 18 H51 M18 18 H13"/></g></svg>',
   prophets: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M0 46 q8 -4 16 0 t16 0 t16 0 t16 0 V64 H0 Z" fill="#4FA9D9"/><path d="M8 36 H56 L50 48 H14 Z" fill="#8A5A33"/><rect x="20" y="24" width="24" height="12" fill="#B07A4A"/><path d="M17 24 L32 15 L47 24 Z" fill="#6B4226"/><circle cx="27" cy="30" r="2.5" fill="#FFE9B0"/><circle cx="37" cy="30" r="2.5" fill="#FFE9B0"/><path d="M48 8 a7 7 0 1 0 6 10 a6 6 0 1 1 -6 -10 Z" fill="#F6C64B"/></svg>',
   tawheed: '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><path d="M32 4 L38 18 L53 13 L47 27 L60 35 L45 39 L48 54 L35 46 L32 60 L29 46 L16 54 L19 39 L4 35 L17 27 L11 13 L26 18 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><circle cx="32" cy="33" r="13" fill="#0E6B4E"/><text x="32" y="40" text-anchor="middle" font-family="KFGQPC Hafs, Amiri, serif" font-size="17" fill="#FBE3A6">أَحَد</text></svg>',

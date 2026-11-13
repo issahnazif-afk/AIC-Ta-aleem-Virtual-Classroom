@@ -1,0 +1,133 @@
+---
+// The Tajweed classroom's room, like the recitation room: the Sheikh at the top left, the chalkboard or the mushaf on
+// the right, the buttons under it. Used by the children's classroom (Levels 3 and 4) and the adults' Quran Library;
+// src/lib/tajweed/classroom.mjs runs it.
+import Sheikh from './Sheikh.astro';
+---
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Kalam:wght@400;700&display=swap" />
+<div class="tjc" data-tjc>
+  <aside class="tjc-left">
+    <div class="tjc-sheikh"><Sheikh /><span class="tjc-tag">Sheikh</span></div>
+    <div class="tjc-bubble" aria-live="polite">
+      <p data-say>Assalāmu ʿalaykum.</p>
+      <button type="button" class="tjc-again" data-again title="Say it again" aria-label="Say it again">↻</button>
+    </div>
+    <section class="tjc-syl" data-syl hidden aria-label="Topics">
+      <h2 data-syl-h></h2>
+      <ol data-topics></ol>
+    </section>
+  </aside>
+  <section class="tjc-right">
+    <div class="tjc-stage">
+      <div class="board" data-board-wrap><div class="board-in" data-board></div><div class="tray" aria-hidden="true"><i></i><i></i></div></div>
+      <div class="paper" data-paper hidden></div>
+    </div>
+    <div class="tjc-dock" data-dock></div>
+  </section>
+</div>
+
+<style is:global>
+  .tjc { display: flex; gap: 18px; padding: 16px clamp(12px, 2vw, 24px) 18px; max-width: 1400px; margin: 0 auto; box-sizing: border-box; height: calc(100dvh - var(--tjc-top, 64px)); min-height: 560px; color: var(--ink); }
+  .tjc-left { flex: 0 1 380px; min-width: 300px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  .tjc-sheikh { position: relative; aspect-ratio: 4 / 3; border-radius: 14px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none; }
+  .tjc-sheikh .sheikh { width: 70%; max-width: none; }
+  .tjc-sheikh .sheikh .sh-bg { fill: #fff; }
+  .tjc-tag { position: absolute; left: 8px; bottom: 8px; background: #fff; color: var(--accent-strong); font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
+  .tjc-bubble { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 40px 12px 14px; min-height: 64px; }
+  .tjc-bubble p { margin: 0; font-size: 15px; line-height: 1.5; }
+  .tjc[data-aud="l3"] .tjc-bubble p { font-size: 17px; }
+  .tjc-again { position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--accent-strong); cursor: pointer; font-size: 16px; }
+  .tjc-syl { flex: 1; min-height: 0; overflow-y: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+  .tjc-syl[hidden] { display: none; }
+  .tjc-syl h2 { font-size: 15px; margin: 2px 4px 8px; }
+  .tjc-syl ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .tjc-syl button { width: 100%; display: flex; gap: 10px; align-items: center; text-align: left; padding: 7px 8px; border-radius: 10px; border: 1px solid transparent; background: none; color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+  .tjc-syl button:hover { border-color: var(--line); }
+  .tjc-syl button[aria-current="step"] { background: var(--accent-soft); border-color: var(--accent); }
+  .tjc-syl .n { width: 24px; height: 24px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent-strong); font-size: 12px; font-weight: 700; }
+  .tjc-syl .ok .n { background: var(--accent); color: var(--accent-ink); }
+  .tjc-right { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+  .tjc-stage { flex: 1; min-height: 0; display: flex; }
+  .tjc-dock { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 44px; }
+  .tjc-dock .grow { flex: 1; }
+  .tjc-dock label { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+  .tjc-dock select { font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--field); background: var(--surface); color: var(--ink); max-width: 210px; }
+
+  /* the chalkboard */
+  .tjc .board { flex: 1; min-width: 0; position: relative; border-radius: 10px; padding: 14px; background: linear-gradient(135deg, #8A5A34, #6B4226 40%, #8A5A34); box-shadow: inset 0 0 0 2px rgba(0,0,0,.25), 0 8px 18px rgba(0,0,0,.18); display: flex; flex-direction: column; }
+  .tjc .board[hidden] { display: none; }
+  .tjc .board-in { flex: 1; min-height: 0; overflow-y: auto; border-radius: 4px; padding: clamp(16px, 2.6vw, 30px); color: #F3F1E8;
+    background-color: #22392F;
+    background-image: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.06), transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(255,255,255,.04), transparent 55%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    box-shadow: inset 0 0 40px rgba(0,0,0,.35); display: flex; flex-direction: column; gap: 10px; }
+  .tjc .tray { height: 10px; margin: 8px 6% -4px; border-radius: 3px; background: #5A3820; position: relative; }
+  .tjc .tray i { position: absolute; top: -5px; width: 34px; height: 7px; border-radius: 3px; background: #F4F2EA; left: 12%; }
+  .tjc .tray i + i { left: 22%; width: 24px; background: #F2D27A; }
+  .tjc .chalk { margin: 0; text-shadow: 0 0 1px rgba(255,255,255,.55), 0 0 6px rgba(255,255,255,.12); line-height: 1.35; }
+  .tjc .chalk.en { font-family: 'Kalam', 'Segoe Print', cursive; font-size: clamp(19px, 2vw, 25px); font-weight: 400; }
+  .tjc .chalk.title-ar { font-family: 'Aref Ruqaa', var(--font-ar-ui), serif; font-size: clamp(30px, 3.4vw, 44px); color: #F6E7B0; text-align: center; direction: rtl; }
+  .tjc .chalk.title-en { font-family: 'Kalam', cursive; font-size: clamp(22px, 2.3vw, 30px); font-weight: 700; color: #F6E7B0; text-align: center; border-bottom: 2px solid rgba(246,231,176,.45); padding-bottom: 6px; margin-bottom: 4px; }
+  .tjc .chalk.q { font-family: 'KFGQPC Hafs', var(--font-quran); font-size: clamp(30px, 3.3vw, 42px); direction: rtl; text-align: center; line-height: 1.9; }
+  .tjc .chalk.bullet::before { content: '•  '; color: #F2D27A; }
+  .tjc .chalk .focus.focus, .tjc .ex-w .focus.focus { color: #F2D27A; border-bottom: 3px solid rgba(242,210,122,.85); }
+  .tjc .write { clip-path: inset(0 100% 0 0); animation: tjc-write var(--dur, 1.2s) steps(var(--steps, 24), end) forwards; }
+  .tjc .write[dir="rtl"], .tjc .write.title-ar, .tjc .write.q { clip-path: inset(0 0 0 100%); }
+  @keyframes tjc-write { to { clip-path: inset(0 0 0 0); } }
+  @media (prefers-reduced-motion: reduce) { .tjc .write { animation: none; clip-path: none; } }
+  .tjc .ex-table { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: center; margin-top: 4px; }
+  .tjc .ex-w { font-family: 'KFGQPC Hafs', var(--font-quran); direction: rtl; text-align: center; font-size: clamp(26px, 2.8vw, 36px); line-height: 1.8; color: #E8EFE9; }
+  .tjc .ex-w [class*="tj-"] { color: inherit; }
+  .tjc .ex-cap { font-family: 'Kalam', cursive; font-size: 20px; color: #F2D27A; }
+  .tjc .chalk-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 6px; }
+  .tjc .chalk-btn { border: 2px dashed rgba(243,241,232,.6); background: rgba(255,255,255,.03); color: #F3F1E8; border-radius: 12px; padding: 12px 14px; text-align: left; cursor: pointer; font: inherit; display: flex; flex-direction: column; gap: 2px; }
+  .tjc .chalk-btn:hover, .tjc .chalk-btn:focus-visible { border-color: #F2D27A; background: rgba(242,210,122,.08); outline: none; }
+  .tjc .chalk-btn .ar { font-family: 'Aref Ruqaa', var(--font-ar-ui), serif; font-size: 26px; color: #F6E7B0; direction: rtl; text-align: right; }
+  .tjc .chalk-btn .en { font-family: 'Kalam', cursive; font-size: 22px; font-weight: 700; }
+  .tjc .chalk-btn .opt { font-family: var(--font-ui); font-size: 18px; font-weight: 600; line-height: 1.35; }
+  .tjc .chalk-btn .opt:lang(ar), .tjc .chalk-btn .opt.ar-opt { font-family: 'KFGQPC Hafs', var(--font-quran); font-size: 30px; direction: rtl; text-align: center; font-weight: 400; }
+  .tjc .chalk-btn small { font-size: 13px; color: #CFD8D1; }
+  .tjc .chalk-btn .bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.15); margin-top: 6px; overflow: hidden; }
+  .tjc .chalk-btn .bar i { display: block; height: 100%; background: #F2D27A; }
+  .tjc .chalk-btn.right { border-color: #8FE3A8; background: rgba(143,227,168,.12); }
+  .tjc .chalk-btn.wrongpick { border-color: #F19A8E; background: rgba(241,154,142,.12); }
+  .tjc .spot { font-family: 'KFGQPC Hafs', var(--font-quran); direction: rtl; text-align: center; font-size: clamp(28px, 3.1vw, 40px); line-height: 2.1; }
+  .tjc .spot button { font: inherit; color: inherit; background: none; border: none; border-radius: 6px; padding: 0 4px; cursor: pointer; }
+  .tjc .spot button:hover { background: rgba(255,255,255,.08); }
+  .tjc .spot button.right { background: rgba(143,227,168,.22); }
+  .tjc .spot button.wrongpick { background: rgba(241,154,142,.22); }
+  .tjc .score { font-family: 'Kalam', cursive; font-size: 40px; color: #F2D27A; text-align: center; margin: 0; }
+  .tjc .stars { text-align: center; font-size: 40px; letter-spacing: 6px; margin: 0; }
+
+  /* the mushaf */
+  .tjc .paper { flex: 1; min-width: 0; overflow-y: auto; background: var(--paper); border: 1px solid var(--paper-line); border-radius: 10px; padding: clamp(14px, 2.4vw, 28px); display: flex; flex-direction: column; gap: 12px; }
+  .tjc .paper[hidden] { display: none; }
+  .tjc .paper .cap { font-size: 13px; font-weight: 600; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .tjc .paper .ay { margin: 0; direction: rtl; text-align: center; line-height: 2.3; color: var(--ink); font-family: 'KFGQPC Hafs', var(--font-quran); font-size: clamp(30px, 3.6vw, 46px); }
+  .tjc .paper .ay .fw { background: var(--mark); border-radius: 10px; padding: 0 6px; }
+  .tjc .paper .ay .focus { text-decoration: underline 3px; text-underline-offset: 14px; }
+  .tjc .paper .ay .focus:not([class*="tj-"]) { color: var(--marker); }
+  .tjc .paper .ay .ok { color: var(--good, #1E7A4C); }
+  .tjc .paper .ay .weak { color: var(--marker); }
+  .tjc .paper .ay .bad { text-decoration: underline wavy #B3261E; }
+  .tjc .paper .rule { text-align: center; font-size: 15px; margin: 0; }
+  .tjc .paper .rule b { color: var(--accent-strong); }
+  .tjc .paper .chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .tjc .paper .chips button { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+  .tjc .paper .chips button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .tjc .paper .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; font-size: 12px; color: var(--muted); }
+  .tjc .paper .legend span::before { content: '●'; margin-right: 4px; color: var(--c); }
+  .tjc .paper .verdict { margin: 0; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--accent); background: var(--surface); }
+
+  @media (max-width: 860px) {
+    .tjc { flex-direction: column; height: auto; min-height: 0; gap: 10px; padding-top: 10px; }
+    .tjc-left { flex: none; min-width: 0; display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: start; }
+    .tjc-sheikh { aspect-ratio: 1; }
+    .tjc-sheikh .sheikh { width: 92%; }
+    .tjc-tag { display: none; }
+    .tjc-syl { display: none; }
+    .tjc-right { flex: none; }
+    .tjc-stage { min-height: 62vh; }
+    .tjc .chalk-btns { grid-template-columns: 1fr; }
+  }
+</style>

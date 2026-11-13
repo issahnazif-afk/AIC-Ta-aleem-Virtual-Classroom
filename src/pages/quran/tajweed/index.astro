@@ -1,0 +1,20 @@
+---
+// The Tajweed classroom for adults: the Sheikh teaches the rules of Ḥafṣ ʿan ʿĀṣim topic by topic on the board, shows
+// each rule in real āyāt with a reciter, has the student practise, and tests them (src/lib/tajweed/).
+import Base from '../../../quran/layouts/Base.astro';
+import TajweedRoom from '../../../components/TajweedRoom.astro';
+---
+<Base title="Tajweed classroom" description="Learn tajweed with the Sheikh: makhārij, the nūn and mīm rules, qalqalah, the madd, the rāʾ and stopping, taught on the board, shown in real āyāt with reciters, practised and tested." active="tajweed">
+  <TajweedRoom />
+  <style is:global>html:has(.tjc) .qbar, html:has(.tjc) .footer { display: none; }</style>
+  <script>
+    import { startTajweed } from '../../../lib/tajweed/classroom.mjs';
+    import { u } from '../../../quran/lib/url.mjs';
+    const q = new URLSearchParams(location.search);
+    startTajweed({
+      root: document.querySelector('[data-tjc]').parentElement, aud: 'adult', progKey: 'ql-tjc',
+      exit: { label: 'Home', go: () => location.assign(u('app/')) },
+      start: { url: true, topic: q.get('topic'), do: q.get('do') },
+    });
+  </script>
+</Base>

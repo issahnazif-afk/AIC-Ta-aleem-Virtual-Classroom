@@ -8,7 +8,7 @@
 
 const ACCOUNT = 'ql-account';
 // the device's ql-* settings that belong to the person (saved to their account, cleared on signing out)
-const MINE = ['bookmarks', 'last-read', 'hifz', 'practice3', 'translation', 'reciter', 'wbw', 'riwayah', 'script', 'reveal', 'spread', 'focus', 'engine', 'paper', 'bold', 'arabic-size', 'theme', 'rwc', 'reciter-warsh', 'reciter-qaloon', 'reciter-doori', 'reciter-soosi', 'reciter-shouba', 'reciter-bazzi'];
+const MINE = ['bookmarks', 'last-read', 'hifz', 'practice3', 'translation', 'reciter', 'wbw', 'riwayah', 'script', 'reveal', 'spread', 'focus', 'engine', 'paper', 'bold', 'arabic-size', 'theme', 'rwc', 'tjc', 'reciter-warsh', 'reciter-qaloon', 'reciter-doori', 'reciter-soosi', 'reciter-shouba', 'reciter-bazzi'];
 
 const serverUrl = () => document.body?.dataset.logUrl || '';
 export const isDemo = () => !serverUrl();
