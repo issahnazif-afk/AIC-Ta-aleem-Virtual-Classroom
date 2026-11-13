@@ -1,6 +1,10 @@
 ---
 import Base from '../../../quran/layouts/Base.astro';
 import { u } from '../../../quran/lib/url.mjs';
+import { getMeta } from '../../../quran/lib/data.mjs';
+import { CLASSROOMS } from '../../../quran/lib/classrooms.mjs';
+const riwayat = [{ id: 'hafs', name: 'Ḥafṣ ʿan ʿĀṣim' }, ...(getMeta().riwayat ?? []).map((r) => ({ id: r.id, name: r.name }))];
+const classrooms = Object.fromEntries(Object.values(CLASSROOMS).map((c) => [c.id, { short: c.short, href: u(`${c.id}/`) }]));
 const sections = [
   { key: 'mushaf', ar: 'المصحف', en: 'Mushaf' },
   { key: 'listen', ar: 'الاستماع', en: 'Listen' },
@@ -34,9 +38,20 @@ const sections = [
     .home-app .dots button { width: 28px; height: 28px; border: none; background: transparent; display: grid; place-items: center; cursor: pointer; }
     .home-app .dots span { display: block; height: 8px; width: 8px; border-radius: 4px; background: rgba(226,194,122,.35); transition: width .2s; }
     .home-app .dots button[aria-current="true"] span { width: 22px; background: #E2C27A; }
-    .home-app .grid { margin-top: auto; padding: 24px 22px 0; width: 100%; max-width: 460px; box-sizing: border-box; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 6px; position: relative; }
+    .home-app .grid { margin-top: auto; padding: 24px 22px 0; width: 100%; max-width: 460px; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 10px; position: relative; }
     .home-app .grid a { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: #F4ECD8; font-size: 13px; }
     .home-app .grid a span { width: 62px; height: 62px; border-radius: 50%; background: #0A2E26; border: 1px solid rgba(226,194,122,.35); display: grid; place-items: center; color: #E2C27A; }
+    .home-app .rw { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 14px; position: relative; width: 100%; padding: 0 16px; box-sizing: border-box; }
+    .home-app .rw-pick { position: relative; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 40px 0 16px; border-radius: 22px; border: 1px solid rgba(226,194,122,.55); background: #0A2E26; color: #F4ECD8; max-width: 100%; box-sizing: border-box; }
+    .home-app .rw-pick:focus-within { outline: 2px solid #E2C27A; outline-offset: 2px; }
+    .home-app .rw-pick .k { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #CDBF9C; flex: none; }
+    .home-app .rw-pick select { appearance: none; -webkit-appearance: none; background: transparent; border: none; color: #F4ECD8; font: inherit; font-size: 15px; font-weight: 600; padding: 0; cursor: pointer; min-width: 0; text-overflow: ellipsis; }
+    .home-app .rw-pick select:focus { outline: none; }
+    .home-app .rw-pick select option { color: #10231C; background: #F4ECD8; }
+    .home-app .rw-pick svg { position: absolute; right: 14px; top: 50%; margin-top: -8px; color: #E2C27A; pointer-events: none; }
+    .home-app .rw-learn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; border-radius: 20px; background: #E2C27A; color: #10231C; font-size: 14px; font-weight: 700; text-decoration: none; }
+    .home-app .rw-learn[hidden] { display: none; }
+    .home-app .rw small { font-size: 12px; color: #B9C9BF; text-align: center; max-width: 340px; }
   </style>
 
   <div class="home-app">
@@ -84,12 +99,23 @@ const sections = [
       {sections.map((x, i) => <button type="button" data-i={i} aria-label={`Show ${x.en}`} aria-current={i === 0 ? 'true' : 'false'}><span></span></button>)}
     </div>
 
+    <div class="rw" id="home-rw-box" data-classrooms={JSON.stringify(classrooms)}>
+      <label class="rw-pick">
+        <span class="k">Riwāyah</span>
+        <select id="home-rw" aria-label="Riwāyah: which reading to continue with">
+          {riwayat.map((r) => <option value={r.id}>{r.name}</option>)}
+        </select>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+      </label>
+      <a class="rw-learn" id="home-learn" href="#" hidden></a>
+      <small id="home-rw-note" hidden></small>
+    </div>
+
     <nav class="grid" aria-label="More">
       <a href="#" id="go-continue"><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span>Continue</a>
       <a href={u('search/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></span>Search</a>
       <a href={u('saved/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"></path></svg></span>Saved</a>
       <a href={u('letters/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19 9 5l5 14M6 14h6"></path><path d="M15 19h5M17.5 11v8"></path></svg></span>Letters</a>
-      <a href={u('warsh/')}><span><svg aria-hidden='true' width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M4 5h7v14H4zM13 5h7v14h-7'></path><path d='M6.5 9h2M15.5 9h2M6.5 12h2M15.5 12h2'></path></svg></span>Warsh</a>
       <a href={u('resources/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span>Resources</a>
       <a href={u('?app=0')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg></span>Website</a>
     </nav>
@@ -107,6 +133,23 @@ const sections = [
       await signOut();
       location.assign(u('signin/'));
     });
+    // the riwāyah: the same setting as the Quran menu's, so the Mushaf and Recite open in it
+    const rwSel = document.getElementById('home-rw');
+    const rwBox = document.getElementById('home-rw-box');
+    const classrooms = JSON.parse(rwBox.dataset.classrooms || '{}');
+    const rwGet = () => { try { const v = JSON.parse(localStorage.getItem('ql-riwayah') || '"hafs"'); return [...rwSel.options].some((o) => o.value === v) ? v : 'hafs'; } catch { return 'hafs'; } };
+    function showRw() {
+      const v = rwSel.value, c = classrooms[v];
+      const learn = document.getElementById('home-learn'), note = document.getElementById('home-rw-note');
+      learn.hidden = !c;
+      if (c) { learn.href = c.href; learn.textContent = `Learn ${c.short} with the Sheikh ›`; }
+      note.hidden = v === 'hafs';
+      note.textContent = 'The Mushaf and Recite follow this riwāyah. Listen and the Hifz test are in Ḥafṣ for now.';
+      document.documentElement.dataset.riwayah = v;
+    }
+    rwSel.value = rwGet();
+    showRw();
+    rwSel.addEventListener('change', () => { try { localStorage.setItem('ql-riwayah', JSON.stringify(rwSel.value)); } catch {} showRw(); });
     const names = [['المصحف', 'Mushaf'], ['الاستماع', 'Listen'], ['التلاوة', 'Recite'], ['اختبار الحفظ', 'Hifz test']];
     const stage = document.getElementById('stage');
     const covers = [...stage.querySelectorAll('.cover')];
