@@ -2,9 +2,9 @@
 import Base from '../../../quran/layouts/Base.astro';
 import { u } from '../../../quran/lib/url.mjs';
 import { getMeta } from '../../../quran/lib/data.mjs';
-import { CLASSROOMS } from '../../../quran/lib/classrooms.mjs';
+import { RIWAYAT } from '../../../quran/lib/riwayat/course.mjs';
 const riwayat = [{ id: 'hafs', name: 'Ḥafṣ ʿan ʿĀṣim' }, ...(getMeta().riwayat ?? []).map((r) => ({ id: r.id, name: r.name }))];
-const classrooms = Object.fromEntries(Object.values(CLASSROOMS).map((c) => [c.id, { short: c.short, href: u(`${c.id}/`) }]));
+const classrooms = { hafs: { short: "", href: u("riwayat/") }, ...Object.fromEntries(Object.entries(RIWAYAT).map(([id, c]) => [id, { short: c.short, href: u(`riwayat/?rw=${id}`) }])) };
 const sections = [
   { key: 'mushaf', ar: 'المصحف', en: 'Mushaf' },
   { key: 'listen', ar: 'الاستماع', en: 'Listen' },
@@ -142,9 +142,9 @@ const sections = [
       const v = rwSel.value, c = classrooms[v];
       const learn = document.getElementById('home-learn'), note = document.getElementById('home-rw-note');
       learn.hidden = !c;
-      if (c) { learn.href = c.href; learn.textContent = `Learn ${c.short} with the Sheikh ›`; }
+      if (c) { learn.href = c.href; learn.textContent = v === "hafs" ? "Learn the other riwāyāt with the Sheikh ›" : `Learn ${c.short} with the Sheikh ›`; }
       note.hidden = v === 'hafs';
-      note.textContent = 'The Mushaf and Recite follow this riwāyah. Listen and the Hifz test are in Ḥafṣ for now.';
+      note.textContent = v === 'qumbul' ? 'The Mushaf, Recite and the Hifz test follow this riwāyah. No recitation of Qunbul is openly available yet, so Listen has no audio.' : 'Everything follows this riwāyah: the Mushaf, Listen, Recite and the Hifz test.';
       document.documentElement.dataset.riwayah = v;
     }
     rwSel.value = rwGet();

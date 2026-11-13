@@ -95,6 +95,9 @@ const { spk } = await import('../../src/lib/sheikh-chat.mjs');
 const { library, INTROS } = await import('../../src/lib/sheikh-library.mjs');
 for (const x of await library()) add('sheikh', spk(x.text));
 for (const t of Object.values(INTROS).flat()) add('sheikh', spk(t));
+// the riwāyah classroom (src/quran/lib/riwayat/course.mjs): every topic he teaches and everything he says around it
+const { allLines: riwayahLines } = await import('../../src/quran/lib/riwayat/course.mjs');
+for (const t of riwayahLines()) add('sheikh', t);
 
 const list = [...out.values()];
 fs.writeFileSync(new URL('./narration.json', import.meta.url), JSON.stringify(list, null, 1) + '\n');

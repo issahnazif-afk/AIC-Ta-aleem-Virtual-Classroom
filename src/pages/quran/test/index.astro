@@ -220,6 +220,7 @@ const meta = getMeta();
       <div class="radio">
         <label><input type="checkbox" id="t-speak" checked style="width:18px;height:18px" /> The Sheikh speaks his instructions aloud, such as «اقرأ» and «حسبك»</label>
       </div>
+      <p class="hint-text" id="t-rw"></p>
       <p class="hint-text">The Quran itself is always recited by the voice you chose. Short instructions use your device’s Arabic voice, if it has one; otherwise they are shown only in the speech bubble.</p>
       <p class="hint-text" id="t-err" role="alert" style="color:#B3261E"></p>
     </form>
@@ -299,6 +300,7 @@ const meta = getMeta();
     import { attachSwipe } from '../../../quran/lib/swipe.mjs';
     import { createLiveCursor } from '../../../quran/lib/livecursor.mjs';
     import { me } from '../../../quran/lib/account.mjs';
+    import { recitersFor, reciterFor, chooseReciter, clipFor, playClip, stopClips, riwayahName } from '../../../quran/lib/rw-audio.mjs';
     // the Sheikh speaks to a brother or a sister (from their account)
     const sister = me()?.gender === 'f';
     const g = (brother, sis) => (sister ? sis : brother);
@@ -322,6 +324,28 @@ const meta = getMeta();
     let phase = 'idle';    // idle | sheikh | answer | stopped | done
     let items = [], flat = [], pos = 0, shownPage = 0, wrongStreak = 0;
     let q = null;
+
+    // ── riwāyah: the one chosen in the Quran menu. Read when a test starts; its text is what the reader is
+    // checked against and shown, and the Sheikh recites it with one of its reciters.
+    const curRw = () => document.documentElement.dataset.riwayah || store.get('riwayah', 'hafs') || 'hafs';
+    let rw = 'hafs';
+    const rwCache = new Map();   // "rw:s" → { "<ayah>": text } (Hafs ayah numbers)
+    async function loadRiwayah(s) {
+      if (rw !== 'hafs' && !rwCache.has(`${rw}:${s}`)) rwCache.set(`${rw}:${s}`, await getJson(`riwayah/${rw}/${pad(s)}.json`).catch(() => null));
+    }
+    // the Sheikh's voice: the reciters of the chosen riwāyah
+    function fillReciters() {
+      const r = curRw();
+      const list = recitersFor(r);
+      const sel = $('t-reciter');
+      sel.replaceChildren(...list.map((x) => { const o = el('option', null, x.name); o.value = x.id; return o; }));
+      if (!list.length) { const o = el('option', null, 'No recordings in this riwāyah'); o.value = ''; sel.append(o); }
+      sel.disabled = !list.length;
+      sel.value = r === 'hafs' ? settings.reciter : (reciterFor(r)?.id ?? '');
+      if (!sel.value && list.length) sel.value = list[0].id;
+      $('t-rw').textContent = `Riwāyah: ${riwayahName(r)} (change it in the Quran menu).`
+        + (list.length ? '' : ' There are no recordings of the Sheikh in this riwāyah yet, so he shows the opening words in writing instead of reciting them.');
+    }
 
     // ── setup ──────────────────────────────────────────────────
     document.querySelectorAll('[data-scope]').forEach((b) => b.addEventListener('click', () => setScope(b.dataset.scope)));
@@ -357,7 +381,12 @@ const meta = getMeta();
       $('setup').hidden = false; $('intro').hidden = false; $('results').hidden = true;
       $('setup').scrollIntoView({ block: 'start' });
     });
-    $('t-reciter').value = settings.reciter;
+    fillReciters();
+    // a different riwāyah: other words to check and other reciters. During a test, start it again in that riwāyah.
+    document.addEventListener('ql:riwayah', () => {
+      fillReciters();
+      if (phase !== 'idle' && phase !== 'done') { stopClips(); voice.pause(); $('setup').requestSubmit(); }
+    });
     if (!SR) $('unsupported').hidden = false;
 
     const radio = (name) => document.querySelector(`input[name="${name}"]:checked`).value;
@@ -367,18 +396,23 @@ const meta = getMeta();
       $('t-err').textContent = '';
       if (!SR) { $('t-err').textContent = 'This browser cannot check speech. Open the page in Chrome, Edge or Safari.'; return; }
       meta ??= await getJson('meta.json');
-      settings.reciter = $('t-reciter').value;
+      rw = curRw();
+      if (rw === 'hafs') settings.reciter = $('t-reciter').value;
+      else if ($('t-reciter').value) chooseReciter(rw, $('t-reciter').value);
+      await loadRiwayah(1);   // its Bismillah
       scopeAyahs = [];
       if (scope === 'surahs') {
         let s1 = Number($('t-s1').value), s2 = Number($('t-s2').value);
         if (s2 < s1) [s1, s2] = [s2, s1];
         for (let s = s1; s <= s2; s++) {
+          await loadRiwayah(s);
           const sura = await getJson(`surah/${pad(s)}.json`);
           for (const ay of sura.ayahs) scopeAyahs.push({ s, sura, ay });
         }
         store.set('hifz', { scope, s1, s2 });
       } else {
         const s = Number(tS.value);
+        await loadRiwayah(s);
         const sura = await getJson(`surah/${pad(s)}.json`);
         let a1 = Math.max(1, parseInt($('t-a1').value, 10) || 1);
         let a2 = Math.min(sura.ayahs.length, parseInt($('t-a2').value, 10) || sura.ayahs.length);
@@ -422,7 +456,10 @@ const meta = getMeta();
       const it = isBism
         ? { s, a: 0, key: `${s}:0`, label: `${sura.en}, Bismillah`, ar: sura.bismillah, page: ay.page }
         : { s, a: ay.a, key: `${s}:${ay.a}`, label: `${sura.en} ${s}:${ay.a}`, ar: ay.ar, page: ay.page };
-      it.words = tokenize(it.ar, it.a ? it.key : null);
+      // other riwāyāt: their own text is what the reader is checked against (already in the riwāyah font's form)
+      const rwText = rw === 'hafs' ? null : isBism ? rwCache.get(`${rw}:1`)?.['1'] : rwCache.get(`${rw}:${s}`)?.[it.a];
+      if (rwText) it.ar = rwText;
+      it.words = tokenize(it.ar, it.a ? it.key : null, { raw: !!rwText });
       it.words.forEach((w, i) => Object.assign(w, { item: it, wi: i, state: 'hidden', page: it.page, mistake: false }));
       return it;
     }
@@ -444,12 +481,13 @@ const meta = getMeta();
     function renderDots() {
       const d = $('dots');
       d.replaceChildren(...questions.map((_, i) => el('span', i < qi ? 'done' : i === qi ? 'now' : '')));
-      $('qcount').textContent = qi >= 0 ? `Question ${qi + 1} of ${questions.length}` : '';
+      $('qcount').textContent = qi >= 0 ? `Question ${qi + 1} of ${questions.length}${rw === 'hafs' ? '' : ` · ${riwayahName(rw)}`}` : '';
     }
 
-    function sheikh(state, ar, en) {
+    // quran: the words are Quran text (shown in the riwāyah's font)
+    function sheikh(state, ar, en, quran = false) {
       $('sheikh').dataset.state = state;
-      if (ar !== undefined) $('say-ar').textContent = ar;
+      if (ar !== undefined) $('say-ar').replaceChildren(quran && rw !== 'hafs' ? el('span', 'rw', ar) : ar);
       if (en !== undefined) $('say-en').textContent = en;
     }
     function status(text, kind = '') {
@@ -522,12 +560,16 @@ const meta = getMeta();
       }
       const k = openingWords(first);
       sheikh('speaking', g('اقرأ من قوله تعالى…', 'اقْرَئِي من قوله تعالى…'), k < first.words.length ? 'Listen to the opening of the ayah.' : 'Listen to the ayah.');
-      const ok = await playAudio(audioUrl(settings.reciter, first.s, first.a), k < first.words.length ? openingShare(first, k) : 1);
+      const share = k < first.words.length ? openingShare(first, k) : 1;
+      const reciter = rw === 'hafs' ? null : reciterFor(rw);
+      const ok = rw === 'hafs' ? await playAudio(audioUrl(settings.reciter, first.s, first.a), share)
+        : reciter && first.a ? await playRw(reciter, first, share) : false;
       if (phase === 'done') return;
       if (!ok) {
-        // if the audio fails, the Sheikh shows the opening words instead
-        sheikh('listening', first.words.slice(0, k).map((w) => w.display).join(' ') + ' …', 'The recitation could not be played, so here are the opening words.');
-        status('The recitation could not be played. Check your connection, or try another voice.', 'bad');
+        // if the audio fails (or this riwāyah has no recordings), the Sheikh shows the opening words instead
+        const none = rw !== 'hafs' && !reciter;
+        sheikh('listening', first.words.slice(0, k).map((w) => w.display).join(' ') + ' …', none ? 'There is no recording in this riwāyah, so here are the opening words.' : 'The recitation could not be played, so here are the opening words.', true);
+        status(none ? `There are no recordings of ${riwayahName(rw)} yet. Read the opening words, then recite from the start of that ayah.` : 'The recitation could not be played. Check your connection, or try another voice.', none ? '' : 'bad');
       }
       if (ok) sheikh('listening', g('تفضّل، اقرأ', 'تفضّلي، اقْرَئِي'), 'Go ahead. Recite that ayah from its start and carry on.');
       if (ok) status('Your turn. Start from the beginning of the ayah you just heard.');
@@ -535,6 +577,17 @@ const meta = getMeta();
       updateCurrent();
       startListening();
       armSilence();
+    }
+    // Other riwāyāt: the āyah's recording by the riwāyah's reciter (often cut from a whole-sūrah file).
+    // With share < 1, stop after that part of it, as playAudio does.
+    async function playRw(reciter, it, share) {
+      const clip = await clipFor(rw, reciter, it.s, it.a).catch(() => null);
+      if (!clip || phase === 'done') return false;
+      if (clip.start == null) return playAudio(clip.url, share);   // one file per āyah (EveryAyah)
+      const end = share < 1 && clip.end ? Math.min(clip.end, clip.start + LEAD + Math.max(0, clip.end - clip.start - LEAD - TAIL) * share + 0.25) : clip.end;
+      voice.onloadedmetadata = voice.onended = voice.onerror = null;
+      try { voice.volume = 1; } catch {}
+      return playClip(voice, { ...clip, end });
     }
     // Play a recitation. With share < 1, stop softly after that part of it (the opening words).
     const LEAD = 0.3, TAIL = 0.3;   // typical silence at the start and end of each ayah file, in seconds
@@ -620,7 +673,7 @@ const meta = getMeta();
     // Lay the page out line by line, exactly as in the printed mushaf (QUL layout).
     async function renderPage(p, animate) {
       const map = new Map(items.map((it) => [it.key, it]));
-      const paper = await buildPaper(p, { getJson, pad, items: map, wordSpan, markerSpan, script: document.documentElement.dataset.script || 'plain' });
+      const paper = await buildPaper(p, { getJson, pad, items: map, wordSpan, markerSpan, script: rw === 'hafs' ? document.documentElement.dataset.script || 'plain' : 'plain', riwayah: rw });
       await swapPaper(paper, animate);
       shownPage = p;
     }
@@ -790,10 +843,10 @@ const meta = getMeta();
       q.stats.prompts++;
       phase = 'sheikh';
       stopListening();
-      sheikh('prompt', w.display, 'The Sheikh gives you the next word.');
+      sheikh('prompt', w.display, 'The Sheikh gives you the next word.', true);
       status('The Sheikh is prompting you with the next word.');
-      // word audio from Quran.com, numbered by word within the ayah
-      const ok = w.item.a ? await playAudio(`https://audio.qurancdn.com/wbw/${pad(w.item.s)}_${pad(w.item.a)}_${pad(w.wi + 1)}.mp3`) : false;
+      // word audio from Quran.com, numbered by word within the ayah (Hafs only: other riwāyāt show the word)
+      const ok = w.item.a && rw === 'hafs' ? await playAudio(`https://audio.qurancdn.com/wbw/${pad(w.item.s)}_${pad(w.item.a)}_${pad(w.wi + 1)}.mp3`) : false;
       if (!ok) await wait(1200);
       accept(1, 'prompt');
       phase = 'answer';
@@ -855,7 +908,7 @@ const meta = getMeta();
     }
     function finishTest() {
       phase = 'done';
-      clearSilence(); stopListening(); voice.pause(); try { speechSynthesis.cancel(); } catch {}
+      clearSilence(); stopListening(); stopClips(); voice.pause(); try { speechSynthesis.cancel(); } catch {}
       if (q && !q.stats) q.stats = { words: 0, first: 0, prompts: 0, help: 0, skipped: true };
       if (q?.stats && q.flat && pos < q.flat.length && !q.stats.skipped) q.stats.ended = true;
       $('exam').hidden = true;
@@ -882,7 +935,9 @@ const meta = getMeta();
       for (const w of weak.slice(0, 50)) {
         const a = el('a');
         a.href = u(`ayah/?k=${w.item.s}:${w.item.a || 1}`);
-        a.append(el('span', 'ar', w.display), el('small', null, w.item.a ? `${w.item.s}:${w.item.a}` : 'Bismillah'));
+        const ar = el('span', 'ar');
+        ar.append(rw === 'hafs' ? w.display : el('span', 'rw', w.display));
+        a.append(ar, el('small', null, w.item.a ? `${w.item.s}:${w.item.a}` : 'Bismillah'));
         list.append(a);
       }
       $('work').hidden = weak.length === 0;

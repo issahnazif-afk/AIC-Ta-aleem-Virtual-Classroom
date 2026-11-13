@@ -29,12 +29,23 @@ const SRC = {
   hafs: { file: 'rw-hafs-kfgqpc.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-quranuthmanihaf.json' },
   warsh: { file: 'rw-warsh.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-quranwarsh.json' },
   qaloon: { file: 'rw-qaloon.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-quranqaloon.json' },
+  doori: { file: 'rw-doori.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-qurandoori.json' },
+  soosi: { file: 'rw-soosi.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-quransoosi.json' },
+  shouba: { file: 'rw-shouba.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-quranshouba.json' },
+  bazzi: { file: 'rw-bazzi.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-quranbazzi.json' },
+  qumbul: { file: 'rw-qumbul.json', url: 'https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/ara-quranqumbul.json' },
 };
 // The KFGQPC original, with the riwāyah's own āyah numbers (the Madanī count: 6214 āyāt). The API copy above is
 // renumbered to the Ḥafṣ (Kūfī) count; the recitations are timed by the riwāyah's own numbers, so each example also
 // gets the riwāyah's own āyah(s).
 const NATIVE = {
   qaloon: { file: 'qaloon-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/qaloon/data/QaloonData_v10.json' },
+  warsh: { file: 'warsh-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/warsh/data/warshData_v10.json' },
+  doori: { file: 'doori-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/doori/data/DooriData_v09.json' },
+  soosi: { file: 'soosi-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/soosi/data/SoosiData09.json' },
+  shouba: { file: 'shouba-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/shouba/data/ShoubaData08.json' },
+  bazzi: { file: 'bazzi-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/bazzi/data/BazziData_v07.json' },
+  qumbul: { file: 'qumbul-native.json', url: 'https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/qumbul/data/QumbulData_v07.json' },
 };
 
 async function load(src) {
@@ -48,7 +59,9 @@ async function load(src) {
   const j = JSON.parse(fs.readFileSync(f, 'utf8'));
   const m = {};
   // the API copy puts a space after the open-tanwīn marks (هُدࣰ ى, مَرَضࣰ ا): joined back, as in the KFGQPC original
-  for (const v of j.quran) m[`${v.chapter}:${v.verse}`] = v.text.replace(/([ࣰ-ࣲ]) ([ىاے])(?=\s|$|[ۖ-ۜ])/g, '$1$2');
+  for (const v of j.quran) m[`${v.chapter}:${v.verse}`] = v.text.replace(/([ࣰ-ࣲ]) ([ىاے])(?=\s|$|[ۖ-ۜ])/g, '$1$2')
+    // the Dūrī and Sūsī copies put a space before an imālah ending (مُوسَ يٰ, سَوَّ ىٰهَا): joined back too
+    .replace(/ ((?:[ىٰ][ً-ٰٟۖ-ۭ]*\S*)|[يا][ً-ٰٟۖ-ۭ]*)(?=\s|$)/g, '$1');
   return m;
 }
 
@@ -64,7 +77,8 @@ const reading = (w) => w.replace(PAUSE, '')
   .replace(/ى/g, 'ي')                                     // ى → ي
   .replace(/ٱ/g, 'ا')                                     // ٱ (waṣl) → ا
   .replace(WASL, 'ا')
-  .replace(/[۪۬۠]/g, '')                             // the Warsh dots are counted apart (marks)
+  .replace(/^([وفبكتل][َِ]?)ا[َُِ](?![ٕٔ])/, '$1ا')       // وَاَلَّذِينَ, فَاَهْجُرْ (the Dūrī and Sūsī copies) = وَٱلَّذِينَ
+  .replace(/[۪ٜ۬۠]/g, '')                             // the dots of imālah / taqlīl are counted apart (marks)
   .replace(/ۡ/g, 'ْ')                                     // two sukūn shapes → one
   .replace(/ࣰ/g, 'ً').replace(/ࣱ/g, 'ٌ').replace(/ࣲ/g, 'ٍ')
   .replace(/ـ/g, '');
@@ -72,9 +86,10 @@ const reading = (w) => w.replace(PAUSE, '')
 const letters = (w) => reading(w).replace(/ٰ/g, 'ا').replace(/ۥ/g, 'و').replace(/ۦ/g, 'ي')
   .replace(/[آأإءؤئٕٔ]/g, 'ء').replace(/[ً-ٟۖ-ۭ]/g, '')
   .replace(/ءا|اء/g, 'ء');
-const hamzaless = (w) => letters(w).replace(/[ءا]/g, '');            // for lining the words up
+// for lining the words up (a mīm or hāʾ joined to a vowel, عَلَيۡهِمُۥ / فِيهِۦ, is still the same word)
+const hamzaless = (w) => letters(w).replace(/[ءا]/g, '').replace(/([هم])[وي]$/, '$1');
 // the Warsh-only dots, not counting the dot on a waṣl alif (only a writing style)
-const marks = (w) => [...w.replace(WASL, '')].filter((c) => /[۪۬۠]/.test(c)).length;
+const marks = (w) => [...w.replace(WASL, '')].filter((c) => /[۪ٜ۬۠]/.test(c)).length;
 // the reading without the marks the two mushafs write differently for the same sound (sukūn, the shaddah of
 // assimilation, small high/low meem and nūn signs): what is left differs only where the reading differs
 // (the vowel on the doubled lām of ٱلَّذِي / ٱلَّتِي, a long ā written as alif or as a small alif, tanwīn of
@@ -102,7 +117,7 @@ const endsSukun = (s) => /[ْۡ]$/.test(s.replace(PAUSE, '').replace(/[ۭۢ]/g, 
 const endsVowel = (s) => /[َُِ]$/.test(s.replace(PAUSE, ''));
 
 // kinds that need the next word too (naql: the hamzah's vowel moves back onto the last letter of this word)
-function kindOf(h, w, wNext, hNext, wPrev, hAfter = hNext) {   // hAfter: the next word even across the āyah's end
+function kindOf(h, w, wNext, hNext, wPrev, hAfter = hNext, hPrev = null) {   // hAfter: the next word even across the āyah's end
   const lh = letters(h), lw = letters(w);
   if (/مُ?ۥ/.test(reading(w)) && /مْ?$/.test(reading(h).replace(/ۢ/g, ''))) return 'mim';
   // two hamzahs in one word, the second eased with an alif put between them (idkhāl, Qālūn): Ḥafṣ ءَأَنذَرۡتَهُمۡ,
@@ -122,6 +137,8 @@ function kindOf(h, w, wNext, hNext, wPrev, hAfter = hNext) {   // hAfter: the ne
   if (endsHamza(h) && !endsHamza(w) && hNext && startsHamza(hNext)) return 'tashil';
   // yāʾ al-iḍāfah opened: Ḥafṣ ـيٓ / ـي, Warsh ـيَ
   if (/ي[ْۡٓ]?$/.test(compose(h)) && /يَ$/.test(compose(w)) && lh === lw) return 'ya';
+  // the hāʾ of “him” joined to a long vowel (ṣilat hāʾ al-kināyah): Ibn Kathīr فِيهِۦ هُدࣰى where Ḥafṣ reads فِيهِ
+  if (/ه(?:ِۦ|ُۥ)ٓ?$/.test(compose(w)) && !/ه(?:ِۦ|ُۥ)ٓ?$/.test(compose(h)) && /ه[ُِ]?[ْۡ]?$/.test(compose(h))) return 'ha';
   // yāʾāt al-zawāʾid: a yāʾ Warsh adds at the end of a word when reading on (written small: ـِۦ)
   // (only the yāʾ added: رِسَالَتَهُۥ / رِسَٰلَٰتِهِۦ is a different word, not an added yāʾ)
   if (/ۦٓ?$/.test(compose(w)) && !/[يۦ]ٓ?$/.test(compose(h)) && lw === lh + 'ي') return 'zawaid';
@@ -132,6 +149,18 @@ function kindOf(h, w, wNext, hNext, wPrev, hAfter = hNext) {   // hAfter: the ne
     const noMadd = (x) => tanwin(plain(x).replace(/[ٓۤ]/g, ''));
     if (madd(h) > madd(w) && noMadd(h) === noMadd(w)
       && (/[ٓۤ][ءأإؤئ]/.test(compose(h)) || (/[ٓۤ][اْۡ]*$/.test(compose(h)) && hAfter && startsHamza(hAfter)))) return 'qasr';
+    // idghām (Abū ʿAmr; al-Sūsī's idghām kabīr): the last letter of the word before merges into this word's first
+    // letter, which the riwāyah's text writes with a shaddah (اِ۬لرَّحِيم مَّلِكِ, قَدْ جِّيتُكُم)
+    // (a shaddah among the first letter's marks, in either order: نَّ / نّ۪)
+    const firstShadda = (x) => /ّ/.test(compose(x).match(/^.([ً-ْٰٜ۪۬]*)/)?.[1] ?? '');
+    // (not where Ḥafṣ shows the same merging by leaving the nūn or tanwīn before it unmarked: مَن يَقُولُ / مَن يَّقُولُ)
+    const bareEnd = (x) => !!x && /(?:ن|[ً-ࣰٍ-ࣲ][اىٰ]?)[ۖ-ۜ]*$/.test(compose(x).replace(/[ۭۢ]/g, ''));
+    if (firstShadda(w) && !firstShadda(h)) return bareEnd(hPrev) ? null : 'idgham';
+    // ...and the word before, whose last letter merged, is no difference of its own (its vowel is just not written)
+    if (wNext && firstShadda(wNext) && hNext && !firstShadda(hNext)) return null;
+    // (likewise at the end of an āyah, merging into the next one: the last letter is written with no vowel at all)
+    const bareLast = (x) => /[ء-يٱ]$/.test(compose(x).replace(PAUSE, '').replace(/[ۭۢ]/g, ''));
+    if (bareLast(w) && !bareLast(h)) return null;
     if (marks(w) > marks(h)) return 'imalah';   // (a dot Ḥafṣ has too, as in تَأۡمَ۬نَّا, is no difference)
     return tanwin(plain(h)) === tanwin(plain(w)) ? null : 'vowels';
   }
@@ -220,14 +249,25 @@ const firstOfNext = (key) => { const [s, a] = key.split(':'); return (H[`${s}:${
 async function riwayah(RW) {
 const W = await load(SRC[RW]);
 const nat = NATIVE[RW] ? await nativeMap(RW, W) : null;
-const diff = {}, count = { mim: 0, naql: 0, qasr: 0, idkhal: 0, ya: 0, zawaid: 0, tashil: 0, ibdal: 0, imalah: 0, letters: 0, vowels: 0, added: 0, dropped: 0 };
+if (nat) {
+  // { "<sūrah>": [[first, last] or 0 for each Ḥafṣ āyah, from āyah 1], ... }; a negative first = the riwāyah's āyah
+  // also holds words of a neighbouring Ḥafṣ āyah (play it once for both)
+  const m = {};
+  for (const [key, v] of Object.entries(nat)) {
+    const [s2, a2] = key.split(':').map(Number);
+    (m[s2] ??= [])[a2 - 1] = v ? [v.exact ? v.n[0] : -v.n[0], v.n[1]] : 0;
+  }
+  fs.mkdirSync(OUT, { recursive: true });
+  fs.writeFileSync(path.join(OUT, `${RW}-map.json`), JSON.stringify(m));
+}
+const diff = {}, count = { idgham: 0, ha: 0, mim: 0, naql: 0, qasr: 0, idkhal: 0, ya: 0, zawaid: 0, tashil: 0, ibdal: 0, imalah: 0, letters: 0, vowels: 0, added: 0, dropped: 0 };
 for (const key of Object.keys(H)) {
   const hw = H[key].split(/\s+/).filter((w) => w && !isPauseOnly(w));
   const ww = (W[key] ?? '').split(/\s+/).filter((w) => w && !isPauseOnly(w));
   const rows = [];
   for (const [a, b] of align(hw, ww)) {
     if (a != null && b != null) {
-      const k = kindOf(hw[a], ww[b], ww.at(b + 1), hw.at(a + 1), b > 0 ? ww.at(b - 1) : null, hw.at(a + 1) ?? firstOfNext(key));
+      const k = kindOf(hw[a], ww[b], ww.at(b + 1), hw.at(a + 1), b > 0 ? ww.at(b - 1) : null, hw.at(a + 1) ?? firstOfNext(key), a > 0 ? hw[a - 1] : null);
       if (k) { rows.push({ i: a, j: b, h: hw[a].replace(PAUSE, ''), w: ww[b].replace(PAUSE, ''), k }); count[k]++; }
     } else if (a != null) { rows.push({ i: a, h: hw[a].replace(PAUSE, ''), w: '', k: 'dropped' }); count.dropped++; }
     else { rows.push({ i: -1, j: b, h: '', w: ww[b].replace(PAUSE, ''), k: 'added' }); count.added++; }
@@ -245,9 +285,15 @@ console.log(`✓ ${RW} differences:`, JSON.stringify(count), Object.keys(diff).l
 // (short āyāt first, one example per Warsh word, then in mushaf order). Both official texts of the āyah go with it,
 // so the classroom shows exactly the words that were compared.
 const INITIALS = new Set(['2:1', '3:1', '7:1', '10:1', '11:1', '12:1', '13:1', '14:1', '15:1', '19:1', '20:1', '26:1', '27:1', '28:1', '29:1', '30:1', '31:1', '32:1', '36:1', '38:1', '40:1', '41:1', '42:1', '42:2', '43:1', '44:1', '45:1', '46:1', '50:1', '68:1']);
-const KINDS = RW === 'qaloon'
-  ? ['qasr', 'idkhal', 'tashil', 'ibdal', 'imalah', 'ya', 'zawaid', 'letters', 'vowels']
-  : ['mim', 'naql', 'ibdal', 'tashil', 'imalah', 'ya', 'zawaid', 'letters', 'vowels'];
+// the lessons of each riwāyah, in teaching order (src/quran/lib/riwayat/<id>.mjs explains each)
+const KINDS = {
+  warsh: ['mim', 'naql', 'ibdal', 'tashil', 'imalah', 'ya', 'zawaid', 'letters', 'vowels'],
+  qaloon: ['qasr', 'idkhal', 'tashil', 'ibdal', 'imalah', 'ya', 'zawaid', 'letters', 'vowels'],
+  doori: ['idgham', 'imalah', 'idkhal', 'tashil', 'ibdal', 'ya', 'zawaid', 'letters', 'vowels'],
+  soosi: ['idgham', 'qasr', 'ibdal', 'imalah', 'idkhal', 'tashil', 'ya', 'letters', 'vowels'],
+  shouba: ['imalah', 'idgham', 'ibdal', 'letters', 'vowels'],
+  bazzi: ['mim', 'ha', 'qasr', 'idgham', 'tashil', 'ibdal', 'ya', 'zawaid', 'letters', 'vowels'],
+}[RW] ?? [];
 const ord = (k) => { const [s, a] = k.split(':').map(Number); return s * 1000 + a; };
 const lessons = {};
 for (const kind of KINDS) {
@@ -270,7 +316,9 @@ for (const kind of KINDS) {
   pick.sort((x, y) => ord(x.key) - ord(y.key));
   lessons[kind] = {
     count: count[kind],
-    examples: pick.map((c) => ({ k: c.key, i: c.i, j: c.j, h: c.h, w: c.w, hafs: H[c.key].replace(PAUSE, '').replace(/\s+/g, ' ').trim(), rw: W[c.key].replace(/[\u200F\u200E]/g, '').replace(/\s+/g, ' ').trim(), ...(nat ? { n: nat[c.key].n[0] } : {}) })),
+    examples: pick.map((c) => ({ k: c.key, i: c.i, j: c.j, h: c.h, w: c.w, hafs: H[c.key].replace(PAUSE, '').replace(/\s+/g, ' ').trim(), rw: W[c.key].replace(/[\u200F\u200E]/g, '').replace(/\s+/g, ' ').trim(), ...(nat ? { n: nat[c.key].n[0] } : {}),
+      // every word of the riwāyah's āyah that differs from Ḥafṣ (for the classroom's “tap the word” question)
+      d: [...new Set(diff[c.key].filter((r) => r.j != null).map((r) => r.j))] })),
   };
 }
 fs.writeFileSync(path.join(OUT, `${RW}-lessons.json`), JSON.stringify({
@@ -280,4 +328,4 @@ fs.writeFileSync(path.join(OUT, `${RW}-lessons.json`), JSON.stringify({
 console.log(`✓ ${RW} lessons:`, KINDS.map((k) => `${k} ${lessons[k].examples.length}`).join(', '));
 }
 
-for (const RW of ['warsh', 'qaloon']) await riwayah(RW);
+for (const RW of Object.keys(SRC).filter((x) => x !== 'hafs')) await riwayah(RW);

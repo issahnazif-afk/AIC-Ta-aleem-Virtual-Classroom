@@ -310,8 +310,12 @@ async function readTajweed(session, tanzil) {
 // The fawazahmed0 copies swap three KFGQPC tanween marks for their Unicode "open" forms; the KFGQPC
 // riwayah fonts expect the original marks, so they are swapped back for display.
 function riwayahDisplay(t, id) {
-  let x = t.replace(/\u08F2/g, '\u0656').replace(/\u08F0/g, '\u0657').replace(/\u08F1/g, '\u065E');
-  if (id === 'doori' || id === 'soosi') x = x.replace(/\u065C/g, '\u06ED');
+  // the API copy also puts a space before an im\u0101lah ending (\u0645\u064F\u0648\u0633\u064E \u064A\u0670) and after open tanw\u012Bn (\u0647\u064F\u062F\u08F0 \u0649): joined back,
+  // as in the KFGQPC original (scripts/quran/riwayah-diff.mjs does the same)
+  let x = t.replace(/([\u08F0-\u08F2]) ([\u0649\u0627\u06D2])(?=\s|$|[\u06D6-\u06DC])/g, '$1$2')
+    .replace(/ ((?:[\u0649\u0670][\u064B-\u065F\u0670\u06D6-\u06ED]*\S*)|[\u064A\u0627][\u064B-\u065F\u0670\u06D6-\u06ED]*)(?=\s|$)/g, '$1');
+  x = x.replace(/\u08F2/g, '\u0656').replace(/\u08F0/g, '\u0657').replace(/\u08F1/g, '\u065E');
+  if (id === 'doori' || id === 'soosi' || id === 'shouba') x = x.replace(/\u065C/g, '\u06ED');
   return x;
 }
 async function readRiwayat() {

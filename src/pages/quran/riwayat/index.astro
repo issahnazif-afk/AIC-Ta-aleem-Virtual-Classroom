@@ -1,0 +1,599 @@
+---
+// The riwāyah classroom. Like the children's recitation room: the Sheikh on the left, the board or the mushaf on the
+// right. He asks which riwāyah to study, then what to do in it (learn it, recite, Hifz test). Learning: topic by topic,
+// he explains on the chalkboard while he speaks (his lines: src/quran/lib/riwayat/course.mjs), shows the examples in
+// the mushaf with real reciters (src/quran/lib/rw-audio.mjs), has the student repeat and recite while he listens,
+// then asks questions made from the official texts (data/riwayah/<id>-lessons.json). A final test closes the course.
+import Base from '../../../quran/layouts/Base.astro';
+import Sheikh from '../../../components/Sheikh.astro';
+import { RIWAYAT, course } from '../../../quran/lib/riwayat/course.mjs';
+import cfg from '../../../quran/config.mjs';
+const rws = Object.keys(RIWAYAT).map((id) => ({ id, ...RIWAYAT[id], name: cfg.riwayat.find((r) => r.id === id)?.name ?? id, topics: course(id).length }));
+---
+<Base title="Riwāyah classroom" description="Learn the riwāyāt of the Quran with the Sheikh: Warsh, Qālūn, ad-Dūrī, as-Sūsī, Shuʿbah and al-Bazzī, topic by topic on the board, with real reciters, practice and tests." active="riwayat">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Caveat:wght@500;700&display=swap" />
+  <div class="rc" id="rc" data-rws={JSON.stringify(rws)}>
+    <aside class="rc-left">
+      <div class="rc-sheikh" id="rc-sheikh-tile"><Sheikh /><span class="rc-tag">Sheikh</span></div>
+      <div class="rc-bubble" aria-live="polite">
+        <p id="rc-say">Assalāmu ʿalaykum.</p>
+        <button type="button" class="rc-again" id="rc-again" title="Say it again" aria-label="Say it again">↻</button>
+      </div>
+      <section class="rc-syl" id="rc-syl" hidden aria-label="Topics">
+        <h2 id="rc-syl-h"></h2>
+        <ol id="rc-topics"></ol>
+      </section>
+    </aside>
+    <section class="rc-right">
+      <div class="rc-stage" id="rc-stage">
+        <div class="board" id="board-wrap"><div class="board-in" id="board"></div><div class="tray" aria-hidden="true"><i></i><i></i></div></div>
+        <div class="paper" id="paper" hidden></div>
+      </div>
+      <div class="rc-dock" id="rc-dock"></div>
+    </section>
+  </div>
+
+  <style is:global>
+    html:has(.rc) .qbar, html:has(.rc) .footer { display: none; }
+    .rc { display: flex; gap: 18px; padding: 16px clamp(12px, 2vw, 24px) 18px; max-width: 1400px; margin: 0 auto; box-sizing: border-box; height: calc(100dvh - var(--appbar-h, 64px)); min-height: 560px; }
+    .rc-left { flex: 0 1 380px; min-width: 300px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+    .rc-sheikh { position: relative; aspect-ratio: 4 / 3; border-radius: 14px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none; }
+    .rc-sheikh .sheikh { width: 70%; max-width: none; }
+    .rc-sheikh .sheikh .sh-bg { fill: #fff; }
+    .rc-tag { position: absolute; left: 8px; bottom: 8px; background: #fff; color: var(--accent-strong); font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
+    .rc-bubble { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 40px 12px 14px; min-height: 64px; }
+    .rc-bubble p { margin: 0; font-size: 15px; line-height: 1.5; }
+    .rc-again { position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--accent-strong); cursor: pointer; font-size: 16px; }
+    .rc-syl { flex: 1; min-height: 0; overflow-y: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+    .rc-syl[hidden] { display: none; }
+    .rc-syl h2 { font-size: 15px; margin: 2px 4px 8px; }
+    .rc-syl ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+    .rc-syl button { width: 100%; display: flex; gap: 10px; align-items: center; text-align: left; padding: 7px 8px; border-radius: 10px; border: 1px solid transparent; background: none; color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+    .rc-syl button:hover { border-color: var(--line); }
+    .rc-syl button[aria-current="step"] { background: var(--accent-soft); border-color: var(--accent); }
+    .rc-syl .n { width: 24px; height: 24px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent-strong); font-size: 12px; font-weight: 700; }
+    .rc-syl .ok .n { background: var(--accent); color: var(--accent-ink); }
+    .rc-right { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+    .rc-stage { flex: 1; min-height: 0; display: flex; }
+    .rc-dock { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 44px; }
+    .rc-dock .grow { flex: 1; }
+    .rc-dock label { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+    .rc-dock select { font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--field); background: var(--surface); color: var(--ink); max-width: 210px; }
+
+    /* the chalkboard */
+    .board { flex: 1; min-width: 0; position: relative; border-radius: 10px; padding: 14px; background: linear-gradient(135deg, #8A5A34, #6B4226 40%, #8A5A34); box-shadow: inset 0 0 0 2px rgba(0,0,0,.25), 0 8px 18px rgba(0,0,0,.18); display: flex; flex-direction: column; }
+    .board[hidden] { display: none; }
+    .board-in { flex: 1; min-height: 0; overflow-y: auto; border-radius: 4px; padding: clamp(16px, 2.6vw, 30px); color: #F3F1E8;
+      background-color: #22392F;
+      background-image: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.06), transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(255,255,255,.04), transparent 55%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      box-shadow: inset 0 0 40px rgba(0,0,0,.35); display: flex; flex-direction: column; gap: 10px; }
+    .tray { height: 10px; margin: 8px 6% -4px; border-radius: 3px; background: #5A3820; position: relative; }
+    .tray i { position: absolute; top: -5px; width: 34px; height: 7px; border-radius: 3px; background: #F4F2EA; left: 12%; }
+    .tray i + i { left: 22%; width: 24px; background: #F2D27A; }
+    .chalk { margin: 0; text-shadow: 0 0 1px rgba(255,255,255,.55), 0 0 6px rgba(255,255,255,.12); line-height: 1.35; }
+    .chalk.en { font-family: 'Caveat', 'Segoe Print', cursive; font-size: clamp(22px, 2.3vw, 30px); font-weight: 500; }
+    .chalk.title-ar { font-family: 'Aref Ruqaa', var(--font-ar-ui), serif; font-size: clamp(30px, 3.4vw, 44px); color: #F6E7B0; text-align: center; direction: rtl; }
+    .chalk.title-en { font-family: 'Caveat', cursive; font-size: clamp(24px, 2.6vw, 34px); font-weight: 700; color: #F6E7B0; text-align: center; border-bottom: 2px solid rgba(246,231,176,.45); padding-bottom: 6px; margin-bottom: 4px; }
+    .chalk.q { font-size: clamp(30px, 3.3vw, 42px); direction: rtl; text-align: center; line-height: 1.9; }
+    .chalk .hl { color: #F2D27A; border-bottom: 2px solid rgba(242,210,122,.7); }
+    .chalk.bullet::before { content: '•  '; color: #F2D27A; }
+    .write { clip-path: inset(0 100% 0 0); animation: rc-write var(--dur, 1.2s) steps(var(--steps, 24), end) forwards; }
+    .write[dir="rtl"], .write.title-ar, .write.q { clip-path: inset(0 0 0 100%); animation-name: rc-write-rtl; }
+    @keyframes rc-write { to { clip-path: inset(0 0 0 0); } }
+    @keyframes rc-write-rtl { to { clip-path: inset(0 0 0 0); } }
+    @media (prefers-reduced-motion: reduce) { .write { animation: none; clip-path: none; } }
+    .ex-table { display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px 14px; align-items: center; margin-top: 4px; }
+    .ex-table .h, .ex-table .w { direction: rtl; text-align: center; font-size: clamp(26px, 2.8vw, 36px); line-height: 1.8; }
+    .ex-table .h { font-family: 'KFGQPC Hafs', var(--font-quran); color: #DDE7DF; }
+    .ex-table .w { color: #F6E7B0; }
+    .ex-table .arrow { font-family: 'Caveat', cursive; font-size: 30px; color: #F2D27A; }
+    .ex-table .cap { font-family: 'Caveat', cursive; font-size: 24px; text-align: center; color: #F2D27A; }
+    .chalk-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 6px; }
+    .chalk-btn { border: 2px dashed rgba(243,241,232,.6); background: rgba(255,255,255,.03); color: #F3F1E8; border-radius: 12px; padding: 12px 14px; text-align: left; cursor: pointer; font: inherit; display: flex; flex-direction: column; gap: 2px; }
+    .chalk-btn:hover, .chalk-btn:focus-visible { border-color: #F2D27A; background: rgba(242,210,122,.08); outline: none; }
+    .chalk-btn .ar { font-family: 'Aref Ruqaa', var(--font-ar-ui), serif; font-size: 26px; color: #F6E7B0; direction: rtl; text-align: right; }
+    .chalk-btn .en { font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; }
+    .chalk-btn small { font-size: 13px; color: #CFD8D1; }
+    .chalk-btn .bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.15); margin-top: 6px; overflow: hidden; }
+    .chalk-btn .bar i { display: block; height: 100%; background: #F2D27A; }
+    .chalk-btn.right { border-color: #8FE3A8; background: rgba(143,227,168,.12); }
+    .chalk-btn.wrongpick { border-color: #F19A8E; background: rgba(241,154,142,.12); }
+    .chalk-btn .opt { font-size: clamp(30px, 3.2vw, 40px); direction: rtl; text-align: center; line-height: 1.8; }
+    .spot { direction: rtl; text-align: center; font-size: clamp(28px, 3.1vw, 40px); line-height: 2.1; }
+    .spot button { font: inherit; color: inherit; background: none; border: none; border-radius: 6px; padding: 0 4px; cursor: pointer; }
+    .spot button:hover { background: rgba(255,255,255,.08); }
+    .spot button.right { background: rgba(143,227,168,.22); }
+    .spot button.wrongpick { background: rgba(241,154,142,.22); }
+    .score { font-family: 'Caveat', cursive; font-size: 26px; color: #F2D27A; text-align: center; }
+
+    /* the mushaf */
+    .paper { flex: 1; min-width: 0; overflow-y: auto; background: var(--paper); border: 1px solid var(--paper-line); border-radius: 10px; padding: clamp(14px, 2.4vw, 28px); display: flex; flex-direction: column; gap: 12px; }
+    .paper[hidden] { display: none; }
+    .paper .cap { font-size: 13px; font-weight: 600; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .paper .ay { margin: 0; direction: rtl; text-align: center; line-height: 2.2; color: var(--ink); }
+    .paper .ay.rwt { font-size: clamp(30px, 3.6vw, 44px); }
+    .paper .ay.hft { font-family: 'KFGQPC Hafs', var(--font-quran); font-size: clamp(20px, 2.2vw, 26px); color: var(--muted); }
+    .paper .ay mark { background: var(--mark); color: inherit; border-radius: 6px; padding: 0 3px; }
+    .paper .ay .ok { color: var(--good, #1E7A4C); }
+    .paper .ay .weak { color: var(--marker); }
+    .paper .ay .bad { color: #B3261E; text-decoration: underline wavy; }
+    .paper .word { text-align: center; font-size: 15px; }
+    .paper .word span { font-size: 28px; unicode-bidi: isolate; }
+    .paper .word .h { font-family: 'KFGQPC Hafs', var(--font-quran); }
+    .paper .chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+    .paper .chips button { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+    .paper .chips button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .paper .verdict { margin: 0; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--accent); background: var(--surface); }
+
+    @media (max-width: 860px) {
+      .rc { flex-direction: column; height: auto; min-height: 0; gap: 10px; padding-top: 10px; }
+      .rc-left { flex: none; min-width: 0; display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: start; }
+      .rc-sheikh { aspect-ratio: 1; }
+      .rc-sheikh .sheikh { width: 92%; }
+      .rc-tag { display: none; }
+      .rc-syl { display: none; }
+      .rc-right { flex: none; }
+      .rc-stage { min-height: 62vh; }
+      .chalk-btns { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    import { u } from '../../../quran/lib/url.mjs';
+    import { getJson, pad } from '../../../quran/lib/client.mjs';
+    import { RIWAYAT, course, LINES } from '../../../quran/lib/riwayat/course.mjs';
+    import { recitersFor, reciterFor, chooseReciter, clipFor, playClip, stopClips } from '../../../quran/lib/rw-audio.mjs';
+    import { narrate, hush } from '../../../lib/narration.mjs';
+    import { normalize } from '../../../lib/recite.mjs';
+    import { getSpeechRecognition, tuneRecognition, preloadEngine } from '../../../quran/lib/speech.mjs';
+
+    const $ = (id) => document.getElementById(id);
+    const RWS = JSON.parse($('rc').dataset.rws);
+    const board = $('board'), paper = $('paper'), dock = $('rc-dock');
+    const sheikh = document.getElementById('sheikh');
+    const audio = new Audio(); audio.preload = 'auto';
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    const shuffle = (a) => { const x = [...a]; for (let i = x.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [x[i], x[j]] = [x[j], x[i]]; } return x; };
+    const disp = (t) => t.replace(/ࣲ/g, 'ٖ').replace(/ࣰ/g, 'ٗ').replace(/ࣱ/g, 'ٞ');
+    const iso = (t) => t.replace(/[؀-ۿݐ-ݿࢠ-ࣿ](?:[؀-ۿݐ-ݿࢠ-ࣿ ،]*[؀-ۿݐ-ݿࢠ-ࣿ])?/g, (m) => '⁨' + m + '⁩');
+    const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+    const rwFont = (rw) => `'KFGQPC ${rw}', 'KFGQPC Hafs', serif`;
+
+    // ── progress ──
+    const prog = {
+      all() { try { return JSON.parse(localStorage.getItem('ql-rwc') || '{}'); } catch { return {}; } },
+      of(rw) { return this.all()[rw] ?? { done: {}, final: null }; },
+      set(rw, f) { const a = this.all(); const p = a[rw] ?? { done: {}, final: null }; f(p); a[rw] = p; try { localStorage.setItem('ql-rwc', JSON.stringify(a)); } catch {} },
+    };
+
+    // ── the Sheikh speaks (his recorded voice; the browser's voice for a line not recorded yet) ──
+    let scene = 0;                 // each scene has a number; anything from an older scene stops quietly
+    let lastLine = '';
+    function speak(text, mine = scene) {
+      lastLine = text;
+      $('rc-say').textContent = iso(text);
+      return new Promise((resolve) => {
+        if (mine !== scene) { resolve(false); return; }
+        sheikh.dataset.state = 'speaking';
+        let done = false;
+        const end = () => { if (done) return; done = true; if (sheikh.dataset.state === 'speaking') sheikh.dataset.state = 'idle'; resolve(mine === scene); };
+        narrate(text, { voice: 'sheikh', onEnd: end }).catch(end);
+        // never wait for ever (a voice that never ends)
+        setTimeout(end, 4000 + text.length * 90);
+      });
+    }
+    $('rc-again').addEventListener('click', () => lastLine && speak(lastLine));
+    function newScene() { scene++; hush(); stopClips(); audio.pause(); stopListening(false); sheikh.dataset.state = 'idle'; return scene; }
+
+    // ── the board: lines written in chalk, as if by hand ──
+    function clearBoard() { board.replaceChildren(); $('board-wrap').hidden = false; paper.hidden = true; }
+    function chalk(text, cls = 'en', { ar = false, font } = {}) {
+      // no tatweel in chalk (it reads as a crossing-out), and the Ruqaa hand writes the waṣl alif as a plain alif
+      text = text.replace(/ـ/g, '');
+      if (cls.includes('title-ar')) text = text.replace(/ٱ/g, 'ا');
+      const p = el('p', `chalk ${cls}`, text);
+      if (ar) p.dir = 'rtl';
+      if (font) p.style.fontFamily = font;
+      const n = [...text].length;
+      const dur = Math.min(4200, Math.max(500, n * (ar ? 80 : 45)));
+      p.style.setProperty('--dur', `${dur}ms`); p.style.setProperty('--steps', String(Math.max(8, Math.round(n * 1.2))));
+      p.classList.add('write');
+      board.append(p);
+      p.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return sleep(dur);
+    }
+    function dockSet(...items) { dock.replaceChildren(...items.filter(Boolean)); }
+    function btn(text, on, primary = false) { const b = el('button', `btn${primary ? ' btn-primary' : ''}`, text); b.type = 'button'; b.addEventListener('click', on); return b; }
+    function reciterPick(rw) {
+      const list = recitersFor(rw); if (!list.length) return null;
+      const l = el('label', '', 'Reciter'); const s = el('select');
+      for (const r of list) s.append(new Option(r.name, r.id));
+      s.value = reciterFor(rw)?.id ?? list[0].id;
+      s.addEventListener('change', () => chooseReciter(rw, s.value));
+      l.append(s); return l;
+    }
+
+    // ── data ──
+    const lessonsCache = new Map();
+    const lessonsOf = (rw) => { if (!lessonsCache.has(rw)) lessonsCache.set(rw, fetch(u(`data/riwayah/${rw}-lessons.json`)).then((r) => r.json()).then((j) => j.lessons)); return lessonsCache.get(rw); };
+    const clipHafs = (k) => { const [s, a] = k.split(':').map(Number); return clipFor('hafs', reciterFor('hafs'), s, a); };
+    const clipRw = (rw, k) => { const [s, a] = k.split(':').map(Number); return clipFor(rw, reciterFor(rw), s, a); };
+    async function hear(clipP) { const c = await clipP; return playClip(audio, c); }
+
+    // ── the syllabus on the left ──
+    function syllabus(rw, cur = -1) {
+      const box = $('rc-syl'); box.hidden = false;
+      $('rc-syl-h').textContent = `${RIWAYAT[rw].short}: the topics`;
+      const done = prog.of(rw).done;
+      $('rc-topics').replaceChildren(...course(rw).map((t, i) => {
+        const li = el('li'); const b = el('button'); b.type = 'button';
+        if (done[t.id]) b.classList.add('ok');
+        if (i === cur) b.setAttribute('aria-current', 'step');
+        b.append(el('span', 'n', done[t.id] ? '✓' : String(i + 1)), el('span', '', t.en));
+        b.addEventListener('click', () => teach(rw, i));
+        li.append(b); return li;
+      }));
+    }
+    const go = (q) => history.replaceState(null, '', q ? `?${q}` : location.pathname);
+
+    // ── 1 · which riwāyah? ──
+    async function choose() {
+      const me = newScene(); go(''); clearBoard(); $('rc-syl').hidden = true;
+      dockSet(btn('‹ Home', () => location.assign(u('app/'))));
+      chalk('اَلْقِرَاءَاتُ وَٱلرِّوَايَاتُ', 'title-ar', { ar: true });
+      chalk('Choose a riwāyah', 'title-en');
+      const grid = el('div', 'chalk-btns');
+      for (const r of RWS) {
+        const p = prog.of(r.id), n = Object.keys(p.done).length;
+        const b = el('button', 'chalk-btn'); b.type = 'button';
+        const bar = el('span', 'bar'); const i = el('i'); i.style.width = `${Math.round((n / r.topics) * 100)}%`; bar.append(i);
+        b.append(el('span', 'ar', r.ar), el('span', 'en', r.short), el('small', '', `from ${r.imam} · ${n}/${r.topics} topics`), bar);
+        b.addEventListener('click', () => menu(r.id));
+        grid.append(b);
+      }
+      board.append(grid);
+      await speak(LINES.welcome, me);
+    }
+
+    // ── 2 · what shall we do? ──
+    async function menu(rw) {
+      const me = newScene(); go(`rw=${rw}`); clearBoard(); syllabus(rw);
+      const R = RIWAYAT[rw], p = prog.of(rw), list = course(rw), n = Object.keys(p.done).length;
+      dockSet(btn('‹ All riwāyāt', choose));
+      chalk(R.ar, 'title-ar', { ar: true });
+      chalk(`${RWS.find((x) => x.id === rw).name}`, 'title-en');
+      chalk(R.line, 'en');
+      const grid = el('div', 'chalk-btns');
+      const opt = (ar, en, small, on, pct) => {
+        const b = el('button', 'chalk-btn'); b.type = 'button';
+        b.append(el('span', 'ar', ar), el('span', 'en', en), el('small', '', small));
+        if (pct != null) { const bar = el('span', 'bar'); const i = el('i'); i.style.width = `${pct}%`; bar.append(i); b.append(bar); }
+        b.addEventListener('click', on); grid.append(b);
+      };
+      const next = list.findIndex((t) => !p.done[t.id]);
+      opt('تَعَلَّمِ ٱلرِّوَايَةَ', n ? 'Carry on learning' : 'Learn the riwāyah', `${n} of ${list.length} topics done`, () => (next < 0 ? syllabusScene(rw) : teach(rw, next)), Math.round((n / list.length) * 100));
+      opt('ٱقْرَأْ عَلَى ٱلشَّيْخِ', 'Recite to the Sheikh', 'Any sūrah, in this riwāyah: he follows and corrects', () => { setRiwayah(rw); location.assign(u('practice/?app=1')); });
+      opt('ٱخْتِبَارُ ٱلْحِفْظِ', 'Hifz test', 'He recites the opening; you continue, in this riwāyah', () => { setRiwayah(rw); location.assign(u('test/?app=1')); });
+      opt('ٱلِٱخْتِبَارُ ٱلنِّهَائِيُّ', 'Final test of the riwāyah', p.final != null ? `Your best: ${p.final}%` : 'Questions from every topic', () => finalTest(rw));
+      board.append(grid);
+      if (!recitersFor(rw).length) chalk(LINES.noAudio, 'en');
+      await speak(LINES.whatToDo, me);
+    }
+    function setRiwayah(rw) { try { localStorage.setItem('ql-riwayah', JSON.stringify(rw)); } catch {} }
+
+    async function syllabusScene(rw) {
+      const me = newScene(); go(`rw=${rw}&do=learn`); clearBoard(); syllabus(rw);
+      dockSet(btn('‹ Back', () => menu(rw)));
+      chalk(RIWAYAT[rw].ar, 'title-ar', { ar: true });
+      chalk('The topics', 'title-en');
+      const grid = el('div', 'chalk-btns'); const p = prog.of(rw);
+      course(rw).forEach((t, i) => {
+        const b = el('button', 'chalk-btn'); b.type = 'button';
+        b.append(el('span', 'ar', t.ar), el('span', 'en', `${i + 1}. ${t.en}`), el('small', '', p.done[t.id] ? `Passed${p.done[t.id].score != null ? ` · ${p.done[t.id].score}%` : ''}` : 'Not yet'));
+        b.addEventListener('click', () => teach(rw, i)); grid.append(b);
+      });
+      board.append(grid);
+      await speak(LINES.syllabus, me);
+    }
+
+    // ── 3 · a topic, taught on the board ──
+    async function teach(rw, i) {
+      const me = newScene(); const list = course(rw), t = list[i];
+      go(`rw=${rw}&topic=${t.id}`); clearBoard(); syllabus(rw, i);
+      let paused = false, at = 0;
+      const pauseBtn = btn('Pause', () => { paused = !paused; pauseBtn.textContent = paused ? 'Continue' : 'Pause'; if (paused) hush(); else run(); });
+      dockSet(btn('‹ Topics', () => syllabusScene(rw)), pauseBtn, el('span', 'grow'), btn('Skip ›', () => after()));
+      await chalk(t.ar, 'title-ar', { ar: true });
+      if (me !== scene) return;
+      chalk(`${i + 1}. ${t.en}`, 'title-en');
+      const lessons = t.intro ? null : await lessonsOf(rw);
+      const L = lessons?.[t.id];
+      let finished = false;
+      async function run() {
+        while (at < t.points.length) {
+          if (paused || me !== scene) return;
+          const [say, write] = t.points[at];
+          const p1 = speak(say, me);
+          const p2 = chalk(write, `en bullet`);
+          const [ok] = await Promise.all([p1, p2]);
+          if (me !== scene || paused) return;
+          if (!ok) return;
+          at++;
+          await sleep(350);
+        }
+        if (finished) return; finished = true;
+        if (L?.examples?.length) {
+          const p1 = speak(LINES.examples, me);
+          const tb = el('div', 'ex-table');
+          tb.append(el('span', 'cap', 'Ḥafṣ'), el('span', 'arrow', ''), el('span', 'cap', RIWAYAT[rw].short));
+          for (const e of L.examples.slice(0, 3)) {
+            const h = el('span', 'h', disp(e.h)), w = el('span', 'w', disp(e.w)); w.style.fontFamily = rwFont(rw);
+            h.classList.add('write'); w.classList.add('write'); h.dir = w.dir = 'rtl';
+            h.style.setProperty('--dur', '900ms'); w.style.setProperty('--dur', '900ms');
+            tb.append(h, el('span', 'arrow', '→'), w);
+          }
+          board.append(tb); tb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          await p1;
+        }
+        if (me !== scene) return;
+        after();
+      }
+      function after() {
+        if (me !== scene) return;
+        hush();
+        if (t.intro) {
+          prog.set(rw, (p) => { p.done[t.id] = { score: null }; });
+          syllabus(rw, i);
+          dockSet(btn('‹ Topics', () => syllabusScene(rw)), el('span', 'grow'), btn(i + 1 < list.length ? 'Next topic ›' : 'Finish', () => (i + 1 < list.length ? teach(rw, i + 1) : menu(rw)), true));
+          return;
+        }
+        dockSet(btn('‹ Topics', () => syllabusScene(rw)), btn('Explain again', () => teach(rw, i)), el('span', 'grow'), btn('See it in the mushaf ›', () => mushaf(rw, i, 0, true), true));
+      }
+      run();
+    }
+
+    // ── 4 · the examples in the mushaf: hear, repeat, recite ──
+    function words(text) {
+      const out = [];
+      for (const t of disp(text).split(' ')) { if (!t) continue; if (!/[ء-يٱ]/.test(t) && out.length) { out[out.length - 1].text += ' ' + t; continue; } out.push({ text: t }); }
+      return out;
+    }
+    function ayah(cls, text, mark, classes = [], font) {
+      const p = el('p', `ay ${cls}`); p.lang = 'ar'; if (font) p.style.fontFamily = font;
+      words(text).forEach((w, k) => { const s = el(k === mark ? 'mark' : 'span', classes[k] || '', w.text); p.append(s, ' '); });
+      return p;
+    }
+    async function mushaf(rw, i, ex = 0, intro = false) {
+      const me = newScene(); const t = course(rw)[i]; const L = (await lessonsOf(rw))[t.id];
+      const list = L.examples; ex = (ex + list.length) % list.length; const e = list[ex];
+      $('board-wrap').hidden = true; paper.hidden = false; paper.replaceChildren(); syllabus(rw, i);
+      const R = RIWAYAT[rw];
+      const chips = el('div', 'chips');
+      list.forEach((x, k) => { const b = el('button', '', x.k); b.type = 'button'; b.setAttribute('aria-pressed', String(k === ex)); b.addEventListener('click', () => mushaf(rw, i, k)); chips.append(b); });
+      const cap = el('div', 'cap'); cap.append(el('span', '', `${R.short} · ${e.n && e.n !== Number(e.k.split(':')[1]) ? `${e.k.split(':')[0]}:${e.n} (Ḥafṣ ${e.k})` : e.k}`), el('span', '', t.en));
+      const rwText = ayah('rwt', e.rw, e.j, [], rwFont(rw));
+      const word = el('p', 'word'); const h = el('span', 'h', disp(e.h)); const w = el('span', 'w', disp(e.w)); w.style.fontFamily = rwFont(rw); h.lang = w.lang = 'ar';
+      word.append('Ḥafṣ reads ', h, `   ·   ${R.short} reads `, w);
+      const hafs = ayah('hft', e.hafs, e.i);
+      const result = el('div'); result.id = 'rc-result';
+      paper.append(chips, cap, rwText, word, hafs, result);
+      const hasAudio = recitersFor(rw).length > 0;
+      dockSet(
+        btn('‹ Board', () => teach(rw, i)),
+        btn('▶ Ḥafṣ', async () => { await speak(LINES.toMushaf, me); hear(clipHafs(e.k)); }),
+        hasAudio && btn(`▶ ${R.short}`, () => hear(clipRw(rw, e.k)), true),
+        hasAudio && btn('Repeat ×3', () => repeat3(rw, e, me)),
+        btn('🎙 Recite', () => recite(rw, e, t, me, rwText)),
+        btn('Next example', () => mushaf(rw, i, ex + 1)),
+        el('span', 'grow'),
+        reciterPick(rw),
+        btn('Questions ›', () => quiz(rw, i), true),
+      );
+      if (intro) { await speak(LINES.toMushaf, me); if (me !== scene) return; await hear(clipHafs(e.k)); if (me !== scene) return; await sleep(500); if (hasAudio) { await speak(t.listen, me); if (me === scene) await hear(clipRw(rw, e.k)); } }
+    }
+    async function repeat3(rw, e, me) {
+      await speak(LINES.repeat, me);
+      const c = await clipRw(rw, e.k);
+      for (let n = 1; n <= 3 && me === scene; n++) {
+        $('rc-say').textContent = `Listen (${n} of 3)…`;
+        const t0 = performance.now(); if (!(await playClip(audio, c))) return;
+        $('rc-say').textContent = `Your turn: repeat it now (${n} of 3).`; sheikh.dataset.state = 'listening';
+        await sleep(Math.min(Math.max(performance.now() - t0 + 800, 2500), 20000));
+        sheikh.dataset.state = 'idle';
+      }
+    }
+
+    // the student recites; the Sheikh follows the words (the Qāf listening model, or the browser's own recogniser)
+    const SR = getSpeechRecognition();
+    let rec = null, listening = false, stopTimer = 0, onStop = null, primed = false;
+    function stopListening(report = true) {
+      if (!listening) return; listening = false; clearTimeout(stopTimer);
+      try { rec?.stop(); } catch {}
+      sheikh.dataset.state = 'idle';
+      const f = onStop; onStop = null; if (report && f) f();
+    }
+    function listen(text) {
+      return new Promise((resolve) => {
+        const plain = words(text).map((w) => normalize(w.text)).filter(Boolean);
+        const marks = [];
+        if (!SR) { resolve({ marks, plain, none: true }); return; }
+        if (!primed) { primed = true; preloadEngine(); }
+        listening = true; sheikh.dataset.state = 'listening';
+        let pos = 0;
+        rec = tuneRecognition(new SR());
+        rec.getExpected = () => plain.slice(pos);
+        Object.assign(rec, { lang: 'ar-SA', continuous: true, interimResults: true, maxAlternatives: 3 });
+        rec.onresult = (ev) => {
+          for (let r = ev.resultIndex; r < ev.results.length; r++) {
+            const res = ev.results[r];
+            if (res.track) { for (const t of res.track) { marks[pos] = t.kind; pos++; } }
+            else if (res.isFinal) {
+              for (const said of normalize(res[0].transcript).split(' ')) {
+                const k = plain.slice(pos, pos + 3).findIndex((p) => p === said);
+                if (k >= 0) { for (let x = 0; x < k; x++) marks[pos + x] = 'missed'; marks[pos + k] = 'read'; pos += k + 1; }
+              }
+            }
+          }
+          if (pos >= plain.length) stopListening();
+        };
+        rec.onerror = () => {};
+        rec.onend = () => { if (listening) { try { rec.start(); } catch {} } };
+        onStop = () => resolve({ marks, plain });
+        try { rec.start(); } catch {}
+        stopTimer = setTimeout(() => stopListening(), 60000);
+      });
+    }
+    async function recite(rw, e, t, me, target) {
+      if (listening) { stopListening(); return; }
+      await speak(LINES.yourTurn, me); if (me !== scene) return;
+      const doneBtn = btn('■ Finished', () => stopListening(), true);
+      const keep = [...dock.children]; dockSet(doneBtn);
+      const r = await listen(e.rw);
+      dock.replaceChildren(...keep);
+      if (me !== scene) return null;
+      const cls = r.marks.map((m) => (m === 'read' ? 'ok' : m === 'weak' ? 'weak' : m ? 'bad' : ''));
+      const fresh = ayah('rwt', e.rw, e.j, cls, rwFont(rw)); target.replaceWith(fresh);
+      const read = r.marks.filter((m) => m === 'read').length, total = r.plain.length;
+      const focus = r.marks[e.j];
+      let say, pass;
+      if (r.none) { say = LINES.noListening; pass = null; }
+      else if (!r.marks.some(Boolean)) { say = LINES.heardNone; pass = false; }
+      else if (t.check === 'word') { pass = focus === 'read'; say = pass ? LINES.wordRight : LINES.wordWrong; }
+      else { pass = read / total >= 0.6; say = pass ? LINES.followed : LINES.readAgain; }
+      const v = el('p', 'verdict', say); $('rc-result')?.replaceChildren(v);
+      await speak(say, me);
+      return pass;
+    }
+
+    // ── 5 · questions on the topic ──
+    function questionsFor(rw, t, L, n = 4) {
+      const ex = shuffle(L.examples);
+      const qs = [];
+      const hasAudio = recitersFor(rw).length > 0;
+      if (ex[0]) qs.push({ type: 'pick', e: ex[0], t });
+      if (ex[1] && hasAudio) qs.push({ type: 'ear', e: ex[1], t, which: Math.random() < 0.5 ? 'hafs' : 'rw' });
+      if (ex[2]) qs.push({ type: 'spot', e: ex[2], t });
+      if (ex[3] && n >= 4) qs.push({ type: 'recite', e: ex[3], t });
+      return qs.slice(0, n);
+    }
+    async function ask(rw, q, me, k, total) {
+      clearBoard();
+      const R = RIWAYAT[rw];
+      chalk(`Question ${k} of ${total}`, 'title-en');
+      return new Promise(async (resolve) => {
+        const answer = (ok, picked, right) => {
+          if (picked) picked.classList.add(ok ? 'right' : 'wrongpick');
+          if (!ok && right) right.classList.add('right');
+          board.querySelectorAll('.chalk-btn, .spot button').forEach((b) => (b.disabled = true));
+          speak(ok ? LINES.right : LINES.wrong, me).then(() => sleep(400)).then(() => resolve(ok));
+        };
+        if (q.type === 'pick') {
+          chalk(`How does ${R.short} read the highlighted word?`, 'en');
+          const p = el('p', 'chalk q'); p.lang = 'ar'; p.style.fontFamily = `'KFGQPC Hafs', var(--font-quran)`;
+          words(q.e.hafs).forEach((w, i) => p.append(el(i === q.e.i ? 'span' : 'span', i === q.e.i ? 'hl' : '', w.text), ' '));
+          board.append(p);
+          const grid = el('div', 'chalk-btns'); let right = null;
+          for (const o of shuffle([q.e.w, q.e.h])) {
+            const b = el('button', 'chalk-btn'); b.type = 'button'; const s = el('span', 'opt', disp(o)); s.style.fontFamily = rwFont(rw); b.append(s);
+            if (o === q.e.w) right = b;
+            b.addEventListener('click', () => answer(o === q.e.w, b, right)); grid.append(b);
+          }
+          board.append(grid);
+          speak(LINES.qPick, me);
+        } else if (q.type === 'ear') {
+          chalk(`Listen. Is this Ḥafṣ, or ${R.short}?`, 'en');
+          const p = el('p', 'chalk q', ''); p.lang = 'ar'; p.style.fontFamily = rwFont(rw);
+          words(q.e.rw).forEach((w, i) => p.append(el('span', i === q.e.j ? 'hl' : '', w.text), ' ')); board.append(p);
+          const grid = el('div', 'chalk-btns'); let right = null;
+          const play = () => hear(q.which === 'hafs' ? clipHafs(q.e.k) : clipRw(rw, q.e.k));
+          const again = el('button', 'chalk-btn'); again.type = 'button'; again.append(el('span', 'en', '▶ Play it again')); again.addEventListener('click', play);
+          for (const [v, label] of [['hafs', 'Ḥafṣ'], ['rw', R.short]]) {
+            const b = el('button', 'chalk-btn'); b.type = 'button'; b.append(el('span', 'en', label));
+            if (v === q.which) right = b;
+            b.addEventListener('click', () => answer(v === q.which, b, right)); grid.append(b);
+          }
+          board.append(grid, again);
+          await speak(LINES.qEar, me); if (me === scene) play();
+        } else if (q.type === 'spot') {
+          chalk(`Tap a word that ${R.short} reads differently from Ḥafṣ.`, 'en');
+          const p = el('p', 'chalk spot'); p.lang = 'ar'; p.style.fontFamily = rwFont(rw);
+          const bs = [];
+          words(q.e.rw).forEach((w, i) => { const b = el('button', '', w.text); b.type = 'button'; bs.push(b); b.addEventListener('click', () => answer((q.e.d ?? [q.e.j]).includes(i), b, bs[q.e.j])); p.append(b, ' '); });
+          board.append(p);
+          speak(LINES.qSpot, me);
+        } else if (q.type === 'recite') {
+          $('board-wrap').hidden = true; paper.hidden = false; paper.replaceChildren();
+          const cap = el('div', 'cap'); cap.append(el('span', '', `Question ${k} of ${total}: recite in ${R.short}`), el('span', '', q.e.k));
+          const target = ayah('rwt', q.e.rw, q.e.j, [], rwFont(rw));
+          const result = el('div'); result.id = 'rc-result';
+          paper.append(cap, target, result);
+          const keep = [...dock.children];
+          const pass = await recite(rw, q.e, q.t, me, target);
+          dock.replaceChildren(...keep);
+          await sleep(600);
+          resolve(pass ?? true);
+        }
+      });
+    }
+    async function runQuiz(rw, qs, me) {
+      let score = 0;
+      for (let k = 0; k < qs.length; k++) {
+        if (me !== scene) return null;
+        if (await ask(rw, qs[k], me, k + 1, qs.length)) score++;
+      }
+      return Math.round((score / qs.length) * 100);
+    }
+    async function quiz(rw, i) {
+      const me = newScene(); const list = course(rw), t = list[i]; const L = (await lessonsOf(rw))[t.id];
+      go(`rw=${rw}&topic=${t.id}&do=quiz`); syllabus(rw, i);
+      dockSet(btn('‹ Board', () => teach(rw, i)));
+      await speak(LINES.quizStart, me);
+      const pct = await runQuiz(rw, questionsFor(rw, t, L), me);
+      if (pct == null || me !== scene) return;
+      clearBoard();
+      const pass = pct >= 70;
+      chalk(t.ar, 'title-ar', { ar: true });
+      chalk(`${pct}%`, 'score');
+      if (pass) prog.set(rw, (p) => { p.done[t.id] = { score: Math.max(pct, p.done[t.id]?.score ?? 0) }; });
+      syllabus(rw, i);
+      const allDone = list.every((x) => prog.of(rw).done[x.id]);
+      dockSet(
+        btn('‹ Topics', () => syllabusScene(rw)),
+        btn('Explain again', () => teach(rw, i)),
+        btn('Questions again', () => quiz(rw, i)),
+        el('span', 'grow'),
+        pass && i + 1 < list.length && btn('Next topic ›', () => teach(rw, i + 1), true),
+        pass && allDone && btn('Final test ›', () => finalTest(rw), true),
+      );
+      await speak(!pass ? LINES.retry : allDone ? LINES.courseDone : LINES.passed, me);
+    }
+    async function finalTest(rw) {
+      const me = newScene(); go(`rw=${rw}&do=final`); syllabus(rw);
+      dockSet(btn('‹ Back', () => menu(rw)));
+      const lessons = await lessonsOf(rw);
+      const qs = [];
+      for (const t of course(rw)) { if (t.intro || !lessons[t.id]?.examples?.length) continue; const one = shuffle(questionsFor(rw, t, lessons[t.id], 3))[0]; if (one) qs.push(one); }
+      await speak(LINES.finalStart, me);
+      const pct = await runQuiz(rw, shuffle(qs).slice(0, 10), me);
+      if (pct == null || me !== scene) return;
+      clearBoard();
+      prog.set(rw, (p) => { p.final = Math.max(pct, p.final ?? 0); });
+      chalk(RIWAYAT[rw].ar, 'title-ar', { ar: true });
+      chalk('The final test', 'title-en');
+      chalk(`${pct}%`, 'score');
+      dockSet(btn('‹ Back', () => menu(rw)), el('span', 'grow'), btn('Take it again', () => finalTest(rw), true));
+      await speak(pct >= 70 ? LINES.finalPassed : LINES.retry, me);
+    }
+
+    // ── start: from the link (?rw=…&topic=…&do=…), or the Sheikh asks ──
+    const q = new URLSearchParams(location.search), rw0 = q.get('rw');
+    if (rw0 && RIWAYAT[rw0]) {
+      const ti = course(rw0).findIndex((t) => t.id === q.get('topic'));
+      if (q.get('do') === 'final') finalTest(rw0);
+      else if (ti >= 0) (q.get('do') === 'quiz' ? quiz : teach)(rw0, ti);
+      else if (q.get('do') === 'learn') syllabusScene(rw0);
+      else menu(rw0);
+    } else choose();
+  </script>
+</Base>

@@ -1,6 +1,7 @@
 // Browser-side helpers shared by every page: settings, bookmarks, audio.
 import cfg from '../config.mjs';
 import { u } from './url.mjs';
+import { recitersFor, reciterFor, chooseReciter, clipFor, playClip, stopClips, riwayahName } from './rw-audio.mjs';
 
 export const pad = (n) => String(n).padStart(3, '0');
 export const dataUrl = (p) => u('data/' + p);
@@ -54,7 +55,8 @@ export function getJson(p) {
 export const audioUrl = (reciter, s, a) => `https://everyayah.com/data/${reciter}/${pad(s)}${pad(a)}.mp3`;
 
 // ── Audio player (one per page) ───────────────────────────────
-// Markup comes from src/components/Player.astro.
+// Markup comes from src/components/Player.astro. It plays the riwāyah chosen in the Quran menu: Ḥafṣ from the
+// library's reciters, the other riwāyāt from their own reciters (src/quran/lib/rw-audio.mjs).
 export function initPlayer({ lazy = false } = {}) {
   const bar = document.getElementById('player');
   if (!bar) return null;
@@ -68,30 +70,70 @@ export function initPlayer({ lazy = false } = {}) {
   const speedBtn = bar.querySelector('[data-p="speed"]');
   const reciterSel = bar.querySelector('[data-p="reciter"]');
   const err = bar.querySelector('[data-p="error"]');
-  let queue = [], idx = -1, repeat = false;
+  const errText = err.textContent;
+  let queue = [], idx = -1, repeat = false, clip = null, loadNo = 0;
   const speeds = [1, 1.25, 1.5, 0.75];
 
-  reciterSel.value = settings.reciter;
-  const reciterName = () => cfg.reciters.find((r) => r.id === settings.reciter)?.name ?? settings.reciter;
+  const rw = () => document.documentElement.dataset.riwayah || 'hafs';
+  // the reciters of the riwāyah in the select (Ḥafṣ: the library's own list, as built into the page)
+  const hafsOptions = [...reciterSel.options].map((o) => [o.value, o.textContent]);
+  function fillReciters() {
+    const r = rw();
+    const list = r === 'hafs' ? hafsOptions.map(([id, name]) => ({ id, name })) : recitersFor(r);
+    reciterSel.replaceChildren(...list.map((x) => new Option(x.name, x.id)));
+    reciterSel.disabled = !list.length;
+    if (r === 'hafs') reciterSel.value = settings.reciter;
+    else reciterSel.value = reciterFor(r)?.id ?? '';
+  }
+  fillReciters();
+  const reciterName = () => reciterSel.selectedOptions[0]?.textContent ?? '';
 
   function setPlaying(on) {
     playBtn.setAttribute('aria-label', on ? 'Pause' : 'Play');
     playBtn.querySelector('[data-i="play"]').hidden = on;
     playBtn.querySelector('[data-i="pause"]').hidden = !on;
   }
-  function load(i) {
+  function failed(text) {
+    err.textContent = text ?? errText;
+    err.hidden = false;
+    setPlaying(false);
+  }
+  async function load(i) {
     show();
     idx = i;
     const item = queue[idx];
     if (!item) { stop(); return; }
     err.hidden = true;
-    audio.src = audioUrl(settings.reciter, item.s, item.a);
-    audio.play().catch(() => {});
+    const r = rw(), mine = ++loadNo;
     title.textContent = item.label ?? `${item.s}:${item.a}`;
-    sub.textContent = reciterName();
+    sub.textContent = r === 'hafs' ? reciterName() : `${reciterName()} · ${riwayahName(r)}`;
     document.dispatchEvent(new CustomEvent('ql:ayah', { detail: { key: `${item.s}:${item.a}` } }));
+    if (r === 'hafs') {
+      clip = null; stopClips();
+      audio.src = audioUrl(settings.reciter, item.s, item.a);
+      audio.play().catch(() => {});
+      return;
+    }
+    // another riwāyah: its reciter, cut to this āyah
+    const rec = recitersFor(r).find((x) => x.id === reciterSel.value) ?? reciterFor(r);
+    if (!rec) { clip = null; failed(`No recitation of ${riwayahName(r)} is openly available yet: the text is shown, without audio.`); return; }
+    const c = await clipFor(r, rec, item.s, item.a, { opening: true });
+    if (mine !== loadNo) return;
+    if (!c) { clip = null; failed(); return; }
+    clip = c;
+    const rate = audio.playbackRate;
+    const ok = await playClip(audio, c);
+    audio.playbackRate = rate;
+    if (mine !== loadNo) return;
+    if (!ok) { if (audio.error) failed(); return; }
+    // on to the next āyah not already heard in this clip (a riwāyah may count two Ḥafṣ āyāt as one)
+    if (repeat) { load(idx); return; }
+    let n = idx + 1;
+    while (queue[n] && queue[n].s === item.s && c.with.includes(queue[n].a) && queue[n].a !== item.a) n++;
+    load(n);
   }
   function stop() {
+    loadNo++; stopClips();
     audio.pause();
     setPlaying(false);
     document.dispatchEvent(new CustomEvent('ql:ayah', { detail: { key: null } }));
@@ -100,18 +142,23 @@ export function initPlayer({ lazy = false } = {}) {
   audio.addEventListener('play', () => setPlaying(true));
   audio.addEventListener('pause', () => setPlaying(false));
   audio.addEventListener('timeupdate', () => {
-    fill.style.width = audio.duration ? `${(audio.currentTime / audio.duration) * 100}%` : '0';
+    const [a0, a1] = clip ? [clip.start ?? 0, clip.end ?? audio.duration] : [0, audio.duration];
+    fill.style.width = a1 > a0 ? `${Math.min(100, Math.max(0, ((audio.currentTime - a0) / (a1 - a0)) * 100))}%` : '0';
   });
-  audio.addEventListener('ended', () => (repeat ? load(idx) : load(idx + 1)));
+  // Ḥafṣ: one file per āyah, so the end of the file is the end of the āyah (other riwāyāt move on in load())
+  audio.addEventListener('ended', () => { if (clip) return; repeat ? load(idx) : load(idx + 1); });
   audio.addEventListener('error', () => {
     if (!audio.src) return;
-    err.hidden = false;
-    setPlaying(false);
+    failed();
   });
 
   playBtn.addEventListener('click', () => {
     if (idx < 0) return load(0);
-    audio.paused ? audio.play() : audio.pause();
+    if (!audio.paused) { audio.pause(); return; }
+    // a clip that was stopped part-way carries on from where it is
+    if (clip && audio.src && (clip.end == null || audio.currentTime < clip.end)) audio.play().catch(() => {});
+    else if (clip) load(idx);
+    else audio.play().catch(() => {});
   });
   bar.querySelector('[data-p="next"]').addEventListener('click', () => load(Math.min(idx + 1, queue.length - 1)));
   bar.querySelector('[data-p="prev"]').addEventListener('click', () => load(Math.max(idx - 1, 0)));
@@ -125,8 +172,15 @@ export function initPlayer({ lazy = false } = {}) {
     speedBtn.textContent = `${next}×`;
   });
   reciterSel.addEventListener('change', () => {
-    settings.reciter = reciterSel.value;
+    if (rw() === 'hafs') settings.reciter = reciterSel.value;
+    else chooseReciter(rw(), reciterSel.value);
     if (idx >= 0) load(idx);
+  });
+  // the riwāyah changed in the Quran menu: its own reciters, from the same āyah
+  document.addEventListener('ql:riwayah', () => {
+    const playing = !audio.paused;
+    fillReciters();
+    if (idx >= 0) { if (playing) load(idx); else { stop(); err.hidden = true; } }
   });
 
   const show = () => { bar.hidden = false; document.body.classList.add('has-player'); };

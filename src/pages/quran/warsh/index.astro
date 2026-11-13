@@ -1,8 +1,7 @@
 ---
-// The Warsh classroom (the page is shared by every riwāyah: src/quran/components/Classroom.astro).
-import Base from '../../../quran/layouts/Base.astro';
-import Classroom from '../../../quran/components/Classroom.astro';
+// The warsh classroom moved into the riwāyah classroom (src/pages/quran/riwayat/): old links land there.
+import { u } from '../../../quran/lib/url.mjs';
+const to = u('riwayat/?rw=warsh');
 ---
-<Base title="Warsh classroom" description="Learn the riwāyah of Warsh ʿan Nāfiʿ with the Sheikh: each rule from the official mushaf, compared with Ḥafṣ, repeated and practised." active="riwayat">
-  <Classroom rw="warsh" />
-</Base>
+<html lang="en"><head><meta charset="utf-8" /><meta http-equiv="refresh" content={`0; url=${to}`} /><link rel="canonical" href={to} /><title>Riwāyah classroom</title></head>
+<body><script is:inline define:vars={{ to }}>location.replace(to + location.hash);</script><a href={to}>Open the riwāyah classroom</a></body></html>

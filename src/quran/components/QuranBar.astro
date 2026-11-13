@@ -56,7 +56,7 @@ const riwayat = [['hafs', 'Hafs ʿan ʿĀṣim'], ...(meta.riwayat ?? []).map((r
       </select>
     </label>
     <label>Riwayah
-      <select id="qb-riwayah" aria-label="Riwayah" disabled={mode === 'hifz'} title={mode === 'hifz' ? 'The Hifz test uses Hafs: the Sheikh’s recitations are in Hafs' : ''}>
+      <select id="qb-riwayah" aria-label="Riwayah">
         {riwayat.map(([id, name]) => <option value={id}>{name}</option>)}
       </select>
     </label>
@@ -160,7 +160,7 @@ const riwayat = [['hafs', 'Hafs ʿan ʿĀṣim'], ...(meta.riwayat ?? []).map((r
   // riwayah (remembered, applied live). Tajweed colours exist for Hafs only.
   const rwSel = document.getElementById('qb-riwayah');
   const rwSaved = store.get('riwayah', 'hafs');
-  rwSel.value = here === 'hifz' ? 'hafs' : ([...rwSel.options].some((o) => o.value === rwSaved) ? rwSaved : 'hafs');
+  rwSel.value = ([...rwSel.options].some((o) => o.value === rwSaved) ? rwSaved : 'hafs');
   function applyRw() {
     document.documentElement.dataset.riwayah = rwSel.value;
     const tjOpt = scriptSel.querySelector('option[value="tajweed"]');
