@@ -1,5 +1,6 @@
 // Shared by the browser and the build scripts: which voice reads what, the spoken form of Arabic words,
 // and the key that names each recorded clip (FNV-1a of "voice|spoken text", so a changed sentence or pronunciation gets a new clip).
+import { ARABIC_WORDS, arabicSounds } from './arabic-sounds.mjs';
 
 // Three readers, all made with Kokoro (Apache 2.0) by scripts/voice/make_narration.py:
 //   story   a warm, slow storyteller (af_heart), with the characters' words in their own voices
@@ -40,13 +41,24 @@ export const NAMES = [
   ['al-Kahf', 'al kˈahf'], ['mushaf', 'mˈʊshaf'], ['Sheikh', 'ʃˈeɪx'],
   ['hadith', 'hadˈiːθ'], ['surah', 'sˈuːɹa'], ['ayah', 'ˈɑːja'], ['Qurʾan', 'kʊɹˈɑːn'], ['Quran', 'kʊɹˈɑːn'],
 ];
-const NAME_RE = new RegExp(`(?<![\\p{L}])(${NAMES.map(([w]) => w.replace(/[’']/g, "['’]").replace(/ /g, '\\s+')).join('|')})([’']s)?(?![\\p{L}])`, 'giu');
-const NAME_KEY = new Map(NAMES.map(([w, ipa]) => [w.toLowerCase().replace(/’/g, "'"), ipa]));
+const lexicon = (list, after = '') => {
+  const l = [...list].sort((a, b) => b[0].length - a[0].length);   // longest first, so a phrase wins over a word in it
+  const re = new RegExp(`(?<![\\p{L}])(${l.map(([w]) => w.replace(/[’']/g, "['’]").replace(/ /g, '\\s+')).join('|')})([’']s)?(?![\\p{L}${after}])`, 'giu');
+  const key = new Map(l.map(([w, ipa]) => [w.toLowerCase().replace(/’/g, "'"), ipa]));
+  return (t) => t.replace(re, (m, w, pos) => { const ipa = key.get(w.toLowerCase().replace(/’/g, "'").replace(/\s+/g, ' ')); return ipa ? `{${ipa}${pos ? 'z' : ''}}` : m; });
+};
+const names = lexicon(NAMES);
+// The Sheikh only: the Arabic words of his lessons (tajweed, the riwāyāt), from their transliteration
+// (src/lib/arabic-sounds.mjs). Not for the storyteller, whose sheep still say "baa".
+const sheikhWords = lexicon([
+  ['Masha Allah', 'mˌɑːʃɑːllˈɑːh'], ['sallallahu alayhi wa sallam', 'sˌallallˈɑːhu alˈaɪhi wa sˈallam'], ['Ali', 'ˈali'], ['Umm', 'ˈʊmm'], ['Abu', 'ˈabuː'],
+  ...ARABIC_WORDS.map((w) => [w, arabicSounds(w)]),
+].filter(([w]) => !NAMES.some(([x]) => x.toLowerCase() === w.toLowerCase())), "‘’'ʿ");   // (nafi‘a is not Nafi)
 // spoken(text): what the browser's own voice is given. spoken(text, true): what the recorded voice reads, with each
-// name as {its sounds} (also used for the clip keys)
-export function spoken(text, sounds = false) {
+// name as {its sounds} (also used for the clip keys). arabic: the Sheikh's lesson words too.
+export function spoken(text, sounds = false, arabic = false) {
   let s = text;
-  const names = (t) => t.replace(NAME_RE, (m, w, pos) => { const ipa = NAME_KEY.get(w.toLowerCase().replace(/’/g, "'").replace(/\s+/g, ' ')); return ipa ? `{${ipa}${pos ? 'z' : ''}}` : m; });
+  if (sounds && arabic) s = sheikhWords(s);
   if (sounds) s = names(s);
   for (const [a, b] of SAY) s = s.replace(a, b);
   if (sounds) s = names(s);
@@ -153,7 +165,7 @@ export function parts(text, where) {
 
 export function clipKey(voice, text) {
   let h = 0x811c9dc5;
-  for (const b of new TextEncoder().encode(`${voice}|${spoken(text, true)}`)) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
+  for (const b of new TextEncoder().encode(`${voice}|${spoken(text, true, voice === VOICES.sheikh)}`)) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
   return h.toString(16).padStart(8, '0');
 }
 
