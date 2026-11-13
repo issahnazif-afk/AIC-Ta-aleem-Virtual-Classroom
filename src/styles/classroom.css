@@ -178,6 +178,8 @@
 .stage .w.current { box-shadow: inset 0 -3px 0 var(--accent) !important; background: var(--accent-soft); }
 .stage .w.current.wrong { box-shadow: inset 0 -3px 0 var(--bad) !important; background: rgba(179, 38, 30, .12); }
 .stage .w.weak { color: var(--bad); box-shadow: inset 0 -2px 0 rgba(179, 38, 30, .35); }
+/* a tajweed rule to fix (the Sheikh's tajweed ear): tap the word to see which */
+.stage .w.tj { box-shadow: inset 0 -3px 0 var(--terracotta, #B96F50) !important; cursor: pointer; }
 .stage .w.missed { box-shadow: inset 0 -3px 0 var(--bad) !important; background: rgba(179, 38, 30, .12); }
 .stage .w.helped { color: var(--gold); }
 .stage .w.unclear { background-image: radial-gradient(circle, var(--muted) 1px, transparent 1.6px); background-size: 6px 4px; background-repeat: repeat-x; background-position: 0 100%; }

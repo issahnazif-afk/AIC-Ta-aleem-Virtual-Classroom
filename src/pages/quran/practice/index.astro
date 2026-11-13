@@ -61,6 +61,16 @@ const meta = getMeta();
     .practice .w.weak { color: var(--bad); box-shadow: inset 0 -2px 0 rgba(179, 38, 30, .35); }
     .practice .w.missed { box-shadow: inset 0 -3px 0 var(--bad) !important; background: rgba(179, 38, 30, .12); }
     .practice .w.helped { color: var(--marker); }
+    .practice { --tj: #B96F50; }
+    :root[data-theme="dark"] .practice { --tj: #E3A07F; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .practice { --tj: #E3A07F; } }
+    .practice .w.tj { box-shadow: inset 0 -3px 0 var(--tj) !important; cursor: pointer; }
+    .practice .tj-state { margin: 0; font-size: 13px; color: var(--muted); text-align: center; }
+    .practice .tj-work { display: flex; flex-direction: column; gap: 8px; align-items: center; width: 100%; max-width: 620px; }
+    .practice .tj-work ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; width: 100%; text-align: start; }
+    .practice .tj-work li { display: flex; gap: 10px; align-items: baseline; border: 1px solid var(--line); border-left: 4px solid var(--tj); border-radius: 8px; padding: 6px 10px; }
+    .practice .tj-work .ar { font-family: var(--font-quran); font-size: 22px; flex: none; }
+    .practice .tj-work small { color: var(--muted); }
     .practice .w.unclear { background-image: radial-gradient(circle, var(--muted) 1px, transparent 1.6px); background-size: 6px 4px; background-repeat: repeat-x; background-position: 0 100%; }
     .practice .w.fresh { color: var(--good); transition: none; }
     .practice .w.replay { background: linear-gradient(transparent 24%, var(--replay) 24%, var(--replay) 84%, transparent 84%); }
@@ -146,6 +156,7 @@ const meta = getMeta();
         <label><input type="checkbox" id="p-outline" /> Show faint lines where words go</label>
         <label><input type="checkbox" id="p-context" /> Show ayahs outside my range faintly</label>
       </div>
+      <div id="p-tajweed"></div>
     </form>
 
     <div class="card summary-bar" id="summary-bar" hidden>
@@ -170,6 +181,7 @@ const meta = getMeta();
         <button class="btn" type="button" id="finish" hidden><span class="lab-long">Finish</span><span class="lab-short">Finish</span></button>
       </div>
       <p class="status" id="status" aria-live="polite"></p>
+      <p class="tj-state" id="tj-state" hidden></p>
           <p id="asr-heard" lang="ar" dir="rtl" style="margin:0;font-size:13px;color:var(--muted);text-align:center"></p>
       <button class="btn" type="button" id="back-place" hidden style="align-self:center">Back to my place</button>
       <div class="choices" id="choices" hidden></div>
@@ -183,6 +195,7 @@ const meta = getMeta();
       <span><b style="color:var(--bad)">Red</b> took more than one try</span>
       <span><b style="color:var(--marker)">Amber</b> shown as help</span>
       <span><b>Dotted</b> not heard clearly; worth checking</span>
+      <span id="legend-tj" hidden><b style="color:var(--tj)">Orange line</b> a tajweed rule to fix (tap the word)</span>
       <span><b style="background:var(--replay);padding:0 4px;border-radius:3px;color:var(--ink)">Highlight</b> words you went back over</span>
     </div>
 
@@ -204,6 +217,10 @@ const meta = getMeta();
         <b>Words to work on</b>
         <div class="worklist" id="worklist"></div>
       </div>
+      <div id="tj-work" class="tj-work" hidden>
+        <b>Tajweed to work on</b>
+        <ul id="tj-list"></ul>
+      </div>
       <div class="tool-row">
         <button class="btn btn-primary" type="button" id="again">Practise again</button>
         <a class="btn" id="read-link" href="#">Listen to these ayahs</a>
@@ -223,6 +240,9 @@ const meta = getMeta();
     import { buildPaper, fitPaper } from '../../../quran/lib/mushaf.mjs';
     import { attachSwipe } from '../../../quran/lib/swipe.mjs';
     import { createLiveCursor } from '../../../quran/lib/livecursor.mjs';
+    import { tajweedPicker } from '../../../lib/tajweed-ear/picker.mjs';
+    import { createTajweedEar } from '../../../lib/tajweed-ear/ear.mjs';
+    import { remarkText, describeChoice } from '../../../lib/tajweed-ear/rules.mjs';
 
     const $ = (id) => document.getElementById(id);
     const SR = getSpeechRecognition();
@@ -243,6 +263,9 @@ const meta = getMeta();
     let appending = false;
     let stats = { words: 0, first: 0, help: 0 };
     let wrongStreak = 0;
+    // checking with tajweed (the student's choice, in the settings)
+    const tjPick = tajweedPicker(document.getElementById('p-tajweed'), { aud: 'adult', key: 'ql-tjcheck', progKey: 'ql-tjc' });
+    let tjChecks = null, ear = null, tjLog = [];
 
     // ── setup ──────────────────────────────────────────────────
     const surahSel = $('p-surah'), fromEl = $('p-from'), toEl = $('p-to');
@@ -337,7 +360,8 @@ const meta = getMeta();
       $('tr-panel').hidden = true; $('summary').hidden = true;
     }
     function showWorkspace(summary) {
-      $('summary-text').textContent = `${summary}, ${$('p-strict').selectedOptions[0].textContent.toLowerCase()} checking`;
+      $('summary-text').textContent = `${summary}, ${$('p-strict').selectedOptions[0].textContent.toLowerCase()} checking of ${tjChecks ? describeChoice(tjPick.get(), 'adult') : 'words'}`;
+      $('legend-tj').hidden = !tjChecks;
       $('setup').hidden = true; $('intro').hidden = true;
       $('summary-bar').hidden = false;
       $('toolbar').hidden = false; $('stage').hidden = false; $('note').hidden = false; $('legend').hidden = false;
@@ -351,6 +375,9 @@ const meta = getMeta();
       stopListening();
       meta ??= await getJson('meta.json');
       resetSession();
+      ear?.stop(); ear = null; tjLog = []; $('tj-state').hidden = true;
+      tjChecks = tjPick.checks();
+      if (tjChecks && (document.documentElement.dataset.riwayah || 'hafs') !== 'hafs') { tjChecks = null; $('tj-state').textContent = 'Tajweed is checked for the riwāyah of Ḥafṣ only: the words are checked.'; $('tj-state').hidden = false; }
 
       if (mode === 'surah') {
         const s = Number(surahSel.value);
@@ -448,8 +475,10 @@ const meta = getMeta();
       const cls = w.state === 'shown' ? 'w' : w.state === 'skipped' ? 'w out' : 'w hidden';
       const sp = el('span', cls, w.display);
       if (w.state === 'shown') { if (w.helped) sp.classList.add('helped'); else if (w.mistake) sp.classList.add('weak'); else if (w.unclear) sp.classList.add('unclear'); }
-      else if (w.mistake) sp.classList.add('missed');
+      else if (w.mistake && !w.tajweed) sp.classList.add('missed');
       if (w.hint && w.state === 'hidden') sp.classList.add('hint');
+      if (w.tajweed && w.state === 'shown') sp.classList.add('tj');
+      sp.__w = w;
       w.el = sp;
       return sp;
     }
@@ -514,6 +543,7 @@ const meta = getMeta();
         sp.classList.remove('hidden', 'hint', 'current', 'wrong', 'missed');
         sp.classList.add(w.helped ? 'helped' : w.mistake ? 'weak' : 'fresh');
         if (w.unclear && !w.mistake && !w.helped) sp.classList.add('unclear');
+        if (w.tajweed) sp.classList.add('tj');
         sp.style.setProperty('--dur', `${dur}ms`);
         sp.classList.add('ink');
         follow(sp);
@@ -688,6 +718,7 @@ const meta = getMeta();
         list.append(a);
       }
       $('work').hidden = weak.length === 0;
+      renderTajweedWork();
       setTimeout(() => $('summary').scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' }), 600);
     }
 
@@ -801,6 +832,48 @@ const meta = getMeta();
     window.addEventListener('ql:offtext', () => { if (listening) say('That did not sound like the next words. Carry on from the highlighted word.', 'bad'); });
     let live = null;
     let askedLocal = false;
+    // ── the tajweed ear: judges each breath for the rules chosen, beside the word checker ──
+    function startEar() {
+      if (!tjChecks) return;
+      ear ??= createTajweedEar({
+        checks: tjChecks, getFlat: () => flat, getPos: () => pos,
+        onState: (st) => {
+          const t = $('tj-state');
+          t.hidden = false;
+          t.textContent = st === 'loading' ? 'Loading the tajweed ear (once, about 23 MB)…' : st === 'ready' ? 'The Sheikh is listening for tajweed too.' : 'Tajweed could not be checked on this device: the words are still checked.';
+        },
+        onRemarks: (list) => {
+          for (const { w, remarks } of list) {
+            if (w.helped) continue;
+            w.tajweed = remarks;
+            // a word already written loses its "right first time"; one not yet accepted is marked when it is written
+            const written = w.state === 'queued' || w.state === 'shown';
+            if (!w.mistake && written) stats.first = Math.max(0, stats.first - 1);
+            w.mistake = true;
+            if (written) w.el?.classList.add('tj', 'weak');
+            for (const r of remarks) tjLog.push({ w, r, text: remarkText(r) });
+          }
+          const last = tjLog[tjLog.length - 1];
+          if (last && phase !== 'done') say(`Tajweed, ${last.w.display}: ${last.text}`, 'bad');
+          if (phase === 'done') renderTajweedWork();
+        },
+      });
+      ear.start();
+    }
+    function renderTajweedWork() {
+      const ul = $('tj-list');
+      ul.replaceChildren(...tjLog.slice(0, 40).map(({ w, text }) => {
+        const li = el('li');
+        li.append(el('span', 'ar', w.display), el('span', null, text), el('small', null, w.item.a ? `${w.item.s}:${w.item.a}` : 'Bismillah'));
+        return li;
+      }));
+      $('tj-work').hidden = !tjLog.length;
+    }
+    // a word marked for tajweed: tap it to hear what to fix
+    $('stage').addEventListener('click', (e) => {
+      const w = e.target.closest('.w.tj')?.__w;
+      if (w?.tajweed) say(`Tajweed, ${w.display}: ${w.tajweed.map((r) => remarkText(r)).join(' ')}`, 'bad');
+    });
     function startListening() {
       if (!live) live = createLiveCursor({ getFlat: () => flat, getPos: () => pos, onPage: (w) => w.page === shownPage });
       // the live cursor takes the microphone first; only then ask Chrome about on-device Arabic
@@ -837,11 +910,13 @@ const meta = getMeta();
       };
       try {
         rec.start(); listening = true; setMic(true);
+        startEar();
         say(phase === 'locating' ? 'Listening. Recite from any ayah.' : 'Listening. Recite the next word.');
       } catch { say('Could not start the microphone. Reload the page and try again.', 'bad'); }
     }
     function stopListening() {
       live?.stop();
+      ear?.stop();
       listening = false;
       try { rec?.stop(); } catch {}
       setMic(false);

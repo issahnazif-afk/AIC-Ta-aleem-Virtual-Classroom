@@ -14,6 +14,8 @@ import { tuneRecognition, setExpected, phrasesRefused } from './speech.mjs';
 import { buildPaper, fitPaper } from './mushaf.mjs';
 import { LEVELS, newTally } from './session.mjs';
 import { phrase, praiseFor, speak, stopVoice } from './phrases.mjs';
+import { createTajweedEar } from './tajweed-ear/ear.mjs';
+import { remarkText } from './tajweed-ear/rules.mjs';
 
 const AR = '٠١٢٣٤٥٦٧٨٩';
 const arNum = (n) => String(n).replace(/\d/g, (d) => AR[d]);
@@ -21,7 +23,8 @@ const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls)
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const STANDARD_WORDS = 60;   // roughly half a mushaf page
 
-export function createEngine({ stage, SR, level = 'intermediate', reciter, gender = '', speakInstructions = true, ui }) {
+// tajweed: null (the words only), or { checks: Set of the rules chosen, young: Level 3 wording }
+export function createEngine({ stage, SR, level = 'intermediate', reciter, gender = '', speakInstructions = true, ui, tajweed = null }) {
   const L = LEVELS[level] ?? LEVELS.intermediate;
   const threshold = () => THRESHOLDS[L.checking] ?? THRESHOLDS.normal;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -250,8 +253,9 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     else if (w.state === 'skipped') cls = 'w out';
     else if (w.state === 'todo' || w.state === 'queued') cls = shown() ? 'w todo' : 'w hidden';
     const sp = el('span', cls, w.display);
-    if (w.state === 'shown') { if (w.helped) sp.classList.add('helped'); else if (w.mistake) sp.classList.add('weak'); else if (w.unclear) sp.classList.add('unclear'); }
-    else if (w.mistake) sp.classList.add('missed');
+    if (w.state === 'shown') { if (w.helped) sp.classList.add('helped'); else if (w.mistake) sp.classList.add('weak'); else if (w.unclear) sp.classList.add('unclear'); if (w.tajweed) sp.classList.add('tj'); }
+    else if (w.mistake && !w.tajweed) sp.classList.add('missed');
+    sp.__w = w;
     w.el = sp;
     return sp;
   }
@@ -344,6 +348,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       sp.classList.remove('hidden', 'todo', 'hint', 'current', 'wrong', 'missed');
       sp.classList.add(w.helped ? 'helped' : w.mistake ? 'weak' : 'fresh');
       if (w.unclear && !w.mistake && !w.helped) sp.classList.add('unclear');
+      if (w.tajweed) sp.classList.add('tj');
       sp.style.setProperty('--dur', `${dur}ms`);
       sp.classList.add('ink');
       follow(sp);
@@ -563,6 +568,42 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       return pos;
     },
   });
+  // ── the tajweed ear: judges each breath for the rules the student chose, beside the word checker ──
+  let ear = null;
+  function startEar() {
+    if (!tajweed?.checks) return;
+    ear ??= createTajweedEar({
+      checks: tajweed.checks, getFlat: () => flat, getPos: () => pos,
+      onState: (st) => { if (st === 'error') status('Tajweed could not be checked on this device. The words are still checked.', ''); },
+      onRemarks: (list) => {
+        let lastText = '';
+        for (const { w, remarks } of list) {
+          if (w.helped || w.tajweed) continue;
+          w.tajweed = remarks;
+          // a word already written loses its "right first time"; one not yet accepted is marked when it is written
+          const written = w.state === 'queued' || w.state === 'shown';
+          if (!w.mistake && written) {
+            const owner = questions.find((x) => x.flat?.includes(w));
+            if (owner?.stats) owner.stats.first = Math.max(0, owner.stats.first - 1);
+            tally.first = Math.max(0, tally.first - 1);
+          }
+          w.mistake = true;
+          tally.tajweed += remarks.length;
+          markAyah(w, 'tajweed');
+          for (const r of remarks) { lastText = remarkText(r, tajweed.young); note('tajweed', w, { text: lastText }); }
+          if (written && w.el) { w.el.classList.add('tj', 'weak'); w.el.classList.remove('read'); }
+        }
+        if (lastText && phase === 'answer') status(`Tajweed: ${lastText}`, 'bad');
+      },
+    });
+    ear.start();
+  }
+  // a word marked for tajweed: tap it to see what to fix
+  stage.addEventListener('click', (e) => {
+    const w = e.target.closest('.w.tj')?.__w;
+    if (w?.tajweed) status(`Tajweed, ${w.display}: ${w.tajweed.map((r) => remarkText(r, tajweed?.young)).join(' ')}`, 'bad');
+  });
+
   function startListening() {
     if (!SR || listening) return;
     rec = tuneRecognition(new SR(), { expect: upcoming() });
@@ -587,10 +628,11 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       setExpected(rec, upcoming());
       try { rec.start(); } catch { setTimeout(() => { try { if (listening && me === rec) rec.start(); } catch {} }, 60); }
     };
-    try { rec.start(); listening = true; ui.mic?.(true); } catch { status('Could not start the microphone. Reload the page and try again.', 'bad'); }
+    try { rec.start(); listening = true; ui.mic?.(true); startEar(); } catch { status('Could not start the microphone. Reload the page and try again.', 'bad'); }
   }
   function stopListening() {
     listening = false;
+    ear?.stop();
     clearLive();
     try { rec?.stop(); } catch {}
     ui.mic?.(false);

@@ -32,6 +32,16 @@ jobs:
           gh release download qaaf-asr-model -R issahnazif-afk/Qa-af-Wal-Quran-ul-Majeed -D public/models \
             -p 'qaaf-asr.onnx' -p 'features.json' -p 'vocab.json' --clobber \
             || echo "No speech model published yet; the browser's speech recognition will be used"
+      # The Sheikh's tajweed ear (src/lib/tajweed-ear/): HisnLabs tajweed-v2, Apache-2.0, the int8 ONNX (23 MB),
+      # pinned to the revision that was tested and checked by its SHA-256. Without it tajweed checking says it is
+      # unavailable and the words are still checked.
+      - name: Get the tajweed model (if available)
+        run: |
+          mkdir -p public/models
+          curl -fsSL --retry 3 -o public/models/tajweed-v2.onnx \
+            https://huggingface.co/Hisnlabs/tajweed-v2/resolve/b3b0503d32b4d9a8a0447880b4564fd3e9d69c15/onnx/model-int8.onnx \
+            && echo "79cca1a2fc7ef81e325a3071a5f26cfec69203ef2c63177549065cdc1022c373  public/models/tajweed-v2.onnx" | sha256sum -c - \
+            || { rm -f public/models/tajweed-v2.onnx; echo "Tajweed model not available: tajweed checking will be unavailable"; }
       - name: Get the face landmarker model (look-away check)
         run: |
           curl -fsSL --retry 3 -o public/models/face_landmarker.task \

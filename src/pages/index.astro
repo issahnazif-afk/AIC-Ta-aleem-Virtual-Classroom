@@ -213,8 +213,9 @@ const levels = [
             <button type="button" class="pick" role="radio" aria-checked={id === 'intermediate' ? 'true' : 'false'} data-level={id}><b>{name}</b><span>{text}</span></button>
           ))}
         </div>
-        <p class="muted small" style="margin-top:8px">The Sheikh checks every word: wrong, forgotten or skipped words, hints and unclear words. Tajweed rules are not checked yet.</p>
+        <p class="muted small" style="margin-top:8px">The Sheikh checks every word: wrong, forgotten or skipped words, hints and unclear words.</p>
       </div>
+      <div id="su-tajweed" hidden></div>
       <div class="card fields">
         <label class="fld"><span>From surah</span><select id="su-from">{meta.surahs.map((s) => <option value={s.n} data-ayahs={s.ayahs}>{s.n}. {s.en}</option>)}</select></label>
         <label class="fld narrow-f"><span>From ayah</span><input id="su-a1" type="number" min="1" value="1" /></label>
@@ -960,7 +961,20 @@ const levels = [
     // the name of each way to recite, on the set-up screen, in the classroom and on the report
     const MODE_NAME = { hifz: 'Hifz test', follow: 'Follow my recitation', reading: 'Mujawwadah' };
     const modeTitle = (m) => (m === 'hifz' ? 'Hifz test' : m === 'follow' ? 'Follow my recitation · from memory' : noCam ? 'Recite · no camera' : 'Mujawwadah · reading from the mushaf');
+    // checking with tajweed: Levels 3 and 4 (who learn tajweed) choose the words only, or the words and the rules
+    // they have learnt (kept on this device for each student)
+    let tjPick = null, tjPickFor = '';
+    async function syncTajweedPick() {
+      const box = $('su-tajweed');
+      const on = me?.level >= 3;
+      box.hidden = !on;
+      if (!on || tjPickFor === me.username) return;
+      const { tajweedPicker } = await import('../lib/tajweed-ear/picker.mjs');
+      tjPick = tajweedPicker(box, { aud: me.level >= 4 ? 'l4' : 'l3', key: `qc-tjcheck-${me.username}`, progKey: `qc-tajweed-${me.username}` });
+      tjPickFor = me.username;
+    }
     function syncSetup() {
+      syncTajweedPick();
       document.querySelectorAll('[data-level]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.level === choice.level)));
       document.querySelectorAll('#s-setup [data-hifz-only]').forEach((x) => (x.hidden = choice.mode !== 'hifz'));
       document.querySelectorAll('#s-setup [data-mode]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.mode === choice.mode)));
@@ -991,6 +1005,7 @@ const levels = [
       unclear: () => 'Unclear · recite it clearly next time',
       back: () => 'Went back over words',
       away: () => 'Looked away from the screen',
+      tajweed: (n) => `Tajweed · ${n.text}`,
     };
     let notesN = 0;
     function addNote(n) {
@@ -1077,8 +1092,10 @@ const levels = [
       }
       sessionStart = Date.now(); clearInterval(timerT); timerT = setInterval(tickTimer, 1000); tickTimer();
 
+      const tjChecks = me.level >= 3 && !$('su-tajweed').hidden ? tjPick?.checks() : null;
       engine = createEngine({
         stage: $('stage'), SR, level: choice.level, reciter: $('su-voice').value, gender: me.gender,
+        tajweed: tjChecks ? { checks: tjChecks, young: me.level < 4 } : null,
         ui: {
           sheikh: setSheikh, status: setStatus, note: addNote,
           where: (w) => { $('where').textContent = w.label; },

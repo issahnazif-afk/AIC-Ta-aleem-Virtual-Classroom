@@ -3,7 +3,8 @@
 // What the Sheikh can judge depends on the speech model. The Qāf model (and the browser's speech
 // recognition) hear the letters of each word without its harakat, so the classroom checks memorisation
 // and word errors: wrong words, forgotten words, hints, unclear words, going back, and looking away.
-// Tajweed (harakat, madd, ghunnah, …) needs a model trained for it and is not checked yet.
+// With tajweed chosen (Levels 3 and 4), the Sheikh's tajweed ear (src/lib/tajweed-ear/) also judges the rules the
+// student picked: each rule broken is a mistake on that word.
 
 export const LEVELS = {
   beginner: {
@@ -30,10 +31,11 @@ export const CATEGORIES = {
   hint: 'Hint used',
   unclear: 'Unclear word',
   back: 'Went back over words',
+  tajweed: 'Tajweed rule to fix',
 };
 
 export function newTally() {
-  return { words: 0, first: 0, wrong: 0, prompt: 0, hint: 0, unclear: 0, back: 0, lookAways: 0, awayMs: 0 };
+  return { words: 0, first: 0, wrong: 0, prompt: 0, hint: 0, unclear: 0, back: 0, tajweed: 0, lookAways: 0, awayMs: 0 };
 }
 
 export function gradeOf(t) {
@@ -46,7 +48,7 @@ export function gradeOf(t) {
 }
 
 export function mistakesTotal(t, level) {
-  return t.wrong + t.prompt + (LEVELS[level]?.unclearIsMistake ? t.unclear : 0);
+  return t.wrong + t.prompt + (t.tajweed ?? 0) + (LEVELS[level]?.unclearIsMistake ? t.unclear : 0);
 }
 
 export function topMistakes(t) {

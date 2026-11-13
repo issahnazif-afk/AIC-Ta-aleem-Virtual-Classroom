@@ -63,6 +63,16 @@ const meta = getMeta();
     .practice .w.weak { color: var(--bad); box-shadow: inset 0 -2px 0 rgba(179, 38, 30, .35); }
     .practice .w.missed { box-shadow: inset 0 -3px 0 var(--bad) !important; background: rgba(179, 38, 30, .12); }
     .practice .w.helped { color: var(--marker); }
+    .practice, .results { --tj: #B96F50; }
+    :root[data-theme="dark"] :is(.practice, .results) { --tj: #E3A07F; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) :is(.practice, .results) { --tj: #E3A07F; } }
+    .practice .w.tj { box-shadow: inset 0 -3px 0 var(--tj) !important; cursor: pointer; }
+    .tj-state { margin: 0; font-size: 13px; color: var(--muted); text-align: center; }
+    .tj-work { display: flex; flex-direction: column; gap: 8px; align-items: center; width: 100%; }
+    .tj-work ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 620px; }
+    .tj-work li { display: flex; gap: 10px; align-items: baseline; border: 1px solid var(--line); border-left: 4px solid var(--tj); border-radius: 8px; padding: 6px 10px; }
+    .tj-work .ar { font-family: var(--font-quran); font-size: 22px; flex: none; }
+    .tj-work small { color: var(--muted); }
     .practice .w.unclear { background-image: radial-gradient(circle, var(--muted) 1px, transparent 1.6px); background-size: 6px 4px; background-repeat: repeat-x; background-position: 0 100%; }
     .practice .w.fresh { color: var(--good); transition: none; }
     .practice .w.replay { background: linear-gradient(transparent 24%, var(--replay) 24%, var(--replay) 84%, transparent 84%); }
@@ -220,6 +230,7 @@ const meta = getMeta();
       <div class="radio">
         <label><input type="checkbox" id="t-speak" checked style="width:18px;height:18px" /> The Sheikh speaks his instructions aloud, such as «اقرأ» and «حسبك»</label>
       </div>
+      <div id="t-tajweed"></div>
       <p class="hint-text" id="t-rw"></p>
       <p class="hint-text">The Quran itself is always recited by the voice you chose. Short instructions use your device’s Arabic voice, if it has one; otherwise they are shown only in the speech bubble.</p>
       <p class="hint-text" id="t-err" role="alert" style="color:#B3261E"></p>
@@ -251,6 +262,7 @@ const meta = getMeta();
             <button class="btn" type="button" id="end"><span class="lab-long">End test</span><span class="lab-short">End</span></button>
           </div>
           <p class="status" id="status" aria-live="polite"></p>
+          <p class="tj-state" id="tj-state" hidden></p>
           <p id="asr-heard" lang="ar" dir="rtl" style="margin:0;font-size:13px;color:var(--muted);text-align:center"></p>
           <button class="btn" type="button" id="back-place" hidden style="align-self:center">Back to my place</button>
           <div class="where" id="where"></div>
@@ -261,6 +273,7 @@ const meta = getMeta();
           <span><b style="color:var(--bad)">Red</b> took more than one try, or the Sheikh prompted you</span>
           <span><b style="color:var(--marker)">Amber</b> shown as help</span>
       <span><b>Dotted</b> not heard clearly; worth checking</span>
+          <span id="legend-tj" hidden><b style="color:var(--tj)">Orange line</b> a tajweed rule to fix (tap the word)</span>
           <span><b style="background:var(--replay);padding:0 4px;border-radius:3px;color:var(--ink)">Highlight</b> words you went back over</span>
         </div>
         <p class="note">Your browser turns speech into text using its own speech service (Google in Chrome and Edge, Apple in Safari). This site does not record or store audio.</p>
@@ -278,6 +291,10 @@ const meta = getMeta();
       <div id="work" hidden style="display:flex;flex-direction:column;gap:8px;align-items:center">
         <b>Words to work on</b>
         <div class="worklist" id="worklist"></div>
+      </div>
+      <div id="tj-work" class="tj-work" hidden>
+        <b>Tajweed to work on</b>
+        <ul id="tj-list"></ul>
       </div>
       <p class="hint-text">Grades: Excellent 95% and above with no prompts; Very good 85% and above; Good 70% and above; below that, revise and try again. Each prompt from the Sheikh counts as a word not known.</p>
       <div class="tool-row">
@@ -301,6 +318,9 @@ const meta = getMeta();
     import { createLiveCursor } from '../../../quran/lib/livecursor.mjs';
     import { me } from '../../../quran/lib/account.mjs';
     import { recitersFor, reciterFor, chooseReciter, clipFor, playClip, stopClips, riwayahName } from '../../../quran/lib/rw-audio.mjs';
+    import { tajweedPicker } from '../../../lib/tajweed-ear/picker.mjs';
+    import { createTajweedEar } from '../../../lib/tajweed-ear/ear.mjs';
+    import { remarkText, describeChoice } from '../../../lib/tajweed-ear/rules.mjs';
     // the Sheikh speaks to a brother or a sister (from their account)
     const sister = me()?.gender === 'f';
     const g = (brother, sis) => (sister ? sis : brother);
@@ -324,6 +344,9 @@ const meta = getMeta();
     let phase = 'idle';    // idle | sheikh | answer | stopped | done
     let items = [], flat = [], pos = 0, shownPage = 0, wrongStreak = 0;
     let q = null;
+    // checking with tajweed (the student's choice, in the settings)
+    const tjPick = tajweedPicker(document.getElementById('t-tajweed'), { aud: 'adult', key: 'ql-tjcheck', progKey: 'ql-tjc' });
+    let tjChecks = null, ear = null, tjLog = [];
 
     // ── riwāyah: the one chosen in the Quran menu. Read when a test starts; its text is what the reader is
     // checked against and shown, and the Sheikh recites it with one of its reciters.
@@ -397,6 +420,10 @@ const meta = getMeta();
       if (!SR) { $('t-err').textContent = 'This browser cannot check speech. Open the page in Chrome, Edge or Safari.'; return; }
       meta ??= await getJson('meta.json');
       rw = curRw();
+      ear?.stop(); ear = null; tjLog = []; $('tj-state').hidden = true;
+      tjChecks = rw === 'hafs' ? tjPick.checks() : null;
+      $('legend-tj').hidden = !tjChecks;
+      if (!tjChecks && tjPick.checks()) { $('tj-state').textContent = 'Tajweed is checked for the riwāyah of Ḥafṣ only: the words are checked.'; $('tj-state').hidden = false; }
       if (rw === 'hafs') settings.reciter = $('t-reciter').value;
       else if ($('t-reciter').value) chooseReciter(rw, $('t-reciter').value);
       await loadRiwayah(1);   // its Bismillah
@@ -658,8 +685,9 @@ const meta = getMeta();
     function wordSpan(w) {
       const cls = w.state === 'shown' ? 'w' : w.state === 'skipped' ? 'w out' : 'w hidden';
       const sp = el('span', cls, w.display);
-      if (w.state === 'shown') { if (w.helped) sp.classList.add('helped'); else if (w.mistake) sp.classList.add('weak'); else if (w.unclear) sp.classList.add('unclear'); }
-      else if (w.mistake) sp.classList.add('missed');
+      if (w.state === 'shown') { if (w.helped) sp.classList.add('helped'); else if (w.mistake) sp.classList.add('weak'); else if (w.unclear) sp.classList.add('unclear'); if (w.tajweed) sp.classList.add('tj'); }
+      else if (w.mistake && !w.tajweed) sp.classList.add('missed');
+      sp.__w = w;
       w.el = sp;
       return sp;
     }
@@ -713,6 +741,7 @@ const meta = getMeta();
         sp.classList.remove('hidden', 'hint', 'current', 'wrong', 'missed');
         sp.classList.add(w.helped ? 'helped' : w.mistake ? 'weak' : 'fresh');
         if (w.unclear && !w.mistake && !w.helped) sp.classList.add('unclear');
+        if (w.tajweed) sp.classList.add('tj');
         sp.style.setProperty('--dur', `${dur}ms`);
         sp.classList.add('ink');
         follow(sp);
@@ -941,10 +970,13 @@ const meta = getMeta();
         list.append(a);
       }
       $('work').hidden = weak.length === 0;
+      renderTajweedWork();
+      if (tjLog.length && words) $('grade-note').textContent += ` Tajweed: ${tjLog.length} rule${tjLog.length === 1 ? '' : 's'} to fix (${describeChoice(tjPick.get(), 'adult')}).`;
       if (words) document.dispatchEvent(new CustomEvent('ql:test-result', { detail: {
         kind: 'Hifz test', passage: asked.map((x) => x.items[0].label).join('; '), questions: asked.length, words,
         rightPct: Math.round((first / words) * 100), prompts, hints: help, grade: overall,
         revise: weak.slice(0, 40).map((w) => `${w.display} (${w.item.s}:${w.item.a || 0})`).join(', '),
+        tajweed: tjChecks ? tjLog.map((x) => `${x.w.display}: ${x.text}`).slice(0, 30).join(' | ') : '',
       } }));
       $('results').scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
     }
@@ -1011,6 +1043,48 @@ const meta = getMeta();
     window.addEventListener('ql:offtext', () => { if (listening) status('That did not sound like the next words. Carry on from the highlighted word.', 'bad'); });
     let live = null;
     let askedLocal = false;
+    // ── the tajweed ear: judges each breath for the rules chosen, beside the word checker ──
+    function startEar() {
+      if (!tjChecks) return;
+      ear ??= createTajweedEar({
+        checks: tjChecks, getFlat: () => flat, getPos: () => pos,
+        onState: (st) => {
+          const t = $('tj-state');
+          t.hidden = false;
+          t.textContent = st === 'loading' ? 'Loading the tajweed ear (once, about 23 MB)…' : st === 'ready' ? 'The Sheikh is listening for tajweed too.' : 'Tajweed could not be checked on this device: the words are still checked.';
+        },
+        onRemarks: (list) => {
+          for (const { w, remarks } of list) {
+            if (w.helped) continue;
+            w.tajweed = remarks;
+            // the question the word belongs to loses its "right first time" once the word is written
+            const owner = questions.find((x) => x.flat?.includes(w));
+            const written = w.state === 'queued' || w.state === 'shown';
+            if (!w.mistake && written && owner?.stats) owner.stats.first = Math.max(0, owner.stats.first - 1);
+            w.mistake = true;
+            if (written) w.el?.classList.add('tj', 'weak');
+            for (const r of remarks) tjLog.push({ w, r, text: remarkText(r) });
+          }
+          const last = tjLog[tjLog.length - 1];
+          if (last && phase !== 'done') status(`Tajweed, ${last.w.display}: ${last.text}`, 'bad');
+          if (phase === 'done') renderTajweedWork();
+        },
+      });
+      ear.start();
+    }
+    function renderTajweedWork() {
+      $('tj-list').replaceChildren(...tjLog.slice(0, 40).map(({ w, text }) => {
+        const li = el('li');
+        li.append(el('span', 'ar', w.display), el('span', null, text), el('small', null, w.item.a ? `${w.item.s}:${w.item.a}` : 'Bismillah'));
+        return li;
+      }));
+      $('tj-work').hidden = !tjLog.length;
+    }
+    // a word marked for tajweed: tap it to see what to fix
+    $('stage').addEventListener('click', (e) => {
+      const w = e.target.closest('.w.tj')?.__w;
+      if (w?.tajweed) status(`Tajweed, ${w.display}: ${w.tajweed.map((r) => remarkText(r)).join(' ')}`, 'bad');
+    });
     function startListening() {
       if (!live) live = createLiveCursor({ getFlat: () => flat, getPos: () => pos, onPage: (w) => w.page === shownPage });
       // the live cursor takes the microphone first; only then ask Chrome about on-device Arabic
@@ -1043,10 +1117,11 @@ const meta = getMeta();
         }
       };
       rec.onend = () => { if (listening && me === rec) { follower.reset(); biasTowards(rec, flat.slice(pos, pos + 60).map((w) => w.display)); try { rec.start(); } catch { setTimeout(() => { try { if (listening && me === rec) rec.start(); } catch {} }, 60); } } };
-      try { rec.start(); listening = true; $('t-mic').setAttribute('aria-pressed', 'true'); } catch { status('Could not start the microphone. Reload the page and try again.', 'bad'); }
+      try { rec.start(); listening = true; $('t-mic').setAttribute('aria-pressed', 'true'); startEar(); } catch { status('Could not start the microphone. Reload the page and try again.', 'bad'); }
     }
     function stopListening() {
       live?.stop();
+      ear?.stop();
       listening = false;
       try { rec?.stop(); } catch {}
       $('t-mic')?.setAttribute('aria-pressed', 'false');
