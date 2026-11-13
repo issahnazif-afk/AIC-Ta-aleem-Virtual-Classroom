@@ -545,3 +545,30 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .sc-type input { flex: 1; min-width: 0; padding: 9px 14px; border-radius: 999px; border: 1.5px solid var(--rule, #e3dccb); background: #fff; color: inherit; font: inherit; }
 .sc-type input:focus-visible { outline: 2px solid var(--forest, #173D32); outline-offset: 1px; }
 .sc-heard { margin: 0; align-self: flex-end; max-width: 86%; font-style: italic; color: #5c6a63; font-size: .95rem; text-align: right; }
+
+/* ── Levels 1–2 home: easier on young eyes ─────────────────────────────────────────────────────────
+   The courtyard scene was very bright behind a cream wash, with pure-white pills and sticker edges: a lot of
+   glare for a child looking at it for a whole lesson. The scene is dimmed and softened, the wash is a calm
+   warm tone instead of near-white, and the whites become a soft paper colour. Text stays dark enough to read
+   easily (well above WCAG AA) but is no longer jet black on white. */
+.kids-screen:has(.kh-young) { background: #DCE6DE; }
+.kh-young .kh-scene img { filter: brightness(.84) saturate(.8) contrast(.92); }
+.kh-young .kh-veil { background: linear-gradient(180deg, rgb(232 226 208 / .5) 0%, rgb(226 220 200 / .22) 32%, rgb(38 64 52 / .1) 100%); }
+.kh-young .kh-hi { color: #1C3A30; text-shadow: none; }
+.kh-young .kh-hi em { color: #2F6A4F; }
+.kh-young .kh-date { background: #F3EEE1; color: #24392F; }
+.kh-young .kh-special { background: #EBDDB8; color: #4E3F1C; }
+.kh-young .kh-label:not(.kh-sr) { background: #F3EEE1; box-shadow: 0 2px 5px rgb(15 42 34 / .12); }
+.kh-young .kh-label b { color: #1F3A30; }
+.kh-young .kh-ic.kh-pic img {
+  filter: saturate(.88) brightness(.96)
+          drop-shadow(2.5px 0 0 #F3EEE1) drop-shadow(-2.5px 0 0 #F3EEE1) drop-shadow(0 2.5px 0 #F3EEE1) drop-shadow(0 -2.5px 0 #F3EEE1)
+          drop-shadow(0 6px 8px rgb(15 42 34 / .22));
+}
+.kh-young .kh-place:hover .kh-ic.kh-pic img, .kh-young .kh-place.armed .kh-ic.kh-pic img, .kh-young .kh-place.lit .kh-ic.kh-pic img {
+  filter: saturate(.95) brightness(1)
+          drop-shadow(2.5px 0 0 #F3EEE1) drop-shadow(-2.5px 0 0 #F3EEE1) drop-shadow(0 2.5px 0 #F3EEE1) drop-shadow(0 -2.5px 0 #F3EEE1)
+          drop-shadow(0 0 9px rgb(230 190 90 / .7)) drop-shadow(0 10px 10px rgb(15 42 34 / .22));
+}
+.kh-young .kh-ic:not(.kh-pic) { filter: saturate(.9) brightness(.97); }
+.kh-young .kh-ic:not(.kh-pic) svg { box-shadow: 0 0 0 4px #F3EEE1, 0 6px 9px rgb(15 42 34 / .2); }
