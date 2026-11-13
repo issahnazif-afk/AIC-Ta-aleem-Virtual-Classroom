@@ -109,8 +109,8 @@ const nav = [
   <script>
     import { u } from '../lib/url.mjs';
     import { me, save, signOut, logTest } from '../lib/account.mjs';
-    const btn = document.getElementById('theme-toggle');
-    btn?.addEventListener('click', () => {
+    // the header's switch, and the app bar's (the app hides the header)
+    document.querySelectorAll('#theme-toggle, [data-theme-toggle]').forEach((btn) => btn.addEventListener('click', () => {
       const root = document.documentElement;
       const dark = root.dataset.theme
         ? root.dataset.theme === 'dark'
@@ -118,7 +118,7 @@ const nav = [
       const next = dark ? 'light' : 'dark';
       root.dataset.theme = next;
       try { localStorage.setItem('ql-theme', next); } catch {}
-    });
+    }));
 
     // the signed-in adult: their name, signing out, and saving their bookmarks and settings to their account
     const a = me();
