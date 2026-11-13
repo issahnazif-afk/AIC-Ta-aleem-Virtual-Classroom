@@ -1,0 +1,368 @@
+---
+// The Warsh classroom: the Sheikh teaches the riwāyah of Warsh ʿan Nāfiʿ one topic at a time. Each lesson:
+// 1 Learn (the rule, from the official mushaf texts) · 2 Compare (Ḥafṣ, then Warsh, by real reciters)
+// 3 Repeat (after the reciter, three times) · 4 Practise (the student recites; the Sheikh listens).
+// Lessons and examples: src/quran/lib/warsh.mjs + data/riwayah/warsh-lessons.json (scripts/quran/riwayah-diff.mjs).
+import Base from '../../../quran/layouts/Base.astro';
+import { LESSONS, WARSH_RECITERS } from '../../../quran/lib/warsh.mjs';
+---
+<Base title="Warsh classroom" description="Learn the riwāyah of Warsh ʿan Nāfiʿ with the Sheikh: each rule from the official mushaf, compared with Ḥafṣ, repeated and practised." active="warsh">
+  <div class="narrow wc" style="padding-top:24px">
+    <header class="wc-head">
+      <p class="wc-kicker">Riwāyāt · <span lang="ar">رِوَايَةُ وَرْشٍ عَنْ نَافِعٍ</span></p>
+      <h1>The Warsh classroom</h1>
+      <p class="muted">The Sheikh teaches the riwāyah of Warsh ʿan Nāfiʿ one topic at a time. Each rule is shown in the official mushaf texts, heard from real reciters in Ḥafṣ and in Warsh, repeated, and then practised while the Sheikh listens.</p>
+    </header>
+
+    <!-- the lessons -->
+    <section id="wc-list" aria-label="Lessons">
+      <ol class="wc-lessons">
+        {LESSONS.map((l, n) => (
+          <li>
+            <button type="button" class="wc-lesson" data-lesson={l.id}>
+              <span class="wc-n">{n + 1}</span>
+              <span class="wc-lt"><b lang="ar" dir="rtl">{l.ar}</b><span>{l.en}</span></span>
+              <span class="wc-count" data-count={l.id}></span>
+              <span class="wc-done" data-done={l.id} hidden>✓</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <details class="wc-about">
+        <summary>Where this comes from, and what the Sheikh can check</summary>
+        <ul>
+          <li><b>The texts:</b> the official Ḥafṣ and Warsh mushaf texts of the King Fahd Glorious Quran Printing Complex. Every example and every count here is worked out from the two texts, word by word; nothing is typed by hand.</li>
+          <li><b>The recitations:</b> real reciters, āyah by āyah, from EveryAyah.com: in Warsh, {WARSH_RECITERS.map((r) => r.name).join(', ')}.</li>
+          <li><b>The explanations</b> describe what the official Warsh mushaf shows. They have not yet been reviewed by a teacher with ijāzah in Warsh. Learn the sound from the reciters, and read with a qualified teacher when you can.</li>
+          <li><b>Listening:</b> the Sheikh can tell when a word with different letters is read the Ḥafṣ way (for example مَٰلِكِ for مَلِكِ). Differences in how a word is said, such as naql, taqlīl or a softened hamzah, are compared by ear for now: you record yourself and listen side by side with the reciter.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- one lesson -->
+    <section id="wc-lesson" hidden aria-live="polite">
+      <button type="button" class="btn wc-back" id="wc-back">‹ All lessons</button>
+      <h2 id="wc-title"><span lang="ar" dir="rtl" id="wc-title-ar"></span><span id="wc-title-en"></span></h2>
+      <ol class="wc-steps" id="wc-steps">
+        <li data-step="1">Learn</li><li data-step="2">Compare</li><li data-step="3">Repeat</li><li data-step="4">Practise</li>
+      </ol>
+
+      <div class="wc-sheikh"><span class="wc-face" aria-hidden="true">ق</span><p id="wc-say"></p></div>
+
+      <div class="wc-board" id="wc-board">
+        <p id="wc-about"></p>
+        <p class="muted" id="wc-where"></p>
+      </div>
+
+      <div class="wc-ex">
+        <div class="wc-chips" id="wc-chips" role="tablist" aria-label="Examples"></div>
+        <div class="wc-pair">
+          <figure class="wc-side">
+            <figcaption>Ḥafṣ ʿan ʿĀṣim <span class="muted" id="wc-ref-h"></span></figcaption>
+            <p class="wc-ayah wc-hafs" lang="ar" dir="rtl" id="wc-hafs"></p>
+            <button type="button" class="btn" id="wc-play-h">▶ Hear Ḥafṣ</button>
+          </figure>
+          <figure class="wc-side wc-w">
+            <figcaption>Warsh ʿan Nāfiʿ</figcaption>
+            <p class="wc-ayah wc-warsh" lang="ar" dir="rtl" id="wc-warsh"></p>
+            <button type="button" class="btn btn-primary" id="wc-play-w">▶ Hear Warsh</button>
+          </figure>
+        </div>
+        <p class="wc-word" id="wc-word"></p>
+        <label class="wc-rec">Warsh reciter
+          <select id="wc-reciter">{WARSH_RECITERS.map((r) => <option value={r.id}>{r.name}</option>)}</select>
+        </label>
+      </div>
+
+      <div class="wc-actions">
+        <button type="button" class="btn" id="wc-repeat">Repeat after the reciter ×3</button>
+        <button type="button" class="btn btn-primary" id="wc-practise">🎙 Recite it now</button>
+        <button type="button" class="btn" id="wc-next">Next example ›</button>
+      </div>
+
+      <div class="wc-result" id="wc-result" hidden>
+        <p class="wc-ayah wc-warsh" lang="ar" dir="rtl" id="wc-marked"></p>
+        <p id="wc-verdict"></p>
+        <div class="wc-actions">
+          <button type="button" class="btn" id="wc-me" hidden>▶ Hear yourself</button>
+          <button type="button" class="btn" id="wc-them">▶ Hear the reciter</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style is:global>
+    .wc { display: flex; flex-direction: column; gap: 18px; padding-bottom: 48px; }
+    .wc-head h1 { margin: 2px 0 6px; }
+    .wc-head p { margin: 0; }
+    .wc-kicker { font-size: 13px; font-weight: 600; color: var(--accent-strong); }
+    .wc-kicker span { font-family: var(--font-ar-ui); }
+    .wc-lessons { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .wc-lesson { width: 100%; display: flex; align-items: center; gap: 14px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+    .wc-lesson:hover, .wc-lesson:focus-visible { border-color: var(--accent); }
+    .wc-n { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 50%; background: var(--accent-soft); color: var(--accent-strong); font-weight: 700; }
+    .wc-lt { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .wc-lt b { font-family: var(--font-ar-ui); font-size: 18px; font-weight: 600; text-align: left; }
+    .wc-lt span { color: var(--muted); font-size: 14px; }
+    .wc-count { font-size: 13px; color: var(--muted); white-space: nowrap; }
+    .wc-done { color: var(--accent); font-weight: 700; }
+    .wc-about { border: 1px solid var(--line); border-radius: 14px; padding: 10px 16px; background: var(--surface); font-size: 14px; margin-top: 8px; }
+    .wc-about summary { cursor: pointer; font-weight: 600; }
+    .wc-about li { margin: 6px 0; }
+    .wc-back { align-self: flex-start; }
+    #wc-lesson { display: flex; flex-direction: column; gap: 14px; }
+    #wc-lesson[hidden] { display: none; }
+    #wc-title { margin: 0; display: flex; flex-direction: column; gap: 2px; }
+    #wc-title-ar { font-family: var(--font-ar-ui); font-size: 26px; text-align: left; }
+    #wc-title-en { font-size: 17px; color: var(--muted); font-weight: 500; }
+    .wc-steps { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+    .wc-steps li { padding: 4px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--muted); font-size: 13px; font-weight: 600; }
+    .wc-steps li.on { background: var(--accent); color: var(--accent-ink); }
+    .wc-sheikh { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: var(--paper); border: 1px solid var(--paper-line); }
+    .wc-face { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-family: var(--font-quran); font-size: 22px; }
+    .wc-sheikh p { margin: 0; color: var(--paper-ink); font-weight: 500; }
+    .wc-board { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); }
+    .wc-board p { margin: 0 0 6px; }
+    .wc-board p:last-child { margin: 0; font-size: 13px; }
+    .wc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .wc-chip { padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+    .wc-chip[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .wc-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .wc-side { margin: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); display: flex; flex-direction: column; gap: 8px; }
+    .wc-side.wc-w { border-color: var(--accent); }
+    .wc-side figcaption { font-size: 13px; font-weight: 600; }
+    .wc-ayah { margin: 0; font-size: clamp(24px, 3.2vw, 32px); line-height: 2.1; color: var(--ink); }
+    .wc-hafs { font-family: 'KFGQPC Hafs', var(--font-quran); }
+    .wc-warsh { font-family: 'KFGQPC warsh', 'KFGQPC Hafs', serif; }
+    .wc-ayah mark { background: var(--mark); color: inherit; border-radius: 6px; padding: 0 2px; }
+    .wc-ayah .ok { color: var(--accent); }
+    .wc-ayah .weak { color: var(--marker); }
+    .wc-ayah .bad { color: #B3261E; text-decoration: underline wavy; }
+    .wc-side .btn { align-self: flex-start; }
+    .wc-word { margin: 10px 0 0; font-size: 15px; }
+    .wc-word .h, .wc-word .w { unicode-bidi: isolate; }
+    .wc-word .h { font-family: 'KFGQPC Hafs', var(--font-quran); font-size: 26px; }
+    .wc-word .w { font-family: 'KFGQPC warsh', 'KFGQPC Hafs', serif; font-size: 26px; color: var(--accent-strong); }
+    .wc-rec { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .wc-rec select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--field); background: var(--surface); color: var(--ink); }
+    .wc-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .wc-result { padding: 14px 16px; border-radius: 14px; border: 2px solid var(--accent); background: var(--surface); display: flex; flex-direction: column; gap: 10px; }
+    .wc-result[hidden] { display: none; }
+    #wc-verdict { margin: 0; }
+    @media (max-width: 640px) { .wc-pair { grid-template-columns: 1fr; } .wc-count { display: none; } }
+  </style>
+
+  <script>
+    import { u } from '../../../quran/lib/url.mjs';
+    import { LESSONS } from '../../../quran/lib/warsh.mjs';
+    import { normalize } from '../../../lib/recite.mjs';
+    import { getSpeechRecognition, tuneRecognition, preloadEngine } from '../../../quran/lib/speech.mjs';
+
+    const $ = (id) => document.getElementById(id);
+    const pad = (n) => String(n).padStart(3, '0');
+    // the KFGQPC fonts expect the original open-tanwīn marks (the API copy changed them)
+    const disp = (t) => t.replace(/ࣲ/g, 'ٖ').replace(/ࣰ/g, 'ٗ').replace(/ࣱ/g, 'ٞ');
+    const HAS_LETTER = /[ء-يٱ]/;
+    const audio = new Audio();
+    const store = {
+      get() { try { return JSON.parse(localStorage.getItem('ql-warsh') || '{}'); } catch { return {}; } },
+      set(v) { try { localStorage.setItem('ql-warsh', JSON.stringify(v)); } catch {} },
+    };
+    const hafsReciter = () => { try { return JSON.parse(localStorage.getItem('ql-reciter') || '"Alafasy_128kbps"'); } catch { return 'Alafasy_128kbps'; } };
+    const audioUrl = (folder, key) => { const [s, a] = key.split(':').map(Number); return `https://everyayah.com/data/${folder}/${pad(s)}${pad(a)}.mp3`; };
+    try { const r = localStorage.getItem('ql-warsh-reciter'); if (r) $('wc-reciter').value = JSON.parse(r); } catch {}
+    $('wc-reciter').addEventListener('change', () => { try { localStorage.setItem('ql-warsh-reciter', JSON.stringify($('wc-reciter').value)); } catch {} });
+
+    let data = null, lesson = null, ex = 0, step = 1;
+    // Arabic phrases inside English sentences keep their own direction (brackets and commas stay in place)
+    const iso = (t) => t.replace(/[؀-ۿݐ-ݿࢠ-ࣿ](?:[؀-ۿݐ-ݿࢠ-ࣿ ،]*[؀-ۿݐ-ݿࢠ-ࣿ])?/g, (m) => '⁨' + m + '⁩');
+    const say = (t) => { $('wc-say').textContent = iso(t); };
+    const setStep = (n) => { step = n; document.querySelectorAll('#wc-steps li').forEach((li) => li.classList.toggle('on', Number(li.dataset.step) === n)); };
+
+    // an āyah as words, with the pause marks kept on the word before; i = the index among real words
+    function words(text) {
+      const out = [];
+      for (const t of disp(text).split(' ')) {
+        if (!t) continue;
+        if (!HAS_LETTER.test(t) && out.length) { out[out.length - 1].text += ' ' + t; continue; }
+        out.push({ text: t });
+      }
+      return out;
+    }
+    function render(el, text, mark, classes = []) {
+      el.replaceChildren();
+      words(text).forEach((w, i) => {
+        const s = document.createElement(i === mark ? 'mark' : 'span');
+        s.textContent = w.text; if (classes[i]) s.className = classes[i];
+        el.append(s, ' ');
+      });
+    }
+
+    async function load() {
+      if (data) return data;
+      const r = await fetch(u('data/riwayah/warsh-lessons.json'));
+      data = (await r.json()).lessons;
+      for (const l of LESSONS) { const c = document.querySelector(`[data-count="${l.id}"]`); if (c) c.textContent = `${(data[l.id]?.count ?? 0).toLocaleString('en')} places`; }
+      return data;
+    }
+    function markDone() {
+      const d = store.get();
+      for (const l of LESSONS) { const el = document.querySelector(`[data-done="${l.id}"]`); if (el) el.hidden = !d[l.id]?.done; }
+    }
+
+    function openLesson(id) {
+      lesson = LESSONS.find((l) => l.id === id); ex = 0;
+      $('wc-list').hidden = true; $('wc-lesson').hidden = false;
+      $('wc-title-ar').textContent = lesson.ar; $('wc-title-en').textContent = lesson.en;
+      $('wc-about').textContent = iso(lesson.about);
+      const n = data[id]?.count ?? 0;
+      $('wc-where').textContent = `The official Warsh mushaf shows this in ${n.toLocaleString('en')} places. The examples below are short āyāt chosen from them.`;
+      const chips = $('wc-chips'); chips.replaceChildren();
+      (data[id]?.examples ?? []).forEach((e, i) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'wc-chip'; b.role = 'tab';
+        b.textContent = e.k; b.addEventListener('click', () => showExample(i)); chips.append(b);
+      });
+      setStep(1);
+      say(`Assalāmu ʿalaykum. In this lesson we learn ${lesson.en.toLowerCase()}. Read the rule, then press “Hear Ḥafṣ” and “Hear Warsh” to hear the difference.`);
+      showExample(0);
+      history.replaceState(null, '', '#' + id);
+      window.scrollTo({ top: 0 });
+    }
+    function showExample(i) {
+      const list = data[lesson.id]?.examples ?? [];
+      ex = (i + list.length) % list.length;
+      const e = list[ex];
+      document.querySelectorAll('.wc-chip').forEach((c, k) => c.setAttribute('aria-selected', String(k === ex)));
+      $('wc-ref-h').textContent = e.k;
+      render($('wc-hafs'), e.hafs, e.i);
+      render($('wc-warsh'), e.warsh, e.j);
+      $('wc-word').innerHTML = '';
+      const h = document.createElement('span'); h.className = 'h'; h.lang = 'ar'; h.textContent = disp(e.h);
+      const w = document.createElement('span'); w.className = 'w'; w.lang = 'ar'; w.textContent = disp(e.w);
+      $('wc-word').append('Ḥafṣ reads ', h, '  ·  Warsh reads ', w);
+      $('wc-result').hidden = true;
+    }
+
+    function play(url) {
+      return new Promise((resolve) => {
+        audio.onended = () => resolve(true); audio.onerror = () => resolve(false);
+        audio.src = url; audio.play().catch(() => resolve(false));
+      });
+    }
+    const cur = () => data[lesson.id].examples[ex];
+    $('wc-play-h').addEventListener('click', async () => {
+      setStep(2); say('This is the Ḥafṣ reading. Listen to the highlighted word.');
+      await play(audioUrl(hafsReciter(), cur().k));
+      say(`Now press “Hear Warsh”. ${lesson.listen}`);
+    });
+    $('wc-play-w').addEventListener('click', async () => {
+      setStep(2); say(`This is Warsh. ${lesson.listen}`);
+      const ok = await play(audioUrl($('wc-reciter').value, cur().k));
+      say(ok ? 'Now repeat after the reciter three times, then recite it yourself.' : 'This recitation could not be played. Try another Warsh reciter.');
+    });
+
+    $('wc-repeat').addEventListener('click', async () => {
+      setStep(3);
+      const url = audioUrl($('wc-reciter').value, cur().k);
+      for (let n = 1; n <= 3; n++) {
+        say(`Listen (${n} of 3)…`);
+        const t0 = performance.now();
+        if (!(await play(url))) { say('This recitation could not be played. Try another Warsh reciter.'); return; }
+        const len = performance.now() - t0;
+        say(`Your turn: repeat it now (${n} of 3).`);
+        await new Promise((r) => setTimeout(r, Math.min(Math.max(len + 800, 2500), 20000)));
+      }
+      say('Well done. Now press “Recite it now”: the Sheikh will listen.');
+    });
+
+    // ── practise: the student recites the Warsh āyah; the Sheikh listens and records ──
+    let rec = null, media = null, chunks = [], mine = null, marks = [], listening = false, stopTimer = 0;
+    const SR = getSpeechRecognition();
+    let enginePrimed = false;
+    function finish() {
+      if (!listening) return;
+      listening = false; clearTimeout(stopTimer);
+      try { rec?.stop(); } catch {}
+      try { if (media?.state === 'recording') media.stop(); } catch {}
+      $('wc-practise').textContent = '🎙 Recite it now';
+      verdict();
+    }
+    function verdict() {
+      const e = cur(), ws = words(e.warsh);
+      const cls = ws.map((_, i) => marks[i] === 'read' ? 'ok' : marks[i] === 'weak' ? 'weak' : marks[i] ? 'bad' : '');
+      render($('wc-marked'), e.warsh, e.j, cls);
+      $('wc-result').hidden = false;
+      const heardAny = marks.some(Boolean);
+      const focus = marks[e.j];
+      let t;
+      if (!SR) t = 'Listening is not available in this browser. Compare your recording with the reciter.';
+      else if (!heardAny) t = 'The Sheikh did not hear the āyah. Check the microphone, then try again.';
+      else if (lesson.check === 'word') {
+        t = focus === 'read' ? `Mā shāʾ Allāh: you read the Warsh word ${disp(e.w)}.`
+          : `Listen again: Warsh reads ${disp(e.w)} here, where Ḥafṣ reads ${disp(e.h)}. Try it once more.`;
+      } else {
+        const missed = marks.filter((m) => m && m !== 'read').length;
+        t = (missed ? `The Sheikh followed you, with ${missed} word${missed > 1 ? 's' : ''} to read again (underlined). ` : 'The Sheikh followed every word. ')
+          + `This rule is in how the word is said, so compare by ear: press “Hear yourself”, then “Hear the reciter”. ${lesson.listen}`;
+      }
+      $('wc-verdict').textContent = iso(t);
+      say(t);
+      const d = store.get(); const s = (d[lesson.id] ??= { done: false, practised: [] });
+      if (!s.practised.includes(e.k)) s.practised.push(e.k);
+      if (s.practised.length >= 3) s.done = true;
+      store.set(d); markDone();
+    }
+    $('wc-practise').addEventListener('click', async () => {
+      if (listening) { finish(); return; }
+      setStep(4); audio.pause();
+      const e = cur();
+      const plain = words(e.warsh).map((w) => normalize(w.text)).filter(Boolean);
+      marks = []; chunks = []; mine = null; $('wc-me').hidden = true; $('wc-result').hidden = true;
+      // record the student, so they can compare with the reciter
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        media = new MediaRecorder(stream);
+        media.ondataavailable = (ev) => ev.data.size && chunks.push(ev.data);
+        media.onstop = () => { stream.getTracks().forEach((t) => t.stop()); mine = URL.createObjectURL(new Blob(chunks, { type: media.mimeType })); $('wc-me').hidden = false; };
+        media.start();
+      } catch { say('Microphone access is blocked. Allow the microphone for this site, then try again.'); return; }
+      listening = true;
+      $('wc-practise').textContent = '■ Finished';
+      say('Bismillāh. Recite the Warsh āyah now. Press “Finished” when you are done.');
+      if (SR) {
+        if (!enginePrimed) { enginePrimed = true; preloadEngine(); }
+        let pos = 0;
+        rec = tuneRecognition(new SR());
+        rec.getExpected = () => plain.slice(pos);
+        Object.assign(rec, { lang: 'ar-SA', continuous: true, interimResults: true, maxAlternatives: 3 });
+        rec.onresult = (ev) => {
+          for (let r = ev.resultIndex; r < ev.results.length; r++) {
+            const res = ev.results[r];
+            if (res.track) { for (const t of res.track) { marks[pos] = t.kind; pos++; } }
+            else if (res.isFinal) {
+              // the browser's own recogniser: match its words to the expected ones, in order
+              for (const said of normalize(res[0].transcript).split(' ')) {
+                const k = plain.slice(pos, pos + 3).findIndex((p) => p === said);
+                if (k >= 0) { for (let x = 0; x < k; x++) marks[pos + x] = 'missed'; marks[pos + k] = 'read'; pos += k + 1; }
+              }
+            }
+          }
+          if (pos >= plain.length) finish();
+        };
+        rec.onerror = () => {};
+        rec.onend = () => { if (listening) { try { rec.start(); } catch {} } };
+        try { rec.start(); } catch {}
+      }
+      stopTimer = setTimeout(finish, 60000);
+    });
+    $('wc-me').addEventListener('click', () => mine && play(mine));
+    $('wc-them').addEventListener('click', () => play(audioUrl($('wc-reciter').value, cur().k)));
+    $('wc-next').addEventListener('click', () => { showExample(ex + 1); setStep(1); say('Here is another example. Hear it in Ḥafṣ and in Warsh.'); });
+    $('wc-back').addEventListener('click', () => { finish(); audio.pause(); $('wc-lesson').hidden = true; $('wc-list').hidden = false; history.replaceState(null, '', location.pathname); markDone(); });
+    document.querySelectorAll('.wc-lesson').forEach((b) => b.addEventListener('click', async () => { await load(); openLesson(b.dataset.lesson); }));
+
+    const fromHash = () => { const h = location.hash.slice(1); if (LESSONS.some((l) => l.id === h) && lesson?.id !== h) openLesson(h); };
+    load().then(() => { markDone(); fromHash(); });
+    addEventListener('hashchange', () => data && fromHash());
+  </script>
+</Base>
