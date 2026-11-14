@@ -1039,7 +1039,7 @@ const levels = [
         $('away-why').textContent = state === 'noface' ? 'Your face is not visible to the camera.' : `It looked like you were ${why || 'looking away'}.`;
         $('away').hidden = false;
         $('s-class').dataset.away = '1';
-        { const p = phrase('lookatme', me.gender); setSheikh('stop', p.ar, 'Look at the screen, then continue.'); }
+        { const p = phrase('lookatme', me.gender); setSheikh('stop', p.ar, 'Keep your eyes on me, then continue.'); }
         setStatus('Paused. Look at the Sheikh, then press “I’m ready, continue”.', 'bad');
       }
     }

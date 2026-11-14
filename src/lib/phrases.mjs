@@ -25,7 +25,7 @@ export const PHRASES = {
   takecare:     { m: ['ٱنْتَبِهْ', 'intabih'], f: ['ٱنْتَبِهِي', 'intabihi'], en: 'Take care, that is not right.' },
   again:        { m: ['أَعِدْ', 'aid'], f: ['أَعِيدِي', 'aidi'], en: 'Try that word again.' },
   listen:       { m: ['ٱسْتَمِعْ', 'istami'], f: ['ٱسْتَمِعِي', 'istamii'], en: 'Listen.' },
-  lookatme:     { m: ['ٱنْظُرْ إِلَيَّ', 'unzur'], f: ['ٱنْظُرِي إِلَيَّ', 'unzuri'], en: 'Look at the screen.' },
+  lookatme:     { m: ['ٱنْظُرْ إِلَيَّ', 'unzur'], f: ['ٱنْظُرِي إِلَيَّ', 'unzuri'], en: 'Keep your eyes on me.' },
   enough:       { m: ['حَسْبُكَ', 'hasbuka'], f: ['حَسْبُكِ', 'hasbuki'], en: 'That is enough.' },
   revise:       { m: ['رَاجِعْ هَذَا ٱلْمَوْضِعَ', 'raji'], f: ['رَاجِعِي هَذَا ٱلْمَوْضِعَ', 'rajii'], en: 'Revise this passage.' },
   testover:     { m: ['ٱنْتَهَى ٱلِٱخْتِبَارُ، جَزَاكَ ٱللَّهُ خَيْرًا', 'test-over-m'], f: ['ٱنْتَهَى ٱلِٱخْتِبَارُ، جَزَاكِ ٱللَّهُ خَيْرًا', 'test-over-f'], en: 'The test is over. May Allah reward you.' },

@@ -667,8 +667,10 @@ After each passage he praises the student: *Mumtaaz(a)* when every word was righ
 **For the calmest, most natural voice, record it.** A teacher with a gentle voice records each phrase below
 (phone voice-memo is fine: quiet room, unhurried, about a hand's width from the mouth), saves it as MP3 with exactly
 the file name shown, and uploads it to `public/audio/sheikh/` in this repository. Any phrase that has a recording is
-played from it; the rest use the clips made for them in `public/audio/voice/` (see *The Sheikh's voice for letters
-and syllables* above). You can record some now and the rest later.
+played from it; the rest use the Sheikh's voice made for them: designed with VoxCPM2 (no real person's voice is
+cloned), recorded on a developer's GPU, each clip checked word by word with Whisper, and committed to
+`scripts/voice/phrases/`; `npm run data` copies them into `public/audio/voice/` (scripts/voice/use-phrases.mjs).
+You can record some now and the rest later.
 
 | File | Arabic | Meaning |
 |---|---|---|
@@ -694,8 +696,8 @@ and syllables* above). You can record some now and the rest later.
 | `aidi.mp3` | أَعِيدِي | Try that word again. |
 | `istami.mp3` | ٱسْتَمِعْ | Listen. |
 | `istamii.mp3` | ٱسْتَمِعِي | Listen. |
-| `unzur.mp3` | ٱنْظُرْ إِلَيَّ | Look at the screen. |
-| `unzuri.mp3` | ٱنْظُرِي إِلَيَّ | Look at the screen. |
+| `unzur.mp3` | ٱنْظُرْ إِلَيَّ | Keep your eyes on me. |
+| `unzuri.mp3` | ٱنْظُرِي إِلَيَّ | Keep your eyes on me. |
 | `hasbuka.mp3` | حَسْبُكَ | That is enough. |
 | `hasbuki.mp3` | حَسْبُكِ | That is enough. |
 | `raji.mp3` | رَاجِعْ هَذَا ٱلْمَوْضِعَ | Revise this passage. |
