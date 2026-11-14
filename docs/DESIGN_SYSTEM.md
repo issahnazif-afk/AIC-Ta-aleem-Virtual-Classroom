@@ -85,6 +85,23 @@ The home answers one question: *what should I do next?*
      activities as rows, each with one line of description, and an "All subjects" button to go back.
 5. "Grown-up view: see every activity as a list" stays one tap away.
 
+### The November 2026 layouts (after the first expert review)
+
+- **Levels 3 and 4:** two columns. Left: the weekday and Hijri date as a light-gold kicker, the greeting, one ivory
+  **Your next step** card (the last activity, or "Start with Qur'an" for a new student) with a forest "Carry on"
+  button, then the subjects as numbered tiles (01 to 12) on the night scene. Right: **This week's moon** (Saturday
+  to Friday, the phase drawn from each day's Hijri date, today in light gold), **Today's missions** (the same three
+  missions as the list view) and the **student card** (name, level, stars, badges, palms). Stacked on a phone.
+- **Levels 1 and 2:** a white speech bubble (greeting, "Tap a picture to hear it." and a big speaker button) and one
+  big **Play again** card on the left; the main places stepping along a gentle wave on the right; the smaller places
+  (Sunnah of the day, Our Prophet, Mazes, Special days, My stars: `shelf: true`) on a white shelf below them.
+- **Adults (/quran/):** the same tokens as the classroom (`src/quran/styles/global.css` maps them), Lora headings,
+  Manrope text. The home is a greeting, one **Continue reading** card, the ways to practise as a numbered ruled
+  list, the riwāyah, and a forest **arch** (mihrab shape) quoting the adult's latest saved ayah from the library's
+  data. Figures shown are only the adult's own (saved ayahs, juz, page). The header keeps six links and a "More" menu.
+- **Sign-in doors:** ivory cards on the forest panel; the school's picture for Levels 1 and 2, a numeral for 3 and 4,
+  and a gold-outlined door for the adults.
+
 No streak counters, no public rankings, no "NEW" badges, no pressure words.
 
 ## Young learners' style (Levels 1 and 2, ages 4 to 8)

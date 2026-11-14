@@ -55,11 +55,11 @@ const levels = [
         <p class="display">Recite, read and <em>learn</em> with the Sheikh</p>
         <p class="si-text">Recite to the Sheikh, learn the Arabic letters, read our books, learn your du'as and the Sunnah. Choose your level to begin.</p>
         <div class="si-doors" role="group" aria-label="Choose your level, or the adults' section">
-          <button type="button" class="si-door" data-door="1"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span><b>Level 1</b><span>Little learners, ages 4 to 6</span></button>
-          <button type="button" class="si-door" data-door="2"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span><b>Level 2</b><span>Young readers, ages 6 to 8</span></button>
-          <button type="button" class="si-door" data-door="3"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span><b>Level 3</b><span>Explorers, ages 8 to 11</span></button>
-          <button type="button" class="si-door" data-door="4"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span><b>Level 4</b><span>Seekers, ages 11 to 16</span></button>
-          <a class="si-door si-door-adult" href={u('quran/app/')}><span class="si-door-ar" lang="ar" dir="rtl">ٱلْكِبَار</span><b>Adults</b><span>Quran Library: read, listen, memorise and recite to the Sheikh. Your own account.</span></a>
+          <button type="button" class="si-door" data-door="1"><img class="si-door-pic" src={u('img/home/kinder.webp')} alt="" width="72" height="60" /><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span><b>Level 1</b><span>Little learners, ages 4 to 6</span></span></button>
+          <button type="button" class="si-door" data-door="2"><img class="si-door-pic" src={u('img/home/letters.webp')} alt="" width="72" height="60" /><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span><b>Level 2</b><span>Young readers, ages 6 to 8</span></span></button>
+          <button type="button" class="si-door" data-door="3"><span class="si-door-num" aria-hidden="true">3</span><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span><b>Level 3</b><span>Explorers, ages 8 to 11</span></span></button>
+          <button type="button" class="si-door" data-door="4"><span class="si-door-num" aria-hidden="true">4</span><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span><b>Level 4</b><span>Seekers, ages 11 to 16</span></span></button>
+          <a class="si-door si-door-adult" href={u('quran/app/')}><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْكِبَار</span><b>Adults · Quran Library</b><span>Read, listen, memorise and recite to the Sheikh. Your own account.</span></span><span class="si-door-go" aria-hidden="true">→</span></a>
         </div>
         <p class="si-door-msg" id="door-msg" aria-live="polite"></p>
       </div>
@@ -1273,7 +1273,8 @@ const levels = [
     let progress = {}, selLesson = 1, game = null, gameStart = 0, gameLesson = 1, reciteLesson = null;
     const PALM = '<svg viewBox="0 0 60 64" width="54" height="58" aria-hidden="true"><ellipse cx="30" cy="58" rx="20" ry="4" fill="#B9A27A"/><path d="M28 58 Q27 40 30 24 L32 24 Q31 40 33 58 Z" fill="#8A5A12"/><g fill="#2E8B57"><path d="M31 24 Q16 14 6 22 Q18 18 31 26 Z"/><path d="M31 24 Q46 14 56 22 Q44 18 31 26 Z"/><path d="M31 24 Q22 6 12 6 Q24 12 30 25 Z"/><path d="M31 24 Q40 6 50 6 Q38 12 32 25 Z"/><path d="M31 24 Q31 6 31 2 Q33 12 32 25 Z"/></g><g fill="#C9A24A"><circle cx="27" cy="28" r="2.4"/><circle cx="34" cy="28" r="2.4"/><circle cx="30.5" cy="31" r="2.4"/></g></svg>';
     const SPROUT = '<svg viewBox="0 0 60 64" width="54" height="58" aria-hidden="true"><ellipse cx="30" cy="58" rx="20" ry="4" fill="#B9A27A"/><path d="M30 58 V40" stroke="#2E8B57" stroke-width="3"/><path d="M30 44 Q18 36 16 28 Q28 30 30 44 Z" fill="#5CB85C"/><path d="M30 42 Q42 34 44 26 Q32 28 30 42 Z" fill="#5CB85C"/></svg>';
-    const SEED = '<svg viewBox="0 0 60 64" width="54" height="58" aria-hidden="true"><ellipse cx="30" cy="56" rx="20" ry="6" fill="#C8B48C"/><ellipse cx="30" cy="52" rx="4" ry="3" fill="#8A6B3A"/></svg>';
+    // a lesson not started yet: a mound of soil with its seed, and a faint palm showing what will grow there
+    const SEED = '<svg viewBox="0 0 60 64" width="54" height="58" aria-hidden="true"><g opacity=".16" fill="#2E8B57"><path d="M28 54 Q27 40 30 24 L32 24 Q31 40 33 54 Z"/><path d="M31 24 Q16 14 6 22 Q18 18 31 26 Z"/><path d="M31 24 Q46 14 56 22 Q44 18 31 26 Z"/><path d="M31 24 Q22 6 12 6 Q24 12 30 25 Z"/><path d="M31 24 Q40 6 50 6 Q38 12 32 25 Z"/></g><path d="M10 58 Q30 44 50 58 Z" fill="#B48A55"/><ellipse cx="30" cy="51" rx="3.6" ry="2.6" fill="#6E4A1F"/></svg>';
 
     // a lesson's palm grows when its game is won with 80% right first time (Lesson 1: all 28 letters known;
     // Lesson 18: three short surahs recited to the Sheikh)
@@ -1349,8 +1350,8 @@ const levels = [
         places = [
           Y('letters', 'My letters', 'حُرُوفِي', 'lantern', '#FBE3A6', go('alifba')),
           Y('duas', "My du'as", 'أَدْعِيَتِي', 'dua', '#DDF2E6', () => openDeen('duas')),
-          Y('sunnah', 'Sunnah of the day', 'سُنَّةُ الْيَوْمِ', 'sunnah', '#FFF0C2', () => openDeen('sunnah')),
-          Y('prophet', 'Our Prophet ﷺ', 'نَبِيُّنَا ﷺ', 'prophet', '#DCEBFA', () => openDeen('prophet')),
+          Y('sunnah', 'Sunnah of the day', 'سُنَّةُ الْيَوْمِ', 'sunnah', '#FFF0C2', () => openDeen('sunnah'), { shelf: true }),
+          Y('prophet', 'Our Prophet ﷺ', 'نَبِيُّنَا ﷺ', 'prophet', '#DCEBFA', () => openDeen('prophet'), { shelf: true }),
           Y('stories', 'Stories', 'قِصَص', 'stories', '#FCE1E8', go('stories')),
           Y('books', 'My books', 'كُتُبِي', 'books', '#DDF2E6', go('books')),
           Y('prophets', 'Stories of the Prophets', 'قَصَصُ ٱلْأَنْبِيَاء', 'prophets', '#DCEBFA', go('prophets')),
@@ -1358,10 +1359,10 @@ const levels = [
           Y('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFBEF', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
           ...(act('guardians') ? [Y('guardians', 'Guardians of Light', 'حُرَّاسُ ٱلنُّور', 'beacon', '#FFF0C2', go('guardians'))] : []),
           Y('games', 'Games', 'أَلْعَاب', 'match', '#FFE4CC', null, { children: games.map(YC) }),
-          Y('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F6E3BC', null, { children: ['maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean).map(YC) }),
-          Y('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E0E6FA', () => openDeen('days')),
           Y('garden', 'My garden', 'حَدِيقَتِي', 'garden', '#DDF2D6', () => openGarden()),
-          Y('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF0C2', () => openAwards()),
+          Y('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F6E3BC', null, { shelf: true, children: ['maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean).map(YC) }),
+          Y('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E0E6FA', () => openDeen('days'), { shelf: true }),
+          Y('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF0C2', () => openAwards(), { shelf: true }),
         ];
       } else {
         // Levels 3 and 4: the subjects only; an opened subject shows its activities, each with one line
@@ -1387,11 +1388,24 @@ const levels = [
         ].filter(Boolean);
       }
       const last = act(store.get('lastAct', ''));
-      const next = last ? { title: last.title, open: () => openActivity(last) } : null;
+      // the picture for "Play again" (Levels 1 and 2): the place the activity belongs to
+      const PIC_OF = { alifba: 'letters', stories: 'stories', books: 'books', prophets: 'prophets', library: 'morals', tawheed: 'kinder', recite: 'quran', ayah: 'quran', hifz: 'quran', guardians: 'quran' };
+      const nextIcon = last && me.level <= 2 && PIC_OF[last.id] ? `<img src="${siteUrl(`img/home/${PIC_OF[last.id]}.webp`)}" alt="" width="360" height="300" decoding="async">` : last ? homeIcon(ICON_OF[last.id] ?? 'stories', 'sage') : '';
+      const next = last ? { title: last.title, ar: last.ar, text: last.text, icon: nextIcon, open: () => openActivity(last) } : null;
       const h = hijri();
+      // Levels 3 and 4: today's missions and the student card beside the subjects (the same data as the list view)
+      let missions = null, card = null;
+      if (me.level >= 3) try {
+        const sn = sunnahOfDay(me.level);
+        const ms = todaysMissions(progress, [{ prompt: `Sunnah of the day: ${sn.title}. ${sn.do}` }], me.username);
+        missions = { list: ms.map((m) => ({ title: m.title, text: m.text, done: !!m.done })), open: () => { show('s-home'); setTimeout(() => document.querySelector('.daily')?.scrollIntoView({ block: 'start' }), 60); } };
+        const r = rewardsOf(progress);
+        card = { name: me.name, level: `Level ${me.level} · ${me.level === 3 ? 'Explorers' : 'Seekers'}`, stars: r.stars, badges: Object.keys(r.badges).length, palms: palms() };
+      } catch (e) { console.warn('[home] missions or card', e);
+      }
       kidsHome?.stop();
       kidsHome = mountKidsHome($('kh-root'), {
-        level: me.level, name: me.name.split(' ')[0], hijri: h ? `${hijriText(h)} AH` : '', special: specialOn(), places, next,
+        level: me.level, name: me.name.split(' ')[0], hijri: h ? `${hijriText(h)} AH` : '', special: specialOn(), places, next, missions, card,
         onClassic: () => { store.set(classicKey(), true); show('s-home'); },
       });
       show('s-kids');
@@ -1511,7 +1525,8 @@ const levels = [
         b.type = 'button'; b.className = 'plot ' + st + (L.n === selLesson ? ' sel' : '');
         b.setAttribute('aria-label', `Lesson ${L.n}, ${L.name}, ${st === 'grown' ? 'grown' : st === 'growing' ? 'growing' : 'not started'}`);
         b.innerHTML = st === 'grown' ? PALM : st === 'growing' ? SPROUT : SEED;
-        const lab = document.createElement('span'); lab.textContent = `${L.n} · ${L.name}`; b.append(lab);
+        const num = document.createElement('i'); num.className = 'plot-n'; num.textContent = String(L.n); num.setAttribute('aria-hidden', 'true');
+        const lab = document.createElement('span'); lab.textContent = L.name; b.prepend(num); b.append(lab);
         b.addEventListener('click', () => { selLesson = L.n; renderGarden(); });
         b.addEventListener('dblclick', () => { selLesson = L.n; openLesson(L.n); });
         box.append(b);

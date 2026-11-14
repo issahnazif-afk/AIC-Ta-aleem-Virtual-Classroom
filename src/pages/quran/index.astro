@@ -12,35 +12,36 @@ const resources = [
   ['metadata', 'Metadata', 'Surah, juz, page and sajdah boundaries for the 604-page mushaf.', 'AlQuran.cloud'],
 ];
 ---
-<Base active="home">
+<Base title="Browse the Quran" active="browse">
   <style>
-    .hero { background: var(--surface); border-bottom: 1px solid var(--line); }
+    .hero { border-bottom: 1px solid var(--line); }
     .hero .wrap { padding-top: 64px; padding-bottom: 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
     .hero-text { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
     h1 { margin: 0; font-size: clamp(30px, 4vw, 44px); line-height: 1.15; letter-spacing: -0.5px; }
     .lede { margin: 0; font-size: 18px; color: var(--muted); max-width: 620px; }
     .search-row { display: flex; gap: 8px; max-width: 640px; }
-    .search-row input { flex: 1 1 auto; min-width: 0; height: 52px; font-size: 16px; padding: 0 16px; border-radius: 10px; }
-    .search-row .btn { height: 52px; border-radius: 10px; padding: 0 24px; }
+    .search-row input { flex: 1 1 auto; min-width: 0; height: 52px; font-size: 16px; padding: 0 16px; border-radius: var(--r-control); }
+    .search-row .btn { height: 52px; border-radius: var(--r-control); padding: 0 24px; }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .resume { flex: 1 1 320px; min-width: 0; background: var(--accent-soft); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
-    .resume-label { font-size: 14px; font-weight: 600; color: var(--accent-strong); }
+    .resume { flex: 1 1 320px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-panel); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .resume-label { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
     .resume .quran { font-size: 30px; line-height: 1.9; }
     section.block { padding-top: 56px; display: flex; flex-direction: column; gap: 20px; }
     .block-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; }
     h2 { margin: 0; font-size: 28px; }
-    .tabs { display: flex; gap: 4px; background: var(--line); padding: 4px; border-radius: 10px; }
+    .tabs { display: flex; gap: 4px; background: var(--accent-soft); padding: 4px; border-radius: var(--r-control); }
     .tabs button { min-height: 44px; padding: 0 18px; border: none; border-radius: 8px; background: transparent; font: inherit; color: var(--ink); cursor: pointer; }
-    .tabs button[aria-selected="true"] { background: var(--surface); font-weight: 600; }
+    .tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
     .surah { display: flex; align-items: center; gap: 16px; padding: 16px; text-decoration: none; color: var(--ink); }
     .surah:hover { border-color: var(--accent); color: var(--ink); }
-    .num { width: 40px; height: 40px; flex: none; display: grid; place-items: center; position: relative; font-weight: 600; font-size: 14px; color: var(--accent); }
-    .num::before { content: ''; position: absolute; inset: 6px; border: 1.5px solid var(--accent); border-radius: 6px; transform: rotate(45deg); }
+    .num { width: 40px; height: 40px; flex: none; display: grid; place-items: center; position: relative; font-weight: 700; font-size: 13px; color: var(--gold-text); }
+    .num::before { content: ''; position: absolute; inset: 7px; border: 1px solid var(--gold); border-radius: 4px; transform: rotate(45deg); }
     .surah-main { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; }
     .surah-main b { font-size: 16px; }
     .surah-side { display: flex; flex-direction: column; align-items: end; white-space: nowrap; }
-    .surah-side .ar-ui { font-weight: 600; font-size: 18px; }
+    .surah-side .ar-ui { font-size: 22px; color: var(--accent-strong); }
+    :root[data-theme="dark"] .surah-side .ar-ui { color: var(--ink); }
     .small { font-size: 13px; color: var(--muted); }
     .juz { padding: 16px; text-decoration: none; color: var(--ink); display: flex; justify-content: space-between; gap: 12px; }
     .page-jump { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 20px; }
@@ -95,8 +96,8 @@ const resources = [
         {meta.surahs.map((s) => (
           <a class="card surah" href={u(`surah/${s.n}/`)}>
             <span class="num">{s.n}</span>
-            <span class="surah-main"><b>{s.en}</b><span class="small">{s.meaning}</span></span>
-            <span class="surah-side"><span class="ar-ui" lang="ar">{s.ar}</span><span class="small">{s.ayahs} ayahs, {s.type}</span></span>
+            <span class="surah-main"><b>{s.en}</b><span class="small">{s.meaning} · {s.ayahs} ayahs</span></span>
+            <span class="surah-side"><span class="ar-ui" lang="ar">{s.ar}</span></span>
           </a>
         ))}
       </div>

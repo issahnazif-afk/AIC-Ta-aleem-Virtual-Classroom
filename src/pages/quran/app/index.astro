@@ -1,150 +1,221 @@
 ---
+// The adults' home: one "Continue" for the last place read, the ways to practise as a ruled list, the riwāyah,
+// and the adult's most recent saved ayah in the arch. Everything shown comes from this device's own reading
+// (ql-last-read, ql-bookmarks) and the library's data; nothing is invented.
 import Base from '../../../quran/layouts/Base.astro';
-import { u } from '../../../quran/lib/url.mjs';
+import { u, site } from '../../../quran/lib/url.mjs';
 import { getMeta } from '../../../quran/lib/data.mjs';
 import { RIWAYAT } from '../../../quran/lib/riwayat/course.mjs';
 const riwayat = [{ id: 'hafs', name: 'Ḥafṣ ʿan ʿĀṣim' }, ...(getMeta().riwayat ?? []).map((r) => ({ id: r.id, name: r.name }))];
-const classrooms = { hafs: { short: "", href: u("riwayat/") }, ...Object.fromEntries(Object.entries(RIWAYAT).map(([id, c]) => [id, { short: c.short, href: u(`riwayat/?rw=${id}`) }])) };
-const sections = [
-  { key: 'mushaf', ar: 'المصحف', en: 'Mushaf' },
-  { key: 'listen', ar: 'الاستماع', en: 'Listen' },
-  { key: 'recite', ar: 'التلاوة', en: 'Recite' },
-  { key: 'hifz', ar: 'اختبار الحفظ', en: 'Hifz test' },
-  { key: 'tajweed', ar: 'التجويد', en: 'Learn Tajweed' },
+const classrooms = { hafs: { short: '', href: u('riwayat/') }, ...Object.fromEntries(Object.entries(RIWAYAT).map(([id, c]) => [id, { short: c.short, href: u(`riwayat/?rw=${id}`) }])) };
+const ways = [
+  { title: 'Mushaf', text: 'Read page by page, in the riwāyah you choose', href: u('page/1/?app=1') },
+  { title: 'Listen', text: 'Choose a reciter and follow word by word', href: u('page/1/?app=1&listen=1') },
+  { title: 'Recite to the Sheikh', text: 'He follows every word and helps only when you stop', href: u('practice/?app=1') },
+  { title: 'Hifz test', text: 'The Sheikh starts an ayah; you carry on from memory', href: u('test/?app=1') },
+  { title: 'Learn tajweed', text: 'The rules one by one, by the way of ash-Shāṭibiyyah', href: u('tajweed/?app=1') },
 ];
 ---
-<Base title="Home" app>
+<Base title="Home" active="home">
   <style is:global>
     html[data-app] .appbar { display: none; }
-    html[data-app] body:has(.home-app) { background: #0E3B31; padding-bottom: 0 !important; }
-    .home-app { min-height: 100vh; min-height: 100dvh; box-sizing: border-box; background: #0E3B31; color: #F4ECD8; display: flex; flex-direction: column; align-items: center; padding: calc(14px + env(safe-area-inset-top, 0px)) 0 calc(24px + env(safe-area-inset-bottom, 0px)); overflow: hidden; position: relative; }
-    .home-app .pattern { position: absolute; inset: 0; opacity: .07; pointer-events: none; }
-    .home-app .top { width: 100%; max-width: 520px; display: flex; justify-content: space-between; align-items: center; padding: 0 12px; box-sizing: border-box; position: relative; }
-    .home-app .top .who { display: flex; align-items: center; gap: 2px; color: #CDBF9C; font-size: 13px; min-width: 0; }
-    .home-app .top .who b { font-weight: 600; color: #F4ECD8; }
-    .home-app .top .who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .home-app .top button { width: 44px; height: 44px; flex: none; display: grid; place-items: center; color: #E2C27A; border-radius: 12px; background: none; border: none; cursor: pointer; }
-    .home-app .top a { flex: none; width: 44px; height: 44px; display: grid; place-items: center; color: #E2C27A; border-radius: 12px; }
-    .home-app .title { font-family: var(--font-quran); font-size: clamp(30px, 9vw, 42px); line-height: 1.7; color: #E2C27A; position: relative; }
-    .home-app .sub { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #CDBF9C; position: relative; }
-    .home-app .stage { position: relative; width: 100%; max-width: 520px; height: 270px; margin-top: 22px; touch-action: pan-y; user-select: none; }
-    .home-app .cover { position: absolute; left: 50%; top: 10px; width: 168px; height: 228px; margin-left: -84px; transition: transform .32s cubic-bezier(.2,.7,.2,1), opacity .32s; cursor: pointer; border: none; padding: 0; background: none; }
-    .home-app .stage.dragging .cover { transition: none; }
-    .home-app .cover svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 14px 18px rgba(0,0,0,.4)); }
-    .home-app .label { display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; }
-    .home-app .label .ar { font-family: var(--font-ar-ui); font-weight: 600; font-size: 24px; color: #E2C27A; }
-    .home-app .label .en { font-size: 15px; }
-    .home-app .label small { font-size: 12px; color: #B9C9BF; }
-    .home-app .dots { display: flex; gap: 2px; margin-top: 6px; position: relative; }
-    .home-app .dots button { width: 28px; height: 28px; border: none; background: transparent; display: grid; place-items: center; cursor: pointer; }
-    .home-app .dots span { display: block; height: 8px; width: 8px; border-radius: 4px; background: rgba(226,194,122,.35); transition: width .2s; }
-    .home-app .dots button[aria-current="true"] span { width: 22px; background: #E2C27A; }
-    .home-app .grid { margin-top: auto; padding: 24px 22px 0; width: 100%; max-width: 460px; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 10px; position: relative; }
-    .home-app .grid a { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: #F4ECD8; font-size: 13px; }
-    .home-app .grid a span { width: 62px; height: 62px; border-radius: 50%; background: #0A2E26; border: 1px solid rgba(226,194,122,.35); display: grid; place-items: center; color: #E2C27A; }
-    .home-app .rw { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 14px; position: relative; width: 100%; padding: 0 16px; box-sizing: border-box; }
-    .home-app .rw-pick { position: relative; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 40px 0 16px; border-radius: 22px; border: 1px solid rgba(226,194,122,.55); background: #0A2E26; color: #F4ECD8; max-width: 100%; box-sizing: border-box; }
-    .home-app .rw-pick:focus-within { outline: 2px solid #E2C27A; outline-offset: 2px; }
-    .home-app .rw-pick .k { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #CDBF9C; flex: none; }
-    .home-app .rw-pick select { appearance: none; -webkit-appearance: none; background: transparent; border: none; color: #F4ECD8; font: inherit; font-size: 15px; font-weight: 600; padding: 0; cursor: pointer; min-width: 0; text-overflow: ellipsis; }
-    .home-app .rw-pick select:focus { outline: none; }
-    .home-app .rw-pick select option { color: #10231C; background: #F4ECD8; }
-    .home-app .rw-pick svg { position: absolute; right: 14px; top: 50%; margin-top: -8px; color: #E2C27A; pointer-events: none; }
-    .home-app .rw-learn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; border-radius: 20px; background: #E2C27A; color: #10231C; font-size: 14px; font-weight: 700; text-decoration: none; }
-    .home-app .rw-learn[hidden] { display: none; }
-    .home-app .rw small { font-size: 12px; color: #B9C9BF; text-align: center; max-width: 340px; }
+    html[data-app] body:has(.lib-home) { padding-bottom: 24px !important; }
+    .lib-home { max-width: 1280px; margin: 0 auto; padding: 48px 24px 24px; }
+    .lib-top { display: none; align-items: center; gap: 6px; padding: 0 0 20px; }
+    html[data-app] .lib-top { display: flex; }
+    html[data-app] .lib-home { padding-top: calc(16px + env(safe-area-inset-top, 0px)); }
+    .lib-top .brand { margin-right: auto; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .lib-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 480px); gap: 56px; align-items: start; }
+    .lib-main { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+    .lib-kicker { margin: 0 0 10px; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-text); }
+    .lib-hi { margin: 0; font-size: clamp(34px, 4.4vw, 52px); line-height: 1.08; }
+    .lib-hi em { font-weight: 500; color: var(--gold-text); }
+    .lib-lede { margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: var(--muted); max-width: 560px; }
+    .lib-label { margin: 0; font-family: var(--font-ui); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    :root[data-theme="dark"] .lib-label { color: var(--muted); }
+
+    .lib-cont { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-surface); padding: 24px 28px; display: flex; flex-direction: column; gap: 16px; }
+    .lib-cont-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+    .lib-cont h2 { margin: 0; font-size: 30px; }
+    .lib-cont .meta { margin: 6px 0 0; font-size: 15px; color: var(--muted); }
+    .lib-cont .ar { font-family: var(--font-ar-ui); font-size: 34px; line-height: 1; color: var(--accent-strong); }
+    :root[data-theme="dark"] .lib-cont .ar { color: var(--ink); }
+    .lib-bar { height: 6px; border-radius: 3px; background: var(--accent-soft); overflow: hidden; }
+    .lib-bar span { display: block; height: 100%; width: 2%; background: var(--accent); transition: width .25s; }
+    .lib-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .lib-actions .btn { min-height: 48px; padding: 0 22px; font-size: 15px; }
+
+    .lib-ways { display: flex; flex-direction: column; }
+    .lib-ways .lib-label { margin-bottom: 6px; }
+    .lib-way { display: grid; grid-template-columns: 44px minmax(140px, 220px) 1fr 20px; align-items: center; gap: 16px; padding: 14px 4px; border-top: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: background-color .15s; }
+    .lib-way:last-child { border-bottom: 1px solid var(--line); }
+    .lib-way:hover { background: var(--accent-soft); color: var(--ink); }
+    .lib-way .n { font-family: var(--font-head); font-size: 22px; color: var(--gold); }
+    .lib-way b { font-size: 16px; color: var(--accent-strong); }
+    :root[data-theme="dark"] .lib-way b { color: var(--ink); }
+    .lib-way .t { font-size: 15px; color: var(--muted); }
+    .lib-way i { font-style: normal; color: var(--accent); transition: transform .15s; }
+    .lib-way:hover i { transform: translateX(3px); }
+
+    .lib-rw { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+    .lib-rw label { display: inline-flex; align-items: center; gap: 12px; }
+    .lib-rw select { height: 44px; border: 1px solid var(--field); border-radius: var(--r-control); background: var(--surface); color: var(--ink); font: inherit; font-weight: 600; padding: 0 12px; max-width: 100%; }
+    .lib-rw a { font-weight: 700; font-size: 14px; }
+    .lib-rw small { flex-basis: 100%; color: var(--muted); font-size: 13px; }
+
+    .lib-side { display: flex; flex-direction: column; gap: 24px; }
+    .lib-arch { background: #173D32; border-radius: 240px 240px var(--r-panel) var(--r-panel); padding: 14px; }
+    .lib-arch-in { border: 1px solid #B99A5B; border-radius: 226px 226px 10px 10px; padding: 88px 36px 32px; min-height: 440px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; color: #F7F4EA; }
+    .lib-arch .lab { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #DCC48E; }
+    .lib-arch .ayah-ar { margin: 4px 0 0; font-family: 'KFGQPC Hafs', var(--font-quran); font-size: clamp(26px, 2.6vw, 34px); line-height: 2; color: #F7F4EA; direction: rtl; }
+    .lib-arch .ayah-tr { margin: 0; font-family: var(--font-head); font-style: italic; font-size: 18px; line-height: 1.5; color: rgba(247,244,234,.88); }
+    .lib-arch .ref { margin: 0; font-size: 13px; color: rgba(247,244,234,.78); }
+    .lib-arch .row { margin-top: auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .lib-arch .row .btn { min-height: 48px; padding: 0 20px; }
+    .lib-arch .btn.b-light { background: #F7F4EA; border-color: #F7F4EA; color: #173D32; }
+    .lib-arch .btn.b-light:hover { background: #FFFFFF; color: #173D32; }
+    .lib-arch .btn.b-line { background: transparent; border-color: rgba(220,196,142,.6); color: #F7F4EA; }
+    .lib-arch .b-line:hover { border-color: #DCC48E; color: #F7F4EA; }
+    .lib-arch :focus-visible { outline-color: #DCC48E; }
+    .lib-figs { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .lib-figs div { padding: 16px 0 16px 20px; }
+    .lib-figs div:first-child { padding-left: 0; }
+    .lib-figs div + div { border-left: 1px solid var(--line); }
+    .lib-figs dt { font-size: 12px; font-weight: 700; color: var(--muted); }
+    .lib-figs dd { margin: 4px 0 0; font-family: var(--font-head); font-size: 28px; color: var(--accent-strong); }
+    :root[data-theme="dark"] .lib-figs dd { color: var(--ink); }
+    .lib-more { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; font-weight: 600; }
+
+    @media (prefers-reduced-motion: reduce) { .lib-way, .lib-way i, .lib-bar span { transition: none; } }
+    @media (max-width: 980px) {
+      .lib-grid { grid-template-columns: 1fr; gap: 36px; }
+      .lib-side { max-width: 520px; width: 100%; margin: 0 auto; }
+    }
+    @media (max-width: 600px) {
+      .lib-home { padding: 28px 16px 16px; }
+      .lib-cont { padding: 20px; }
+      .lib-cont .ar { display: none; }
+      .lib-cont h2 { font-size: 26px; }
+      .lib-actions .btn { flex: 1 1 100%; }
+      .lib-way { grid-template-columns: 34px 1fr 16px; gap: 2px 12px; }
+      .lib-way .t { grid-column: 2; grid-row: 2; font-size: 14px; }
+      .lib-way .n { grid-row: 1 / span 2; }
+      .lib-way i { grid-column: 3; grid-row: 1 / span 2; }
+      .lib-arch { border-radius: 180px 180px var(--r-panel) var(--r-panel); }
+      .lib-arch-in { border-radius: 168px 168px 10px 10px; padding: 64px 20px 24px; min-height: 0; }
+      .lib-figs dd { font-size: 22px; }
+      .lib-figs div { padding-left: 12px; }
+    }
   </style>
 
-  <div class="home-app">
-    <svg class="pattern" aria-hidden="true" width="100%" height="100%">
-      <defs><pattern id="star" width="78" height="78" patternUnits="userSpaceOnUse">
-        <rect x="19" y="19" width="40" height="40" fill="none" stroke="#E2C27A" stroke-width="1.5"></rect>
-        <rect x="19" y="19" width="40" height="40" fill="none" stroke="#E2C27A" stroke-width="1.5" transform="rotate(45 39 39)"></rect>
-      </pattern></defs>
-      <rect width="100%" height="100%" fill="url(#star)"></rect>
-    </svg>
-    <div class="top"><div class="who"><button type="button" id="home-out" aria-label="Sign out" title="Sign out"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"></path></svg></button><span>As-salāmu ʿalaykum, <b id="home-name"></b></span></div><a href={u('about/')} aria-label="About and sources"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5v.5"></path></svg></a></div>
-    <div class="title" lang="ar" dir="rtl">قٓۚ وَٱلۡقُرۡءَانِ ٱلۡمَجِيدِ</div>
-    <div class="sub">Qāf wal-Qurʾān al-Majīd</div>
-
-    <div class="stage" id="stage" aria-roledescription="carousel" aria-label="Sections">
-      {sections.map((x, i) => (
-        <button type="button" class="cover" data-i={i} aria-label={`Open ${x.en}`}>
-          <svg viewBox="0 0 168 228" aria-hidden="true">
-            <rect x="0.5" y="0.5" width="167" height="227" rx="8" fill="#0B3329" stroke="#3E6A57"></rect>
-            <rect x="0.5" y="0.5" width="9" height="227" rx="4" fill="#082820"></rect>
-            <rect x="16" y="10" width="142" height="208" rx="4" fill="none" stroke="#C9A65A" stroke-width="1.5"></rect>
-            <rect x="21" y="15" width="132" height="198" rx="3" fill="none" stroke="rgba(201,166,90,.55)"></rect>
-            <g transform="translate(87 114)">
-              <rect x="-38" y="-38" width="76" height="76" fill="#0E3B31" stroke="#D4B062" stroke-width="2"></rect>
-              <rect x="-38" y="-38" width="76" height="76" fill="#0E3B31" stroke="#D4B062" stroke-width="2" transform="rotate(45)"></rect>
-              <circle r="31" fill="#0B3329" stroke="#D4B062" stroke-width="1.5"></circle>
-              <g transform="translate(-15 -15) scale(1.25)" fill="none" stroke="#E2C27A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                {x.key === 'mushaf' && <><path d="M2 5c3-1 6-1 10 1 4-2 7-2 10-1v14c-3-1-6-1-10 1-4-2-7-2-10-1z"></path><path d="M12 6v14"></path></>}
-                {x.key === 'listen' && <><path d="M4 15v-3a8 8 0 0 1 16 0v3"></path><rect x="3" y="14" width="4" height="6" rx="1.5"></rect><rect x="17" y="14" width="4" height="6" rx="1.5"></rect></>}
-                {x.key === 'recite' && <><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"></path></>}
-                {x.key === 'hifz' && <><circle cx="12" cy="9" r="6"></circle><path d="M9 14.5 7 22l5-3 5 3-2-7.5"></path><path d="m9.5 9 1.8 1.8L14.8 7.3"></path></>}
-                {x.key === 'tajweed' && <><rect x="2" y="4" width="20" height="13" rx="1.5"></rect><path d="M6 9.5c1.6-1.2 3.2 1.2 4.8 0M13 9.5h5M6 13h12"></path><path d="M7 17l-2 4M17 17l2 4"></path></>}
-              </g>
-            </g>
-          </svg>
-        </button>
-      ))}
+  <div class="lib-home">
+    <div class="lib-top">
+      <a class="brand" href={u('app/')}><img class="brand-logo" src={site('img/taaleem-logo.webp')} alt="" width="38" height="40" /><span class="brand-text"><b>Ta'aleem</b><small>QURAN LIBRARY</small></span></a>
+      <a class="icon-btn" href={u('search/')} aria-label="Search the Quran"><svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch light or dark theme"><svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></button>
+      <button class="icon-btn" type="button" id="home-out" aria-label="Sign out"><svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"></path></svg></button>
     </div>
 
-    <div class="label" aria-live="polite">
-      <span class="ar" lang="ar" dir="rtl" id="lab-ar">{sections[0].ar}</span>
-      <span class="en" id="lab-en">{sections[0].en}</span>
-      <small>Swipe to choose · tap to open</small>
-    </div>
-    <div class="dots" id="dots">
-      {sections.map((x, i) => <button type="button" data-i={i} aria-label={`Show ${x.en}`} aria-current={i === 0 ? 'true' : 'false'}><span></span></button>)}
-    </div>
+    <div class="lib-grid">
+      <section class="lib-main" aria-labelledby="lib-hi">
+        <div>
+          <p class="lib-kicker" id="lib-date"></p>
+          <h1 class="lib-hi" id="lib-hi">Assalamu alaikum<span id="lib-name-wrap" hidden>, <em id="lib-name"></em></span></h1>
+          <p class="lib-lede">Pick up where you left off, or choose how you would like to spend time with the Qur'an today.</p>
+        </div>
 
-    <div class="rw" id="home-rw-box" data-classrooms={JSON.stringify(classrooms)}>
-      <label class="rw-pick">
-        <span class="k">Riwāyah</span>
-        <select id="home-rw" aria-label="Riwāyah: which reading to continue with">
-          {riwayat.map((r) => <option value={r.id}>{r.name}</option>)}
-        </select>
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
-      </label>
-      <a class="rw-learn" id="home-learn" href="#" hidden></a>
-      <small id="home-rw-note" hidden></small>
-    </div>
+        <div class="lib-cont">
+          <p class="lib-label" id="cont-label">Start reading</p>
+          <div class="lib-cont-row">
+            <div>
+              <h2 id="cont-title">Sūrat al-Fātiḥah</h2>
+              <p class="meta" id="cont-meta">Ayah 1 of 7 · Page 1 · Juz 1</p>
+            </div>
+            <span class="ar" lang="ar" dir="rtl" id="cont-ar">الفاتحة</span>
+          </div>
+          <div class="lib-bar" role="progressbar" aria-labelledby="cont-title" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="cont-bar"><span></span></div>
+          <div class="lib-actions">
+            <a class="btn btn-primary" id="cont-go" href={u('page/1/?app=1')}>Resume reading <span aria-hidden="true">→</span></a>
+            <a class="btn" href={u('practice/?app=1')}>
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>
+              Recite it to the Sheikh</a>
+          </div>
+        </div>
 
-    <nav class="grid" aria-label="More">
-      <a href="#" id="go-continue"><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span>Continue</a>
-      <a href={u('search/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></span>Search</a>
-      <a href={u('saved/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"></path></svg></span>Saved</a>
-      <a href={u('letters/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19 9 5l5 14M6 14h6"></path><path d="M15 19h5M17.5 11v8"></path></svg></span>Letters</a>
-      <a href={u('resources/')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span>Resources</a>
-      <a href={u('?app=0')}><span><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg></span>Website</a>
-    </nav>
+        <nav class="lib-ways" aria-labelledby="ways-h">
+          <h2 class="lib-label" id="ways-h">Ways to practise</h2>
+          {ways.map((w, i) => (
+            <a class="lib-way" href={w.href} data-way={i}><span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><b>{w.title}</b><span class="t">{w.text}</span><i aria-hidden="true">→</i></a>
+          ))}
+        </nav>
+
+        <div class="lib-rw" id="home-rw-box" data-classrooms={JSON.stringify(classrooms)}>
+          <label><span class="lib-label">Riwāyah</span>
+            <select id="home-rw">
+              {riwayat.map((r) => <option value={r.id}>{r.name}</option>)}
+            </select>
+          </label>
+          <a id="home-learn" href="#" hidden></a>
+          <small id="home-rw-note" hidden></small>
+        </div>
+      </section>
+
+      <aside class="lib-side" aria-label="Your reading">
+        <div class="lib-arch">
+          <div class="lib-arch-in">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#DCC48E" stroke-width="1.2" aria-hidden="true"><rect x="8" y="8" width="24" height="24"></rect><rect x="8" y="8" width="24" height="24" transform="rotate(45 20 20)"></rect><circle cx="20" cy="20" r="4"></circle></svg>
+            <p class="lab" id="arch-lab">Where you are reading</p>
+            <p class="ayah-ar" lang="ar" id="arch-ar"></p>
+            <p class="ayah-tr" id="arch-tr"></p>
+            <p class="ref" id="arch-ref"></p>
+            <div class="row">
+              <button class="btn b-light" type="button" id="arch-play" aria-pressed="false">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"></path></svg><span>Listen</span></button>
+              <a class="btn b-line" id="arch-open" href={u('page/1/?app=1')}>Open in mushaf</a>
+            </div>
+          </div>
+        </div>
+        <dl class="lib-figs">
+          <div><dt>Saved ayahs</dt><dd id="fig-saved">0</dd></div>
+          <div><dt>Juz</dt><dd id="fig-juz">1</dd></div>
+          <div><dt>Page</dt><dd id="fig-page">1</dd></div>
+        </dl>
+        <nav class="lib-more" aria-label="More">
+          <a href={u('saved/')}>Saved ayahs</a>
+          <a href={u('search/')}>Search</a>
+          <a href={u('letters/')}>Arabic letters</a>
+          <a href={u('resources/')}>Resources</a>
+          <a href={u('')}>Browse the Quran</a>
+          <a href={u('about/')}>About &amp; sources</a>
+        </nav>
+      </aside>
+    </div>
   </div>
 
   <script>
-    import { lastRead, getJson, pad } from '../../../quran/lib/client.mjs';
+    import { lastRead, bookmarks, settings, getJson, pad, audioUrl } from '../../../quran/lib/client.mjs';
     import { u } from '../../../quran/lib/url.mjs';
     import { me, signOut } from '../../../quran/lib/account.mjs';
-    // the signed-in adult: greeted by first name, and signing out (the site header is hidden on this screen)
+    const $ = (id) => document.getElementById(id);
+
+    // greeting and today's date (with the Hijri date where the browser knows it)
     const who = me();
-    if (who) document.getElementById('home-name').textContent = who.name.split(' ')[0];
-    document.getElementById('home-out').addEventListener('click', async (e) => {
-      e.currentTarget.disabled = true;
-      await signOut();
-      location.assign(u('signin/'));
-    });
+    if (who) { $('lib-name').textContent = who.name.split(' ')[0]; $('lib-name-wrap').hidden = false; }
+    const now = new Date();
+    let date = now.toLocaleDateString('en-GB', { weekday: 'long' });
+    try { date += ' · ' + new Intl.DateTimeFormat('en-GB-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(now).replace(/\s*AH$/, '') + ' AH'; } catch {}
+    $('lib-date').textContent = date;
+    $('home-out').addEventListener('click', async (e) => { e.currentTarget.disabled = true; await signOut(); location.assign(u('signin/')); });
+
     // the riwāyah: the same setting as the Quran menu's, so the Mushaf and Recite open in it
-    const rwSel = document.getElementById('home-rw');
-    const rwBox = document.getElementById('home-rw-box');
-    const classrooms = JSON.parse(rwBox.dataset.classrooms || '{}');
+    const rwSel = $('home-rw');
+    const classrooms = JSON.parse($('home-rw-box').dataset.classrooms || '{}');
     const rwGet = () => { try { const v = JSON.parse(localStorage.getItem('ql-riwayah') || '"hafs"'); return [...rwSel.options].some((o) => o.value === v) ? v : 'hafs'; } catch { return 'hafs'; } };
     function showRw() {
       const v = rwSel.value, c = classrooms[v];
-      const learn = document.getElementById('home-learn'), note = document.getElementById('home-rw-note');
+      const learn = $('home-learn'), note = $('home-rw-note');
       learn.hidden = !c;
-      if (c) { learn.href = c.href; learn.textContent = v === "hafs" ? "Learn the other riwāyāt with the Sheikh ›" : `Learn ${c.short} with the Sheikh ›`; }
+      if (c) { learn.href = c.href; learn.textContent = v === 'hafs' ? 'Learn the other riwāyāt with the Sheikh →' : `Learn ${c.short} with the Sheikh →`; }
       note.hidden = v === 'hafs';
       note.textContent = v === 'qumbul' ? 'The Mushaf, Recite and the Hifz test follow this riwāyah. No recitation of Qunbul is openly available yet, so Listen has no audio.' : 'Everything follows this riwāyah: the Mushaf, Listen, Recite and the Hifz test.';
       document.documentElement.dataset.riwayah = v;
@@ -152,71 +223,53 @@ const sections = [
     rwSel.value = rwGet();
     showRw();
     rwSel.addEventListener('change', () => { try { localStorage.setItem('ql-riwayah', JSON.stringify(rwSel.value)); } catch {} showRw(); });
-    const names = [['المصحف', 'Mushaf'], ['الاستماع', 'Listen'], ['التلاوة', 'Recite'], ['اختبار الحفظ', 'Hifz test'], ['التجويد', 'Learn Tajweed']];
-    const stage = document.getElementById('stage');
-    const covers = [...stage.querySelectorAll('.cover')];
-    const dots = [...document.querySelectorAll('#dots button')];
-    const n = covers.length;
-    let idx = Number(sessionStorage.getItem('ql-home-idx') || 0) % n;
-    let dx = 0;
 
-    function layout() {
-      const step = Math.min(150, stage.clientWidth * 0.38);
-      covers.forEach((c, i) => {
-        let d = ((i - idx) % n + n) % n;
-        if (d > n / 2) d -= n;                       // -1, 0, 1 (and 2 hidden behind)
-        const x = d * step + dx;
-        const sc = d === 0 ? 1 : 0.72;
-        c.style.transform = `translateX(${x}px) scale(${sc})`;
-        c.style.opacity = Math.abs(d) > 1 ? '0' : d === 0 ? '1' : '.55';
-        c.style.zIndex = String(10 - Math.abs(d));
-        c.tabIndex = d === 0 ? 0 : -1;
-      });
-      dots.forEach((b, i) => b.setAttribute('aria-current', String(i === idx)));
-      document.getElementById('lab-ar').textContent = names[idx][0];
-      document.getElementById('lab-en').textContent = names[idx][1];
-      sessionStorage.setItem('ql-home-idx', String(idx));
-    }
-    const go = (i) => { idx = ((i % n) + n) % n; dx = 0; layout(); };
+    // Continue: the last place read on this device
+    const lr = lastRead.get();
+    const pos = lr ?? { s: 1, a: 1 };
+    (async () => {
+      const sura = await getJson(`surah/${pad(pos.s)}.json`).catch(() => null);
+      if (!sura) return;
+      const ay = sura.ayahs[pos.a - 1] ?? sura.ayahs[0];
+      const total = sura.ayahs.length;
+      const pct = Math.round((ay.a / total) * 100);
+      $('cont-label').textContent = lr ? 'Continue reading' : 'Start reading';
+      $('cont-title').textContent = `Sūrat ${sura.en}`;
+      $('cont-ar').textContent = sura.ar;
+      $('cont-meta').textContent = `Ayah ${ay.a} of ${total} · Page ${ay.page} · Juz ${ay.juz}`;
+      $('cont-bar').setAttribute('aria-valuenow', String(pct));
+      $('cont-bar').firstElementChild.style.width = Math.max(pct, 2) + '%';
+      $('fig-juz').textContent = ay.juz;
+      $('fig-page').textContent = ay.page;
+      const k = `${pos.s}:${ay.a}`;
+      const hrefs = [u(`page/${ay.page}/?app=1&k=${k}`), u(`page/${ay.page}/?app=1&listen=1&k=${k}`)];
+      $('cont-go').href = hrefs[0];
+      document.querySelectorAll('[data-way]').forEach((a, i) => { if (hrefs[i]) a.href = hrefs[i]; });
+    })();
 
-    // where each section opens: your last place
-    async function target(i) {
-      const lr = lastRead.get() ?? { s: 1, a: 1 };
-      const sura = await getJson(`surah/${pad(lr.s)}.json`).catch(() => null);
-      const page = sura?.ayahs[lr.a - 1]?.page ?? 1;
-      return [
-        u(`page/${page}/?app=1&k=${lr.s}:${lr.a}`),
-        u(`page/${page}/?app=1&listen=1&k=${lr.s}:${lr.a}`),
-        u(`practice/?app=1`),
-        u(`test/?app=1`),
-        u(`tajweed/?app=1`),
-      ][i];
-    }
-    covers.forEach((c, i) => c.addEventListener('click', async () => {
-      if (moved) return;
-      if (i !== idx) { go(i); return; }
-      location.href = await target(i);
-    }));
-    dots.forEach((b, i) => b.addEventListener('click', () => go(i)));
-    document.getElementById('go-continue').addEventListener('click', async (e) => { e.preventDefault(); location.href = await target(0); });
-
-    // swipe: the covers follow your finger
-    let sx = null, moved = false;
-    stage.addEventListener('pointerdown', (e) => { sx = e.clientX; moved = false; stage.classList.add('dragging'); });
-    addEventListener('pointermove', (e) => { if (sx === null) return; dx = e.clientX - sx; if (Math.abs(dx) > 8) moved = true; layout(); });
-    addEventListener('pointerup', () => {
-      if (sx === null) return;
-      stage.classList.remove('dragging');
-      const d = dx; sx = null;
-      if (d < -50) go(idx + 1); else if (d > 50) go(idx - 1); else { dx = 0; layout(); }
-      setTimeout(() => { moved = false; }, 0);
+    // the arch: the most recent saved ayah, or else the place being read, quoted from the library's data
+    const saved = bookmarks.all();
+    $('fig-saved').textContent = saved.length;
+    const [ks, ka] = (saved[0] ?? `${pos.s}:${pos.a}`).split(':').map(Number);
+    let clip = null;
+    (async () => {
+      const sura = await getJson(`surah/${pad(ks)}.json`).catch(() => null);
+      const ay = sura?.ayahs[ka - 1];
+      if (!ay) return;
+      $('arch-lab').textContent = saved.length ? 'From your saved ayahs' : 'Where you are reading';
+      $('arch-ar').textContent = ay.ar;
+      const tr = ay.tr?.[settings.translation] ?? Object.values(ay.tr ?? {})[0] ?? '';
+      $('arch-tr').textContent = tr;
+      $('arch-ref').textContent = `${sura.en} ${ks}:${ka}` + (tr ? ' · Sahih International' : '');
+      $('arch-open').href = u(`page/${ay.page}/?app=1&k=${ks}:${ka}`);
+    })();
+    const playBtn = $('arch-play');
+    const setPlay = (on) => { playBtn.setAttribute('aria-pressed', String(on)); playBtn.querySelector('span').textContent = on ? 'Pause' : 'Listen'; };
+    playBtn.addEventListener('click', () => {
+      if (clip && !clip.paused) { clip.pause(); setPlay(false); return; }
+      clip = clip ?? new Audio(audioUrl(settings.reciter, ks, ka));
+      clip.onended = () => setPlay(false);
+      clip.play().then(() => setPlay(true)).catch(() => {});
     });
-    addEventListener('keydown', (e) => {
-      if (e.target.closest('input, select, textarea')) return;
-      if (e.key === 'ArrowRight') go(idx + 1);
-      if (e.key === 'ArrowLeft') go(idx - 1);
-    });
-    addEventListener('resize', layout);
-    layout();
   </script>
 </Base>

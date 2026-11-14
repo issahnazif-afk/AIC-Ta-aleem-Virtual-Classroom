@@ -1,9 +1,13 @@
 // The Classroom home for every level: one calm scene (a forest night sky over a mosque and palm skyline, drawn for
 // Ta'aleem) with a short greeting and big labelled places to tap. Nothing else is on the page: details appear only
 // after a place is opened (the redesign kit, Phase 2: "what should I do next?" first, everything else one tap away).
-//   mountKidsHome(root, { level, name, hijri, special, places, next, onClassic }) → { stop() }
-//     places: [{ id, title, ar?, text?, icon (html), open?, children?: places }]
-//     next:   { title, open } — the one prominent next action (the last activity opened), or null
+//   mountKidsHome(root, { level, name, hijri, special, places, next, missions, card, onClassic }) → { stop() }
+//     places:   [{ id, title, ar?, text?, icon (html), open?, children?: places }]
+//     next:     { title, text?, icon?, open } — the one prominent next action (the last activity opened), or null
+//     missions: { list: [{ title, done }], open } — today's missions (Levels 3 and 4)
+//     card:     { name, level, stars, badges, palms } — the student card (Levels 3 and 4)
+// Levels 3 and 4 have a two-column layout: the greeting, "Your next step" and the numbered subjects on the left;
+// this week's moon, today's missions and the student card on the right (stacked on a phone).
 // Levels 1 and 2 (young readers): pointing at a place says its name; on a touch screen the first tap says it and the
 // second opens it. Levels 3 and 4: one tap opens, and an opened subject shows its activities with a line each.
 import { narrate, hush } from './narration.mjs';
@@ -43,26 +47,147 @@ ${palm(200, 1.1)}${palm(470, .85)}${palm(1120, .9)}${palm(1420, 1.15)}
   return SCENE;
 }
 
-export function mountKidsHome(root, { level = 1, name = '', hijri = '', special = [], places = [], next = null, onClassic } = {}) {
+// the moon on a Hijri day (1 to 30): a lit part drawn from the phase, waxing on the right
+function moonSvg(day) {
+  const f = Math.min(Math.max((day - 0.5) / 29.53, 0), 1);
+  const rx = (Math.abs(Math.cos(2 * Math.PI * f)) * 10).toFixed(2);
+  const waxing = f <= 0.5, crescent = f < 0.25 || f > 0.75;
+  const outer = waxing ? 1 : 0, term = waxing ? (crescent ? 0 : 1) : (crescent ? 1 : 0);
+  return `<svg viewBox="-12 -12 24 24" width="24" height="24" aria-hidden="true" focusable="false"><circle r="10" fill="rgba(247,244,234,.12)"/><path d="M0 -10A10 10 0 0 ${outer} 0 10A${rx} 10 0 0 ${term} 0 -10z" fill="#DCC48E"/></svg>`;
+}
+const hijriDay = (d) => { try { return Number(new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { day: 'numeric' }).format(d)); } catch { return 0; } };
+// this week, Saturday to Friday, with today marked
+function moonWeek() {
+  const box = el('section', 'kh-box kh-moon'); box.setAttribute('aria-labelledby', 'kh-moon-h');
+  const h = el('h2', 'kh-box-h', "This week's moon"); h.id = 'kh-moon-h';
+  const ol = el('ol', 'kh-week');
+  const today = new Date(); today.setHours(12, 0, 0, 0);
+  const sat = new Date(today); sat.setDate(today.getDate() - ((today.getDay() + 1) % 7));
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(sat); d.setDate(sat.getDate() + i);
+    const hd = hijriDay(d);
+    const li = el('li', 'kh-day');
+    if (d.toDateString() === today.toDateString()) { li.classList.add('today'); li.setAttribute('aria-current', 'date'); }
+    li.innerHTML = hd ? moonSvg(hd) : '';
+    li.append(el('span', 'kh-day-w', d.toLocaleDateString('en-GB', { weekday: 'short' })));
+    if (hd) li.append(el('span', 'kh-day-n', String(hd)));
+    li.title = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    ol.append(li);
+  }
+  box.append(h, ol);
+  return box;
+}
+
+export function mountKidsHome(root, { level = 1, name = '', hijri = '', special = [], places = [], next = null, missions = null, card = null, onClassic } = {}) {
   const young = level <= 2;
   root.replaceChildren();
   root.className = 'kh kh-l' + level + (young ? ' kh-young' : ' kh-older');
   const stage = el('div', 'kh-stage');
   stage.innerHTML = young ? picture() : scene();
   const top = el('div', 'kh-top');
+  if (!young && hijri) top.append(el('p', 'kh-kicker', `${new Date().toLocaleDateString('en-GB', { weekday: 'long' })} · ${hijri}`));
   const hi = el('h1', 'kh-hi'); hi.append('Assalamu alaikum', name ? ', ' : '', el('em', null, name ? `${name}` : ''));
   top.append(hi);
-  if (hijri) top.append(el('p', 'kh-date', hijri));
+  if (young && hijri) top.append(el('p', 'kh-date', hijri));
   for (const s of special) top.append(el('p', 'kh-special', `Today: ${s.title}`));
-  if (next?.open) {
-    const b = el('button', 'kh-next'); b.type = 'button';
-    b.append(el('span', 'kh-next-k', 'Continue'), el('b', null, next.title));
-    b.addEventListener('click', () => { hush(); next.open(); });
-    top.append(b);
-  }
   const head = el('div', 'kh-group'); head.hidden = true;
   const grid = el('div', 'kh-places');
-  stage.append(top, head, grid);
+  let render;   // set below
+  let shelf = null;
+  if (young) {
+    // Levels 1 and 2: a greeting that speaks, one big "Play again", the main places on a gentle wave and the
+    // smaller places (those marked shelf) on a shelf underneath
+    const wrap = el('div', 'kh-ywrap');
+    const left = el('div', 'kh-yleft kh-hide-sub');
+    const bubble = el('div', 'kh-bubble');
+    const words = el('div', 'kh-bubble-w');
+    words.append(top);
+    const tip = el('p', 'kh-tip', 'Tap a picture to hear it.');
+    words.append(tip);
+    const say = el('button', 'kh-say'); say.type = 'button'; say.setAttribute('aria-label', 'Say it');
+    say.innerHTML = '<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+    say.addEventListener('click', () => { hush(); narrate(`Assalamu alaikum${name ? ', ' + name : ''}! Tap a picture to hear it.`, { voice: 'story', words: [] }); });
+    bubble.append(words, say);
+    left.append(bubble);
+    const first = places.find((p) => !p.shelf && p.open);
+    const again = next?.open ? next : first ? { title: first.title, ar: first.ar, icon: first.icon, open: first.open } : null;
+    if (again) {
+      const card = el('div', 'kh-again');
+      if (again.icon) { const pic = el('span', 'kh-again-pic'); pic.innerHTML = again.icon; card.append(pic); }
+      card.append(el('span', 'kh-again-k', next?.open ? 'Play again' : 'Start here'), el('b', 'kh-again-t', again.title));
+      if (again.ar && level >= 2) { const a = el('span', 'kh-again-ar', again.ar); a.lang = 'ar'; a.dir = 'rtl'; card.append(a); }
+      const play = el('button', 'kh-again-go'); play.type = 'button'; play.setAttribute('aria-label', `Play ${again.title}`);
+      play.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>';
+      play.append('Play');
+      play.addEventListener('click', () => { hush(); again.open(); });
+      card.append(play);
+      left.append(card);
+    }
+    const right = el('div', 'kh-yright');
+    shelf = el('div', 'kh-shelf kh-hide-sub');
+    right.append(head, grid, shelf);
+    wrap.append(left, right);
+    stage.append(wrap);
+  } else {
+    // Levels 3 and 4: the next step, the subjects, and the side column
+    const wrap = el('div', 'kh-wrap');
+    const main = el('div', 'kh-main');
+    const step = el('section', 'kh-step'); step.setAttribute('aria-labelledby', 'kh-step-h');
+    const firstSubject = places.find((p) => p.children?.length);
+    const go = next?.open ? next : firstSubject ? { title: `Start with ${firstSubject.title}`, text: firstSubject.text, icon: firstSubject.icon, open: () => render(firstSubject.children, firstSubject) } : null;
+    if (go) {
+      const words = el('div', 'kh-step-words');
+      words.append(el('span', 'kh-step-k', next?.open ? 'Your next step' : 'Begin here'));
+      const sh = el('h2', 'kh-step-h', go.title); sh.id = 'kh-step-h'; words.append(sh);
+      if (go.text) words.append(el('p', 'kh-step-t', go.text));
+      const acts = el('div', 'kh-step-acts');
+      const b = el('button', 'kh-step-go'); b.type = 'button'; b.append(next?.open ? 'Carry on' : 'Open');
+      b.addEventListener('click', () => { hush(); go.open(); });
+      const other = el('button', 'kh-step-other', 'Choose something else'); other.type = 'button';
+      other.addEventListener('click', () => grid.querySelector('.kh-place')?.focus());
+      acts.append(b, other);
+      words.append(acts);
+      step.append(words);
+      if (go.icon) { const ic = el('span', 'kh-step-ic'); ic.innerHTML = go.icon; step.append(ic); }
+    } else { step.hidden = true; step.dataset.off = '1'; }
+    const subH = el('h2', 'kh-box-h kh-subjects-h', 'All subjects');
+    main.append(top, step, subH, head, grid);
+    const side = el('aside', 'kh-side'); side.setAttribute('aria-label', 'This week');
+    side.append(moonWeek());
+    if (missions?.list?.length) {
+      const box = el('section', 'kh-box kh-missions'); box.setAttribute('aria-labelledby', 'kh-mis-h');
+      const hh = el('div', 'kh-box-row');
+      const h2 = el('h2', 'kh-box-h', "Today's missions"); h2.id = 'kh-mis-h';
+      const done = missions.list.filter((m) => m.done).length;
+      hh.append(h2, el('span', 'kh-box-n', `${done} of ${missions.list.length}`));
+      const ul = el('ul', 'kh-mis');
+      for (const m of missions.list) {
+        const li = el('li', m.done ? 'done' : '');
+        const tick = el('span', 'kh-tick');
+        if (m.done) { tick.setAttribute('role', 'img'); tick.setAttribute('aria-label', 'Done'); }
+        const words = el('span', 'kh-mis-w'); words.append(el('b', null, m.title));
+        if (m.text) words.append(el('small', null, m.text));
+        li.append(tick, words);
+        ul.append(li);
+      }
+      box.append(hh, ul);
+      if (missions.open) { const ob = el('button', 'kh-box-link', 'See the missions'); ob.type = 'button'; ob.addEventListener('click', () => { hush(); missions.open(); }); box.append(ob); }
+      side.append(box);
+    }
+    if (card) {
+      const c = el('section', 'kh-card'); c.setAttribute('aria-label', 'My student card');
+      const row = el('div', 'kh-card-top');
+      const logo = el('img', 'kh-card-logo'); logo.src = u('img/taaleem-logo.webp'); logo.alt = ''; logo.width = 36; logo.height = 38;
+      const who = el('div', 'kh-card-who'); who.append(el('span', 'kh-card-k', 'Student card'), el('b', null, card.name));
+      row.append(logo, who, el('span', 'kh-card-lv', card.level));
+      const dl = el('dl', 'kh-card-figs');
+      for (const [k, v] of [['Stars', card.stars], ['Badges', card.badges], ['Palms grown', card.palms]]) { const d = el('div'); d.append(el('dt', null, k), el('dd', null, String(v ?? 0))); dl.append(d); }
+      c.append(row, dl);
+      side.append(c);
+    }
+    wrap.append(main, side);
+    stage.append(wrap);
+  }
   root.append(stage);
   if (onClassic) {
     const c = el('button', 'btn link kh-classic', 'Grown-up view: see every activity as a list');
@@ -77,11 +202,13 @@ export function mountKidsHome(root, { level = 1, name = '', hijri = '', special 
     b.classList.remove('bounce'); void b.offsetWidth; b.classList.add('bounce');
     narrate(p.say ?? p.title.replace('ﷺ', 'sallallahu alayhi wa sallam'), { voice: 'story', words: [] });
   };
-  function render(list, parent) {
+  render = function (list, parent) {
     grid.replaceChildren();
     armed = null;
     top.hidden = !!parent;
     head.hidden = !parent;
+    stage.querySelectorAll('.kh-step, .kh-subjects-h, .kh-hide-sub').forEach((x) => { if (!x.dataset.off) x.hidden = !!parent; });
+    if (shelf) shelf.replaceChildren();
     grid.classList.toggle('kh-sub', !!parent);
     if (parent) {
       head.replaceChildren();
@@ -95,8 +222,9 @@ export function mountKidsHome(root, { level = 1, name = '', hijri = '', special 
       if (parent.text) head.append(el('p', 'kh-group-t', parent.text));
       setTimeout(() => back.focus({ preventScroll: true }), 0);
     }
-    for (const p of list) {
+    list.forEach((p, i) => {
       const b = el('button', 'kh-place'); b.type = 'button'; b.dataset.place = p.id;
+      if (!young && !parent) b.append(el('span', 'kh-n', String(i + 1).padStart(2, '0')));
       const ic = el('span', 'kh-ic'); ic.innerHTML = p.icon ?? icon('stories');
       if (p.color) ic.style.setProperty('--c', p.color);
       const label = el('span', 'kh-label' + (p.logo ? ' kh-sr' : '')); label.append(el('b', null, p.title));   // a picture that carries its own name: the label is for screen readers
@@ -114,9 +242,9 @@ export function mountKidsHome(root, { level = 1, name = '', hijri = '', special 
         if (p.children) render(p.children, p);
         else p.open?.();
       });
-      grid.append(b);
-    }
-  }
+      (shelf && !parent && p.shelf ? shelf : grid).append(b);
+    });
+  };
   render(places, null);
   return { stop() { hush(); } };
 }

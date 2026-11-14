@@ -246,9 +246,14 @@
 .garden-arch { display: block; width: 100%; height: 30px; }
 .garden-dhikr { text-align: center; font-family: var(--font-quran); font-size: 22px; color: var(--accent-strong); margin: -6px 0 12px !important; }
 .plots { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 12px; }
-.plot { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 6px 12px; border-radius: 12px; font: inherit; font-size: 13px; font-weight: 600; line-height: 1.2; cursor: pointer; color: var(--ink); min-height: 110px; background: rgba(255,255,255,.55); border: 1px solid #D6E4CF; text-align: center; }
-.plot.sel { background: #FFFFFF; border: 2px solid var(--accent); }
-.plot.growing { box-shadow: 0 0 0 4px var(--amber); }
+.plot { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px 12px; border-radius: 16px; font: inherit; font-size: 13.5px; font-weight: 700; line-height: 1.25; cursor: pointer; color: var(--ink); min-height: 124px; background: #FFFFFF; border: 2px solid transparent; box-shadow: 0 3px 0 rgb(23 61 50 / .08); text-align: center; transition: transform .15s, border-color .15s; }
+.plot:hover { transform: translateY(-2px); border-color: #C9D9C0; }
+.plot.sel { border-color: var(--accent); box-shadow: 0 3px 0 rgb(23 61 50 / .16); }
+.plot.growing { border-color: var(--amber); }
+.plot.grown { background: #F3F9EF; }
+.plot-n { position: absolute; top: 8px; left: 8px; min-width: 24px; height: 24px; padding: 0 4px; box-sizing: border-box; display: grid; place-items: center; border-radius: 12px; background: #EAF3E6; color: #2E5A3C; font-style: normal; font-size: 12px; font-weight: 800; }
+.plot.grown .plot-n { background: #2E8B57; color: #fff; }
+@media (prefers-reduced-motion: reduce) { .plot { transition: none; } .plot:hover { transform: none; } }
 .plot.later span { color: var(--muted); }
 .garden-hadith { margin-top: 14px !important; font-size: 14px; color: var(--muted); text-align: center; }
 .lesson-card { display: flex; flex-direction: column; gap: 8px; padding: 20px; }

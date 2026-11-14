@@ -1,6 +1,16 @@
 ---
 // The adults' Quran Library (taaleem.ca/quran/). Every page needs an adult account, except the sign-in page and
 // About & Privacy (open). Brought over from the Qa-af Wal Quran-ul-Majeed app.
+import '@fontsource/manrope/400.css';
+import '@fontsource/manrope/500.css';
+import '@fontsource/manrope/600.css';
+import '@fontsource/manrope/700.css';
+import '@fontsource/manrope/800.css';
+import '@fontsource/lora/500.css';
+import '@fontsource/lora/600.css';
+import '@fontsource/lora/500-italic.css';
+import '@fontsource/amiri/400.css';
+import '@fontsource/amiri/700.css';
 import '../styles/global.css';
 import cfg from '../config.mjs';
 import siteCfg from '../../../site.config.mjs';
@@ -14,16 +24,20 @@ const localAsr = getMeta().localAsr ? '1' : '';   // the Qāf model is published
 const fullTitle = title ? `${title} | ${cfg.appName}` : cfg.appName;
 const signin = u('signin/');
 const nav = [
+  ['home', 'Home', 'app/'],
   ['read', 'Listen', 'surah/1/'],
   ['mushaf', 'Mushaf', 'page/1/'],
   ['practice', 'Recite', 'practice/'],
   ['test', 'Hifz test', 'test/'],
   ['tajweed', 'Tajweed', 'tajweed/'],
   ['riwayat', 'Riwāyāt', 'riwayat/'],
-  ['letters', 'Letters', 'letters/'],
+];
+// quieter places, under "More"
+const more = [
+  ['saved', 'Saved ayahs', 'saved/'],
+  ['letters', 'Arabic letters', 'letters/'],
   ['resources', 'Resources', 'resources/'],
-  ['search', 'Search', 'search/'],
-  ['saved', 'Saved', 'saved/'],
+  ['browse', 'Browse the Quran', ''],
   ['about', 'About & sources', 'about/'],
 ];
 ---
@@ -34,21 +48,22 @@ const nav = [
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
-  <meta name="theme-color" content="#0E6B4E" />
+  <meta name="theme-color" content="#173D32" />
   <link rel="icon" href={site('favicon-64.png')} type="image/png" />
   <link rel="apple-touch-icon" href={site('apple-touch-icon.png')} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap" />
   <link rel="preload" href={site('fonts/UthmanicHafs_V22.ttf')} as="font" type="font/ttf" crossorigin />
   <style is:inline set:html={`@font-face{font-family:"KFGQPC Hafs";src:url("${site('fonts/UthmanicHafs_V22.ttf')}") format("truetype");font-display:swap}` +
     (cfg.riwayat ?? []).map((r) => `@font-face{font-family:"KFGQPC ${r.id}";src:url("${u('fonts/' + r.font)}") format("truetype");font-display:swap}:root[data-riwayah="${r.id}"] .rw{font-family:"KFGQPC ${r.id}","KFGQPC Hafs",serif}`).join('')}></style>
   <script is:inline define:vars={{ open, signin }}>
     (function () {
       // adults sign in first (their account is kept on this device once they have)
+      var acct = null;
+      try { acct = JSON.parse(localStorage.getItem('ql-account') || 'null'); } catch (e) {}
+      if (acct && acct.token) document.documentElement.classList.add('signed');
       if (!open) {
-        var acct = null;
-        try { acct = JSON.parse(localStorage.getItem('ql-account') || 'null'); } catch (e) {}
         if (!acct || !acct.token) {
           document.documentElement.style.visibility = 'hidden';
           location.replace(signin + '?next=' + encodeURIComponent(location.pathname + location.search + location.hash));
@@ -79,12 +94,19 @@ const nav = [
   <a class="visually-hidden" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href={u()}><span class="brand-mark" aria-hidden="true">ق</span>{cfg.appName}</a>
+      <a class="brand" href={u('app/')}><img class="brand-logo" src={site('img/taaleem-logo.webp')} alt="" width="38" height="40" /><span class="brand-text"><b>Ta'aleem</b><small>QURAN LIBRARY</small></span></a>
       <nav class="site-nav" aria-label="Main">
         {nav.map(([id, label, href]) => (
           <a href={u(href)} aria-current={active === id ? 'page' : undefined}>{label}</a>
         ))}
+        <details class="nav-more">
+          <summary>More <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></summary>
+          <div class="nav-more-list">
+            {more.map(([id, label, href]) => <a href={u(href)} aria-current={active === id ? 'page' : undefined}>{label}</a>)}
+          </div>
+        </details>
       </nav>
+      <a class="icon-btn" href={u('search/')} aria-label="Search the Quran" aria-current={active === 'search' ? 'page' : undefined}><svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></a>
       <div class="hdr-end">
       <div class="acct" id="acct" hidden>
         <span class="acct-name" title="Signed in"><span class="acct-dot" aria-hidden="true"></span><b id="acct-name"></b></span>

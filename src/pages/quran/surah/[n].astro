@@ -23,23 +23,26 @@ const juz = s.ayahs[0].juz;
     .layout { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; padding-top: 32px; }
     .side { flex: 1 1 260px; max-width: 300px; padding: 12px; display: flex; flex-direction: column; gap: 4px; max-height: 80vh; overflow-y: auto; position: sticky; top: 84px; }
     .side a { display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: var(--ink); font-size: 15px; }
-    .side a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
+    .side a[aria-current="page"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+    .side a:hover:not([aria-current]) { background: var(--accent-soft); }
     .content { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
     .head { padding: 32px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
-    .head .quran { text-align: center; font-size: 40px; line-height: 1.6; }
+    .head .quran { text-align: center; font-size: 40px; line-height: 1.6; padding: 18px 40px 4px; border: 1px solid var(--gold); border-bottom: 0; border-radius: 200px 200px 0 0; min-width: 260px; }
     h1 { margin: 0; font-size: 26px; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
     .settings { padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
     .bism { text-align: center; font-size: 34px; }
-    .ayah { padding: 20px 24px; display: flex; gap: 20px; scroll-margin-top: 90px; }
-    .ayah.playing { background: var(--accent-soft); border-color: var(--accent); }
+    .ayahs { overflow: hidden; }
+    .ayah { padding: 22px 28px; display: flex; gap: 20px; scroll-margin-top: 90px; }
+    .ayah + .ayah { border-top: 1px solid var(--line); }
+    .ayah.playing { background: var(--accent-soft); }
     .tools { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: none; }
-    .key { font-size: 14px; font-weight: 600; padding: 8px 4px; }
+    .key { font-size: 13px; font-weight: 800; padding: 8px 4px; color: var(--gold-text); text-decoration: none; }
     .body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
     .tr { margin: 0; font-size: 17px; line-height: 1.65; }
     .sajda { font-size: 12px; color: var(--marker); font-weight: 600; }
     .pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    @media (max-width: 700px) { .side { position: static; max-height: 260px; max-width: none; order: 2; } .ayah { padding: 16px; gap: 12px; } }
+    @media (max-width: 700px) { .side { position: static; max-height: 260px; max-width: none; order: 2; } .ayah { padding: 16px; gap: 8px; flex-direction: column-reverse; } .tools { flex-direction: row; justify-content: flex-end; } .tools .key { margin-right: auto; } .head { padding: 24px 16px; } .head .quran { min-width: 0; padding: 12px 24px 0; font-size: 32px; } }
   </style>
 
   <style is:global>
@@ -93,8 +96,9 @@ const juz = s.ayahs[0].juz;
       <p class="card" id="rw-note" hidden style="margin:0;padding:12px 16px;font-size:14px">The text and the recitation follow the riwāyah you chose (Qunbul has no openly available recitation yet, so it is text only).</p>
       {showBismillah && <div class="quran bism" lang="ar">{qpc(s.bismillah)}</div>}
 
+      <div class="card ayahs">
       {s.ayahs.map((ay) => (
-        <article class="card ayah" id={`a${ay.a}`} data-s={n} data-a={ay.a}>
+        <article class="ayah" id={`a${ay.a}`} data-s={n} data-a={ay.a}>
           <div class="tools">
             <a class="key" href={u(`ayah/?k=${n}:${ay.a}`)} aria-label={`Study ayah ${n}:${ay.a}`}>{n}:{ay.a}</a>
             <button class="icon-btn" type="button" data-act="play" aria-label={`Play ayah ${n}:${ay.a}`}>
@@ -117,6 +121,7 @@ const juz = s.ayahs[0].juz;
           </div>
         </article>
       ))}
+      </div>
 
       <nav class="pager" aria-label="Surah navigation">
         {prev ? <a class="btn" href={u(`surah/${prev.n}/`)}>Previous: {prev.en}</a> : <span></span>}
