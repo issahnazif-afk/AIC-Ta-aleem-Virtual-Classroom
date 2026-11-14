@@ -109,6 +109,35 @@ const meta = getMeta();
     .practice .summary dt { font-size: 13px; color: var(--muted); }
     .practice .unsupported { padding: 16px 20px; background: var(--accent-soft); border: none; }
     @media (max-width: 700px) { .practice .toolbar { top: 0; } .practice .mic { min-width: 150px; } }
+
+    /* the listening player: a strip of the ayahs to choose from, then play/pause, previous, next, repeat and loop */
+    .practice .rplayer { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 760px; margin: 0 auto; padding: 10px 12px; border-radius: 14px; background: rgba(247, 244, 234, .06); border: 1px solid var(--desk-line, var(--line)); }
+    .practice .rplayer[hidden] { display: none; }
+    .practice .pl-head { display: flex; align-items: center; gap: 8px; }
+    .practice .pl-now { flex: 1 1 auto; font-size: 14px; font-weight: 600; color: var(--desk-ink, var(--ink)); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .practice .pl-close { flex: none; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--desk-line, var(--line)); background: transparent; color: var(--desk-ink, var(--ink)); font-size: 22px; line-height: 1; cursor: pointer; }
+    .practice .ayah-strip { display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: thin; scrollbar-color: rgba(185, 154, 91, .6) transparent; direction: rtl; }
+    /* while the player is open the reciting lines are not needed: keep the bar short so more of the page shows */
+    .practice .toolbar.pl-open .where, .practice .toolbar.pl-open .heard, .practice .toolbar.pl-open .progress, .practice .toolbar.pl-open #asr-heard { display: none; }
+    @media (max-width: 700px) { .practice .rplayer { padding: 8px; } .practice .pl-row { gap: 6px; } .practice .pl-btn { padding: 0 8px; } .practice .pl-wide span { font-size: 12px; } }
+    .practice .ayah-strip .chip { flex: none; min-width: 40px; height: 40px; padding: 0 8px; border-radius: 10px; border: 1px solid var(--desk-line, var(--line)); background: transparent; color: var(--desk-ink, var(--ink)); font: 600 14px/1 var(--font-ui); cursor: pointer; position: relative; }
+    .practice .ayah-strip .chip.done::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--desk-gold, var(--accent)); }
+    .practice .ayah-strip .chip:hover { border-color: var(--desk-gold, var(--accent)); }
+    .practice .ayah-strip .chip.on { background: var(--desk-gold, var(--accent)); border-color: var(--desk-gold, var(--accent)); color: #0F2A22; }
+    .practice .pl-row { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .practice .pl-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; height: 44px; padding: 0 10px; border-radius: 12px; border: 1px solid var(--desk-line, var(--line)); background: rgba(247, 244, 234, .08); color: var(--desk-ink, var(--ink)); font: 600 13px/1 var(--font-ui); cursor: pointer; }
+    .practice .pl-btn:hover:not(:disabled) { border-color: var(--desk-gold, var(--accent)); }
+    .practice .pl-btn:disabled { opacity: .4; cursor: default; }
+    .practice .pl-main { width: 56px; height: 56px; border-radius: 50%; background: var(--desk-gold, var(--accent)); border-color: var(--desk-gold, var(--accent)); color: #0F2A22; }
+    .practice .pl-main .i-pause, .practice .pl-main.playing .i-play { display: none; }
+    .practice .pl-main.playing .i-pause { display: block; }
+    .practice .pl-btn[aria-pressed="true"] { background: rgba(185, 154, 91, .28); border-color: var(--desk-gold, var(--accent)); }
+    .practice #listen[aria-expanded="true"] { border-color: var(--desk-gold, var(--accent)) !important; background: rgba(185, 154, 91, .28) !important; }
+    .practice .paper .mk:not(.hidden) { cursor: pointer; }
+    .practice #change .gear { display: none; }
+    @media (max-width: 700px) { .practice #change .gear { display: block; } .practice #change span { display: none; } .practice #change { padding: 0 10px !important; } }
+    @media (max-width: 440px) { html[data-app] .practice .tool-row { gap: 4px; } html[data-app] .practice .tool-row .btn { padding: 0 9px; } }
+    .practice .rplayer :focus-visible { outline: 2px solid var(--desk-gold, var(--accent)); outline-offset: 2px; }
   </style>
 
   <div class="narrow page practice">
@@ -161,8 +190,6 @@ const meta = getMeta();
 
     <div class="card summary-bar" id="summary-bar" hidden>
       <span id="summary-text" style="font-weight:600"></span>
-      <span style="flex:1 1 auto"></span>
-      <button class="btn" type="button" id="change">Change settings</button>
     </div>
 
     <div class="card unsupported" id="unsupported" hidden>
@@ -179,6 +206,21 @@ const meta = getMeta();
         <button class="btn" type="button" id="listen"><span class="lab-long">Listen</span><span class="lab-short">Listen</span></button>
         <button class="btn" type="button" id="restart"><span class="lab-long">Restart ayah</span><span class="lab-short">Restart</span></button>
         <button class="btn" type="button" id="finish" hidden><span class="lab-long">Finish</span><span class="lab-short">Finish</span></button>
+        <button class="btn" type="button" id="change" aria-label="Change settings"><svg class="gear" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="lab-long">Change settings</span><span class="lab-short">Settings</span></button>
+      </div>
+      <div class="rplayer" id="player" hidden>
+        <div class="pl-head">
+          <span class="pl-now" id="pl-now" aria-live="polite"></span>
+          <button class="pl-close" type="button" id="pl-close" aria-label="Close the player and go back to reciting" title="Close the player">×</button>
+        </div>
+        <div class="ayah-strip" id="ayah-strip" role="group" aria-label="Choose an ayah to listen to"></div>
+        <div class="pl-row">
+          <button class="pl-btn" type="button" id="pl-prev" aria-label="Previous ayah" title="Previous ayah"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M7 5v14M19 5 9 12l10 7z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
+          <button class="pl-btn pl-main" type="button" id="pl-play" aria-label="Play" title="Play or pause"><svg class="i-play" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><svg class="i-pause" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button>
+          <button class="pl-btn" type="button" id="pl-next" aria-label="Next ayah" title="Next ayah"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M17 5v14M5 5l10 7-10 7z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
+          <button class="pl-btn pl-wide" type="button" id="pl-repeat" title="Play this ayah again from its start"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.5-5.8"/><path d="M4 4v4h4"/></svg><span>Repeat</span></button>
+          <button class="pl-btn pl-wide" type="button" id="pl-loop" aria-pressed="false" title="Loop: off, this ayah, or the whole range"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg><span id="pl-loop-t">Loop off</span></button>
+        </div>
       </div>
       <p class="status" id="status" aria-live="polite"></p>
       <p class="tj-state" id="tj-state" hidden></p>
@@ -301,6 +343,7 @@ const meta = getMeta();
     });
 
     $('change').addEventListener('click', () => {
+      if (!$('player').hidden) $('pl-close').click();
       stopListening();
       phase = 'idle';
       $('setup').hidden = false; $('intro').hidden = false; $('summary-bar').hidden = true;
@@ -361,9 +404,11 @@ const meta = getMeta();
     }
     function showWorkspace(summary) {
       $('summary-text').textContent = `${summary}, ${$('p-strict').selectedOptions[0].textContent.toLowerCase()} checking of ${tjChecks ? describeChoice(tjPick.get(), 'adult') : 'words'}`;
+      $('change').title = `${$('summary-text').textContent}. Press to change.`;
+      if (!$('player').hidden) $('pl-close').click();
       $('legend-tj').hidden = !tjChecks;
       $('setup').hidden = true; $('intro').hidden = true;
-      $('summary-bar').hidden = false;
+      $('summary-bar').hidden = true;   // what is being practised is on the Settings button's tooltip, so no empty-looking card sits above the page
       $('toolbar').hidden = false; $('stage').hidden = false; $('note').hidden = false; $('legend').hidden = false;
       $('finish').hidden = mode !== 'follow';
       document.querySelector('.practice .progress').hidden = mode === 'follow';
@@ -937,18 +982,130 @@ const meta = getMeta();
     }
     $('mic').addEventListener('click', () => (listening ? stopListening() : startListening()));
 
-    // ── listen to the current ayah (microphone pauses so it does not hear the reciter) ──
+    // ── the listening player: choose an ayah on the strip, play or pause, previous and next, repeat it, or loop ──
+    // The microphone pauses while the reciter plays, so it does not hear him, and carries on when the player closes.
     const audio = new Audio();
-    $('listen').addEventListener('click', () => {
+    audio.preload = 'auto';
+    const LOOPS = [['off', 'Loop off'], ['ayah', 'Loop this ayah'], ['range', 'Loop all']];
+    let plList = [], plIdx = 0, plLoop = 'off', plResume = false;
+    const plKey = (it) => `${it.s}:${it.a}`;
+    // the ayahs to choose from: the surah being recited, within the chosen range (the Bismillah plays as its own item)
+    function playlist() {
       const w = flat[Math.min(pos, flat.length - 1)];
-      if (!w) return;
-      const it = w.item;
-      const wasListening = listening;
-      stopListening();
+      const s = w?.item.s ?? items[0]?.s;
+      return items.filter((it) => it.s === s);
+    }
+    function drawStrip() {
+      const strip = $('ayah-strip');
+      strip.replaceChildren(...plList.map((it, i) => {
+        const b = el('button', 'chip', it.a ? String(it.a) : 'بسم');
+        b.type = 'button';
+        b.dataset.i = String(i);
+        b.setAttribute('aria-label', it.a ? `Ayah ${it.a}` : 'Bismillah');
+        b.title = it.label;
+        if (it.done) b.classList.add('done');
+        return b;
+      }));
+    }
+    function markStrip() {
+      $('ayah-strip').querySelectorAll('.chip').forEach((b) => {
+        const on = Number(b.dataset.i) === plIdx;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-current', on ? 'true' : 'false');
+        if (on) b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+      const it = plList[plIdx];
+      if (it) $('pl-now').textContent = `${audio.paused ? 'Paused' : 'Playing'}: ${it.label}${plLoop === 'ayah' ? ' (looping)' : plLoop === 'range' ? ' (looping all)' : ''}`;
+      $('pl-play').classList.toggle('playing', !audio.paused);
+      $('pl-play').setAttribute('aria-label', audio.paused ? 'Play' : 'Pause');
+      $('pl-prev').disabled = plIdx <= 0 && plLoop !== 'range';
+      $('pl-next').disabled = plIdx >= plList.length - 1 && plLoop !== 'range';
+    }
+    function playAt(i) {
+      if (!plList.length) return;
+      plIdx = (i + plList.length) % plList.length;
+      const it = plList[plIdx];
       audio.src = it.a ? audioUrl(settings.reciter, it.s, it.a) : audioUrl(settings.reciter, 1, 1);
-      audio.play().catch(() => say('The recitation could not be played.', 'bad'));
-      say(`Playing ${it.label}. The microphone is paused.`);
-      audio.onended = () => { if (wasListening) startListening(); };
+      audio.currentTime = 0;
+      audio.play().catch((err) => { if (err?.name !== 'AbortError') say('The recitation could not be played. Check your connection and try again.', 'bad'); });   // AbortError: another ayah was chosen first
+      markStrip();
+    }
+    function openPlayer() {
+      if (!flat.length) return;
+      plResume = plResume || listening;
+      stopListening();
+      plList = playlist();
+      const cur = flat[Math.min(pos, flat.length - 1)].item;
+      drawStrip();
+      $('player').hidden = false;
+      $('toolbar').classList.add('pl-open');
+      $('listen').setAttribute('aria-expanded', 'true');
+      say('The microphone is paused while you listen. Close the player to recite again.');
+      playAt(Math.max(0, plList.findIndex((it) => plKey(it) === plKey(cur))));
+    }
+    function closePlayer() {
+      audio.pause();
+      $('player').hidden = true;
+      $('toolbar').classList.remove('pl-open');
+      $('listen').setAttribute('aria-expanded', 'false');
+      if (plResume && phase !== 'done') { plResume = false; startListening(); }
+      else { plResume = false; if (phase === 'tracking') say('Player closed. Press the microphone to recite.'); }
+    }
+    audio.addEventListener('play', markStrip);
+    audio.addEventListener('pause', markStrip);
+    audio.addEventListener('ended', () => {
+      if (plLoop === 'ayah') { playAt(plIdx); return; }
+      if (plIdx < plList.length - 1) { playAt(plIdx + 1); return; }
+      if (plLoop === 'range') { playAt(0); return; }
+      markStrip();
+      $('pl-now').textContent = 'Finished. Choose an ayah, or press play to hear it again.';
     });
+    $('listen').setAttribute('aria-expanded', 'false');
+    $('listen').setAttribute('aria-controls', 'player');
+    $('listen').addEventListener('click', () => { if ($('player').hidden) openPlayer(); else closePlayer(); });
+    $('pl-close').addEventListener('click', closePlayer);
+    $('pl-play').addEventListener('click', () => {
+      if (!audio.src) { playAt(plIdx); return; }
+      if (audio.paused) { if (audio.ended) audio.currentTime = 0; audio.play().catch(() => say('The recitation could not be played.', 'bad')); }
+      else audio.pause();
+    });
+    $('pl-prev').addEventListener('click', () => playAt(plIdx - 1));
+    $('pl-next').addEventListener('click', () => playAt(plIdx + 1));
+    $('pl-repeat').addEventListener('click', () => playAt(plIdx));
+    $('pl-loop').addEventListener('click', () => {
+      const k = (LOOPS.findIndex(([v]) => v === plLoop) + 1) % LOOPS.length;
+      plLoop = LOOPS[k][0];
+      $('pl-loop-t').textContent = LOOPS[k][1];
+      $('pl-loop').setAttribute('aria-pressed', String(plLoop !== 'off'));
+      markStrip();
+    });
+    $('ayah-strip').addEventListener('click', (e) => { const b = e.target.closest('.chip'); if (b) playAt(Number(b.dataset.i)); });
+    // tap an ayah's number on the page to hear that ayah
+    $('stage').addEventListener('click', (e) => {
+      const mk = e.target.closest('.mk');
+      if (!mk || mk.classList.contains('hidden')) return;
+      const it = items.find((x) => x.mk === mk);
+      if (!it) return;
+      if ($('player').hidden) openPlayer();
+      const i = plList.findIndex((x) => plKey(x) === plKey(it));
+      if (i >= 0) playAt(i);
+    });
+    // space bar plays or pauses while the player is open (not while typing in a field)
+    document.addEventListener('keydown', (e) => {
+      if ($('player').hidden || e.target.closest?.('input, select, textarea, button')) return;
+      if (e.code === 'Space') { e.preventDefault(); $('pl-play').click(); }
+      else if (e.key === 'ArrowLeft') $('pl-next').click();   // the mushaf reads right to left: left is onwards
+      else if (e.key === 'ArrowRight') $('pl-prev').click();
+    });
+    // the microphone and the player never run together
+    $('mic').addEventListener('click', () => { if (!$('player').hidden) { plResume = false; audio.pause(); $('player').hidden = true; $('toolbar').classList.remove('pl-open'); $('listen').setAttribute('aria-expanded', 'false'); } }, true);
+
+    // the control bar is fixed to the bottom in the app: leave room below the page so its last lines scroll clear of it
+    {
+      const bar = $('toolbar'), stage = $('stage');
+      const room = () => { if (getComputedStyle(bar).position === 'fixed') stage.style.paddingBottom = (innerWidth >= 900 ? 160 : 24) + Math.max(0, bar.offsetHeight - 210) + 'px'; else stage.style.paddingBottom = ''; };
+      if ('ResizeObserver' in window) new ResizeObserver(room).observe(bar);
+      addEventListener('resize', room);
+    }
   </script>
 </Base>

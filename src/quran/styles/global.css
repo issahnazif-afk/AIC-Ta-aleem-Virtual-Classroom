@@ -250,7 +250,7 @@ html[data-app] .practice .mic { order: 2; width: 70px; height: 70px; min-width: 
 html[data-app] .practice .mic[aria-pressed="true"] { background: #FFFFFF !important; color: #B3261E !important; box-shadow: 0 0 0 6px rgba(179, 38, 30, .28) !important; }
 html[data-app] .practice .mic .mic-t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 html[data-app] .practice #hint, html[data-app] .practice #reveal, html[data-app] .practice #repeat, html[data-app] .practice #help { order: 1; }
-html[data-app] .practice #listen, html[data-app] .practice #restart, html[data-app] .practice #finish, html[data-app] .practice #skip, html[data-app] .practice #next, html[data-app] .practice #end { order: 3; }
+html[data-app] .practice #listen, html[data-app] .practice #restart, html[data-app] .practice #change, html[data-app] .practice #finish, html[data-app] .practice #skip, html[data-app] .practice #next, html[data-app] .practice #end { order: 3; }
 .practice .mic .mic-i { display: none; }
 html[data-app] .practice .mic .mic-i { display: block; }
 html[data-app] .practice .status { font-size: 14px; }
@@ -283,6 +283,15 @@ html[data-app] .practice .summary-bar #summary-text { font-size: 13px; }
 html[data-app] .practice .paper { width: min(100%, calc((100dvh - 250px) * 0.7)); max-width: 100%; margin: 0 auto; box-sizing: border-box; }
 html[data-app] .mushaf-v2 .paper { width: min(100%, calc((100dvh - 150px) * 0.7)); max-width: 100%; flex: 0 1 auto; margin: 0 auto; box-sizing: border-box; }
 html[data-app] .practice .stage, html[data-app] .mushaf-v2 .spread { display: flex; justify-content: center; }
+/* Recite and Hifz on a laptop or desktop: the page takes the screen's width, not a height-bound printed shape, so
+   the text is large and easy on the eyes (fitPaper sizes it to the width). The page is then taller than the screen;
+   follow() in the page keeps the line being recited in view, above the control bar, and the stage leaves room at the
+   bottom so the last lines can scroll clear of that bar. Phones keep the full-width page they already had. */
+@media (min-width: 900px) {
+  html[data-app] .practice .paper { width: min(100%, 960px); }
+  html[data-app].qfocus .practice .paper { width: min(100%, 1120px); }
+  html[data-app] .practice .stage { padding-bottom: 160px; }
+}
 .mp.dragging, .spread.dragging { transition: none !important; }
 .mp.settle { transition: transform .22s cubic-bezier(.2,.7,.2,1), opacity .22s; }
 
