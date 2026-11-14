@@ -860,6 +860,12 @@ const meta = getMeta();
     // ── the Sheikh helps when you are stuck, then stops you ────
     let silenceTimer = null;
     function clearSilence() { clearTimeout(silenceTimer); silenceTimer = null; }
+    // the tracker hears the reader moving through the words: that is not silence, so the Sheikh waits
+    let lastAlign = '';
+    window.addEventListener('ql:align', (e) => {
+      const k = `${e.detail.offset}:${Math.floor(e.detail.frac * 5)}`;
+      if (phase === 'answer' && !e.detail.filler && k !== lastAlign) { lastAlign = k; armSilence(); }
+    });
     function armSilence() {
       clearSilence();
       if (phase !== 'answer') return;
@@ -1105,18 +1111,28 @@ const meta = getMeta();
       rec.maxAlternatives = 3;
       biasTowards(rec, flat.slice(pos, pos + 60).map((w) => w.display));
       follower.reset();
-      const me = rec;
+      const me = rec; let lastStart = Date.now(), quick = 0;
       rec.onresult = (e) => { if (me === rec) processResults(e.results, e.resultIndex); };
       rec.onerror = (e) => {
         if (phrasesRefused(e)) return;   // biasing not supported here: the restart carries on without it
         if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
           listening = false;
           status('Microphone access is blocked. Allow the microphone for this site in your browser settings, then start the test again.', 'bad');
+        } else if (e.error === 'audio-capture') {
+          status('No microphone was found, or another app is using it.', 'bad');
         } else if (e.error === 'network') {
           status('The speech service could not be reached. Check your internet connection.', 'bad');
         }
       };
-      rec.onend = () => { if (listening && me === rec) { follower.reset(); biasTowards(rec, flat.slice(pos, pos + 60).map((w) => w.display)); try { rec.start(); } catch { setTimeout(() => { try { if (listening && me === rec) rec.start(); } catch {} }, 60); } } };
+      rec.onend = () => {
+        if (!listening || me !== rec) return;
+        // a recogniser that keeps ending at once: wait a little longer each time, and after five say so
+        quick = Date.now() - lastStart < 1500 ? quick + 1 : 0;
+        if (quick >= 5) { stopListening(); status('The microphone keeps stopping. Close other tabs or apps using it, or change Listening in the menu, then press the microphone again.', 'bad'); return; }
+        follower.reset(); biasTowards(rec, flat.slice(pos, pos + 60).map((w) => w.display));
+        const go = () => { if (listening && me === rec) { lastStart = Date.now(); try { rec.start(); } catch {} } };
+        if (quick) setTimeout(go, 250 * quick); else { lastStart = Date.now(); try { rec.start(); } catch { setTimeout(go, 60); } }
+      };
       try { rec.start(); listening = true; $('t-mic').setAttribute('aria-pressed', 'true'); startEar(); } catch { status('Could not start the microphone. Reload the page and try again.', 'bad'); }
     }
     function stopListening() {

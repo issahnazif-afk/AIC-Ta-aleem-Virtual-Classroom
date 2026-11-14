@@ -894,19 +894,28 @@ const meta = getMeta();
       rec.maxAlternatives = 3;
       biasTowards(rec, flat.slice(pos, pos + 60).map((w) => w.display));
       follower.reset();
-      rec.onresult = (e) => { rec.__lastResults = e.results; processResults(e.results, e.resultIndex); };
+      const me = rec; let lastStart = Date.now(), quick = 0;
+      rec.onresult = (e) => { if (me !== rec) return; rec.__lastResults = e.results; processResults(e.results, e.resultIndex); };
       rec.onerror = (e) => {
         if (phrasesRefused(e)) return;   // biasing not supported here: the restart carries on without it
         if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
           listening = false;
           say('Microphone access is blocked. Allow the microphone for this site in your browser settings, then try again.', 'bad');
+        } else if (e.error === 'audio-capture') {
+          say('No microphone was found, or another app is using it.', 'bad');
         } else if (e.error === 'network') {
           say('The speech service could not be reached. Check your internet connection.', 'bad');
         }
       };
       rec.onend = () => {
-        if (listening) { follower.reset(); rec.__lastResults = null; biasTowards(rec, flat.slice(pos, pos + 60).map((w) => w.display)); try { rec.start(); } catch { setTimeout(() => { try { rec.start(); } catch {} }, 60); } }
-        else setMic(false);
+        if (me !== rec) return;
+        if (!listening) { setMic(false); return; }
+        // a recogniser that keeps ending at once: wait a little longer each time, and after five say so
+        quick = Date.now() - lastStart < 1500 ? quick + 1 : 0;
+        if (quick >= 5) { stopListening(); say('The microphone keeps stopping. Close other tabs or apps using it, or change Listening in the menu, then press the microphone again.', 'bad'); return; }
+        follower.reset(); rec.__lastResults = null; biasTowards(rec, flat.slice(pos, pos + 60).map((w) => w.display));
+        const go = () => { if (listening && me === rec) { lastStart = Date.now(); try { rec.start(); } catch {} } };
+        if (quick) setTimeout(go, 250 * quick); else { lastStart = Date.now(); try { rec.start(); } catch { setTimeout(go, 60); } }
       };
       try {
         rec.start(); listening = true; setMic(true);

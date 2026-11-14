@@ -15,7 +15,7 @@ import { createTracker } from './tracker.mjs';
 const SR = 16000, FRAME = 640, WINDOW = SR * 1.6, RIGHT = 2, LEFT = 15;   // frames: 40 ms each
 let ort = null, sess = null, featurize = null, vocab = null, C = 0, tracker = null, running = false;
 let buf = new Float32Array(SR * 4), bufLen = 0, bufStart = 0, total = 0, lastRun = 0, emitted = -1, hop = SR * 0.12, busy = false;
-let rate = SR, carry = 0, gen = 0;
+let rate = SR, carry = 0, prevLast = 0, gen = 0;
 
 async function load({ model, features, vocab: vurl, ort: ortUrl }) {
   try {
@@ -40,10 +40,17 @@ let tape = null;     // diagnostics: everything heard, at 16 kHz ({ type: 'tape'
 function take(x, r) {
   let y = x;
   if (r !== SR) {
-    const step = r / SR, n = Math.floor((x.length - carry) / step);
-    y = new Float32Array(Math.max(0, n));
-    for (let i = 0; i < n; i++) { const p = carry + i * step, k = Math.floor(p), a = p - k; y[i] = x[k] * (1 - a) + (x[k + 1] ?? x[k]) * a; }
+    // carry: where the next output sample falls, measured from the start of this chunk (it can be just before it,
+    // between the previous chunk's last sample and this chunk's first: prevLast fills that gap)
+    const step = r / SR, n = Math.max(0, Math.floor((x.length - 1 - carry) / step) + 1);
+    y = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      const p = carry + i * step, k = Math.floor(p), a = p - k;
+      const x0 = k < 0 ? prevLast : x[k], x1 = k + 1 < x.length ? x[k + 1] : x[k];
+      y[i] = x0 * (1 - a) + x1 * a;
+    }
     carry = carry + n * step - x.length;
+    prevLast = x[x.length - 1];
   }
   if (bufLen + y.length > buf.length) { const drop = bufLen + y.length - buf.length; buf.copyWithin(0, drop, bufLen); bufLen -= drop; bufStart += drop; }
   buf.set(y, bufLen); bufLen += y.length; total += y.length;
@@ -83,7 +90,7 @@ async function look() {
 onmessage = (e) => {
   const m = e.data;
   if (m.type === 'load') load(m);
-  else if (m.type === 'mic') { rate = m.rate || SR; carry = 0; m.port.onmessage = (ev) => take(ev.data, rate); }
+  else if (m.type === 'mic') { rate = m.rate || SR; carry = 0; prevLast = 0; m.port.onmessage = (ev) => take(ev.data, rate); }
   else if (m.type === 'audio') take(m.data, m.rate || SR);
   else if (m.type === 'start') {
     tracker = createTracker({ letters: vocab.letters, blank: vocab.blank, words: m.words });

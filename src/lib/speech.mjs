@@ -35,7 +35,8 @@ export async function prepareFastListening({ install = false, onStatus = () => {
   const S = Native();
   if (!S?.available) { onStatus('unsupported'); return false; }
   try {
-    const st = await S.available({ langs: [LANG], processLocally: true });
+    // with a time limit: in some Chrome versions this call never answers, and holds up the microphone meanwhile
+    const st = await Promise.race([S.available({ langs: [LANG], processLocally: true }), new Promise((r) => setTimeout(() => r('unavailable'), 1500))]);
     if (st === 'available') { onDevice = true; onStatus('ready'); return true; }
     if (st === 'unavailable') { onStatus('unavailable'); return false; }
     if (!install) { onStatus(st === 'downloading' ? 'downloading' : 'downloadable'); return false; }

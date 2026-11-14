@@ -14,14 +14,15 @@ import { u } from './url.mjs';
 export const ORT_URL = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/';
 const MODEL = () => (window.__qaafModel ?? 'models/qaaf-asr.onnx');
 
-let worker = null, ready = null, current = null;
+let worker = null, ready = null, current = null, loaded = false, failed = null;
 function getWorker() {
+  if (failed) return Promise.reject(failed);   // it failed once: do not download it again and again this visit
   if (ready) return ready;
   worker = new Worker(new URL('./qaaf-worker.mjs', import.meta.url), { type: 'module' });
   ready = new Promise((resolve, reject) => {
     worker.onmessage = (e) => {
       const m = e.data;
-      if (m.type === 'ready') resolve(worker);
+      if (m.type === 'ready') { loaded = true; resolve(worker); }
       else if (m.type === 'dump') window.__qaafTape?.(m.audio);
       else if (m.type === 'error' && !current) reject(new Error(m.message));
       else current?.message(m);
@@ -29,7 +30,7 @@ function getWorker() {
     worker.onerror = (e) => reject(new Error(e.message || 'worker failed'));
   });
   worker.postMessage({ type: 'load', model: new URL(u(MODEL()), location.href).href, features: new URL(u('models/features.json'), location.href).href, vocab: new URL(u('models/vocab.json'), location.href).href, ort: ORT_URL });
-  ready.catch(() => { ready = null; worker?.terminate(); worker = null; });
+  ready.catch((e) => { failed = e; ready = null; worker?.terminate(); worker = null; });
   return ready;
 }
 // Start loading the model as soon as the page opens, so it is ready before the reader starts.
@@ -60,8 +61,23 @@ export class TrackRecognition {
     this.results = [];
     // No text to follow yet (the Recite page's "start anywhere"): the browser's own speech recognition finds the
     // place, and the tracker takes over by itself as soon as the page knows what comes next.
-    if (!this.getExpected().length && (window.SpeechRecognition || window.webkitSpeechRecognition)) { this.locate(); return; }
+    // The same while the model is still loading (the first visit downloads it): the browser listens meanwhile, so
+    // nothing the reader says is lost, and the tracker takes over the moment it is ready.
+    const S = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (S && (!this.getExpected().length || !loaded)) {
+      this.locate();
+      if (!loaded && !failed) getWorker().then(() => this.handoff(), () => {});
+      return;
+    }
     return this.track();
+  }
+
+  // the model is ready: the tracker takes over from the browser's recognition
+  handoff() {
+    const r = this.proxy;
+    if (!this.running || !r || !this.getExpected().length) return;
+    this.proxy = null; r.onend = null; try { r.stop(); } catch {}
+    this.results = []; this.track();
   }
 
   locate() {
@@ -70,28 +86,50 @@ export class TrackRecognition {
     Object.assign(r, { lang: 'ar-SA', continuous: true, interimResults: true, maxAlternatives: this.maxAlternatives || 3 });
     r.onresult = (e) => {
       this.onresult?.(e);
-      if (this.running && this.proxy === r && this.getExpected().length) {   // found: follow from here with the tracker
+      if (this.running && this.proxy === r && loaded && this.getExpected().length) {   // found: follow from here with the tracker
         this.proxy = null; r.onend = null; try { r.stop(); } catch {}
         this.results = []; this.track();
       }
     };
-    r.onerror = (e) => this.onerror?.(e);
-    r.onend = () => { if (this.running && this.proxy === r) { try { r.start(); } catch {} } };
+    r.onerror = (e) => { if (e.error !== 'no-speech' && e.error !== 'aborted') this.onerror?.(e); };
+    // restart when it ends; one that keeps ending at once (no speech service here) waits a little longer each
+    // time, so it never loops tightly (the tracker still takes over when the model is ready)
+    let last = Date.now(), quick = 0;
+    r.onend = () => {
+      if (!this.running || this.proxy !== r) return;
+      quick = Date.now() - last < 1500 ? Math.min(quick + 1, 20) : 0;
+      const go = () => { if (this.running && this.proxy === r) { last = Date.now(); try { r.start(); } catch {} } };
+      if (quick) setTimeout(go, 300 * quick); else go();
+    };
     try { r.start(); this.onstart?.(); } catch (e) { this.onerror?.({ error: 'network', message: String(e) }); }
   }
 
   async track() {
     let w;
-    try { w = await getWorker(); } catch (e) { this.running = false; this.onerror?.({ error: 'network', message: String(e) }); this.onend?.(); return; }
+    try { w = await getWorker(); } catch (e) {
+      if (!this.running) return;
+      // the model could not load: keep listening with the browser's recognition where there is one
+      if (window.SpeechRecognition || window.webkitSpeechRecognition) { this.locate(); return; }
+      this.running = false; this.onerror?.({ error: 'network', message: String(e) }); this.onend?.(); return;
+    }
     try {
       // the raw voice: noise suppression and echo cancellation smear recitation; automatic gain helps quiet readers
       this.stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: false, noiseSuppression: false, autoGainControl: true } });
     } catch { this.running = false; this.onerror?.({ error: 'not-allowed' }); this.onend?.(); return; }
     if (!this.running) { this.stream.getTracks().forEach((t) => t.stop()); return; }
+    // the microphone taken away (the phone locked, a call, another app): end, so the page starts listening again
+    this.stream.getAudioTracks().forEach((t) => { t.onended = () => { if (this.running) this.stop(); }; });
     const AC = window.AudioContext || window.webkitAudioContext;
     try { this.ctx = new AC({ sampleRate: 16000 }); } catch { this.ctx = new AC(); }
     if (this.ctx.state === 'suspended') { try { await this.ctx.resume(); } catch {} }
-    const src = this.ctx.createMediaStreamSource(this.stream);
+    this.ctx.onstatechange = () => { if (this.running && this.ctx && /suspended|interrupted/.test(this.ctx.state)) this.ctx.resume().catch(() => {}); };
+    let src;
+    try { src = this.ctx.createMediaStreamSource(this.stream); }
+    catch {
+      // Firefox will not mix a 16 kHz context with a 48 kHz microphone: use the microphone's own rate (the worker resamples)
+      this.ctx.close().catch(() => {}); this.ctx = new AC(); src = this.ctx.createMediaStreamSource(this.stream);
+    }
+    if (!this.running) { this.stream.getTracks().forEach((t) => t.stop()); this.ctx.close().catch(() => {}); return; }
     this.words = this.getExpected().slice(); this.pos = 0; this.gen = (this.gen ?? 0) + 1;
     current = this;
     w.postMessage({ type: 'start', words: this.words, gen: this.gen });

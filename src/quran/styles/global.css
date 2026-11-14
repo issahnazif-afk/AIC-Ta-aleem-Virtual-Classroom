@@ -26,7 +26,7 @@
   --font-quran: 'KFGQPC Hafs', 'Amiri Quran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
   --font-ar-ui: 'Amiri', 'Segoe UI', Tahoma, serif;
   --chrome: #F7F4EA; --chrome-line: #E2DCC8; --chrome-card: #EFEADB; --chrome-card-line: #E2DCC8; --chrome-ink: #173D32; --pill: #FFFFFF; --pill-ink: #173D32;
-  --fab: #173D32; --fab-ink: #DCC48E;
+  --fab: #DCC48E; --fab-ink: #0F2A22;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -247,7 +247,7 @@ html[data-app] .practice .toolbar { position: fixed; top: auto; bottom: 0; left:
 html[data-app] .practice .tool-row { flex-wrap: nowrap; justify-content: center; gap: 6px; overflow-x: auto; }
 html[data-app] .practice .tool-row .btn { min-height: 44px; padding: 0 12px; font-size: 13px; border-radius: var(--r-control); background: var(--pill); color: var(--pill-ink); box-shadow: 0 2px 6px rgba(0,0,0,.1); border: none; flex: none; }
 html[data-app] .practice .mic { order: 2; width: 70px; height: 70px; min-width: 0 !important; padding: 0 !important; border-radius: 50% !important; background: var(--fab) !important; color: var(--fab-ink) !important; flex: none; }
-html[data-app] .practice .mic[aria-pressed="true"] { background: #3FBF7F !important; color: #FFFFFF !important; box-shadow: 0 0 0 8px rgba(63,191,127,.18) !important; }
+html[data-app] .practice .mic[aria-pressed="true"] { background: #FFFFFF !important; color: #B3261E !important; box-shadow: 0 0 0 6px rgba(179, 38, 30, .28) !important; }
 html[data-app] .practice .mic .mic-t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 html[data-app] .practice #hint, html[data-app] .practice #reveal, html[data-app] .practice #repeat, html[data-app] .practice #help { order: 1; }
 html[data-app] .practice #listen, html[data-app] .practice #restart, html[data-app] .practice #finish, html[data-app] .practice #skip, html[data-app] .practice #next, html[data-app] .practice #end { order: 3; }
@@ -359,3 +359,123 @@ html[data-paper] .surah-page .ayah .key { color: var(--paper-ink); }
 .auth .btn-primary { min-height: 50px; font-size: 16px; }
 .auth .fine { margin: 0; font-size: 13px; color: var(--muted); }
 .auth .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ══ The mushaf skin (November 2026): one look for every Quran view — Listen, Mushaf, Recite and the Hifz test ══
+   The page is printed paper in a gold double frame with a star in each corner, a cartouche for each surah title
+   and a medallion for the page number. It rests on a forest "desk"; the bars and controls around it are forest
+   too, with one gold microphone. The reading themes (--paper, --paper-line, --paper-ink, --q-ink) still colour
+   the page itself, so every theme keeps its contrast. */
+:root { --desk: #173D32; --desk-deep: #0F2A22; --desk-line: rgba(220, 196, 142, .22); --desk-ink: #F7F4EA; --desk-muted: rgba(247, 244, 234, .74); --desk-gold: #DCC48E; }
+:root[data-theme="dark"] { --desk: #0F211B; --desk-deep: #0A1813; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --desk: #0F211B; --desk-deep: #0A1813; } }
+
+/* the desk */
+html body:has(.practice, .mushaf-v2) { background: var(--desk); }
+html body:has(.practice, .mushaf-v2) .site-footer { background: var(--desk-deep); border-color: var(--desk-line); color: var(--desk-muted); }
+html body:has(.practice, .mushaf-v2) .site-footer a { color: var(--desk-gold); }
+.practice > h1, .practice #intro h1 { color: var(--desk-ink); }
+.practice #intro .muted, .practice > .lead { color: var(--desk-muted); }
+.practice .note { color: var(--desk-muted); }
+
+/* the page */
+.paper.mp { position: relative; border: 0 !important; border-radius: 3px; padding: 40px clamp(22px, 4vw, 44px) 24px; box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 2px 4px rgba(0, 0, 0, .18), 0 24px 48px rgba(0, 0, 0, .32); }
+.paper.mp::before { content: ''; position: absolute; inset: 12px; border: 1.5px solid var(--paper-line); border-radius: 2px; pointer-events: none; box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px color-mix(in srgb, var(--paper-line) 55%, transparent); }
+.paper.mp::after {
+  content: ''; position: absolute; inset: 4px; pointer-events: none;
+  --star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B99A5B' stroke-width='1.2'%3E%3Crect x='6' y='6' width='12' height='12'/%3E%3Crect x='6' y='6' width='12' height='12' transform='rotate(45 12 12)'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23B99A5B'/%3E%3C/svg%3E");
+  background: var(--star) top left / 24px no-repeat, var(--star) top right / 24px no-repeat, var(--star) bottom left / 24px no-repeat, var(--star) bottom right / 24px no-repeat;
+}
+.paper.mp > * { position: relative; z-index: 1; }
+.mp .mp-head { padding: 0 6px 6px; border-bottom: 1px solid color-mix(in srgb, var(--paper-line) 45%, transparent); font-family: 'Amiri', var(--font-ar-ui); font-size: 15px; color: var(--paper-ink); }
+/* the surah title: a cartouche with a diamond at each end */
+.mp .mp-banner { position: relative; margin: .35em 1.4em; padding: .05em 1em; border: 1.5px solid var(--paper-line) !important; border-radius: 999px !important; background: color-mix(in srgb, var(--paper-line) 12%, var(--paper)) !important; box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px color-mix(in srgb, var(--paper-line) 50%, transparent); color: var(--paper-ink); font-size: .9em; line-height: 1.75; }
+.mp .mp-banner::before, .mp .mp-banner::after { content: ''; position: absolute; top: 50%; width: .5em; height: .5em; margin-top: -.25em; background: var(--paper-line); transform: rotate(45deg); }
+.mp .mp-banner::before { right: -1.05em; }
+.mp .mp-banner::after { left: -1.05em; }
+/* the page number in a medallion */
+.mp .mp-folio { align-self: center; display: grid; place-items: center; min-width: 2.2em; height: 2.2em; padding: 0 .4em; margin-top: auto; border: 1px solid var(--paper-line); border-radius: 50%; font-family: 'Amiri', var(--font-ar-ui); font-size: 15px; line-height: 1; color: var(--paper-ink); box-shadow: inset 0 0 0 2px var(--paper), inset 0 0 0 3px color-mix(in srgb, var(--paper-line) 45%, transparent); }
+/* the word being recited: a soft gold glow under it */
+.practice .mp .w.current { box-shadow: inset 0 -3px 0 var(--gold, #B99A5B) !important; background: color-mix(in srgb, var(--gold, #B99A5B) 14%, transparent); }
+.mushaf-v2 .mp-line .playing { background: color-mix(in srgb, var(--gold, #B99A5B) 26%, transparent); border-radius: 4px; }
+.mushaf-v2 .mp-line .sel { background: color-mix(in srgb, var(--paper-line) 22%, transparent); }
+
+/* the app bar over the desk */
+html body:has(.practice, .mushaf-v2) .appbar { background: var(--desk-deep); border-bottom-color: var(--desk-line); color: var(--desk-ink); }
+html body:has(.practice, .mushaf-v2) .appbar .ab-card { background: rgba(247, 244, 234, .07); border-color: var(--desk-line); }
+html body:has(.practice, .mushaf-v2) .appbar .ab-text span { color: var(--desk-muted); }
+html body:has(.practice, .mushaf-v2) .appbar .ab-mark { color: rgba(247, 244, 234, .45); }
+html body:has(.practice, .mushaf-v2) .appbar .ab-mark[aria-pressed="true"] { color: var(--desk-gold); }
+html body:has(.practice, .mushaf-v2) .appbar :focus-visible { outline-color: var(--desk-gold); }
+
+/* Listen and Mushaf: the dock */
+html[data-app] .app-dock { background: var(--desk-deep); border-top-color: var(--desk-line); }
+.app-dock .pill { background: rgba(247, 244, 234, .08); color: var(--desk-ink); box-shadow: none; border: 1px solid var(--desk-line); }
+.app-dock .pill:hover { background: rgba(247, 244, 234, .14); }
+.app-dock .pill[aria-pressed="true"] { background: var(--desk-gold); color: #0F2A22; border-color: var(--desk-gold); }
+.app-dock .fab { background: var(--desk-gold); color: #0F2A22; box-shadow: 0 0 0 6px rgba(220, 196, 142, .16), 0 8px 20px rgba(0, 0, 0, .35); }
+.app-dock :focus-visible { outline-color: var(--desk-gold); }
+.app-dock .dock-r, .app-dock .dock-l { color: var(--desk-muted); }
+.mushaf-v2 .hintline { color: var(--desk-muted); }
+.mushaf-v2 .bar { background: var(--desk-deep); border-bottom-color: var(--desk-line); color: var(--desk-ink); }
+.mushaf-v2 .bar .muted { color: var(--desk-muted); }
+.mushaf-v2 .info { background: var(--paper); }
+
+/* Recite and the Hifz test: the summary line and the controls */
+.practice .summary-bar { background: transparent; border-color: var(--desk-line); color: var(--desk-ink); }
+.practice .summary-bar .btn { background: transparent; border-color: rgba(247, 244, 234, .4); color: var(--desk-ink); }
+.practice .summary-bar .btn:hover { border-color: var(--desk-gold); }
+.practice .toolbar { background: var(--desk-deep); border-color: var(--desk-line); color: var(--desk-ink); }
+.practice .toolbar .btn { background: rgba(247, 244, 234, .08); border: 1px solid var(--desk-line); color: var(--desk-ink); box-shadow: none; }
+.practice .toolbar .btn:hover { background: rgba(247, 244, 234, .15); border-color: var(--desk-gold); color: var(--desk-ink); }
+.practice .toolbar .btn:disabled { opacity: .45; }
+.practice .toolbar :focus-visible { outline-color: var(--desk-gold); }
+.practice .toolbar .status { color: var(--desk-ink); }
+.practice .toolbar .status.good { color: #9FE0B8; }
+.practice .toolbar .status.bad { color: #FFB4A9; }
+.practice .toolbar .where, .practice .toolbar .heard { color: var(--desk-muted); }
+.practice .toolbar .progress { background: rgba(247, 244, 234, .14); }
+.practice .toolbar .progress span { background: var(--desk-gold); }
+.practice .toolbar .mic { background: var(--desk-gold) !important; border-color: var(--desk-gold) !important; color: #0F2A22 !important; font-weight: 800; }
+.practice .toolbar .mic[aria-pressed="true"] { background: #FFFFFF !important; border-color: #FFFFFF !important; color: #B3261E !important; box-shadow: 0 0 0 6px rgba(179, 38, 30, .28) !important; }
+@media (prefers-reduced-motion: no-preference) {
+  .practice .toolbar .mic[aria-pressed="true"] { animation: ql-listen 1.6s ease-in-out infinite; }
+  @keyframes ql-listen { 0%, 100% { box-shadow: 0 0 0 5px rgba(179, 38, 30, .30); } 50% { box-shadow: 0 0 0 11px rgba(179, 38, 30, .10); } }
+}
+html[data-app] .practice .toolbar { background: var(--desk-deep); border-top: 1px solid var(--desk-line); color: var(--desk-ink); }
+html[data-app] .practice .tool-row .btn { background: rgba(247, 244, 234, .08); color: var(--desk-ink); border: 1px solid var(--desk-line); box-shadow: none; }
+.practice .legend { color: var(--desk-muted); }
+.practice .legend b { color: var(--desk-ink); }
+.practice .tr-panel { background: var(--paper); color: var(--q-ink, var(--ink)); }
+
+/* the Hifz examiner: the Sheikh on a forest panel, his words in an ivory bubble */
+.hifz .examiner { background: var(--desk-deep); border-color: var(--desk-line); color: var(--desk-ink); }
+.hifz .examiner .bubble { background: #F7F4EA; border-color: transparent; color: #292D29; }
+.hifz .examiner .bubble .en { color: #5C625B; }
+.hifz .examiner .count, .hifz .examiner p, .hifz .examiner small { color: var(--desk-muted); }
+
+/* the setup before starting: an ivory card on the desk */
+.practice .setup { border: 0; border-radius: var(--r-panel, 18px); box-shadow: 0 18px 40px rgba(0, 0, 0, .25); padding: 24px 26px; }
+.practice .setup .modes, .hifz .setup [role="tablist"] { background: var(--accent-soft); border-radius: var(--r-control, 8px); }
+.practice .setup .modes button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+
+/* the frame on a phone: room for the corner stars, the text still as large as it can be */
+html[data-app] .practice .paper.mp, html[data-app] .mushaf-v2 .paper.mp { padding: 30px 20px 16px; }
+@media (max-width: 700px) {
+  .paper.mp { padding: 30px 20px 16px; }
+  .paper.mp::before { inset: 8px; }
+  .paper.mp::after { inset: 2px; background-size: 18px, 18px, 18px, 18px; }
+  .mp .mp-head { font-size: 13px; padding: 0 8px 4px; }
+  .mp .mp-banner { margin: .3em 1.2em; }
+  .mp .mp-folio { font-size: 13px; }
+}
+/* a hidden word being waited for: only the gold line, no box */
+.practice .mp .w.current.hidden { background: none; }
+/* the colour key sits on a strip of paper so its colours keep their contrast */
+.practice .legend { background: var(--paper); color: var(--muted); border-radius: 10px; padding: 8px 14px; }
+.practice .legend b { color: inherit; }
+
+/* the summary card at the end is ivory: its buttons are the ordinary ones, not the dark bar's */
+.practice .summary .tool-row .btn, html[data-app] .practice .summary .tool-row .btn { background: var(--surface); border: 1px solid var(--field); color: var(--accent-strong); box-shadow: none; border-radius: var(--r-control); }
+.practice .summary .tool-row .btn-primary, html[data-app] .practice .summary .tool-row .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+/* the controls on a phone: centred when they fit, scrollable from the first one when they do not */
+.practice .tool-row, html[data-app] .practice .tool-row { justify-content: safe center; }

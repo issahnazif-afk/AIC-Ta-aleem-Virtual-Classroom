@@ -40,8 +40,23 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
   const C = letters.length + 1, space = letters.indexOf(' ');
   const idx = new Map(letters.map((c, i) => [c, i]));
   const toIds = (w) => { const a = [...w].map((c) => idx.get(c)).filter((x) => x !== undefined && x !== space); return a.length ? a : [idx.get('ا')]; };
+  // What is written is not always what is said. opt: letters that may go unheard — the alif of ال when joined to
+  // the word before (also after و ف ب ك), and its ل before a sun letter ("ar-raḥmān", "wan-nās"); the path may
+  // pass them by, and they are not needed for a word to count as said. alt: a final ه (the page writes ة as ه) is
+  // also accepted as ت, as it is said when joined to the next word ("al-jinnati wa…").
+  const SUN = new Set([...'تثدذرزسشصضطظلن'].map((c) => idx.get(c)));
+  const A = idx.get('ا'), L = idx.get('ل'), H = idx.get('ه'), T = idx.get('ت'), PRE = new Set([...'وفبك'].map((c) => idx.get(c)));
+  const metaOf = (a) => {
+    const opt = new Set(), alt = new Map();
+    const k = a[0] === A && a[1] === L ? 0 : PRE.has(a[0]) && a[1] === A && a[2] === L ? 1 : -1;
+    if (k >= 0 && a.length > k + 2) { opt.add(k); if (SUN.has(a[k + 2])) opt.add(k + 1); }
+    if (a.length > 1 && a[a.length - 1] === H && T !== undefined) alt.set(a.length - 1, T);
+    return { opt, alt };
+  };
   words = words.slice();
-  let ids = words.map(toIds);
+  let ids = words.map(toIds), meta = ids.map(metaOf);
+  const need = (w) => Math.max(1, ids[w].length - meta[w].opt.size);
+  const cover = (w, r) => Math.min(1, [...r.letters].filter((li) => !meta[w].opt.has(li)).length / need(w));
 
   const frames = [];       // rolling log-prob frames (Float32Array each)
   let dropped = 0;         // frames already removed from the front (frames[i] is absolute frame dropped + i)
@@ -50,6 +65,7 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
   let started = false;     // a jump forward is only trusted when the reader first begins
   let live = { word: 0, frac: 0 };
   let offTold = false, wrongNow = false;   // the reader is saying something that is not the text
+  let endSeen = -1;        // absolute frame of the reader's voice in the passage's last word (see the end of update)
 
   function push(lp, n) { write(dropped + frames.length, lp, n); }
   // write n frames starting at absolute frame `at`: frames already there are replaced (a later look at the audio,
@@ -64,7 +80,7 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     const keep = o.history * 3;
     if (frames.length > keep) { const k = frames.length - keep; frames.splice(0, k); dropped += k; }
   }
-  function moveTo(i) { pos = Math.max(0, Math.min(words.length, i)); dropped += frames.length; frames.length = 0; anchor = dropped; started = false; live = { word: pos, frac: 0 }; }
+  function moveTo(i) { endSeen = -1; pos = Math.max(0, Math.min(words.length, i)); dropped += frames.length; frames.length = 0; anchor = dropped; started = false; live = { word: pos, frac: 0 }; }
 
   // emissions of one frame: blank (blank or space) and the best free choice
   function emis(f) {
@@ -79,12 +95,18 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     if (!frames.length || pos >= words.length) return { pos, word: live.word, frac: live.frac, events };
     const w0 = Math.max(0, pos - o.behind), w1 = Math.min(words.length, pos + o.ahead);
     // states: 0 = filler; then per word: [letter, blank] × letters (blank after each letter)
-    const tok = [0], wOf = [-1], liOf = [-1], nOf = [0], first = [], last = [];
+    const tok = [0], wOf = [-1], liOf = [-1], nOf = [0], altS = [-1], optS = [false], entryS = [false], first = [], last = [];
     for (let w = w0; w < w1; w++) {
       first[w] = tok.length;
-      ids[w].forEach((id, li) => { tok.push(id, -1); wOf.push(w, w); liOf.push(li, li); nOf.push(ids[w].length, ids[w].length); });
+      let allOpt = true;   // every letter so far may go unheard: the word can be entered here
+      ids[w].forEach((id, li) => {
+        tok.push(id, -1); wOf.push(w, w); liOf.push(li, li); nOf.push(ids[w].length, ids[w].length);
+        altS.push(meta[w].alt.get(li) ?? -1, -1); optS.push(meta[w].opt.has(li), false); entryS.push(allOpt, false);
+        allOpt = allOpt && meta[w].opt.has(li);
+      });
       last[w] = tok.length - 2;
     }
+    const em = (f, s) => (altS[s] >= 0 ? Math.max(f[tok[s]], f[altS[s]]) : f[tok[s]]);
     const S = tok.length;
     const base = Math.max(frames.length - o.history, anchor - dropped, 0), F = frames.length - base;
     if (F < 3) return { pos, word: live.word, frac: live.frac, events };
@@ -95,7 +117,7 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     const reenter = (w) => o.fromFiller + (w >= pos ? Math.max(0, w - pos - 1) * 1.5 : (pos - w) * 0.5) * o.jump * 2;
     const e0 = emis(frames[base]);
     d[0] = o.toFiller + e0.free + o.filler;
-    for (let w = w0; w < w1; w++) { const s = first[w]; d[s] = startCost(w) + frames[base][tok[s]] - e0.free; }
+    for (let w = w0; w < w1; w++) for (let s = first[w]; s <= last[w] && entryS[s]; s += 2) d[s] = startCost(w) + em(frames[base], s) - e0.free;
     if (pos > w0) { const s = last[pos - 1] + 1; d[s] = Math.max(d[s], e0.eB - e0.free); }
     for (let t = 1; t < F; t++) {
       const f = frames[base + t], { eB, free } = emis(f);
@@ -107,7 +129,12 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
         }
         if (s >= 2 && d[s - 1] > best) { best = d[s - 1]; arg = s - 1; }                       // advance
         if (tok[s] >= 0 && s >= 3 && tok[s - 2] >= 0 && tok[s - 2] !== tok[s] && d[s - 2] > best) { best = d[s - 2]; arg = s - 2; }  // skip a blank
-        if (tok[s] >= 0 && liOf[s] === 0) {
+        // pass by letters that may go unheard: from the letter (or its blank) before them
+        if (tok[s] >= 0 && liOf[s] > 0) for (let j = s - 2; j >= 3 && optS[j] && liOf[j] > 0; j -= 2) {
+          if (d[j - 2] > best) { best = d[j - 2]; arg = j - 2; }
+          if (d[j - 1] > best) { best = d[j - 1]; arg = j - 1; }
+        }
+        if (tok[s] >= 0 && entryS[s]) {
           const w = wOf[s];
           if (w > w0) {                                  // from the end of the previous word (letter or its blank)
             const a = last[w - 1];
@@ -117,7 +144,7 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
           const v = d[0] + reenter(w);
           if (v > best) { best = v; arg = 0; }
         }
-        nd[s] = best + (tok[s] >= 0 ? f[tok[s]] : eB) - free; bp[t * S + s] = arg;
+        nd[s] = best + (tok[s] >= 0 ? em(f, s) : eB) - free; bp[t * S + s] = arg;
       }
       [d, nd] = [nd, d];
     }
@@ -134,10 +161,10 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
       if (fill) { const w = wOf[s]; fillerBefore.set(w, (fillerBefore.get(w) ?? 0) + fill); fill = 0; }
       const w = wOf[s]; let r = seen.get(w); if (!r) seen.set(w, (r = { score: 0, n: 0, letters: new Set(), lb: new Map(), firstT: t, lastT: t }));
       const f = frames[base + t], { eB, free } = emis(f);
-      if (tok[s] >= 0) { r.score += f[tok[s]] - free; r.n++; r.letters.add(liOf[s]); }
+      if (tok[s] >= 0) { r.score += em(f, s) - free; r.n++; r.letters.add(liOf[s]); }
       // each letter's clearest moment anywhere while the reader was in this word (CTC may fold a letter into a
       // neighbour's frames, so it is looked for across the whole word, not only on its own frames)
-      ids[w].forEach((id, li) => { const m = f[id] - free; if (m > (r.lb.get(li) ?? -Infinity)) r.lb.set(li, m); });
+      ids[w].forEach((id, li) => { const al = meta[w].alt.get(li); const m = (al === undefined ? f[id] : Math.max(f[id], f[al])) - free; if (m > (r.lb.get(li) ?? -Infinity)) r.lb.set(li, m); });
       r.lastT = t;
     }
     for (let t = F - 1; t >= 0 && path[t] !== 0 && tok[path[t]] < 0; t--) blanksAtEnd++;
@@ -146,11 +173,16 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     // (the weakest letter is left out of longer words: a long vowel or a hamza is often folded into its neighbour)
     const lsc = (w) => {
       const r = seen.get(w); if (!r?.n) return -10;
-      const v = ids[w].map((_, i) => Math.max(-8, r.lb.get(i) ?? -8)).sort((a, b) => a - b);
+      const v = ids[w].map((_, i) => i).filter((i) => !meta[w].opt.has(i)).map((i) => Math.max(-8, r.lb.get(i) ?? -8)).sort((a, b) => a - b);
       if (v.length >= 3) v.shift();
       return v.reduce((a, b) => a + b, 0) / v.length;
     };
-    const said = (w) => { const r = seen.get(w); return r && r.n >= 2 && r.letters.size / ids[w].length >= 0.6 && lsc(w) >= o.weak; };
+    const said = (w) => { const r = seen.get(w); return r && r.n >= 2 && cover(w, r) >= 0.6 && lsc(w) >= o.weak; };
+    // The last word of the passage has no next word to confirm it, and some of its written letters are never heard
+    // (the ل of ال before a sun letter: "aḍ-ḍāllīn"; a long madd held past the look-back). So once the reader has
+    // paused in it, it is finished when fewer of its letters were heard, as long as those were heard well.
+    const isLast = (w) => w === words.length - 1;
+    const saidLast = (w) => { const r = seen.get(w); return isLast(w) && r && r.n >= 2 && cover(w, r) >= 0.4 && lsc(w) >= o.weak; };
     // letters of a word the path did not go through, looked for between the words around it (and a little into them)
     const gapScore = (w) => {
       // (frames are counted from the look-back start; with no word before it on the path, it may have been said
@@ -158,8 +190,9 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
       let a = -25, b = F - 1;
       for (let k = w - 1; k >= pos; k--) { const r = seen.get(k); if (r?.n) { a = r.lastT - 3; break; } }
       for (let k = w + 1; k < w1; k++) { const r = seen.get(k); if (r?.n) { b = Math.min(F - 1, r.firstT + 3); break; } }
-      const best = ids[w].map(() => -8);
-      for (let t = Math.max(a, -base); t <= b; t++) { const f = frames[base + t], { free } = emis(f); ids[w].forEach((id, li) => { best[li] = Math.max(best[li], f[id] - free); }); }
+      let best = ids[w].map(() => -8);
+      for (let t = Math.max(a, -base); t <= b; t++) { const f = frames[base + t], { free } = emis(f); ids[w].forEach((id, li) => { const al = meta[w].alt.get(li); best[li] = Math.max(best[li], (al === undefined ? f[id] : Math.max(f[id], f[al])) - free); }); }
+      best = best.filter((_, li) => !meta[w].opt.has(li));
       best.sort((x, y) => x - y); if (best.length >= 3) best.shift();
       return best.reduce((x, y) => x + y, 0) / best.length;
     };
@@ -171,6 +204,18 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     if (sNow > 0 && tok[sNow] < 0 && liOf[sNow] === n - 1 && blanksAtEnd >= o.endBlanks) doneUpTo = wNow;
     // a longer pause inside the last word's blank, with all its letters heard: the reader has finished it too
     else if (sNow > 0 && tok[sNow] < 0 && blanksAtEnd >= o.endBlanks * 3 && said(wNow)) doneUpTo = wNow;
+    // the last word of the passage, then a pause (0.6 s): finished (see saidLast)
+    else if (sNow > 0 && tok[sNow] < 0 && blanksAtEnd >= o.endBlanks * 3 && saidLast(wNow)) doneUpTo = wNow;
+    // The end of the passage: the reader is in its last word, has been saying it (voiced frames on it), and has
+    // stopped (0.6 s). Nothing else is coming to confirm it, so the passage is finished; words the model could not
+    // follow letter by letter (silent letters it does not hear, a long madd) are marked unclear, never green.
+    // (remembered between looks: once silence follows, the alignment may change its mind about the last words)
+    let voiced = 0, lastVoiced = -1;
+    for (let t = 0; t < F; t++) if (path[t] && isLast(wOf[path[t]]) && frames[base + t][blank] < -0.7) { voiced++; lastVoiced = t; }
+    if (voiced >= 2) endSeen = Math.max(endSeen, dropped + base + lastVoiced);   // (the model's letters are short peaks: two frames of voice)
+    let quiet = 0; for (let t = F - 1; t >= 0 && frames[base + t][blank] >= -0.7; t--) quiet++;
+    const endOfPassage = endSeen >= 0 && pos < words.length && quiet >= o.endBlanks * 3 && dropped + base + F - quiet <= endSeen + 3;
+    if (endOfPassage) doneUpTo = words.length - 1;
     if (sNow > 0 && wNow <= pos + 3) live = frac >= 1 && doneUpTo === wNow ? { word: wNow + 1, frac: 0 } : { word: wNow, frac: Math.min(1, frac) };
     // the reader may be behind the committed words (repeating): the cursor follows them back
 
@@ -178,20 +223,24 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     // must be clearly heard (its letters, with a fair score). Words the path ran over badly, or jumped over while
     // the reader said something else, are mistakes; nothing is committed while the reader is off the text.
     let target = doneUpTo;
-    while (target >= pos && !said(target)) target--;          // the last word that was really said
+    while (!endOfPassage && target >= pos && !said(target) && !(target === doneUpTo && saidLast(target))) target--;   // the last word that was really said
     if (target >= pos) {
       // landing beyond the next word: the two words it lands on must both be said, one after the other
-      const solid = target === pos || (said(target - 1) && target - 1 >= pos) || (target === pos + 1 && seen.get(pos)?.n);
+      const solid = target === pos || (said(target - 1) && target - 1 >= pos) || (target === pos + 1 && seen.get(pos)?.n) || endOfPassage;
       if (solid) for (let w = pos; w <= target; w++) {
         const r = seen.get(w);
         if (!r || !r.n) {
           // not on the path: were its letters heard around where it should be (run into its neighbours, as in
           // "bismillāh"), or was it left out / something else said in its place?
           const g = gapScore(w);
-          events.push({ index: w, kind: g >= o.weak ? 'unclear' : 'missed', score: g });
+          // at the end of the passage the reader went on to its last word: a word not followed is unclear, not missed
+          events.push({ index: w, kind: g >= o.weak || endOfPassage ? 'unclear' : 'missed', score: g });
         } else {
-          const sc = lsc(w), cov = r.letters.size / ids[w].length;
-          events.push({ index: w, kind: sc < o.bad || cov < 0.34 ? 'missed' : sc < o.weak || cov < 0.5 ? 'weak' : 'read', score: sc });
+          const sc = lsc(w), cov = cover(w, r);
+          const low = isLast(w) ? 0.25 : 0.34, part = isLast(w) ? 0.4 : 0.5;   // the last word: as in saidLast
+          let kind = sc < o.bad || cov < low ? 'missed' : sc < o.weak || cov < part ? 'weak' : 'read';
+          if (endOfPassage && kind !== 'read' && !said(w) && !saidLast(w)) kind = 'unclear';   // not followed letter by letter: worth checking
+          events.push({ index: w, kind, score: sc });
         }
         pos = w + 1;
       }
@@ -218,9 +267,9 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
 
   // The page supplies the words from its own position on. extend(): same place, more words (or corrected ones)
   // from the committed position; advance(k): the page moved on k words by itself (the Sheikh said them, a hint).
-  function extend(list) { words = words.slice(0, pos).concat(list); ids = words.map(toIds); }
-  function advance(k) { pos = Math.min(words.length, pos + k); live = { word: pos, frac: 0 }; const a = dropped + frames.length - 2; if (a > anchor) anchor = a; }
-  function reset(list) { words = list.slice(); ids = words.map(toIds); pos = 0; dropped += frames.length; frames.length = 0; anchor = dropped; started = false; live = { word: 0, frac: 0 }; }
+  function extend(list) { const n = words.length; words = words.slice(0, pos).concat(list); ids = words.map(toIds); meta = ids.map(metaOf); if (words.length !== n) endSeen = -1; }
+  function advance(k) { endSeen = -1; pos = Math.min(words.length, pos + k); live = { word: pos, frac: 0 }; const a = dropped + frames.length - 2; if (a > anchor) anchor = a; }
+  function reset(list) { endSeen = -1; words = list.slice(); ids = words.map(toIds); meta = ids.map(metaOf); pos = 0; dropped += frames.length; frames.length = 0; anchor = dropped; started = false; live = { word: 0, frac: 0 }; }
 
   return { push, write, update, moveTo, extend, advance, reset, get pos() { return pos; }, get words() { return words; } };
 }

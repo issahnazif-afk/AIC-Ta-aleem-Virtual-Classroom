@@ -99,6 +99,12 @@ The home answers one question: *what should I do next?*
   Manrope text. The home is a greeting, one **Continue reading** card, the ways to practise as a numbered ruled
   list, the riwāyah, and a forest **arch** (mihrab shape) quoting the adult's latest saved ayah from the library's
   data. Figures shown are only the adult's own (saved ayahs, juz, page). The header keeps six links and a "More" menu.
+- **The Quran views (Listen, Mushaf, Recite, Hifz test):** one "mushaf skin" at the end of
+  `src/quran/styles/global.css`. The page is printed paper in a gold double frame with an eight-point star in each
+  corner, each surah title in a cartouche with a diamond at either end, the page number in a medallion. It rests on a
+  forest "desk"; the app bar, the docks and the Hifz examiner are forest, with one gold microphone (white with a red
+  ring while listening). The reading themes still colour the page itself.
+- **Adults' home carousel:** the ways to practise are book covers to swipe (arrows, dots and the arrow keys too).
 - **Sign-in doors:** ivory cards on the forest panel; the school's picture for Levels 1 and 2, a numeral for 3 and 4,
   and a gold-outlined door for the adults.
 

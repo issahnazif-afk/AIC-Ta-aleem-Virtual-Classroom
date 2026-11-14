@@ -8,12 +8,13 @@ import { getMeta } from '../../../quran/lib/data.mjs';
 import { RIWAYAT } from '../../../quran/lib/riwayat/course.mjs';
 const riwayat = [{ id: 'hafs', name: 'Ḥafṣ ʿan ʿĀṣim' }, ...(getMeta().riwayat ?? []).map((r) => ({ id: r.id, name: r.name }))];
 const classrooms = { hafs: { short: '', href: u('riwayat/') }, ...Object.fromEntries(Object.entries(RIWAYAT).map(([id, c]) => [id, { short: c.short, href: u(`riwayat/?rw=${id}`) }])) };
+// the ways to practise, as covers to swipe through (the Qa-af app's carousel, in Ta'aleem's colours)
 const ways = [
-  { title: 'Mushaf', text: 'Read page by page, in the riwāyah you choose', href: u('page/1/?app=1') },
-  { title: 'Listen', text: 'Choose a reciter and follow word by word', href: u('page/1/?app=1&listen=1') },
-  { title: 'Recite to the Sheikh', text: 'He follows every word and helps only when you stop', href: u('practice/?app=1') },
-  { title: 'Hifz test', text: 'The Sheikh starts an ayah; you carry on from memory', href: u('test/?app=1') },
-  { title: 'Learn tajweed', text: 'The rules one by one, by the way of ash-Shāṭibiyyah', href: u('tajweed/?app=1') },
+  { key: 'mushaf', ar: 'المصحف', title: 'Mushaf', text: 'Read page by page, in the riwāyah you choose', href: u('page/1/?app=1') },
+  { key: 'listen', ar: 'الاستماع', title: 'Listen', text: 'Choose a reciter and follow word by word', href: u('page/1/?app=1&listen=1') },
+  { key: 'recite', ar: 'التلاوة', title: 'Recite to the Sheikh', text: 'He follows every word and helps only when you stop', href: u('practice/?app=1') },
+  { key: 'hifz', ar: 'اختبار الحفظ', title: 'Hifz test', text: 'The Sheikh starts an ayah; you carry on from memory', href: u('test/?app=1') },
+  { key: 'tajweed', ar: 'التجويد', title: 'Learn tajweed', text: 'The rules one by one, by the way of ash-Shāṭibiyyah', href: u('tajweed/?app=1') },
 ];
 ---
 <Base title="Home" active="home">
@@ -47,6 +48,27 @@ const ways = [
 
     .lib-ways { display: flex; flex-direction: column; }
     .lib-ways .lib-label { margin-bottom: 6px; }
+    .lib-ways-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .lib-ways-tip { font-size: 13px; color: var(--muted); }
+    .cv { position: relative; display: flex; align-items: center; gap: 8px; }
+    .cv-stage { position: relative; flex: 1; min-width: 0; height: 270px; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+    .cv-cover { position: absolute; left: 50%; top: 14px; width: 172px; height: 234px; margin-left: -86px; display: block; border-radius: 8px; transition: transform .32s cubic-bezier(.2,.7,.2,1), opacity .32s; -webkit-tap-highlight-color: transparent; }
+    .cv-cover svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 14px 16px rgba(15,42,34,.28)); }
+    .cv-stage.dragging .cv-cover { transition: none; }
+    .cv-cover:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+    .cv-arrow { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--field); background: var(--surface); color: var(--accent-strong); cursor: pointer; }
+    .cv-arrow:hover { border-color: var(--accent); background: var(--accent-soft); }
+    :root[data-theme="dark"] .cv-arrow { color: var(--ink); }
+    .cv-label { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; margin-top: 4px; }
+    .cv-label b { font-family: var(--font-head); font-size: 22px; font-weight: 600; color: var(--accent-strong); }
+    :root[data-theme="dark"] .cv-label b { color: var(--ink); }
+    .cv-label span { font-size: 15px; color: var(--muted); }
+    .cv-dots { display: flex; justify-content: center; gap: 2px; margin-top: 6px; }
+    .cv-dots button { width: 28px; height: 28px; border: 0; background: transparent; display: grid; place-items: center; cursor: pointer; }
+    .cv-dots span { display: block; height: 8px; width: 8px; border-radius: 4px; background: color-mix(in srgb, var(--gold) 45%, transparent); transition: width .2s; }
+    .cv-dots button[aria-current="true"] span { width: 22px; background: var(--gold); }
+    @media (prefers-reduced-motion: reduce) { .cv-cover, .cv-dots span { transition: none; } }
+    @media (max-width: 600px) { .cv-arrow { display: none; } .cv-stage { height: 250px; } .lib-ways-tip { display: none; } }
     .lib-way { display: grid; grid-template-columns: 44px minmax(140px, 220px) 1fr 20px; align-items: center; gap: 16px; padding: 14px 4px; border-top: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: background-color .15s; }
     .lib-way:last-child { border-bottom: 1px solid var(--line); }
     .lib-way:hover { background: var(--accent-soft); color: var(--ink); }
@@ -142,12 +164,46 @@ const ways = [
           </div>
         </div>
 
-        <nav class="lib-ways" aria-labelledby="ways-h">
-          <h2 class="lib-label" id="ways-h">Ways to practise</h2>
-          {ways.map((w, i) => (
-            <a class="lib-way" href={w.href} data-way={i}><span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><b>{w.title}</b><span class="t">{w.text}</span><i aria-hidden="true">→</i></a>
-          ))}
-        </nav>
+        <section class="lib-ways" aria-labelledby="ways-h">
+          <div class="lib-ways-head">
+            <h2 class="lib-label" id="ways-h">Ways to practise</h2>
+            <span class="lib-ways-tip">Swipe to choose · tap to open</span>
+          </div>
+          <div class="cv" aria-roledescription="carousel" aria-labelledby="ways-h">
+            <button type="button" class="cv-arrow prev" id="cv-prev" aria-label="Previous"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+            <div class="cv-stage" id="cv-stage">
+              {ways.map((w, i) => (
+                <a class="cv-cover" href={w.href} data-way={i} aria-label={`${w.title}: ${w.text}`}>
+                  <svg viewBox="0 0 168 228" aria-hidden="true">
+                    <rect x="0.5" y="0.5" width="167" height="227" rx="8" fill="#173D32" stroke="#0F2A22"></rect>
+                    <rect x="0.5" y="0.5" width="10" height="227" rx="4" fill="#0F2A22"></rect>
+                    <rect x="17" y="10" width="141" height="208" rx="4" fill="none" stroke="#B99A5B" stroke-width="1.5"></rect>
+                    <rect x="22" y="15" width="131" height="198" rx="3" fill="none" stroke="rgba(220,196,142,.5)"></rect>
+                    <g transform="translate(88 104)">
+                      <rect x="-36" y="-36" width="72" height="72" fill="#173D32" stroke="#DCC48E" stroke-width="2"></rect>
+                      <rect x="-36" y="-36" width="72" height="72" fill="#173D32" stroke="#DCC48E" stroke-width="2" transform="rotate(45)"></rect>
+                      <circle r="29" fill="#0F2A22" stroke="#DCC48E" stroke-width="1.5"></circle>
+                      <g transform="translate(-15 -15) scale(1.25)" fill="none" stroke="#DCC48E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        {w.key === 'mushaf' && <><path d="M2 5c3-1 6-1 10 1 4-2 7-2 10-1v14c-3-1-6-1-10 1-4-2-7-2-10-1z"></path><path d="M12 6v14"></path></>}
+                        {w.key === 'listen' && <><path d="M4 15v-3a8 8 0 0 1 16 0v3"></path><rect x="3" y="14" width="4" height="6" rx="1.5"></rect><rect x="17" y="14" width="4" height="6" rx="1.5"></rect></>}
+                        {w.key === 'recite' && <><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"></path></>}
+                        {w.key === 'hifz' && <><circle cx="12" cy="9" r="6"></circle><path d="M9 14.5 7 22l5-3 5 3-2-7.5"></path><path d="m9.5 9 1.8 1.8L14.8 7.3"></path></>}
+                        {w.key === 'tajweed' && <><rect x="2" y="4" width="20" height="13" rx="1.5"></rect><path d="M6 9.5c1.6-1.2 3.2 1.2 4.8 0M13 9.5h5M6 13h12"></path><path d="M7 17l-2 4M17 17l2 4"></path></>}
+                      </g>
+                    </g>
+                    <text x="88" y="184" text-anchor="middle" fill="#DCC48E" font-family="Amiri, serif" font-size="20">{w.ar}</text>
+                  </svg>
+                </a>
+              ))}
+            </div>
+            <button type="button" class="cv-arrow next" id="cv-next" aria-label="Next"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button>
+          </div>
+          <div class="cv-label" aria-live="polite"><b id="cv-title">{ways[0].title}</b><span id="cv-text">{ways[0].text}</span></div>
+          <div class="cv-dots" id="cv-dots">
+            {ways.map((w, i) => <button type="button" data-i={i} aria-label={`Show ${w.title}`} aria-current={i === 0 ? 'true' : 'false'}><span></span></button>)}
+          </div>
+          <script type="application/json" id="cv-data" set:html={JSON.stringify(ways.map(({ title, text }) => ({ title, text })))}></script>
+        </section>
 
         <div class="lib-rw" id="home-rw-box" data-classrooms={JSON.stringify(classrooms)}>
           <label><span class="lib-label">Riwāyah</span>
@@ -246,6 +302,56 @@ const ways = [
       $('cont-go').href = hrefs[0];
       document.querySelectorAll('[data-way]').forEach((a, i) => { if (hrefs[i]) a.href = hrefs[i]; });
     })();
+
+    // the ways to practise: covers that follow your finger; tap the middle one to open it, a side one to bring it forward
+    const stage = $('cv-stage');
+    const covers = [...stage.querySelectorAll('.cv-cover')];
+    const dots = [...document.querySelectorAll('#cv-dots button')];
+    const info = JSON.parse($('cv-data').textContent);
+    const n = covers.length;
+    let idx = 0, dx = 0, sx = null, moved = false;
+    try { idx = Number(sessionStorage.getItem('ql-home-idx') || 0) % n; } catch {}
+    function layout() {
+      const step = Math.min(160, stage.clientWidth * 0.36);
+      covers.forEach((c, i) => {
+        let d = ((i - idx) % n + n) % n;
+        if (d > n / 2) d -= n;
+        c.style.transform = `translateX(${d * step + dx}px) scale(${d === 0 ? 1 : 0.74})`;
+        c.style.opacity = Math.abs(d) > 1 ? '0' : d === 0 ? '1' : '.55';
+        c.style.zIndex = String(10 - Math.abs(d));
+        c.style.pointerEvents = Math.abs(d) > 1 ? 'none' : '';
+        c.tabIndex = d === 0 ? 0 : -1;
+        c.setAttribute('aria-hidden', String(d !== 0));
+      });
+      dots.forEach((b, i) => b.setAttribute('aria-current', String(i === idx)));
+      $('cv-title').textContent = info[idx].title;
+      $('cv-text').textContent = info[idx].text;
+      try { sessionStorage.setItem('ql-home-idx', String(idx)); } catch {}
+    }
+    const go = (i) => { idx = ((i % n) + n) % n; dx = 0; layout(); };
+    covers.forEach((c, i) => c.addEventListener('click', (e) => {
+      if (moved || i !== idx) { e.preventDefault(); if (!moved) go(i); }
+    }));
+    dots.forEach((b, i) => b.addEventListener('click', () => go(i)));
+    $('cv-prev').addEventListener('click', () => go(idx - 1));
+    $('cv-next').addEventListener('click', () => go(idx + 1));
+    stage.addEventListener('pointerdown', (e) => { sx = e.clientX; moved = false; stage.classList.add('dragging'); });
+    addEventListener('pointermove', (e) => { if (sx === null) return; dx = e.clientX - sx; if (Math.abs(dx) > 8) moved = true; layout(); });
+    const release = () => {
+      if (sx === null) return;
+      stage.classList.remove('dragging');
+      const d = dx; sx = null;
+      if (d < -50) go(idx + 1); else if (d > 50) go(idx - 1); else { dx = 0; layout(); }
+      setTimeout(() => { moved = false; }, 0);
+    };
+    addEventListener('pointerup', release);
+    addEventListener('pointercancel', release);
+    stage.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(idx + 1); covers[idx].focus(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx - 1); covers[idx].focus(); }
+    });
+    addEventListener('resize', layout);
+    layout();
 
     // the arch: the most recent saved ayah, or else the place being read, quoted from the library's data
     const saved = bookmarks.all();

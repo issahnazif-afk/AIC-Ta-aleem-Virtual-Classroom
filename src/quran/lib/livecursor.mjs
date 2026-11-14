@@ -101,7 +101,8 @@ export function createLiveCursor({ getFlat, getPos, onPage }) {
         return;
       }
       // inside the Android/iOS app the phone's recogniser owns the microphone: no live cursor there
-      if (window.Capacitor?.isNativePlatform?.() || !navigator.mediaDevices?.getUserMedia) return;
+      // ...and in a phone's browser too: a second microphone stream there stops the recogniser
+      if (window.Capacitor?.isNativePlatform?.() || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || !navigator.mediaDevices?.getUserMedia) return;
       try {
         stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
         const AC = window.AudioContext || window.webkitAudioContext;
