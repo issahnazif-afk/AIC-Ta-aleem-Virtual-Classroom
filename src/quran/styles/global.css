@@ -488,3 +488,40 @@ html[data-app] .practice .paper.mp, html[data-app] .mushaf-v2 .paper.mp { paddin
 .practice .summary .tool-row .btn-primary, html[data-app] .practice .summary .tool-row .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 /* the controls on a phone: centred when they fit, scrollable from the first one when they do not */
 .practice .tool-row, html[data-app] .practice .tool-row { justify-content: safe center; }
+
+/* fitPaper measures each line's natural width with this class on for a moment */
+.mp-measure .mp-line { width: max-content !important; text-align: start !important; text-align-last: auto !important; }
+
+/* Phones in the app (Mushaf, Listen, Recite, Hifz): the page runs edge to edge like a printed mushaf app, with no
+   frame or margins taking width from the text, so the words are as large as the screen allows. */
+@media (max-width: 700px) {
+  html[data-app] .paper.mp { padding: 10px 8px 8px !important; border-radius: 0 !important; box-shadow: none !important; }
+  html[data-app] .paper.mp::before, html[data-app] .paper.mp::after { display: none !important; }
+  html[data-app] .mushaf-v2 .spread { padding: 0 0 8px !important; gap: 0; }
+  html[data-app] .mushaf-v2 .paper { max-width: none !important; width: 100% !important; }
+  html[data-app] .practice .stage { padding-left: 0 !important; padding-right: 0 !important; }
+  html[data-app] .mp .mp-head { padding: 0 4px 4px; }
+}
+/* Laptops and desktops in the app: Mushaf and Listen get the same large, width-led page as Recite and Hifz */
+@media (min-width: 900px) {
+  html[data-app] .mushaf-v2 .paper { width: 100% !important; max-width: 900px !important; }
+}
+
+/* Mushaf and Listen in the app: two short rows at the bottom. Above: Tajweed and Translation. Below: stop, previous,
+   play/pause, next and loop, the play button in the middle under the thumb. */
+html[data-app] .mushaf-v2 ~ .app-dock, html[data-app] #dock.app-dock { display: flex; flex-direction: column; gap: 6px; padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px)); }
+.app-dock .dock-top { display: flex; align-items: center; gap: 8px; }
+.app-dock .dock-top .pill { height: 34px; padding: 0 12px; font-size: 13px; }
+.app-dock .dock-hint { margin-left: auto; font-size: 12px; color: var(--desk-muted); text-align: right; }
+.app-dock .dock-main { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 4vw, 22px); }
+.app-dock .fab { width: 64px; height: 64px; flex: none; }
+.app-dock .dk-btn { position: relative; flex: none; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--desk-line); background: rgba(247, 244, 234, .08); color: var(--desk-ink); display: grid; place-items: center; cursor: pointer; }
+.app-dock .dk-btn:hover:not(:disabled) { border-color: var(--desk-gold); }
+.app-dock .dk-btn:disabled { opacity: .35; cursor: default; }
+.app-dock .dk-btn[aria-pressed="true"] { background: var(--desk-gold); border-color: var(--desk-gold); color: #0F2A22; }
+.app-dock .dk-loop small { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); padding: 0 5px; border-radius: 999px; background: var(--desk-deep); color: var(--desk-gold); border: 1px solid var(--desk-gold); font-size: 10px; font-weight: 700; line-height: 14px; white-space: nowrap; }
+html[data-app] body:has(.mushaf-v2) { padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)) !important; }
+html[data-app] .trbox { bottom: calc(158px + env(safe-area-inset-bottom, 0px)); }
+/* Recite and Hifz on narrow phones: the whole control row fits without scrolling sideways */
+@media (max-width: 440px) { html[data-app] .practice .tool-row { gap: 4px; } html[data-app] .practice .tool-row .btn { padding: 0 7px; font-size: 12px; } html[data-app] .practice .mic { width: 60px; height: 60px; } }
+@media (max-width: 380px) { html[data-app] .practice .tool-row { gap: 3px; } html[data-app] .practice .tool-row .btn { padding: 0 5px; } }

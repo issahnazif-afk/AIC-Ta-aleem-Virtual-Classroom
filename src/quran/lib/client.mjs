@@ -71,7 +71,9 @@ export function initPlayer({ lazy = false } = {}) {
   const reciterSel = bar.querySelector('[data-p="reciter"]');
   const err = bar.querySelector('[data-p="error"]');
   const errText = err.textContent;
-  let queue = [], idx = -1, repeat = false, clip = null, loadNo = 0;
+  let queue = [], idx = -1, repeat = false, loopAll = false, clip = null, loadNo = 0;
+  // past the end of the queue: back to its start when looping it all
+  const after = (i) => (i >= queue.length && loopAll ? 0 : i);
   const speeds = [1, 1.25, 1.5, 0.75];
 
   const rw = () => document.documentElement.dataset.riwayah || 'hafs';
@@ -130,7 +132,7 @@ export function initPlayer({ lazy = false } = {}) {
     if (repeat) { load(idx); return; }
     let n = idx + 1;
     while (queue[n] && queue[n].s === item.s && c.with.includes(queue[n].a) && queue[n].a !== item.a) n++;
-    load(n);
+    load(after(n));
   }
   function stop() {
     loadNo++; stopClips();
@@ -146,7 +148,7 @@ export function initPlayer({ lazy = false } = {}) {
     fill.style.width = a1 > a0 ? `${Math.min(100, Math.max(0, ((audio.currentTime - a0) / (a1 - a0)) * 100))}%` : '0';
   });
   // Ḥafṣ: one file per āyah, so the end of the file is the end of the āyah (other riwāyāt move on in load())
-  audio.addEventListener('ended', () => { if (clip) return; repeat ? load(idx) : load(idx + 1); });
+  audio.addEventListener('ended', () => { if (clip) return; repeat ? load(idx) : load(after(idx + 1)); });
   audio.addEventListener('error', () => {
     if (!audio.src) return;
     failed();
@@ -187,11 +189,28 @@ export function initPlayer({ lazy = false } = {}) {
   if (!lazy) show();
 
   return {
-    setQueue(list) { queue = list; },
+    // a new queue; the ayah playing now keeps its place in it (if it is there), so playback carries on undisturbed
+    setQueue(list) {
+      const cur = queue[idx];
+      queue = list;
+      if (cur) idx = list.findIndex((q) => q.s === cur.s && q.a === cur.a);
+    },
     playAt(key) {
       const i = queue.findIndex((q) => `${q.s}:${q.a}` === key);
       if (i >= 0) load(i);
     },
     playAll() { load(0); },
+    // for the app's own controls at the bottom of the screen
+    toggle() { playBtn.click(); },
+    prev() { if (idx >= 0) load(Math.max(idx - 1, 0)); },
+    next() { if (idx >= 0) load(after(Math.min(idx + 1, loopAll ? queue.length : queue.length - 1))); },
+    stop() { stop(); idx = -1; },
+    // loop: 'off', 'ayah' (the same ayah again and again) or 'all' (the whole queue, then from its start)
+    setLoop(mode) {
+      repeat = mode === 'ayah';
+      loopAll = mode === 'all';
+      repeatBtn.setAttribute('aria-pressed', String(repeat));
+    },
+    get active() { return idx >= 0; },
   };
 }

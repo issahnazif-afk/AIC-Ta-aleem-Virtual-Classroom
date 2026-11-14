@@ -113,7 +113,11 @@ async function buildFlowPaper(p, layout, suras, { getJson, pad, items = new Map(
   return paper;
 }
 
-// Choose the largest text size at which no line of the page overflows its width.
+// Size the text to the page's width, as large as reads well.
+// The printed mushaf's lines are all one width, but in this font some lines come out wider than others. Sizing the
+// whole page by its widest line made every line small (about 16px on a phone). Instead the page takes the size at
+// which most lines fit, and only the few wider lines are set a little smaller, each just enough to fit.
+const MIN_LINE = 0.8;   // a wide line is never set smaller than this share of the page's size
 export async function fitPaper(paper) {
   if (!paper?.isConnected) return;
   try { await document.fonts.load('24px "KFGQPC Hafs"'); } catch {}
@@ -121,12 +125,34 @@ export async function fitPaper(paper) {
   if (!box) return;
   if (paper.classList.contains('mp-flowpage')) { paper.style.setProperty('--mfs', `${Math.min(32, Math.max(18, box.clientWidth / 18))}px`); return; }
   const lines = [...box.querySelectorAll('.mp-line:not(.mp-banner)')];
-  let fs = Math.min(52, Math.max(14, box.clientWidth / 16));
+  const W = box.clientWidth;
+  if (!W || !lines.length) return;
+  const fs0 = Math.min(44, Math.max(14, W / 13));   // 44px: large on a laptop, while a page is not many screens tall
+  paper.style.setProperty('--mfs', `${fs0}px`);
+  lines.forEach((l) => { l.style.fontSize = ''; });
+  // each line's natural width at fs0 (allowing for the small padding around each word on the Recite and Hifz pages)
+  box.classList.add('mp-measure');
+  const room = W - Math.max(2, fs0 * 0.2);
+  const ratio = lines.map((l) => Math.min(1, room / Math.max(1, l.scrollWidth)));
+  box.classList.remove('mp-measure');
+  const sorted = [...ratio].sort((a, b) => a - b);
+  const q = sorted[Math.floor(sorted.length * 0.3)] ?? 1;           // the size at which about 70% of lines fit
+  const fs = fs0 * Math.min(1, Math.max(q, sorted[0] / MIN_LINE));  // ...but never so large that a line needs less than MIN_LINE
   paper.style.setProperty('--mfs', `${fs}px`);
-  for (let k = 0; k < 30; k++) {
-    // allow for the small padding around each word on the Recite and Hifz pages
-    if (!lines.some((l) => l.scrollWidth > l.clientWidth + Math.max(2, fs * 0.2))) break;
-    fs *= 0.965;
-    paper.style.setProperty('--mfs', `${fs}px`);
+  lines.forEach((l, i) => { const r = (fs0 * ratio[i]) / fs; if (r < 0.999) l.style.fontSize = `${r.toFixed(3)}em`; });
+  // rounding and justification: a last check, shrinking only the lines that still overflow
+  for (const l of lines) {
+    for (let k = 0; k < 12 && l.scrollWidth > l.clientWidth + Math.max(2, fs * 0.2); k++) {
+      l.style.fontSize = `${((parseFloat(l.style.fontSize) || 1) * 0.97).toFixed(3)}em`;
+    }
   }
+  // A page drawn while the screen is still settling (fonts, the bars around it) can measure a little off: look again
+  // shortly after, and fit once more if any line has come out wider than the page.
+  const tries = paper.__fitTries ?? 0;
+  if (tries < 3) setTimeout(() => {
+    if (!paper.isConnected) return;
+    const over = lines.some((l) => l.scrollWidth > l.clientWidth + Math.max(2, fs * 0.2));
+    paper.__fitTries = over ? tries + 1 : 0;
+    if (over) fitPaper(paper);
+  }, 300);
 }
