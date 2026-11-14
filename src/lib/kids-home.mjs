@@ -225,9 +225,15 @@ export function mountKidsHome(root, { level = 1, name = '', hijri = '', special 
     list.forEach((p, i) => {
       const b = el('button', 'kh-place'); b.type = 'button'; b.dataset.place = p.id;
       if (!young && !parent) b.append(el('span', 'kh-n', String(i + 1).padStart(2, '0')));
-      const ic = el('span', 'kh-ic'); ic.innerHTML = p.icon ?? icon('stories');
+      // Levels 3 and 4: a subject with its own painting (art) is shown as the picture alone; its name pops up when
+      // the pointer rests on it or it has keyboard focus (on a touch screen, where nothing hovers, it sits on the picture)
+      const art = !young && !parent && p.art;
+      if (art) b.classList.add('kh-art');
+      const ic = el('span', 'kh-ic');
+      if (art) { const img = el('img'); img.src = p.art; img.alt = ''; img.width = 166; img.height = 248; img.decoding = 'async'; ic.append(img); }
+      else ic.innerHTML = p.icon ?? icon('stories');
       if (p.color) ic.style.setProperty('--c', p.color);
-      const label = el('span', 'kh-label' + (p.logo ? ' kh-sr' : '')); label.append(el('b', null, p.title));   // a picture that carries its own name: the label is for screen readers
+      const label = el('span', 'kh-label' + (p.logo ? ' kh-sr' : '') + (art ? ' kh-pop' : '')); label.append(el('b', null, p.title));   // a picture that carries its own name: the label is for screen readers
       if (p.pic) ic.classList.add('kh-pic');
       if (p.ar && level >= 2) { const a = el('span', 'kh-ar', p.ar); a.lang = 'ar'; a.dir = 'rtl'; label.append(a); }
       if (parent && p.text && !young) label.append(el('span', 'kh-text', p.text));

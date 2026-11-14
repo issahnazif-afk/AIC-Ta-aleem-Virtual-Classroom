@@ -613,6 +613,22 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .kh-older .kh-places:not(.kh-sub) .kh-label b { color: #F7F4EA; font-size: 15px; }
 .kh-older .kh-places:not(.kh-sub) .kh-ar { color: rgba(247, 244, 234, .75); font-size: 15px; }
 .kh-older .kh-group, .kh-older .kh-places.kh-sub { max-width: none; }
+/* a subject with its own painting: the picture fills the tile, the number sits on it, and the name pops up above on hover/focus */
+.kh-older .kh-places:not(.kh-sub) .kh-place.kh-art { min-height: 0; aspect-ratio: 83 / 124; padding: 0; background: #12302A; }
+.kh-older .kh-places:not(.kh-sub) .kh-art .kh-ic { position: absolute; inset: 0; opacity: 1; overflow: hidden; border-radius: inherit; }
+.kh-older .kh-places:not(.kh-sub) .kh-art .kh-ic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.kh-older .kh-art .kh-n { position: absolute; top: 9px; left: 11px; z-index: 1; text-shadow: 0 1px 3px rgba(0, 0, 0, .7); }
+.kh-older .kh-places:not(.kh-sub) .kh-pop { position: absolute; left: 50%; bottom: calc(100% + 10px); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 12px; border-radius: 10px; background: #F7F4EA; box-shadow: 0 8px 22px rgba(0, 0, 0, .35); white-space: nowrap; text-align: center; pointer-events: none; opacity: 0; transform: translate(-50%, 4px); transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); }
+.kh-older .kh-places:not(.kh-sub) .kh-pop::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -7px; border: 7px solid transparent; border-top-color: #F7F4EA; }
+.kh-older .kh-places:not(.kh-sub) .kh-pop b { color: #0F2A22; font-size: 15px; text-align: center; }
+.kh-older .kh-places:not(.kh-sub) .kh-pop .kh-ar { color: #5A6B62; font-size: 18px; line-height: 1.5; }
+.kh-older .kh-places:not(.kh-sub) .kh-art:hover .kh-pop, .kh-older .kh-places:not(.kh-sub) .kh-art:focus-visible .kh-pop { opacity: 1; transform: translate(-50%, 0); }
+/* touch screens have no hover: the name sits on the bottom of the picture instead */
+@media (hover: none) {
+  .kh-older .kh-places:not(.kh-sub) .kh-pop { left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; border-radius: 0 0 var(--r-surface) var(--r-surface); background: linear-gradient(transparent, rgba(8, 24, 19, .88)); box-shadow: none; white-space: normal; opacity: 1; transform: none; }
+  .kh-older .kh-places:not(.kh-sub) .kh-pop::after, .kh-older .kh-places:not(.kh-sub) .kh-pop .kh-ar { display: none; }
+  .kh-older .kh-places:not(.kh-sub) .kh-pop b { color: #F7F4EA; font-size: 13px; line-height: 1.2; }
+}
 
 .kh-side { display: flex; flex-direction: column; gap: var(--s-4); }
 .kh-box { padding: 18px 20px; border: 1px solid rgba(220, 196, 142, .3); border-radius: var(--r-surface); background: rgba(11, 33, 26, .55); color: #F7F4EA; }
@@ -662,10 +678,11 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
   .kh-step-go, .kh-step-other { flex: 1 1 100%; justify-content: center; }
   .kh-older .kh-places:not(.kh-sub) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kh-older .kh-places:not(.kh-sub) .kh-place { min-height: 104px; }
+  .kh-older .kh-places:not(.kh-sub):has(.kh-art) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .kh-side { grid-template-columns: 1fr; }
   .kh-day-w { font-size: 10.5px; }
 }
-@media (prefers-reduced-motion: reduce) { .kh-step-go::after, .kh-older .kh-place { transition: none; } .kh-older .kh-places:not(.kh-sub) .kh-place:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .kh-step-go::after, .kh-older .kh-place, .kh-older .kh-pop { transition: none; } .kh-older .kh-places:not(.kh-sub) .kh-place:hover { transform: none; } }
 
 /* the sign-in page: the level doors as ivory cards (a picture for Levels 1 and 2, a numeral for 3 and 4) */
 .si-doors { gap: 10px; }
