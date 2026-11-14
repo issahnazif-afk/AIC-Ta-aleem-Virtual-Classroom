@@ -15,41 +15,17 @@ import { hadithClipId } from '../narration-text.mjs';
 import { audioUrl } from '../client.mjs';
 import { qpc } from '../recite.mjs';
 import { u } from '../url.mjs';
+import { icon, has } from '../home-icons.mjs';
 
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const btn = (cls, text, label) => { const b = el('button', cls, text); b.type = 'button'; if (label) b.setAttribute('aria-label', label); return b; };
 const arEl = (tag, cls, t) => { const e = el(tag, cls, t); e.lang = 'ar'; e.dir = 'rtl'; return e; };
 const today = () => new Date().toLocaleDateString('en-CA');
 
-// simple pictures for the cards (no people)
-const P = {
-  moon: '<path d="M40 10a22 22 0 1 0 14 38A18 18 0 0 1 40 10z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><circle cx="18" cy="16" r="2" fill="#C9A24A"/><circle cx="12" cy="30" r="1.5" fill="#C9A24A"/>',
-  food: '<ellipse cx="32" cy="40" rx="24" ry="9" fill="#FFFDF7" stroke="#C9A24A" stroke-width="2"/><path d="M14 38 Q32 14 50 38" fill="#F6C64B" stroke="#C9A24A" stroke-width="2"/><circle cx="26" cy="30" r="3" fill="#E85A71"/><circle cx="36" cy="27" r="3" fill="#6CBF5A"/>',
-  home: '<path d="M10 30 L32 12 L54 30 V54 H10 Z" fill="#FFF9EC" stroke="#0E6B4E" stroke-width="2.5"/><rect x="26" y="36" width="12" height="18" rx="2" fill="#0E6B4E"/><rect x="40" y="34" width="8" height="8" fill="#9FCFE0"/>',
-  salah: '<path d="M8 54 H56 V50 Q32 42 8 50 Z" fill="#0E6B4E"/><path d="M14 50 V24 Q32 10 50 24 V50" fill="#E6F2EC" stroke="#C9A24A" stroke-width="2.5"/><path d="M26 34 q6 -6 12 0" fill="none" stroke="#4A90D9" stroke-width="3" stroke-linecap="round"/>',
-  masjid: '<rect x="12" y="30" width="40" height="24" fill="#FFF9EC" stroke="#0E6B4E" stroke-width="2"/><path d="M20 30 Q32 10 44 30 Z" fill="#0E6B4E"/><rect x="50" y="14" width="6" height="40" fill="#C9A24A"/><path d="M53 8 v6" stroke="#C9A24A" stroke-width="2"/><path d="M28 54 V44 Q32 38 36 44 V54" fill="#C9A24A"/>',
-  people: '<circle cx="22" cy="30" r="14" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/><circle cx="42" cy="30" r="14" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2"/><path d="M26 44 Q32 50 38 44" fill="none" stroke="#E85A71" stroke-width="3" stroke-linecap="round"/>',
-  heart: '<path d="M32 54 C 10 40 6 26 16 18 C 24 12 30 18 32 22 C 34 18 40 12 48 18 C 58 26 54 40 32 54 Z" fill="#F4B6C2" stroke="#E85A71" stroke-width="2.5"/>',
-  rain: '<path d="M16 32 a12 12 0 0 1 22 -8 a10 10 0 0 1 12 14 H18 a8 8 0 0 1 -2 -6z" fill="#E6F2EC" stroke="#4A90D9" stroke-width="2"/><g stroke="#4A90D9" stroke-width="3" stroke-linecap="round"><path d="M22 46 l-2 6"/><path d="M32 46 l-2 6"/><path d="M42 46 l-2 6"/></g>',
-  quran: '<path d="M8 16 Q20 12 32 18 Q44 12 56 16 V50 Q44 46 32 52 Q20 46 8 50 Z" fill="#FFFDF7" stroke="#C9A24A" stroke-width="2.5"/><path d="M32 18 V52" stroke="#C9A24A" stroke-width="2"/><g stroke="#0E6B4E" stroke-width="2" stroke-linecap="round"><path d="M14 26 H26 M14 32 H26 M38 26 H50 M38 32 H50"/></g>',
-  star: '<path d="M32 6 L39 24 L58 24 L43 36 L49 55 L32 44 L15 55 L21 36 L6 24 L25 24 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/>',
-  gift: '<rect x="12" y="26" width="40" height="28" rx="3" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2"/><rect x="10" y="20" width="44" height="8" rx="2" fill="#0E6B4E"/><path d="M32 20 V54" stroke="#C9A24A" stroke-width="4"/><path d="M32 20 Q22 8 18 16 Q24 20 32 20 Q42 8 46 16 Q40 20 32 20" fill="none" stroke="#C9A24A" stroke-width="2.5"/>',
-  bird: '<ellipse cx="30" cy="36" rx="16" ry="12" fill="#9FCFE0" stroke="#4A90D9" stroke-width="2"/><circle cx="44" cy="26" r="8" fill="#9FCFE0" stroke="#4A90D9" stroke-width="2"/><path d="M51 26 l7 2 -7 2z" fill="#F6C64B"/><circle cx="46" cy="24" r="1.6" fill="#0F2A24"/><path d="M20 34 q8 -8 16 0" fill="none" stroke="#4A90D9" stroke-width="2"/>',
-  smile: '<circle cx="32" cy="32" r="22" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5"/><circle cx="24" cy="27" r="2.6" fill="#0F2A24"/><circle cx="40" cy="27" r="2.6" fill="#0F2A24"/><path d="M22 38 Q32 48 42 38" fill="none" stroke="#0F2A24" stroke-width="3" stroke-linecap="round"/>',
-  paw: '<ellipse cx="32" cy="40" rx="12" ry="10" fill="#C9A27A"/><circle cx="18" cy="26" r="5" fill="#C9A27A"/><circle cx="27" cy="18" r="5" fill="#C9A27A"/><circle cx="37" cy="18" r="5" fill="#C9A27A"/><circle cx="46" cy="26" r="5" fill="#C9A27A"/>',
-  sun: '<circle cx="32" cy="32" r="12" fill="#F6C64B"/><g stroke="#F6C64B" stroke-width="3.5" stroke-linecap="round"><path d="M32 6v8M32 50v8M6 32h8M50 32h8M13 13l6 6M45 45l6 6M13 51l6-6M45 19l6-6"/></g>',
-  leaf: '<path d="M14 50 Q14 14 52 12 Q50 48 14 50 Z" fill="#6CBF5A" stroke="#2E8B57" stroke-width="2"/><path d="M14 50 L44 20" stroke="#2E8B57" stroke-width="2"/>',
-  hands: '<path d="M20 54 V30 q0 -6 6 -6 V14 q0 -4 4 -4 t4 4 V24 q6 0 6 6 V54" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5" stroke-linejoin="round"/><path d="M26 24 V36 M38 24 V36" stroke="#C9A24A" stroke-width="2"/>',
-  shield: '<path d="M32 6 L54 14 V30 Q54 48 32 58 Q10 48 10 30 V14 Z" fill="#E6F2EC" stroke="#0E6B4E" stroke-width="2.5"/><path d="M24 32 l6 6 12-12" fill="none" stroke="#0E6B4E" stroke-width="3.5" stroke-linecap="round"/>',
-  scale: '<path d="M32 10 V52 M18 52 H46 M12 20 H52" stroke="#8A5A12" stroke-width="3" stroke-linecap="round"/><path d="M12 20 L4 38 H20 Z M52 20 L44 38 H60 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2"/>',
-  water: '<path d="M32 8 Q48 30 48 40 a16 16 0 0 1 -32 0 Q16 30 32 8z" fill="#9FCFE0" stroke="#4A90D9" stroke-width="2.5"/>',
-  lantern: '<path d="M32 4 V10" stroke="#C9A24A" stroke-width="2"/><path d="M24 10 H40 L37 16 H27 Z" fill="#C9A24A"/><path d="M26 16 H38 L46 34 L38 52 H26 L18 34 Z" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5"/><path d="M28 52 H36 L34 58 H30 Z" fill="#C9A24A"/>',
-  mountain: '<path d="M4 54 L24 20 L34 34 L42 24 L60 54 Z" fill="#E8D6B0" stroke="#C9A24A" stroke-width="2"/><circle cx="48" cy="12" r="5" fill="#F6C64B"/>',
-  dua: '<path d="M18 54 V32 q0 -8 7 -10 L26 16 q2 -4 5 -1 V30 M46 54 V32 q0 -8 -7 -10 L38 16 q-2 -4 -5 -1 V30" fill="#FBE3A6" stroke="#C9A24A" stroke-width="2.5" stroke-linejoin="round"/><circle cx="32" cy="10" r="3" fill="#C9A24A"/>',
-  path: '<path d="M8 54 Q20 30 32 40 T56 12" fill="none" stroke="#C9A24A" stroke-width="3.5" stroke-dasharray="3 6" stroke-linecap="round"/><circle cx="8" cy="54" r="5" fill="#0E6B4E"/><circle cx="56" cy="12" r="5" fill="#0E6B4E"/>',
-  calendar: '<rect x="8" y="12" width="48" height="44" rx="5" fill="#FFFDF7" stroke="#0E6B4E" stroke-width="2.5"/><rect x="8" y="12" width="48" height="12" rx="5" fill="#0E6B4E"/><path d="M40 34a8 8 0 1 0 6 13a7 7 0 0 1 -6 -13z" fill="#C9A24A"/>',
-};
-export const deenIcon = (k, size = 56) => `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">${P[k] ?? P.star}</svg>`;
+// the pictures for the cards and chips: the Classroom's painted icons (src/lib/home-icons.mjs), no people.
+// Small chips (30px and under) show the painting alone, without the star behind it.
+const DEEN_TONE = { dua: 'sage', sun: 'gold', path: 'sage', calendar: 'stone', heart: 'clay', star: 'gold', moon: 'stone', masjid: 'sage', quran: 'sage' };
+export const deenIcon = (k, size = 56) => icon(has(k) ? k : 'star', DEEN_TONE[k] ?? 'sand', { size, bare: size <= 30 });
 
 export const TABS = [
   { id: 'duas', title: "My du'as", ar: 'أَدْعِيَتِي', icon: 'dua' },

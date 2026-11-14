@@ -782,3 +782,45 @@ body[data-age="young"] .garden { border-radius: 26px; }
   .kh-young .kh-shelf .kh-place { flex: 1 1 140px; }
 }
 @media (prefers-reduced-motion: reduce) { .kh-say, .kh-again-go { transition: none; } .kh-say:hover, .kh-again-go:hover { transform: none; } }
+
+/* ── The activity and subject icons (src/lib/home-icons.mjs) ───────────────────────────────────────────────────────
+   Each is a small painting on an eight-pointed star, drawn inside its own SVG, so the medallion has no round background
+   and the picture fills it. When its card is pointed at or focused, the star turns an eighth and one part of the
+   painting moves; the "Your next step" icon breathes gently all the time. None of it moves for reduced motion. */
+.hi-medal, .kh-older .kh-places:not(.kh-sub) .hi-medal { border-radius: 0; background: none; }
+.hi-medal svg, .kh-young .hi-medal svg, .kh-older .kh-sub .hi-medal svg, .kh-step-ic .hi-medal svg, .kh-again-pic .hi-medal svg,
+.kh-older .kh-places:not(.kh-sub) .hi-medal svg { width: 100%; height: 100%; overflow: visible; }
+.hi-medal .m-back { transform-box: view-box; transform-origin: 50% 50%; transition: transform .7s cubic-bezier(.34, 1.3, .64, 1); }
+.hi-medal :is(.a-sway, .a-swing, .a-bob, .a-spin, .a-glow, .a-beat, .a-flip) { transform-box: fill-box; }
+.hi-medal .a-sway { transform-origin: 50% 0; }
+.hi-medal :is(.a-swing, .a-spin, .a-beat) { transform-origin: 50% 50%; }
+.hi-medal .a-flip { transform-origin: 0 50%; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .m-back { transform: rotate(45deg); }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-sway { animation: hi-sway 1.6s ease-in-out infinite; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-swing { animation: hi-swing 1.8s ease-in-out infinite; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-bob { animation: hi-bob 1.2s ease-in-out infinite; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-spin { animation: hi-spin 6s linear infinite; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-glow { animation: hi-glow 1.4s ease-in-out infinite; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-beat { animation: hi-beat 1.1s ease-in-out infinite; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-flip { animation: hi-flip 2.2s ease-in-out infinite; }
+:is(button, a, [role="button"], .kh-place, .act):is(:hover, :focus-visible) .hi-medal .a-draw { animation: hi-draw 1.2s linear infinite; }
+.kh-step-ic .hi-medal .a-sway, .kh-step-ic .hi-medal .a-swing, .kh-step-ic .hi-medal .a-bob, .kh-step-ic .hi-medal .a-beat { animation: hi-bob 3.2s ease-in-out infinite; }
+.kh-step-ic .hi-medal .a-glow { animation: hi-glow 3s ease-in-out infinite; }
+.kh-step-ic .hi-medal .m-back { animation: hi-spin 60s linear infinite; }
+@keyframes hi-sway { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+@keyframes hi-swing { 0%, 100% { transform: rotate(-18deg); } 50% { transform: rotate(14deg); } }
+@keyframes hi-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@keyframes hi-spin { to { transform: rotate(360deg); } }
+@keyframes hi-glow { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+@keyframes hi-beat { 0%, 100% { transform: scale(1); } 30% { transform: scale(1.14); } 55% { transform: scale(.97); } }
+@keyframes hi-flip { 0%, 35%, 100% { transform: scaleX(1); } 55% { transform: scaleX(.15); } 75% { transform: scaleX(1); } }
+@keyframes hi-draw { to { stroke-dashoffset: -8.4; } }
+@media (prefers-reduced-motion: reduce) {
+  .hi-medal .m-back, .hi-medal :is(.a-sway, .a-swing, .a-bob, .a-spin, .a-glow, .a-beat, .a-flip, .a-draw) { animation: none !important; transition: none !important; }
+  .hi-medal .m-back { transform: none !important; }
+}
+/* the activity list (grown-up view) and My Deen show the same painted icons: no second background behind the star */
+.act-ic:has(.hi-medal) { background: none; border-radius: 0; }
+.act-ic .hi-medal { width: 100%; height: 100%; }
+.hi-medal { flex: none; }
+.kh-older .kh-sub .hi-medal { width: 68px; height: 68px; }
