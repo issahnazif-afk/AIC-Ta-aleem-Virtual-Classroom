@@ -1469,6 +1469,7 @@ const levels = [
       else if (a.kind === 'deen') openDeen(a.view);
       else if (a.kind === 'games') openGames(a.game);
       else if (a.kind === 'tajweed') openTajweed();
+      else if (a.kind === 'adventure') { stopMedia(); stopSound(); location.href = siteUrl(`adventure/?level=${me.level || 1}`); }
     }
     // ── the Tajweed classroom (src/lib/tajweed/): Level 3 and Level 4 each have their own course ──
     let tajweedRun = null;

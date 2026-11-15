@@ -6,7 +6,7 @@
 // An entry with  kind: 'soon'  shows as "Coming soon" until it is ready.
 //
 //   id      unique name
-//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Ta’aleem Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'games' (Play & Make, src/lib/games/) | 'tajweed' (the Tajweed classroom, src/lib/tajweed/) | 'soon'
+//   kind    'recite' (camera, set-up, the Sheikh listens) | 'alifba' (letters and games) | 'play' (a Play & Learn game) | 'seerah' (the Seerah Quest) | 'stories' (Story Time) | 'library' (the Reading Library) | 'books' (the Ta’aleem Books) | 'deen' (My Deen: du'as, sunnah, Our Prophet, special days) | 'games' (Play & Make, src/lib/games/) | 'tajweed' (the Tajweed classroom, src/lib/tajweed/) | 'adventure' (Ta’aleem Adventure, public/adventure/) | 'soon'
 //   group   where it sits on the dashboard: 'hifz' (My Hifz) | 'lessons' (My Lessons) | 'play' (Play & Learn)
 //   game    for 'play': detective | ayah | match | journey | salah | akhlaq (src/lib/play.mjs); for 'games': an id in GAMES (src/lib/games/index.mjs)
 //   mode    for 'recite': 'hifz' or 'reading'
@@ -122,6 +122,10 @@ export const ACTIVITIES = [
     title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', text: 'A Ramadan night maze: carry the lantern to the masjid, and keep away from the dead ends.' },
   { id: 'maze-board', worlds: ['seerah', 'dua'], kind: 'games', game: 'maze-board', icon: 'trophy', group: 'play', suggested: [1, 2, 3, 4],
     title: 'Maze leaderboard', ar: 'لَوْحَةُ ٱلْأَبْطَالِ', text: 'See who in your class has reached the highest maze stage, and how fast.' },
+  // Ta'aleem Adventure: a 3D game of its own (public/adventure/, also its own GitHub Pages project): runs, exploring with
+  // knowledge gates, and a friendly physics arena across five lands. Opened with the class level, which sets its pace.
+  { id: 'adventure', worlds: ['akhlaq', 'tawheed'], kind: 'adventure', icon: 'adventure', group: 'play', suggested: [1, 2, 3, 4],
+    title: 'Ta’aleem Adventure', ar: 'مُغَامَرَةُ تَعْلِيم', text: 'A 3D journey across five lands: run the trails, explore, open knowledge gates and take on friendly challenges.' },
   // The Seerah Quest: a 3D journey through the history before the Prophet ﷺ, from Ibn Kathir's al-Bidaya wa'l-Nihaya only.
   { id: 'seerah', worlds: ['seerah'], kind: 'seerah', icon: 'seerah', group: 'play', levels: [3, 4], suggested: [3, 4],
     title: 'The Seerah Quest', ar: 'رِحْلَةُ ٱلسِّيرَة', text: 'Walk through Makkah before the Prophet ﷺ: the well of Zamzam and the Year of the Elephant, told only from Ibn Kathir.' },
@@ -149,7 +153,7 @@ const ICON_ART = {
   match: ['match', 'sage'], journey: ['journey', 'sand'], salah: ['salah', 'clay'], akhlaq: ['akhlaq', 'clay'], library: ['library', 'sand'],
   books: ['books', 'sage'], stories: ['stories', 'clay'], seerah: ['seerah', 'sand'], dua: ['duas', 'sage'], sunnah: ['sunnah', 'gold'],
   prophet: ['prophet', 'sage'], calendar: ['days', 'stone'], garden: ['garden', 'sage'], awards: ['awards', 'gold'], maze: ['mazes', 'sand'],
-  trophy: ['trophy', 'gold'], mazeNight: ['mazes', 'forest'], soon: ['soon', 'stone'],
+  trophy: ['trophy', 'gold'], mazeNight: ['mazes', 'forest'], adventure: ['adventures', 'gold'], soon: ['soon', 'stone'],
 };
 export const ICONS = Object.fromEntries(Object.entries(ICON_ART).map(([k, [n, t]]) => [k, icon(n, t)]));
 

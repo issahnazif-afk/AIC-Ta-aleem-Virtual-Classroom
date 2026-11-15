@@ -1,0 +1,11 @@
+{
+  "name": "Ta'aleem Adventure",
+  "short_name": "Ta'aleem",
+  "description": "A 3D learning adventure across five lands.",
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#091b27",
+  "theme_color": "#091b27",
+  "icons": [{ "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

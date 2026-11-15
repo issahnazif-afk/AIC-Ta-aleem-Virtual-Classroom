@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#091b27">
+<meta name="description" content="Ta'aleem Adventure — a 3D learning adventure: run, explore, solve knowledge gates and take on friendly challenges across five lands.">
+<title>Ta'aleem Adventure</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="world" aria-hidden="true"></canvas>
+<div id="loading" class="loading"><div class="spinner"></div><p>Preparing the journey…</p></div>
+
+<!-- ── title ─────────────────────────────────────────────── -->
+<section id="title" class="screen" aria-labelledby="t-h">
+  <div class="title-panel">
+    <p class="kicker">✦ TA'ALEEM ADVENTURE · v1.1</p>
+    <h1 id="t-h">Adventure awaits,<br><i>young explorer.</i></h1>
+    <p class="lede">Run the trails of five lands, explore hidden places, open knowledge gates and take on friendly challenges.</p>
+    <div class="row">
+      <button class="btn primary" id="go-continue">Continue the journey ➜</button>
+      <button class="btn" id="go-map">Journey map</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost" id="go-dress">Explorer &amp; gear</button>
+      <button class="btn ghost" id="go-how">How to play</button>
+      <button class="btn ghost icon" id="go-settings" aria-label="Settings">⚙</button>
+      <a class="btn ghost" id="go-class" href="../" hidden>← Classroom</a>
+    </div>
+    <p class="statline"><span>★ <b data-stat="stars">0</b> stars</span><span>✦ <b data-stat="xp">0</b> XP</span><span><b data-stat="done">0</b>/15 stages</span></p>
+  </div>
+</section>
+
+<!-- ── map ───────────────────────────────────────────────── -->
+<section id="map" class="screen" aria-labelledby="m-h">
+  <header class="bar"><button class="btn ghost small" data-back="title">← Home</button><h2 id="m-h">The great journey</h2><span class="statline"><span>★ <b data-stat="stars">0</b></span><span>✦ <b data-stat="xp">0</b></span></span></header>
+  <div class="map-body">
+    <div class="regions" id="regions"></div>
+    <aside class="board" id="board" aria-live="polite">
+      <p class="kicker" id="b-region">MISSION BOARD</p>
+      <h3 id="b-name">Choose a stage</h3>
+      <p class="badge" id="b-mode"></p>
+      <p id="b-goal">Pick an open stage on the journey.</p>
+      <p class="best" id="b-best"></p>
+      <button class="btn primary" id="b-play" disabled>Begin stage ➜</button>
+    </aside>
+  </div>
+</section>
+
+<!-- ── dressing room ─────────────────────────────────────── -->
+<section id="dress" class="screen" aria-labelledby="d-h">
+  <header class="bar"><button class="btn ghost small" data-back="title">← Home</button><h2 id="d-h">Your explorer</h2><span class="statline"><span>★ <b data-stat="avail">0</b> to spend</span></span></header>
+  <div class="dress-panel">
+    <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-tab="look">Look</button><button role="tab" aria-selected="false" data-tab="gear">Gear</button></div>
+    <div id="tab-look"></div>
+    <div id="tab-gear" hidden></div>
+  </div>
+</section>
+
+<!-- ── playing ───────────────────────────────────────────── -->
+<section id="play" class="screen play" aria-label="Playing">
+  <div class="hud">
+    <button class="hbtn" id="h-pause" aria-label="Pause">Ⅱ</button>
+    <div class="hud-mid">
+      <b id="h-title">Stage</b>
+      <div class="pbar"><span id="h-prog"></span></div>
+    </div>
+    <div class="hud-stats">
+      <span id="h-motes" hidden>✦ <b>0</b></span>
+      <span id="h-found" hidden>⌖ <b>0</b></span>
+      <span id="h-hearts" hidden></span>
+      <span id="h-score" hidden>◎ <b>0</b></span>
+      <span id="h-rival" hidden class="dim">friend <b>0</b></span>
+      <span id="h-timer" hidden>⏱ <b>0</b></span>
+    </div>
+  </div>
+  <div class="compass" id="h-compass" hidden aria-hidden="true"><span>➤</span></div>
+  <div class="wind" id="h-wind" hidden aria-hidden="true"><span>➤</span><small>wind</small></div>
+  <div class="qbanner" id="h-banner" hidden><small>Answer arch</small><b></b><em></em></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <button class="prompt" id="h-prompt" hidden></button>
+  <!-- touch controls, per mode -->
+  <div class="ctl ctl-run" data-ctl="run" hidden>
+    <button data-act="left" aria-label="Left">◀</button><button data-act="jump" aria-label="Jump">▲</button><button data-act="slide" aria-label="Slide">▼</button><button data-act="right" aria-label="Right">▶</button>
+  </div>
+  <div class="ctl ctl-stick" data-ctl="stick" hidden>
+    <div class="stick" id="stick"><div class="knob" id="knob"></div></div>
+    <div class="ctl-r">
+      <button data-act="hop" class="round" aria-label="Hop" data-only="explore">⤒</button>
+      <button data-act="act" class="round big" aria-label="Use" data-only="explore">✋</button>
+      <button data-act="dash" class="round big" aria-label="Dash" data-only="arena" id="dashbtn">⚡</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── story sequence ────────────────────────────────────── -->
+<section id="story" class="screen story" aria-live="polite">
+  <div class="lb top"></div><div class="lb bottom"><div class="caption"><small id="s-title"></small><p id="s-text"></p></div></div>
+  <button class="btn ghost small skip" id="s-skip">Skip ⏭</button>
+</section>
+
+<!-- ── dialogs ───────────────────────────────────────────── -->
+<div class="veil" id="veil" hidden>
+  <div class="dialog" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlg-h"></div>
+</div>
+
+<footer class="note" id="note">Stars and XP are game rewards only — they never measure faith or worth. Lessons are starter materials for review by a qualified teacher.</footer>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
