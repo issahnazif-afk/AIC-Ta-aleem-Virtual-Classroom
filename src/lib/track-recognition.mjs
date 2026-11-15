@@ -166,7 +166,9 @@ export class TrackRecognition {
     if (m.wrong) window.dispatchEvent(new CustomEvent('ql:offtext'));
     window.dispatchEvent(new CustomEvent('ql:asr', { detail: { text: `Qāf tracker: ${m.ms.toFixed(0)} ms a look` } }));
     if (m.events.length) {
-      const track = m.events.map((e) => ({ plain: this.words[e.index], kind: e.kind, score: e.score }));
+      // a look-alike word: what was heard is the word with its one letter changed (مالك heard for مالق)
+      const heardAs = (e) => { if (!e.letter) return null; const c = [...this.words[e.index]]; c[e.letter.at] = e.letter.heard; return c.join(''); };
+      const track = m.events.map((e) => ({ plain: this.words[e.index], kind: e.kind, score: e.score, heard: heardAs(e) }));
       const res = [{ transcript: track.map((x) => x.plain).join(' ') }];
       res.isFinal = true; res.track = track;
       this.results.push(res);

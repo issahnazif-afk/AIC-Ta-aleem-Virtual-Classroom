@@ -14,7 +14,8 @@
 //      pos     the next word not yet read (everything before it is committed)
 //      word    the word the reader is in right now, frac how far into it (0–1): the live cursor. It can be behind
 //              pos (back: true) when the reader goes back to repeat words; nothing is committed while they do
-//      events  [{ index, kind: 'read' | 'weak' | 'unclear' | 'missed', score }] words committed by this update
+//      events  [{ index, kind: 'read' | 'weak' | 'unclear' | 'missed', score, letter? }] words committed by this update
+//              (letter: { at, heard } when one consonant was said as another: the word is then missed)
 //              (missed: left out, or something else said in its place; unclear: run into a neighbour)
 //      wrong   true once when the reader has been saying something that is not the text for a few words
 //
@@ -33,6 +34,9 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     jump: -0.6,          // per word, cost of starting away from the committed position
     weak: -1.6,          // average letter margin below which a word counts as weakly read
     bad: -3.2,           // ... and below which it was not really said (another word in its place)
+    letterBad: -7.5,     // a consonant not heard at all where it belongs (the scale ends at -8; a blurred but said letter,
+                         // in idgham or after a pause, measures -3 to -6.6 on real recitations)...
+    rival: -0.5,         // ... and if another consonant was the model's first choice there, it is a wrong letter
     wrongAfter: 12,      // letters heard that are not the text (about two words) before the reader is told
     endBlanks: 5,        // blank frames after a word's last letter that end it (200 ms): the end of an ayah
     ...opts,
@@ -44,6 +48,7 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
   // the word before (also after و ف ب ك), and its ل before a sun letter ("ar-raḥmān", "wan-nās"); the path may
   // pass them by, and they are not needed for a word to count as said. alt: a final ه (the page writes ة as ه) is
   // also accepted as ت, as it is said when joined to the next word ("al-jinnati wa…").
+  const SOFT = new Set([...'اويء'].map((c) => idx.get(c)));
   const SUN = new Set([...'تثدذرزسشصضطظلن'].map((c) => idx.get(c)));
   const A = idx.get('ا'), L = idx.get('ل'), H = idx.get('ه'), T = idx.get('ت'), PRE = new Set([...'وفبك'].map((c) => idx.get(c)));
   const metaOf = (a) => {
@@ -159,9 +164,9 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
     for (let t = 0; t < F; t++) {
       const s = path[t]; if (s === 0) { fill++; continue; }
       if (fill) { const w = wOf[s]; fillerBefore.set(w, (fillerBefore.get(w) ?? 0) + fill); fill = 0; }
-      const w = wOf[s]; let r = seen.get(w); if (!r) seen.set(w, (r = { score: 0, n: 0, letters: new Set(), lb: new Map(), firstT: t, lastT: t }));
+      const w = wOf[s]; let r = seen.get(w); if (!r) seen.set(w, (r = { score: 0, n: 0, letters: new Set(), lb: new Map(), span: new Map(), firstT: t, lastT: t }));
       const f = frames[base + t], { eB, free } = emis(f);
-      if (tok[s] >= 0) { r.score += em(f, s) - free; r.n++; r.letters.add(liOf[s]); }
+      if (tok[s] >= 0) { r.score += em(f, s) - free; r.n++; r.letters.add(liOf[s]); const sp = r.span.get(liOf[s]); if (sp) sp[1] = t; else r.span.set(liOf[s], [t, t]); }
       // each letter's clearest moment anywhere while the reader was in this word (CTC may fold a letter into a
       // neighbour's frames, so it is looked for across the whole word, not only on its own frames)
       ids[w].forEach((id, li) => { const al = meta[w].alt.get(li); const m = (al === undefined ? f[id] : Math.max(f[id], f[al])) - free; if (m > (r.lb.get(li) ?? -Infinity)) r.lb.set(li, m); });
@@ -176,6 +181,56 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
       const v = ids[w].map((_, i) => i).filter((i) => !meta[w].opt.has(i)).map((i) => Math.max(-8, r.lb.get(i) ?? -8)).sort((a, b) => a - b);
       if (v.length >= 3) v.shift();
       return v.reduce((a, b) => a + b, 0) / v.length;
+    };
+    // Letter by letter, in order. Look-alike words share most of their letters (خالدون / حاسدون, المغضوب /
+    // المغلوب, قاهرون / كاهرون, المستقيم / المستقيل), and an average over the word hides the one letter that differs;
+    // a letter looked for anywhere in the word is even "found" in another place (the ل of ال for a final ل). So each
+    // consonant is looked for only where it belongs: between the letters before and after it on the path (the model
+    // may fold a letter into its neighbour's frames), and a little into the next or previous word at the word's
+    // ends, where a first or last letter is often run into its neighbour. The weakest consonant decides.
+    // Long vowels and hamza seats (ا و ي ء) are left out, as a reciter often folds them into a neighbour, and so are
+    // the letters that may go unheard (meta.opt).
+    const EDGE = 2;   // frames (80 ms) past the word's own first or last letter
+    const letterAt = (w, li, r) => {
+      let a = null, b = null;
+      for (let k = li - 1; k >= 0 && a === null; k--) if (r.span.has(k)) a = r.span.get(k)[0];
+      for (let k = li + 1; k < ids[w].length && b === null; k++) if (r.span.has(k)) b = r.span.get(k)[1];
+      if (r.span.has(li)) { const sp = r.span.get(li); a ??= sp[0] - EDGE; b ??= sp[1] + EDGE; }
+      a ??= r.firstT - EDGE; b ??= r.lastT + EDGE;
+      a = Math.max(a, -base, r.firstT - EDGE); b = Math.min(b, F - 1, r.lastT + EDGE);
+      const id = ids[w][li], al = meta[w].alt.get(li);
+      let m = -8;
+      for (let t = a; t <= b; t++) { const f = frames[base + t]; const { free } = emis(f); m = Math.max(m, (al === undefined ? f[id] : Math.max(f[id], f[al])) - free); }
+      return m;
+    };
+    // A letter that is only faint is not a mistake: a final م or ن held after a madd, or the first letter after a
+    // pause, is often barely heard by the model. It is a mistake when another consonant is clearly heard in its
+    // place: the model's first choice, where the path put this letter (ك where ق belongs, ح where خ belongs).
+    // The letters either side of it in the word are not counted (the model may smear a neighbour across).
+    const rivalAt = (w, li, r) => {
+      const sp = r.span.get(li); if (!sp) return null;
+      const id = ids[w][li], al = meta[w].alt.get(li), near = new Set([ids[w][li - 1], ids[w][li + 1]]);
+      for (let t = Math.max(sp[0] - 1, -base); t <= Math.min(sp[1] + 1, F - 1); t++) {
+        const f = frames[base + t], { free } = emis(f);
+        for (let c = 0; c < C - 1; c++) {
+          if (c === space || c === id || c === al || near.has(c) || SOFT.has(c)) continue;
+          if (f[c] - free >= o.rival) return { c: letters[c] };
+        }
+      }
+      return null;
+    };
+    // the first letter said wrongly in a word: { at: its place in the word, heard: the letter heard instead }
+    const wrongLetter = (w) => {
+      const r = seen.get(w); if (!r?.n) return null;
+      const last = ids[w].length - 1;
+      for (let i = 0; i <= last; i++) {
+        if (meta[w].opt.has(i) || SOFT.has(ids[w][i])) continue;
+        const m = letterAt(w, i, r);
+        if (m >= o.letterBad) continue;
+        const rv = rivalAt(w, i, r);
+        if (rv) return { at: i, heard: rv.c };
+      }
+      return null;
     };
     const said = (w) => { const r = seen.get(w); return r && r.n >= 2 && cover(w, r) >= 0.6 && lsc(w) >= o.weak; };
     // The last word of the passage has no next word to confirm it, and some of its written letters are never heard
@@ -240,7 +295,10 @@ export function createTracker({ letters, blank, words = [], opts = {} }) {
           const low = isLast(w) ? 0.25 : 0.34, part = isLast(w) ? 0.4 : 0.5;   // the last word: as in saidLast
           let kind = sc < o.bad || cov < low ? 'missed' : sc < o.weak || cov < part ? 'weak' : 'read';
           if (endOfPassage && kind !== 'read' && !said(w) && !saidLast(w)) kind = 'unclear';   // not followed letter by letter: worth checking
-          events.push({ index: w, kind, score: sc });
+          // a look-alike word: one consonant said as another (خالدون for حاسدون) is a mistake, however close the rest
+          const wl = wrongLetter(w);
+          if (wl) kind = 'missed';
+          events.push({ index: w, kind, score: sc, letter: wl ?? undefined });
         }
         pos = w + 1;
       }

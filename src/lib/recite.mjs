@@ -96,14 +96,55 @@ function prefixDiffers(a, b) {
 // Speech engines and the Uthmani script often differ only in these (الصلاة / الصلوة, ءامنوا / آمنوا).
 const skeleton = (w) => w[0] + w.slice(1).replace(/[اويء]/g, '');
 
+// What is written but not said, and what is said two ways, so that only real differences count:
+// the ل of ال before a sun letter ("ar-raḥmān", also after و ف ب ك), a letter doubled by shadda or by the
+// speech engine, a final ة (written ه here) said as ت when joined to the next word, and ءا written آ.
+function spokenForm(w) {
+  let s = w.replace(/^([وفبك]?)ءا/, '$1ا').replace(/^([وفبك]?ا)ل(?=[تثدذرزسشصضطظلن])/, '$1');
+  s = s.replace(/(.)\1+/g, '$1');
+  return s.replace(/ت$/, 'ه');
+}
+const outline = (w) => skeleton(spokenForm(w));
+
+// Pairs of consonants that sound alike; only "lenient" checking forgives one of them, and never at the start
+// of a word, where look-alike words differ most (قاهرون / كاهرون, خالدون / حاسدون).
+const NEAR = ['سص', 'تط', 'دض', 'ذظ', 'ذز', 'زظ', 'ثس', 'قك', 'حه', 'عء', 'غخ', 'ذد', 'ثت'];
+const near = (a, b) => NEAR.some((p) => p.includes(a) && p.includes(b) && a !== b);
+function oneNearSwap(a, b) {
+  if (a.length !== b.length || a.length < 4) return false;
+  let diff = -1;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) { if (diff >= 0) return false; diff = i; }
+  return diff >= 2 && near(a[diff], b[diff]);
+}
+
+// Letter by letter. Words that look alike share most of their letters, at the end (خالدون مفسدون حاسدون كاذبون
+// قاهرون) or at the start (عذاب عظيم / عذاب أليم), so a likeness score over the whole word lets the one letter
+// that differs pass. Instead every consonant must be the same, in the same order; only the ways of writing the
+// same sounds are forgiven (long vowels and hamza seats, the unsaid ل of ال, shadda, ة said as ت).
+//   strict    the letters as written, long vowels too (after the forgiven spellings)
+//   normal    every consonant, in order
+//   lenient   as normal, but one consonant may be a sound-alike (س/ص, ت/ط, ق/ك …), past the first two letters
 export function wordMatches(said, target, threshold) {
+  if (said === target) return true;
+  if (prefixDiffers(said, target)) return false;
+  const a = spokenForm(said), b = spokenForm(target);
+  if (a === b) return true;
+  if (threshold >= THRESHOLDS.strict) return false;
+  const oa = outline(said), ob = outline(target);
+  if (oa === ob && oa.length >= 2) return true;
+  if (threshold <= THRESHOLDS.lenient) return oneNearSwap(oa, ob);
+  return false;
+}
+
+// The old likeness score, for finding where the reader is in the Quran (buildLocator, locate): there the words
+// around a word confirm it, so a speech engine's slips must not lose the place.
+export function wordNear(said, target, threshold) {
   if (said === target) return true;
   if (prefixDiffers(said, target)) return false;
   if (threshold < THRESHOLDS.strict) {
     const a = skeleton(said), b = skeleton(target);
     if (a === b && a.length >= 2) return true;
   }
-  // Very short words must be exact unless the reader chose "lenient".
   if (target.length <= 3 && threshold > THRESHOLDS.lenient) return false;
   return similarity(said, target) >= threshold;
 }
@@ -149,7 +190,7 @@ function candidatesFor(L, word, threshold) {
   for (let p = 0; p < L.W.length; p++) {
     const w = L.W[p];
     if (Math.abs(w.length - word.length) > 2 || w[0] !== word[0]) continue;
-    if (wordMatches(word, w, threshold)) out.push(p);
+    if (wordNear(word, w, threshold)) out.push(p);
   }
   return out;
 }
@@ -170,9 +211,9 @@ export function locate(L, spoken, threshold = THRESHOLDS.normal) {
     for (const [k, p, used] of starts) {
       let j = k + used, q = p + 1, matched = 1, misses = 0, lastJ = k + used - 1, lastQ = p;
       while (j < n && q < L.W.length) {
-        if (wordMatches(spoken[j], L.W[q], threshold)) { matched++; lastJ = j; lastQ = q; j++; q++; misses = 0; continue; }
-        if (q + 1 < L.W.length && wordMatches(spoken[j], L.W[q] + L.W[q + 1], threshold)) { matched += 2; lastJ = j; lastQ = q + 1; j++; q += 2; misses = 0; continue; }
-        if (j + 1 < n && wordMatches(spoken[j] + spoken[j + 1], L.W[q], threshold)) { matched++; lastJ = j + 1; lastQ = q; j += 2; q++; misses = 0; continue; }
+        if (wordNear(spoken[j], L.W[q], threshold)) { matched++; lastJ = j; lastQ = q; j++; q++; misses = 0; continue; }
+        if (q + 1 < L.W.length && wordNear(spoken[j], L.W[q] + L.W[q + 1], threshold)) { matched += 2; lastJ = j; lastQ = q + 1; j++; q += 2; misses = 0; continue; }
+        if (j + 1 < n && wordNear(spoken[j] + spoken[j + 1], L.W[q], threshold)) { matched++; lastJ = j + 1; lastQ = q; j += 2; q++; misses = 0; continue; }
         if (++misses > 1) break;
         j++; // the speech engine heard an extra word; skip it
       }

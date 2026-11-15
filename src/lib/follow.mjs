@@ -10,7 +10,7 @@
 //  • and it only calls a word wrong when the engine is sure of it and it really is not the next word.
 // With the Qāf tracker (track-recognition.mjs) each result already says which words were read and how,
 // so those are taken as they are.
-import { normalize, matchAt, similarity } from './recite.mjs';
+import { normalize, matchAt, similarity, THRESHOLDS } from './recite.mjs';
 
 const words = (alt) => normalize(alt.transcript).split(' ').filter(Boolean);
 
@@ -83,7 +83,7 @@ export function createFollower(o) {
         for (const t of res.track) {
           if (o.getPos() >= o.getFlat().length) break;
           clearBack(); misses = 0;
-          if (t.kind === 'missed') { o.wrong('something else'); o.accept(1, 'unclear'); }
+          if (t.kind === 'missed') { o.wrong(t.heard ?? 'something else'); o.accept(1, 'unclear'); }
           else o.accept(1, t.kind === 'weak' ? 'unclear' : undefined);
         }
         continue;
@@ -118,7 +118,8 @@ export function createFollower(o) {
         if (!res.isFinal && i === spoken.length - 1 && th < 0.8) {     // not in strict checking
           const t = spoken[i], w = flat[pos];
           const full = (w.targets || [w.plain]).find((x) => x.startsWith(t));
-          if (full && t.length >= 3 && full.length >= 4 && t.length >= 0.5 * full.length) {
+          // (all but its last letter: look-alike words often share their first half, خالدون / خالقون)
+          if (full && t.length >= 3 && full.length >= 4 && t.length >= full.length - 1) {
             clearBack(); misses = 0; i++; commit(r, i, spoken); o.accept(1); continue;
           }
         }
@@ -147,7 +148,13 @@ export function createFollower(o) {
         if (dropped) { misses = 0; o.accept(dropped, 'unclear'); continue; }
 
         if (runMatches(spoken, i + 1, flat, pos + 1, need, th)) {          // garbled: this word stands for the expected one
-          misses = 0; i++; commit(r, i, spoken); o.accept(1, 'unclear'); continue;
+          // ... unless it is a real word that looks like it (most of its letters, but not all): that was said
+          // instead of it, a mistake (حاسدون for خالدون), except in lenient checking
+          const t = (flat[pos].targets || [flat[pos].plain])[0];
+          const lookAlike = th > THRESHOLDS.lenient && spoken[i].length >= 3 && similarity(spoken[i], t) >= 0.5;
+          misses = 0; i++; commit(r, i, spoken);
+          if (lookAlike) o.wrong(spoken[i - 1]);
+          o.accept(1, 'unclear'); continue;
         }
         if (runMatches(spoken, i + 1, flat, pos + 2, Math.max(2, need), th)) {   // garbled into one word, covering two
           misses = 0; i++; commit(r, i, spoken); o.accept(2, 'unclear'); continue;
