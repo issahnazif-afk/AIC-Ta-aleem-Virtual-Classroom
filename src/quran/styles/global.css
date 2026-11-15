@@ -525,3 +525,143 @@ html[data-app] .trbox { bottom: calc(158px + env(safe-area-inset-bottom, 0px)); 
 /* Recite and Hifz on narrow phones: the whole control row fits without scrolling sideways */
 @media (max-width: 440px) { html[data-app] .practice .tool-row { gap: 4px; } html[data-app] .practice .tool-row .btn { padding: 0 7px; font-size: 12px; } html[data-app] .practice .mic { width: 60px; height: 60px; } }
 @media (max-width: 380px) { html[data-app] .practice .tool-row { gap: 3px; } html[data-app] .practice .tool-row .btn { padding: 0 5px; } }
+
+/* ── The full-page view (app: Mushaf, Listen, Recite, Hifz test) ───────────────────────────────
+   The whole mushaf page always fits between the app bar and the controls, like a printed page: no scrolling, no
+   line hidden under a bar. fullPage() (src/quran/lib/fullpage.mjs) measures the room (--q-avail, --q-bot) and
+   fitPaper() sizes the text to the page's height as well as its width. */
+html.qfull, html.qfull body { overflow: hidden; overscroll-behavior: none; }
+html.qfull body { padding-bottom: 0 !important; }
+html.qfull .paper.mp { height: var(--q-avail) !important; min-height: 0 !important; aspect-ratio: auto !important; width: min(100%, calc(var(--q-avail) * .72)) !important; max-width: 100% !important; margin: 0 auto; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; }
+html.qfull .mp .mp-lines { flex: 1 1 auto; min-height: 0; justify-content: space-between; }
+html.qfull .mp .mp-line { line-height: 1.9; }
+html.qfull .mp .mp-folio { min-width: 1.9em; height: 1.9em; font-size: 13px; }
+html.qfull .mushaf-v2 .spread { padding: 3px 0 0 !important; gap: 6px; }
+html.qfull .mushaf-v2 .info, html.qfull .mushaf-v2 .tj-legend, html.qfull .mushaf-v2 .hintline { display: none !important; }
+/* a landscape laptop or tablet shows two pages side by side, as an open mushaf */
+@media (min-width: 1100px) and (orientation: landscape) {
+  html.qfull .mushaf-v2.can-spread .paper.partner { display: flex !important; }
+  html.qfull .mushaf-v2.can-spread .paper { flex: 0 1 auto; margin: 0 !important; }
+}
+html.qfull .app-dock { padding: 6px 10px calc(8px + env(safe-area-inset-bottom, 0px)) !important; gap: 4px !important; }
+html.qfull .app-dock .dock-top { min-height: 34px; }
+html.qfull .app-dock .dock-hint { display: none; }
+html.qfull .app-dock .fab { width: 56px; height: 56px; }
+html.qfull .app-dock .dk-btn { width: 42px; height: 42px; }
+html.qfull .trbox { bottom: calc(var(--q-bot, 120px) + 8px) !important; }
+
+/* Recite and Hifz: the page under the app bar, the controls in a short tray below it */
+html.qfull .practice.page { padding-top: 0 !important; gap: 0 !important; }
+html.qfull .practice .stage { padding: 3px 0 0 !important; }
+html.qfull .practice #intro, html.qfull .practice .legend, html.qfull .practice .note, html.qfull .practice #summary-bar, html.qfull .practice #change { display: none !important; }
+html.qfull .practice .toolbar { padding: 6px 10px calc(12px + env(safe-area-inset-bottom, 0px)) !important; gap: 4px !important; }
+html.qfull .practice .toolbar .where, html.qfull .practice .toolbar .progress, html.qfull .practice .toolbar #asr-heard { display: none !important; }
+html.qfull .practice .toolbar .heard { min-height: 0; font-size: 12px; }
+html.qfull .practice .toolbar .heard:empty { display: none; }
+html.qfull .practice .status { font-size: 13px; min-height: 1.3em; margin: 0; line-height: 1.3; }
+html.qfull .practice .mic { width: 58px !important; height: 58px !important; }
+html.qfull .practice .tool-row .btn { min-height: 40px !important; }
+html.qfull .practice .tr-panel { position: fixed; left: 10px; right: 10px; bottom: calc(var(--q-bot, 140px) + 8px); z-index: 31; max-width: 640px; margin: 0 auto; max-height: 30vh; overflow-y: auto; box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+html.qfull .practice .summary, html.qfull .hifz .results { position: fixed; left: 8px; right: 8px; top: calc(70px + env(safe-area-inset-top, 0px)); bottom: calc(var(--q-bot, 140px) + 8px); z-index: 33; max-width: 680px; margin: 0 auto; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+html.qfull .practice .unsupported { margin: 6px 10px; }
+/* Hifz: the Sheikh sits in one short row above the page, so the page keeps its room */
+html.qfull .hifz .examiner { flex-direction: row; align-items: center; padding: 6px 10px !important; gap: 10px !important; border-radius: 0; margin: 0; }
+html.qfull .hifz .examiner .sheikh { max-width: 46px !important; flex: none; }
+html.qfull .hifz .bubble { padding: 6px 10px !important; max-height: 4.6em; overflow: hidden; gap: 2px; }
+html.qfull .hifz .bubble .en { font-size: 12.5px; line-height: 1.3; }
+html.qfull .hifz .examiner .qcount:empty, html.qfull .hifz .examiner .dots:empty { display: none; }
+html.qfull .hifz .exam { gap: 0 !important; }
+html.qfull .hifz .examiner > div { gap: 4px !important; }
+html.qfull .hifz .bubble p { margin: 0; font-size: 13px; line-height: 1.35; }
+
+/* the buttons above the controls: Mistakes, Tajweed, Riwayah */
+.qpills { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; min-width: 0; }
+.qp { height: 32px; padding: 0 10px; display: inline-flex; align-items: center; gap: 5px; border-radius: 9px; border: 1px solid var(--desk-line, var(--line)); background: rgba(247, 244, 234, .08); color: var(--desk-ink, var(--ink)); font: 600 12.5px/1 var(--font-ui); cursor: pointer; white-space: nowrap; }
+.qp:hover:not(:disabled) { border-color: var(--desk-gold, var(--accent)); }
+.qp[aria-pressed="true"], .qp[aria-expanded="true"] { background: var(--desk-gold, var(--accent)); border-color: var(--desk-gold, var(--accent)); color: #0F2A22; }
+.qp:disabled { opacity: .4; cursor: default; }
+.qp:focus-visible { outline: 2px solid var(--desk-gold, var(--accent)); outline-offset: 2px; }
+.qp-wrap { position: relative; }
+.qp-menu { position: fixed; left: 10px; right: 10px; bottom: calc(var(--q-bot, 120px) + 8px); max-width: 340px; margin: 0 auto; z-index: 50; min-width: 230px; max-height: 60vh; overflow-y: auto; padding: 6px; border-radius: 14px; background: var(--desk-deep, var(--surface)); border: 1px solid var(--desk-line, var(--line)); box-shadow: 0 10px 30px rgba(0,0,0,.35); display: flex; flex-direction: column; }
+.qp-menu[hidden] { display: none; }
+.qp-opt { min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: var(--desk-ink, var(--ink)); font: 500 14px/1.2 var(--font-ui); text-align: left; cursor: pointer; }
+.qp-opt:hover, .qp-opt:focus-visible { background: rgba(247, 244, 234, .1); outline: none; }
+.qp-opt[aria-checked="true"] { color: var(--desk-gold, var(--accent)); font-weight: 700; }
+.qp-opt[aria-checked="true"]::before { content: "\2713  "; }
+.practice .qpills { justify-content: center; }
+@media (max-width: 440px) { .qp svg { display: none; } .qp { padding: 0 9px; font-size: 12px; } .qpills { gap: 5px; } }
+
+/* the Mistakes sheet */
+.qsheet-bg { position: fixed; inset: 0; z-index: 60; background: rgba(8, 20, 16, 0); transition: background-color .22s; }
+.qsheet-bg.on { background: rgba(8, 20, 16, .45); }
+.qsheet-bg[hidden] { display: none; }
+.qsheet { position: absolute; left: 0; right: 0; bottom: 0; max-width: 640px; max-height: 92dvh; margin: 0 auto; display: flex; flex-direction: column; background: var(--surface); color: var(--ink); border-radius: 22px 22px 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,.25); transform: translateY(100%); transition: transform .24s cubic-bezier(.2,.7,.2,1); }
+.qsheet-bg.on .qsheet { transform: none; }
+@media (prefers-reduced-motion: reduce) { .qsheet, .qsheet-bg { transition: none; } }
+.qs-head { position: relative; height: 34px; flex: none; }
+.qs-grip { position: absolute; left: 50%; top: 10px; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: var(--line); }
+.qs-x { position: absolute; right: 10px; top: 6px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 26px; line-height: 1; cursor: pointer; }
+.qs-body { flex: 1 1 auto; overflow-y: auto; padding: 0 20px 12px; overscroll-behavior: contain; }
+.qs-panel { display: flex; flex-direction: column; gap: 14px; }
+.qs-badge { align-self: center; width: 64px; height: 76px; border-radius: 32px 32px 10px 10px; display: grid; place-items: center; background: #173D32; color: #DCC48E; border: 1px solid #B99A5B; box-shadow: inset 0 0 0 4px #173D32, inset 0 0 0 5px rgba(220, 196, 142, .55); margin-top: 2px; }
+.qs-kicker { margin: -4px 0 -10px; text-align: center; font-family: var(--font-ar-ui); font-size: 15px; color: var(--gold-text, #8A6A2B); }
+.qs-panel h2 { margin: 0; text-align: center; font-size: 22px; }
+.qs-panel .qs-back + h2 { text-align: left; }
+.qs-lede { margin: -6px 0 0; text-align: center; color: var(--muted); font-size: 15px; line-height: 1.5; }
+.qs-back + h2 + .qs-lede { text-align: left; }
+.qs-group { display: flex; flex-direction: column; gap: 2px; }
+.qs-group h3 { margin: 4px 0 4px; font-size: 15px; font-weight: 700; }
+.qs-row { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 46px; padding: 4px 0; cursor: pointer; }
+.qs-row.soon { opacity: .6; cursor: default; }
+.qs-ic { color: var(--accent); display: grid; place-items: center; }
+.qs-tx { display: flex; flex-direction: column; gap: 1px; }
+.qs-tx b { font-weight: 500; font-size: 15px; }
+.qs-tx small { font-size: 12px; color: var(--muted); line-height: 1.35; }
+.qs-sw { appearance: none; -webkit-appearance: none; width: 46px; height: 28px; border-radius: 14px; background: var(--line); position: relative; cursor: pointer; transition: background-color .15s; flex: none; margin: 0; }
+.qs-sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .15s; }
+.qs-sw:checked { background: var(--accent); }
+.qs-sw:checked::after { transform: translateX(18px); }
+.qs-sw:disabled { cursor: default; }
+.qs-sw:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.qs-link { width: 100%; border: 0; background: transparent; color: var(--ink); font: inherit; text-align: left; }
+.qs-link b { font-weight: 500; font-size: 15px; }
+.qs-link .qs-tx { text-align: left; }
+.qs-link i { font-style: normal; font-size: 22px; color: var(--muted); }
+.qs-tj { margin-top: 4px; }
+.qs-tj fieldset { margin: 0; }
+.qs-group .setup { box-shadow: none !important; border: 1px solid var(--line) !important; padding: 12px !important; margin: 0 !important; }
+.qs-group .setup [type="submit"] { display: none; }
+.qs-foot { flex: none; padding: 10px 20px calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
+.qs-foot[hidden] { display: none; }
+.qs-go { width: 100%; min-height: 52px; border: 0; border-radius: 999px; background: var(--accent); color: var(--accent-ink, #fff); font: 700 17px/1 var(--font-ui); cursor: pointer; }
+.qs-go:hover { filter: brightness(1.06); }
+.qs-back { align-self: flex-start; min-height: 40px; padding: 0 12px 0 4px; border: 0; background: transparent; color: var(--accent-strong, var(--accent)); font: 600 15px/1 var(--font-ui); cursor: pointer; }
+.qs-list { display: flex; flex-direction: column; gap: 8px; }
+.qs-item { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--ink); }
+.qs-item:hover { border-color: var(--accent); }
+.qs-item.me { background: var(--accent-soft); border-color: transparent; }
+.qs-item small { color: var(--muted); font-size: 12.5px; }
+.qs-ar { font-family: var(--font-quran); font-size: 21px; line-height: 1.9; text-align: right; }
+.qs-ar.bad { color: #B3261E; }
+:root[data-theme="dark"] .qs-ar.bad { color: #FF8A80; }
+.qs-clear { align-self: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: 600 13px/1 var(--font-ui); cursor: pointer; }
+
+/* "Mistake highlighted in red" turned off: a mistake is marked with a quiet underline instead */
+html.no-red .w.weak { color: inherit !important; box-shadow: inset 0 -2px 0 var(--paper-line) !important; }
+html.no-red .w.missed, html.no-red .w.current.wrong { background: none !important; box-shadow: inset 0 -2px 0 var(--accent) !important; }
+
+/* ── The welcome: the Bismillah, and beneath it "Your Journey to Allah…" ──────────────────────
+   Shown once each time the app is opened, and straight after signing in (Base.astro). It fades away by itself
+   after about three seconds; a tap closes it at once. */
+.welcome { display: none; }
+html.welcome-on .welcome { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: radial-gradient(120% 80% at 50% 40%, #1E4A3D 0%, #0F2A22 70%); color: #F7F4EA; cursor: pointer; animation: welcome-out .7s ease 2.9s forwards; }
+.welcome-in { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; max-width: 900px; }
+.welcome-bism { margin: 0; font-family: 'KFGQPC Hafs', var(--font-quran); font-size: clamp(38px, 10vw, 76px); line-height: 1.7; color: #DCC48E; animation: welcome-rise .9s ease-out both; }
+.welcome-rule { display: block; width: min(220px, 50vw); height: 1px; background: linear-gradient(90deg, transparent, #B99A5B, transparent); animation: welcome-rise .9s ease-out .35s both; }
+.welcome-line { margin: 0; font-family: var(--font-head); font-style: italic; font-size: clamp(20px, 5vw, 30px); letter-spacing: .02em; color: rgba(247, 244, 234, .92); animation: welcome-rise .9s ease-out .6s both; }
+@keyframes welcome-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes welcome-out { to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) {
+  .welcome-bism, .welcome-rule, .welcome-line { animation: none; }
+  html.welcome-on .welcome { animation: welcome-out .01s linear 2.9s forwards; }
+}

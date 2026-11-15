@@ -145,8 +145,8 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
 
   <div class="app-dock" id="dock" aria-label="Controls">
     <div class="dock-top">
-      <button type="button" class="pill" id="dk-tj" aria-pressed="false">Tajweed</button>
-      <button type="button" class="pill" id="dk-tr" aria-pressed="false" hidden>Translation</button>
+      <div class="qpills" id="dk-pills"></div>
+      <button type="button" class="qp" id="dk-tr" aria-pressed="false" hidden>Translation</button>
       <span class="dock-hint" id="dk-hint">Swipe right for the next page</span>
     </div>
     <div class="dock-main">
@@ -179,6 +179,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
     import { buildPaper, fitPaper, arNum } from '../../../quran/lib/mushaf.mjs';
     import { attachSwipe } from '../../../quran/lib/swipe.mjs';
     import { u } from '../../../quran/lib/url.mjs';
+    import { fullPage, mistakesSheet, trayPills } from '../../../quran/lib/fullpage.mjs';
 
     const root = document.getElementById('mushaf');
     const total = Number(root.dataset.total);
@@ -193,9 +194,13 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
 
     // ── two-page spreads on wide screens ──────────────────────
     spreadToggle.checked = store.get('spread', true);
-    const spreading = () => spreadToggle.checked && wide.matches && document.documentElement.dataset.app !== '1';   // the app is always one focused page
+    // The app's full-page view: the whole page fits the screen between the app bar and the controls (two pages side
+    // by side on a landscape laptop or tablet, as an open mushaf)
+    const full = document.documentElement.dataset.app === '1';
+    if (full) { fullPage({ stage: box, bottoms: ['#dock'] }); root.classList.add('can-spread'); }
+    const spreading = () => wide.matches && (full || (spreadToggle.checked && document.documentElement.dataset.app !== '1'));
     function applySpread() {
-      root.classList.toggle('can-spread', spreadToggle.checked);
+      root.classList.toggle('can-spread', full || spreadToggle.checked);
       spreadToggle.closest('label').hidden = !wide.matches;
       render(n, 0);
     }
@@ -329,7 +334,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
       const p = sura.ayahs[a - 1].page;
       if (p !== n) await render(p, p > n ? 1 : -1);
       select(`${s}:${a}`);
-      box.querySelector(`[data-k="${s}:${a}"]`)?.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+      if (!full) box.querySelector(`[data-k="${s}:${a}"]`)?.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
     });
     document.addEventListener('ql:script', () => render(n, 0));
     document.addEventListener('ql:riwayah', () => render(n, 0));
@@ -355,20 +360,22 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
 
     // ── app dock: Tajweed, Translation (Listen only), and one big play button ──
     const listenMode = new URLSearchParams(location.search).get('listen') === '1';
-    const dkTj = document.getElementById('dk-tj');
     const dkTr = document.getElementById('dk-tr');
     const dkPlay = document.getElementById('dk-play');
     const trBox = document.getElementById('dk-trbox');
-    const scriptSel = document.getElementById('qb-script');
-    const tjOk = () => !scriptSel.querySelector('option[value="tajweed"]').disabled;
-    const syncTj = () => { dkTj.hidden = !tjOk(); dkTj.setAttribute('aria-pressed', String(scriptSel.value === 'tajweed')); };
-    dkTj.addEventListener('click', () => {
-      scriptSel.value = scriptSel.value === 'tajweed' ? 'plain' : 'tajweed';
-      scriptSel.dispatchEvent(new Event('change'));
-      syncTj();
+    // Mistakes (how the Sheikh checks a recitation; "Recite this page" opens Recite here), Tajweed colours, Riwayah
+    // (changed while listening, the recitation carries on from the same ayah in the new riwayah)
+    const sheet = mistakesSheet({
+      mode: listenMode ? 'listen' : 'mushaf',
+      startLabel: 'Recite this page to the Sheikh',
+      start: async () => {
+        const k = (startKey && box.querySelector(`.paper [data-k="${startKey}"]`) ? startKey : box.querySelector('.paper:not(.partner) [data-k]')?.dataset.k) ?? '1:1';
+        const [s, a] = k.split(':').map(Number);
+        const meta = await getJson('meta.json');
+        location.href = u(`practice/?s=${s}&from=${a}&to=${meta.surahs[s - 1].ayahs}`);
+      },
     });
-    document.addEventListener('ql:riwayah', syncTj);
-    syncTj();
+    trayPills(document.getElementById('dk-pills'), { sheet, extra: [dkTr] });
     dkTr.hidden = !listenMode;
     const trOn = () => dkTr.getAttribute('aria-pressed') === 'true';
     dkTr.addEventListener('click', () => { dkTr.setAttribute('aria-pressed', String(!trOn())); if (!trOn()) trBox.hidden = true; });
@@ -437,7 +444,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
         const elk = box.querySelector(`.playing`);
         if (!elk) return;
         const r = elk.getBoundingClientRect(), bottom = innerHeight - (document.getElementById('dock')?.offsetHeight ?? 0) - 16;
-        if (r.top < 70 || r.bottom > bottom) scrollBy({ top: r.top - innerHeight * 0.3, behavior: reduceMotion ? 'auto' : 'smooth' });
+        if (!full && (r.top < 70 || r.bottom > bottom)) scrollBy({ top: r.top - innerHeight * 0.3, behavior: reduceMotion ? 'auto' : 'smooth' });
       });
       const [s, a] = key.split(':').map(Number);
       const sura = await getJson(`surah/${pad(s)}.json`);

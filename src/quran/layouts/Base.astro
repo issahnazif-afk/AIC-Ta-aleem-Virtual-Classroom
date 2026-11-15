@@ -16,7 +16,8 @@ import cfg from '../config.mjs';
 import siteCfg from '../../../site.config.mjs';
 import { u, site } from '../lib/url.mjs';
 import AppBar from '../components/AppBar.astro';
-import { getMeta } from '../lib/data.mjs';
+import { getMeta, getSurah } from '../lib/data.mjs';
+import { qpc } from '../../lib/recite.mjs';
 
 interface Props { title?: string; description?: string; active?: string; app?: boolean; open?: boolean; }
 const { title, description = 'Read, listen to and study the Quran from open, authentic sources.', active = '', app = false, open = false } = Astro.props;
@@ -63,6 +64,13 @@ const more = [
       var acct = null;
       try { acct = JSON.parse(localStorage.getItem('ql-account') || 'null'); } catch (e) {}
       if (acct && acct.token) document.documentElement.classList.add('signed');
+      // the welcome: the Bismillah, once each time the app is opened (and straight after signing in)
+      try {
+        if (acct && acct.token && sessionStorage.getItem('ql-welcome') !== '1') {
+          document.documentElement.classList.add('welcome-on');
+          sessionStorage.setItem('ql-welcome', '1');
+        }
+      } catch (e) {}
       if (!open) {
         if (!acct || !acct.token) {
           document.documentElement.style.visibility = 'hidden';
@@ -91,6 +99,13 @@ const more = [
   </script>
 </head>
 <body data-local-asr={localAsr} data-log-url={siteCfg.classLogUrl} data-signin={signin}>
+  <div class="welcome" id="welcome" role="img" aria-label="Bismillahir-Rahmanir-Rahim. Your Journey to Allah…">
+    <div class="welcome-in" aria-hidden="true">
+      <p class="welcome-bism" lang="ar" dir="rtl">{qpc(getSurah(2).bismillah ?? '')}</p>
+      <span class="welcome-rule"></span>
+      <p class="welcome-line">Your Journey to Allah…</p>
+    </div>
+  </div>
   <a class="visually-hidden" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap">
@@ -131,6 +146,16 @@ const more = [
   <script>
     import { u } from '../lib/url.mjs';
     import { me, save, signOut, logTest } from '../lib/account.mjs';
+    // the welcome fades away by itself (CSS); a tap closes it at once
+    {
+      const w = document.getElementById('welcome');
+      const done = () => document.documentElement.classList.remove('welcome-on');
+      if (document.documentElement.classList.contains('welcome-on')) {
+        w.addEventListener('click', done);
+        w.addEventListener('animationend', (e) => { if (e.animationName === 'welcome-out') done(); });
+        setTimeout(done, 4200);
+      }
+    }
     // the header's switch, and the app bar's (the app hides the header)
     document.querySelectorAll('#theme-toggle, [data-theme-toggle]').forEach((btn) => btn.addEventListener('click', () => {
       const root = document.documentElement;

@@ -74,7 +74,7 @@ import Base from '../../../quran/layouts/Base.astro';
       const username = $('in-user').value.trim(), password = $('in-pass').value;
       if (!username || !password) { err.textContent = 'Enter your username and password.'; return; }
       const r = await busy($('in-go'), 'Signing in…', () => login({ username, password }));
-      if (r.ok) location.replace(next); else err.textContent = r.message;
+      if (r.ok) { try { sessionStorage.removeItem('ql-welcome'); } catch {} location.replace(next); } else err.textContent = r.message;
     });
 
     $('f-up').addEventListener('submit', async (e) => {
@@ -90,7 +90,7 @@ import Base from '../../../quran/layouts/Base.astro';
       if (password.length < 8) { err.textContent = 'Choose a password of at least 8 characters.'; $('up-pass').focus(); return; }
       if (password !== $('up-pass2').value) { err.textContent = 'The two passwords are not the same.'; $('up-pass2').focus(); return; }
       const r = await busy($('up-go'), 'Creating your account…', () => register({ name, gender, username, password, website: $('up-web').value }));
-      if (r.ok) location.replace(next); else err.textContent = r.message;
+      if (r.ok) { try { sessionStorage.removeItem('ql-welcome'); } catch {} location.replace(next); } else err.textContent = r.message;
     });
   </script>
 </Base>

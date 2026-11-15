@@ -123,7 +123,7 @@ export async function fitPaper(paper) {
   try { await document.fonts.load('24px "KFGQPC Hafs"'); } catch {}
   const box = paper.querySelector('.mp-lines');
   if (!box) return;
-  if (paper.classList.contains('mp-flowpage')) { paper.style.setProperty('--mfs', `${Math.min(32, Math.max(18, box.clientWidth / 18))}px`); return; }
+  if (paper.classList.contains('mp-flowpage')) { paper.style.setProperty('--mfs', `${Math.min(32, Math.max(18, box.clientWidth / 18))}px`); fitHeight(paper, box, Math.min(32, Math.max(18, box.clientWidth / 18))); return; }
   const lines = [...box.querySelectorAll('.mp-line:not(.mp-banner)')];
   const W = box.clientWidth;
   if (!W || !lines.length) return;
@@ -137,7 +137,7 @@ export async function fitPaper(paper) {
   box.classList.remove('mp-measure');
   const sorted = [...ratio].sort((a, b) => a - b);
   const q = sorted[Math.floor(sorted.length * 0.3)] ?? 1;           // the size at which about 70% of lines fit
-  const fs = fs0 * Math.min(1, Math.max(q, sorted[0] / MIN_LINE));  // ...but never so large that a line needs less than MIN_LINE
+  let fs = fs0 * Math.min(1, Math.max(q, sorted[0] / MIN_LINE));  // ...but never so large that a line needs less than MIN_LINE
   paper.style.setProperty('--mfs', `${fs}px`);
   lines.forEach((l, i) => { const r = (fs0 * ratio[i]) / fs; if (r < 0.999) l.style.fontSize = `${r.toFixed(3)}em`; });
   // rounding and justification: a last check, shrinking only the lines that still overflow
@@ -146,6 +146,7 @@ export async function fitPaper(paper) {
       l.style.fontSize = `${((parseFloat(l.style.fontSize) || 1) * 0.97).toFixed(3)}em`;
     }
   }
+  fs = fitHeight(paper, box, fs);
   // A page drawn while the screen is still settling (fonts, the bars around it) can measure a little off: look again
   // shortly after, and fit once more if any line has come out wider than the page.
   const tries = paper.__fitTries ?? 0;
@@ -155,4 +156,15 @@ export async function fitPaper(paper) {
     paper.__fitTries = over ? tries + 1 : 0;
     if (over) fitPaper(paper);
   }, 300);
+}
+
+// The app's full-page view (html.qfull) gives the page a set height: the text is made smaller, if it must be, until
+// the whole page fits it top to bottom (the lines' widths scale with it, so they still fit across).
+function fitHeight(paper, box, fs) {
+  if (!paper.closest('html.qfull')) return fs;
+  for (let k = 0; k < 6 && box.scrollHeight > box.clientHeight + 1; k++) {
+    fs *= Math.max(0.6, (box.clientHeight / box.scrollHeight) * 0.995);
+    paper.style.setProperty('--mfs', `${fs}px`);
+  }
+  return fs;
 }

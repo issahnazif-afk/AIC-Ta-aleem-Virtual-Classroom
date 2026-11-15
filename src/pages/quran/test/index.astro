@@ -253,6 +253,7 @@ const meta = getMeta();
 
       <div class="main">
         <div class="card toolbar">
+          <div class="qpills" id="h-pills"></div>
           <div class="tool-row">
             <button class="btn mic" type="button" id="t-mic" aria-pressed="false" aria-label="Microphone"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mic-i"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg><span class="mic-t">Microphone</span></button>
             <button class="btn" type="button" id="repeat"><span class="lab-long">Hear the ayah again</span><span class="lab-short">Hear again</span></button>
@@ -321,12 +322,18 @@ const meta = getMeta();
     import { tajweedPicker } from '../../../lib/tajweed-ear/picker.mjs';
     import { createTajweedEar } from '../../../lib/tajweed-ear/ear.mjs';
     import { remarkText, describeChoice } from '../../../lib/tajweed-ear/rules.mjs';
+    import { fullPage, mistakesSheet, trayPills, onMistake } from '../../../quran/lib/fullpage.mjs';
+    import { lastRead } from '../../../quran/lib/client.mjs';
     // the Sheikh speaks to a brother or a sister (from their account)
     const sister = me()?.gender === 'f';
     const g = (brother, sis) => (sister ? sis : brother);
 
     const $ = (id) => document.getElementById(id);
     const SR = getSpeechRecognition();
+    // the app: the test's settings, and how mistakes are shown, live in the Mistakes sheet, over the full page
+    const sheet = document.documentElement.dataset.app === '1'
+      ? mistakesSheet({ mode: 'hifz', settings: $('setup'), scope: 'practice hifz', startLabel: 'Bismillah, start the test', start: () => $('setup').requestSubmit() })
+      : null;
     const AR = '٠١٢٣٤٥٦٧٨٩';
     const arNum = (n) => String(n).replace(/\d/g, (d) => AR[d]);
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -471,7 +478,8 @@ const meta = getMeta();
       for (let k = questions.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [questions[k], questions[j]] = [questions[j], questions[k]]; }
       qi = -1;
 
-      $('setup').hidden = true; $('intro').hidden = true; $('results').hidden = true;
+      if (!sheet) $('setup').hidden = true;
+      $('intro').hidden = true; $('results').hidden = true;
       $('exam').hidden = false;
       renderDots();
       window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
@@ -850,6 +858,7 @@ const meta = getMeta();
       if (!w) return;
       w.mistake = true;
       wrongStreak++;
+      onMistake({ key: w.item?.key, word: w.display });
       if (w.el) { w.el.classList.add('current', 'wrong', 'missed'); setTimeout(() => w.el?.classList.remove('wrong'), 800); }
       status(`Heard “${heard}”. That is not the next word.`, 'bad');
       if (wrongStreak === 1) sheikh('listening', 'انتبه', 'Take care, that is not right.');
@@ -987,7 +996,7 @@ const meta = getMeta();
       $('results').scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
     }
     $('again').addEventListener('click', () => $('setup').requestSubmit());
-    $('change').addEventListener('click', () => { $('results').hidden = true; $('setup').hidden = false; $('intro').hidden = false; });
+    $('change').addEventListener('click', () => { $('results').hidden = true; if (sheet) { sheet.open(); return; } $('setup').hidden = false; $('intro').hidden = false; });
 
 
     // ── swipe to look at the page before or after; recitation brings you back ──
@@ -1146,5 +1155,33 @@ const meta = getMeta();
       if (listening) { stopListening(); status('Microphone paused. Tap it to carry on.'); }
       else if (phase === 'answer') { startListening(); status('Listening. Carry on.'); }
     });
+
+    // ── the app: the full page, straight away ─────────────────
+    // Before the test starts, the page where the reader last was fills the screen; the microphone starts the test
+    // with the settings in the Mistakes sheet (opened by itself the first time).
+    if (sheet) {
+      $('exam').hidden = false;
+      fullPage({ stage: $('stage'), bottoms: ['.hifz .toolbar'] });
+      trayPills($('h-pills'), { sheet });
+      sheikh('idle', 'بِسْمِ اللّٰه', 'Press the microphone to start the test. Your settings are under Mistakes.');
+      $('qcount').textContent = '';
+      (async () => {
+        try {
+          const lr = lastRead.get() ?? { s: 1, a: 1 };
+          const sura = await getJson(`surah/${pad(lr.s)}.json`);
+          const paper = await buildPaper(sura.ayahs[(lr.a || 1) - 1]?.page ?? 1, { getJson, pad, riwayah: curRw() });
+          if (phase !== 'idle') return;
+          paper.classList.add('preview');
+          $('stage').replaceChildren(paper);
+          await fitPaper(paper);
+        } catch {}
+      })();
+      $('t-mic').addEventListener('click', (e) => {
+        if (phase !== 'idle' && phase !== 'done') return;
+        e.stopImmediatePropagation();
+        $('setup').requestSubmit();
+      }, true);
+      if (!sheet.seen) setTimeout(() => sheet.open(), 400);
+    }
   </script>
 </Base>

@@ -197,6 +197,7 @@ const meta = getMeta();
     </div>
 
     <div class="card toolbar" id="toolbar" hidden>
+      <div class="qpills" id="r-pills"></div>
       <div class="progress" aria-hidden="true"><span id="bar"></span></div>
       <div class="tool-row">
         <button class="btn btn-primary mic" type="button" id="mic" aria-pressed="false" aria-label="Start reciting"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mic-i"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg><span class="mic-t">Start reciting</span></button>
@@ -278,6 +279,8 @@ const meta = getMeta();
     import { createFollower } from '../../../quran/lib/follow.mjs';
     import { getSpeechRecognition, tuneRecognition, preloadEngine, installLocalSpeech, biasTowards, phrasesRefused } from '../../../quran/lib/speech.mjs';
     import { u } from '../../../quran/lib/url.mjs';
+    import { fullPage, mistakesSheet, trayPills, onMistake } from '../../../quran/lib/fullpage.mjs';
+    import { lastRead } from '../../../quran/lib/client.mjs';
     import { buildPaper, fitPaper } from '../../../quran/lib/mushaf.mjs';
     import { attachSwipe } from '../../../quran/lib/swipe.mjs';
     import { createLiveCursor } from '../../../quran/lib/livecursor.mjs';
@@ -325,9 +328,16 @@ const meta = getMeta();
 
     const params = new URLSearchParams(location.search);
     const last = store.get('practice3', null);
+    // the app: the settings and how mistakes are shown live in the Mistakes sheet, over the full page
+    const sheet = document.documentElement.dataset.app === '1'
+      ? mistakesSheet({ mode: 'recite', settings: $('setup'), scope: 'practice', start: () => $('setup').requestSubmit() })
+      : null;
     if (params.get('follow') || (!params.get('s') && last?.mode === 'follow')) setMode('follow');
-    surahSel.value = params.get('s') ?? (last?.s ? String(last.s) : '1');
+    // where to start: the link, else the last practice, else where the reader last was in the library
+    const lr = lastRead.get();
+    surahSel.value = params.get('s') ?? (last?.s ? String(last.s) : lr?.s ? String(lr.s) : '1');
     syncRange();
+    if (!params.get('s') && !last?.s && lr?.s === Number(surahSel.value) && lr.a > 1) fromEl.value = String(Math.min(lr.a, Number(toEl.value)));
     if (params.get('from')) { fromEl.value = params.get('from'); toEl.value = params.get('to') ?? params.get('from'); }
     else if (last?.mode === 'surah' && String(last.s) === surahSel.value) { fromEl.value = String(last.from); toEl.value = String(last.to); }
     if (!SR) { $('unsupported').hidden = false; $('mic').hidden = true; }
@@ -342,6 +352,7 @@ const meta = getMeta();
     });
 
     $('change').addEventListener('click', () => {
+      if (sheet) { sheet.open(); return; }
       if (!$('player').hidden) $('pl-close').click();
       stopListening();
       phase = 'idle';
@@ -406,7 +417,8 @@ const meta = getMeta();
       $('change').title = `${$('summary-text').textContent}. Press to change.`;
       if (!$('player').hidden) $('pl-close').click();
       $('legend-tj').hidden = !tjChecks;
-      $('setup').hidden = true; $('intro').hidden = true;
+      if (!sheet) $('setup').hidden = true;
+      $('intro').hidden = true;
       $('summary-bar').hidden = true;   // what is being practised is on the Settings button's tooltip, so no empty-looking card sits above the page
       $('toolbar').hidden = false; $('stage').hidden = false; $('note').hidden = false; $('legend').hidden = false;
       $('finish').hidden = mode !== 'follow';
@@ -724,6 +736,7 @@ const meta = getMeta();
       if (!w) return false;
       w.mistake = true;
       wrongStreak++;
+      onMistake({ key: w.item.key, word: w.display });
       if (w.el) {
         w.el.classList.add('current', 'wrong', 'missed');
         setTimeout(() => w.el?.classList.remove('wrong'), 800);
@@ -1105,6 +1118,17 @@ const meta = getMeta();
       const room = () => { if (getComputedStyle(bar).position === 'fixed') stage.style.paddingBottom = (innerWidth >= 900 ? 160 : 24) + Math.max(0, bar.offsetHeight - 210) + 'px'; else stage.style.paddingBottom = ''; };
       if ('ResizeObserver' in window) new ResizeObserver(room).observe(bar);
       addEventListener('resize', room);
+    }
+
+    // ── the app: the full page, straight away ─────────────────
+    // The page opens at once, filling the screen between the app bar and the controls. The settings, and how mistakes
+    // are shown, are in the Mistakes sheet (opened by itself the first time). Following a recitation from any ayah
+    // needs the microphone at once, so that one waits for "Get started".
+    if (sheet) {
+      fullPage({ stage: $('stage'), bottoms: ['#toolbar'] });
+      trayPills($('r-pills'), { sheet });
+      if (mode === 'follow') sheet.open();
+      else { $('setup').requestSubmit(); if (!sheet.seen) setTimeout(() => sheet.open(), 400); }
     }
   </script>
 </Base>
