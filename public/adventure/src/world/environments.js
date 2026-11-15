@@ -7,6 +7,7 @@ export const PALETTES = {
   oasis:    { skyTop: '#5aaee0', skyBottom: '#e6f2d6', fog: '#cfe5cf', fogNear: 40, fogFar: 220, sun: '#fff6dd', sunI: 2.4, hemiSky: '#cfefff', hemiGround: '#5f8a4a', hemiI: 1.2, ground: '#7fae5c', track: '#a98a62', edge: '#5a4632' },
   caves:    { skyTop: '#0d0f1d', skyBottom: '#1f2540', fog: '#141a30', fogNear: 14, fogFar: 95, sun: '#8fb6ff', sunI: 0.8, hemiSky: '#7f93d8', hemiGround: '#3a2f48', hemiI: 1.05, ground: '#4a4560', track: '#5f5874', edge: '#2a2535' },
   mountain: { skyTop: '#7fb0e8', skyBottom: '#e8eef5', fog: '#dfe7f0', fogNear: 30, fogFar: 200, sun: '#ffffff', sunI: 2.2, hemiSky: '#e6f0ff', hemiGround: '#8a96a8', hemiI: 1.25, ground: '#eef3f8', track: '#9aa6b5', edge: '#5c6675' },
+  storm:    { skyTop: '#465078', skyBottom: '#b3b6c8', fog: '#8e93a8', fogNear: 30, fogFar: 170, sun: '#e6e9ff', sunI: 1.8, hemiSky: '#c3c8e6', hemiGround: '#6a6252', hemiI: 1.7, ground: '#958a72', track: '#a39886', edge: '#5f584b' },
   harbour:  { skyTop: '#16224a', skyBottom: '#4a4f86', fog: '#2e3566', fogNear: 30, fogFar: 170, sun: '#c3ceff', sunI: 1.4, hemiSky: '#8a9ae8', hemiGround: '#4a3f5a', hemiI: 1.55, ground: '#6a6278', track: '#867a88', edge: '#3a3242' },
 };
 
@@ -159,6 +160,13 @@ export const PROPS = {
     return g;
   },
   crate(r) { return mesh(G.box, m('#9a6b3f'), { y: 0.5, s: 1, ry: r() * 0.4 }); },
+  // a tree bent by the wind, with few leaves (the storm land)
+  bentTree(r) {
+    const g = new THREE.Group(), h = 2.5 + r() * 2, lean = 0.35 + r() * 0.3;
+    g.add(mesh(G.cyl, m('#5a4a3a'), { y: h / 2, s: [0.25, h, 0.25], rz: lean }));
+    g.add(mesh(G.ico, m('#5f6b4a'), { x: -Math.sin(lean) * h * 0.9, y: h * 0.95, s: [1.6, 0.9, 1.3] }));
+    return g;
+  },
 };
 
 // ── particles: dust, pollen, cave sparkles, snow, fireflies ─────────
@@ -171,15 +179,15 @@ function dot() {   // a soft round dot, so particles are never square
   dotTex = new THREE.CanvasTexture(c); dotTex.userData.shared = true; return dotTex;
 }
 function particles(kind) {
-  const n = { desert: 120, oasis: 160, caves: 260, mountain: 700, harbour: 220 }[kind] ?? 160;
+  const n = { desert: 120, oasis: 160, caves: 260, mountain: 700, harbour: 220, storm: 900 }[kind] ?? 160;
   const pos = new Float32Array(n * 3), seed = new Float32Array(n);
   for (let i = 0; i < n; i++) { pos[i * 3] = (Math.random() - 0.5) * 80; pos[i * 3 + 1] = Math.random() * 20; pos[i * 3 + 2] = (Math.random() - 0.5) * 80; seed[i] = Math.random(); }
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const color = { desert: '#fff0cf', oasis: '#fffbe0', caves: '#9fd8ff', mountain: '#ffffff', harbour: '#ffd27a' }[kind];
+  const color = { desert: '#fff0cf', oasis: '#fffbe0', caves: '#9fd8ff', mountain: '#ffffff', harbour: '#ffd27a', storm: '#c8d4ea' }[kind];
   const pm = new THREE.PointsMaterial({ color, map: dot(), alphaTest: 0.02, size: kind === 'mountain' ? 0.26 : 0.14, transparent: true, opacity: kind === 'mountain' ? 0.9 : 0.7, depthWrite: false, blending: kind === 'mountain' ? THREE.NormalBlending : THREE.AdditiveBlending });
   const pts = new THREE.Points(geo, pm); pts.frustumCulled = false;
-  const fall = kind === 'mountain' ? 3.2 : kind === 'desert' ? 0.2 : -0.15;
+  const fall = kind === 'storm' ? 16 : kind === 'mountain' ? 3.2 : kind === 'desert' ? 0.2 : -0.15;   // the storm's rain falls fast
   pts.userData.update = (dt, t, cam) => {
     const p = geo.attributes.position.array;
     for (let i = 0; i < n; i++) {
@@ -247,6 +255,7 @@ export const SCATTER = {
   oasis: [['palm', 3], ['tree', 3], ['bush', 3], ['flowers', 3], ['rock', 1]],
   caves: [['cavewall', 4], ['stalagmite', 3], ['crystal', 3], ['rock', 1]],
   mountain: [['pine', 4], ['snowrock', 3], ['cairn', 1]],
+  storm: [['rock', 4], ['bentTree', 3], ['cairn', 1], ['tent', 0.5]],
   harbour: [['house', 3], ['stall', 2], ['lantern', 3], ['palm', 1], ['crate', 1]],
 };
 export function pick(list, r) {

@@ -12,7 +12,7 @@ const fresh = () => ({
   look: { skin: 1, outfit: 0, accent: 0, head: 1, style: 0 },
   owned: ['satchel'],
   equipped: ['satchel'],
-  settings: { quality: 'auto', sound: true, music: true, motion: true },
+  settings: { quality: 'auto', sound: true, music: true, motion: true, voice: true, mic: true, speech: true },
 });
 
 export const save = load();
@@ -85,8 +85,8 @@ export function gearEffects() {
   }
   return e;
 }
-export function lookColors() {
-  const l = save.look;
-  return { skin: LOOK.skin[l.skin], outfit: LOOK.outfit[l.outfit], accent: LOOK.accent[l.accent], head: LOOK.head[l.head].id, style: LOOK.style[l.style].id };
+export function lookOf(l = {}) {
+  return { skin: LOOK.skin[l.skin] ?? LOOK.skin[1], outfit: LOOK.outfit[l.outfit] ?? LOOK.outfit[0], accent: LOOK.accent[l.accent] ?? LOOK.accent[0], head: (LOOK.head[l.head] ?? LOOK.head[1]).id, style: (LOOK.style[l.style] ?? LOOK.style[0]).id };
 }
+export const lookColors = () => lookOf(save.look);
 export function resetAll() { try { localStorage.removeItem(KEY); } catch {} location.reload(); }

@@ -1469,7 +1469,13 @@ const levels = [
       else if (a.kind === 'deen') openDeen(a.view);
       else if (a.kind === 'games') openGames(a.game);
       else if (a.kind === 'tajweed') openTajweed();
-      else if (a.kind === 'adventure') { stopMedia(); stopSound(); location.href = siteUrl(`adventure/?level=${me.level || 1}`); }
+      else if (a.kind === 'adventure') {
+        stopMedia(); stopSound();
+        // the game is a page of its own: it gets the student's sign-in for this tab only (sessionStorage), so it can
+        // show classmates at the same level, ghost runs and the class team goal
+        try { sessionStorage.setItem('adv-me', JSON.stringify({ token: me.token, level: me.level || 1, name: me.name.split(' ')[0], url: document.body.dataset.logUrl || '' })); } catch {}
+        location.href = siteUrl(`adventure/?level=${me.level || 1}`);
+      }
     }
     // ── the Tajweed classroom (src/lib/tajweed/): Level 3 and Level 4 each have their own course ──
     let tajweedRun = null;

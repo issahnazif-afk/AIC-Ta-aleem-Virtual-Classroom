@@ -40,7 +40,7 @@ export function createExplore(ctx, stage, region) {
   const solid = (x, z, rad, extra = {}) => { const c = { x, z, r: rad, ...extra }; colliders.push(c); return c; };
 
   // ── zone walls with a knowledge gate in each ───────────────────
-  const wallProp = { desert: 'rock', oasis: 'bush', caves: 'cavewall', mountain: 'snowrock', harbour: 'house' }[region.env];
+  const wallProp = { desert: 'rock', oasis: 'bush', caves: 'cavewall', mountain: 'snowrock', harbour: 'house', storm: 'rock' }[region.env] ?? 'rock';
   const gates = cfg.gates.map((qids, i) => {
     const z = -(i + 1) * ZONE, gx = gatesX[i];
     for (let x = -W / 2 - 2; x <= W / 2 + 2; x += region.env === 'harbour' ? 4.5 : 2.6) {
@@ -64,14 +64,20 @@ export function createExplore(ctx, stage, region) {
     do { x = (r() - 0.5) * (W - 16); z = -zone * ZONE - 10 - r() * (ZONE - 20); tries++; }
     while (tries < 30 && (Math.abs(x) < 3 && zone === 0 || gates.some((g) => Math.hypot(g.x - x, g.z - z) < 8)));
     const obj = landmarkProp(id, r); obj.position.set(x, hgt(x, z), z); scene.add(obj);
-    const ring = mesh(new THREE.TorusGeometry(0.7, 0.08, 8, 24), glow('#f3c66d', 1.8), { x, y: hgt(x, z) + 4.2, z, rx: Math.PI / 2, cast: false }); scene.add(ring);
-    solid(x, z, 1.4);
-    return { id, x, z, obj, ring, found: false, name: LANDMARKS[id][0] };
+    // its real size: buildings (the stable, the House of Books) are solid all the way to their walls, and the ring
+    // floats clear above the top, however tall the landmark is
+    const box = new THREE.Box3().setFromObject(obj), size = box.getSize(new THREE.Vector3());
+    const rad = Math.min(3.2, Math.max(1.3, Math.max(size.x, size.z) / 2 * 0.92));
+    const ringY = box.max.y + 1.3;
+    const ring = mesh(new THREE.TorusGeometry(0.7, 0.08, 8, 24), glow('#f3c66d', 1.8), { x, y: ringY, z, rx: Math.PI / 2, cast: false }); scene.add(ring);
+    solid(x, z, rad);
+    // close enough to look: within a couple of steps of its walls, not of its centre
+    return { id, x, z, obj, ring, ringY, reach: rad + 2.4, found: false, name: LANDMARKS[id][0] };
   });
 
   // ── the goal ───────────────────────────────────────────────────
   const goalZ = -D + 12, goalX = 0;
-  const goal = goalProp(region.env); goal.position.set(goalX, hgt(goalX, goalZ), goalZ); scene.add(goal); solid(goalX, goalZ, 2);
+  const goal = cfg.cave ? caveProp() : goalProp(region.env); goal.position.set(goalX, hgt(goalX, goalZ), goalZ); scene.add(goal); solid(goalX, goalZ, cfg.cave ? 3.2 : 2);
   const goalRing = mesh(new THREE.TorusGeometry(1.2, 0.1, 8, 28), glow('#9bd5bd', 1.8), { x: goalX, y: hgt(goalX, goalZ) + 7, z: goalZ, rx: Math.PI / 2, cast: false }); scene.add(goalRing);
 
   // ── scenery, motes, water ──────────────────────────────────────
@@ -102,12 +108,11 @@ export function createExplore(ctx, stage, region) {
   // crystal lamps light the cave as they are found
   const p = { x: 0, z: 2, y: 0, vy: 0, heading: Math.PI, speed: 0 };
   let yaw = 0, lastLook = 0;
-  const st = { motes: 0, found: 0, done: false, talked: false, firstTryAll: true };
+  const st = { motes: 0, found: 0, done: false, talked: false, firstTryAll: true, rushT: 40, time: 0, recited: null };
   const cam = new THREE.Vector3(0, 6, 10);
 
   ctx.hud({ title: stage.name, mode: 'explore', motes: [0, cfg.motes], found: [0, marks.length], progress: 0 });
   ctx.controls('explore');
-  setTimeout(() => ctx.toast(`Ustadh Hakim: “${stage.goal}”`, 'info', 6000), 600);
 
   function nearest() {
     let best = null, bd = 1e9;
@@ -142,6 +147,17 @@ export function createExplore(ctx, stage, region) {
     }
     hero.position.set(p.x, p.y, p.z); hero.rotation.y = p.heading;
 
+    st.time += dt;
+    st.rushT -= dt;
+    if (st.rushT <= 0 && !st.done) {
+      st.rushT = 45;
+      ctx.listenPhrase('subhanallah', 'Say it and the motes nearby fly to you').then((ok) => {
+        if (!ok || st.done) return;
+        let n = 0;
+        for (let i = motes.length - 1; i >= 0; i--) { const m = motes[i]; if (Math.hypot(m.position.x - p.x, m.position.z - p.z) < 16) { burst(scene, m.position.clone(), '#ffe29a', 6); scene.remove(m); motes.splice(i, 1); n++; } }
+        if (n) { st.motes += n; ctx.hud({ motes: [st.motes, cfg.motes] }); sfx.mote(); ctx.toast(`SubhanAllah! +${n} motes`, 'good'); } else ctx.toast('SubhanAllah! (No motes near — try again by the next ones.)', 'good');
+      });
+    }
     // motes
     for (let i = motes.length - 1; i >= 0; i--) {
       const m = motes[i]; spinMote(m, dt, t);
@@ -151,8 +167,8 @@ export function createExplore(ctx, stage, region) {
     let prompt = null, act = null;
     if (!st.done) {
       for (const m of marks) {
-        m.ring.rotation.z += dt; m.ring.position.y = hgt(m.x, m.z) + 4.2 + Math.sin(t * 2) * 0.2;
-        if (!m.found && Math.hypot(m.x - p.x, m.z - p.z) < 3.6) { prompt = `Look at ${m.name}`; act = () => discover(m); }
+        m.ring.rotation.z += dt; m.ring.position.y = m.ringY + Math.sin(t * 2) * 0.2;
+        if (!m.found && Math.hypot(m.x - p.x, m.z - p.z) < m.reach) { prompt = `Look at ${m.name}`; act = () => discover(m); }
       }
       for (const g of gates) if (!g.open && Math.hypot(g.x - p.x, g.z - p.z) < 4.2) { prompt = 'Answer the gate’s question'; act = () => openGate(g); }
       if (Math.hypot(goalX - p.x, goalZ - p.z) < 5) { prompt = 'Complete the quest'; act = reachGoal; }
@@ -197,7 +213,15 @@ export function createExplore(ctx, stage, region) {
     if (region.env === 'caves') { const l = new THREE.PointLight('#9fd8ff', 40, 22, 1.4); l.position.set(m.x, hgt(m.x, m.z) + 3, m.z); scene.add(l); }
     ctx.hud({ found: [st.found, marks.length] });
     const [title, text] = LANDMARKS[m.id];
-    ctx.card(title, text, st.found === marks.length ? 'All landmarks discovered! Head for the goal.' : `${marks.length - st.found} left to discover.`);
+    const left = marks.filter((x) => !x.found);
+    ctx.card(title, text, !left.length ? 'All landmarks discovered! Head for the goal.' : left.length === 1 ? `One left: ${left[0].name}. ${where(left[0])}` : `${left.length} left to discover.`);
+  }
+  // which way something is from the explorer, in words (north is up the valley, away from the start)
+  function where(m) {
+    const dx = m.x - p.x, dz = m.z - p.z, d = Math.hypot(dx, dz);
+    const ns = dz < -d * 0.38 ? 'north' : dz > d * 0.38 ? 'south' : '', ew = dx > d * 0.38 ? 'east' : dx < -d * 0.38 ? 'west' : '';
+    const gate = gates.find((g) => !g.open && Math.sign(p.z - g.z) !== Math.sign(m.z - g.z));
+    return `Look for its golden ring to the ${ns}${ns && ew ? '-' : ''}${ew}, about ${Math.round(d / 5) * 5 || 5} steps away${gate ? ', beyond a knowledge gate' : ''}.`;
   }
   function openGate(g) {
     ctx.ask(g.qids, (firstTry) => {
@@ -210,15 +234,31 @@ export function createExplore(ctx, stage, region) {
     });
   }
   function reachGoal() {
-    if (st.found < marks.length) { ctx.toast(`Discover ${marks.length - st.found} more landmark${marks.length - st.found > 1 ? 's' : ''} first. Look for the golden rings.`, 'info'); return; }
-    st.done = true; sfx.win(); ctx.prompt(null);
+    if (st.found < marks.length) { const left = marks.filter((x) => !x.found); ctx.toast(left.length === 1 ? `First find ${left[0].name}. ${where(left[0])}` : `Discover ${left.length} more landmarks first: ${left.map((x) => x.name).join(', ')}.`, 'info', 6000); return; }
+    st.done = true; ctx.prompt(null);
+    if (cfg.cave) {
+      // recite the du'a for parents (Qur'an 17:24), and the rock rolls away from the cave
+      ctx.recite('parents').then((res) => {
+        st.recited = res; ctx.hakim('rock-open');
+        const rock = goal.userData.rock, t0 = performance.now();
+        const roll = () => { const k = Math.min(1, (performance.now() - t0) / 2200); rock.position.x = 3.6 * k; rock.rotation.z = -k * 2.2; if (k < 1) requestAnimationFrame(roll); };
+        roll(); sfx.gateOpen(); win();
+      });
+      return;
+    }
+    win();
+  }
+  function win() {
+    sfx.win();
     goal.traverse((o) => { if (o.material?.emissive) o.material.emissiveIntensity = 3; });
     burst(scene, new THREE.Vector3(goalX, hgt(goalX, goalZ) + 4, goalZ), '#ffe29a', 60);
     const stars = 1 + (st.motes >= Math.ceil(cfg.motes * 0.8) ? 1 : 0) + (st.firstTryAll ? 1 : 0);
-    setTimeout(() => ctx.finish({ stars, xp: 30 + st.motes * 2 + marks.length * 8 + gates.length * 10, lines: [[`${st.found} / ${marks.length}`, 'landmarks'], [`${st.motes} / ${cfg.motes}`, 'light motes'], [st.firstTryAll ? 'All first try' : 'All opened', 'knowledge gates']] }), 1400);
+    const lines = [[`${st.found} / ${marks.length}`, 'landmarks'], [`${st.motes} / ${cfg.motes}`, 'light motes'], [st.firstTryAll ? 'All first try' : 'All opened', 'knowledge gates']];
+    if (st.recited && !st.recited.unavailable && !st.recited.skipped) lines.push([`${Math.round((st.recited.read / st.recited.total) * 100)}%`, 'of the du’a recited']);
+    setTimeout(() => ctx.finish({ stars, xp: 30 + st.motes * 2 + marks.length * 8 + gates.length * 10 + (st.recited ? 20 : 0), lines, run: { stage: stage.id, motes: st.motes, stars, secs: Math.round(st.time), path: [] } }), cfg.cave ? 2600 : 1400);
   }
 
-  return { scene, env, update, p, marks, gates, dispose() {} };
+  return { scene, env, update, p, st, marks, gates, colliders, hgt, W, D, dispose() {} };
 }
 
 const angleDiff = (a, b) => { let d = a - b; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2; return d; };
@@ -255,12 +295,21 @@ function landmarkProp(id, r) {
   return g;
 }
 
+function caveProp() {
+  const g = new THREE.Group();
+  g.add(mesh(G.ico, mat('#7d7468'), { y: 2.6, s: [9, 6.5, 7], ry: 0.4 }));
+  g.add(mesh(new THREE.CircleGeometry(1.9, 24), new THREE.MeshBasicMaterial({ color: '#120f0c' }), { y: 1.9, z: 3.05, cast: false }));
+  const rock = mesh(new THREE.IcosahedronGeometry(1.9, 1), mat('#9a8f80'), { y: 1.9, z: 3.4 });
+  g.add(rock); g.userData.rock = rock;
+  return g;
+}
 function goalProp(envKey) {
   const g = new THREE.Group(), r = rng(7);
   if (envKey === 'desert') { g.add(mesh(G.cyl, mat('#a89880'), { y: 1, s: [2.6, 2, 2.6] })); g.add(mesh(G.cyl, mat('#7a5a3e'), { y: 2.2, s: [2, 0.4, 2] })); g.add(mesh(G.cone, glow('#ffb347', 1.2), { y: 3.2, s: [1.6, 2.2, 1.6], cast: false })); }
   else if (envKey === 'oasis') { const t = PROPS.tree(r); t.scale.setScalar(2.4); g.add(t); for (let k = 0; k < 8; k++) g.add(mesh(G.sph, glow(['#f2c94c', '#eb8fa8', '#c79bf2'][k % 3], 0.4), { x: Math.cos(k) * 2.4, y: 0.25, z: Math.sin(k) * 2.4, s: 0.4, cast: false })); }
   else if (envKey === 'caves') { const c = PROPS.crystal(r, '#9fd8ff'); c.scale.setScalar(3.4); g.add(c); }
   else if (envKey === 'mountain') { g.add(mesh(G.cyl, mat('#6b5a4a'), { y: 0.3, s: [3, 0.6, 3] })); g.add(mesh(G.cone, glow('#ff9a3c', 1.4), { y: 1.4, s: [1.4, 2, 1.4], cast: false })); for (let k = 0; k < 4; k++) g.add(mesh(G.cyl, mat('#5c4433'), { y: 0.7, s: [0.15, 1.8, 0.15], rz: 0.8, ry: (k * Math.PI) / 2 })); }
+  else if (envKey === 'storm') { const h = PROPS.house(r, '#d9c7a4'); h.scale.setScalar(1.3); g.add(h); g.add(mesh(G.oct, glow('#ffc56b', 2.4), { x: 2.6, y: 2.6, z: 2.6, s: [0.6, 0.9, 0.6], cast: false })); }
   else { const l = PROPS.lighthouse(); l.scale.setScalar(0.6); g.add(l); }
   return g;
 }

@@ -11,7 +11,7 @@ export function textSign(text, { w = 3, h = 1.2, bg = '#173d32', fg = '#f7f1df',
   g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle';
   let fs = size, lines;
   for (;;) {
-    g.font = `700 ${fs}px "DM Sans", system-ui, sans-serif`;
+    g.font = `700 ${fs}px "DM Sans", "Amiri", system-ui, sans-serif`;
     lines = wrap(g, text, cw - 60);
     if (lines.length * fs * 1.15 <= ch - 40 || fs <= 22) break;
     fs -= 4;

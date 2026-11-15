@@ -9,7 +9,8 @@ import { textSign, mote, spinMote, burst } from '../world/bits.js';
 import { QUESTIONS } from '../content.js';
 import { input, take } from '../engine/input.js';
 import { sfx } from '../engine/audio.js';
-import { lookColors, save, gearEffects, pace } from '../engine/save.js';
+import { lookColors, lookOf, save, gearEffects, pace } from '../engine/save.js';
+import { ghostsFor } from '../engine/online.js';
 
 const LANE = 2.3, BRANCH_OFF = 6, TILE = 10;
 const GRAV = -26, JUMP_V = 9.2;
@@ -85,7 +86,8 @@ export function createRunner(ctx, stage, region) {
   const obstacles = [];   // { kind, x, z, w, h, d, y0, mesh, move? }
   const motes = [];
   const addMote = (x, y, z) => { const m = mote(); m.position.set(x, y, z); scene.add(m); motes.push(m); };
-  const free = (z) => !gates.some((g) => Math.abs(g.z - z) < 18) && !gaps.some((g) => z < g.z0 + 12 && z > g.z1 - 12) && !branches.some((b) => Math.abs(z - b.z0) < 16 || Math.abs(z - b.z1) < 10);
+  const shelterZ = cfg.storm ? [-14, -Math.round(L * 0.55)] : [];
+  const free = (z) => !shelterZ.some((s) => Math.abs(s - z) < 24) && !gates.some((g) => Math.abs(g.z - z) < 18) && !gaps.some((g) => z < g.z0 + 12 && z > g.z1 - 12) && !branches.some((b) => Math.abs(z - b.z0) < 16 || Math.abs(z - b.z1) < 10);
   function place(kind, lane, z, off) {
     const x = off + lane * LANE;
     const o = { kind, x, z, lane };
@@ -198,7 +200,42 @@ export function createRunner(ctx, stage, region) {
     env.hemi.intensity *= cfg.dark ? 0.7 : 0.9;
   }
   const p = { lane: 0, x: 0, y: 0, vy: 0, z: 0, slide: 0, stumble: 0, invuln: 0, off: 0 };
-  const st = { speed: cfg.speed, time: 0, motes: 0, hearts: 3, stumbles: 0, correct: 0, asked: 0, done: false, wind: 0, windDir: 0, windT: 4 };
+  const st = { speed: cfg.speed, time: 0, motes: 0, hearts: 3, stumbles: 0, correct: 0, asked: 0, done: false, wind: 0, windDir: 0, windT: 4,
+    phase: 'ready', boost: 0, shield: 0, podT: 2, rushT: 28, alhAsked: false, path: [], pathT: 0, recited: [] };
+
+  // ── the bubble shield (storm stages): raised by reciting Ayat al-Kursi at a shelter ──
+  const shieldMat = new THREE.MeshStandardMaterial({ color: '#a8e6ff', emissive: '#5fc8ff', emissiveIntensity: 0.7, transparent: true, opacity: 0.22, roughness: 0.1, depthWrite: false, side: THREE.DoubleSide });
+  const shieldMesh = mesh(new THREE.SphereGeometry(1.3, 28, 18), shieldMat, { cast: false }); shieldMesh.visible = false; scene.add(shieldMesh);
+  const shelters = shelterZ.map((z) => { const g = shelterProp(); g.position.set(0, 0, z); scene.add(g); return { z, used: false }; });
+  const pods = [];
+  const podGeo = new THREE.IcosahedronGeometry(0.55, 0), spikeGeo = new THREE.ConeGeometry(0.12, 0.6, 5);
+  const podMat = new THREE.MeshStandardMaterial({ color: '#3a2a4a', emissive: '#6a2f8a', emissiveIntensity: 0.5, flatShading: true, roughness: 0.6 });
+  function makePod() {
+    const g = new THREE.Group(); g.add(mesh(podGeo, podMat));
+    for (let k = 0; k < 10; k++) { const s = mesh(spikeGeo, podMat); const a = (k / 10) * Math.PI * 2, b = (k % 2 ? 0.6 : -0.6); s.position.set(Math.cos(a) * 0.5, b * 0.5, Math.sin(a) * 0.5); s.lookAt(Math.cos(a) * 2, b * 2, Math.sin(a) * 2); s.rotateX(Math.PI / 2); g.add(s); }
+    return g;
+  }
+
+  // ── classmates' ghost runs: their best run on this stage, alongside you (when playing from the Classroom) ──
+  const ghosts = [];
+  ghostsFor(stage.id).then((list) => {
+    for (const gh of list) {
+      if (!gh.path?.length) continue;
+      const m = makeExplorer(lookOf(gh.look), ['satchel']);
+      m.traverse((o) => { if (o.material) { o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0.42; o.material.depthWrite = false; } o.castShadow = false; });
+      m.rotation.y = Math.PI;
+      const tag = textSign(gh.name, { w: 1.8, h: 0.42, size: 46, bg: '#0f2a36' }); tag.position.y = 2.5; tag.rotation.y = Math.PI; m.add(tag);
+      scene.add(m); ghosts.push({ m, path: gh.path, name: gh.name });
+    }
+    if (ghosts.length) ctx.toast(`Running with ${ghosts.map((g) => g.name).join(', ')} — your classmates’ best runs.`, 'info', 4500);
+  });
+
+  // ── the start: say Bismillah (or tap) ──
+  ctx.startPrompt().then((said) => {
+    if (st.done) return;
+    st.phase = 'run';
+    if (said) { st.boost = 12; ctx.toast('Bismillah! The motes gather to you.', 'good'); burst(scene, new THREE.Vector3(0, 1.5, -1), '#ffe29a', 30); }
+  });
   const camPos = new THREE.Vector3(0, 5, 8), camLook = new THREE.Vector3();
 
   ctx.hud({ title: stage.name, mode: 'run', motes: [0, cfg.motes], hearts: [3, 3], progress: 0 });
@@ -212,12 +249,93 @@ export function createRunner(ctx, stage, region) {
     if (o) { o.hit = true; o.mesh.visible = false; burst(scene, new THREE.Vector3(o.x, 1, o.z), '#e8d3a8'); }
     ctx.hud({ hearts: [st.hearts, 3] });
     if (st.hearts <= 0) { st.done = true; ctx.fail('Time for a rest!', 'Every explorer stumbles. Catch your breath and try the trail again.'); }
-    else ctx.toast(st.hearts === 1 ? 'Last chance — watch the path!' : 'Oops! Keep going.');
+    else {
+      ctx.toast(st.hearts === 1 ? 'Last chance — watch the path!' : 'Oops! Keep going.');
+      if (!st.alhAsked) {
+        st.alhAsked = true;
+        ctx.listenPhrase('alhamdulillah', 'Patience in hardship: say it to get your heart back').then((ok) => {
+          if (!ok || st.done || st.hearts >= 3) return;
+          st.hearts++; ctx.hud({ hearts: [st.hearts, 3] }); sfx.right(); ctx.hakim('alhamdulillah-yes');
+        });
+      }
+    }
   }
 
+  function hold(dt, t) {
+    hero.position.set(p.x, p.y, p.z); animate(hero, st.phase === 'shelter' ? 'wave' : 'idle', dt);
+    camPos.lerp(new THREE.Vector3(p.x * 0.75, 4.3, p.z + 7.6), Math.min(1, dt * 6)); camLook.lerp(new THREE.Vector3(p.x * 0.85, 1.2, p.z - 7), Math.min(1, dt * 8));
+    ctx.camera.position.copy(camPos); ctx.camera.lookAt(camLook); env.follow(hero.position); env.update(dt, t, ctx.camera);
+    shieldMesh.position.set(p.x, p.y + 0.95, p.z);
+  }
   function update(dt, t) {
     if (st.done) { animate(hero, 'idle', dt); return; }
+    if (st.phase !== 'run') { hold(dt, t); return; }
     st.time += dt;
+    // the path, for a ghost run classmates can race against
+    st.pathT += dt; if (st.pathT >= 0.25) { st.pathT = 0; st.path.push([+p.z.toFixed(1), +p.x.toFixed(2), +p.y.toFixed(2)]); }
+    for (const g of ghosts) {
+      const f = st.time / 0.25, i = Math.floor(f), a = g.path[i], b = g.path[i + 1];
+      if (!a) { g.m.visible = false; continue; }
+      const k = b ? f - i : 0, q = b ?? a;
+      g.m.position.set(a[1] + (q[1] - a[1]) * k, a[2] + (q[2] - a[2]) * k, a[0] + (q[0] - a[0]) * k);
+      animate(g.m, g.m.position.y > 0.1 ? 'jump' : 'run', dt);
+    }
+    // a storm shelter: stop and recite Ayat al-Kursi for the bubble shield
+    const sh = shelters.find((s) => !s.used && p.z <= s.z + 2);
+    if (sh) {
+      sh.used = true; st.phase = 'shelter'; ctx.banner(null);
+      ctx.recite('kursi').then((res) => {
+        if (st.done) return;
+        const ratio = res.total ? res.read / res.total : 0;
+        const hits = res.unavailable || res.skipped ? 1 : ratio >= 0.95 && res.missed <= 2 ? 5 : ratio >= 0.5 ? 3 : 1;
+        st.shield = Math.max(st.shield, hits); st.recited.push({ ratio, missed: res.missed });
+        shieldMesh.visible = true; ctx.hud({ shield: st.shield });
+        ctx.hakim(hits >= 5 ? 'kursi-done' : 'kursi-partial');
+        st.phase = 'run';
+      });
+      return;
+    }
+    // storm-pods fall where you will be: their shadows warn you; the shield turns them away
+    if (cfg.storm && shelters[0]?.used) {
+      st.podT -= dt;
+      if (st.podT <= 0) {
+        st.podT = 1.3 + r() * 1.1;
+        const lane = r() < 0.55 ? p.lane : Math.floor(r() * 3) - 1, tt = 1.7;
+        const z = p.z - st.speed * tt, x = p.off + lane * LANE;
+        const pod = makePod(); pod.position.set(x, 24, z); scene.add(pod);
+        const ring = mesh(new THREE.RingGeometry(0.4, 0.9, 24), new THREE.MeshBasicMaterial({ color: '#2a1838', transparent: true, opacity: 0.55, depthWrite: false }), { rx: -Math.PI / 2, x, y: 0.03, z, cast: false });
+        scene.add(ring); pods.push({ pod, ring, x, z, vy: 24 / tt });
+      }
+    }
+    for (let i = pods.length - 1; i >= 0; i--) {
+      const d = pods[i]; d.pod.position.y -= d.vy * dt; d.pod.rotation.x += dt * 2; d.pod.rotation.y += dt * 3;
+      const k = Math.max(0, 1 - d.pod.position.y / 24); d.ring.scale.setScalar(0.4 + k * 1.2); d.ring.material.opacity = 0.2 + k * 0.5;
+      if (d.pod.position.y <= 0.6) {
+        burst(scene, new THREE.Vector3(d.x, 0.6, d.z), '#9a6fc0', 22);
+        scene.remove(d.pod, d.ring); d.ring.geometry.dispose(); d.ring.material.dispose(); pods.splice(i, 1);
+        if (Math.abs(d.x - p.x) < 1.35 && Math.abs(d.z - p.z) < 1.8 && p.y < 1.4) {
+          if (st.shield > 0) {
+            st.shield--; sfx.gateOpen(); ctx.hud({ shield: st.shield }); shieldMat.emissiveIntensity = 2.5;
+            if (!st.shield) { shieldMesh.visible = false; ctx.hakim('shield-gone'); } else ctx.toast('The shield held!', 'good', 1400);
+          } else hit(null);
+        }
+      }
+    }
+    shieldMat.emissiveIntensity += (0.7 - shieldMat.emissiveIntensity) * Math.min(1, dt * 3);
+    shieldMesh.position.set(p.x, p.y + 0.95, p.z); shieldMesh.rotation.y += dt;
+    // Bismillah's blessing: the motes gather to you for a while
+    st.boost = Math.max(0, st.boost - dt);
+    // now and then: say SubhanAllah, and the motes ahead fly to you
+    st.rushT -= dt;
+    if (st.rushT <= 0) {
+      st.rushT = 32;
+      ctx.listenPhrase('subhanallah', 'Say it and the motes ahead fly to you').then((ok) => {
+        if (!ok || st.done) return;
+        let n = 0;
+        for (let i = motes.length - 1; i >= 0; i--) { const m = motes[i]; const dz = m.position.z - p.z; if (dz < 2 && dz > -30) { burst(scene, m.position.clone(), '#ffe29a', 6); scene.remove(m); motes.splice(i, 1); n++; } }
+        if (n) { st.motes += n; ctx.hud({ motes: [st.motes, cfg.motes] }); sfx.mote(); ctx.toast(`SubhanAllah! +${n} motes`, 'good'); }
+      });
+    }
     st.speed = Math.min(cfg.speed * 1.55, st.speed + cfg.speed * cfg.accel * dt * (p.stumble > 0 ? -2 : 1));
     const spd = st.speed * (p.stumble > 0 ? 0.55 : 1);
     p.z -= spd * dt;
@@ -282,14 +400,23 @@ export function createRunner(ctx, stage, region) {
     for (let i = motes.length - 1; i >= 0; i--) {
       const m = motes[i]; spinMote(m, dt, t);
       const dz = m.position.z - p.z, dx = m.position.x - p.x, dy = m.position.y - (p.y + 0.9);
-      if (Math.abs(dz) < fx.magnet && Math.abs(dx) < fx.magnet * 0.8 && Math.abs(dy) < 1.6) {
+      const reach = fx.magnet * (st.boost > 0 ? 3 : 1);
+      if (Math.abs(dz) < reach && Math.abs(dx) < reach * 0.8 && Math.abs(dy) < 1.6 + (st.boost > 0 ? 1 : 0)) {
         scene.remove(m); motes.splice(i, 1); st.motes++; sfx.mote(); ctx.hud({ motes: [st.motes, cfg.motes] });
       } else if (dz > 12) { scene.remove(m); motes.splice(i, 1); }
     }
 
     // answer arches: the question appears ahead; the arch you run through is your answer
     for (const g of gates) {
-      if (!g.asked && p.z < g.z + 75) { g.asked = true; ctx.banner(QUESTIONS[g.qid].q, 'Run through the arch with the right answer'); sfx.click(); }
+      if (!g.asked && p.z < g.z + 85) {
+        g.asked = true; const q = QUESTIONS[g.qid];
+        ctx.banner(q.q, ctx.canSpeak() ? 'Say your answer out loud — or run through its arch' : 'Run through the arch with the right answer'); sfx.click();
+        // the options in lane order (left, middle, right)
+        ctx.listenAnswer(g.order.map((i) => q.a[i])).then((k) => {
+          if (k < 0 || g.done || st.done) return;
+          p.lane = k - 1; ctx.toast(`Heading for “${q.a[g.order[k]]}”`, 'info', 1800);
+        });
+      }
       if (!g.done && p.z < g.z) {
         g.done = true; st.asked++;
         const k = Math.round((p.x - 0) / LANE) + 1, chosen = g.order[Math.max(0, Math.min(2, k))];
@@ -307,7 +434,9 @@ export function createRunner(ctx, stage, region) {
       const stars = 1 + (st.motes >= cfg.motes ? 1 : 0) + (st.correct === gates.length && st.stumbles <= 1 ? 1 : 0);
       const xp = 20 + st.motes * 2 + st.correct * 10;
       sfx.win();
-      ctx.finish({ stars, xp, lines: [[`${st.motes} / ${cfg.motes}`, 'light motes'], [`${st.correct} / ${gates.length}`, 'answer arches'], [`${st.stumbles}`, 'stumbles']] });
+      const lines = [[`${st.motes} / ${cfg.motes}`, 'light motes'], [`${st.correct} / ${gates.length}`, 'answer arches'], [`${st.stumbles}`, 'stumbles']];
+      if (st.recited.length) lines.push([`${Math.round(Math.max(...st.recited.map((x) => x.ratio)) * 100)}%`, 'of Ayat al-Kursi recited']);
+      ctx.finish({ stars, xp: xp + st.recited.length * 20, lines, run: { stage: stage.id, motes: st.motes, stars, secs: Math.round(st.time), path: st.path } });
     }
 
     // the explorer and the camera
@@ -322,9 +451,18 @@ export function createRunner(ctx, stage, region) {
     env.update(dt, t, ctx.camera);
     ctx.hud({ progress: Math.min(1, -p.z / L) });
   }
+  // a small stone shelter over the track, where the storm cannot reach
+  function shelterProp() {
+    const g = new THREE.Group();
+    for (const s of [-1, 1]) g.add(mesh(G.box, mat('#8d8576'), { x: s * (LANE * 1.5 + 0.8), y: 2.2, s: [0.6, 4.4, 2.6] }));
+    g.add(mesh(G.box, mat('#6f685c'), { y: 4.6, s: [LANE * 3 + 2.6, 0.5, 3.2] }));
+    g.add(mesh(new THREE.RingGeometry(1.6, 2.1, 40), new THREE.MeshBasicMaterial({ color: '#9fe3ff', transparent: true, opacity: 0.5, side: THREE.DoubleSide }), { rx: -Math.PI / 2, y: 0.04, cast: false }));
+    const s = textSign('Shelter — recite Ayat al-Kursi', { w: 4.2, h: 0.7, size: 46 }); s.position.set(0, 5.4, 1.65); g.add(s);
+    return g;
+  }
   function isGapUnder() { return !!gaps.find((g) => p.z <= g.z0 + 0.3 && p.z >= g.z1 - 0.3); }
 
-  return { scene, env, update, hero, p, dispose() {} };
+  return { scene, env, update, hero, p, st, dispose() {} };
 }
 
 export function hash(s) { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; }

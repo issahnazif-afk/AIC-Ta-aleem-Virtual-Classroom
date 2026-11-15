@@ -33,14 +33,49 @@ function riseLanterns(env, n = 60) {
   env.track({ userData: { update: (dt, t) => { for (const l of list) { l.position.y += l.userData.v * dt; l.position.x += Math.sin(t + l.userData.v * 7) * dt * 0.3; } } } });
 }
 
+// the props a story needs: a campfire for Ustadh Hakim's stories, the cave and its rock, the storehouse at night,
+// and storm-pods in the sky. No figure stands in for the Prophet ﷺ, a Companion, or Shaytan.
+function storySet(env, story) {
+  const { scene } = env, acts = new Set(story.shots.map((x) => x.act)), out = {};
+  if (story.teller) {
+    const fire = new THREE.Group(); fire.position.set(0.2, 0, 1.6);
+    for (let k = 0; k < 4; k++) fire.add(mesh(G.cyl, mat('#5a3e2a'), { y: 0.12, s: [0.14, 1.1, 0.14], rz: Math.PI / 2, ry: (k * Math.PI) / 4 }));
+    const flame = mesh(G.cone, glow('#ffae42', 2.6), { y: 0.55, s: [0.6, 0.9, 0.6], cast: false }); fire.add(flame);
+    const l = new THREE.PointLight('#ffb35c', 26, 12, 1.5); l.position.y = 1.1; fire.add(l);
+    scene.add(fire); env.track({ userData: { update: (dt, t) => { flame.scale.set(0.6 + Math.sin(t * 9) * 0.05, 0.9 + Math.sin(t * 13) * 0.12, 0.6); l.intensity = 24 + Math.sin(t * 11) * 4; } } });
+  }
+  if (acts.has('cave') || acts.has('rock')) {
+    const c = new THREE.Group(); c.position.set(0, 0, -12);
+    c.add(mesh(G.ico, mat('#7d7468'), { y: 2.6, s: [9, 6.5, 7], ry: 0.4 }));
+    c.add(mesh(new THREE.CircleGeometry(1.9, 24), new THREE.MeshBasicMaterial({ color: '#120f0c' }), { y: 1.9, z: 3.05, cast: false }));
+    out.rock = mesh(new THREE.IcosahedronGeometry(1.9, 1), mat('#9a8f80'), { y: 1.9, z: 3.4 }); c.add(out.rock);
+    scene.add(c);
+  }
+  if (acts.has('store')) {
+    const h = PROPS.house(rng(4), '#d9c7a4'); h.position.set(0, 0, -6); scene.add(h);
+    for (let k = 0; k < 5; k++) scene.add(mesh(G.cyl, mat('#a0784a'), { x: -2.4 + k * 1.1, y: 0.45, z: -2.6, s: [0.8, 0.9, 0.8] }));
+    const lamp = PROPS.lantern(rng(5)); lamp.position.set(2.8, 0, -2.4); scene.add(lamp);
+    const l = new THREE.PointLight('#ffc56b', 18, 10, 1.6); l.position.set(2.8, 2.9, -2.4); scene.add(l);
+    env.sun.intensity *= 0.35; env.hemi.intensity *= 0.55;   // night
+  }
+  if (acts.has('storm')) {
+    const pods = [];
+    for (let k = 0; k < 18; k++) { const p = mesh(G.ico, new THREE.MeshStandardMaterial({ color: '#3a2a4a', emissive: '#6a2f8a', emissiveIntensity: 0.6, flatShading: true }), { x: (Math.random() - 0.5) * 30, y: 6 + Math.random() * 20, z: -6 - Math.random() * 25, s: 0.9 }); pods.push(p); scene.add(p); }
+    env.track({ userData: { update: (dt) => { for (const p of pods) { p.position.y -= dt * 7; p.rotation.x += dt * 2; if (p.position.y < 0) p.position.y += 26; } } } });
+  }
+  return out;
+}
+
 // ── a story sequence ─────────────────────────────────────────────
-export function createStory(ctx, story) {
+// Each shot waits for Ustadh Hakim to finish speaking (his recorded voice, or the browser's), and for its camera move.
+export function createStory(ctx, story, id) {
   const env = set(story.env, 5, story.env === 'harbour');
   const { scene } = env;
+  const props = storySet(env, story);
   const hero = makeExplorer(lookColors(), save.equipped); hero.position.set(0, 0, 0); scene.add(hero);
   const guide = makeGuide(); guide.position.set(-1.6, 0, 0.4); guide.rotation.y = 0.5; scene.add(guide);
   hero.rotation.y = -0.4;
-  let shot = -1, st = 0;
+  let shot = -1, st = 0, spoken = true, rockT = 0;
   const from = new THREE.Vector3(), to = new THREE.Vector3(), look = new THREE.Vector3();
   let lanternsUp = false;
   if (story.env === 'harbour') riseLanterns(env, 10);
@@ -50,6 +85,8 @@ export function createStory(ctx, story) {
     const s = story.shots[shot];
     from.set(...s.cam[0]); to.set(...s.cam[1]); look.set(...s.look);
     ctx.caption(s.text, shot === 0 ? story.title : null);
+    spoken = false; const mine = shot;
+    ctx.hakim(`story-${id}-${shot}`, s.text).then(() => { if (mine === shot) spoken = true; });
     if (s.act === 'lanterns' && !lanternsUp) { lanternsUp = true; riseLanterns(env, 70); }
     if (s.act === 'sunrise') env.sun.intensity = 0.2;
   }
@@ -64,9 +101,11 @@ export function createStory(ctx, story) {
     animate(guide, s.act === 'guide' ? 'wave' : 'idle', dt);
     env.follow(new THREE.Vector3(0, 0, 0));
     env.update(dt, t, ctx.camera);
-    if (st >= s.t) next();
+    if (s.act === 'rock' && props.rock) { rockT = Math.min(1, rockT + dt / 4); props.rock.position.x = 3.6 * rockT; props.rock.rotation.z = -rockT * 2.2; }
+    // on to the next shot when the camera move is done and he has finished speaking (never stuck for long)
+    if ((st >= s.t && spoken) || st >= s.t + 30) next();
   }
-  return { scene, env, update, skip: () => { shot = story.shots.length; ctx.storyDone(); }, dispose() {} };
+  return { scene, env, update, skip: () => { shot = story.shots.length; ctx.stopVoice(); ctx.storyDone(); }, dispose() {} };
 }
 
 // ── the title backdrop: a slow orbit around the explorer in the land they are in ─

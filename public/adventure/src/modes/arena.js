@@ -47,7 +47,7 @@ export function createArena(ctx, stage, region) {
   }
   const hero = makeExplorer(lookColors(), save.equipped);
   const me = body('me', 0, 4, 0.5, 1.2, hero);
-  const st = { time: cfg.time, score: 0, falls: 0, done: false, carry: null, dash: 0, rivalScore: 0, wind: { x: 0, z: 0, t: 3 } };
+  const st = { time: cfg.time, score: 0, falls: 0, done: false, carry: null, dash: 0, rivalScore: 0, wind: { x: 0, z: 0, t: 3 }, rushT: 22 };
 
   // per challenge
   const baskets = [], orbs = [], rivals = [], stones = [], pads = [], stands = [], floats = [], motes = [];
@@ -238,6 +238,9 @@ export function createArena(ctx, stage, region) {
       acc += dt; while (acc > 1 / 120) { step(1 / 120, t); acc -= 1 / 120; }
       rules(dt, t);
       st.time -= dt; ctx.hud({ timer: Math.max(0, st.time), progress: 1 - st.time / cfg.time });
+      // now and then: say SubhanAllah for ten more seconds
+      st.rushT -= dt;
+      if (st.rushT <= 0) { st.rushT = 30; ctx.listenPhrase('subhanallah', 'Say it for 10 more seconds').then((ok) => { if (ok && !st.done) { st.time += 10; sfx.right(); ctx.toast('SubhanAllah! +10 seconds', 'good'); } }); }
       const won = st.score >= cfg.target && (cfg.kind === 'orbs' || cfg.kind === 'lanterns' || cfg.kind === 'pads');
       if (st.time <= 0 || won) end(won || st.score >= cfg.target);
     }
@@ -269,7 +272,7 @@ export function createArena(ctx, stage, region) {
       if (!won) { ctx.fail('Nearly there!', `You scored ${st.score} of ${cfg.target}. Friendly challenges are about trying again with a calm heart — have another go!`); return; }
       const lines = [[`${st.score} / ${cfg.target}`, { orbs: 'orbs in your basket', stones: 'motes gathered', pads: 'stones stepped on', lanterns: 'lanterns lit' }[cfg.kind]], [`${st.falls}`, 'slides off the edge']];
       if (cfg.kind === 'orbs') lines.push([`${st.rivalScore}`, 'your friend’s orbs (just for fun)']);
-      ctx.finish({ stars: Math.min(3, stars), xp: 30 + st.score * 6 + Math.round(Math.max(0, st.time)), lines });
+      ctx.finish({ stars: Math.min(3, stars), xp: 30 + st.score * 6 + Math.round(Math.max(0, st.time)), lines, run: { stage: stage.id, motes: st.score * 3, stars: Math.min(3, stars), secs: Math.round(cfg.time - st.time), path: [] } });
     }, 900);
   }
 

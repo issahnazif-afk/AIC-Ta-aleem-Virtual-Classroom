@@ -54,7 +54,7 @@ export const sfx = {
 };
 
 // a slow, quiet drone of two soft tones, changing with the region (no rhythm, no instruments)
-const PADS = { desert: [146.8, 220], oasis: [164.8, 246.9], caves: [110, 164.8], mountain: [130.8, 196], harbour: [123.5, 185] };
+const PADS = { desert: [146.8, 220], oasis: [164.8, 246.9], caves: [110, 164.8], mountain: [130.8, 196], harbour: [123.5, 185], storm: [98, 146.8] };
 function setPad(env) {
   if (!ac()) return;
   const t = ctx.currentTime;

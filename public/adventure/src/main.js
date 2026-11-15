@@ -3,7 +3,10 @@ import { createRenderer, disposeTree, THREE } from './engine/renderer.js';
 import { save, persist, isOpen, isDone, nextStage, recordStage, starsAvailable, buy, toggleEquip, resetAll } from './engine/save.js';
 import { input, attachSwipe, attachLook, attachStick, attachButtons, clearActions } from './engine/input.js';
 import { sfx, unlockAudio } from './engine/audio.js';
-import { REGIONS, STAGES, LESSONS, QUESTIONS, STORIES, LOOK, GEAR } from './content.js';
+import { REGIONS, STAGES, LESSONS, QUESTIONS, STORIES, LOOK, GEAR, TEAM, hakimLines } from './content.js';
+import { hakim as speakHakim, stopHakim, listen, hearPhrase, hearAnswer, canRecite, canHearEnglish, warmRecitation, PHRASES } from './engine/voice.js';
+import { online, onClass, here, sendRun } from './engine/online.js';
+import { tokenize } from '../vendor/qaaf/recite.mjs';
 import { createRunner } from './modes/runner.js';
 import { createExplore } from './modes/explore.js';
 import { createArena } from './modes/arena.js';
@@ -46,7 +49,7 @@ function stats() {
   const done = STAGES.filter((s) => isDone(s.id)).length;
   document.querySelectorAll('[data-stat]').forEach((el) => {
     const k = el.dataset.stat;
-    el.textContent = k === 'stars' ? save.stars : k === 'xp' ? save.xp : k === 'done' ? done : k === 'avail' ? starsAvailable() : '';
+    el.textContent = k === 'stars' ? save.stars : k === 'xp' ? save.xp : k === 'done' ? `${done}/${STAGES.length}` : k === 'avail' ? starsAvailable() : '';
   });
 }
 document.querySelectorAll('[data-back]').forEach((b) => b.addEventListener('click', () => { sfx.click(); goTitle(); }));
@@ -56,6 +59,7 @@ function goTitle() {
   setMode(createBackdrop(ctx, region.env));
   sfx.pad(region.env);
   show('title');
+  here('', 'home');
   $('go-continue').textContent = Object.keys(save.stages).length ? `Continue: ${st.name} ➜` : 'Start the adventure ➜';
 }
 $('go-continue').addEventListener('click', () => { unlockAudio(); sfx.click(); launch(nextStage()); });
@@ -67,7 +71,7 @@ $('go-settings').addEventListener('click', () => { sfx.click(); settings(); });
 // ── the journey map ───────────────────────────────────────────────
 const MODE_ICON = { run: '🏃', explore: '🧭', arena: '⚖' };
 const MODE_NAME = { run: '3D RUN', explore: 'EXPLORE & GATES', arena: 'FRIENDLY ARENA' };
-const EMBLEM = { sunlit: ['☀', '#d9a96b'], garden: ['❋', '#5f9a55'], caves: ['◆', '#4d4a7a'], mountain: ['▲', '#8fa3bd'], harbour: ['✦', '#3b4a8a'] };
+const EMBLEM = { sunlit: ['☀', '#d9a96b'], garden: ['❋', '#5f9a55'], caves: ['◆', '#4d4a7a'], mountain: ['▲', '#8fa3bd'], valley: ['☂', '#5a5f86'], harbour: ['✦', '#3b4a8a'] };
 let picked = null;
 function openMap() {
   const ns = nextStage();
@@ -76,6 +80,7 @@ function openMap() {
   setMode(createBackdrop(ctx, region.env));
   renderMap();
   show('map');
+  here('', 'map');
 }
 function renderMap() {
   const box = $('regions'); box.replaceChildren();
@@ -83,7 +88,7 @@ function renderMap() {
     const stages = STAGES.filter((s) => s.region === reg.id);
     const open = stages.some((s) => isOpen(s.id));
     const el = document.createElement('article'); el.className = 'region' + (open ? '' : ' locked');
-    const [sym, col] = EMBLEM[reg.id];
+    const [sym, col] = EMBLEM[reg.id] ?? ['✦', '#3b4a8a'];
     el.innerHTML = `<div class="emblem" style="background:linear-gradient(160deg, ${col}, #0f2a36)">${sym}</div><div><h3>${reg.name}</h3><p>${reg.tagline}</p><div class="nodes"></div></div>`;
     const nodes = el.querySelector('.nodes');
     for (const s of stages) {
@@ -102,6 +107,7 @@ function renderMap() {
   $('b-region').textContent = reg.name.toUpperCase();
   $('b-name').textContent = s.name;
   $('b-mode').textContent = `${MODE_ICON[s.mode]} ${MODE_NAME[s.mode]}`;
+  $('b-topic').textContent = s.topic ? `Topic: ${s.topic}` : '';
   $('b-goal').textContent = s.goal;
   const rec = save.stages[s.id];
   $('b-best').textContent = rec ? `Best: ${'★'.repeat(rec.stars)}${'☆'.repeat(3 - rec.stars)}` : '';
@@ -170,32 +176,37 @@ function launch(stage) {
   current = stage;
   const region = REGIONS.find((r) => r.id === stage.region);
   const first = STAGES.find((s) => s.region === region.id).id === stage.id;
-  if (first && !save.seen.includes(region.story)) { playStory(region.story, () => startStage(stage)); return; }
-  startStage(stage);
+  const then = () => (stage.story && !save.seen.includes(stage.story) ? playStory(stage.story, () => startStage(stage)) : startStage(stage));
+  if (first && !save.seen.includes(region.story)) { playStory(region.story, then); return; }
+  then();
 }
 function startStage(stage) {
   current = stage;
   const region = REGIONS.find((r) => r.id === stage.region);
   closeDialog(); paused = false; clearActions(); resetHud();
   const make = { run: createRunner, explore: createExplore, arena: createArena }[stage.mode];
+  stopHakim(); cancelListening();
+  if (save.settings.mic && (stage.cfg.storm || stage.cfg.cave || stage.mode === 'run')) warmRecitation();
   setMode(make(ctx, stage, region));
   sfx.pad(region.env);
   show('play');
+  here(stage.id, 'playing');
+  if (stage.mode !== 'run') setTimeout(() => ctx.hakim(`st-${stage.id}`), 700);   // a run greets in its start card
 }
 
 function playStory(id, then) {
   const story = STORIES[id];
   storyThen = () => { if (!save.seen.includes(id)) { save.seen.push(id); persist(); } then(); };
-  setMode(createStory(ctx, story));
+  setMode(createStory(ctx, story, id));
   sfx.pad(story.env);
   show('story');
 }
 let storyThen = null;
-$('s-skip').addEventListener('click', () => { sfx.click(); mode?.skip?.(); });
+$('s-skip').addEventListener('click', () => { sfx.click(); stopHakim(); mode?.skip?.(); });
 
 // ── the HUD ───────────────────────────────────────────────────────
 function resetHud() {
-  for (const id of ['h-motes', 'h-found', 'h-hearts', 'h-score', 'h-rival', 'h-timer', 'h-compass', 'h-wind', 'h-banner', 'h-prompt']) $(id).hidden = true;
+  for (const id of ['h-motes', 'h-found', 'h-hearts', 'h-score', 'h-rival', 'h-timer', 'h-compass', 'h-wind', 'h-banner', 'h-prompt', 'h-shield', 'chip', 'startcard']) $(id).hidden = true;
   $('toasts').replaceChildren();
   $('h-prog').style.width = '0';
 }
@@ -213,6 +224,7 @@ function hud(o) {
   if (o.compass !== undefined) { const c = $('h-compass'); c.hidden = false; c.firstElementChild.style.transform = `rotate(${(-o.compass * 180) / Math.PI - 90}deg)`; }
   if (o.wind !== undefined) { const w = $('h-wind'); w.hidden = false; w.firstElementChild.style.transform = `rotate(${(-o.wind * 180) / Math.PI + 90}deg)`; }
   if (o.dash !== undefined) $('dashbtn').classList.toggle('cool', o.dash > 0);
+  if (o.shield !== undefined) { const s = $('h-shield'); s.hidden = !o.shield; s.innerHTML = `🛡 <b>${o.shield}</b>`; s.setAttribute('aria-label', `Shield: ${o.shield}`); }
 }
 function toast(text, kind = '', ms = 2600, ref = '') {
   const t = document.createElement('div'); t.className = 'toast ' + kind;
@@ -267,7 +279,13 @@ function ask(qids, done) {
     const q = QUESTIONS[qids[i]];
     const order = q.a.map((_, k) => k).sort(() => Math.random() - 0.5);
     dialog(`<p class="gate-head">⛩ KNOWLEDGE GATE ${qids.length > 1 ? `· QUESTION ${i + 1} OF ${qids.length}` : ''}</p><h2>${esc(q.q)}</h2>
-      <div class="answers">${order.map((k) => `<button data-k="${k}">${esc(q.a[k])}</button>`).join('')}</div><div id="fb"></div>`);
+      <div class="answers">${order.map((k) => `<button data-k="${k}">${esc(q.a[k])}</button>`).join('')}</div>
+      ${canHearEnglish() && save.settings.mic ? '<button class="btn small" id="say-it">🎤 Say my answer</button>' : ''}<div id="fb"></div>`);
+    $('say-it') && ($('say-it').onclick = async () => {
+      const b = $('say-it'); b.disabled = true; b.textContent = '🎤 Listening…';
+      const k = await hearAnswer(order.map((i) => q.a[i]), 8000);
+      if (k >= 0) dlg.querySelectorAll('[data-k]')[k]?.click(); else { b.disabled = false; b.textContent = '🎤 Didn’t catch that — try again'; }
+    });
     dlg.querySelectorAll('[data-k]').forEach((b) => b.addEventListener('click', () => {
       const k = Number(b.dataset.k), right = k === q.c;
       dlg.querySelectorAll('[data-k]').forEach((x) => (x.disabled = true));
@@ -299,6 +317,8 @@ function pause() {
 
 function finish(res) {
   const stage = current, lesson = LESSONS[stage.lesson];
+  cancelListening();
+  if (res.run) sendRun(res.run);   // the class team goal, and a ghost for classmates (when playing from the Classroom)
   const gained = recordStage(stage.id, res.stars, res.xp);
   const nextIdx = STAGES.findIndex((s) => s.id === stage.id) + 1;
   const next = STAGES[nextIdx];
@@ -329,6 +349,8 @@ function howTo() {
     <div><b>🏃 3D runs</b><p>Change lanes ◀ ▶ (arrow keys / A D or swipe). Jump ▲ (Up / W / Space or swipe up) over crates and gaps. Slide ▼ (Down / S or swipe down) under beams. At an <b>answer arch</b>, run through the arch with the right answer. At a fork, your lane picks the path.</p></div>
     <div><b>🧭 Exploring</b><p>Walk with W A S D / arrows or the stick. Drag to turn the camera. Look for the golden rings — each is a landmark. Press E (or ✋) to look, and to answer a knowledge gate. Space hops.</p></div>
     <div><b>⚖ Friendly arena</b><p>Move with W A S D / arrows or the stick; Shift or ⚡ dashes. Push orbs, dodge rolling stones, step on lit stones, carry lanterns. Slip off the edge and you float back.</p></div>
+    <div><b>🎤 Your voice</b><p>Say <b>Bismillah</b> to start a run (the motes gather to you), <b>Alhamdulillah</b> after a stumble (your heart comes back) and <b>SubhanAllah</b> when it appears (a rush of motes). In the storm, recite <b>Ayat al-Kursi</b> at the shelter for your bubble shield. Questions can be answered out loud.</p></div>
+    <div><b>👥 Your class</b><p>Opened from the Ta’aleem Classroom, you see classmates at your level who are playing, run alongside their best runs, and fill the weekly class goal together.</p></div>
     <div><b>⭐ Stars &amp; gear</b><p>Up to 3 stars per stage. Spend them on gear in “Explorer &amp; gear”. Stars and XP are game rewards only — they never measure faith or worth.</p></div>
     <div><b>📖 About the lessons</b><p>Each lesson says whether it comes from the Qur’an, a hadith, history, or is a general value, with its reference. No prophet is shown or voiced. These are starter materials: please review them with a qualified teacher.</p></div>
   </div><button class="btn primary" id="h-ok">Got it</button>`, { pauseGame: false });
@@ -342,9 +364,17 @@ function settings(fromPause) {
     <label class="set">Sound effects <input type="checkbox" id="st-s"></label>
     <label class="set">Soft background tones <input type="checkbox" id="st-m"></label>
     <label class="set">Screen shake <input type="checkbox" id="st-sh"></label>
+    <label class="set">Ustadh Hakim’s voice <input type="checkbox" id="st-v"></label>
+    <label class="set">Microphone (recitation and Bismillah, Alhamdulillah, SubhanAllah) <input type="checkbox" id="st-mic"></label>
+    <label class="set">Answer questions out loud (English) <input type="checkbox" id="st-sp"></label>
+    <p class="fine">Arabic recitation and phrases are heard by Ta’aleem’s own model, on this device: no audio leaves it. English answers out loud use the browser’s speech service, which sends the audio to Google (Chrome) or Apple (Safari). Switch that off above if you prefer.</p>
     <p class="fine">Progress is saved only in this browser. No account, no data sent anywhere, nothing recorded.</p>
     <div class="row"><button class="btn primary" id="st-ok">Done</button><button class="btn ghost" id="st-reset">Reset progress</button></div>`, { pauseGame: !!fromPause });
   $('st-q').value = s.quality; $('st-s').checked = s.sound; $('st-m').checked = s.music; $('st-sh').checked = s.motion;
+  $('st-v').checked = s.voice; $('st-mic').checked = s.mic; $('st-sp').checked = s.speech;
+  $('st-v').onchange = (e) => { s.voice = e.target.checked; persist(); if (!s.voice) stopHakim(); };
+  $('st-mic').onchange = (e) => { s.mic = e.target.checked; persist(); };
+  $('st-sp').onchange = (e) => { s.speech = e.target.checked; persist(); };
   $('st-q').onchange = (e) => { s.quality = e.target.value; persist(); R.applyQuality(); };
   $('st-s').onchange = (e) => { s.sound = e.target.checked; persist(); sfx.pad(document.body.dataset.screen === 'title' ? 'desert' : null); };
   $('st-m').onchange = (e) => { s.music = e.target.checked; persist(); sfx.pad(e.target.checked ? 'desert' : null); };
@@ -353,9 +383,143 @@ function settings(fromPause) {
   $('st-reset').onclick = () => { if (confirm('Reset all progress, stars and gear on this device?')) resetAll(); };
 }
 
+// ── Ustadh Hakim's subtitles and voice ───────────────────────────
+const LINES = hakimLines();
+let subT = 0;
+function hakimSay(key, text) {
+  const line = text ?? LINES[key];
+  if (!line) return Promise.resolve();
+  if (!$('story').classList.contains('on')) {   // stories show their own caption
+    const sb = $('sub'); sb.querySelector('p').textContent = line; sb.hidden = false;
+    clearTimeout(subT); subT = setTimeout(() => (sb.hidden = true), Math.max(3500, line.length * 70));
+  }
+  return speakHakim(key, line);
+}
+
+// ── listening: one thing at a time ────────────────────────────────
+let listening = null;
+function cancelListening() { listening?.cancel?.(); listening = null; $('chip').hidden = true; }
+// a short phrase (Bismillah, Alhamdulillah, SubhanAllah), shown as a chip; resolves true when it was said
+function listenPhrase(id, hint) {
+  if (!save.settings.mic || listening) return Promise.resolve(false);
+  const ph = PHRASES[id], chip = $('chip');
+  chip.innerHTML = `<span class="mic">🎤</span><span><b lang="ar" dir="rtl">${ph.ar}</b> Say “${ph.say}”<small>${esc(hint ?? ph.en)}</small></span>`;
+  chip.hidden = false; chip.className = 'chip-say';
+  let cancelled = false;
+  const job = { cancel: () => { cancelled = true; } };
+  listening = job;
+  return hearPhrase(id, 7500, (stt) => { if (stt === 'listening') chip.classList.add('live'); }).then((ok) => {
+    if (listening === job) { listening = null; chip.hidden = true; }
+    if (ok && !cancelled) { sfx.right(); chip.hidden = true; }
+    return ok && !cancelled;
+  });
+}
+// an English answer out loud (the answer arches); resolves with the option's index or -1
+function listenAnswer(options) {
+  if (!save.settings.mic || !canHearEnglish() || listening) return Promise.resolve(-1);
+  const job = { cancel: () => {} }; listening = job;
+  $('h-banner').classList.add('live');
+  return hearAnswer(options, 9000).then((k) => { if (listening === job) listening = null; $('h-banner').classList.remove('live'); return k; });
+}
+
+// the start of a run: "Say Bismillah to begin" (or tap). Resolves true when Bismillah was said.
+function startPrompt() {
+  return new Promise((resolve) => {
+    const card = $('startcard'); card.hidden = false;
+    let done = false;
+    const go = (said) => { if (done) return; done = true; card.hidden = true; cancelListening(); removeEventListener('keydown', key); resolve(said); };
+    const key = (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); go(false); } };
+    addEventListener('keydown', key);
+    $('sc-go').onclick = () => { sfx.click(); go(false); };
+    $('sc-mic').hidden = true;
+    hakimSay(`st-${current.id}`).then(() => { if (!done) return hakimSay('say-bismillah'); }).then(() => {
+      if (done || !save.settings.mic) return;
+      canRecite().then((ok) => {
+        if (!ok || done) return;
+        $('sc-mic').hidden = false;
+        const once = () => listenPhrase('bismillah', 'Say it to begin').then((said) => { if (said) { hakimSay('bismillah-yes'); go(true); } else if (!done) $('sc-mic').textContent = '🎤 Didn’t hear it — tap to try again'; });
+        $('sc-mic').onclick = () => { $('sc-mic').textContent = '🎤 Listening…'; once(); };
+        once();
+      });
+    });
+  });
+}
+
+// ── recitation: Ayat al-Kursi at the storm shelters, the du'a for parents at the cave ──
+const RECITE = {
+  kursi: { title: 'Ayat al-Kursi', ref: 'Al-Baqarah 2:255', key: '2:255', audio: 'https://everyayah.com/data/Husary_128kbps/002255.mp3',
+    ar: 'ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُۥ مَا فِى ٱلسَّمَـٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ',
+    prompt: 'kursi-prompt', intro: 'Recite it from beginning to end. Each word lights up as you say it. Your shield grows with every word.' },
+  parents: { title: 'The du’a for parents', ref: 'Al-Isra 17:24', key: null, audio: 'https://everyayah.com/data/Husary_128kbps/017024.mp3',
+    ar: 'رَّبِّ ٱرْحَمْهُمَا كَمَا رَبَّيَانِى صَغِيرًا', en: '“My Lord, have mercy on them as they raised me when I was small.”',
+    prompt: 'parents-prompt', intro: 'Recite the du’a for your parents, and the rock will roll from the cave.' },
+};
+function recite(kind) {
+  const R = RECITE[kind];
+  const words = tokenize(R.ar, R.key, { raw: true });
+  return new Promise((resolve) => {
+    dialog(`<p class="gate-head">🎤 RECITE · ${esc(R.ref)}</p><h2>${esc(R.title)}</h2><p>${esc(R.intro)}</p>
+      <p class="recite" lang="ar" dir="rtl">${words.map((w, i) => `<span data-w="${i}">${esc(w.display)}</span>`).join(' ')}</p>
+      ${R.en ? `<p class="fine" style="text-align:center">${esc(R.en)}</p>` : ''}
+      <div class="rbar"><span id="rc-bar"></span></div><p class="fine" id="rc-state"></p>
+      <div class="row"><button class="btn primary" id="rc-go">🎤 Start reciting</button><button class="btn" id="rc-hear">▶ Listen first</button><button class="btn ghost" id="rc-done" hidden>I have finished</button><button class="btn ghost" id="rc-skip">I can’t use a microphone</button></div>`);
+    let l = null, audio = null, settled = false;
+    const finishWith = (res) => { if (settled) return; settled = true; l?.stop(); audio?.pause(); closeDialog(); paused = false; last = performance.now(); resolve(res); };
+    const spans = [...dlg.querySelectorAll('[data-w]')];
+    $('rc-hear').onclick = () => { sfx.click(); audio?.pause(); audio = new Audio(R.audio); audio.play().catch(() => {}); $('rc-hear').textContent = '▶ Playing…'; audio.onended = () => ($('rc-hear').textContent = '▶ Listen again'); };
+    $('rc-skip').onclick = () => {
+      // no microphone: listen along with the reciter; the reward is smaller, and the game says so kindly
+      sfx.click(); $('rc-state').textContent = 'Listen along with the reciter, and say it with him quietly.';
+      const skipped = () => finishWith({ read: 0, missed: 0, total: words.length, skipped: true });
+      audio?.pause(); audio = new Audio(R.audio);
+      audio.onended = skipped; audio.onerror = () => setTimeout(skipped, 1500);
+      audio.play().catch(() => setTimeout(skipped, 1500));   // no sound here (offline, or blocked): carry on
+      setTimeout(skipped, 75000);
+      $('rc-skip').hidden = true; $('rc-go').hidden = true;
+    };
+    $('rc-go').onclick = () => {
+      sfx.click(); audio?.pause();
+      $('rc-go').hidden = true; $('rc-done').hidden = false; $('rc-state').textContent = 'Getting the listener ready… (the first time can take a minute)';
+      let read = 0;
+      l = listen(words.map((w) => w.plain), {
+        onState: (stt) => {
+          if (stt === 'listening') $('rc-state').textContent = 'Listening — recite now.';
+          if (stt === 'unavailable') { $('rc-state').textContent = 'Recitation is heard on the Ta’aleem site (taaleem.ca). Here, listen along instead.'; $('rc-skip').click(); }
+          if (stt === 'denied') { $('rc-state').textContent = 'The microphone is blocked. Allow it in the browser, or listen along instead.'; $('rc-go').hidden = false; $('rc-done').hidden = true; }
+        },
+        onWord: (i, kind) => {
+          spans[i]?.classList.add(kind === 'missed' ? 'miss' : kind === 'read' ? 'ok' : 'soft');
+          if (kind !== 'missed') read++;
+          $('rc-bar').style.width = `${Math.round(((i + 1) / words.length) * 100)}%`;
+        },
+      });
+      l.finished.then((res) => finishWith(res));
+    };
+    $('rc-done').onclick = () => { sfx.click(); l?.stop(); };
+    hakimSay(R.prompt);
+  });
+}
+
+// ── the class: who is playing at my level, and the team goal ──────
+const STAGE_NAME = Object.fromEntries(STAGES.map((s) => [s.id, s.name]));
+onClass((o) => {
+  for (const box of document.querySelectorAll('[data-class]')) {
+    if (!o.on) { box.innerHTML = '<p class="fine">Open the game from your Ta’aleem Classroom to see classmates at your level and play for your class team.</p>'; continue; }
+    const others = o.players.filter((p) => !p.me);
+    const team = o.team, pct = team ? Math.min(100, Math.round((team.total / TEAM.weekly) * 100)) : 0;
+    box.innerHTML = `<p class="kicker">${esc(o.className || 'YOUR CLASS')} · ONLINE NOW</p>
+      ${others.length ? `<ul class="mates">${others.map((p) => `<li><span class="dot" style="background:${LOOK.outfit[p.look?.outfit ?? 0]}"></span><b>${esc(p.name)}</b><small>${p.stage ? esc(STAGE_NAME[p.stage] ?? '') : p.doing === 'map' ? 'choosing a stage' : 'on the journey'}</small></li>`).join('')}</ul>` : '<p class="fine">No classmates playing right now. Your runs still count for the class!</p>'}
+      ${team ? `<p class="kicker" style="margin-top:8px">TEAM GOAL · ${esc(TEAM.title.toUpperCase())}</p><div class="rbar"><span style="width:${pct}%"></span></div><p class="fine">${team.total} / ${TEAM.weekly} light motes this week, from ${team.players} classmate${team.players === 1 ? '' : 's'}${team.top?.length ? ` · top: ${team.top.slice(0, 3).map((t) => esc(t.name)).join(', ')}` : ''}</p>` : ''}`;
+  }
+  const n = o.on ? o.players.filter((p) => !p.me).length : 0;
+  const m = $('h-mates'); m.hidden = !n; m.innerHTML = `👥 <b>${n}</b>`; m.title = `${n} classmate${n === 1 ? '' : 's'} playing`;
+});
+
 // ── what the modes can call ───────────────────────────────────────
 const ctx = {
   camera, hud, toast, banner, prompt, controls, card, ask, finish, fail, pause,
+  hakim: hakimSay, stopVoice: stopHakim, listenPhrase, listenAnswer, startPrompt, recite,
+  canSpeak: () => save.settings.mic && canHearEnglish(),
   shake: (a) => { shake = Math.max(shake, a); },
   caption: (text, title) => { $('s-text').textContent = text; $('s-text').style.animation = 'none'; void $('s-text').offsetWidth; $('s-text').style.animation = ''; $('s-title').textContent = title ?? ''; },
   storyDone: () => { const f = storyThen; storyThen = null; f?.(); },

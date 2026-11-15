@@ -4,8 +4,9 @@
 //  • Islamic teaching is kept apart from the fictional game. Lessons and questions cite their source and say what
 //    kind of source it is (Qur'an, hadith, history, or a general value); the game's own world is fiction.
 //  • No sacred text is a collectible, weapon, currency or puzzle piece. Collectibles are "light motes" (fiction).
-//  • No prophet, and never Prophet Muhammad ﷺ, is shown, voiced or acted. Stories about them are told only as
-//    narration that names the Qur'anic passage, over landscapes with no figure standing in for them.
+//  • No prophet, and never Prophet Muhammad ﷺ, is shown, voiced or acted, nor any Companion. Stories about them are
+//    told only as narration that names its source, over landscapes with no figure standing in for them; what they
+//    said is reported in the narrator's words.
 //  • Stars and XP reward play only. They never measure faith, piety or worth.
 //  • These are starter materials: a qualified teacher should review every lesson and question before class use.
 
@@ -215,3 +216,133 @@ export const GEAR = [
   { id: 'magnet', name: 'Mote Charm', slot: 'neck2', cost: 24, text: 'Light motes drift towards you from a little further away.', effect: { magnet: 2.2 } },
   { id: 'cape', name: 'Festival Cape', slot: 'back2', cost: 32, text: 'A cape of woven light, for those who finish the journey.', effect: null },
 ];
+
+// ════════════════════════════════════════════════════════════════════
+// v1.2 — longer stages, a topic for every mission, Ustadh Hakim's voice and stories, recitation and voice play
+// ════════════════════════════════════════════════════════════════════
+//
+// Two stories are told by Ustadh Hakim, from authentic narrations, as narration only over landscapes:
+//  • The three in the cave (Sahih al-Bukhari 2272; Sahih Muslim 2743): dutifulness to parents.
+//  • Abu Hurairah and the night visitor (Sahih al-Bukhari 2311): Ayat al-Kursi.
+// No figure stands in for the Prophet ﷺ, for Abu Hurairah (a Companion), or for Shaytan; what they said is reported
+// in the narrator's words, never acted.
+
+// Every mission has an Islamic topic, shown on the mission board and in the game.
+export const TOPICS = {
+  s1: 'A good intention', s2: 'Seeking knowledge', s3: 'Choosing well',
+  g1: 'Trusting Allah', g2: 'Helping one another', g3: 'Patience', g4: 'Dutifulness to parents',
+  c1: 'Calling on Allah in hardship', c2: 'Controlling anger', c3: 'Keeping trusts',
+  m1: 'Patience and prayer', m2: 'Small deeds, done steadily', m3: 'Helping travellers',
+  v1: 'Ayat al-Kursi: Allah’s protection', v2: 'Honesty, and the night visitor',
+  h1: 'Fair trade', h2: 'Seeking more knowledge', h3: 'Sharing the light',
+};
+
+// Longer stages (v1.1's were found to be short)
+for (const s of STAGES) {
+  if (s.mode === 'run') { s.cfg.length = Math.round(s.cfg.length * 1.6); s.cfg.motes = Math.round(s.cfg.motes * 1.5); }
+  if (s.mode === 'arena') { s.cfg.time = Math.round(s.cfg.time * 1.4); if (s.cfg.kind !== 'lanterns') s.cfg.target = Math.ceil(s.cfg.target * 1.3); else s.cfg.target = 8; }
+}
+// one more zone, gate and landmark in every exploration
+const MORE = { s2: [['surahs'], 'caravan-tent'], g3: [['honesty'], 'bee-hive'], c3: [['yunus'], 'white-crystal'], m3: [['prayer-help'], 'lantern-box'], h1: [['increase-knowledge'], 'net-stall'] };
+for (const [id, [gate, mark]] of Object.entries(MORE)) { const s = STAGES.find((x) => x.id === id); s.cfg.gates.push(gate); s.cfg.landmarks.push(mark); s.goal = s.goal.replace(/\b4\b/, '5'); }
+
+// the new missions
+STAGES.splice(STAGES.findIndex((s) => s.id === 'g3') + 1, 0,
+  { id: 'g4', region: 'garden', mode: 'explore', name: 'The Cave of the Three', story: 'cave',
+    goal: 'Find 4 things from the shepherds’ valley, open the gates, then recite the du’a for parents to roll the rock from the cave.',
+    cfg: { landmarks: ['sheep-fold', 'milk-bowl', 'spring', 'olive-tree'], gates: [['parents'], ['cave-deed']], motes: 16, cave: true },
+    lesson: 'l-parents' });
+REGIONS.splice(REGIONS.findIndex((r) => r.id === 'harbour'), 0,
+  { id: 'valley', name: 'Valley of Protection', env: 'storm', tagline: 'A stormy pass, and the ayah that guards the night.', story: 'kursi' });
+STAGES.splice(STAGES.findIndex((s) => s.id === 'h1'), 0,
+  { id: 'v1', region: 'valley', mode: 'run', name: 'The Storm-pod Pass',
+    goal: 'Thorny storm-pods fall from the sky. Recite Ayat al-Kursi at the shelter to raise your bubble shield, then cross the pass.',
+    cfg: { length: 1300, speed: 14, accel: 0.012, mix: ['crate', 'beam', 'wall', 'barrel'], motes: 40, gates: ['kursi-where', 'kursi-greatest'], branches: 1, storm: true },
+    lesson: 'l-kursi' },
+  { id: 'v2', region: 'valley', mode: 'explore', name: 'The Date Storehouse',
+    goal: 'Guard the storehouse: find the 5 places of the story, answer the gates, and keep watch until dawn.',
+    cfg: { landmarks: ['storehouse', 'date-sacks', 'night-lamp', 'watch-post', 'dawn-hill'], gates: [['kursi-when'], ['kursi-liar'], ['honesty']], motes: 18, night: true },
+    lesson: 'l-honest-guard' });
+for (const s of STAGES) s.topic = TOPICS[s.id];
+
+Object.assign(LESSONS, {
+  'l-parents': { title: 'Dutiful to parents', text: 'In the story of the three in the cave, a man who waited all night with his parents’ milk called on Allah by that good deed, and the rock began to move. The Qur’an teaches us to pray for our parents: “My Lord, have mercy on them as they raised me when I was small.”', kind: 'Hadith & Qur’an', ref: 'Sahih al-Bukhari 2272; Qur’an 17:23–24' },
+  'l-kursi': { title: 'The greatest ayah', text: 'The Prophet ﷺ called Ayat al-Kursi the greatest ayah in the Book of Allah. Reciting it before sleeping is a protection from Allah through the night.', kind: 'Hadith', ref: 'Sahih Muslim 810; Sahih al-Bukhari 2311' },
+  'l-honest-guard': { title: 'Guarding a trust', text: 'Abu Hurairah was given the zakat of Ramadan to guard, and took care of it. Even a liar can say something true — so we judge what is said by what we know is right.', kind: 'Hadith', ref: 'Sahih al-Bukhari 2311' },
+});
+
+Object.assign(QUESTIONS, {
+  'parents-dua': { q: 'Which du’a for our parents does the Qur’an teach?', a: ['“My Lord, have mercy on them as they raised me when I was small.”', '“My Lord, make me the fastest runner.”', '“My Lord, give me many coins.”'], c: 0, why: 'The Qur’an teaches this du’a for our parents.', ref: 'Qur’an 17:24' },
+  'cave-deed': { q: 'In the story of the three in the cave, what did the first man do for his parents?', a: ['He waited all night with their milk until they woke', 'He drank the milk himself', 'He went to sleep'], c: 0, why: 'He would not give the milk to anyone before his parents, so he waited with the bowl in his hand until dawn.', ref: 'Sahih al-Bukhari 2272' },
+  'kursi-greatest': { q: 'Which ayah did the Prophet ﷺ call the greatest ayah in the Book of Allah?', a: ['Ayat al-Kursi', 'The last ayah of the Qur’an', 'The first ayah of Al-Fatihah'], c: 0, why: 'The Prophet ﷺ asked Ubayy ibn Ka‘b which ayah is the greatest, and confirmed his answer: Ayat al-Kursi.', ref: 'Sahih Muslim 810' },
+  'kursi-where': { q: 'In which surah is Ayat al-Kursi?', a: ['Al-Baqarah', 'Al-Fatihah', 'Al-Ikhlas'], c: 0, why: 'Ayat al-Kursi is ayah 255 of Surah Al-Baqarah.', ref: 'Qur’an 2:255' },
+  'kursi-when': { q: 'In the story of Abu Hurairah, when should Ayat al-Kursi be recited for protection through the night?', a: ['When going to bed', 'Only on Fridays', 'Only in Ramadan'], c: 0, why: 'He was told to recite it when going to bed, and that a guard from Allah would stay with him until morning.', ref: 'Sahih al-Bukhari 2311' },
+  'kursi-liar': { q: 'What did the Prophet ﷺ say about the night visitor’s advice?', a: ['He told you the truth, though he is a liar', 'He is always honest', 'He was a lost traveller'], c: 0, why: 'The Prophet ﷺ said the visitor had told the truth this time, though he is a liar — it was a shaytan.', ref: 'Sahih al-Bukhari 2311' },
+});
+
+Object.assign(LANDMARKS, {
+  'caravan-tent': ['The Caravan Tent', 'Merchants rested here and shared their food with strangers. Generosity makes a long road shorter.'],
+  'bee-hive': ['The Bee Hives', 'Found! Bees work together, each with its own task. The Qur’an has a surah named An-Nahl, “The Bee”.'],
+  'white-crystal': ['White Crystal Lamp', 'Lit! The last lamp — now the whole hall shines.'],
+  'lantern-box': ['The Lantern Box', 'Found! Lanterns for the travellers who will climb tonight.'],
+  'net-stall': ['The Fishing-net Stall', '“Mended nets, sold at a fair price. A good trade leaves both people happy.”'],
+  'sheep-fold': ['The Sheep Fold', 'Shepherds kept their flocks here. Caring for animals is part of good character.'],
+  'milk-bowl': ['The Milk Bowl', 'A bowl like the one the dutiful son held all night, waiting for his parents to wake.'],
+  'spring': ['The Mountain Spring', 'Cool water for the flocks. Every blessing is from Allah — Alhamdulillah.'],
+  'olive-tree': ['The Old Olive Tree', 'It took many years to grow strong. So does good character.'],
+  storehouse: ['The Storehouse', 'The zakat of Ramadan was kept in a place like this, for the poor and those in need.'],
+  'date-sacks': ['The Date Sacks', 'Food given in zakat. Abu Hurairah was given the trust of guarding it.'],
+  'night-lamp': ['The Night Lamp', 'A guard watched through the night by a small lamp like this one.'],
+  'watch-post': ['The Watch Post', 'Three nights the visitor came, and three times he was caught.'],
+  'dawn-hill': ['Dawn Hill', 'Morning comes. “A guard from Allah will stay with you until morning.” (Sahih al-Bukhari 2311)'],
+});
+
+// Ustadh Hakim's stories (voiced). Each shot: camera key frames, a land, the words he says.
+Object.assign(STORIES, {
+  cave: { env: 'oasis', title: 'The Three in the Cave', teller: true, shots: [
+    { cam: [[0, 3, 9], [0, 2.6, 6.5]], look: [0, 1.6, 0], t: 7, act: 'guide', text: 'Sit with me, young explorer. The Prophet ﷺ told of three men from the people who came before us. They were travelling when heavy rain came, so they sheltered in a cave.' },
+    { cam: [[-14, 6, 16], [-6, 4, 10]], look: [0, 2, -12], t: 7, act: 'cave', text: 'A great rock rolled down the mountain and closed the mouth of the cave. They could not move it. They said: only one thing will save us — let each of us call on Allah by a good deed he did only for Him.' },
+    { cam: [[6, 4, 4], [3, 3, -2]], look: [0, 1.5, -12], t: 8, act: 'cave', text: 'The first man said: O Allah, I had two old parents. I never gave milk to my family before them. One night I came home late, and they were already asleep.' },
+    { cam: [[3, 2.5, 3], [1.5, 2.2, 1.5]], look: [0, 1, -8], t: 8, act: 'cave', text: 'I did not want to wake them, and I would not give the milk to anyone before them. So I stood with the bowl in my hand, waiting, until dawn — and they woke and drank.' },
+    { cam: [[-4, 5, 8], [0, 6, 14]], look: [0, 2, -12], t: 8, act: 'rock', text: 'O Allah, if I did that only for You, then move this rock from us. And the rock moved a little. The other two men called on Allah by their good deeds too, and the rock moved away, and they walked out free.' },
+    { cam: [[0, 3, 9], [0, 2.4, 6]], look: [0, 1.6, 0], t: 8, act: 'guide', text: 'Being good to our parents is loved by Allah. The Qur’an teaches us a du’a for them: “Rabbir-ḥamhumā kamā rabbayānī ṣaghīrā” — My Lord, have mercy on them as they raised me when I was small. (Sahih al-Bukhari 2272; Qur’an 17:24)' },
+  ] },
+  kursi: { env: 'storm', title: 'Abu Hurairah and the Night Visitor', teller: true, shots: [
+    { cam: [[0, 3, 9], [0, 2.6, 6.5]], look: [0, 1.6, 0], t: 7, act: 'guide', text: 'Before we cross the stormy pass, listen to a true story. The Prophet ﷺ gave Abu Hurairah, may Allah be pleased with him, the zakat of Ramadan to guard: food kept for those in need.' },
+    { cam: [[-10, 4, 12], [-4, 3, 6]], look: [0, 1.5, -6], t: 8, act: 'store', text: 'In the night, someone came and began taking handfuls of the food. Abu Hurairah caught him. The man said he was poor, with a family to feed. Abu Hurairah felt sorry for him, and let him go.' },
+    { cam: [[5, 3, 6], [2, 2.5, 3]], look: [0, 1.5, -6], t: 8, act: 'store', text: 'In the morning the Prophet ﷺ asked him about his prisoner, and said that the man had lied to him, and would come back. The next night he came back — and the same thing happened again.' },
+    { cam: [[0, 6, 14], [0, 4, 8]], look: [0, 1.5, -6], t: 9, act: 'store', text: 'On the third night, Abu Hurairah said: this is the last time. The visitor said: let me go, and I will teach you words that Allah will benefit you with. When you go to bed, recite Ayat al-Kursi, from beginning to end. A guard from Allah will stay with you, and no shaytan will come near you until morning.' },
+    { cam: [[-3, 2.5, 5], [0, 3, 9]], look: [0, 1.6, 0], t: 9, act: 'guide', text: 'The Prophet ﷺ said: he told you the truth, though he is a liar. Do you know who you were speaking with these three nights? It was a shaytan. (Sahih al-Bukhari 2311)' },
+    { cam: [[0, 3, 9], [0, 8, 18]], look: [0, 2, -10], t: 8, act: 'storm', text: 'So, young explorer: when the storm-pods fall, stop at the shelter and recite Ayat al-Kursi. Your bubble shield is a reminder of the protection that comes from Allah — and a good habit for every night.' },
+  ] },
+});
+
+// Ustadh Hakim's other lines (each is recorded in the Sheikh's natural voice; until then the browser reads it)
+export const HAKIM = {
+  'say-bismillah': 'Begin with Bismillah! Say it now, and the light motes will gather to you.',
+  'bismillah-yes': 'Bismillah — a blessed start!',
+  'say-alhamdulillah': 'A stumble is not the end. Say Alhamdulillah, and keep going.',
+  'alhamdulillah-yes': 'Alhamdulillah! Your strength returns.',
+  'say-subhanallah': 'Say SubhanAllah, and the motes will come to you.',
+  'subhanallah-yes': 'SubhanAllah!',
+  'kursi-prompt': 'Here is the shelter. Recite Ayat al-Kursi, from beginning to end. I am listening.',
+  'kursi-done': 'Masha’Allah! Your shield is strong. Now cross the pass.',
+  'kursi-partial': 'Good effort. Your shield is up, but it is weaker. Practise the ayah, and it will grow stronger.',
+  'shield-hit': 'The shield held!',
+  'shield-gone': 'Your shield is gone. There is another shelter ahead — recite again there.',
+  'parents-prompt': 'Stand before the rock, and recite the du’a for your parents.',
+  'rock-open': 'The rock is moving! Allah answers those who call on Him.',
+  'gate-voice': 'You can say your answer out loud, or tap it.',
+  'arch-voice': 'Say your answer, and I will guide you to its arch!',
+  'class-hello': 'Look — your classmates are on the journey too. Together, your class fills the team goal.',
+};
+// every voiced line by key: stage greetings, story shots and the lines above (the list the voice recorder reads)
+export function hakimLines() {
+  const out = { ...HAKIM };
+  for (const s of STAGES) out[`st-${s.id}`] = `${s.topic}. ${s.goal}`;
+  for (const [id, st] of Object.entries(STORIES)) st.shots.forEach((sh, i) => { out[`story-${id}-${i}`] = sh.text; });
+  return out;
+}
+
+// The team goal each week: the whole class (one level) fills it together. Each finished stage adds its motes.
+export const TEAM = { weekly: 600, title: 'Light the Valley', text: 'Every light mote gathered by anyone in your class this week adds to the class lantern. Fill it together!' };

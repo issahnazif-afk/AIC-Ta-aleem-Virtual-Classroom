@@ -104,6 +104,9 @@ function doPost(e) {
     if (body.action === 'game') return json(logGame(body));
     if (body.action === 'maze') return json(logMaze(body));
     if (body.action === 'maze-board') return json(mazeBoard(body));
+    if (body.action === 'adv-hello') return json(advHello(body));
+    if (body.action === 'adv-run') return json(advRun(body));
+    if (body.action === 'adv-ghosts') return json(advGhosts(body));
     if (body.action === 'questions') return json(listQuestions(body));
     if (body.action === 'voice-list') return json(voiceList());
     if (body.action === 'voice-clip') return json(voiceClip(body));
@@ -485,6 +488,128 @@ function mazeBoard(body) {
   const mine = rows.findIndex(function (x) { return x.u === me; });
   const out = rows.slice(0, 10).map(function (x, i) { return { rank: i + 1, name: x.name, stage: x.stage, secs: x.secs, stars: x.stars, me: x.u === me }; });
   return { ok: true, className: cls.name, rows: out, mine: mine >= 0 ? { rank: mine + 1, stage: rows[mine].stage, secs: rows[mine].secs } : null, total: rows.length };
+}
+
+// ── Ta'aleem Adventure (public/adventure/): the class online ─────────────
+// A student's class is their level, so "classmates" are the students at the same level. Names are shown as
+// "First L." (shortName); there is no chat. Nothing here is visible outside the class.
+//   adv-hello   a student playing says hello every ~25 s: who else in the class is playing (and where), and the
+//               class team goal (light motes gathered by the whole class this week)
+//   adv-run     a finished stage: its motes go to the team goal; a run's path is kept as a ghost for classmates
+//   adv-ghosts  the best runs of up to 3 classmates on a stage, to run alongside
+const ADV_TAB = 'Adventure';
+const ADV_HEADERS = ['When', 'Name', 'Username', 'Stage', 'Motes', 'Stars', 'Seconds', 'Look', 'Path'];
+const ADV_STAGE_RE = /^[a-z][0-9]{1,2}$/;
+function advSheet(cls) {
+  const ss = classLog(cls);
+  let sh = ss.getSheetByName(ADV_TAB);
+  if (!sh) {
+    sh = ss.insertSheet(ADV_TAB);
+    sh.appendRow(ADV_HEADERS);
+    sh.getRange(1, 1, 1, ADV_HEADERS.length).setFontWeight('bold').setBackground('#FBE3A6');
+    sh.setFrozenRows(1);
+    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+  }
+  return sh;
+}
+// the explorer's look: five small numbers only
+function advLook(l) {
+  const n = (v, max) => Math.max(0, Math.min(max, Math.floor(Number(v) || 0)));
+  l = l || {};
+  return { skin: n(l.skin, 5), outfit: n(l.outfit, 7), accent: n(l.accent, 5), head: n(l.head, 4), style: n(l.style, 2) };
+}
+// the week (Monday to Sunday) a date falls in, for the weekly team goal
+function advWeek(d) { const x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return Utilities.formatDate(x, Session.getScriptTimeZone(), 'yyyy-MM-dd'); }
+function advTeam(cls) {
+  const raw = PropertiesService.getScriptProperties().getProperty('adv-team:' + cls.code);
+  const t = raw ? JSON.parse(raw) : null;
+  return t && t.week === advWeek(new Date()) ? t : { week: advWeek(new Date()), total: 0, by: {} };
+}
+function advTeamView(t) {
+  const top = Object.keys(t.by).map(function (k) { return { name: t.by[k].n, motes: t.by[k].m }; }).sort(function (a, b) { return b.motes - a.motes; }).slice(0, 5);
+  return { week: t.week, total: t.total, top: top, players: Object.keys(t.by).length };
+}
+
+function advHello(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const cls = findClass(r.st.v[S.cls]);
+  if (!cls) return { ok: false, error: 'class-removed' };
+  const me = String(r.st.v[S.user]);
+  const stage = ADV_STAGE_RE.test(String(body.stage || '')) ? String(body.stage) : '';
+  const key = 'adv-online:' + cls.code, cache = CacheService.getScriptCache(), now = Date.now();
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  let list;
+  try {
+    list = JSON.parse(cache.get(key) || '{}');
+    Object.keys(list).forEach(function (k) { if (now - list[k].t > 75000) delete list[k]; });   // gone quiet: left
+    if (body.leaving) delete list[me];
+    else list[me] = { n: shortName(r.st.v[S.name]), look: advLook(body.look), stage: stage, doing: String(body.doing || '').slice(0, 20), t: now };
+    cache.put(key, JSON.stringify(list), 300);
+  } finally { lock.releaseLock(); }
+  const players = Object.keys(list).map(function (k) { return { name: list[k].n, look: list[k].look, stage: list[k].stage, doing: list[k].doing, me: k === me }; });
+  return { ok: true, className: cls.name, players: players, team: advTeamView(advTeam(cls)) };
+}
+
+function advRun(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const cls = findClass(r.st.v[S.cls]);
+  if (!cls) return { ok: false, error: 'class-removed' };
+  const g = body.run || {};
+  const stage = String(g.stage || '');
+  if (!ADV_STAGE_RE.test(stage)) return { ok: false, error: 'bad-request' };
+  const motes = Math.max(0, Math.min(400, Math.floor(Number(g.motes) || 0)));
+  const stars = Math.max(0, Math.min(3, Math.floor(Number(g.stars) || 0)));
+  const secs = Math.max(0, Math.min(3600, Math.floor(Number(g.secs) || 0)));
+  // a ghost path: [[z, x, y], …] rounded numbers only, kept short
+  let path = '';
+  if (Array.isArray(g.path)) path = JSON.stringify(g.path.slice(0, 600).map(function (p) { return [Math.round(p[0] * 10) / 10, Math.round(p[1] * 10) / 10, Math.round(p[2] * 10) / 10]; })).slice(0, 45000);
+  const me = String(r.st.v[S.user]), name = String(r.st.v[S.name]);
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  let team;
+  try {
+    advSheet(cls).appendRow([new Date(), name, me, stage, motes, stars, secs, JSON.stringify(advLook(body.look)), path]);
+    team = advTeam(cls);
+    team.total += motes;
+    const mine = team.by[me] || { n: shortName(name), m: 0 };
+    mine.m += motes; team.by[me] = mine;
+    PropertiesService.getScriptProperties().setProperty('adv-team:' + cls.code, JSON.stringify(team));
+  } finally { lock.releaseLock(); }
+  CacheService.getScriptCache().remove('adv-ghosts:' + cls.code + ':' + stage);
+  return { ok: true, team: advTeamView(team) };
+}
+
+function advGhosts(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const cls = findClass(r.st.v[S.cls]);
+  if (!cls) return { ok: false, error: 'class-removed' };
+  const stage = String(body.stage || '');
+  if (!ADV_STAGE_RE.test(stage)) return { ok: false, error: 'bad-request' };
+  const me = String(r.st.v[S.user]);
+  const key = 'adv-ghosts:' + cls.code + ':' + stage, cache = CacheService.getScriptCache();
+  let best = null;
+  const hit = cache.get(key);
+  if (hit) best = JSON.parse(hit);
+  else {
+    best = {};
+    const sh = advSheet(cls), last = sh.getLastRow();
+    const from = Math.max(2, last - 400);   // the most recent runs
+    const data = last >= 2 ? sh.getRange(from, 1, last - from + 1, ADV_HEADERS.length).getValues() : [];
+    data.forEach(function (v) {
+      if (String(v[3]) !== stage || !v[8]) return;
+      const u = String(v[2]), motes = Number(v[4]) || 0;
+      if (!best[u] || motes > best[u].motes) best[u] = { name: shortName(v[1]), motes: motes, look: String(v[7]), path: String(v[8]) };
+    });
+    try { cache.put(key, JSON.stringify(best), 600); } catch (err) {}   // too big for the cache: read again next time
+  }
+  const ghosts = Object.keys(best).filter(function (u) { return u !== me; })
+    .map(function (u) { return best[u]; }).sort(function (a, b) { return b.motes - a.motes; }).slice(0, 3)
+    .map(function (g) { return { name: g.name, motes: g.motes, look: JSON.parse(g.look || '{}'), path: JSON.parse(g.path || '[]') }; });
+  return { ok: true, ghosts: ghosts };
 }
 
 // ── the Voice Studio: teachers record the Sheikh's voice ──────────────
