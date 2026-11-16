@@ -108,7 +108,9 @@ The home answers one question: *what should I do next?*
 - **Sign-in doors:** ivory cards on the forest panel; the school's picture for Levels 1 and 2, a numeral for 3 and 4,
   and a gold-outlined door for the adults.
 
-No streak counters, no public rankings, no "NEW" badges, no pressure words.
+No streak counters, no "NEW" badges, no pressure words. The one public ranking is the weekly Leaderboards (Levels 1 to 4,
+src/lib/leaders.mjs): points for practice, capped each day, a fresh race every Monday, names as "First L.", and
+headlines that cheer students on; never a "last place".
 
 ## Young learners' style (Levels 1 and 2, ages 4 to 8)
 

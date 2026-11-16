@@ -11,6 +11,7 @@
  *   • keeps ONE folder per class in your shared Drive folder ("Level 1"), holding that class's
  *     Google Sheet ("Level 1 · session log") and a "Snapshots" folder with the login photos,
  *   • adds one row per finished session to the class's sheet,
+ *   • keeps the weekly leaderboards for Levels 1 to 4 ("Leaderboard" tab): points for practice in every activity,
  *   • keeps the adults' accounts for the Quran Library (taaleem.ca/quran/) in their own "Adults" tab.
  *
  * Set up once (full steps in apps-script/README.md):
@@ -107,6 +108,8 @@ function doPost(e) {
     if (body.action === 'adv-hello') return json(advHello(body));
     if (body.action === 'adv-run') return json(advRun(body));
     if (body.action === 'adv-ghosts') return json(advGhosts(body));
+    if (body.action === 'board') return json(leaderboard(body));
+    if (body.action === 'board-add') return json(boardAddFor(body));
     if (body.action === 'questions') return json(listQuestions(body));
     if (body.action === 'voice-list') return json(voiceList());
     if (body.action === 'voice-clip') return json(voiceClip(body));
@@ -349,6 +352,9 @@ function logSession(body) {
       n(s.wrong), n(s.prompts), n(s.hints), n(s.unclear), n(s.wentBack), n(s.lookAways),
       snap, String(s.review || ''),
     ]);
+    // the leaderboard: effort first (ayahs and minutes), with a small bonus for a strong session
+    const ay = Math.max(0, Number(s.ayahs) || 0), mins = Math.max(0, Number(s.minutes) || 0);
+    boardAdd(st.v, cls, s.mode === 'hifz' ? 'hifz' : 'recite', 10 + Math.min(40, ay * 2) + Math.min(30, Math.round(mins)) + ((Number(s.rightFirstPct) || 0) >= 80 ? 10 : 0));
     return { ok: true };
   } finally {
     lock.releaseLock();
@@ -414,6 +420,7 @@ function logGame(body) {
       String(g.game || ''), String(g.lesson || ''), n(g.rounds), n(g.first), n(g.accuracy), n(g.score),
       String(g.practise || ''), n(g.known), n(g.minutes),
     ]);
+    if (BOARD_FROM_GAME[g.board]) boardAdd(r.st.v, cls, String(g.board), 10 + ((Number(g.accuracy) || 0) >= 80 ? 5 : 0));
     return { ok: true };
   } finally {
     lock.releaseLock();
@@ -423,7 +430,7 @@ function logGame(body) {
 // ── the maze leaderboard ─────────────────────────────────────────────
 // Every finished maze stage is one row in the class log's "Maze board" tab. The board a student sees is their own
 // class only: each classmate once, by first name and the first letter of the family name, ranked by the highest
-// stage reached, then the fewest seconds on that stage. Recitation is never ranked.
+// stage reached, then the fewest seconds on that stage. (The weekly leaderboards for every activity are further down.)
 const MAZE_TAB = 'Maze board';
 const MAZE_HEADERS = ['When', 'Name', 'Username', 'Maze', 'Stage', 'Seconds', 'Moves', 'Gobbled', 'Stars'];
 function mazeSheet(cls) {
@@ -454,6 +461,7 @@ function logMaze(body) {
   lock.waitLock(30000);
   try {
     mazeSheet(cls).appendRow([new Date(), String(r.st.v[S.name]), String(r.st.v[S.user]), String(g.maze), n(g.stage), n(g.secs), n(g.moves), n(g.gobbles), n(g.stars)]);
+    boardAdd(r.st.v, cls, 'maze', 10 + 5 * Math.max(0, Math.min(3, Number(g.stars) || 0)));
   } finally {
     lock.releaseLock();
   }
@@ -488,6 +496,120 @@ function mazeBoard(body) {
   const mine = rows.findIndex(function (x) { return x.u === me; });
   const out = rows.slice(0, 10).map(function (x, i) { return { rank: i + 1, name: x.name, stage: x.stage, secs: x.secs, stars: x.stars, me: x.u === me }; });
   return { ok: true, className: cls.name, rows: out, mine: mine >= 0 ? { rank: mine + 1, stage: rows[mine].stage, secs: rows[mine].secs } : null, total: rows.length };
+}
+
+// ── the leaderboards (Levels 1 to 4) ────────────────────────────────────
+// Healthy competition, "so for this let the competitors compete" (al-Mutaffifin 83:26). Every finished activity gives
+// points for PRACTICE, one row in the admin sheet's "Leaderboard" tab:
+//   Hifz test, Recite    10, + 2 per ayah (up to 40), + 1 per minute (up to 30), + 10 for 80% right first time
+//   every other activity 10 for finishing, + 5 for a strong result (maze and Adventure: + 5 per star)
+// A student earns at most 100 points per activity per day, so steady practice wins, not one long sitting.
+// Boards run Monday to Sunday and start again each week; last week's leaders are kept as "Champions of the week".
+// Students see their own level's board and the board across all four levels, by first name and initial.
+// A teacher can take a student off the public boards: type "hide" in the Leaderboard tab's "Hidden" list (column I).
+const BOARD_TAB = 'Leaderboard';
+const BOARD_HEADERS = ['When', 'Week (Monday)', 'Username', 'Name', 'Level', 'Activity', 'Points', '', 'Hidden (usernames)'];
+const BOARD_ACTS = ['hifz', 'recite', 'alifba', 'learn', 'stories', 'reading', 'seerah', 'guardians', 'maze', 'adventure', 'deen', 'games'];
+const BOARD_FROM_GAME = { alifba: 1, learn: 1, stories: 1, reading: 1, seerah: 1, guardians: 1 };   // sent with a game row
+const BOARD_FROM_CLIENT = { deen: 1, games: 1 };   // activities that keep no other row: the website sends 'board-add'
+const BOARD_DAY_CAP = 100;
+function boardSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(BOARD_TAB);
+  if (!sh) {
+    sh = ss.insertSheet(BOARD_TAB);
+    sh.appendRow(BOARD_HEADERS);
+    sh.getRange(1, 1, 1, BOARD_HEADERS.length).setFontWeight('bold').setBackground('#FBE3A6');
+    sh.setFrozenRows(1);
+    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+    sh.getRange('B:B').setNumberFormat('@');
+  }
+  return sh;
+}
+function boardLevel(cls) {
+  const m = String((cls && cls.name) || '').match(/(\d+)/);
+  const n = m ? Number(m[1]) : 0;
+  return n >= 1 && n <= 4 ? n : 0;
+}
+function boardAdd(v, cls, act, pts) {
+  const lvl = boardLevel(cls);
+  if (!lvl || BOARD_ACTS.indexOf(act) < 0) return;
+  try {
+    const now = new Date();
+    boardSheet().appendRow([now, advWeek(now), String(v[S.user]), String(v[S.name]), lvl, act, Math.max(0, Math.round(pts))]);
+    CacheService.getScriptCache().remove('board:' + advWeek(now));
+  } catch (err) { /* the board must never stop a session being saved */ }
+}
+function boardAddFor(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const act = String(body.act || '');
+  if (!BOARD_FROM_CLIENT[act]) return { ok: false, error: 'bad-request' };
+  boardAdd(r.st.v, findClass(r.st.v[S.cls]), act, 10 + (body.good ? 5 : 0));
+  return { ok: true };
+}
+function boardHidden(sh) {
+  const out = {};
+  if (sh.getLastRow() < 2) return out;
+  sh.getRange(2, 9, sh.getLastRow() - 1, 1).getValues().forEach(function (x) { const u = String(x[0]).trim().toLowerCase(); if (u) out[u] = true; });
+  return out;
+}
+// one week's totals: { act: { username: { n: 'Maryam A.', l: 2, p: 120 } } }, cached for two minutes
+function boardWeek(week) {
+  const cache = CacheService.getScriptCache();
+  const hit = cache.get('board:' + week);
+  if (hit) return JSON.parse(hit);
+  const sh = boardSheet();
+  const hidden = boardHidden(sh);
+  const last = sh.getLastRow();
+  const from = Math.max(2, last - 30000);
+  const rows = last >= 2 ? sh.getRange(from, 1, last - from + 1, 7).getValues() : [];
+  const out = {}, day = {};
+  rows.forEach(function (v) {
+    if (String(v[1]) !== week) return;
+    const u = String(v[2]).toLowerCase(), act = String(v[5]);
+    if (!u || hidden[u] || BOARD_ACTS.indexOf(act) < 0) return;
+    const d = u + '|' + act + '|' + (v[0] instanceof Date ? Utilities.formatDate(v[0], Session.getScriptTimeZone(), 'yyyy-MM-dd') : '');
+    const p = Math.max(0, Math.min(Number(v[6]) || 0, BOARD_DAY_CAP - (day[d] || 0)));
+    day[d] = (day[d] || 0) + p;
+    const a = out[act] = out[act] || {};
+    const x = a[u] = a[u] || { n: shortName(v[3]), l: Number(v[4]) || 0, p: 0 };
+    x.p += p;
+  });
+  cache.put('board:' + week, JSON.stringify(out), 120);
+  return out;
+}
+function boardRank(list) {   // standard competition ranking: equal points share a place
+  list.sort(function (a, b) { return b.p - a.p || (a.n < b.n ? -1 : 1); });
+  let rank = 0;
+  list.forEach(function (x, i) { if (i === 0 || x.p !== list[i - 1].p) rank = i + 1; x.rank = rank; });
+  return list;
+}
+function leaderboard(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const lvl = boardLevel(findClass(r.st.v[S.cls]));
+  if (!lvl) return { ok: true, level: 0, acts: {}, champs: {} };
+  const me = String(r.st.v[S.user]).toLowerCase();
+  const now = new Date(), prev = new Date(now.getTime() - 7 * 864e5);
+  const week = advWeek(now), lastWeek = advWeek(prev);
+  const cur = boardWeek(week), old = boardWeek(lastWeek);
+  const view = function (x) { return { rank: x.rank, name: x.n, level: x.l, points: x.p, me: x.u === me }; };
+  const acts = {}, champs = {};
+  let players = {};
+  BOARD_ACTS.forEach(function (act) {
+    const all = boardRank(Object.keys(cur[act] || {}).map(function (u) { const x = cur[act][u]; players[u] = 1; return { u: u, n: x.n, l: x.l, p: x.p }; }));
+    if (!all.length) return;
+    const mine = boardRank(all.filter(function (x) { return x.l === lvl; }).map(function (x) { return { u: x.u, n: x.n, l: x.l, p: x.p, rank: 0 }; }));
+    const meAll = all.filter(function (x) { return x.u === me; })[0], meLvl = mine.filter(function (x) { return x.u === me; })[0];
+    acts[act] = {
+      all: all.slice(0, 10).map(view), level: mine.slice(0, 10).map(view), players: all.length, levelPlayers: mine.length,
+      me: meAll ? { points: meAll.p, rankAll: meAll.rank, rankLevel: meLvl ? meLvl.rank : 0 } : null,
+    };
+    const prevAll = boardRank(Object.keys(old[act] || {}).map(function (u) { const x = old[act][u]; return { u: u, n: x.n, l: x.l, p: x.p }; }));
+    if (prevAll.length) champs[act] = view(prevAll[0]);
+  });
+  return { ok: true, week: week, level: lvl, acts: acts, champs: champs, players: Object.keys(players).length };
 }
 
 // ── Ta'aleem Adventure (public/adventure/): the class online ─────────────
@@ -572,6 +694,7 @@ function advRun(body) {
   let team;
   try {
     advSheet(cls).appendRow([new Date(), name, me, stage, motes, stars, secs, JSON.stringify(advLook(body.look)), path]);
+    boardAdd(r.st.v, cls, 'adventure', 10 + 5 * stars);
     team = advTeam(cls);
     team.total += motes;
     const mine = team.by[me] || { n: shortName(name), m: 0 };

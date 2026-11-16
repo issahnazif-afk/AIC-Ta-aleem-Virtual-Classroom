@@ -121,7 +121,7 @@ export async function logGame({ token, game }) {
   try { return await post({ action: 'game', token, game }); } catch { return { ok: false }; }
 }
 
-// ── the maze leaderboard (the student's own class; first name and initial; recitation is never ranked) ──
+// ── the maze leaderboard (the student's own class; first name and initial) ──
 // In demo mode (no web app address) the board is the players on this device.
 const DEMO_BOARD = 'qc-mazeboard';
 const short = (full) => { const p = String(full || '').trim().split(/\s+/); return p.length > 1 ? `${p[0]} ${p[p.length - 1][0].toUpperCase()}.` : p[0] || 'Student'; };
@@ -143,6 +143,36 @@ export async function mazeBoard({ token, username, maze }) {
     return { ok: true, demo: true, className: 'This device', total: rows.length, rows: rows.slice(0, 10).map((x, k) => ({ rank: k + 1, name: x.name, stage: x.stage, secs: x.secs, stars: x.stars, me: x.u === username })), mine: i >= 0 ? { rank: i + 1, stage: rows[i].stage, secs: rows[i].secs } : null };
   }
   try { return await post({ action: 'maze-board', token, maze }); } catch { return { ok: false, error: 'network' }; }
+}
+
+// ── the weekly leaderboards, Levels 1 to 4 (Apps Script "board"; points are worked out there) ──
+// In demo mode (no web app address) a clearly marked sample board, so the screens can be seen.
+export async function getBoard({ token, name = '', level = 1 }) {
+  if (isDemo()) return demoLeaders(name, level);
+  try { return await post({ action: 'board', token }); } catch { return { ok: false, error: 'network' }; }
+}
+// activities that keep no other row in the class log (My Deen, Play & Make) tell the board themselves
+export async function boardAdd({ token, act, good = false }) {
+  if (isDemo()) return { ok: true, demo: true };
+  try { return await post({ action: 'board-add', token, act, good }); } catch { return { ok: false }; }
+}
+function demoLeaders(name, level) {
+  const me = short(name) || 'You';
+  const people = [['Aisha K.', 3], ['Yusuf M.', 2], ['Maryam A.', 2], ['Ibrahim S.', 4], ['Khadija O.', 1], ['Bilal R.', 3], ['Zainab H.', 2], ['Umar F.', 1], ['Safiya N.', 4]];
+  const acts = ['hifz', 'recite', 'alifba', 'learn', 'stories', 'reading', 'seerah', 'maze', 'adventure', 'deen', 'games'];
+  const out = {}, champs = {};
+  acts.forEach((act, k) => {
+    const list = people.map(([n, l], i) => ({ name: n, level: l, points: 40 + ((i * 37 + k * 53) % 260), me: false }));
+    list.push({ name: me, level, points: 60 + ((k * 71) % 200), me: true });
+    list.sort((a, b) => b.points - a.points);
+    list.forEach((x, i) => (x.rank = i + 1));
+    const mineL = list.filter((x) => x.level === level).map((x, i) => ({ ...x, rank: i + 1 }));
+    const m = list.find((x) => x.me);
+    out[act] = { all: list.slice(0, 10), level: mineL.slice(0, 10), players: list.length, levelPlayers: mineL.length, me: { points: m.points, rankAll: m.rank, rankLevel: mineL.find((x) => x.me).rank } };
+    const [cn, cl] = people[(k * 4) % people.length];
+    champs[act] = { rank: 1, name: cn, level: cl, points: 180 + k * 7, me: false };
+  });
+  return { ok: true, demo: true, level, acts: out, champs, players: people.length + 1 };
 }
 
 // The approved questions from the "Question bank" tab of the admin sheet.

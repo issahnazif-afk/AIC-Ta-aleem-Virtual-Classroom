@@ -20,6 +20,7 @@ import '../styles/system.css';
 import '@fontsource/playfair-display/500-italic.css';
 import '@fontsource/playfair-display/600.css';
 import '../styles/front.css';
+import '../styles/leaders.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
 import TajweedRoom from '../components/TajweedRoom.astro';
@@ -63,11 +64,11 @@ const levels = [
         <p class="ln-lede">Choose your level and step inside: Qur'an with a listening Sheikh, stories, Arabic, salah and play.</p>
       </div>
       <div class="ln-row" role="group" aria-label="Choose your level, or the adults' section">
-        <button type="button" class="ln-door" data-door="1" data-name="Level 1 · Little learners" data-go="Enter Level 1"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/kinder.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">1</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span></span><b>Little learners</b><span class="ln-sub">Level 1 · ages 4 to 6</span></button>
-        <button type="button" class="ln-door" data-door="2" data-name="Level 2 · Young readers" data-go="Enter Level 2"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/letters.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">2</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span></span><b>Young readers</b><span class="ln-sub">Level 2 · ages 6 to 8</span></button>
-        <button type="button" class="ln-door" data-door="3" data-name="Level 3 · Explorers" data-go="Enter Level 3"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/adventures.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">3</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span></span><b>Explorers</b><span class="ln-sub">Level 3 · ages 8 to 11</span></button>
-        <button type="button" class="ln-door" data-door="4" data-name="Level 4 · Seekers" data-go="Enter Level 4"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/seerah.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">4</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span></span><b>Seekers</b><span class="ln-sub">Level 4 · ages 11 to 16</span></button>
-        <button type="button" class="ln-door ln-adult" data-adult={u('quran/app/')} data-name="Adults · The Quran Library" data-go="Enter the Quran Library"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/quran.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">✦</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْكِبَار</span></span><b>Adults</b><span class="ln-sub">The Quran Library</span></button>
+        <button type="button" class="ln-door" data-door="1" data-door-name="Level 1 · Little learners" data-go="Enter Level 1"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/kinder.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">1</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span></span><b>Little learners</b><span class="ln-sub">Level 1 · ages 4 to 6</span></button>
+        <button type="button" class="ln-door" data-door="2" data-door-name="Level 2 · Young readers" data-go="Enter Level 2"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/letters.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">2</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span></span><b>Young readers</b><span class="ln-sub">Level 2 · ages 6 to 8</span></button>
+        <button type="button" class="ln-door" data-door="3" data-door-name="Level 3 · Explorers" data-go="Enter Level 3"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/adventures.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">3</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span></span><b>Explorers</b><span class="ln-sub">Level 3 · ages 8 to 11</span></button>
+        <button type="button" class="ln-door" data-door="4" data-door-name="Level 4 · Seekers" data-go="Enter Level 4"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/seerah.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">4</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span></span><b>Seekers</b><span class="ln-sub">Level 4 · ages 11 to 16</span></button>
+        <button type="button" class="ln-door ln-adult" data-adult={u('quran/app/')} data-door-name="Adults · The Quran Library" data-go="Enter the Quran Library"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/quran.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">✦</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْكِبَار</span></span><b>Adults</b><span class="ln-sub">The Quran Library</span></button>
       </div>
     </div>
     <!-- after a door is chosen: that door, open, on the left; sign in / create account on the right -->
@@ -148,7 +149,7 @@ const levels = [
     <section class="ln-trust" id="ln-about" aria-label="About Ta'aleem">
       <div><b>From Al-Huda Islamic Centre</b><p>Made by our masjid for its families and students.</p></div>
       <div><b>Every lesson sourced</b><p>Qur'an and hadith references on every lesson and question.</p></div>
-      <div><b>No ads, no selling</b><p>Nothing to buy, no rankings, and recitation is heard on the device.</p></div>
+      <div><b>No ads, no selling</b><p>Nothing to buy, and recitation is heard on the device. A friendly weekly race keeps everyone practising.</p></div>
     </section>
     <footer class="ln-foot"><span>© Al-Huda Islamic Centre · Ta'aleem</span><span>Works best on a computer with a camera and microphone, in Chrome or Edge.</span></footer>
     <div class="ln-welcome" id="ln-welcome" role="dialog" aria-modal="true" aria-labelledby="lw-ar" hidden>
@@ -356,6 +357,7 @@ const levels = [
         <a href="#sec-play" data-dest="play"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9h10a4 4 0 0 1 4 4v1a3 3 0 0 1-5.3 1.9L14 14h-4l-1.7 1.9A3 3 0 0 1 3 14v-1a4 4 0 0 1 4-4z"/><path d="M8 11.5v2M7 12.5h2"/><circle cx="16" cy="12" r=".6" fill="currentColor"/></svg>Play &amp; Learn</a>
         <a href="#sec-hifz" data-dest="hifz"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5z"/><path d="M12 6.5v13"/></svg>My Hifz</a>
         <button type="button" data-dest="awards"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M8.5 13 7 21l5-2.5 5 2.5-1.5-8"/></svg>My Achievements</button>
+        <button type="button" data-dest="leaders"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></svg>Leaderboards</button>
         <button type="button" data-dest="garden"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-9"/><path d="M12 12C12 8 9 6 5 6c0 4 3 6 7 6z"/><path d="M12 10c0-3 2.5-5 6-5 0 3.5-2.5 5-6 5z"/><path d="M6 21h12"/></svg>My Jannah Garden</button>
         <button type="button" data-dest="kids" id="dest-kids" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg>Picture home</button>
       </nav>
@@ -396,11 +398,30 @@ const levels = [
     <div class="flow-main">
       <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Achievements</p>
       <h1 id="aw-h">Your stars and badges</h1>
-      <p class="muted lead">Stars are for finishing, for doing better than last time, and for practising often. They are yours alone: there is no class ranking.</p>
+      <p class="muted lead">Stars are for finishing, for doing better than last time, and for practising often. They are yours alone. (The weekly race is on the Leaderboards.)</p>
       <div class="aw-stats" id="aw-stats"></div>
       <section class="daily card"><div class="daily-head"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Today's Ta'aleem Challenge</p></div><ol class="missions" data-missions></ol></section>
       <h2 class="h2">Badges</h2>
       <div class="badges" id="aw-badges"></div>
+    </div>
+  </section>
+
+  <!-- The leaderboards, Levels 1 to 4 (src/lib/leaders.mjs) ─ -->
+  <section class="screen flow" id="s-leaders" hidden aria-labelledby="lb-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · Leaderboards</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Leaderboards · this week</p>
+      <h1 id="lb-h">The race to do good</h1>
+      <figure class="lb-ayah">
+        <p lang="ar" dir="rtl">وَفِي ذَٰلِكَ فَلْيَتَنَافَسِ ٱلْمُتَنَافِسُونَ</p>
+        <figcaption>“So for this let the competitors compete.” <cite>Al-Mutaffifin 83:26</cite></figcaption>
+      </figure>
+      <p class="muted lead">Points are for practice: finishing an activity, steady work and doing well, at most 100 points in an activity each day. A new race starts every Monday. Cheer your classmates on, and make du'a for them too.</p>
+      <div id="lb-root" aria-live="polite"></div>
     </div>
   </section>
 
@@ -734,10 +755,13 @@ const levels = [
     </div>
   </section>
 
+  <div class="news" id="news" role="region" aria-label="Leaderboard headlines" hidden></div>
+
   <script>
     import { configure, isDemo, login, register, listClasses, setGender, sendSession, flushOutbox } from '../lib/classlog.mjs';
     import { phrase, praiseFor, speak } from '../lib/phrases.mjs';
-    import { getProgress, saveProgress, logGame, logMaze, mazeBoard, sheikhOn, sheikhTalk } from '../lib/classlog.mjs';
+    import { getProgress, saveProgress, logGame, logMaze, mazeBoard, sheikhOn, sheikhTalk, getBoard, boardAdd } from '../lib/classlog.mjs';
+    import { headlines, mountNews, flyIn, renderLeaders } from '../lib/leaders.mjs';
     import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, lookalikes } from '../lib/alifba.mjs';
     import { createLanterns } from '../lib/lanterns.mjs';
     import { LESSONS, GAMES, SPEEDS, STOPS, DUAS, SURAHS, examples, forms, syllable, syllableItems, basketsFor } from '../lib/lessons.mjs';
@@ -798,8 +822,12 @@ const levels = [
 
     function show(id) {
       document.querySelectorAll('.screen').forEach((s) => (s.hidden = s.id !== id));
+      const nb = document.getElementById('news');
+      if (nb) nb.hidden = !(['s-home', 's-kids'].includes(id) && nb.childElementCount && !nb.dataset.closed);
       window.scrollTo(0, 0);
     }
+
+    const NEWS_ON = ['s-home', 's-kids'];   // where the leaderboard headlines run
 
     // ── 1 · sign in ──────────────────────────────────────────
     const USER_RE = /^[a-z0-9][a-z0-9._-]{2,23}$/;
@@ -873,7 +901,7 @@ const levels = [
       }
       function open(d) {
         door = d;
-        $('lw-where').textContent = d.dataset.name || '';
+        $('lw-where').textContent = d.dataset.doorName || '';
         $('lw-go').textContent = (d.dataset.go || 'Come in') + ' →';
         W.hidden = false; W.classList.remove('show');
         requestAnimationFrame(() => requestAnimationFrame(() => W.classList.add('show')));
@@ -1449,6 +1477,35 @@ const levels = [
         await loadBank(me.token);
       }
       renderDashboard();
+      loadLeaders(fresh);
+    }
+    // ── the leaderboards (Levels 1 to 4): headlines on the home screens, and the leaderboards screen ──
+    let leaders = null, leadersAt = 0, lbView = { act: '', scope: 'level' };
+    async function loadLeaders(fresh) {
+      const nb = $('news');
+      if (fresh) { leaders = null; delete nb.dataset.closed; }
+      if (!(me.level >= 1 && me.level <= 4)) { nb.hidden = true; nb.replaceChildren(); return; }
+      if (!leaders || Date.now() - leadersAt > 120000) {
+        const r = await getBoard({ token: me.token, name: me.name, level: me.level });
+        if (!me.token) return;   // signed out meanwhile
+        leaders = r; leadersAt = Date.now();
+      }
+      const items = headlines(leaders);
+      mountNews(nb, items, { onOpen: openLeaders });
+      nb.hidden = !(items.length && !nb.dataset.closed && NEWS_ON.some((id) => !$(id).hidden));
+      if (fresh && items.length) setTimeout(() => flyIn(items[0], { onOpen: openLeaders }), 900);
+    }
+    async function openLeaders(act) {
+      if (act) lbView.act = act;
+      document.querySelector('.news-fly')?.remove();
+      show('s-leaders');
+      const root = $('lb-root');
+      const draw = () => renderLeaders(root, leaders, { ...lbView, onChange: (v) => { lbView = v; draw(); } });
+      if (!leaders || Date.now() - leadersAt > 120000) {
+        root.replaceChildren(Object.assign(document.createElement('p'), { className: 'muted', textContent: 'Loading the leaderboards…' }));
+        leaders = await getBoard({ token: me.token, name: me.name, level: me.level }); leadersAt = Date.now();
+      }
+      draw();
     }
     // ── the picture home for Levels 1 and 2: big places to tap, each one says its name ──
     // the list view ('Grown-up view') is remembered for one student on this device, not for every account on it
@@ -1491,6 +1548,7 @@ const levels = [
           Y('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F6E3BC', null, { shelf: true, children: ['maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean).map(YC) }),
           Y('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E0E6FA', () => openDeen('days'), { shelf: true }),
           Y('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF0C2', () => openAwards(), { shelf: true }),
+          Y('leaders', 'Leaderboard', 'ٱلْأَبْطَال', 'awards', '#FFE9A8', () => openLeaders(), { shelf: true, say: 'Leaderboard' }),
         ];
       } else {
         // Levels 3 and 4: the subjects only; an opened subject shows its activities, each with one line
@@ -1512,11 +1570,12 @@ const levels = [
           games.length ? P('games', 'Games', 'أَلْعَاب', 'games', 'sand', null, { text: 'Short games for letters, ayat, salah and good character.', children: games.map((a) => C(a, 'sand')) }) : null,
           P('missions', 'Today’s missions', 'مَهَامُّ ٱلْيَوْم', 'missions', 'stone', () => { show('s-home'); setTimeout(() => document.querySelector('.daily')?.scrollIntoView({ block: 'start' }), 60); }),
           P('awards', 'My achievements', 'إِنْجَازَاتِي', 'awards', 'gold', () => openAwards()),
+          P('leaders', 'Leaderboards', 'ٱلْأَبْطَال', 'awards', 'gold', () => openLeaders(), { text: 'Who is leading each activity this week, in your level and across Levels 1 to 4.' }),
           P('garden', 'My Jannah Garden', 'حَدِيقَتِي', 'garden', 'sage', () => openGarden()),
         ].filter(Boolean);
         // each subject's painting (public/img/home/l34/); its name pops up on hover
         const ART34 = { 'w-quran': 'quran', 'w-arabic': 'arabic', 'w-tawheed': 'tawheed', 'w-seerah': 'seerah', 'w-hadith': 'hadith', 'w-akhlaq': 'akhlaq',
-          'w-dua': 'salah', adventures: 'adventures', games: 'games', missions: 'missions', awards: 'awards', garden: 'garden' };
+          'w-dua': 'salah', adventures: 'adventures', games: 'games', missions: 'missions', awards: 'awards', leaders: 'awards', garden: 'garden' };
         for (const p of places) if (ART34[p.id]) p.art = siteUrl(`img/home/l34/${ART34[p.id]}.webp`);
       }
       const last = act(store.get('lastAct', ''));
@@ -1551,7 +1610,7 @@ const levels = [
       $('dn-root').classList.toggle('kids-l1', me.level === 1);
       deenView = mountDeen($('dn-root'), {
         tab, level: me.level || 1, progress, reciter: reciter(),
-        earn: (kind, key) => { const e = record(progress, { kind, key, score: 1, good: true, gardenPalms: palms() }); renderDashboard(); return e; },
+        earn: (kind, key) => { const e = record(progress, { kind, key, score: 1, good: true, gardenPalms: palms() }); renderDashboard(); boardAdd({ token: me.token, act: 'deen', good: true }); return e; },
         flash: (e) => flash(e),
         onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
       });
@@ -1635,7 +1694,7 @@ const levels = [
       }
       gameView = mountGame($('gm-root'), {
         id, level: me.level || 1, progress,
-        earn: (kind, key, score, good) => { const e = record(progress, { kind, key, score, good, gardenPalms: palms() }); renderDashboard(); return e; },
+        earn: (kind, key, score, good) => { const e = record(progress, { kind, key, score, good, gardenPalms: palms() }); renderDashboard(); if (!String(key).startsWith('maze:')) boardAdd({ token: me.token, act: 'games', good: !!good }); return e; },
         flash: (e) => flash(e),
         onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
         onExit: () => goHome(),
@@ -1688,7 +1747,7 @@ const levels = [
       if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; ebook?.stop(); ebook = null; deenView?.stop(); deenView = null; gameView?.stop(); gameView = null; goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
-    function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in', false); show('s-signin'); openStage(store.get('door', '')); }
+    function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; leaders = null; $('news').hidden = true; $('news').replaceChildren(); document.querySelector('.news-fly')?.remove(); setTab('in', false); show('s-signin'); openStage(store.get('door', '')); }
     $('go-lesson').addEventListener('click', () => openLesson(selLesson));
     $('go-game').addEventListener('click', () => startLessonGame(selLesson));
 
@@ -2002,7 +2061,7 @@ const levels = [
       speak(pr);
       if (grewNow) nasheed('milestone');
       await saveProgress({ token: me.token, username: me.username, progress });
-      logGame({ token: me.token, game: { game: GAMES[L.game].name, lesson: `Lesson ${n} · ${L.name}`, rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: r.score ?? '', practise: r.practise.join(' '), known: n === 1 ? r.known : '', minutes: r.minutes } });
+      logGame({ token: me.token, game: { board: 'alifba', game: GAMES[L.game].name, lesson: `Lesson ${n} · ${L.name}`, rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: r.score ?? '', practise: r.practise.join(' '), known: n === 1 ? r.known : '', minutes: r.minutes } });
     }
     $('g-again').addEventListener('click', () => { if (playCtx) startPlay(playCtx); else startLessonGame(gameLesson); });
     $('g-home').addEventListener('click', () => { stopGame(); if (playCtx) goHome(); else goHub(); });
@@ -2063,6 +2122,7 @@ const levels = [
     document.querySelectorAll('.dest [data-dest]').forEach((x) => x.addEventListener('click', (e) => {
       const d = x.dataset.dest;
       if (d === 'awards') openAwards();
+      else if (d === 'leaders') openLeaders();
       else if (d === 'garden') openGarden();
       else if (d === 'kids') { store.set(classicKey(), false); showKids(); }
       else { e.preventDefault(); $('sec-' + d)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
@@ -2193,7 +2253,7 @@ const levels = [
       $('g-end').hidden = false;
       speak(pr);
       await saveProgress({ token: me.token, username: me.username, progress });
-      logGame({ token: me.token, game: { game: a.title, lesson: ctx.topic || (ctx.surah ? `Surah ${ctx.surah.en}` : 'Play & Learn'), rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: '', practise: r.practise.join(' '), known: '', minutes: r.minutes } });
+      logGame({ token: me.token, game: { board: 'learn', game: a.title, lesson: ctx.topic || (ctx.surah ? `Surah ${ctx.surah.en}` : 'Play & Learn'), rounds: r.rounds, first: r.first, accuracy: r.accuracy, score: '', practise: r.practise.join(' '), known: '', minutes: r.minutes } });
     }
 
 
@@ -2228,7 +2288,7 @@ const levels = [
           $('st-shelf').before(box);
           setTimeout(() => box.remove(), 12000);
           await saveProgress({ token: me.token, username: me.username, progress });
-          logGame({ token: me.token, game: { game: 'Story Time', lesson: st.title, rounds: 1, first: right ? 1 : 0, accuracy: right ? 100 : 50, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+          logGame({ token: me.token, game: { board: 'stories', game: 'Story Time', lesson: st.title, rounds: 1, first: right ? 1 : 0, accuracy: right ? 100 : 50, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },
       });
     }
@@ -2269,7 +2329,7 @@ const levels = [
           $('lb-root').before(box);
           setTimeout(() => box.remove(), 12000);
           await saveProgress({ token: me.token, username: me.username, progress });
-          logGame({ token: me.token, game: { game: 'Reading Library', lesson: book.title, rounds: 1, first: right ? 1 : 0, accuracy: Math.round((stars / 3) * 100), score: `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+          logGame({ token: me.token, game: { board: 'reading', game: 'Reading Library', lesson: book.title, rounds: 1, first: right ? 1 : 0, accuracy: Math.round((stars / 3) * 100), score: `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },
       });
     }
@@ -2305,7 +2365,7 @@ const levels = [
           document.querySelector('#eb-root .eb-end')?.prepend(box);
           renderStars?.();
           await saveProgress({ token: me.token, username: me.username, progress });
-          logGame({ token: me.token, game: { game: 'Ta’aleem Books', lesson: `${book.title}: ${chapter.title}`, rounds: 1, first, accuracy: pct, score: total ? `${first}/${total}${test ? ' (test)' : ''}` : `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+          logGame({ token: me.token, game: { board: 'reading', game: 'Ta’aleem Books', lesson: `${book.title}: ${chapter.title}`, rounds: 1, first, accuracy: pct, score: total ? `${first}/${total}${test ? ' (test)' : ''}` : `${stars}/3 stars`, practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
           t0 = Date.now();
         },
       });
@@ -2364,7 +2424,7 @@ const levels = [
           // Master of the Seerah: every one of the fourteen episodes finished
           if (SQ_EPISODES.length >= 14 && SQ_EPISODES.every((x) => sq[x.n]?.done) && sqAward('master')) setTimeout(() => sqBadge($('sq-hub'), 'master', sqSfx), champ ? 4500 : 0);
           await sqSave();
-          logGame({ token: me.token, game: { game: 'The Seerah Quest', lesson: `Episode ${n}: ${ep.title}`, rounds: quiz?.of ?? '', first: quiz?.right ?? '', accuracy: acc, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+          logGame({ token: me.token, game: { board: 'seerah', game: 'The Seerah Quest', lesson: `Episode ${n}: ${ep.title}`, rounds: quiz?.of ?? '', first: quiz?.right ?? '', accuracy: acc, score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },
       });
     }
@@ -2437,7 +2497,7 @@ const levels = [
           box.append(h, p); $('gl-hub').prepend(box);
           if (all) sqBadge($('gl-hub'), `beacon-${L.region}`, sqSfx, GL_BADGES);
           await sqSave();
-          logGame({ token: me.token, game: { game: 'Guardians of Light', lesson: `${L.label}: ${L.title}`, rounds: read, first: good, accuracy: '', score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
+          logGame({ token: me.token, game: { board: 'guardians', game: 'Guardians of Light', lesson: `${L.label}: ${L.title}`, rounds: read, first: good, accuracy: '', score: '', practise: '', known: '', minutes: Math.max(1, Math.round((Date.now() - t0) / 60000)) } });
         },
       });
     }

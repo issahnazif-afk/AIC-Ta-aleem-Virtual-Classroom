@@ -1,7 +1,7 @@
 // Ta'aleem Stars: one rewards system for every activity, kept in the student's progress (saved to the admin
 // sheet, where teachers see Stars, Badges and Day streak). Stars reward effort, improvement and steady practice,
-// never a ranking. The only leaderboard is the class maze board (src/lib/games/board.mjs, maze stages only);
-// recitation itself is never scored against others.
+// and are never ranked. The weekly race between students is separate: the Leaderboards (src/lib/leaders.mjs), with
+// points worked out by the Apps Script.
 
 const today = () => new Date().toLocaleDateString('en-CA');   // 2026-10-31, in the student's own time zone
 

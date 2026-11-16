@@ -1,0 +1,101 @@
+/* The weekly leaderboards (Levels 1 to 4): the headline ticker on the home screens, the flying news card after
+   signing in, and the leaderboards screen. See src/lib/leaders.mjs. */
+
+/* ── the ticker along the bottom of the home screens ── */
+.news { position: fixed; left: 0; right: 0; bottom: 0; z-index: 400; display: flex; align-items: center; height: 46px;
+  background: #0B1430; color: #F4EEDD; box-shadow: 0 -6px 24px -10px rgba(0, 0, 0, .45); border-top: 2px solid #F2B451; font: 600 15px var(--font-ui, system-ui); }
+.news[hidden] { display: none; }
+.news-label { flex: none; display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 16px; border: 0; cursor: pointer;
+  background: #F2B451; color: #0B1430; font: 800 13px var(--font-ui, system-ui); letter-spacing: .08em; text-transform: uppercase; }
+.news-dot { width: 9px; height: 9px; border-radius: 50%; background: #C0392B; animation: news-pulse 1.4s ease-in-out infinite; }
+@keyframes news-pulse { 50% { opacity: .25; } }
+.news-view { flex: 1; overflow: hidden; height: 100%; mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+.news-track { display: flex; width: max-content; height: 100%; animation: news-run var(--news-secs, 60s) linear infinite; }
+.news-view:hover .news-track { animation-play-state: paused; }
+@keyframes news-run { to { transform: translateX(-50%); } }
+.news-item { display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 28px; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; white-space: nowrap; }
+.news-item::after { content: "✦"; margin-left: 28px; color: #F2B451; opacity: .7; }
+.news-item:hover { color: #FFD98A; }
+.news-ic { font-size: 18px; }
+.news-x { flex: none; width: 40px; height: 100%; border: 0; background: none; color: #A9B0CC; font-size: 22px; cursor: pointer; }
+.news-x:hover { color: #fff; }
+/* the home screens leave room for the ticker */
+body:has(.news:not([hidden])) #s-home, body:has(.news:not([hidden])) #s-kids { padding-bottom: 46px; }
+
+/* ── the breaking-news card, once after signing in ── */
+.news-fly { position: fixed; z-index: 450; top: 86px; right: 24px; width: min(420px, calc(100vw - 32px)); display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: center;
+  padding: 16px 18px; border: 0; border-radius: 16px; text-align: left; cursor: pointer; color: #F4EEDD; font-family: var(--font-ui, system-ui);
+  background: linear-gradient(135deg, #121F45, #0B1430); box-shadow: 0 24px 50px -18px rgba(0, 0, 0, .55), 0 0 0 2px #F2B451;
+  transform: translateX(120%) rotate(4deg); opacity: 0; transition: transform .7s cubic-bezier(.2, .9, .25, 1.15), opacity .4s; }
+.news-fly.in { transform: none; opacity: 1; }
+.news-fly.out { transform: translateX(-30%) translateY(-140%) rotate(-6deg); opacity: 0; transition: transform .7s ease-in, opacity .6s; }
+.nf-k { grid-column: 1 / -1; font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #F2B451; }
+.nf-ic { grid-row: span 2; font-size: 38px; line-height: 1; }
+.nf-t { font-size: 17px; line-height: 1.35; font-weight: 700; color: #fff; }
+.nf-go { font-size: 13px; color: #FFD98A; }
+
+/* ── the leaderboards screen ── */
+.lb-ayah { margin: 6px 0 14px; padding: 14px 18px; border-radius: var(--r-surface, 14px); background: var(--gold-soft, #FBF1D6); border: 1px solid var(--gold, #C9A13B); }
+.lb-ayah p { margin: 0; font-family: "Amiri", serif; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.7; color: var(--forest-deep, #0E3B2E); }
+.lb-ayah figcaption { font-size: 15px; color: var(--ink-muted, #555); }
+.lb-ayah cite { font-style: normal; font-weight: 700; }
+.lb-demo { padding: 10px 14px; border-radius: 10px; background: #FFF4D6; border: 1px dashed #C9A13B; font-size: 14px; }
+.lb-scope { display: inline-flex; gap: 4px; padding: 4px; margin: 6px 0 14px; border-radius: 12px; background: var(--surface, #F3EEE2); border: 1px solid var(--line, #E2DACB); }
+.lb-scope-b { height: 40px; padding: 0 16px; border: 0; border-radius: 9px; background: none; color: var(--ink, #222); font: 700 14.5px var(--font-ui, system-ui); cursor: pointer; }
+.lb-scope-b[aria-selected="true"] { background: var(--forest, #0E6B4E); color: #fff; }
+.lb-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.lb-act { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--line, #E2DACB); background: var(--white, #fff); color: var(--ink, #222); font: 600 14px var(--font-ui, system-ui); cursor: pointer; }
+.lb-act:hover { border-color: var(--gold, #C9A13B); }
+.lb-act[aria-selected="true"] { background: #0B1430; border-color: #0B1430; color: #fff; }
+.lb-act-ic { font-size: 17px; }
+.lb-card { padding: 22px; border-radius: var(--r-large, 20px); background: var(--white, #fff); border: 1px solid var(--line, #E2DACB); box-shadow: var(--shadow-1, 0 4px 16px rgba(0, 0, 0, .06)); }
+.lb-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.lb-big-ic { font-size: 34px; }
+.lb-title { margin: 0; font-size: 26px; }
+.lb-count { margin-left: auto; font-size: 14px; color: var(--muted, #666); }
+.lb-empty { padding: 18px 0; color: var(--muted, #666); }
+/* the podium: 2nd · 1st · 3rd */
+.lb-podium { display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; gap: 12px; margin: 22px 0 8px; }
+.lb-pod { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; padding: 14px 8px 0; }
+.lb-medal { font-size: 40px; line-height: 1; }
+.lb-pod-name { font-size: 17px; margin-top: 4px; }
+.lb-pod-lv { font-size: 13px; color: var(--muted, #666); }
+.lb-pod-pts { font-weight: 800; color: var(--gold-text, #8A6514); }
+.lb-step { display: grid; place-items: center; width: 100%; margin-top: 8px; border-radius: 12px 12px 0 0; color: #fff; font: 800 22px var(--font-display, serif); }
+.lb-pod-1 .lb-step { height: 96px; background: linear-gradient(180deg, #F2B451, #C98A1E); }
+.lb-pod-2 .lb-step { height: 70px; background: linear-gradient(180deg, #BFC6D4, #8E97A8); }
+.lb-pod-3 .lb-step { height: 52px; background: linear-gradient(180deg, #E0A57A, #B06D3F); }
+.lb-pod-1 .lb-medal { font-size: 52px; animation: lb-bob 2.6s ease-in-out infinite; }
+@keyframes lb-bob { 50% { transform: translateY(-5px); } }
+.lb-pod.me .lb-pod-name, .lb-list li.me .lb-name { color: var(--forest, #0E6B4E); }
+.lb-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; }
+.lb-list li { display: grid; grid-template-columns: 48px 1fr auto auto; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 12px; background: var(--surface, #F7F3EA); }
+.lb-list li.me { background: #E6F2EC; outline: 2px solid var(--forest, #0E6B4E); }
+.lb-rank { font-weight: 800; color: var(--muted, #666); }
+.lb-lv { font-size: 13px; color: var(--muted, #666); }
+.lb-pts { font-weight: 800; color: var(--gold-text, #8A6514); }
+.lb-you { margin: 16px 0 0; padding: 12px 14px; border-radius: 12px; background: #FFF6DE; font-weight: 600; }
+.lb-champs { margin-top: 28px; }
+.lb-ch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.lb-ch { display: grid; gap: 2px; padding: 14px; border-radius: 14px; background: linear-gradient(160deg, #121F45, #0B1430); color: #E9E4F5; }
+.lb-ch-ic { font-size: 24px; }
+.lb-ch-act { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #F2B451; }
+.lb-ch-name { font-size: 17px; color: #fff; }
+.lb-ch-lv { font-size: 13px; color: #A9B0CC; }
+@media (max-width: 600px) {
+  .news { height: 42px; font-size: 14px; }
+  .news-label { padding: 0 10px; font-size: 11px; }
+  .news-fly { top: 72px; right: 16px; }
+  .lb-card { padding: 16px; }
+  .lb-pod-name { font-size: 15px; }
+  .lb-list li { grid-template-columns: 38px 1fr auto; }
+  .lb-list .lb-lv { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .news-track { animation: none; overflow-x: auto; }
+  .news-view { overflow-x: auto; }
+  .news-dot, .lb-pod-1 .lb-medal { animation: none; }
+  .news-fly, .news-fly.out { transition: none; }
+}
+/* the board card fills the column (sections in .flow-main are otherwise narrowed and centred) */
+#lb-root .lb-card, #lb-root .lb-champs { width: 100%; max-width: 860px; margin-left: 0; margin-right: 0; }

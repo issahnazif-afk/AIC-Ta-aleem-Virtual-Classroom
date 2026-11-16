@@ -146,8 +146,20 @@ the Studio (or delete its row). Students cannot record or change anything: they 
 
 Every finished maze stage is written to a **Maze board** tab in the class log (made the first time a student
 finishes a stage). Students see their own class only, each classmate once by first name and the first letter of
-the family name, ranked by the highest stage reached and then the quickest time on it. Recitation is never ranked.
+the family name, ranked by the highest stage reached and then the quickest time on it.
 To remove a row (for example a test run), delete it from the Maze board tab; the board updates within a minute.
+
+## The weekly leaderboards (Levels 1 to 4)
+
+Every finished activity adds one row to a **Leaderboard** tab in this admin sheet (made the first time it is needed):
+Hifz test, Recite, Alif Ba, Play & Learn, Story Time, Reading & Books, the Seerah Quest, Guardians of Light, the mazes,
+Ta'aleem Adventure, My Deen and Play & Make. Points are for practice: 10 for finishing and 5 for a strong result
+(Hifz test and Recite: 10, + 2 per ayah up to 40, + 1 per minute up to 30, + 10 for 80% right first time), at most 100
+per activity per day. Boards run Monday to Sunday; students see their own level and all four levels, by first name
+and initial, with last week's champions. When they sign in, headlines about the leaders run along the bottom.
+
+- **To keep a student off the public boards**, type their username in the tab's **Hidden (usernames)** column (I).
+- **To remove a row** (for example a test run), delete it; the boards update within two minutes.
 
 To switch it on for an existing set-up, paste the new `Code.gs` and make a **New version** of the deployment
 (see *Changing the script later*). Until then the leaderboard says it is not switched on yet.
