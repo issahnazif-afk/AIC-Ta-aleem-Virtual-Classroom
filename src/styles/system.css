@@ -530,6 +530,11 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .sc-reply:hover, .sc-reply:focus-visible { background: #EAF2EC; }
 .sc-go { padding: 12px 22px; border-radius: 999px; border: 0; background: var(--forest, #173D32); color: #fff; font: inherit; font-weight: 800; font-size: 1.05rem; cursor: pointer; }
 @media (prefers-reduced-motion: no-preference) { .sc-msg { animation: sc-in .25s ease-out; } @keyframes sc-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } } }
+.sc-spots { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 6px; }
+.sc-spots .spot, .strip .spot { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 12px; border: 1px solid var(--rule); border-radius: 10px; background: var(--white); color: var(--ink); cursor: pointer; }
+.sc-spots .spot span, .strip .spot span { font-family: 'KFGQPC Hafs', 'Amiri', serif; font-size: 24px; line-height: 1.6; }
+.sc-spots .spot small, .strip .spot small { font-size: 12px; color: var(--ink-muted); }
+.sc-spots .spot.on, .strip .spot.on { border-color: var(--gold); background: var(--sage-soft); }
 .sc-quote { align-self: stretch; margin: 2px 0 4px; padding: 12px 14px; border-radius: 14px; background: #fff; border: 1px solid var(--rule, #e3dccb); border-left: 4px solid var(--gold, #B99A5B); }
 .sc-quote-ar { margin: 0 0 6px; font-family: Amiri, serif; font-size: 1.45rem; line-height: 1.9; color: var(--forest, #173D32); text-align: right; }
 .sc-quote-ar.quran { font-family: 'KFGQPC Hafs', Amiri, serif; }

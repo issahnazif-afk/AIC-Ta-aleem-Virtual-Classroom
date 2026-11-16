@@ -1,0 +1,3694 @@
+{
+ "rubric": "Child-safety and age-level tagging of every Sheikh quotation, per the director's instruction to exclude any kids-unsuitable or unsafe text for all of Levels 1-4 regardless of authenticity. An item gets levels [] (excluded for all children) if it contains killing, fighting, war or battle context, blood, slaughter, punishments, torture, graphic Hell/grave/Judgement fear imagery or a warning of Hell, curses, the womb/embryo, marriage/wives/sexual matters, slavery, death as the subject, satan/jinn fear, anything that could frighten, shame or confuse a child, a harsh or threatening tone, sectarian or theologically contentious content, Sufi-technical content, detailed fiqh rulings, archaic wording a child would misread as harsh or rude, or text that starts/ends mid-sentence or carries placeholders; when in doubt it is excluded. Otherwise: Level 1 (ages 4-6, read aloud) only very short (about 25 words or fewer after the narrator chain), concrete, warm, one idea; Level 2 (ages 7-8) up to about 45 words, a simple story or instruction; Level 3 (ages 9-10) up to about 80 words with a clear meaning; Level 4 (ages 10-14) may be longer and abstract (intention, sincerity, self-examination) and is the only level for archaic English (al-Ghazali tr. Claud Field, Pickthall) and for long isnad-heavy hadith texts. Ibn Kathir seerah passages are allowed only where the history is calm (no battles, deaths or attacks); the Year of the Elephant campaign, persecution/torture, Badr/Uhud/Trench and the Prophet's death are excluded. Traits list the counselling situations (nervous, discouraged, comparing, proud, bored, angry, sad, guilty, unkind, lazy, grateful) that the text directly speaks to; excluded items carry no traits. 'why' is given whenever an item is excluded or misses a level.",
+ "tagged": "2026-11-16",
+ "items": {
+  "h-right-hand": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-smile": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-salam": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-salam-all": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-brush": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Parenthetical narrator note and length beyond Level 1"
+  },
+  "h-right-first": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-sleep-right": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-three-sips": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-sit-drink": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-help-home": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-visit-sick": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "\"Set the prisoner free\" needs explanation beyond Level 1"
+  },
+  "h-animals": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Story over Level 1 length"
+  },
+  "h-road": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-good-words": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ]
+  },
+  "h-neighbour": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Inheritance idea too abstract for Level 1"
+  },
+  "h-young-old": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Negative \"not one of us\" framing; not for youngest"
+  },
+  "h-no-anger": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "angry"
+   ]
+  },
+  "h-easy": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-love-brother": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "comparing"
+   ]
+  },
+  "h-shake-hands": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-food-thanks": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "grateful"
+   ]
+  },
+  "h-praise-food": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "grateful"
+   ]
+  },
+  "h-masjid-two": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Ritual rule beyond Level 1"
+  },
+  "h-monday": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-half-date": {
+   "levels": [],
+   "traits": [],
+   "why": "Warning of the Fire (Hell)"
+  },
+  "h-salawat-friday": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-dua-others": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-yawn": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-nails": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-gentle": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind",
+    "angry"
+   ]
+  },
+  "h-truth": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-thank-people": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "grateful"
+   ]
+  },
+  "h-good-word": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ]
+  },
+  "h-subhanallah": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Sins/forgiveness idea and length beyond Level 1"
+  },
+  "h-learn": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "bored"
+   ]
+  },
+  "h-early-sleep": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Young children normally sleep before Isha; could confuse or shame them"
+  },
+  "h-share-food": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-mother": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-clean": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-v-mercy": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ]
+  },
+  "h-v-mercy-story": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Over Level 1 length"
+  },
+  "h-v-truth-story": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Hypothetical attacking horsemen; not for younger children"
+  },
+  "h-v-generous": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-v-children-story": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-v-manners": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "angry"
+   ],
+   "why": "Over Level 1 length"
+  },
+  "h-v-smile": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-v-patience": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "sad"
+   ],
+   "why": "Abstract (patience at moment of hurt) for Level 1"
+  },
+  "h-v-grateful": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "grateful"
+   ],
+   "why": "Swollen feet / night prayer; over Level 1 length"
+  },
+  "h-v-courage": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Frightening-noise story; not for youngest"
+  },
+  "h-v-fair": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Parental fairness; \"Fear Allah\" phrasing not for Level 1"
+  },
+  "h-l-shepherd": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-l-hira": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-l-safa": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-l-cave": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Hijra hiding context; over Level 1 length"
+  },
+  "h-l-masjid": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-l-makkah": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Conquest context and striking idols; older children only"
+  },
+  "h-l-63": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Mentions the Prophet's death; kept from youngest"
+  },
+  "h-jumuah": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-mon-thu": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Deeds shown to Allah is abstract for Level 1"
+  },
+  "h-white": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Fasting detail (specific dates) beyond younger levels"
+  },
+  "h-muharram": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Voluntary fasting detail beyond Level 1"
+  },
+  "h-ashura": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Voluntary fasting / forgiveness beyond Level 1"
+  },
+  "h-qadr": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Beyond Level 1"
+  },
+  "h-fitr": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "\"In their place\" needs historical context"
+  },
+  "h-dhulhijjah": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "\"These ten days\" needs context"
+  },
+  "h-arafah": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Voluntary fasting / forgiveness beyond Level 1"
+  },
+  "h-b68": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic phrasing (\"abstained from pestering\"); older readers"
+  },
+  "h-b75": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic \"bestow\"; beyond Level 1"
+  },
+  "h-b77": {
+   "levels": [],
+   "traits": [],
+   "why": "Prophet spraying water from his mouth on a child's face could confuse young children"
+  },
+  "h-b5027": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "bored"
+   ]
+  },
+  "h-b5031": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "lazy"
+   ],
+   "why": "Over Level 1 length"
+  },
+  "h-b5033": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "lazy"
+   ],
+   "why": "Archaic oath phrasing"
+  },
+  "h-b5037": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic phrasing; needs context"
+  },
+  "h-b5049": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Over Level 1 length"
+  },
+  "h-b5054": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Recitation-pace instruction; older children"
+  },
+  "h-b6011": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Long simile with fever/insomnia; older readers"
+  },
+  "h-b6012": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b6065": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "comparing",
+    "unkind"
+   ],
+   "why": "Long, archaic (\"Lo!\"), deserting idea"
+  },
+  "h-b6114": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "angry"
+   ],
+   "why": "Over Level 1 length"
+  },
+  "h-b6125": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b6129": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b6136": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Long repetition; older readers"
+  },
+  "h-b6168": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Abstract for Level 1"
+  },
+  "h-b6221": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long story"
+  },
+  "h-b6234": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b6236": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b6237": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Long; not speaking for three days"
+  },
+  "h-b6244": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b6464": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "lazy",
+    "discouraged"
+   ],
+   "why": "\"Deeds will not make you enter Paradise\" is theologically subtle; Level 4 only"
+  },
+  "h-b6465": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "lazy",
+    "discouraged"
+   ],
+   "why": "Archaic; older readers"
+  },
+  "h-b6484": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Abstract (Muhajir definition); older readers"
+  },
+  "h-m1914": {
+   "levels": [],
+   "traits": [],
+   "why": "Martyrdom list: dying of plague, drowning, being buried, dying fighting; also two hadith run together"
+  },
+  "h-m2168": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "h-m2548": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long, repetitive old translation with isnad note; Level 4 only"
+  },
+  "h-m2552": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long, archaic old translation; Level 4 only"
+  },
+  "h-m2553": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract (virtue/vice, conscience) in archaic English"
+  },
+  "h-m2564": {
+   "levels": [],
+   "traits": [],
+   "why": "Mentions blood and trade rulings; long archaic text"
+  },
+  "h-m2588": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "proud"
+   ],
+   "why": "Abstract; older readers"
+  },
+  "h-m2618": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-m2624": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic old translation; inheritance idea"
+  },
+  "h-m2626": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Archaic (\"countenance\")"
+  },
+  "h-m2694": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Scale of deeds and archaic phrasing; older readers"
+  },
+  "h-m2708": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Archaic; seeking refuge from evil is abstract for young"
+  },
+  "q-49-10": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ]
+  },
+  "q-94-6": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "discouraged",
+    "sad"
+   ]
+  },
+  "q-16-18": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "grateful"
+   ]
+  },
+  "q-2-195": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-3-134": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "angry"
+   ]
+  },
+  "q-2-286": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous",
+    "discouraged"
+   ]
+  },
+  "q-13-28": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous",
+    "sad"
+   ]
+  },
+  "q-4-58": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-65-3": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ]
+  },
+  "q-2-148": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "comparing"
+   ]
+  },
+  "q-6-141": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-7-56": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "\"Set right\" is abstract for Level 1"
+  },
+  "q-17-34": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-43-13": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "grateful"
+   ],
+   "why": "Riding du'a needs context"
+  },
+  "q-49-13": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Nations and tribes is abstract for Level 1"
+  },
+  "q-39-62": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-112-1": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-51-58": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-2-186": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ]
+  },
+  "q-16-53": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "grateful"
+   ]
+  },
+  "q-67-19": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-3-191": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Abstract for Level 1"
+  },
+  "q-1-5": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ]
+  },
+  "q-7-180": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-21-69": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Needs the story of Ibrahim being thrown into the fire; not for youngest"
+  },
+  "q-2-163": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-11-41": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "q-21-87": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "guilty"
+   ]
+  },
+  "q-26-62": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ]
+  },
+  "s-z-title": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-z-dig": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long historical narrative"
+  },
+  "s-z-claim": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Dispute narrative; older readers"
+  },
+  "s-z-journey": {
+   "levels": [],
+   "traits": [],
+   "why": "Consulting a soothsayer; people sure they would die of thirst"
+  },
+  "s-z-graves": {
+   "levels": [],
+   "traits": [],
+   "why": "Men dig their own graves and wait for death"
+  },
+  "s-z-verdict": {
+   "levels": [],
+   "traits": [],
+   "why": "Starts mid-sentence (\"All of them.\")"
+  },
+  "s-z-siqaya": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long historical narrative"
+  },
+  "s-e-qullays": {
+   "levels": [],
+   "traits": [],
+   "why": "Opening of Abraha's campaign to destroy the Ka'bah; church rivalry (interfaith-sensitive)"
+  },
+  "s-e-anger": {
+   "levels": [],
+   "traits": [],
+   "why": "Abraha swears to destroy the Ka'bah; contempt act"
+  },
+  "s-e-march": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle, defeat and capture"
+  },
+  "s-e-nufayl": {
+   "levels": [],
+   "traits": [],
+   "why": "Captive about to be killed"
+  },
+  "s-e-taif": {
+   "levels": [],
+   "traits": [],
+   "why": "Part of the army's march to destroy the Ka'bah"
+  },
+  "s-e-camels": {
+   "levels": [],
+   "traits": [],
+   "why": "Raid and talk of fighting"
+  },
+  "s-e-mountains": {
+   "levels": [],
+   "traits": [],
+   "why": "Fleeing in fear of an army"
+  },
+  "s-e-dua": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Their cross\" - interfaith-contentious; army threat"
+  },
+  "s-e-peaks": {
+   "levels": [],
+   "traits": [],
+   "why": "Sheltering from an attacking army"
+  },
+  "s-e-birds": {
+   "levels": [],
+   "traits": [],
+   "why": "Army struck with stones; destruction of the Elephant army"
+  },
+  "s-e-abraha": {
+   "levels": [],
+   "traits": [],
+   "why": "Abraha struck in his body"
+  },
+  "s-e-surah": {
+   "levels": [],
+   "traits": [],
+   "why": "Elephant destruction context; contains literal placeholder \"[Surah al-Fil]\""
+  },
+  "s-e-meaning": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract interpretation with ellipsis; Level 4 only"
+  },
+  "s-e-year": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "\"In its year\" needs prior context; Level 4 only"
+  },
+  "s-b-monday": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad-heavy; Level 4 only"
+  },
+  "s-b-month": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Scholarly-opinion phrasing; older readers"
+  },
+  "s-b-year": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad and scholarly opinions; Level 4 only"
+  },
+  "s-b-qays": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad-heavy; Level 4 only"
+  },
+  "s-b-agreed": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Scholarly-opinion phrasing; older readers"
+  },
+  "s-b-amina": {
+   "levels": [],
+   "traits": [],
+   "why": "Marriage"
+  },
+  "s-b-father": {
+   "levels": [],
+   "traits": [],
+   "why": "Pregnancy and death of the Prophet's father"
+  },
+  "s-b-orphan": {
+   "levels": [],
+   "traits": [],
+   "why": "Womb; death of father"
+  },
+  "s-b-halima": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Wet-nursing needs explanation; older readers"
+  },
+  "s-b-milk": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Milk-kinship (nursing) is a fiqh concept; name list"
+  },
+  "s-b-grand": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "s-b-abwa": {
+   "levels": [],
+   "traits": [],
+   "why": "Death of the Prophet's mother when he was six"
+  },
+  "s-b-abbas": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Opens with a death; genealogy; Level 4 only"
+  },
+  "s-b-abutalib": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Genealogy-heavy; Level 4 only"
+  },
+  "s-t-shepherd": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic \"qirats\"; older readers"
+  },
+  "s-t-cause": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-t-call": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-t-fudul": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Abstract alliance; older readers"
+  },
+  "s-t-profit": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Needs context; older readers"
+  },
+  "s-t-marry": {
+   "levels": [],
+   "traits": [],
+   "why": "Marriage"
+  },
+  "s-k-dates": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Names al-Fijar (a war) as a date marker; Level 4 only"
+  },
+  "s-k-stones": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "s-k-age": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-k-ship": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-k-carpenter": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-k-pure": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Unclear speaker; needs context"
+  },
+  "s-k-sides": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "List of clans; Level 4 only"
+  },
+  "s-k-gather": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Clan quarrel narrative; older readers"
+  },
+  "s-k-nights": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Needs context of the quarrel; older readers"
+  },
+  "s-r-age": {
+   "levels": [],
+   "traits": [],
+   "why": "Starts mid-sentence (\"... and the first thing\")"
+  },
+  "s-r-place": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Geographic description; older readers"
+  },
+  "s-r-jiwar": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long (90 words), pre-Islamic devotion context; Level 4 only"
+  },
+  "s-r-dreams": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Revelation narrative; older readers"
+  },
+  "s-r-hira": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Revelation narrative; older readers"
+  },
+  "s-r-iqra": {
+   "levels": [],
+   "traits": [],
+   "why": "Angel squeezing the Prophet until exhausted; ends mid-sentence"
+  },
+  "s-r-qari": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Scholarly linguistic point; Level 4 only"
+  },
+  "s-r-return": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Describes the Prophet trembling with fear; Level 4 only"
+  },
+  "s-r-kalla": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Archaic oath phrasing; needs the revelation story"
+  },
+  "s-r-pause": {
+   "levels": [],
+   "traits": [],
+   "why": "Death of Waraqa is the content; needs context"
+  },
+  "s-r-muddathir": {
+   "levels": [],
+   "traits": [],
+   "why": "Fear of the angel; ends mid-sentence before the verse"
+  },
+  "s-r-monday": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Scholarly-opinion phrasing; Level 4 only"
+  },
+  "s-r-ramadan": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Scholarly-opinion phrasing; Level 4 only"
+  },
+  "s-f-secret": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-f-khadija": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Isnad prefix; over Level 1 needs"
+  },
+  "s-f-zayd": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Needs context (\"the two of them\"); Level 4 only"
+  },
+  "s-f-first4": {
+   "levels": [],
+   "traits": [],
+   "why": "Slavery (freed slaves)"
+  },
+  "s-f-abubakr": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-f-trader": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "s-f-eight": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-f-spread": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative beyond Level 1"
+  },
+  "s-f-shiab": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Hiding prayer from persecution; older readers"
+  },
+  "s-f-three": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Mentions harm from idol-worshippers; older readers"
+  },
+  "s-f-safa": {
+   "levels": [],
+   "traits": [],
+   "why": "Horsemen attacking; warning of severe punishment"
+  },
+  "s-bl-hard": {
+   "levels": [],
+   "traits": [],
+   "why": "Torture: beatings, hunger, burning ground"
+  },
+  "s-bl-who": {
+   "levels": [],
+   "traits": [],
+   "why": "Slavery"
+  },
+  "s-bl-doubt": {
+   "levels": [],
+   "traits": [],
+   "why": "Torment of Bilal; scholarly doubt"
+  },
+  "s-bl-freed": {
+   "levels": [],
+   "traits": [],
+   "why": "Slavery and torment"
+  },
+  "s-bl-nahdiyya": {
+   "levels": [],
+   "traits": [],
+   "why": "Slavery"
+  },
+  "s-bl-quhafa": {
+   "levels": [],
+   "traits": [],
+   "why": "Buying freedom of slaves; slavery context"
+  },
+  "s-ab-first": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Emigration from persecution; older readers"
+  },
+  "s-ab-when": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical detail; older readers"
+  },
+  "s-ab-umm": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Emigration narrative; older readers"
+  },
+  "s-ab-envoys": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Political narrative; older readers"
+  },
+  "s-ab-leather": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Out of context (\"he\"); Level 4 only"
+  },
+  "s-ab-fair": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long narrative; older readers"
+  },
+  "s-ab-taught": {
+   "levels": [],
+   "traits": [],
+   "why": "Mentions bloodshed and slandering chaste women"
+  },
+  "s-ab-maryam": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long (88 words), interfaith scene; Level 4 only"
+  },
+  "s-ab-isa": {
+   "levels": [],
+   "traits": [],
+   "why": "Virgin birth / Christology exchange - theologically sensitive for children"
+  },
+  "s-ab-safe": {
+   "levels": [],
+   "traits": [],
+   "why": "Unexplained Ge'ez words and repeated fines; confusing"
+  },
+  "s-h-shib": {
+   "levels": [],
+   "traits": [],
+   "why": "Those who wanted to kill the Prophet"
+  },
+  "s-h-pact": {
+   "levels": [],
+   "traits": [],
+   "why": "Pact to hand the Prophet over to be killed"
+  },
+  "s-h-years": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Boycott hardship and hunger; Level 4 only"
+  },
+  "s-h-bed": {
+   "levels": [],
+   "traits": [],
+   "why": "Assassination plot / sudden attack at night"
+  },
+  "s-h-regret": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Needs boycott context; Level 4 only"
+  },
+  "s-h-termite": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Needs boycott context; older readers"
+  },
+  "s-h-sameyear": {
+   "levels": [],
+   "traits": [],
+   "why": "Deaths of Khadija and Abu Talib"
+  },
+  "s-h-nalat": {
+   "levels": [],
+   "traits": [],
+   "why": "Death of Abu Talib; harm to the Prophet"
+  },
+  "s-h-taif": {
+   "levels": [],
+   "traits": [],
+   "why": "Death of Abu Talib; harm to the Prophet"
+  },
+  "s-h-vine": {
+   "levels": [],
+   "traits": [],
+   "why": "Prophet chased and insulted by mob and slaves"
+  },
+  "s-hj-13": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Ends with the Prophet's death (one clause); Level 4 only"
+  },
+  "s-hj-when": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical date; older readers"
+  },
+  "s-hj-mounts": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Hijra narrative; older readers"
+  },
+  "s-hj-800": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Needs context; Level 4 only"
+  },
+  "s-hj-guide": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Genealogy and names; Level 4 only"
+  },
+  "s-hj-trusts": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Hijra narrative; older readers"
+  },
+  "s-hj-door": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Hijra narrative; older readers"
+  },
+  "s-hj-asma": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Needs context (\"them\"); older readers"
+  },
+  "s-hj-two": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Pursuers above the cave; older readers"
+  },
+  "s-hj-nochain": {
+   "levels": [],
+   "traits": [],
+   "why": "Refers to an unstated story; meaningless and confusing alone"
+  },
+  "s-hj-zubayr": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Hijra narrative; older readers"
+  },
+  "s-hj-shade": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long narrative; older readers"
+  },
+  "s-hj-quba": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Historical narrative; older readers"
+  },
+  "s-m-bricks": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic verse (\"load of Khaybar\") needs explanation; Level 4 only"
+  },
+  "s-m-mosque": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "s-m-anas": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Brotherhood pact; older readers"
+  },
+  "s-m-pairs": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Name list; Level 4 only"
+  },
+  "s-m-awf": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Narrative; older readers"
+  },
+  "s-m-adhan": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long, starts mid-context; Level 4 only"
+  },
+  "s-bd-night": {
+   "levels": [],
+   "traits": [],
+   "why": "Eve of the Battle of Badr"
+  },
+  "s-bd-water": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle of Badr tactics"
+  },
+  "s-bd-313": {
+   "levels": [],
+   "traits": [],
+   "why": "Number of fighters at Badr"
+  },
+  "s-bd-talut": {
+   "levels": [],
+   "traits": [],
+   "why": "Army crossing the river; battle context"
+  },
+  "s-bd-date": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle date"
+  },
+  "s-bd-teach": {
+   "levels": [],
+   "traits": [],
+   "why": "Prisoners of war (captives' ransom)"
+  },
+  "s-ud-dates": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle dates (Uhud, Trench)"
+  },
+  "s-ud-name": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Needs explanation; older readers"
+  },
+  "s-ud-archers": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle of Uhud orders"
+  },
+  "s-ud-left": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle of Uhud, spoils of war"
+  },
+  "s-kh-date": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle of the Trench"
+  },
+  "s-kh-dig": {
+   "levels": [],
+   "traits": [],
+   "why": "Defensive trench against an attacking army"
+  },
+  "s-kh-cold": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle preparation; mentions slaves"
+  },
+  "s-kh-answer": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle preparation; pledge \"as long as we live\""
+  },
+  "s-kh-earth": {
+   "levels": [],
+   "traits": [],
+   "why": "Battle preparation: \"make our feet firm if we meet them\""
+  },
+  "s-tr-date": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Out of context (\"It\"); Level 4 only"
+  },
+  "s-tr-distress": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Treaty politics and distress; Level 4 only"
+  },
+  "s-tr-fath": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Needs context; older readers"
+  },
+  "s-fa-march": {
+   "levels": [],
+   "traits": [],
+   "why": "Army of ten thousand marching on Makkah"
+  },
+  "s-fa-safe": {
+   "levels": [],
+   "traits": [],
+   "why": "Amnesty during conquest implies threat of violence"
+  },
+  "s-fa-tawaf": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Conquest context; older readers"
+  },
+  "s-fw-once": {
+   "levels": [],
+   "traits": [],
+   "why": "Starts mid-sentence (\"... that he\")"
+  },
+  "s-fw-perfect": {
+   "levels": [],
+   "traits": [],
+   "why": "Ends with a placeholder \"[al-Maida 3]\" instead of the verse"
+  },
+  "s-fw-umar": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long (95 words); Level 4 only"
+  },
+  "s-fw-arafah": {
+   "levels": [],
+   "traits": [],
+   "why": "Starts mid-sentence (\"... until he came\")"
+  },
+  "s-fw-blood": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Your blood ... is sacred\" - blood"
+  },
+  "s-fw-women": {
+   "levels": [],
+   "traits": [],
+   "why": "Marriage / wives"
+  },
+  "s-fw-book": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract, solemn; Level 4 only"
+  },
+  "s-fw-monday": {
+   "levels": [],
+   "traits": [],
+   "why": "The Prophet's death is the content"
+  },
+  "s-fw-look": {
+   "levels": [],
+   "traits": [],
+   "why": "The Prophet's last moments and death"
+  },
+  "s-fw-siddiq": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Muhammad has died\" - death; could confuse young children"
+  },
+  "h-n1": {
+   "levels": [],
+   "traits": [],
+   "why": "Mentions migrating \"for a wife he might marry\" (marriage)"
+  },
+  "h-n2": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Slave-girl will give birth to her mistress\", \"naked\"; slavery and birth; very long"
+  },
+  "h-n3": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Isnad and parenthetical glosses; older readers"
+  },
+  "h-n4": {
+   "levels": [],
+   "traits": [],
+   "why": "Embryo in the womb; Hellfire; predestination"
+  },
+  "h-n5": {
+   "levels": [],
+   "traits": [],
+   "why": "Bid'ah (innovation) - sectarian/contentious usage"
+  },
+  "h-n6": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract (doubtful matters, the heart); Level 4 only"
+  },
+  "h-n7": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract (naseehah to leaders); Level 4 only"
+  },
+  "h-n8": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Ordered to fight against the people\""
+  },
+  "h-n9": {
+   "levels": [],
+   "traits": [],
+   "why": "Nations destroyed for questioning their prophets - threatening"
+  },
+  "h-n10": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Haram earnings / unanswered du'a - fiqh nuance; Level 4 only"
+  },
+  "h-n11": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad-heavy with grading note; Level 4 only"
+  },
+  "h-n12": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad-heavy with grading note; Level 4 only"
+  },
+  "h-n13": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "comparing"
+   ],
+   "why": "Isnad-heavy; Level 4 only"
+  },
+  "h-n14": {
+   "levels": [],
+   "traits": [],
+   "why": "Capital punishment: adultery, a life for a life, apostasy"
+  },
+  "h-n15": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Isnad-heavy; Level 4 only"
+  },
+  "h-n16": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "angry"
+   ],
+   "why": "Isnad-heavy; Level 4 only"
+  },
+  "h-n17": {
+   "levels": [],
+   "traits": [],
+   "why": "Killing and slaughter, sharpening the blade"
+  },
+  "h-n18": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Isnad-heavy with grading note; Level 4 only"
+  },
+  "h-n19": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "nervous",
+    "sad"
+   ],
+   "why": "Long (256 words), qadar; Level 4 only"
+  },
+  "h-n20": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "\"Do as you wish\" could be misread; Level 4 only"
+  },
+  "h-n21": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad-heavy; Level 4 only"
+  },
+  "h-n22": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad-heavy, fiqh framing; Level 4 only"
+  },
+  "h-n23": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "\"Proof against you\", \"ruin of the soul\"; abstract; Level 4 only"
+  },
+  "h-n24": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Very long hadith qudsi, abstract; Level 4 only"
+  },
+  "h-n25": {
+   "levels": [],
+   "traits": [],
+   "why": "Sexual act"
+  },
+  "h-n26": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Isnad-heavy; Level 4 only"
+  },
+  "h-n27": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long, two hadith with grading note; Level 4 only"
+  },
+  "h-n28": {
+   "levels": [],
+   "traits": [],
+   "why": "Sermon that filled hearts with fear; \"a slave as ameer\"; bid'ah - sectarian"
+  },
+  "h-n29": {
+   "levels": [],
+   "traits": [],
+   "why": "Hellfire, jihad, \"may your mother be bereaved of you\", people thrown on their faces"
+  },
+  "h-n30": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract (obligations and limits); Level 4 only"
+  },
+  "h-n31": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Renouncing the world - abstract, ascetic; Level 4 only"
+  },
+  "h-n32": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long isnad/grading discussion; Level 4 only"
+  },
+  "h-n33": {
+   "levels": [],
+   "traits": [],
+   "why": "Legal claims over wealth and lives, oaths - detailed fiqh"
+  },
+  "h-n34": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Change it with his hand\" could be misread by a child as permission to use force"
+  },
+  "h-n35": {
+   "levels": [],
+   "traits": [],
+   "why": "Blood; trade rulings"
+  },
+  "h-n36": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "bored"
+   ],
+   "why": "Long (186 words); Level 4 only"
+  },
+  "h-n37": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Long, abstract; Level 4 only"
+  },
+  "h-n38": {
+   "levels": [],
+   "traits": [],
+   "why": "\"I have declared war against him\"; \"the hand with which he strikes\"; theologically contentious"
+  },
+  "h-n39": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Isnad-heavy; duress concept; Level 4 only"
+  },
+  "h-n40": {
+   "levels": [],
+   "traits": [],
+   "why": "Not expecting to live until morning; death - could frighten"
+  },
+  "h-n41": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract, grading note; Level 4 only"
+  },
+  "h-n42": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Long hadith qudsi; Level 4 only"
+  },
+  "h-b5035": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Technical terms (Mufassal/Muhkam); mentions the Prophet's death; Level 4 only"
+  },
+  "h-b4999": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Names list; older readers"
+  },
+  "h-m873": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Awkward translation; context needed; Level 4 only"
+  },
+  "h-b7141": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "comparing"
+   ],
+   "why": "Older readers"
+  },
+  "h-b5025": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "comparing"
+   ],
+   "why": "Older readers"
+  },
+  "h-m799": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic translation; older readers"
+  },
+  "h-b5013": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Archaic oath; older readers"
+  },
+  "h-b5017": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long; older readers"
+  },
+  "h-m2667": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Could be misread as permission to stop reciting when bored; Level 4 only"
+  },
+  "h-b5023": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, sub-narrator note; Level 4 only"
+  },
+  "h-b7527": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Whoever does not recite in a nice voice is not from us\" - could shame children"
+  },
+  "h-b5048": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic term (mazamir); older readers"
+  },
+  "h-m793": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Archaic translation; older readers"
+  },
+  "h-b4835": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Conquest context; unbalanced parenthesis; older readers"
+  },
+  "h-b5046": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Technical tajwid description; older readers"
+  },
+  "h-b4937": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Over Level 1 length"
+  },
+  "h-m798": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Long sentences, archaic vocabulary; older readers"
+  },
+  "h-b5032": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "lazy"
+   ],
+   "why": "\"Caused by Allah to forget\" is subtle and could shame a child who forgets; Level 4 only"
+  },
+  "h-b3648": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Miracle narrative; older readers"
+  },
+  "h-b71": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Not harmed by anyone on a different path\" - sectarian reading"
+  },
+  "h-m1631": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Topic is what happens when a man dies; Level 4 only"
+  },
+  "h-b6467": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "\"Good deeds will not make him enter Paradise\" - theologically subtle; Level 4 only"
+  },
+  "h-m2985": {
+   "levels": [],
+   "traits": [],
+   "why": "\"I shall abandon him\" - harsh/threatening tone"
+  },
+  "h-m2999": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "sad",
+    "grateful"
+   ],
+   "why": "Archaic, long; Level 4 only"
+  },
+  "h-b1302": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "sad"
+   ],
+   "why": "Calamity framing; older readers"
+  },
+  "h-b5641": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "sad"
+   ],
+   "why": "Disease and distress list; older readers"
+  },
+  "h-b6340": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Archaic, unbalanced quotes; older readers"
+  },
+  "h-m2593": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "unkind",
+    "angry"
+   ],
+   "why": "Archaic translation; Level 4 only"
+  },
+  "h-m2592": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Archaic phrasing; older readers"
+  },
+  "h-m1734": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Typo and archaic phrasing; older readers"
+  },
+  "h-b39": {
+   "levels": [],
+   "traits": [],
+   "why": "Ends with a truncated citation \"(See Fath-ul-Bari, Page 102, Vol)\"; \"extremists\""
+  },
+  "h-b6035": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Arabic technical terms; older readers"
+  },
+  "h-b6309": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "\"His slave\" (servant) wording needs explanation; older readers"
+  },
+  "h-b6307": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Archaic oath; older readers"
+  },
+  "h-m2702": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Isnad prefix; older readers"
+  },
+  "h-m2751": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "\"Wrath\" - archaic; older readers"
+  },
+  "h-b72": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long story; older readers"
+  },
+  "h-b6095": {
+   "levels": [],
+   "traits": [],
+   "why": "Labels liars \"hypocrites\" - could shame a child"
+  },
+  "h-m2551": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Let him be humbled\" - curse; not entering Paradise"
+  },
+  "h-b5973": {
+   "levels": [],
+   "traits": [],
+   "why": "Cursing and abusing parents"
+  },
+  "h-b6003": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b5998": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Stern reply; older readers"
+  },
+  "h-b6013": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ]
+  },
+  "h-b6000": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long; older readers"
+  },
+  "h-b707": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b1798": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "h-b3874": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "g-know-thyself": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic English (thee/thou); Level 4 only"
+  },
+  "g-kingdom-army": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic allegory (\"spiritual warfare\", army); Level 4 only"
+  },
+  "g-anger-not-killed": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Not killed or expelled\", \"ruin of the soul\" - violent metaphor, Sufi-technical"
+  },
+  "g-heart-mirror": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, abstract; Level 4 only"
+  },
+  "g-delight-truth": {
+   "levels": [],
+   "traits": [],
+   "why": "Cites learning chess approvingly - contested in fiqh for an Islamic school"
+  },
+  "g-toil-trouble": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Archaic; Level 4 only"
+  },
+  "g-mercy-mother": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, long; Level 4 only"
+  },
+  "g-little-kingdom": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, abstract; Level 4 only"
+  },
+  "g-love-seed": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract (austerity, curbing appetites); Level 4 only"
+  },
+  "g-swallow-anger": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "angry"
+   ],
+   "why": "Archaic English (Claud Field 1910); Level 4 only"
+  },
+  "g-striving": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "lazy"
+   ],
+   "why": "Archaic English; Level 4 only"
+  },
+  "g-market-place": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, abstract (this world vs next); Level 4 only"
+  },
+  "g-pilgrim-camel": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic allegory (\"perish in the desert\"); Level 4 only"
+  },
+  "g-table-guests": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic allegory; Level 4 only"
+  },
+  "g-knowledge-remains": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "bored"
+   ],
+   "why": "Archaic; refers back to earlier argument; Level 4 only"
+  },
+  "g-medicine-poison": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic metaphor (\"deadly poisons\"); Level 4 only"
+  },
+  "g-twenty-four-treasures": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "lazy"
+   ],
+   "why": "Archaic; \"twenty-four treasures\" (hours) unexplained; Level 4 only"
+  },
+  "g-god-sees": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "proud"
+   ],
+   "why": "Archaic, refers back (\"This consists in\"); Level 4 only"
+  },
+  "g-happy-is-he": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic; \"after death\"; Level 4 only"
+  },
+  "g-evening-reckoning": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, abstract self-examination; Level 4 only"
+  },
+  "g-rosary-words": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "proud"
+   ],
+   "why": "Archaic; Judgment weighing; Level 4 only"
+  },
+  "g-good-company": {
+   "levels": [],
+   "traits": [],
+   "why": "Sufi-technical (\"saint\", austerity and self-discipline)"
+  },
+  "g-grateful-heart": {
+   "levels": [],
+   "traits": [],
+   "why": "\"A believing wife\" (marriage)"
+  },
+  "g-prayer-love": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic English; Level 4 only"
+  },
+  "g-inner-character": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, abstract; Level 4 only"
+  },
+  "g-love-learned": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Abstract theological claim; Level 4 only"
+  },
+  "g-shade-tree": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "grateful"
+   ],
+   "why": "Archaic; Level 4 only"
+  },
+  "g-benefactor": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "grateful"
+   ],
+   "why": "Archaic, abstract; Level 4 only"
+  },
+  "g-thirst-knowledge": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic autobiography; Level 4 only"
+  },
+  "g-earnestness": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic autobiography; Level 4 only"
+  },
+  "g-study-before-refuting": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, about scholarly refutation; Level 4 only"
+  },
+  "g-ali-truth": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic; Level 4 only"
+  },
+  "g-sincere-teaching": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "proud"
+   ],
+   "why": "Archaic; Level 4 only"
+  },
+  "g-conduct-knowledge": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Archaic, unattributed sayings; Level 4 only"
+  },
+  "g-true-knowledge": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, starts mid-argument (\"on the contrary\"); Level 4 only"
+  },
+  "bx-khuluq": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Older readers"
+  },
+  "bx-khuluq-meaning": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Needs the preceding narration; Level 4 only"
+  },
+  "bx-muminun": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long; older readers"
+  },
+  "bx-easier": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "angry"
+   ],
+   "why": "Mentions taking revenge for Allah's sake; Level 4 only"
+  },
+  "bx-speech": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Mentions cursing; not for Level 1"
+  },
+  "bx-errand": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Long (105 words); Level 4 only"
+  },
+  "bx-nine-years": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [
+    "angry"
+   ],
+   "why": "Over Level 1 length"
+  },
+  "bx-abu-umayr": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Long, parenthetical narrator note; older readers"
+  },
+  "bx-salam-children": {
+   "levels": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "traits": []
+  },
+  "bx-usama": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 length"
+  },
+  "bx-repeat": {
+   "levels": [
+    2,
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Over Level 1 needs"
+  },
+  "bx-ramadan": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Idiom (\"wind that is sent out\"); older readers"
+  },
+  "bx-ibn-masud": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Verse about a witness on the Day of Judgement; tears; Level 4 only"
+  },
+  "bx-tartil": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Unclear speaker and confusing final clause; Level 4 only"
+  },
+  "bx-jubayr": {
+   "levels": [
+    3,
+    4
+   ],
+   "traits": [],
+   "why": "Older readers"
+  },
+  "q-73-4": {
+   "levels": [],
+   "traits": [],
+   "why": "Starts and ends mid-sentence (\"Or add (a little) thereto - ... ,\")"
+  },
+  "q-54-17": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-20-114": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "bored"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-75-16": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English, needs context; Level 4 only"
+  },
+  "q-17-106": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-7-204": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-16-98": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; mentions Satan; Level 4 only"
+  },
+  "q-96-1": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-96-4-5": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "bored"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-55-1-2": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-38-29": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "bored"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-47-24": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, rhetorical rebuke (\"locks on the hearts\"); Level 4 only"
+  },
+  "q-17-82": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Increase the evil-doers in naught save ruin\" - threatening"
+  },
+  "q-10-57": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "sad"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-39-9": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "bored"
+   ],
+   "why": "Archaic, long; Level 4 only"
+  },
+  "q-58-11": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "bored"
+   ],
+   "why": "Archaic, long; Level 4 only"
+  },
+  "q-2-153": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "sad",
+    "discouraged"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-39-10": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Archaic (\"bondmen\"); Level 4 only"
+  },
+  "q-94-5": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "discouraged",
+    "sad"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-16-127": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "sad"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-14-7": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Lo! My punishment is dire\""
+  },
+  "q-2-152": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "grateful"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-31-12": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "grateful"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-17-23": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-17-24": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-39-53": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Archaic (\"O My slaves\", \"prodigal\"); Level 4 only"
+  },
+  "q-21-107": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-3-159": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "angry",
+    "unkind"
+   ],
+   "why": "Archaic, long; Level 4 only"
+  },
+  "q-6-54": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "guilty"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-98-5": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic; People-of-the-Book context; Level 4 only"
+  },
+  "q-6-162": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic; \"sacrifice ... dying\"; Level 4 only"
+  },
+  "q-2-83": {
+   "levels": [],
+   "traits": [],
+   "why": "Rebuke of the Children of Israel (\"ye slid back\") out of context - could foster prejudice"
+  },
+  "q-17-53": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "unkind",
+    "angry"
+   ],
+   "why": "Archaic; the devil sowing discord; Level 4 only"
+  },
+  "q-33-70": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-31-19": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Voice of the ass\" - \"ass\" reads as a rude word to children today"
+  },
+  "q-14-24": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic simile, ends on a comma; Level 4 only"
+  },
+  "q-25-63": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "angry"
+   ],
+   "why": "Archaic (\"slaves of the Beneficent\"); Level 4 only"
+  },
+  "q-41-34": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "unkind",
+    "angry"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-29-45": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Lewdness\" (sexual connotation)"
+  },
+  "q-2-238": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic (\"midmost prayer\"); Level 4 only"
+  },
+  "q-23-1-2": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-40-60": {
+   "levels": [],
+   "traits": [],
+   "why": "\"They will enter hell, disgraced\""
+  },
+  "q-2-201": {
+   "levels": [],
+   "traits": [],
+   "why": "\"The doom of Fire\" - Hell mention in harsh archaic wording"
+  },
+  "q-25-74": {
+   "levels": [],
+   "traits": [],
+   "why": "\"Comfort of our wives\" (marriage)"
+  },
+  "q-14-40": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-20-25-28": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "nervous"
+   ],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-50-16": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic; \"jugular vein\"; Level 4 only"
+  },
+  "q-99-7": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "discouraged"
+   ],
+   "why": "Archaic, Day of Judgement context; Level 4 only"
+  },
+  "q-4-86": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-2-263": {
+   "levels": [
+    4
+   ],
+   "traits": [
+    "unkind"
+   ],
+   "why": "Archaic (\"almsgiving followed by injury\"); Level 4 only"
+  },
+  "q-33-41": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  },
+  "q-62-2": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic, ends on a comma; Level 4 only"
+  },
+  "q-68-4": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic (\"tremendous nature\"); Level 4 only"
+  },
+  "q-33-21": {
+   "levels": [
+    4
+   ],
+   "traits": [],
+   "why": "Archaic Pickthall English; Level 4 only"
+  }
+ }
+}

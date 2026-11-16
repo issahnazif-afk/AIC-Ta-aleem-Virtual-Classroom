@@ -190,7 +190,7 @@ export const STORIES = {
   ] },
   finale: { env: 'harbour', title: 'The Festival of Lights', shots: [
     { cam: [[0, 4, 12], [0, 12, 24]], look: [0, 5, 0], t: 6, text: 'Lanterns rise over the harbour, one for every friend made along the way.', act: 'lanterns' },
-    { cam: [[4, 2, 5], [2, 2, 4]], look: [0, 1.5, 0], t: 5.5, text: 'The explorer’s journey is complete — but learning never ends. “My Lord, increase me in knowledge.” (Qur’an 20:114)', act: 'explorer' },
+    { cam: [[4, 2, 5], [2, 2, 4]], look: [0, 1.5, 0], t: 5.5, text: 'The explorer’s journey is complete — but learning never ends. “Rabbi zidnī ʿilmā” — My Lord, increase me in knowledge. (Qur’an 20:114)', act: 'explorer' },
   ] },
 };
 
@@ -335,6 +335,12 @@ export const HAKIM = {
   'gate-voice': 'You can say your answer out loud, or tap it.',
   'arch-voice': 'Say your answer, and I will guide you to its arch!',
   'class-hello': 'Look — your classmates are on the journey too. Together, your class fills the team goal.',
+};
+// Qur'an words inside Hakim's lines: the recording leaves them out and the reciter says them (word-by-word recitation,
+// [surah, ayah, first word, last word]), so the children hear the words as a qari says them and can repeat them.
+export const QURAN_IN_LINES = {
+  'story-cave-5': { say: 'Rabbir-ḥamhumā kamā rabbayānī ṣaghīrā', q: [17, 24, 8, 12] },
+  'story-finale-1': { say: 'Rabbi zidnī ʿilmā', q: [20, 114, 15, 17] },
 };
 // every voiced line by key: stage greetings, story shots and the lines above (the list the voice recorder reads)
 export function hakimLines() {

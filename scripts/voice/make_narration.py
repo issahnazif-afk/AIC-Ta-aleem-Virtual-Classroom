@@ -28,6 +28,20 @@ import numpy as np
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'public', 'audio', 'narration')
 LIST = os.path.join(ROOT, 'scripts', 'voice', 'narration.json')
+# Grandpa Musa's words recorded with VoxCPM2 on a developer machine (scripts/voice/cast-list.mjs, voxcpm_lines.py):
+# public/audio/cast/<who>/<md5 of the words as spoken, 12 hex>.mp3. Where one exists it is used in place of Kokoro.
+CAST_DIR = os.path.join(ROOT, 'public', 'audio', 'cast')
+
+
+def cast_file(who, words):
+    import hashlib
+    f = os.path.join(CAST_DIR, who, hashlib.md5(words.encode('utf-8')).hexdigest()[:12] + '.mp3')
+    return f if os.path.exists(f) else None
+
+
+def cast_sig(x):
+    # which recorded parts a line uses: a line is recorded again when this changes
+    return ','.join(os.path.basename(f)[:12] for who, words, *_ in x['parts'] for f in [cast_file(who, words)] if f)
 
 # who: (Kokoro voice, speed, pitch shift in semitones, liveliness = how much the melody is widened)
 CAST = {
@@ -101,7 +115,15 @@ def main(model_dir):
     def read(x):
         cast = CAST[x['reader']]
         out = [np.zeros(int(SR * 0.2), np.float32)]
-        for who, words in x['parts']:
+        for who, words, *_ in x['parts']:
+            rec = cast_file(who, words)
+            if rec:
+                a, sr0 = sf.read(rec, dtype='float32')
+                a = a.mean(axis=1) if a.ndim > 1 else a
+                g = np.gcd(SR, sr0)
+                out.append(ss.resample_poly(a, SR // g, sr0 // g).astype(np.float32))
+                out.append(np.zeros(int(SR * 0.7), np.float32))
+                continue
             voice, speed, shift, live = cast.get(who, cast['narrator'])
             for s in [t for t in re.split(r'(?<=[.!?…])\s+', words) if t.strip()]:
                 k = kind_of(s)
@@ -123,12 +145,12 @@ def main(model_dir):
             del index[k]
     index = {k: v for k, v in index.items() if os.path.exists(os.path.join(OUT, v['f'] + '.mp3'))}
     only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
-    todo = [x for x in lines if x['key'] not in index and (not only or x['reader'] == only)]
+    todo = [x for x in lines if (x['key'] not in index or index[x['key']].get('c', '') != cast_sig(x)) and (not only or x['reader'] == only)]
     print(f'{len(lines)} lines, {len(todo)} to record')
     def check(x, s):
         # a clip must be long enough for its words (about 0.2 s a word at the least): if the speech library could not
         # read the words it gives a second or two of noise, and that must never reach the classroom
-        words = sum(len(w.split()) for _, w in x['parts'])
+        words = sum(len(p[1].split()) for p in x['parts'])
         if len(s) / SR < 0.2 * words + 0.4:
             raise SystemExit(f'The voice did not read this line (got {len(s) / SR:.1f} s for {words} words): {x["text"][:80]!r}. '
                              f'Check that kokoro-onnx (espeak-ng) is installed.')
@@ -143,6 +165,8 @@ def main(model_dir):
                         os.path.join(OUT, x['key'] + '.mp3')], check=True)
         os.unlink(tmp)
         index[x['key']] = {'f': x['key'], 'd': round(len(s) / SR, 2)}
+        if cast_sig(x):
+            index[x['key']]['c'] = cast_sig(x)
         if n % 20 == 0 or n == len(todo):
             json.dump(index, open(idx_path, 'w'))
             print(f'  {n}/{len(todo)}', flush=True)

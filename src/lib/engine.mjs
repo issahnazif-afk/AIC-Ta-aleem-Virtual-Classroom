@@ -24,7 +24,8 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const STANDARD_WORDS = 60;   // roughly half a mushaf page
 
 // tajweed: null (the words only), or { checks: Set of the rules chosen, young: Level 3 wording }
-export function createEngine({ stage, SR, level = 'intermediate', reciter, gender = '', speakInstructions = true, ui, tajweed = null }) {
+// young: Levels 1 and 2 (gentle correction); otherwise the Sheikh corrects as in a halaqah (see correct())
+export function createEngine({ stage, SR, level = 'intermediate', reciter, gender = '', speakInstructions = true, ui, tajweed = null, young = false }) {
   const L = LEVELS[level] ?? LEVELS.intermediate;
   const threshold = () => THRESHOLDS[L.checking] ?? THRESHOLDS.normal;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -382,7 +383,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       const w = flat[pos];
       w.state = 'queued';
       if (kind === 'help') { w.helped = true; q.stats.help++; tally.hint++; markAyah(w, 'hint'); note('hint', w); }
-      else if (kind === 'prompt') { w.mistake = true; tally.prompt++; markAyah(w, 'prompt'); note('prompt', w); }
+      else if (kind === 'prompt') { w.mistake = true; tally.prompt++; markAyah(w, 'prompt'); note('prompt', w); addSpot(w, 'prompt'); }
       else if (kind === 'unclear') {
         w.unclear = true; tally.unclear++; markAyah(w, 'unclear'); note('unclear', w);
         if (L.unclearIsMistake) w.mistake = true;
@@ -399,17 +400,66 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     updateCurrent();
     armSilence();
   }
+  // A wrong word. The Sheikh corrects as a teacher in a halaqah does, step by step, giving the student the chance
+  // to put it right themselves first:
+  //   halaqah (Levels 3-4 and adults)                    gentle (Levels 1-2)
+  //   1. he stops them: "Intabih" (take care), listens     1. "Intabih", listens again
+  //   2. he cues them: the reciter says the words just     2. he gives the word (the reciter), and they carry on
+  //      before the mistake, so they hear the run-up
+  //   3. he gives the word (the reciter), then asks them
+  //      to repeat the ayah from its start ("A'id al-ayah")
+  // Going back to repeat when he asked is not counted as a mistake. Every spot is kept (spots) for the report and
+  // for the next visit, where he brings them up again.
+  let correcting = false, askedRepeat = false;
   function reject(heard) {
     const w = flat[pos];
-    if (!w) return;
-    if (!w.mistake) { tally.wrong++; markAyah(w, 'wrong'); note('wrong', w, { heard }); }
+    if (!w || correcting || phase !== 'answer') return;
+    if (!w.mistake) { tally.wrong++; markAyah(w, 'wrong'); note('wrong', w, { heard }); addSpot(w, 'wrong'); }
     w.mistake = true;
     wrongStreak++;
     if (w.el) { w.el.classList.add('current', 'wrong', 'missed'); setTimeout(() => w.el?.classList.remove('wrong'), 800); }
     status(`Heard “${heard}”. That is not the next word.`, 'bad');
-    if (wrongStreak === 1) say('listening', 'takecare');
-    else if (wrongStreak === 2) say('listening', 'again');
-    if (wrongStreak >= 3) sheikhPrompts();
+    correct(w);
+  }
+  async function correct(w) {
+    correcting = true;
+    clearSilence();
+    phase = 'sheikh';
+    stopListening();
+    const back = () => { correcting = false; if (phase === 'sheikh') { phase = 'answer'; updateCurrent(); startListening(); armSilence(); } };
+    try {
+      if (wrongStreak === 1) {
+        const p = say('listening', 'takecare', 'Take care, that is not right. Try that word again.');
+        await speakP(p);
+        status('Try that word again.', 'bad');
+        return back();
+      }
+      if (wrongStreak === 2 && !young) {
+        // the run-up: up to three words before the mistake, in the same ayah, from the reciter
+        const from = Math.max(0, w.wi - 3), run = w.item.words.slice(from, w.wi);
+        if (run.length && w.item.a) {
+          sheikh('speaking', run.map((x) => x.display).join(' ') + ' …', 'Listen to the words just before it, then carry on.');
+          status('The Sheikh says the words just before it. Carry on from there.');
+          for (let i = from; i < w.wi && phase === 'sheikh'; i++) await playAudio(wordAudioUrl(w.item.s, w.item.a, i));
+          return back();
+        }
+      }
+      // give the word
+      correcting = false; phase = 'answer';
+      await sheikhPrompts();
+      if (!young && w.item.a && w.wi > 0 && phase === 'answer') {
+        askedRepeat = true;
+        const p = say('listening', 'repeatayah', 'Now repeat the ayah from its start, with the word in its place.');
+        status('Repeat the ayah from its start.', 'good');
+        speakP(p);
+        setTimeout(() => { askedRepeat = false; }, 20000);
+      }
+    } finally { if (correcting) correcting = false; }
+  }
+  const spots = [];
+  function addSpot(w, kind) {
+    if (!w?.item.a || spots.some((x) => x.s === w.item.s && x.a === w.item.a && x.wi === w.wi)) return;
+    spots.push({ s: w.item.s, a: w.item.a, wi: w.wi, word: w.display, kind });
   }
 
   let silenceTimer = null;
@@ -510,7 +560,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     const passage = passageText();
     const perAyah = [...ayahMarks.values()].sort((a, b) => a.s - b.s || a.a - b.a).map((x) => ({ ...x, marks: [...x.marks] }));
     const weakAyahs = perAyah.filter((x) => x.marks.some((m) => m === 'wrong' || m === 'prompt')).map((x) => `${x.s}:${x.a}`);
-    ui.finished?.({ mode: byHeart ? 'follow' : mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, ms: Date.now() - startedAt });
+    ui.finished?.({ mode: byHeart ? 'follow' : mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, spots: spots.slice(0, 12), ms: Date.now() - startedAt });
   }
 
   // ── the live cursor ─────────────────────────────────────────
@@ -553,11 +603,12 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     accept: (n, kind) => accept(n, kind),
     wrong: (heard) => reject(heard),
     replay: (idx) => {
-      if (!inReplay) { inReplay = true; tally.back++; const w = flat[idx]; if (w) { markAyah(w, 'back'); note('back', w); } }
+      // going back because the Sheikh asked them to repeat the ayah is not a mistake
+      if (!inReplay) { inReplay = true; if (!askedRepeat) { tally.back++; const w = flat[idx]; if (w) { markAyah(w, 'back'); note('back', w); } } }
       const w = flat[idx]; if (w?.el && w.page === shownPage) w.el.classList.add('replay');
       status('Going back over it…', 'good');
     },
-    endReplay: () => { inReplay = false; setTimeout(() => stage.querySelectorAll('.w.replay').forEach((x) => x.classList.remove('replay')), 900); },
+    endReplay: () => { inReplay = false; askedRepeat = false; setTimeout(() => stage.querySelectorAll('.w.replay').forEach((x) => x.classList.remove('replay')), 900); },
     skipOptional: (spoken, i, th) => {
       const w = flat[pos];
       if (!w || w.item.a !== 0 || w.wi !== 0) return null;

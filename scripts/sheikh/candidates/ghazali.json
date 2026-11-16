@@ -1,0 +1,493 @@
+{
+ "sources": {
+  "alchemy": {
+   "work": "The Alchemy of Happiness (Wisdom of the East series)",
+   "translator": "Claud Field (Claud Herbert Alwyn Field, 1863–1941), translated from the Hindustani",
+   "year": 1910,
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)",
+   "pd": "Published London: John Murray, 1910 (title page of the scan) — before 1929, so public domain in the USA. Translator Claud Field died 1941 (VIAF 61626647; Library of Congress / Online Books Page heading 'Field, Claud, 1863-1941'); Canada's term for authors who died before 1972 is life + 50 (the 2022 extension to life + 70 is not retroactive), so public domain in Canada since 1992. Al-Ghazali's original (d. 1111) is public domain. Wikisource tags the page {{PD-old}} / {{PD/US|1941}}. Text downloaded from Wikisource (transcription of the 1910 scan, pages marked 'proofread', not 'validated'); every passage was cross-checked word by word against the archive.org OCR of the 1910 John Murray printing (https://archive.org/details/alchemyofhappine00algh, Princeton Theological Seminary copy)."
+  },
+  "confessions": {
+   "work": "The Confessions of Al Ghazzali (al-Munqidh min al-Dalal; Wisdom of the East series)",
+   "translator": "Claud Field (1863–1941)",
+   "year": 1909,
+   "url": "https://www.gutenberg.org/ebooks/58977",
+   "pd": "Published London: John Murray, 1909 (title page in the Gutenberg text) — before 1929, so public domain in the USA; Project Gutenberg eBook #58977 is released as a US public-domain work. Translator Claud Field died 1941, so public domain in Canada (life + 50 for deaths before 1972). Text taken from Gutenberg's HTML edition (https://www.gutenberg.org/cache/epub/58977/pg58977-images.html) and checked word by word against the plain-text edition."
+  }
+ },
+ "status": "Candidates for review by Ustadh Issah. None is approved; none is used by the site.",
+ "generated": "2026-11-16",
+ "items": [
+  {
+   "id": "g-know-thyself",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Now nothing is nearer to thee than thyself, and if thou knowest not thyself how canst thou know anything else?",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 1, p. 19 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_I#19",
+   "topic": "knowing yourself, self-knowledge",
+   "ask": [
+    "Why should I try to understand myself?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-kingdom-army",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "For the carrying on of this spiritual warfare by which the knowledge of oneself and of God is to be obtained, the body may be figured as a kingdom, the soul as its king, and the different senses and faculties as constituting an army. Reason may be called the vizier, or prime minister, passion the revenue-collector, and anger the police-officer.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 1, p. 21 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_I#21",
+   "topic": "the body as a kingdom, reason as minister, controlling desire and anger",
+   "ask": [
+    "How should I think about my anger and my wants?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-anger-not-killed",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Both of these, the revenue-collector and the police-officer, have to be kept in due subordination to the king, but not killed or expelled, as they have their own proper functions to fulfil. But if passion and resentment master reason, the ruin of the soul infallibly ensues.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 1, p. 22 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_I#22",
+   "topic": "controlling anger and desire, keeping them under reason",
+   "ask": [
+    "Is it bad to feel angry?",
+    "How do I control my anger?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-heart-mirror",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "The aim of moral discipline is to purify the heart from the rust of passion and resentment, till, like a clear mirror, it reflects the light of God.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 1, p. 22 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_I#22",
+   "topic": "purifying the heart, good character, the heart like a mirror",
+   "ask": [
+    "Why should I work on my character?",
+    "What does it mean to purify the heart?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-delight-truth",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "The highest function of the soul of man is the perception of truth; in this accordingly it finds its special delight. Even in trifling matters, such as learning chess, this holds good, and the higher the subject-matter of the knowledge obtained the greater the delight.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 1, p. 27 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_I#27",
+   "topic": "joy of learning, seeking knowledge",
+   "ask": [
+    "Why is learning enjoyable?",
+    "Why should I keep studying?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-toil-trouble",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Those things he takes most delight in are often the most injurious to him, and those things which benefit him are not to be obtained without toil and trouble.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 1, p. 29 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_I#29",
+   "topic": "effort, hard work, good things need effort",
+   "ask": [
+    "Why is learning hard sometimes?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-mercy-mother",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "When a man further considers how his various wants of food, lodging, etc., are amply supplied from the storehouse of creation, he becomes aware that God's mercy is as great as His power and wisdom, as He has Himself said, \"My mercy is greater than My wrath,\" and according to the Prophet's saying, \"God is more tender to His servants than a mother to her suckling-child.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 2, p. 32 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_II#32",
+   "topic": "gratitude, God's mercy, blessings of food and home",
+   "ask": [
+    "How does Allah take care of us?",
+    "Why should I be thankful?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-little-kingdom",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "In short, each of us is entrusted with a little kingdom, and charged not to be careless in the administration of it.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 2, p. 35 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_II#35",
+   "topic": "responsibility for yourself, self-discipline",
+   "ask": [
+    "Am I responsible for my own actions?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-love-seed",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Love is the seed of happiness, and love to God is fostered and developed by worship. Such worship and constant remembrance of God implies a certain degree of austerity and curbing of bodily appetites.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 2, p. 38 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_II#38",
+   "topic": "love of Allah, worship, remembrance of Allah, self-discipline",
+   "ask": [
+    "How do I grow my love for Allah?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-swallow-anger",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Even the Prophet of God said, \"I am a man like you, and get angry like others\"; and in the Koran it is written, \"God loves those who swallow down their anger,\" not those who have no anger at all.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 2, p. 40 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_II#40",
+   "topic": "controlling anger, swallowing anger",
+   "ask": [
+    "Is it a sin to feel angry?",
+    "What does Allah love about anger?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-striving",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "They know that whosoever wishes for a livelihood, or for wealth, or learning, must not merely say, \"God is merciful,\" but must exert himself. Although the Koran says, \"Every living creature's support comes from God,\" it is also written, \"Man obtains nothing except by striving.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 2, p. 41 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_II#41",
+   "topic": "effort, striving, studying hard, trusting Allah and working",
+   "ask": [
+    "Can I just pray to learn without studying?",
+    "Why do I need to work hard?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-market-place",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "This world is a stage or market-place passed by pilgrims on their way to the next. It is here that they are to provide themselves with provisions for the way;",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 3, p. 43 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_III#43",
+   "topic": "this world as a journey, preparing for the hereafter",
+   "ask": [
+    "What is this life for?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-pilgrim-camel",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "The soul should take care of the body, just as a pilgrim on his way to Mecca takes care of his camel; but if the pilgrim spends his whole time in feeding and adorning his camel, the caravan will leave him behind, and he will perish in the desert.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 3, p. 44 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_III#44",
+   "topic": "balance, caring for the body but not too much, priorities",
+   "ask": [
+    "Should I care about how I look?"
+   ],
+   "status": "pending",
+   "audience": "adults/older students: ends 'he will perish in the desert'"
+  },
+  {
+   "id": "g-table-guests",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "The world is like a table spread for successive relays of guests who come and go. There are gold and silver dishes, abundance of food and perfumes. The wise guest eats as much as is sufficient for him, smells the perfumes, thanks his host, and departs.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 3, p. 48 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_III#48",
+   "topic": "contentment, gratitude, not being greedy",
+   "ask": [
+    "How much of the world should I want?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-knowledge-remains",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Although we have said so much against the world, it must be remembered that there are some things in the world which are not of it, such as knowledge and good deeds. A man carries what knowledge he possesses with him into the next world, and, though his good deeds have passed, yet the effect of them remains in his character.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 3, p. 49 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_III#49",
+   "topic": "knowledge and good deeds last, seeking knowledge",
+   "ask": [
+    "What can I take with me after this life?",
+    "Why is knowledge precious?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-medicine-poison",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "He recognises that knowledge of God and worship are medicinal, and that ignorance and sin are deadly poisons for the soul.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 4, p. 51 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_IV#51",
+   "topic": "knowledge and worship heal the soul",
+   "ask": [
+    "Why is worship good for me?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-twenty-four-treasures",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Therefore a man should say to his soul every morning, \"God has given thee twenty-four treasures; take heed lest thou lose any one of them, for thou wilt not be able to endure the regret that will follow such loss.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 6, p. 77 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VI#77",
+   "topic": "valuing time, every hour is a treasure",
+   "ask": [
+    "Why shouldn't I waste time?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-god-sees",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "This consists in a man's remembering that God observes all his acts and thoughts. People only see the outward, while God sees both the outer and the inner man. He who really believes this will have both his outer and inner being well disciplined.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 6, p. 77 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VI#77",
+   "topic": "remembrance of Allah, Allah sees everything, inner and outer",
+   "ask": [
+    "Does Allah see what I do when no one is watching?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-happy-is-he",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Such, then, is the aim of self-examination, and the Prophet has said, \"Happy is he who does now that which will benefit him after death.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 6, p. 77 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VI#77",
+   "topic": "self-examination, doing good now",
+   "ask": [
+    "Why should I check my own actions?"
+   ],
+   "status": "pending",
+   "note": "Wikisource reads 'had said'; the printed page 77 of the 1910 edition (archive.org scan) reads 'has said'. Text follows the print."
+  },
+  {
+   "id": "g-evening-reckoning",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Every evening he should examine his heart as to what he has done to see whether he has gained or lost in his spiritual capital.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 6, p. 83 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VI#83",
+   "topic": "self-examination every evening, reflecting on your day",
+   "ask": [
+    "What should I think about before I sleep?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-rosary-words",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "People count on their rosaries with self-satisfaction the numbers of times they have recited the name of God, but they keep no rosary for reckoning the numberless idle words they speak. Therefore the Caliph Omar said, \"Weigh well your words and deeds before they be weighed at the Judgment.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 6, p. 84 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VI#84",
+   "topic": "guarding the tongue, idle words, Umar's advice",
+   "ask": [
+    "Why should I be careful with my words?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-good-company",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "If a man finds himself sluggish and averse from austerity and self-discipline he should consort with one who is a proficient in such practices so as to catch the contagion of his enthusiasm. One saint used to say, \"When I grow lukewarm in self-discipline, I look at Muhammad Ibn Wasi, and the sight of him rekindles my fervour for at least a week.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 6, p. 85 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VI#85",
+   "topic": "good company, learning from righteous people, motivation",
+   "ask": [
+    "What do I do when I feel lazy about worship?",
+    "Why should I sit with good people?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-grateful-heart",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "On one occasion Omar asked the Prophet what were the things specially to be sought in the world. He answered, \"A tongue occupied in the remembrance of God, a grateful heart, and a believing wife.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 7, p. 89 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VII#89",
+   "topic": "gratitude, remembrance of Allah, a grateful heart (adult)",
+   "ask": [
+    "What things are best to seek in this world?"
+   ],
+   "status": "pending",
+   "audience": "adults/older students: mentions seeking a wife"
+  },
+  {
+   "id": "g-prayer-love",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "The following prayer was taught by the Prophet to his companions, \"O God, grant me to love Thee and to love those who love Thee, and whatsoever brings me nearer to Thy love, and make Thy love more precious to me than cold water to the thirsty.\"",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 8, p. 101 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VIII#101",
+   "topic": "dua, love of Allah",
+   "ask": [
+    "Is there a dua for loving Allah?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-inner-character",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "Such love is directed not towards any outward form, but towards the inner character. Even when we wish to excite love in a child towards any one, we do not describe their outward beauty of form, etc., but their inner excellencies.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 8, p. 102 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VIII#102",
+   "topic": "good character, inner beauty matters more than looks",
+   "ask": [
+    "What makes a person truly beautiful?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-love-learned",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "It is for this reason that we love Muhammad, because he is the Prophet and the Beloved of God, and the love of learned and pious men is really the love of God.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 8, p. 102 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VIII#102",
+   "topic": "loving the Prophet, respect for scholars and teachers",
+   "ask": [
+    "Why do we love and respect our teachers and scholars?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-shade-tree",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "It would indeed be a wonder, if one should take refuge from the heat of the sun under the shadow of a tree and not be grateful to the tree, without which there would be no shadow at all.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 8, p. 103 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VIII#103",
+   "topic": "gratitude to Allah, thankfulness",
+   "ask": [
+    "Why should I thank Allah?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-benefactor",
+   "kind": "wisdom",
+   "work": "alchemy",
+   "text": "The second cause of this love is that man loves his benefactor, and in truth his only Benefactor is God, for whatever kindness he receives from any fellow-creature is due to the immediate instigation of God.",
+   "ref": "al-Ghazali, The Alchemy of Happiness, ch. 8, p. 103 (tr. Claud Field, 1910)",
+   "url": "https://en.wikisource.org/wiki/The_Alchemy_of_Happiness_(Field)/Chapter_VIII#103",
+   "topic": "gratitude, all kindness comes from Allah",
+   "ask": [
+    "Who should I thank when someone is kind to me?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-thirst-knowledge",
+   "kind": "wisdom",
+   "work": "confessions",
+   "text": "The thirst for knowledge was innate in me from an early age; it was like a second nature implanted by God, without any will on my part.",
+   "ref": "al-Ghazali, The Confessions of Al Ghazzali, “Ghazzali’s Search for Truth”, p. 13 (tr. Claud Field, 1909)",
+   "url": "https://www.gutenberg.org/cache/epub/58977/pg58977-images.html#Page_13",
+   "topic": "love of knowledge, curiosity, seeking knowledge",
+   "ask": [
+    "Did al-Ghazali love learning as a child?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-earnestness",
+   "kind": "wisdom",
+   "work": "confessions",
+   "text": "My object in this account is to make others understand with what earnestness we should search for truth, since it leads to results we never dreamt of.",
+   "ref": "al-Ghazali, The Confessions of Al Ghazzali, “The Subterfuges of the Sophists”, p. 19 (tr. Claud Field, 1909)",
+   "url": "https://www.gutenberg.org/cache/epub/58977/pg58977-images.html#Page_19",
+   "topic": "searching for truth with effort",
+   "ask": [
+    "Why should I search for the truth carefully?"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "g-study-before-refuting",
+   "kind": "wisdom",
+   "work": "confessions",
+   "text": "It was plain to me that, in order to discover where the professors of any branch of knowledge have erred, one must make a profound study of that science; must equal, nay surpass, those who know most of it, so as to penetrate into secrets of it unknown to them.",
+   "ref": "al-Ghazali, The Confessions of Al Ghazzali, “The Aim of Scholastic Theology and its Results”, p. 23 (tr. Claud Field, 1909)",
+   "url": "https://www.gutenberg.org/cache/epub/58977/pg58977-images.html#Page_23",
+   "topic": "studying deeply before judging, mastery (adult)",
+   "ask": [
+    "Should I criticise something I haven't studied?"
+   ],
+   "status": "pending",
+   "audience": "adults/older students: about studying philosophy; better for adults"
+  },
+  {
+   "id": "g-ali-truth",
+   "kind": "wisdom",
+   "work": "confessions",
+   "text": "But a liberal spirit will take as its guide this maxim of the Prince of believers, Ali the son of Abu Talib: “Do not seek for the truth by means of men; find first the truth and then you will recognise those who follow it.”",
+   "ref": "al-Ghazali, The Confessions of Al Ghazzali, “Divisions of the Philosophic Sciences”, p. 36 (tr. Claud Field, 1909)",
+   "url": "https://www.gutenberg.org/cache/epub/58977/pg58977-images.html#Page_36",
+   "topic": "judging ideas by truth, Ali's saying (adult)",
+   "ask": [
+    "How do I know who to follow?"
+   ],
+   "status": "pending",
+   "audience": "adults/older students: abstract; better for adults"
+  },
+  {
+   "id": "g-sincere-teaching",
+   "kind": "wisdom",
+   "work": "confessions",
+   "text": "I probed the motives of my teaching and found that, in place of being sincerely consecrated to God, it was only actuated by a vain desire of honour and reputation.",
+   "ref": "al-Ghazali, The Confessions of Al Ghazzali, “Sufism”, p. 43 (tr. Claud Field, 1909)",
+   "url": "https://www.gutenberg.org/cache/epub/58977/pg58977-images.html#Page_43",
+   "topic": "intention, sincerity, checking your motives",
+   "ask": [
+    "Why does my intention matter?",
+    "Why do I study?"
+   ],
+   "status": "pending",
+   "audience": "adults/older students: al-Ghazali's own confession; better for older students and adults"
+  },
+  {
+   "id": "g-conduct-knowledge",
+   "kind": "wisdom",
+   "work": "confessions",
+   "text": "We should verify in experience the truth of sentences such as the following: “He who makes his conduct accord with his knowledge receives from God more knowledge”; or this, “God delivers to the oppressor him who favours injustice”; or again, “Whosoever when rising in the morning has only one anxiety (to please God), God will preserve him from all anxiety in this world and the next.”",
+   "ref": "al-Ghazali, The Confessions of Al Ghazzali, “The Reality of Inspiration: its Importance for the Human Race”, p. 54 (tr. Claud Field, 1909)",
+   "url": "https://www.gutenberg.org/cache/epub/58977/pg58977-images.html#Page_54",
+   "topic": "acting on knowledge, sincerity, trust in Allah",
+   "ask": [
+    "What happens when I act on what I learn?"
+   ],
+   "status": "pending",
+   "audience": "adults/older students: includes 'God delivers to the oppressor him who favours injustice'"
+  },
+  {
+   "id": "g-true-knowledge",
+   "kind": "wisdom",
+   "work": "confessions",
+   "text": "True knowledge, on the contrary, inspires in him who is initiate in it more fear and more reverence, and raises a barrier of defence between him and sin.",
+   "ref": "al-Ghazali, The Confessions of Al Ghazzali, “The Reality of Inspiration: its Importance for the Human Race”, p. 59 (tr. Claud Field, 1909)",
+   "url": "https://www.gutenberg.org/cache/epub/58977/pg58977-images.html#Page_59",
+   "topic": "true knowledge brings humility and reverence",
+   "ask": [
+    "What does real knowledge do to a person?"
+   ],
+   "status": "pending"
+  }
+ ]
+}

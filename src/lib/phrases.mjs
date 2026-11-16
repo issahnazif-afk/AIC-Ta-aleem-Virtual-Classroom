@@ -24,6 +24,7 @@ export const PHRASES = {
   carryon:      { m: ['تَابِعْ', 'tabi'], f: ['تَابِعِي', 'tabii'], en: 'Carry on.' },
   takecare:     { m: ['ٱنْتَبِهْ', 'intabih'], f: ['ٱنْتَبِهِي', 'intabihi'], en: 'Take care, that is not right.' },
   again:        { m: ['أَعِدْ', 'aid'], f: ['أَعِيدِي', 'aidi'], en: 'Try that word again.' },
+  repeatayah:   { m: ['أَعِدِ ٱلْآيَةَ مِنْ أَوَّلِهَا', 'aid-ayah'], f: ['أَعِيدِي ٱلْآيَةَ مِنْ أَوَّلِهَا', 'aidi-ayah'], en: 'Repeat the ayah from its start.' },
   listen:       { m: ['ٱسْتَمِعْ', 'istami'], f: ['ٱسْتَمِعِي', 'istamii'], en: 'Listen.' },
   lookatme:     { m: ['ٱنْظُرْ إِلَيَّ', 'unzur'], f: ['ٱنْظُرِي إِلَيَّ', 'unzuri'], en: 'Keep your eyes on me.' },
   enough:       { m: ['حَسْبُكَ', 'hasbuka'], f: ['حَسْبُكِ', 'hasbuki'], en: 'That is enough.' },

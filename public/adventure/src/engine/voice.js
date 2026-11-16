@@ -11,6 +11,7 @@
 import { TrackRecognition, preloadTracker } from '../../vendor/qaaf/track-recognition.mjs';
 import { tokenize } from '../../vendor/qaaf/recite.mjs';
 import { save } from './save.js';
+import { playSeq, wordUrls } from './quran-audio.js';
 
 // ── Ustadh Hakim ───────────────────────────────────────────────────
 let clips = null, current = null;
@@ -28,13 +29,16 @@ export async function hakim(key, text) {
   stopHakim();
   if (!save.settings.voice) return;
   const list = await loadClips();
+  if (list[key]) {
+    // a recording: one file, or a list of his parts with the reciter's words between them
+    // ({ q: [surah, ayah, fromWord, toWord] }), so a Qur'an quote is always a human reciter, never a computer voice
+    const urls = [list[key]].flat().flatMap((p) => (typeof p === 'string' ? [`voice/${p}`] : wordUrls(...p.q)));
+    const seq = playSeq(urls); current = seq;
+    await seq.done;
+    if (current === seq) current = null;
+    return;
+  }
   return new Promise((resolve) => {
-    if (list[key]) {
-      const a = new Audio(`voice/${list[key]}`); current = a;
-      a.onended = a.onerror = () => { if (current === a) current = null; resolve(); };
-      a.play().catch(() => resolve());
-      return;
-    }
     if (typeof speechSynthesis === 'undefined' || !text) { resolve(); return; }
     const u = new SpeechSynthesisUtterance(text.replace(/[“”]/g, '').replace(/ﷺ/g, ', peace and blessings be upon him,'));
     if (enVoice) u.voice = enVoice;
@@ -45,6 +49,7 @@ export async function hakim(key, text) {
 }
 export function stopHakim() {
   if (current instanceof Audio) current.pause();
+  current?.stop?.();
   try { speechSynthesis?.cancel(); } catch {}
   current = null;
 }

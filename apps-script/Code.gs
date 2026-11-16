@@ -739,26 +739,32 @@ function sheikhLibrary() {
     const names = []; for (let i = 0; i < n; i++) names.push('sheikh-lib-' + i);
     const parts = cache.getAll(names);
     const text = names.map(function (k) { return parts[k] || ''; }).join('');
-    const ids = cache.get('sheikh-lib-ids');
-    if (names.every(function (k) { return parts[k]; }) && ids) return { text: text, ids: JSON.parse(ids) };
+    const ids = cache.get('sheikh-lib-ids'), lv = cache.get('sheikh-lib-lv');
+    if (names.every(function (k) { return parts[k]; }) && ids && lv) return { text: text, ids: JSON.parse(ids), levels: JSON.parse(lv) };
   }
   const url = sheikhProp('SHEIKH_LIBRARY_URL', 'https://taaleem.ca/data/sheikh-library.json');
   const lib = JSON.parse(UrlFetchApp.fetch(url).getContentText()).lines;
-  const ids = lib.map(function (x) { return x.id; });
-  const text = lib.map(function (x) {
+  // a line for no level (not for children, or not yet tagged) is never offered to the model
+  const usable = lib.filter(function (x) { return !x.levels || x.levels.length; });
+  const ids = usable.map(function (x) { return x.id; });
+  const levels = {}; usable.forEach(function (x) { if (x.levels) levels[x.id] = x.levels; });
+  const text = usable.map(function (x) {
     const t = x.text.length > 260 ? x.text.slice(0, 260) + '…' : x.text;
-    return x.id + ' [' + x.kind + (x.topic ? ': ' + x.topic : '') + (x.ref ? ', ' + x.ref : '') + '] ' + t;
+    return x.id + ' [' + x.kind + (x.topic ? ': ' + x.topic : '') + (x.ref ? ', ' + x.ref : '') + (x.levels ? '; levels ' + x.levels.join(',') : '') +
+      (x.traits && x.traits.length ? '; for ' + x.traits.join(',') : '') + '] ' + t;
   }).join('\n');
   const size = 90000, put = {};
   const k = Math.ceil(text.length / size);
   for (let i = 0; i < k; i++) put['sheikh-lib-' + i] = text.slice(i * size, (i + 1) * size);
-  put['sheikh-lib-n'] = String(k); put['sheikh-lib-ids'] = JSON.stringify(ids);
+  put['sheikh-lib-n'] = String(k); put['sheikh-lib-ids'] = JSON.stringify(ids); put['sheikh-lib-lv'] = JSON.stringify(levels);
   cache.putAll(put, 21600);
-  return { text: text, ids: ids };
+  return { text: text, ids: ids, levels: levels };
 }
 
 const SHEIKH_RULES = [
-  'You choose what "the Sheikh" says to a child (about 6 to 14 years old) in an online Qur\'an classroom of an Islamic school.',
+  'You choose what "the Sheikh" says to a child (4 to 14 years old) in an online Qur\'an classroom of an Islamic school.',
+  'The child\'s level is in the input: 1 (ages 4-6), 2 (7-8), 3 (9-10), 4 (10-14). Only choose lines whose "levels" include the child\'s level',
+  '(a line with no levels is for every level).',
   'You never write words of your own. You only choose lines from the LIBRARY below, by their id. Each line is a recording in the Sheikh\'s voice.',
   '',
   'The input is JSON: phase ("answer": the Sheikh asked a question and offered answer buttons; "question": the child may ask or say anything),',
@@ -778,6 +784,10 @@ const SHEIKH_RULES = [
   '- Ibn Kathir passages are for questions about the life of the Prophet ﷺ and the history around it.',
   '- If the child says they are hurt, unsafe, bullied, or that someone is hurting them, or that they want to hurt themselves: say c-thanks then c-tell-adult, and nothing else.',
   '- If the child is rude or uses bad words: c-kind-words.',
+  '- Counselling, as a sheikh guiding a student: when the child shows one of these feelings (nervous, discouraged, comparing themselves with others,',
+  '  proud, bored, angry, sad, guilty, unkind = hurt or fought with someone, lazy = missed practice, grateful = good news), say in this order:',
+  '  k-<feeling> (Levels 1-2: k-<feeling>-y), then at most one quotation marked "for <feeling>" for their level if one truly fits, then k-<feeling>-step',
+  '  (Levels 1-2: k-<feeling>-step-y), then k-dua (Levels 1-2: k-dua-y; for sad: k-dua-heart). Up to 4 ids in this case. Safety always comes first.',
   '- If the child asks whether the Sheikh is real, a robot, a computer or AI: c-computer.',
   '- Chat about other things (games, food, school): one short warm line, then c-back if it helps.',
   '- Words that make no sense: c-again.',
@@ -814,6 +824,7 @@ function sheikhTalk(body) {
 // one question to the model; the answer can only be ids from the library
 function sheikhAsk(key, body, said, options) {
   const lib = sheikhLibrary();
+  const lvl = Math.min(4, Math.max(1, Number(body.level) || 3));
   const model = sheikhProp('SHEIKH_MODEL', 'claude-opus-5-5');
   const req = {
     model: model,
@@ -832,6 +843,7 @@ function sheikhAsk(key, body, said, options) {
       options: options.map(function (o, i) { return i + ': ' + o; }),
       child_said: said,
       already_said: (Array.isArray(body.recent) ? body.recent : []).slice(-12).map(String),
+      child_level: lvl,
     }) }],
   };
   const headers = { 'x-api-key': key, 'anthropic-version': '2026-10-21' };
@@ -848,7 +860,8 @@ function sheikhAsk(key, body, said, options) {
   let out;
   try { out = JSON.parse(textBlock.text); } catch (e) { return { ok: false, error: 'ai-format' }; }
   const known = {}; lib.ids.forEach(function (id) { known[id] = true; });
-  const say = (Array.isArray(out.say) ? out.say : []).filter(function (id) { return known[id]; }).slice(0, 3);
+  // only lines for the child's level, whatever the model chose
+  const say = (Array.isArray(out.say) ? out.say : []).filter(function (id) { return known[id] && (!lib.levels[id] || lib.levels[id].indexOf(lvl) >= 0); }).slice(0, 4);
   const answer = Number.isInteger(out.answer) && out.answer >= 0 && out.answer < options.length ? out.answer : -1;
   return { ok: true, answer: answer, say: say };
 }

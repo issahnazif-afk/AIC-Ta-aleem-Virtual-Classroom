@@ -714,6 +714,11 @@ const levels = [
           <h2 class="h2">Ayah by ayah</h2>
           <div id="r-strip" class="strip"></div>
         </div>
+        <div class="card" id="r-spots-card" hidden>
+          <h2 class="h2">Words to revise</h2>
+          <p class="muted">Tap a word to hear it from the reciter, then say it after him three times.</p>
+          <div id="r-spots" class="strip"></div>
+        </div>
       </div>
       <aside class="r-side">
         <div class="card earned" id="r-earned" hidden></div>
@@ -1203,7 +1208,7 @@ const levels = [
         const { sheikhChat } = await import('../lib/sheikh-chat.mjs');
         const sname = (n) => fromSel.querySelector(`option[value="${n}"]`)?.textContent.replace(/^\d+\.\s*/, '') ?? '';
         const label = s1 === s2 ? `${sname(s1)} ${a1}–${a2}` : `${sname(s1)} ${a1} to ${sname(s2)} ${a2}`;
-        await sheikhChat($('stage'), { name: me.name, mode: choice.mode, range: { s1, a1, s2, a2 }, label, progress, onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
+        await sheikhChat($('stage'), { name: me.name, level: me.level || 1, mode: choice.mode, range: { s1, a1, s2, a2 }, label, progress, onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
           // the classroom's microphone button talks to the Sheikh while the chat is open
           micButton: $('mic'), onMic: (on) => { $('mic').setAttribute('aria-pressed', String(on)); $('mic-t').textContent = on ? 'Listening' : 'Talk to the Sheikh'; },
           // his mind (an AI on the class server choosing from his library), when the school has turned it on
@@ -1215,7 +1220,7 @@ const levels = [
 
       const tjChecks = me.level >= 3 && !$('su-tajweed').hidden ? tjPick?.checks() : null;
       engine = createEngine({
-        stage: $('stage'), SR, level: choice.level, reciter: $('su-voice').value, gender: me.gender,
+        stage: $('stage'), SR, level: choice.level, reciter: $('su-voice').value, gender: me.gender, young: (me.level || 1) <= 2,
         tajweed: tjChecks ? { checks: tjChecks, young: me.level < 4 } : null,
         ui: {
           sheikh: setSheikh, status: setStatus, note: addNote,
@@ -1325,6 +1330,7 @@ const levels = [
         row.append(l, tr, n); bars.append(row);
       }
       $('r-review').textContent = rev;
+      { const { renderSpots } = await import('../lib/spots.mjs'); renderSpots($('r-spots'), res.spots ?? []); $('r-spots-card').hidden = !(res.spots ?? []).length; }
       const strip = $('r-strip'); strip.replaceChildren();
       const MK = { wrong: 'wrong word', prompt: 'prompted', hint: 'hint', unclear: 'unclear', back: 'went back', away: 'looked away' };
       for (const a of res.perAyah) {
@@ -1344,7 +1350,8 @@ const levels = [
         const { remember } = await import('../lib/sheikh-chat.mjs');
         const rg = store.get('range', null);
         remember(progress, { mode: res.mode, label: passage, range: rg, pct: Math.round((t.first / t.words) * 100), counts: { words: t.words, wrong: t.wrong, prompt: t.prompt, hint: t.hint, back: t.back, unclear: t.unclear },
-          weak: res.perAyah.filter((a) => a.marks.some((m) => m === 'wrong' || m === 'prompt')).map((a) => a.label ?? `ayah ${a.a}`).slice(0, 3) });
+          weak: res.perAyah.filter((a) => a.marks.some((m) => m === 'wrong' || m === 'prompt')).map((a) => a.label ?? `ayah ${a.a}`).slice(0, 3),
+          spots: (res.spots ?? []).slice(0, 8) });   // the exact words, so the Sheikh can go over them next time
       }
       saveProgress({ token: me.token, username: me.username, progress });
       if (reciteLesson && !hifz) {   // Alif Ba, Lesson 18: a surah recited well grows the palm

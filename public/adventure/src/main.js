@@ -7,6 +7,7 @@ import { REGIONS, STAGES, LESSONS, QUESTIONS, STORIES, LOOK, GEAR, TEAM, hakimLi
 import { hakim as speakHakim, stopHakim, listen, hearPhrase, hearAnswer, canRecite, canHearEnglish, warmRecitation, PHRASES } from './engine/voice.js';
 import { online, onClass, here, sendRun } from './engine/online.js';
 import { tokenize } from '../vendor/qaaf/recite.mjs';
+import { ayahUrl, wordUrls, phrasesOf, playSeq, repeatAfterMe } from './engine/quran-audio.js';
 import { createRunner } from './modes/runner.js';
 import { createExplore } from './modes/explore.js';
 import { createArena } from './modes/arena.js';
@@ -447,10 +448,10 @@ function startPrompt() {
 
 // ── recitation: Ayat al-Kursi at the storm shelters, the du'a for parents at the cave ──
 const RECITE = {
-  kursi: { title: 'Ayat al-Kursi', ref: 'Al-Baqarah 2:255', key: '2:255', audio: 'https://everyayah.com/data/Husary_128kbps/002255.mp3',
+  kursi: { title: 'Ayat al-Kursi', ref: 'Al-Baqarah 2:255', key: '2:255', s: 2, a: 255, first: 1, whole: true,
     ar: 'ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُۥ مَا فِى ٱلسَّمَـٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ',
     prompt: 'kursi-prompt', intro: 'Recite it from beginning to end. Each word lights up as you say it. Your shield grows with every word.' },
-  parents: { title: 'The du’a for parents', ref: 'Al-Isra 17:24', key: null, audio: 'https://everyayah.com/data/Husary_128kbps/017024.mp3',
+  parents: { title: 'The du’a for parents', ref: 'Al-Isra 17:24', key: null, s: 17, a: 24, first: 8, last: 12,
     ar: 'رَّبِّ ٱرْحَمْهُمَا كَمَا رَبَّيَانِى صَغِيرًا', en: '“My Lord, have mercy on them as they raised me when I was small.”',
     prompt: 'parents-prompt', intro: 'Recite the du’a for your parents, and the rock will roll from the cave.' },
 };
@@ -462,23 +463,49 @@ function recite(kind) {
       <p class="recite" lang="ar" dir="rtl">${words.map((w, i) => `<span data-w="${i}">${esc(w.display)}</span>`).join(' ')}</p>
       ${R.en ? `<p class="fine" style="text-align:center">${esc(R.en)}</p>` : ''}
       <div class="rbar"><span id="rc-bar"></span></div><p class="fine" id="rc-state"></p>
-      <div class="row"><button class="btn primary" id="rc-go">🎤 Start reciting</button><button class="btn" id="rc-hear">▶ Listen first</button><button class="btn ghost" id="rc-done" hidden>I have finished</button><button class="btn ghost" id="rc-skip">I can’t use a microphone</button></div>`);
+      <div class="row"><button class="btn primary" id="rc-go">🎤 Start reciting</button><button class="btn" id="rc-hear">▶ Listen first</button><button class="btn" id="rc-rep">🔁 Repeat after me</button><button class="btn ghost" id="rc-done" hidden>I have finished</button><button class="btn ghost" id="rc-skip">I can’t use a microphone</button></div>`);
     let l = null, audio = null, settled = false;
-    const finishWith = (res) => { if (settled) return; settled = true; l?.stop(); audio?.pause(); closeDialog(); paused = false; last = performance.now(); resolve(res); };
+    const finishWith = (res) => { if (settled) return; settled = true; l?.stop(); audio?.stop(); closeDialog(); paused = false; last = performance.now(); resolve(res); };
     const spans = [...dlg.querySelectorAll('[data-w]')];
-    $('rc-hear').onclick = () => { sfx.click(); audio?.pause(); audio = new Audio(R.audio); audio.play().catch(() => {}); $('rc-hear').textContent = '▶ Playing…'; audio.onended = () => ($('rc-hear').textContent = '▶ Listen again'); };
+    const clear = () => spans.forEach((x) => x.classList.remove('soft'));
+    // the reciter: the whole ayah (slow teaching recitation), or only the words shown when it is part of an ayah
+    const listenUrls = () => (R.whole ? [ayahUrl(R.s, R.a)] : wordUrls(R.s, R.a, R.first, R.last));
+    const lightWord = R.whole ? null : (k) => { clear(); spans[k]?.classList.add('soft'); };
+    $('rc-hear').onclick = () => {
+      sfx.click(); audio?.stop(); stopHakim();
+      $('rc-hear').textContent = '▶ Playing…';
+      audio = playSeq(listenUrls(), { onIndex: lightWord });
+      audio.done.then(() => { clear(); $('rc-hear').textContent = '▶ Listen again'; });
+    };
+    // repeat after me: one phrase at a time, then a quiet turn for the child to say it
+    $('rc-rep').onclick = () => {
+      sfx.click(); audio?.stop(); stopHakim(); clear();
+      const phrases = phrasesOf(words, R.whole ? 6 : 3);
+      $('rc-rep').textContent = '■ Stop';
+      $('rc-rep').onclick = () => { audio?.stop(); };
+      audio = repeatAfterMe({ s: R.s, a: R.a, first: R.first, phrases,
+        onWord: (i) => spans[i]?.classList.add('soft'),
+        onPhrase: (k, st) => {
+          if (st === 'listen') { clear(); $('rc-state').textContent = `Listen… (${k + 1} of ${phrases.length})`; }
+          if (st === 'turn') $('rc-state').textContent = 'Your turn — say it now 🗣️';
+        } });
+      audio.done.then(() => {
+        clear(); $('rc-state').textContent = 'Masha’Allah! Now try the whole of it.';
+        $('rc-rep').textContent = '🔁 Repeat after me'; $('rc-rep').onclick = repeatHandler;
+      });
+    };
+    const repeatHandler = $('rc-rep').onclick;
     $('rc-skip').onclick = () => {
       // no microphone: listen along with the reciter; the reward is smaller, and the game says so kindly
       sfx.click(); $('rc-state').textContent = 'Listen along with the reciter, and say it with him quietly.';
       const skipped = () => finishWith({ read: 0, missed: 0, total: words.length, skipped: true });
-      audio?.pause(); audio = new Audio(R.audio);
-      audio.onended = skipped; audio.onerror = () => setTimeout(skipped, 1500);
-      audio.play().catch(() => setTimeout(skipped, 1500));   // no sound here (offline, or blocked): carry on
-      setTimeout(skipped, 75000);
+      audio?.stop(); audio = playSeq(listenUrls(), { onIndex: lightWord });
+      audio.done.then((sec) => setTimeout(skipped, sec < 1 ? 1500 : 0));   // no sound here (offline, or blocked): carry on
+      setTimeout(skipped, 120000);
       $('rc-skip').hidden = true; $('rc-go').hidden = true;
     };
     $('rc-go').onclick = () => {
-      sfx.click(); audio?.pause();
+      sfx.click(); audio?.stop(); clear();
       $('rc-go').hidden = true; $('rc-done').hidden = false; $('rc-state').textContent = 'Getting the listener ready… (the first time can take a minute)';
       let read = 0;
       l = listen(words.map((w) => w.plain), {

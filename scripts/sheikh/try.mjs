@@ -48,7 +48,7 @@ const CASES = [
   ['q', 'my grandma died last week', ['c-sorry-loss']],
   ['q', 'I am sick today', ['c-get-well']],
   ['q', 'I have a big test tomorrow and I am scared', ['c-worried']],
-  ['q', 'I memorised surah al mulk', ['c-proud-2']],
+  ['q', 'I memorised surah al mulk', ['c-proud-2', 'k-grateful', 'q-', 'h-']],
   ['q', 'I like playing football', ['c-nice']],
   ['q', 'my brother keeps hitting me', ['c-thanks']],
   ['q', 'someone at school is bullying me', ['c-thanks']],
@@ -60,7 +60,7 @@ const CASES = [
   // worded differently from the library's example questions
   ['q', 'do I have to be nice to the people next door', ['h-neighbour', 'h-m2624', 'h-b6136']],
   ['q', 'what does Islam say about getting mad', ['h-b6114', 'h-no-anger', 'h-b6116', 'q-3-134']],
-  ['q', 'my friend is not talking to me after we argued', ['h-b6237', 'h-b6065', 'c-sorry-2', 'c-sorry']],
+  ['q', 'my friend is not talking to me after we argued', ['h-b6237', 'h-b6065', 'c-sorry-2', 'c-sorry', 'k-unkind']],
   ['q', 'is it okay to tell a small lie', ['h-truth', 'teacher']],
   ['q', 'why do we have to brush our teeth', ['h-brush']],
   ['q', 'what do muslims say before eating', ['h-right-hand', 'c-duas']],
@@ -78,8 +78,9 @@ const CASES = [
   ['q', 'I do not have anything to ask', ['c-thanks', 'c-thanks-2', 'c-ready', 'c-again']],
   ['q', 'when was the Prophet born', ['s-b-agreed', 's-e-year', 'h-monday']],
   ['q', 'who was the very first Muslim', ['s-f-khadija']],
-  ['q', 'how many people fought in the battle of Badr', ['s-bd-313']],
-  ['q', 'what is the story of the trench', ['s-kh-dig', 'c-seerah']],
+  // (battles are not for children: the Ibn Kathir passages about them are excluded, so these go to the teacher)
+  ['q', 'how many people fought in the battle of Badr', ['teacher', 'c-seerah']],
+  ['q', 'what is the story of the trench', ['teacher', 'c-seerah']],
   ['q', 'who nursed the Prophet as a baby', ['s-b-halima', 'c-seerah']],
   ['q', 'what did Abu Bakr do', ['s-', 'c-seerah', 'teacher']],
   // answers to his questions

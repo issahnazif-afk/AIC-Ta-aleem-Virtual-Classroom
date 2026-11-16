@@ -173,7 +173,7 @@ export async function sheikhOn() {
   if (isDemo()) return false;
   try { return !!(await post({ action: 'sheikh-on' }, { timeout: 8000 })).on; } catch { return false; }
 }
-export async function sheikhTalk({ token, phase, question, options, said, recent }) {
+export async function sheikhTalk({ token, phase, question, options, said, recent, level }) {
   if (isDemo()) return { ok: false, error: 'off' };
-  try { return await post({ action: 'sheikh-talk', token, phase, question, options, said, recent }, { timeout: 15000 }); } catch { return { ok: false, error: 'network' }; }
+  try { return await post({ action: 'sheikh-talk', token, phase, question, options, said, recent, level }, { timeout: 15000 }); } catch { return { ok: false, error: 'network' }; }
 }

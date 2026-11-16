@@ -1,0 +1,536 @@
+[
+ {
+  "key": "say-bismillah",
+  "parts": [
+   {
+    "text": "Begin with Bismillaah! Say it now, and the light motes will gather to you."
+   }
+  ]
+ },
+ {
+  "key": "bismillah-yes",
+  "parts": [
+   {
+    "text": "Bismillaah, a blessed start!"
+   }
+  ]
+ },
+ {
+  "key": "say-alhamdulillah",
+  "parts": [
+   {
+    "text": "A stumble is not the end. Say Alhamdu lillaah, and keep going."
+   }
+  ]
+ },
+ {
+  "key": "alhamdulillah-yes",
+  "parts": [
+   {
+    "text": "Alhamdu lillaah! Your strength returns."
+   }
+  ]
+ },
+ {
+  "key": "say-subhanallah",
+  "parts": [
+   {
+    "text": "Say Subhaan Allah, and the motes will come to you."
+   }
+  ]
+ },
+ {
+  "key": "subhanallah-yes",
+  "parts": [
+   {
+    "text": "Subhaan Allah!"
+   }
+  ]
+ },
+ {
+  "key": "kursi-prompt",
+  "parts": [
+   {
+    "text": "Here is the shelter. Recite Aayatul Kursi, from beginning to end. I am listening."
+   }
+  ]
+ },
+ {
+  "key": "kursi-done",
+  "parts": [
+   {
+    "text": "Maashaa Allah! Your shield is strong. Now cross the pass."
+   }
+  ]
+ },
+ {
+  "key": "kursi-partial",
+  "parts": [
+   {
+    "text": "Good effort. Your shield is up, but it is weaker. Practise the aayah, and it will grow stronger."
+   }
+  ]
+ },
+ {
+  "key": "shield-hit",
+  "parts": [
+   {
+    "text": "The shield held!"
+   }
+  ]
+ },
+ {
+  "key": "shield-gone",
+  "parts": [
+   {
+    "text": "Your shield is gone. There is another shelter ahead, recite again there."
+   }
+  ]
+ },
+ {
+  "key": "parents-prompt",
+  "parts": [
+   {
+    "text": "Stand before the rock, and recite the du-aa for your parents."
+   }
+  ]
+ },
+ {
+  "key": "rock-open",
+  "parts": [
+   {
+    "text": "The rock is moving! Allah answers those who call on Him."
+   }
+  ]
+ },
+ {
+  "key": "gate-voice",
+  "parts": [
+   {
+    "text": "You can say your answer out loud, or tap it."
+   }
+  ]
+ },
+ {
+  "key": "arch-voice",
+  "parts": [
+   {
+    "text": "Say your answer, and I will guide you to its arch!"
+   }
+  ]
+ },
+ {
+  "key": "class-hello",
+  "parts": [
+   {
+    "text": "Look, your classmates are on the journey too. Together, your class fills the team goal."
+   }
+  ]
+ },
+ {
+  "key": "st-s1",
+  "parts": [
+   {
+    "text": "A good intention. Run the trail to the welcome arch. Gather 20 light motes."
+   }
+  ]
+ },
+ {
+  "key": "st-s2",
+  "parts": [
+   {
+    "text": "Seeking knowledge. Discover the 5 landmarks of the caravan stop and open the knowledge gates to reach the beacon."
+   }
+  ]
+ },
+ {
+  "key": "st-s3",
+  "parts": [
+   {
+    "text": "Choosing well. Choose your path at each fork. Pass the answer arches."
+   }
+  ]
+ },
+ {
+  "key": "st-g1",
+  "parts": [
+   {
+    "text": "Trusting Allah. Leap the broken bridges and cross the river."
+   }
+  ]
+ },
+ {
+  "key": "st-g2",
+  "parts": [
+   {
+    "text": "Helping one another. Friendly challenge: roll 6 orchard orbs into your basket before the sun sets."
+   }
+  ]
+ },
+ {
+  "key": "st-g3",
+  "parts": [
+   {
+    "text": "Patience. Find the gardener’s 5 lost tools, answer the gate questions and water the old tree."
+   }
+  ]
+ },
+ {
+  "key": "st-g4",
+  "parts": [
+   {
+    "text": "Dutifulness to parents. Find 4 things from the shepherds’ valley, open the gates, then recite the du-aa for parents to roll the rock from the cave."
+   }
+  ]
+ },
+ {
+  "key": "st-c1",
+  "parts": [
+   {
+    "text": "Calling on Allah in hardship. Your lantern lights the way. Dodge the rolling stones in the dark."
+   }
+  ]
+ },
+ {
+  "key": "st-c2",
+  "parts": [
+   {
+    "text": "Controlling anger. Friendly challenge: keep your footing among rolling stones for 50 seconds and gather the motes."
+   }
+  ]
+ },
+ {
+  "key": "st-c3",
+  "parts": [
+   {
+    "text": "Keeping trusts. Light the 5 crystal lamps and pass the gates of the hidden hall."
+   }
+  ]
+ },
+ {
+  "key": "st-m1",
+  "parts": [
+   {
+    "text": "Patience and prayer. Gusts push you sideways and the ice is slippery. Keep your lane."
+   }
+  ]
+ },
+ {
+  "key": "st-m2",
+  "parts": [
+   {
+    "text": "Small deeds, done steadily. Friendly challenge: step on each glowing stone in time while the wind blows."
+   }
+  ]
+ },
+ {
+  "key": "st-m3",
+  "parts": [
+   {
+    "text": "Helping travellers. Help the travellers: find the 5 lost supplies, then cross the gates to the summit fire."
+   }
+  ]
+ },
+ {
+  "key": "st-v1",
+  "parts": [
+   {
+    "text": "Aayatul Kursi: Allah’s protection. Thorny storm-pods fall from the sky. Recite Aayatul Kursi at the shelter to raise your bubble shield, then cross the pass."
+   }
+  ]
+ },
+ {
+  "key": "st-v2",
+  "parts": [
+   {
+    "text": "Honesty, and the night visitor. Guard the storehouse: find the 5 places of the story, answer the gates, and keep watch until dawn."
+   }
+  ]
+ },
+ {
+  "key": "st-h1",
+  "parts": [
+   {
+    "text": "Fair trade. Meet the market keepers at 5 stalls and open the gates to the harbour."
+   }
+  ]
+ },
+ {
+  "key": "st-h2",
+  "parts": [
+   {
+    "text": "Seeking more knowledge. Race along the harbour wall past the cargo carts to the lighthouse."
+   }
+  ]
+ },
+ {
+  "key": "st-h3",
+  "parts": [
+   {
+    "text": "Sharing the light. Friendly finale: carry 6 lanterns to their stands around the square while the drifting floats bump you."
+   }
+  ]
+ },
+ {
+  "key": "story-intro-0",
+  "parts": [
+   {
+    "text": "Long ago and far away, at the edge of a golden desert…"
+   }
+  ]
+ },
+ {
+  "key": "story-intro-1",
+  "parts": [
+   {
+    "text": "a young explorer packed a bag, filled a water flask and made an intention: to learn, and to help."
+   }
+  ]
+ },
+ {
+  "key": "story-intro-2",
+  "parts": [
+   {
+    "text": "Your guide will be Ustaadh Hakim, who has walked these roads for many years."
+   }
+  ]
+ },
+ {
+  "key": "story-intro-3",
+  "parts": [
+   {
+    "text": "Five lands lie ahead. Each one holds a lesson worth carrying home."
+   }
+  ]
+ },
+ {
+  "key": "story-garden-0",
+  "parts": [
+   {
+    "text": "Beyond the dunes, palms rise around a quiet river."
+   }
+  ]
+ },
+ {
+  "key": "story-garden-1",
+  "parts": [
+   {
+    "text": "Rivers can be crossed, says Ustaadh Hakim, by those who are patient and trust in Allah."
+   }
+  ]
+ },
+ {
+  "key": "story-garden-2",
+  "parts": [
+   {
+    "text": "The Quran tells of Prophet Moosaa and his people, saved at the sea."
+   }
+  ]
+ },
+ {
+  "key": "story-caves-0",
+  "parts": [
+   {
+    "text": "Under the mountain, crystals glow in the quiet dark."
+   }
+  ]
+ },
+ {
+  "key": "story-caves-1",
+  "parts": [
+   {
+    "text": "In the stillness, the explorer remembers how Prophet Yoonus called on Allah from the darkness, and was answered."
+   }
+  ]
+ },
+ {
+  "key": "story-caves-2",
+  "parts": [
+   {
+    "text": "A little light is enough to take the next step."
+   }
+  ]
+ },
+ {
+  "key": "story-mountain-0",
+  "parts": [
+   {
+    "text": "Snow and wind guard the high pass."
+   }
+  ]
+ },
+ {
+  "key": "story-mountain-1",
+  "parts": [
+   {
+    "text": "When the way is hard, says Ustaadh Hakim, seek help through patience and prayer."
+   }
+  ]
+ },
+ {
+  "key": "story-mountain-2",
+  "parts": [
+   {
+    "text": "Step by step, steady and sure, the explorer begins to climb."
+   }
+  ]
+ },
+ {
+  "key": "story-harbour-0",
+  "parts": [
+   {
+    "text": "At last the road reaches the sea. Tonight the harbour prepares a festival of lights."
+   }
+  ]
+ },
+ {
+  "key": "story-harbour-1",
+  "parts": [
+   {
+    "text": "A lantern does not lose its light by lighting another, smiles Ustaadh Hakim."
+   }
+  ]
+ },
+ {
+  "key": "story-harbour-2",
+  "parts": [
+   {
+    "text": "Market keepers, sailors and families, everyone has a part to play."
+   }
+  ]
+ },
+ {
+  "key": "story-finale-0",
+  "parts": [
+   {
+    "text": "Lanterns rise over the harbour, one for every friend made along the way."
+   }
+  ]
+ },
+ {
+  "key": "story-finale-1",
+  "parts": [
+   {
+    "text": "The explorer’s journey is complete, but learning never ends."
+   },
+   {
+    "q": [
+     20,
+     114,
+     15,
+     17
+    ]
+   },
+   {
+    "text": "My Lord, increase me in knowledge."
+   }
+  ]
+ },
+ {
+  "key": "story-cave-0",
+  "parts": [
+   {
+    "text": "Sit with me, young explorer. The Prophet, peace and blessings be upon him, told of three men from the people who came before us. They were travelling when heavy rain came, so they sheltered in a cave."
+   }
+  ]
+ },
+ {
+  "key": "story-cave-1",
+  "parts": [
+   {
+    "text": "A great rock rolled down the mountain and closed the mouth of the cave. They could not move it. They said: only one thing will save us, let each of us call on Allah by a good deed he did only for Him."
+   }
+  ]
+ },
+ {
+  "key": "story-cave-2",
+  "parts": [
+   {
+    "text": "The first man said: O Allah, I had two old parents. I never gave milk to my family before them. One night I came home late, and they were already asleep."
+   }
+  ]
+ },
+ {
+  "key": "story-cave-3",
+  "parts": [
+   {
+    "text": "I did not want to wake them, and I would not give the milk to anyone before them. So I stood with the bowl in my hand, waiting, until dawn, and they woke and drank."
+   }
+  ]
+ },
+ {
+  "key": "story-cave-4",
+  "parts": [
+   {
+    "text": "O Allah, if I did that only for You, then move this rock from us. And the rock moved a little. The other two men called on Allah by their good deeds too, and the rock moved away, and they walked out free."
+   }
+  ]
+ },
+ {
+  "key": "story-cave-5",
+  "parts": [
+   {
+    "text": "Being good to our parents is loved by Allah. The Quran teaches us a du-aa for them:"
+   },
+   {
+    "q": [
+     17,
+     24,
+     8,
+     12
+    ]
+   },
+   {
+    "text": "My Lord, have mercy on them as they raised me when I was small."
+   }
+  ]
+ },
+ {
+  "key": "story-kursi-0",
+  "parts": [
+   {
+    "text": "Before we cross the stormy pass, listen to a true story. The Prophet, peace and blessings be upon him, gave Abu Huraira, may Allah be pleased with him, the zakaah of Ramadan to guard: food kept for those in need."
+   }
+  ]
+ },
+ {
+  "key": "story-kursi-1",
+  "parts": [
+   {
+    "text": "In the night, someone came and began taking handfuls of the food. Abu Huraira caught him. The man said he was poor, with a family to feed. Abu Huraira felt sorry for him, and let him go."
+   }
+  ]
+ },
+ {
+  "key": "story-kursi-2",
+  "parts": [
+   {
+    "text": "In the morning the Prophet, peace and blessings be upon him, asked him about his prisoner, and said that the man had lied to him, and would come back. The next night he came back, and the same thing happened again."
+   }
+  ]
+ },
+ {
+  "key": "story-kursi-3",
+  "parts": [
+   {
+    "text": "On the third night, Abu Huraira said: this is the last time. The visitor said: let me go, and I will teach you words that Allah will benefit you with. When you go to bed, recite Aayatul Kursi, from beginning to end. A guard from Allah will stay with you, and no shaitaan will come near you until morning."
+   }
+  ]
+ },
+ {
+  "key": "story-kursi-4",
+  "parts": [
+   {
+    "text": "The Prophet, peace and blessings be upon him, said: he told you the truth, though he is a liar. Do you know who you were speaking with these three nights? It was a shaitaan."
+   }
+  ]
+ },
+ {
+  "key": "story-kursi-5",
+  "parts": [
+   {
+    "text": "So, young explorer: when the storm-pods fall, stop at the shelter and recite Aayatul Kursi. Your bubble shield is a reminder of the protection that comes from Allah, and a good habit for every night."
+   }
+  ]
+ }
+]

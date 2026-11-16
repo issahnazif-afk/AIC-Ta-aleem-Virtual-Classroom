@@ -80,6 +80,7 @@ export const INTROS = {
   hadith: ['Let me tell you what the Prophet ﷺ taught us.', 'Listen to this beautiful hadith.', 'The Prophet ﷺ said something lovely about this.'],
   ayah: ['Allah says in the Qur’an:', 'Listen to what Allah tells us in the Qur’an:'],
   seerah: ['Ibn Kathir tells us in his book of history:', 'Here is what Ibn Kathir wrote in his history:'],
+  wisdom: ['Imam al-Ghazali wrote:', 'Here is some wisdom from Imam al-Ghazali:'],
 };
 
 // What each of the 40 extra hadith is about, in a few words. Used only to find the right hadith for what a student
@@ -207,6 +208,123 @@ export const INTENTS = [
   { say: ['c-ready'], ex: ['let us start', 'I am ready', 'can we start now', 'start the recitation'] },
 ];
 
+// ── counselling: meeting the student where they are ─────────────────────────────────────────────────────────
+// When a student shows how they feel (nervous, discouraged, comparing, proud, bored, angry, sad, guilty, unkind,
+// lazy, grateful), the Sheikh answers as a sheikh guiding a student does, always in this order:
+//   1. feel   he hears them: the feeling named, with warmth, in words for their age
+//   2. quote  at most one ayah or hadith from the checked library that speaks to it, tagged for that situation and
+//             for their level (scripts/sheikh/levels.json); none if nothing fits
+//   3. step   one small thing they can do now
+//   4. dua    a short du'a for them
+// Safety comes first and never goes through this: a child who is hurt or unsafe hears c-thanks and c-tell-adult.
+// The lines are everyday words (no religious claims of their own); the religion is only ever a quotation.
+// Levels 1-2 (ages 4-8) hear the "-y" lines: short sentences, one idea.
+export const COUNSEL_LINES = {
+  'k-nervous': 'It is normal to feel nervous before reciting. It shows you care about the Quran.',
+  'k-nervous-y': 'Feeling a little scared is okay. I am here with you.',
+  'k-nervous-step': 'Take a slow breath, say Bismillah, and start with the first ayah only. We will go one ayah at a time.',
+  'k-nervous-step-y': 'Take a big, slow breath. Say Bismillah. Then we start together.',
+  'k-discouraged': 'I hear you. It can feel hard, and that does not mean you are not good at it. It means you are still learning.',
+  'k-discouraged-y': 'It is okay if it feels hard. You are still learning.',
+  'k-discouraged-step': 'Let us choose a smaller part today, just two or three ayat, and make them strong.',
+  'k-discouraged-step-y': 'Let us do just a little bit today. A little is good.',
+  'k-comparing': 'Every student learns at their own pace. I only compare you with you: are you better than last week?',
+  'k-comparing-y': 'Everyone learns at their own speed. You are doing your best.',
+  'k-comparing-step': 'Today, let us try to beat your own score from last time.',
+  'k-comparing-step-y': 'Let us try to do better than you did last time.',
+  'k-proud': 'Masha’Allah, you have worked hard. Let us remember that it is Allah who makes it easy for us.',
+  'k-proud-y': 'Masha’Allah! Let us say Alhamdulillah for it.',
+  'k-proud-step': 'Say Alhamdulillah for what you have learnt, and help a friend who is still learning.',
+  'k-proud-step-y': 'You can help a friend learn too.',
+  'k-bored': 'I understand. Some days it is harder to feel excited. Let us make today’s part short and strong.',
+  'k-bored-y': 'Some days we feel bored. That is okay.',
+  'k-bored-step': 'Let us listen to the reciter once first, then you recite. Hearing it beautifully often brings the love back.',
+  'k-bored-step-y': 'Let us listen to the reciter first. Then you try.',
+  'k-angry': 'Thank you for telling me. Feeling angry happens to everyone. What matters is what we do next.',
+  'k-angry-y': 'Feeling angry happens. Thank you for telling me.',
+  'k-angry-step': 'Before we begin, sit down, take three slow breaths, and say A‘udhu billahi minash-shaytanir-rajim.',
+  'k-angry-step-y': 'Sit down and take three slow breaths with me.',
+  'k-sad': 'I am sorry you feel sad. Thank you for telling me. You can always talk to your parents or your teacher too.',
+  'k-sad-y': 'I am sorry you feel sad. You can tell your mum, dad or teacher too.',
+  'k-sad-step': 'If you would like, we can recite gently today. The Quran is a comfort for the heart.',
+  'k-sad-step-y': 'We can go slowly and gently today.',
+  'k-guilty': 'It is good that you feel sorry. That feeling is the start of making it right.',
+  'k-guilty-y': 'Feeling sorry is good. It means you want to fix it.',
+  'k-guilty-step': 'Ask Allah to forgive you, say sorry to the person if someone was hurt, and try to do better next time.',
+  'k-guilty-step-y': 'Say sorry, and ask Allah to forgive you. Then try again.',
+  'k-unkind': 'Thank you for being honest with me. Everyone makes mistakes with people they love.',
+  'k-unkind-y': 'Thank you for telling me the truth.',
+  'k-unkind-step': 'When you can, go and make peace: say sorry, and say salam first.',
+  'k-unkind-step-y': 'Go and say sorry, and give a kind word.',
+  'k-lazy': 'Thank you for being honest. Missing days happens. What matters is that you came back today.',
+  'k-lazy-y': 'You came back today. That is good!',
+  'k-lazy-step': 'Let us choose one time every day for the Quran, even five minutes, and keep it.',
+  'k-lazy-step-y': 'Let us read a little every day, even a short time.',
+  'k-grateful': 'Alhamdulillah! That is wonderful news. Thank you for sharing it with me.',
+  'k-grateful-y': 'Alhamdulillah! That makes me so happy.',
+  'k-grateful-step': 'Remember to say Alhamdulillah, and thank the people who helped you.',
+  'k-grateful-step-y': 'Let us say Alhamdulillah together.',
+  'k-dua': 'May Allah make it easy for you and bless your effort.',
+  'k-dua-y': 'May Allah bless you.',
+  'k-dua-heart': 'May Allah fill your heart with peace.',
+  // the next visit: he asks after it
+  'k-follow-nervous': 'Last time you told me you felt nervous about reciting. How do you feel about it today?',
+  'k-follow-discouraged': 'Last time you told me it felt hard. How does it feel today?',
+  'k-follow-sad': 'Last time you told me you were feeling sad. How are you feeling now?',
+  'k-follow-angry': 'Last time you told me you were upset. Are you feeling calmer now?',
+  'k-follow-unkind': 'Last time you told me about a disagreement. Did you manage to make peace?',
+  'k-follow-lazy': 'Last time we talked about reciting every day. How has it been going?',
+  'k-follow-better': 'Alhamdulillah, I am so glad to hear that.',
+  'k-follow-same': 'Thank you for telling me. We will keep going together, step by step.',
+};
+export const TRAITS = ['nervous', 'discouraged', 'comparing', 'proud', 'bored', 'angry', 'sad', 'guilty', 'unkind', 'lazy', 'grateful'];
+// the traits he asks after at the next visit
+export const FOLLOW_UP = ['nervous', 'discouraged', 'sad', 'angry', 'unkind', 'lazy'];
+// what a student might say, for each trait (matched by meaning on the device, and given to the class server's AI)
+export const COUNSEL = {
+  nervous: ['I am nervous to recite', 'I am scared I will make mistakes', 'I am afraid of the test', 'I get shy when I recite', 'what if I forget the words', 'I am worried about my hifz test', 'I am scared I will forget', 'I am afraid to make a mistake', 'I am scared I will forget the ayat', 'I am scared I will forget my surah'],
+  discouraged: ['I am not good at this', 'I will never learn it', 'I keep making mistakes', 'I cannot memorise', 'I want to give up', 'it is too hard for me', 'I am bad at reciting', 'I am not good at memorising', 'I am not smart enough'],
+  comparing: ['my friend is better than me', 'everyone memorises faster than me', 'my brother knows more surahs than me', 'why can others do it and I cannot'],
+  proud: ['I am the best in my class', 'I am better than everyone', 'this is easy for me, I know everything', 'I memorised more than all my friends'],
+  bored: ['this is boring', 'reciting is boring', 'the Quran class is boring', 'I do not want to recite today', 'I do not feel like it', 'why do I have to learn this'],
+  angry: ['I am so angry', 'I am angry at my brother', 'I am upset', 'I am mad at my sister', 'someone made me angry'],
+  sad: ['I feel sad', 'I am sad today', 'I feel sad today', 'I am feeling down', 'I miss my grandma', 'I feel lonely', 'I had a bad day'],
+  guilty: ['I lied to my mum', 'I did something wrong', 'I feel bad about what I did', 'I did not pray', 'I was rude to my teacher'],
+  unkind: ['I had a fight with my friend', 'I was mean to my sister', 'I hit my brother', 'I shouted at my mum', 'my friend and I are not talking'],
+  lazy: ['I did not practise', 'I forgot to recite this week', 'I have not revised', 'I did not do my homework', 'I keep skipping my recitation'],
+  grateful: ['I finished my surah', 'I got a good mark', 'I memorised a new surah', 'my teacher said I did well', 'I passed my test'],
+};
+// the lines of a trait for a level (1-4): [feel, step, du'a]
+export const counselLines = (trait, level = 3) => {
+  const y = level <= 2 ? '-y' : '';
+  return [`k-${trait}${y}`, `k-${trait}-step${y}`, trait === 'sad' ? 'k-dua-heart' : `k-dua${y}`];
+};
+// which everyday lines are for which levels (every other line is for every level)
+export const LINE_LEVELS = Object.fromEntries(Object.keys(COUNSEL_LINES).map((id) => [id, /-y$/.test(id) ? [1, 2] : /^k-(dua|follow-)/.test(id) ? [1, 2, 3, 4] : [3, 4]]));
+
+// Words that keep a quotation away from children whatever its tags say (a second check on scripts/sheikh/levels.json):
+// a quotation is only ever said at a level it is tagged for, and never if it has one of these.
+// What the Sheikh may quote is held to what no scholar would question (Ustadh Issah, 2026-11-16: "exclude anything we
+// are not sure of, or that can raise any question mark"):
+//  - hadith only from Sahih al-Bukhari and Sahih Muslim. Of an-Nawawi's Forty, only those he took from them;
+//    those from other collections (some graded differently by scholars) are held back.
+//  - no English of our own: the Ibn Kathir passages with only a draft translation (scripts/sheikh/candidates/bidaya.json)
+//    are held back, as is al-Ghazali (his English is a loose early translation, not of the original).
+//  - nothing with a known flaw in its English (a typo, two hadith run together, unbalanced quotation marks).
+// A held-back quotation is for no level: the Sheikh never says it.
+export const NAWAWI_FROM_SAHIHAYN = new Set([3, 6, 7, 10, 13, 15, 16, 20, 21, 22, 23, 26, 37]);
+export const HELD_BACK = new Set(['h-b5032', 'h-m2168', 'h-m1734', 'h-m1914', 'h-b6129', 'h-b6465', 'h-b6340', 'h-b4835']);
+export function heldBack(x) {
+  if (HELD_BACK.has(x.id) || x.draft || x.kind === 'wisdom') return true;
+  if (x.kind !== 'hadith') return false;
+  const nawawi = /Nawawi.*?(\d+)/.exec(x.ref ?? '');
+  if (nawawi) return !NAWAWI_FROM_SAHIHAYN.has(+nawawi[1]);
+  return !/^(Bukhari|Muslim)\b/.test(x.ref ?? '');
+}
+
+export const NOT_FOR_CHILDREN = /\b(kill(s|ed|ing)?|slay|slain|slaughter\w*|blood\w*|battle\w*|war|wars|fight(ing)?\s+(them|the)|sword\w*|stone[ds]?\s+to|stoning|lash(es|ed|ing)?|flog\w*|amputat\w*|cut off|punish\w*|torment\w*|hell(-?fire)?|fire of hell|grave|womb|embryo|sperm|semen|wives|wife|sexual\w*|adulter\w*|fornicat\w*|zina|slave\w*|curse[ds]?|accursed|satan|shaitan|shaytan|devil|jinn|corpse|dead body|beheaded|torture\w*)\b/i;
+
+
 
 
 const REF = { bukhari: 'Bukhari', muslim: 'Muslim', abudawud: 'Abu Dawud', tirmidhi: 'Tirmidhi', nasai: "an-Nasa'i", ibnmajah: 'Ibn Majah' };
@@ -218,7 +336,7 @@ export function library() {
   built ??= (async () => {
     const out = [];
     const seen = new Set();
-    for (const [id, text] of Object.entries(LINES)) out.push({ id, kind: 'line', text });
+    for (const [id, text] of Object.entries({ ...LINES, ...COUNSEL_LINES })) out.push({ id, kind: 'line', text, levels: LINE_LEVELS[id] ?? [1, 2, 3, 4] });
 
     // My Deen (approved)
     const hadith = (id, topic, who, x, src) => {
@@ -257,6 +375,24 @@ export function library() {
     for (const p of src?.passages ?? []) {
       if (p.class !== 'established' || !p.en || p.en.length > 600) continue;
       out.push({ id: `s-${p.id}`, kind: 'seerah', topic: EPISODES[p.episode - 1]?.title ?? `episode ${p.episode}`, text: p.en, ref: `Ibn Kathir, al-Bidaya wa'l-Nihaya ${p.vol}/${p.page}` });
+    }
+    // the further sources (src/data/sheikh-sources.json, gathered by scripts/sheikh/sources.mjs): more hadith from
+    // sunnah.com, al-Ghazali in public-domain translation, more ayat, more Ibn Kathir. Only what Ustadh Issah has
+    // approved ("status": "approved") is ever in the library; everything else waits for his review.
+    const more = await loadJson('../data/sheikh-sources.json').catch(() => null);
+    for (const it of more?.items ?? []) {
+      if (it.status !== 'approved' || !it.text || out.some((x) => x.id === it.id)) continue;
+      out.push({ id: it.id, kind: it.kind, topic: it.topic, text: it.text, ar: it.ar, ref: it.ref, url: it.url, ...(it.draft_en ? { draft: true } : {}) });
+      if (it.ask?.length) ASK[it.id] ??= it.ask;
+    }
+    // age levels and counselling situations for every quotation (scripts/sheikh/levels.json). A quotation with no tag,
+    // or with words not for children (NOT_FOR_CHILDREN), is for no level at all: the Sheikh never says it.
+    const tags = await loadJson('../../scripts/sheikh/levels.json').catch(() => ({ items: {} }));
+    for (const x of out) {
+      if (x.kind === 'line') continue;
+      const t = tags.items?.[x.id];
+      x.levels = t && !NOT_FOR_CHILDREN.test(x.text) && !heldBack(x) ? t.levels : [];
+      x.traits = t?.traits ?? [];
     }
     for (const x of out) if (x.kind !== 'line') x.intro = INTROS[x.kind][0];
     return out;

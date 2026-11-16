@@ -15,6 +15,9 @@ import { SUNNAH } from '../../src/lib/deen/sunnah.mjs';
 import { VIRTUES, DAY, LIFE } from '../../src/lib/deen/prophet.mjs';
 import { ALL_LINES as GAME_LINES } from '../../src/lib/games/lines.mjs';
 
+// Grandpa Musa's words are recorded with VoxCPM2 on a developer machine (scripts/voice/voxcpm_lines.py) and put into the
+// lines by make_narration.py; the other characters stay Kokoro.
+const CAST_VOX = new Set(['grandpa']);
 const SRC = JSON.parse(fs.readFileSync(new URL('../../src/data/seerah/sources.json', import.meta.url)));
 const out = new Map();
 const add = (reader, text, where) => {
@@ -22,7 +25,8 @@ const add = (reader, text, where) => {
   const key = clipKey(VOICES[reader], text);
   if (out.has(key)) return;
   const ps = reader === 'story' ? parts(text, where) : [['narrator', text]];
-  out.set(key, { key, reader, text, parts: ps.map(([who, w]) => [who, spoken(w, true, reader === 'sheikh')]) });
+  // the characters recorded with VoxCPM2 (CAST_VOX) also keep their words as written, for scripts/voice/cast-list.mjs
+  out.set(key, { key, reader, text, parts: ps.map(([who, w]) => (CAST_VOX.has(who) ? [who, spoken(w, true, reader === 'sheikh'), w] : [who, spoken(w, true, reader === 'sheikh')])) });
 };
 
 // Story Time: every page, every tap, the question and answers, the hadith or ayah
@@ -93,7 +97,8 @@ for (const t of await allSpoken()) add('sheikh', t);
 // and everything in his conversation library (src/lib/sheikh-library.mjs), which the AI chooses from
 const { spk } = await import('../../src/lib/sheikh-chat.mjs');
 const { library, INTROS } = await import('../../src/lib/sheikh-library.mjs');
-for (const x of await library()) add('sheikh', spk(x.text));
+// only what he may say: a quotation held back or for no level is never spoken, so it is not recorded either
+for (const x of await library()) if (x.kind === 'line' || x.levels?.length) add('sheikh', spk(x.text));
 for (const t of Object.values(INTROS).flat()) add('sheikh', spk(t));
 // the riwāyah classroom (src/quran/lib/riwayat/course.mjs): every topic he teaches and everything he says around it
 const { allLines: riwayahLines } = await import('../../src/quran/lib/riwayat/course.mjs');

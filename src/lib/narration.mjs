@@ -10,6 +10,11 @@ import { studioUrl } from './voice.mjs';
 let index = null;
 const load = () => (index ??= fetch(u('audio/narration/index.json')).then((r) => (r.ok ? r.json() : {}), () => ({})));
 load();
+// The Sheikh's own voice (VoxCPM2, recorded on a developer machine: scripts/voice/cast-list.mjs) is used first;
+// a sentence it has not recorded yet keeps the Kokoro clip. { narration key: file }
+const casts = {};
+export const castIndex = (who) => (casts[who] ??= fetch(u(`audio/cast/${who}/index.json`)).then((r) => (r.ok ? r.json() : {}), () => ({})));
+export async function castUrl(who, key) { const f = (await castIndex(who))[key]; return typeof f === 'string' ? u(`audio/cast/${who}/${f}`) : null; }
 
 let current = null;
 export function hush() { try { current?.stop(); } catch {} current = null; try { speechSynthesis.cancel(); } catch {} }
@@ -66,8 +71,11 @@ export async function narrate(text, { voice = 'story', words = [], onEnd, studio
   current = mine;
   const [idx, own] = await Promise.all([load(), studio ? studioUrl(studio).catch(() => null) : null]);
   if (current !== mine) return mine;     // something else started while we were loading
-  const made = idx[clipKey(VOICES[voice], text)];
-  const clip = own ? { src: own } : made ? { src: u(`audio/narration/${made.f}.mp3`), d: made.d } : null;
+  const key = clipKey(VOICES[voice], text);
+  const made = idx[key];
+  const cast = voice === 'sheikh' && !own ? await castUrl('sheikh', key) : null;
+  if (current !== mine) return mine;
+  const clip = own ? { src: own } : cast ? { src: cast } : made ? { src: u(`audio/narration/${made.f}.mp3`), d: made.d } : null;
   if (clip) {
     const a = new Audio(clip.src);
     a.addEventListener('loadedmetadata', () => { if (!clip.d && isFinite(a.duration)) clip.d = a.duration; });

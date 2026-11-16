@@ -32,6 +32,7 @@
 
 import { VOICES, clipKey } from './narration-text.mjs';
 import { canListen, listen, matchReply } from './listen-en.mjs';
+import { COUNSEL_LINES, FOLLOW_UP, TRAITS } from './sheikh-library.mjs';
 
 const DAY = 86400000;
 const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; };
@@ -174,7 +175,7 @@ export function observations({ progress, mode, range, now = Date.now() }) {
   else if (gap === 1) out.push({ kind: 'yesterday' });
   const same = [...h].sort((x, y) => y.at - x.at).find((x) => overlaps(x.range, range));
   if (same) {
-    if (same.weak?.length) out.push({ kind: 'tricky', where: same.weak.slice(0, 2), when: daysBetween(same.at, now) });
+    if (same.weak?.length) out.push({ kind: 'tricky', where: same.weak.slice(0, 2), when: daysBetween(same.at, now), spots: (same.spots ?? []).slice(0, 6) });
     if (typeof same.pct === 'number') out.push({ kind: 'before', pct: same.pct, label: same.label });
   } else out.push({ kind: 'new-passage' });
   if ((mode === 'hifz' || mode === 'follow') && h.some((x) => x.mode === 'reading' && overlaps(x.range, range))) out.push({ kind: 'read-before' });
@@ -203,6 +204,7 @@ export const spk = (t) => String(t).replace(/As-salamu alaykum/g, 'Assalamu alay
 const L = {
   hello: 'As-salamu alaykum! It is good to see you again.',
   helloNew: 'As-salamu alaykum! I am the Sheikh, and I will listen to your recitation.',
+  spots: 'These are the words that were tricky. Tap each one, listen to the reciter, and say it after him.',
   howNow: { tired: 'Last time you told me you were a little tired. How are you now?', low: 'Last time you told me you were not feeling so good. How are you now?' },
   glad: 'Alhamdulillah! I am so glad to hear that.',
   sorryGently: 'I am sorry. We will go gently today.',
@@ -284,7 +286,10 @@ async function clipSrc(text) {
   try {
     uFn ??= (await import('./url.mjs')).u;
     idxP ??= fetch(uFn('audio/narration/index.json')).then((r) => (r.ok ? r.json() : {}), () => ({}));
-    const c = (await idxP)[clipKey(VOICES.sheikh, spk(text))];
+    const key = clipKey(VOICES.sheikh, spk(text));
+    const own = await (await import('./narration.mjs')).castUrl('sheikh', key);   // his VoxCPM2 voice first
+    if (own) return own;
+    const c = (await idxP)[key];
     return c ? uFn(`audio/narration/${c.f}.mp3`) : null;
   } catch { return null; }
 }
@@ -307,7 +312,9 @@ function libraryById() {
   return libP;
 }
 
-export function sheikhChat(host, { name = '', mode = 'reading', range, label = 'this passage', progress = {}, onSave, micButton, onMic, think } = {}) {
+// level (1-4): the student's level. He says only what is tagged for it (ages 4-6, 7-8, 9-10, 10-14), and counsels
+// in words for their age (src/lib/sheikh-library.mjs, COUNSEL).
+export function sheikhChat(host, { name = '', mode = 'reading', range, label = 'this passage', progress = {}, onSave, micButton, onMic, think, level = 3 } = {}) {
   return new Promise((resolve) => {
     const m = mind(progress);
     const first = name.split(' ')[0] || 'my student';
@@ -423,13 +430,18 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
       const t0 = Date.now();
       try {
         const r = mindKind === 'server'
-          ? await think.talk({ phase, question: spk(question ?? ''), options, said, recent: recent.slice(-12) })
-          : { ok: true, ...(await local.think({ phase, options, said, recent: recent.slice(-12) })) };
+          ? await think.talk({ phase, question: spk(question ?? ''), options, said, recent: recent.slice(-12), level })
+          : { ok: true, ...(await local.think({ phase, options, said, recent: recent.slice(-12), level })) };
         if (!r?.ok) return null;
         const lib = await libraryById();
         const wait = 650 - (Date.now() - t0);                 // a moment to think, as a person would
         if (wait > 0) await new Promise((res) => setTimeout(res, wait));
-        return { answer: Number.isInteger(r.answer) ? r.answer : -1, say: (r.say ?? []).filter((id) => lib.byId[id]) };
+        // a feeling he noticed is remembered, so he can ask after it next time
+        const trait = [r.trait, ...(r.say ?? []).map((id) => /^k-([a-z]+?)(-y)?$/.exec(id)?.[1])].find((t) => TRAITS.includes(t));
+        if (trait) { m.traits ??= {}; m.traits[trait] = { n: (m.traits[trait]?.n ?? 0) + 1, at: Date.now() }; m.lastTrait = { t: trait, at: Date.now(), followed: false }; onSave?.(); }
+        // only lines for the student's level, whoever chose them (the class server's AI is also told, and checked here)
+        const fits = (id) => lib.byId[id] && (!lib.byId[id].levels || lib.byId[id].levels.includes(level));
+        return { answer: Number.isInteger(r.answer) ? r.answer : -1, say: (r.say ?? []).filter(fits) };
       } catch { return null; } finally { dots.remove(); }
     }
     let lastIntro = '';
@@ -574,6 +586,15 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
         else { await say(L.moodLow); await quote('ease'); }
       }
 
+      // 1b. a feeling they shared last time (nervous, discouraged, sad, upset, a disagreement, missed days): he asks after it
+      const lt = m.lastTrait;
+      if (lt && !lt.followed && FOLLOW_UP.includes(lt.t) && daysBetween(lt.at, Date.now()) <= 14 && COUNSEL_LINES[`k-follow-${lt.t}`]) {
+        const a = await ask('trait-follow', COUNSEL_LINES[`k-follow-${lt.t}`], lt.t === 'unkind' ? ['Yes, we made peace', 'Not yet'] : ['Better, alhamdulillah', 'Still the same']);
+        if (a == null) return;
+        lt.followed = true;
+        await say(/^(Yes|Better)/.test(a) ? COUNSEL_LINES['k-follow-better'] : COUNSEL_LINES['k-follow-same']);
+      }
+
       // 2. a follow-up on the reason they gave for being away last time
       if (m.reason && !away && m.reasonAt && daysBetween(m.reasonAt, Date.now()) <= 21 && !m.reasonFollowed) {
         const replies2 = { unwell: ['Yes, alhamdulillah', 'Not fully yet'], busy: ['Yes, a bit', 'Still busy'], travel: ['Yes, it was good', 'It was tiring'], forgot: ['Better, I remembered', 'I still forget sometimes'] }[m.reason];
@@ -640,6 +661,13 @@ export function sheikhChat(host, { name = '', mode = 'reading', range, label = '
       } else {
         const t = obs.find((o) => o.kind === 'tricky');
         if (t) await say(`I observe that ${t.where.join(' and ')} was a little tricky ${ago(t.when)}. When you reach it, slow down. I will help you if you stop.`, L.tricky);
+        if (t?.spots?.length && !stopped) {
+          // the exact words, as a teacher would go over them before the lesson: the reciter says each one
+          await say(L.spots);
+          const row = el('div', 'sc-spots');
+          (await import('./spots.mjs')).renderSpots(row, t.spots);
+          log.append(row); log.scrollTop = log.scrollHeight;
+        }
         const b = obs.find((o) => o.kind === 'before');
         if (b) { const r5 = Math.round(b.pct / 5) * 5; await say(`Last time on ${b.label} you got about ${r5}% of the words right the first time. Let us try to do even better today, in sha’ Allah.`, S.before(b.pct)); }
         else if (obs.some((o) => o.kind === 'new-passage') && obs[0]?.kind !== 'first') await say(`${label} is a new passage for us. I am looking forward to hearing it.`, L.newPassage);

@@ -75,7 +75,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: public/audio/narration
-          key: narration3-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py', 'scripts/voice/kokoro_direct.py') }}
+          key: narration3-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py', 'scripts/voice/kokoro_direct.py', 'public/audio/cast/grandpa/**') }}
           restore-keys: narration3-
       - name: Record the narration with the natural voice
         if: steps.narration.outputs.cache-hit != 'true'
@@ -92,7 +92,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: public/audio/narration
-          key: narration3-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py', 'scripts/voice/kokoro_direct.py') }}
+          key: narration3-${{ hashFiles('scripts/voice/narration.json', 'scripts/voice/make_narration.py', 'scripts/voice/kokoro_direct.py', 'public/audio/cast/grandpa/**') }}
       - name: Build data and site
         env:
           # Settings → Secrets and variables → Actions → Variables → CLASS_LOG_URL

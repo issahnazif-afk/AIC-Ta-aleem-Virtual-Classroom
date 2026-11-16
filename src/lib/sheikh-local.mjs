@@ -6,7 +6,10 @@
 //
 //   loadLocalMind() → Promise<mind | null>       (browser; null if the model cannot load)
 //   createLocalMind({ data, vectors, embed, phrases }) → mind      (also used by the tests in Node)
-//   mind.think({ phase, options, said, recent }) → Promise<{ answer, say }>   same shape as the class server's AI
+//   mind.think({ phase, options, said, recent, level }) → Promise<{ answer, say, trait? }>   same shape as the class server's AI
+// level (1-4): he only says lines and quotations tagged for the student's level (src/lib/sheikh-library.mjs).
+// trait: when the student showed a feeling (COUNSEL in the library), he answers as a sheikh guiding a student:
+// the feeling heard, one quotation for that situation and level, one small step, a du'a.
 import { dot, embedder } from './sheikh-embed.mjs';
 
 // How close (0 to 1) a meaning must be. Set by trying many sentences a child might say (scripts/sheikh/try.mjs).
@@ -15,6 +18,7 @@ export const CLOSE = {
   quote: 0.55,       // a hadith, ayah or passage that answers the question
   ask: 0.7,          // a question the library knows a quotation answers (ASK): close enough to need no shared word
   answer: 0.5,       // an answer in the student's own words, matched to a button
+  feel: 0.58,        // a feeling the student shares (COUNSEL): nervous, discouraged, sad… (tried in scripts/sheikh/counsel-try.mjs)
 };
 
 // Said aloud by a child: safety comes first and never depends on the model.
@@ -58,9 +62,30 @@ export function createLocalMind({ data, vectors, embed, phrases = {} }) {
   // the quotation that answers the question: closest in meaning to its own words (and sharing a word with the
   // question), or to a question it answers (ASK in the library). Also says whether the question is about the Seerah.
   const askText = data.match.askText ?? [];
+  const counsel = data.match.counsel ?? [];
+  const cRow = (k) => (quotes.length + intents.length + asks.length + k) * D;
+  let lv = 3;
+  const forLevel = (id) => { const x = kindOf[id]; return !!x && (!x.levels || x.levels.includes(lv)); };
+  function bestTrait(v) {
+    let t = null, score = -1;
+    counsel.forEach((c, k) => { const s = dot(v, vectors, cRow(k)); if (s > score) { score = s; t = c.t; } });
+    return { trait: t, score };
+  }
+  // the counselling reply: feel, one quotation for the situation and level (closest in meaning), step, du'a
+  function counselSay(trait, v, recent) {
+    const lines = data.counselLines?.[lv]?.[trait] ?? [`k-${trait}${lv <= 2 ? '-y' : ''}`, `k-${trait}-step${lv <= 2 ? '-y' : ''}`, trait === 'sad' ? 'k-dua-heart' : lv <= 2 ? 'k-dua-y' : 'k-dua'];
+    let best = null, top = -1;
+    quotes.forEach((id, i) => {
+      const x = kindOf[id];
+      if (!x?.traits?.includes(trait) || !forLevel(id) || recent.includes(id)) return;
+      const s = dot(v, vectors, qRow(i));
+      if (s > top) { top = s; best = id; }
+    });
+    return [lines[0], ...(best ? [best] : []), lines[1], lines[2]].filter((id) => kindOf[id] && forLevel(id));
+  }
   function bestQuote(v, text, recent) {
     const score = new Map(), viaAsk = new Set();
-    const see = (id, s, ask) => { if (recent.includes(id)) return; if (s > (score.get(id) ?? -1)) { score.set(id, s); if (ask) viaAsk.add(id); else viaAsk.delete(id); } };
+    const see = (id, s, ask) => { if (recent.includes(id) || !forLevel(id)) return; if (s > (score.get(id) ?? -1)) { score.set(id, s); if (ask) viaAsk.add(id); else viaAsk.delete(id); } };
     quotes.forEach((id, i) => see(id, dot(v, vectors, qRow(i)), false));
     // a question the library knows (ASK) counts only when it is the same kind of question and shares a real word
     const mineWh = whOf(text), mineW = words(text);
@@ -87,13 +112,20 @@ export function createLocalMind({ data, vectors, embed, phrases = {} }) {
     return { id: null, score: ranked[0]?.[1] ?? -1, seerahNear };
   }
 
-  async function think({ phase = 'question', options = [], said = '', recent = [] }) {
+  async function think({ phase = 'question', options = [], said = '', recent = [], level = 3 }) {
+    lv = Math.min(4, Math.max(1, Number(level) || 3));
     const text = String(said).trim();
     if (!text) return { answer: -1, say: [] };
     if (UNSAFE.test(text)) return { answer: -1, say: ['c-thanks', 'c-tell-adult'] };
     if (RUDE.test(text)) return { answer: -1, say: ['c-kind-words'] };
     const v = await embed(text);
     const it = bestIntent(v);
+    it.say = it.say.filter(forLevel);
+    // a feeling the student showed, closer than any everyday intent: the counselling reply
+    const tr = bestTrait(v);
+    // (a feeling wins over an everyday line that is about as close: the counselling reply includes the warmth of that line)
+    // a question ("what should I do when I get angry?") is answered as a question, unless it is plainly a feeling
+    const feels = tr.trait && tr.score >= (QUESTION.test(text) ? 0.78 : CLOSE.feel) && tr.score >= it.score - 0.06;
 
     if (phase === 'answer') {
       // the button the student meant: each answer and the ways a child might say it
@@ -104,12 +136,14 @@ export function createLocalMind({ data, vectors, embed, phrases = {} }) {
         if (s > top) { second = top; top = s; answer = i; } else if (s > second) second = s;
       }
       if (top < CLOSE.answer || top - second < 0.04) answer = -1;
+      if (answer < 0 && feels) return { answer: -1, say: counselSay(tr.trait, v, recent), trait: tr.trait };
       const aside = it.score >= CLOSE.intent && it.say.every((id) => ASIDE.has(id)) ? it.say.filter((id) => !recent.includes(id)) : [];
       if (answer < 0 && !aside.length) return { answer: -1, say: [] };
       return { answer, say: aside };
     }
 
     // a question or a remark, before the recitation
+    if (feels) return { answer: -1, say: counselSay(tr.trait, v, recent), trait: tr.trait };
     const q = bestQuote(v, text, recent);
     const asked = QUESTION.test(text);
     const lead = pickFresh(['c-good-question', 'c-lovely-question'], recent);

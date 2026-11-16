@@ -1,0 +1,904 @@
+{
+ "translation": {
+  "name": "The Meaning of the Glorious Koran, translated by Mohammed Marmaduke Pickthall",
+  "year": 1930,
+  "source_url": "https://www.gutenberg.org/ebooks/16955",
+  "source": "Project Gutenberg eBook #16955, \"Three translations of the Koran (Al-Qur'an) side by side\" (the \"P:\" lines), released 27 Oct 2005, updated 12 Dec 2020; Gutenberg: \"re-proofed and corrected ... against paper copies of the translations by Irfan Ali\".",
+  "crosscheck": "Tanzil en.pickthall (https://tanzil.net/trans/en.pickthall, txt-2, \"Last Update: September 4, 2010\"): every item below is identical unless its \"note\" says otherwise.",
+  "terms": "Pickthall died 1936: public domain in Canada (life + 50, expired 1986; the 2022 extension to life + 70 is not retroactive). First published 1930: public domain in the USA since 1 January 2026 (US term for works published in 1930 is 95 years from publication, whether first published in the US or abroad). Project Gutenberg marks #16955 \"Public domain in the USA\"; its licence asks that the \"Project Gutenberg\" trademark is not used for modified copies, which does not restrict quoting the text. Tanzil's Terms of Use (https://tanzil.net/trans/): \"The translations provided at this page are for non-commercial purposes only. If used otherwise, you need to obtain necessary permission from the translator or the publisher. If you are using more than three of the following translations in a website or application, we require you to put a link back to this page ... Redistributing the following list in another website is not allowed, unless direct permission is granted by the Tanzil Project.\" Tanzil is used here only as a cross-check.",
+  "arabic": "public/data/surah/NNN.json: Tanzil Quran Text (Uthmani, Version 1.1), CC BY 3.0, verbatim copies only."
+ },
+ "status": "Candidates for review by Ustadh Issah. None is approved; none is used by the site.",
+ "generated": "2026-11-16",
+ "items": [
+  {
+   "id": "q-73-4",
+   "kind": "ayah",
+   "s": 73,
+   "a": 4,
+   "ar": "أَوْ زِدْ عَلَيْهِ وَرَتِّلِ ٱلْقُرْءَانَ تَرْتِيلًا",
+   "text": "Or add (a little) thereto - and chant the Qur'an in measure,",
+   "ref": "Qur’an 73:4",
+   "url": "https://quran.com/73/4",
+   "topic": "reciting the Qur’an slowly and clearly (tartil)",
+   "ask": [
+    "how should I recite the Quran",
+    "should I recite fast or slowly",
+    "what is tartil"
+   ],
+   "status": "pending",
+   "note": "Begins mid-sentence: “Or add (a little) thereto” continues 73:2–3 (keeping vigil at night)."
+  },
+  {
+   "id": "q-54-17",
+   "kind": "ayah",
+   "s": 54,
+   "a": 17,
+   "ar": "وَلَقَدْ يَسَّرْنَا ٱلْقُرْءَانَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ",
+   "text": "And in truth We have made the Qur'an easy to remember; but is there any that remembereth?",
+   "ref": "Qur’an 54:17",
+   "url": "https://quran.com/54/17",
+   "topic": "the Qur’an is made easy to remember",
+   "ask": [
+    "is the Quran easy to remember",
+    "can I memorise the Quran",
+    "is memorising the Quran too hard for me"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-20-114",
+   "kind": "ayah",
+   "s": 20,
+   "a": 114,
+   "ar": "فَتَعَـٰلَى ٱللَّهُ ٱلْمَلِكُ ٱلْحَقُّ ۗ وَلَا تَعْجَلْ بِٱلْقُرْءَانِ مِن قَبْلِ أَن يُقْضَىٰٓ إِلَيْكَ وَحْيُهُۥ ۖ وَقُل رَّبِّ زِدْنِى عِلْمًا",
+   "text": "Then exalted be Allah, the True King! And hasten not (O Muhammad) with the Qur'an ere its revelation hath been perfected unto thee, and say: My Lord! Increase me in knowledge.",
+   "ref": "Qur’an 20:114",
+   "url": "https://quran.com/20/114",
+   "topic": "a dua for more knowledge",
+   "ask": [
+    "what dua can I say to learn more",
+    "is there a dua for knowledge",
+    "what should I say before I study"
+   ],
+   "status": "pending",
+   "note": "Long; the dua is its last words."
+  },
+  {
+   "id": "q-75-16",
+   "kind": "ayah",
+   "s": 75,
+   "a": 16,
+   "ar": "لَا تُحَرِّكْ بِهِۦ لِسَانَكَ لِتَعْجَلَ بِهِۦٓ",
+   "text": "Stir not thy tongue herewith to hasten it.",
+   "ref": "Qur’an 75:16",
+   "url": "https://quran.com/75/16",
+   "topic": "not hurrying the tongue when reciting",
+   "ask": [
+    "should I rush when I recite",
+    "why should I not hurry my recitation"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-17-106",
+   "kind": "ayah",
+   "s": 17,
+   "a": 106,
+   "ar": "وَقُرْءَانًا فَرَقْنَـٰهُ لِتَقْرَأَهُۥ عَلَى ٱلنَّاسِ عَلَىٰ مُكْثٍ وَنَزَّلْنَـٰهُ تَنزِيلًا",
+   "text": "And (it is) a Qur'an that We have divided, that thou mayst recite it unto mankind at intervals, and We have revealed it by (successive) revelation.",
+   "ref": "Qur’an 17:106",
+   "url": "https://quran.com/17/106",
+   "topic": "the Qur’an was revealed in parts, to be recited bit by bit",
+   "ask": [
+    "why was the Quran revealed in parts",
+    "was the Quran revealed all at once"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-7-204",
+   "kind": "ayah",
+   "s": 7,
+   "a": 204,
+   "ar": "وَإِذَا قُرِئَ ٱلْقُرْءَانُ فَٱسْتَمِعُوا۟ لَهُۥ وَأَنصِتُوا۟ لَعَلَّكُمْ تُرْحَمُونَ",
+   "text": "And when the Qur'an is recited, give ear to it and pay heed, that ye may obtain mercy.",
+   "ref": "Qur’an 7:204",
+   "url": "https://quran.com/7/204",
+   "topic": "listening quietly when the Qur’an is recited",
+   "ask": [
+    "what should I do when someone recites the Quran",
+    "should I be quiet when the Quran is recited"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-16-98",
+   "kind": "ayah",
+   "s": 16,
+   "a": 98,
+   "ar": "فَإِذَا قَرَأْتَ ٱلْقُرْءَانَ فَٱسْتَعِذْ بِٱللَّهِ مِنَ ٱلشَّيْطَـٰنِ ٱلرَّجِيمِ",
+   "text": "And when thou recitest the Qur'an, seek refuge in Allah from Satan the outcast.",
+   "ref": "Qur’an 16:98",
+   "url": "https://quran.com/16/98",
+   "topic": "seeking refuge in Allah before reciting",
+   "ask": [
+    "what do I say before I recite the Quran",
+    "why do we say audhu billah before reading"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-96-1",
+   "kind": "ayah",
+   "s": 96,
+   "a": 1,
+   "ar": "ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ",
+   "text": "Read: In the name of thy Lord Who createth,",
+   "ref": "Qur’an 96:1",
+   "url": "https://quran.com/96/1",
+   "topic": "the first word revealed: read",
+   "ask": [
+    "what does iqra mean",
+    "what does the first ayah of Surah al-Alaq say"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-96-4-5",
+   "kind": "ayah",
+   "s": 96,
+   "a": 4,
+   "to": 5,
+   "ar": "ٱلَّذِى عَلَّمَ بِٱلْقَلَمِ عَلَّمَ ٱلْإِنسَـٰنَ مَا لَمْ يَعْلَمْ",
+   "text": "Who teacheth by the pen, Teacheth man that which he knew not.",
+   "ref": "Qur’an 96:4–5",
+   "url": "https://quran.com/96/4-5",
+   "topic": "Allah taught by the pen what we did not know",
+   "ask": [
+    "who teaches us",
+    "why is writing and learning important"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-55-1-2",
+   "kind": "ayah",
+   "s": 55,
+   "a": 1,
+   "to": 2,
+   "ar": "ٱلرَّحْمَـٰنُ عَلَّمَ ٱلْقُرْءَانَ",
+   "text": "The Beneficent Hath made known the Qur'an.",
+   "ref": "Qur’an 55:1–2",
+   "url": "https://quran.com/55/1-2",
+   "topic": "the Most Merciful taught the Qur’an",
+   "ask": [
+    "who taught the Quran",
+    "where does the Quran come from"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-38-29",
+   "kind": "ayah",
+   "s": 38,
+   "a": 29,
+   "ar": "كِتَـٰبٌ أَنزَلْنَـٰهُ إِلَيْكَ مُبَـٰرَكٌ لِّيَدَّبَّرُوٓا۟ ءَايَـٰتِهِۦ وَلِيَتَذَكَّرَ أُو۟لُوا۟ ٱلْأَلْبَـٰبِ",
+   "text": "(This is) a Scripture that We have revealed unto thee, full of blessing, that they may ponder its revelations, and that men of understanding may reflect.",
+   "ref": "Qur’an 38:29",
+   "url": "https://quran.com/38/29",
+   "topic": "the Qur’an is blessed, so think about its meaning",
+   "ask": [
+    "why should I think about the meaning of the Quran",
+    "is the Quran a blessed book"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-47-24",
+   "kind": "ayah",
+   "s": 47,
+   "a": 24,
+   "ar": "أَفَلَا يَتَدَبَّرُونَ ٱلْقُرْءَانَ أَمْ عَلَىٰ قُلُوبٍ أَقْفَالُهَآ",
+   "text": "Will they then not meditate on the Qur'an, or are there locks on the hearts?",
+   "ref": "Qur’an 47:24",
+   "url": "https://quran.com/47/24",
+   "topic": "pondering the Qur’an",
+   "ask": [
+    "should I think about what the Quran means",
+    "why should we reflect on the Quran"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-17-82",
+   "kind": "ayah",
+   "s": 17,
+   "a": 82,
+   "ar": "وَنُنَزِّلُ مِنَ ٱلْقُرْءَانِ مَا هُوَ شِفَآءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ ۙ وَلَا يَزِيدُ ٱلظَّـٰلِمِينَ إِلَّا خَسَارًا",
+   "text": "And We reveal of the Qur'an that which is a healing and a mercy for believers though it increase the evil-doers in naught save ruin.",
+   "ref": "Qur’an 17:82",
+   "url": "https://quran.com/17/82",
+   "topic": "the Qur’an is a healing and a mercy",
+   "ask": [
+    "is the Quran a healing",
+    "how does the Quran help believers"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-10-57",
+   "kind": "ayah",
+   "s": 10,
+   "a": 57,
+   "ar": "يَـٰٓأَيُّهَا ٱلنَّاسُ قَدْ جَآءَتْكُم مَّوْعِظَةٌ مِّن رَّبِّكُمْ وَشِفَآءٌ لِّمَا فِى ٱلصُّدُورِ وَهُدًى وَرَحْمَةٌ لِّلْمُؤْمِنِينَ",
+   "text": "O mankind! There hath come unto you an exhortation from your Lord, a balm for that which is in the breasts, a guidance and a mercy for believers.",
+   "ref": "Qur’an 10:57",
+   "url": "https://quran.com/10/57",
+   "topic": "the Qur’an heals what is in the hearts",
+   "ask": [
+    "can the Quran help when my heart is sad",
+    "what is the Quran for"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-39-9",
+   "kind": "ayah",
+   "s": 39,
+   "a": 9,
+   "ar": "أَمَّنْ هُوَ قَـٰنِتٌ ءَانَآءَ ٱلَّيْلِ سَاجِدًا وَقَآئِمًا يَحْذَرُ ٱلْـَٔاخِرَةَ وَيَرْجُوا۟ رَحْمَةَ رَبِّهِۦ ۗ قُلْ هَلْ يَسْتَوِى ٱلَّذِينَ يَعْلَمُونَ وَٱلَّذِينَ لَا يَعْلَمُونَ ۗ إِنَّمَا يَتَذَكَّرُ أُو۟لُوا۟ ٱلْأَلْبَـٰبِ",
+   "text": "Is he who payeth adoration in the watches of the night, prostrate and standing, bewaring of the Hereafter and hoping for the mercy of his Lord, (to be accounted equal with a disbeliever)? Say (unto them, O Muhammad): Are those who know equal with those who know not? But only men of understanding will pay heed.",
+   "ref": "Qur’an 39:9",
+   "url": "https://quran.com/39/9",
+   "topic": "those who know and those who do not are not equal",
+   "ask": [
+    "why is knowledge important",
+    "are people who learn better",
+    "why should I learn"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-58-11",
+   "kind": "ayah",
+   "s": 58,
+   "a": 11,
+   "ar": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوٓا۟ إِذَا قِيلَ لَكُمْ تَفَسَّحُوا۟ فِى ٱلْمَجَـٰلِسِ فَٱفْسَحُوا۟ يَفْسَحِ ٱللَّهُ لَكُمْ ۖ وَإِذَا قِيلَ ٱنشُزُوا۟ فَٱنشُزُوا۟ يَرْفَعِ ٱللَّهُ ٱلَّذِينَ ءَامَنُوا۟ مِنكُمْ وَٱلَّذِينَ أُوتُوا۟ ٱلْعِلْمَ دَرَجَـٰتٍ ۚ وَٱللَّهُ بِمَا تَعْمَلُونَ خَبِيرٌ",
+   "text": "O ye who believe! when it is said unto you: Make room! in assemblies, then make room; Allah will make way for you (hereafter). And when it is said: Come up higher! go up higher; Allah will exalt those who believe among you, and those who have knowledge, to high ranks. Allah is informed of what ye do.",
+   "ref": "Qur’an 58:11",
+   "url": "https://quran.com/58/11",
+   "topic": "making room in gatherings; Allah raises those with knowledge",
+   "ask": [
+    "does Allah raise people with knowledge",
+    "should I make room for others when they sit down"
+   ],
+   "status": "pending",
+   "note": "Tanzil en.pickthall 58:11 differs: “O ye who believe! when it is said unto you, Make room! in assemblies, then make room; Allah will make way for you (hereafter). And when it is said, Come up higher! go up higher; Allah will exalt those who believe among you, and those who have knowledge, to high ranks. Allah is Informed of what ye do.”."
+  },
+  {
+   "id": "q-2-153",
+   "kind": "ayah",
+   "s": 2,
+   "a": 153,
+   "ar": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱسْتَعِينُوا۟ بِٱلصَّبْرِ وَٱلصَّلَوٰةِ ۚ إِنَّ ٱللَّهَ مَعَ ٱلصَّـٰبِرِينَ",
+   "text": "O ye who believe! Seek help in steadfastness and prayer. Lo! Allah is with the steadfast.",
+   "ref": "Qur’an 2:153",
+   "url": "https://quran.com/2/153",
+   "topic": "seek help through patience and prayer",
+   "ask": [
+    "what should I do when things are hard",
+    "how can I be patient",
+    "is Allah with the patient"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-39-10",
+   "kind": "ayah",
+   "s": 39,
+   "a": 10,
+   "ar": "قُلْ يَـٰعِبَادِ ٱلَّذِينَ ءَامَنُوا۟ ٱتَّقُوا۟ رَبَّكُمْ ۚ لِلَّذِينَ أَحْسَنُوا۟ فِى هَـٰذِهِ ٱلدُّنْيَا حَسَنَةٌ ۗ وَأَرْضُ ٱللَّهِ وَٰسِعَةٌ ۗ إِنَّمَا يُوَفَّى ٱلصَّـٰبِرُونَ أَجْرَهُم بِغَيْرِ حِسَابٍ",
+   "text": "Say: O My bondmen who believe! Observe your duty to your Lord. For those who do good in this world there is good, and Allah's earth is spacious. Verily the steadfast will be paid their wages without stint.",
+   "ref": "Qur’an 39:10",
+   "url": "https://quran.com/39/10",
+   "topic": "the patient are rewarded without measure",
+   "ask": [
+    "what is the reward for patience",
+    "is being patient worth it"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-94-5",
+   "kind": "ayah",
+   "s": 94,
+   "a": 5,
+   "ar": "فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا",
+   "text": "But lo! with hardship goeth ease,",
+   "ref": "Qur’an 94:5",
+   "url": "https://quran.com/94/5",
+   "topic": "with hardship comes ease",
+   "ask": [
+    "will things get easier",
+    "what if things are hard for me"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-16-127",
+   "kind": "ayah",
+   "s": 16,
+   "a": 127,
+   "ar": "وَٱصْبِرْ وَمَا صَبْرُكَ إِلَّا بِٱللَّهِ ۚ وَلَا تَحْزَنْ عَلَيْهِمْ وَلَا تَكُ فِى ضَيْقٍ مِّمَّا يَمْكُرُونَ",
+   "text": "Endure thou patiently (O Muhammad). Thine endurance is only by (the help of) Allah. Grieve not for them, and be not in distress because of that which they devise.",
+   "ref": "Qur’an 16:127",
+   "url": "https://quran.com/16/127",
+   "topic": "patience comes with Allah’s help",
+   "ask": [
+    "how can I be patient",
+    "where does patience come from"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-14-7",
+   "kind": "ayah",
+   "s": 14,
+   "a": 7,
+   "ar": "وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌ",
+   "text": "And when your Lord proclaimed: If ye give thanks, I will give you more; but if ye are thankless, lo! My punishment is dire.",
+   "ref": "Qur’an 14:7",
+   "url": "https://quran.com/14/7",
+   "topic": "if you are thankful, Allah gives you more",
+   "ask": [
+    "why should I be thankful",
+    "what happens when I say alhamdulillah",
+    "why should I thank Allah"
+   ],
+   "status": "pending",
+   "note": "Ends “My punishment is dire”."
+  },
+  {
+   "id": "q-2-152",
+   "kind": "ayah",
+   "s": 2,
+   "a": 152,
+   "ar": "فَٱذْكُرُونِىٓ أَذْكُرْكُمْ وَٱشْكُرُوا۟ لِى وَلَا تَكْفُرُونِ",
+   "text": "Therefore remember Me, I will remember you. Give thanks to Me, and reject not Me.",
+   "ref": "Qur’an 2:152",
+   "url": "https://quran.com/2/152",
+   "topic": "remember Allah and He remembers you; be thankful",
+   "ask": [
+    "does Allah remember me",
+    "what happens when I remember Allah"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-31-12",
+   "kind": "ayah",
+   "s": 31,
+   "a": 12,
+   "ar": "وَلَقَدْ ءَاتَيْنَا لُقْمَـٰنَ ٱلْحِكْمَةَ أَنِ ٱشْكُرْ لِلَّهِ ۚ وَمَن يَشْكُرْ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِۦ ۖ وَمَن كَفَرَ فَإِنَّ ٱللَّهَ غَنِىٌّ حَمِيدٌ",
+   "text": "And verily We gave Luqman wisdom, saying: Give thanks unto Allah; and whosoever giveth thanks, he giveth thanks for (the good of) his soul. And whosoever refuseth - Lo! Allah is Absolute, Owner of Praise.",
+   "ref": "Qur’an 31:12",
+   "url": "https://quran.com/31/12",
+   "topic": "Luqman’s wisdom: be thankful to Allah",
+   "ask": [
+    "who was Luqman",
+    "who benefits when I am thankful"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-17-23",
+   "kind": "ayah",
+   "s": 17,
+   "a": 23,
+   "ar": "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوٓا۟ إِلَّآ إِيَّاهُ وَبِٱلْوَٰلِدَيْنِ إِحْسَـٰنًا ۚ إِمَّا يَبْلُغَنَّ عِندَكَ ٱلْكِبَرَ أَحَدُهُمَآ أَوْ كِلَاهُمَا فَلَا تَقُل لَّهُمَآ أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا",
+   "text": "Thy Lord hath decreed, that ye worship none save Him, and (that ye show) kindness to parents. If one of them or both of them attain old age with thee, say not \"Fie\" unto them nor repulse them, but speak unto them a gracious word.",
+   "ref": "Qur’an 17:23",
+   "url": "https://quran.com/17/23",
+   "topic": "kindness to parents; never say “uff” to them",
+   "ask": [
+    "how should I treat my parents",
+    "can I be rude to my parents",
+    "how should I speak to my parents"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-17-24",
+   "kind": "ayah",
+   "s": 17,
+   "a": 24,
+   "ar": "وَٱخْفِضْ لَهُمَا جَنَاحَ ٱلذُّلِّ مِنَ ٱلرَّحْمَةِ وَقُل رَّبِّ ٱرْحَمْهُمَا كَمَا رَبَّيَانِى صَغِيرًا",
+   "text": "And lower unto them the wing of submission through mercy, and say: My Lord! Have mercy on them both as they did care for me when I was little.",
+   "ref": "Qur’an 17:24",
+   "url": "https://quran.com/17/24",
+   "topic": "humility to parents and a dua for them",
+   "ask": [
+    "what dua can I make for my parents",
+    "how can I make dua for my mum and dad"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-39-53",
+   "kind": "ayah",
+   "s": 39,
+   "a": 53,
+   "ar": "قُلْ يَـٰعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ ۚ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا ۚ إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ",
+   "text": "Say: O My slaves who have been prodigal to their own hurt! Despair not of the mercy of Allah, Who forgiveth all sins. Lo! He is the Forgiving, the Merciful.",
+   "ref": "Qur’an 39:53",
+   "url": "https://quran.com/39/53",
+   "topic": "never lose hope in Allah’s mercy",
+   "ask": [
+    "will Allah forgive me",
+    "what if I did something wrong",
+    "can Allah forgive all sins"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-21-107",
+   "kind": "ayah",
+   "s": 21,
+   "a": 107,
+   "ar": "وَمَآ أَرْسَلْنَـٰكَ إِلَّا رَحْمَةً لِّلْعَـٰلَمِينَ",
+   "text": "We sent thee not save as a mercy for the peoples.",
+   "ref": "Qur’an 21:107",
+   "url": "https://quran.com/21/107",
+   "topic": "the Prophet ﷺ was sent as a mercy",
+   "ask": [
+    "why was the Prophet sent",
+    "was the Prophet a mercy"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-3-159",
+   "kind": "ayah",
+   "s": 3,
+   "a": 159,
+   "ar": "فَبِمَا رَحْمَةٍ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ ۚ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ",
+   "text": "It was by the mercy of Allah that thou wast lenient with them (O Muhammad), for if thou hadst been stern and fierce of heart they would have dispersed from round about thee. So pardon them and ask forgiveness for them and consult with them upon the conduct of affairs. And when thou art resolved, then put thy trust in Allah. Lo! Allah loveth those who put their trust (in Him).",
+   "ref": "Qur’an 3:159",
+   "url": "https://quran.com/3/159",
+   "topic": "the Prophet’s ﷺ gentleness drew people to him",
+   "ask": [
+    "why was the Prophet gentle",
+    "why should I be gentle",
+    "was the Prophet kind to people"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-6-54",
+   "kind": "ayah",
+   "s": 6,
+   "a": 54,
+   "ar": "وَإِذَا جَآءَكَ ٱلَّذِينَ يُؤْمِنُونَ بِـَٔايَـٰتِنَا فَقُلْ سَلَـٰمٌ عَلَيْكُمْ ۖ كَتَبَ رَبُّكُمْ عَلَىٰ نَفْسِهِ ٱلرَّحْمَةَ ۖ أَنَّهُۥ مَنْ عَمِلَ مِنكُمْ سُوٓءًۢا بِجَهَـٰلَةٍ ثُمَّ تَابَ مِنۢ بَعْدِهِۦ وَأَصْلَحَ فَأَنَّهُۥ غَفُورٌ رَّحِيمٌ",
+   "text": "And when those who believe in Our revelations come unto thee, say: Peace be unto you! Your Lord hath prescribed for Himself mercy, that whoso of you doeth evil through ignorance and repenteth afterward thereof and doeth right, (for him) lo! He is Forgiving, Merciful.",
+   "ref": "Qur’an 6:54",
+   "url": "https://quran.com/6/54",
+   "topic": "Allah has written mercy upon Himself; repenting after a mistake",
+   "ask": [
+    "what if I make a mistake and say sorry to Allah",
+    "is Allah merciful"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-98-5",
+   "kind": "ayah",
+   "s": 98,
+   "a": 5,
+   "ar": "وَمَآ أُمِرُوٓا۟ إِلَّا لِيَعْبُدُوا۟ ٱللَّهَ مُخْلِصِينَ لَهُ ٱلدِّينَ حُنَفَآءَ وَيُقِيمُوا۟ ٱلصَّلَوٰةَ وَيُؤْتُوا۟ ٱلزَّكَوٰةَ ۚ وَذَٰلِكَ دِينُ ٱلْقَيِّمَةِ",
+   "text": "And they are ordered naught else than to serve Allah, keeping religion pure for Him, as men by nature upright, and to establish worship and to pay the poor-due. That is true religion.",
+   "ref": "Qur’an 98:5",
+   "url": "https://quran.com/98/5",
+   "topic": "worshipping Allah sincerely",
+   "ask": [
+    "what does it mean to be sincere",
+    "who should I worship for"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-6-162",
+   "kind": "ayah",
+   "s": 6,
+   "a": 162,
+   "ar": "قُلْ إِنَّ صَلَاتِى وَنُسُكِى وَمَحْيَاىَ وَمَمَاتِى لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+   "text": "Say: Lo! my worship and my sacrifice and my living and my dying are for Allah, Lord of the Worlds.",
+   "ref": "Qur’an 6:162",
+   "url": "https://quran.com/6/162",
+   "topic": "all my prayer and my life are for Allah (intention)",
+   "ask": [
+    "who should I pray for",
+    "why do we do good deeds",
+    "what should my intention be"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-2-83",
+   "kind": "ayah",
+   "s": 2,
+   "a": 83,
+   "ar": "وَإِذْ أَخَذْنَا مِيثَـٰقَ بَنِىٓ إِسْرَٰٓءِيلَ لَا تَعْبُدُونَ إِلَّا ٱللَّهَ وَبِٱلْوَٰلِدَيْنِ إِحْسَانًا وَذِى ٱلْقُرْبَىٰ وَٱلْيَتَـٰمَىٰ وَٱلْمَسَـٰكِينِ وَقُولُوا۟ لِلنَّاسِ حُسْنًا وَأَقِيمُوا۟ ٱلصَّلَوٰةَ وَءَاتُوا۟ ٱلزَّكَوٰةَ ثُمَّ تَوَلَّيْتُمْ إِلَّا قَلِيلًا مِّنكُمْ وَأَنتُم مُّعْرِضُونَ",
+   "text": "And (remember) when We made a covenant with the Children of Israel, (saying): Worship none save Allah (only), and be good to parents and to kindred and to orphans and the needy, and speak kindly to mankind; and establish worship and pay the poor-due. Then, after that, ye slid back, save a few of you, being averse.",
+   "ref": "Qur’an 2:83",
+   "url": "https://quran.com/2/83",
+   "topic": "be good to parents, orphans and the needy, and speak kindly to people",
+   "ask": [
+    "how should I speak to people",
+    "who should I be good to"
+   ],
+   "status": "pending",
+   "note": "Context: the covenant with the Children of Israel; ends “ye slid back, save a few of you”."
+  },
+  {
+   "id": "q-17-53",
+   "kind": "ayah",
+   "s": 17,
+   "a": 53,
+   "ar": "وَقُل لِّعِبَادِى يَقُولُوا۟ ٱلَّتِى هِىَ أَحْسَنُ ۚ إِنَّ ٱلشَّيْطَـٰنَ يَنزَغُ بَيْنَهُمْ ۚ إِنَّ ٱلشَّيْطَـٰنَ كَانَ لِلْإِنسَـٰنِ عَدُوًّا مُّبِينًا",
+   "text": "Tell My bondmen to speak that which is kindlier. Lo! the devil soweth discord among them. Lo! the devil is for man an open foe.",
+   "ref": "Qur’an 17:53",
+   "url": "https://quran.com/17/53",
+   "topic": "say what is best; Satan stirs up quarrels",
+   "ask": [
+    "how should I talk to others",
+    "why do people fight",
+    "what words should I use"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-33-70",
+   "kind": "ayah",
+   "s": 33,
+   "a": 70,
+   "ar": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱتَّقُوا۟ ٱللَّهَ وَقُولُوا۟ قَوْلًا سَدِيدًا",
+   "text": "O ye who believe! Guard your duty to Allah, and speak words straight to the point;",
+   "ref": "Qur’an 33:70",
+   "url": "https://quran.com/33/70",
+   "topic": "speak words that are right and true",
+   "ask": [
+    "what kind of words should I say",
+    "should I speak the truth"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-31-19",
+   "kind": "ayah",
+   "s": 31,
+   "a": 19,
+   "ar": "وَٱقْصِدْ فِى مَشْيِكَ وَٱغْضُضْ مِن صَوْتِكَ ۚ إِنَّ أَنكَرَ ٱلْأَصْوَٰتِ لَصَوْتُ ٱلْحَمِيرِ",
+   "text": "Be modest in thy bearing and subdue thy voice. Lo! the harshest of all voices is the voice of the ass.",
+   "ref": "Qur’an 31:19",
+   "url": "https://quran.com/31/19",
+   "topic": "Luqman’s advice: walk modestly and lower your voice",
+   "ask": [
+    "should I shout",
+    "how should I speak to people",
+    "should I talk loudly"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-14-24",
+   "kind": "ayah",
+   "s": 14,
+   "a": 24,
+   "ar": "أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًا كَلِمَةً طَيِّبَةً كَشَجَرَةٍ طَيِّبَةٍ أَصْلُهَا ثَابِتٌ وَفَرْعُهَا فِى ٱلسَّمَآءِ",
+   "text": "Seest thou not how Allah coineth a similitude: A goodly saying, as a goodly tree, its root set firm, its branches reaching into heaven,",
+   "ref": "Qur’an 14:24",
+   "url": "https://quran.com/14/24",
+   "topic": "a good word is like a good tree",
+   "ask": [
+    "why are good words important",
+    "what is a good word like"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-25-63",
+   "kind": "ayah",
+   "s": 25,
+   "a": 63,
+   "ar": "وَعِبَادُ ٱلرَّحْمَـٰنِ ٱلَّذِينَ يَمْشُونَ عَلَى ٱلْأَرْضِ هَوْنًا وَإِذَا خَاطَبَهُمُ ٱلْجَـٰهِلُونَ قَالُوا۟ سَلَـٰمًا",
+   "text": "The (faithful) slaves of the Beneficent are they who walk upon the earth modestly, and when the foolish ones address them answer: Peace;",
+   "ref": "Qur’an 25:63",
+   "url": "https://quran.com/25/63",
+   "topic": "the servants of the Most Merciful walk humbly and answer with peace",
+   "ask": [
+    "what should I do if someone is rude to me",
+    "how should I walk",
+    "who are the servants of the Most Merciful"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-41-34",
+   "kind": "ayah",
+   "s": 41,
+   "a": 34,
+   "ar": "وَلَا تَسْتَوِى ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُ ۚ ٱدْفَعْ بِٱلَّتِى هِىَ أَحْسَنُ فَإِذَا ٱلَّذِى بَيْنَكَ وَبَيْنَهُۥ عَدَٰوَةٌ كَأَنَّهُۥ وَلِىٌّ حَمِيمٌ",
+   "text": "The good deed and the evil deed are not alike. Repel the evil deed with one which is better, then lo! he, between whom and thee there was enmity (will become) as though he was a bosom friend.",
+   "ref": "Qur’an 41:34",
+   "url": "https://quran.com/41/34",
+   "topic": "answer bad with what is better and enemies become friends",
+   "ask": [
+    "what should I do if someone is mean to me",
+    "how can I make an enemy a friend"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-29-45",
+   "kind": "ayah",
+   "s": 29,
+   "a": 45,
+   "ar": "ٱتْلُ مَآ أُوحِىَ إِلَيْكَ مِنَ ٱلْكِتَـٰبِ وَأَقِمِ ٱلصَّلَوٰةَ ۖ إِنَّ ٱلصَّلَوٰةَ تَنْهَىٰ عَنِ ٱلْفَحْشَآءِ وَٱلْمُنكَرِ ۗ وَلَذِكْرُ ٱللَّهِ أَكْبَرُ ۗ وَٱللَّهُ يَعْلَمُ مَا تَصْنَعُونَ",
+   "text": "Recite that which hath been inspired in thee of the Scripture, and establish worship. Lo! worship preserveth from lewdness and iniquity, but verily remembrance of Allah is more important. And Allah knoweth what ye do.",
+   "ref": "Qur’an 29:45",
+   "url": "https://quran.com/29/45",
+   "topic": "prayer keeps us from bad deeds",
+   "ask": [
+    "why do we pray",
+    "what does salah do for us"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-2-238",
+   "kind": "ayah",
+   "s": 2,
+   "a": 238,
+   "ar": "حَـٰفِظُوا۟ عَلَى ٱلصَّلَوَٰتِ وَٱلصَّلَوٰةِ ٱلْوُسْطَىٰ وَقُومُوا۟ لِلَّهِ قَـٰنِتِينَ",
+   "text": "Be guardians of your prayers, and of the midmost prayer, and stand up with devotion to Allah.",
+   "ref": "Qur’an 2:238",
+   "url": "https://quran.com/2/238",
+   "topic": "guard your prayers",
+   "ask": [
+    "should I look after my prayers",
+    "is it important to pray on time"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-23-1-2",
+   "kind": "ayah",
+   "s": 23,
+   "a": 1,
+   "to": 2,
+   "ar": "قَدْ أَفْلَحَ ٱلْمُؤْمِنُونَ ٱلَّذِينَ هُمْ فِى صَلَاتِهِمْ خَـٰشِعُونَ",
+   "text": "Successful indeed are the believers Who are humble in their prayers,",
+   "ref": "Qur’an 23:1–2",
+   "url": "https://quran.com/23/1-2",
+   "topic": "successful are the believers who are humble in prayer",
+   "ask": [
+    "who are the successful people",
+    "how should I pray"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-40-60",
+   "kind": "ayah",
+   "s": 40,
+   "a": 60,
+   "ar": "وَقَالَ رَبُّكُمُ ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْ ۚ إِنَّ ٱلَّذِينَ يَسْتَكْبِرُونَ عَنْ عِبَادَتِى سَيَدْخُلُونَ جَهَنَّمَ دَاخِرِينَ",
+   "text": "And your Lord hath said: Pray unto Me and I will hear your prayer. Lo! those who scorn My service, they will enter hell, disgraced.",
+   "ref": "Qur’an 40:60",
+   "url": "https://quran.com/40/60",
+   "topic": "call on Allah and He answers",
+   "ask": [
+    "does Allah answer dua",
+    "should I make dua",
+    "does Allah hear me when I ask"
+   ],
+   "status": "pending",
+   "note": "Ends with a warning about Hell; may not suit young children."
+  },
+  {
+   "id": "q-2-201",
+   "kind": "ayah",
+   "s": 2,
+   "a": 201,
+   "ar": "وَمِنْهُم مَّن يَقُولُ رَبَّنَآ ءَاتِنَا فِى ٱلدُّنْيَا حَسَنَةً وَفِى ٱلْـَٔاخِرَةِ حَسَنَةً وَقِنَا عَذَابَ ٱلنَّارِ",
+   "text": "And of them (also) is he who saith: \"Our Lord! Give unto us in the world that which is good and in the Hereafter that which is good, and guard us from the doom of Fire.\"",
+   "ref": "Qur’an 2:201",
+   "url": "https://quran.com/2/201",
+   "topic": "the dua for good in this world and the next",
+   "ask": [
+    "what is a good dua to make",
+    "what dua can I say every day"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-25-74",
+   "kind": "ayah",
+   "s": 25,
+   "a": 74,
+   "ar": "وَٱلَّذِينَ يَقُولُونَ رَبَّنَا هَبْ لَنَا مِنْ أَزْوَٰجِنَا وَذُرِّيَّـٰتِنَا قُرَّةَ أَعْيُنٍ وَٱجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+   "text": "And who say: Our Lord! Vouchsafe us comfort of our wives and of our offspring, and make us patterns for (all) those who ward off (evil).",
+   "ref": "Qur’an 25:74",
+   "url": "https://quran.com/25/74",
+   "topic": "a dua for one’s family",
+   "ask": [
+    "what dua can I make for my family"
+   ],
+   "status": "pending",
+   "note": "Pickthall: “comfort of our wives and of our offspring”; check it suits a child asking about family."
+  },
+  {
+   "id": "q-14-40",
+   "kind": "ayah",
+   "s": 14,
+   "a": 40,
+   "ar": "رَبِّ ٱجْعَلْنِى مُقِيمَ ٱلصَّلَوٰةِ وَمِن ذُرِّيَّتِى ۚ رَبَّنَا وَتَقَبَّلْ دُعَآءِ",
+   "text": "My Lord! Make me to establish proper worship, and some of my posterity (also); our Lord! and accept my prayer.",
+   "ref": "Qur’an 14:40",
+   "url": "https://quran.com/14/40",
+   "topic": "Ibrahim’s dua to keep up prayer",
+   "ask": [
+    "is there a dua to help me pray",
+    "what dua did Ibrahim make"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-20-25-28",
+   "kind": "ayah",
+   "s": 20,
+   "a": 25,
+   "to": 28,
+   "ar": "قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى وَيَسِّرْ لِىٓ أَمْرِى وَٱحْلُلْ عُقْدَةً مِّن لِّسَانِى يَفْقَهُوا۟ قَوْلِى",
+   "text": "(Moses) said: My Lord! relieve my mind And ease my task for me; And loose a knot from my tongue, That they may understand my saying.",
+   "ref": "Qur’an 20:25–28",
+   "url": "https://quran.com/20/25-28",
+   "topic": "Musa’s dua: ease my task and loosen my tongue",
+   "ask": [
+    "what dua can I say before I recite",
+    "is there a dua for speaking clearly",
+    "what dua can I say before a test"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-50-16",
+   "kind": "ayah",
+   "s": 50,
+   "a": 16,
+   "ar": "وَلَقَدْ خَلَقْنَا ٱلْإِنسَـٰنَ وَنَعْلَمُ مَا تُوَسْوِسُ بِهِۦ نَفْسُهُۥ ۖ وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ ٱلْوَرِيدِ",
+   "text": "We verily created man and We know what his soul whispereth to him, and We are nearer to him than his jugular vein.",
+   "ref": "Qur’an 50:16",
+   "url": "https://quran.com/50/16",
+   "topic": "Allah is closer than our jugular vein",
+   "ask": [
+    "is Allah close to me",
+    "does Allah know what I am thinking"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-99-7",
+   "kind": "ayah",
+   "s": 99,
+   "a": 7,
+   "ar": "فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُۥ",
+   "text": "And whoso doeth good an atom's weight will see it then,",
+   "ref": "Qur’an 99:7",
+   "url": "https://quran.com/99/7",
+   "topic": "even an atom’s weight of good is seen",
+   "ask": [
+    "does a small good deed count",
+    "will Allah see my good deeds"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-4-86",
+   "kind": "ayah",
+   "s": 4,
+   "a": 86,
+   "ar": "وَإِذَا حُيِّيتُم بِتَحِيَّةٍ فَحَيُّوا۟ بِأَحْسَنَ مِنْهَآ أَوْ رُدُّوهَآ ۗ إِنَّ ٱللَّهَ كَانَ عَلَىٰ كُلِّ شَىْءٍ حَسِيبًا",
+   "text": "When ye are greeted with a greeting, greet ye with a better than it or return it. Lo! Allah taketh count of all things.",
+   "ref": "Qur’an 4:86",
+   "url": "https://quran.com/4/86",
+   "topic": "return a greeting with a better one",
+   "ask": [
+    "how should I answer salam",
+    "what do I say when someone says salam"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-2-263",
+   "kind": "ayah",
+   "s": 2,
+   "a": 263,
+   "ar": "قَوْلٌ مَّعْرُوفٌ وَمَغْفِرَةٌ خَيْرٌ مِّن صَدَقَةٍ يَتْبَعُهَآ أَذًى ۗ وَٱللَّهُ غَنِىٌّ حَلِيمٌ",
+   "text": "A kind word with forgiveness is better than almsgiving followed by injury. Allah is Absolute, Clement.",
+   "ref": "Qur’an 2:263",
+   "url": "https://quran.com/2/263",
+   "topic": "a kind word is better than charity followed by hurt",
+   "ask": [
+    "is a kind word better than charity",
+    "is a kind word a good deed"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-33-41",
+   "kind": "ayah",
+   "s": 33,
+   "a": 41,
+   "ar": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱذْكُرُوا۟ ٱللَّهَ ذِكْرًا كَثِيرًا",
+   "text": "O ye who believe! Remember Allah with much remembrance.",
+   "ref": "Qur’an 33:41",
+   "url": "https://quran.com/33/41",
+   "topic": "remember Allah often",
+   "ask": [
+    "how often should I remember Allah",
+    "should I do dhikr a lot"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-62-2",
+   "kind": "ayah",
+   "s": 62,
+   "a": 2,
+   "ar": "هُوَ ٱلَّذِى بَعَثَ فِى ٱلْأُمِّيِّـۧنَ رَسُولًا مِّنْهُمْ يَتْلُوا۟ عَلَيْهِمْ ءَايَـٰتِهِۦ وَيُزَكِّيهِمْ وَيُعَلِّمُهُمُ ٱلْكِتَـٰبَ وَٱلْحِكْمَةَ وَإِن كَانُوا۟ مِن قَبْلُ لَفِى ضَلَـٰلٍ مُّبِينٍ",
+   "text": "He it is Who hath sent among the unlettered ones a messenger of their own, to recite unto them His revelations and to make them grow, and to teach them the Scripture and wisdom, though heretofore they were indeed in error manifest,",
+   "ref": "Qur’an 62:2",
+   "url": "https://quran.com/62/2",
+   "topic": "the Prophet ﷺ recited, purified and taught the Book and wisdom",
+   "ask": [
+    "what did the Prophet teach",
+    "was the Prophet a teacher"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-68-4",
+   "kind": "ayah",
+   "s": 68,
+   "a": 4,
+   "ar": "وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ",
+   "text": "And lo! thou art of a tremendous nature.",
+   "ref": "Qur’an 68:4",
+   "url": "https://quran.com/68/4",
+   "topic": "the Prophet’s ﷺ great character",
+   "ask": [
+    "what was the Prophet’s character like",
+    "did the Prophet have good manners"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "q-33-21",
+   "kind": "ayah",
+   "s": 33,
+   "a": 21,
+   "ar": "لَّقَدْ كَانَ لَكُمْ فِى رَسُولِ ٱللَّهِ أُسْوَةٌ حَسَنَةٌ لِّمَن كَانَ يَرْجُوا۟ ٱللَّهَ وَٱلْيَوْمَ ٱلْـَٔاخِرَ وَذَكَرَ ٱللَّهَ كَثِيرًا",
+   "text": "Verily in the messenger of Allah ye have a good example for him who looketh unto Allah and the Last Day, and remembereth Allah much.",
+   "ref": "Qur’an 33:21",
+   "url": "https://quran.com/33/21",
+   "topic": "the Prophet ﷺ is the best example",
+   "ask": [
+    "who is the best example to follow",
+    "why should I follow the Prophet"
+   ],
+   "status": "pending"
+  }
+ ]
+}
