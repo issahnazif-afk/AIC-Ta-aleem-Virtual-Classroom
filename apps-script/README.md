@@ -158,7 +158,9 @@ Ta'aleem Adventure, My Deen and Play & Make. Points are for practice: 10 for fin
 per activity per day. Boards run Monday to Sunday; students see their own level and all four levels, by first name
 and initial, with last week's champions. When they sign in, headlines about the leaders run along the bottom.
 
-- **To keep a student off the public boards**, type their username in the tab's **Hidden (usernames)** column (I).
+- **To hide a student's name** (shown as "a Ta'aleem student" on every board and in the headlines): the student or a parent can
+  hide it themselves, a teacher can type `hidden` in the Students tab's **Leaderboard name** column, or type their username in
+  this tab's **Hidden (usernames)** column (I).
 - **To remove a row** (for example a test run), delete it; the boards update within two minutes.
 
 To switch it on for an existing set-up, paste the new `Code.gs` and make a **New version** of the deployment

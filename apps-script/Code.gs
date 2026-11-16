@@ -604,7 +604,9 @@ function boardName(body) {
   const sh = r.sh;
   if (String(sh.getRange(1, BOARD_NAME_COL).getValue()) !== 'Leaderboard name') sh.getRange(1, BOARD_NAME_COL).setValue('Leaderboard name').setFontWeight('bold');
   sh.getRange(r.st.row, BOARD_NAME_COL).setValue(body.hide ? 'hidden' : '');
-  CacheService.getScriptCache().remove('board-hidden');
+  const c = CacheService.getScriptCache();
+  c.remove('board-hidden');
+  c.removeAll(['board:' + advWeek(new Date()), 'board:' + advWeek(new Date(Date.now() - 7 * 864e5))]);   // the weekly practice boards too
   return { ok: true, hidden: !!body.hide };
 }
 function mazeBoard(body) {
@@ -645,7 +647,8 @@ function mazeBoard(body) {
 // A student earns at most 100 points per activity per day, so steady practice wins, not one long sitting.
 // Boards run Monday to Sunday and start again each week; last week's leaders are kept as "Champions of the week".
 // Students see their own level's board and the board across all four levels, by first name and initial.
-// A teacher can take a student off the public boards: type "hide" in the Leaderboard tab's "Hidden" list (column I).
+// A name can be hidden (shown as "a Ta'aleem student"): by the student or a parent (board-name), by a teacher typing
+// "hidden" in the Students tab's "Leaderboard name" column, or by a username in this tab's "Hidden" list (column I).
 const BOARD_TAB = 'Leaderboard';
 const BOARD_HEADERS = ['When', 'Week (Monday)', 'Username', 'Name', 'Level', 'Activity', 'Points', '', 'Hidden (usernames)'];
 const BOARD_ACTS = ['hifz', 'recite', 'alifba', 'learn', 'stories', 'reading', 'seerah', 'guardians', 'maze', 'adventure', 'deen', 'games'];
@@ -699,7 +702,9 @@ function boardWeek(week) {
   const hit = cache.get('board:' + week);
   if (hit) return JSON.parse(hit);
   const sh = boardSheet();
-  const hidden = boardHidden(sh);
+  // a hidden name (the Students tab's "Leaderboard name", the student's own choice, or this tab's Hidden list) shows as
+  // "a Ta'aleem student", as on the game boards
+  const hidden = hiddenNames();
   const last = sh.getLastRow();
   const from = Math.max(2, last - 30000);
   const rows = last >= 2 ? sh.getRange(from, 1, last - from + 1, 7).getValues() : [];
@@ -707,12 +712,12 @@ function boardWeek(week) {
   rows.forEach(function (v) {
     if (String(v[1]) !== week) return;
     const u = String(v[2]).toLowerCase(), act = String(v[5]);
-    if (!u || hidden[u] || BOARD_ACTS.indexOf(act) < 0) return;
+    if (!u || BOARD_ACTS.indexOf(act) < 0) return;
     const d = u + '|' + act + '|' + (v[0] instanceof Date ? Utilities.formatDate(v[0], Session.getScriptTimeZone(), 'yyyy-MM-dd') : '');
     const p = Math.max(0, Math.min(Number(v[6]) || 0, BOARD_DAY_CAP - (day[d] || 0)));
     day[d] = (day[d] || 0) + p;
     const a = out[act] = out[act] || {};
-    const x = a[u] = a[u] || { n: shortName(v[3]), l: Number(v[4]) || 0, p: 0 };
+    const x = a[u] = a[u] || { n: hidden[u] ? "a Ta'aleem student" : shortName(v[3]), l: Number(v[4]) || 0, p: 0 };
     x.p += p;
   });
   cache.put('board:' + week, JSON.stringify(out), 120);
