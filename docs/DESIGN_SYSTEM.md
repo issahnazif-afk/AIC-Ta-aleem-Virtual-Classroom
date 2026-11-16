@@ -167,3 +167,15 @@ site's art, layout, characters or branding.
 - Contrast: body text at least 4.5:1; large text and focus rings at least 3:1.
 - Arabic shapes correctly and reads right to left.
 - The games still play (`scratchpad` harnesses or a manual run), and sign-in and sessions still reach the class log.
+
+## The front page ("Lantern Night")
+
+The sign-in screen (`src/pages/index.astro`, styles in `src/styles/front.css`) has its own look, chosen by Al-Huda in
+November 2026 from five designs: midnight blue `#0B1430`, warm lantern amber `#F2B451` / `#FFD98A`, Playfair Display
+headings and DM Sans text. It opens with the Basmala. Five arched doors (Levels 1 to 4 and Adults) stand under swaying
+lanterns and open onto amber light. Choosing a door shows a welcome, ٱلسَّلَامُ عَلَيْكُمْ · أَهْلًا وَسَهْلًا بِالدُّخُولِ,
+written and spoken in Arabic, then in English (`public/voice/welcome-ar.mp3` and `welcome-en.mp3`, in the Sheikh's
+voice; the browser reads it while those files are missing). The front page itself never shows the sign-in form: after the welcome, the doors give way to that door, open, on the
+left, with sign in / create account in a column on the right ("Choose another door" goes back). Adults go on to
+the Quran Library. These colours belong to the front page only: the screens inside keep the standard and young
+learners' styles above.

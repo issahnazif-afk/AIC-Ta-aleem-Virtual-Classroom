@@ -17,6 +17,9 @@ import '../styles/classroom.css';
 import '../styles/aic.css';
 import '../styles/deen.css';
 import '../styles/system.css';
+import '@fontsource/playfair-display/500-italic.css';
+import '@fontsource/playfair-display/600.css';
+import '../styles/front.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
 import TajweedRoom from '../components/TajweedRoom.astro';
@@ -38,7 +41,7 @@ const levels = [
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{cfg.appName}</title>
   <meta name="description" content="A virtual classroom where the Sheikh listens to your recitation, for Hifz tests and reading from the mushaf." />
-  <meta name="theme-color" content="#0E6B4E" />
+  <meta name="theme-color" content="#0B1430" />
   <link rel="icon" href={u('favicon-64.png')} type="image/png" />
   <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
   <link rel="preload" href={u('fonts/UthmanicHafs_V22.ttf')} as="font" type="font/ttf" crossorigin />
@@ -47,25 +50,36 @@ const levels = [
 <body class="cr" data-paper="cream" data-log-url={cfg.classLogUrl} data-local-asr={meta.localAsr ? '1' : ''} data-default-reciter={cfg.defaultReciter} data-surahs={JSON.stringify(meta.surahs.map(({ n, ar, en, ayahs }) => ({ n, ar, en, ayahs })))}>
 
   <!-- 1 · sign in ─────────────────────────────────────────── -->
-  <section class="screen signin" id="s-signin" aria-labelledby="si-h">
-    <div class="si-brand">
-      <div class="brand big"><img class="brand-logo si-logo" src={u('img/taaleem-logo.webp')} alt="Ta'aleem logo" width="112" height="118" /><span><b>Ta'aleem</b><small>Virtual Classroom</small></span></div>
-      <div class="si-hero">
-        <p class="eyebrow"><span class="star" aria-hidden="true"></span>Qur’an · Arabic · Islamic studies</p>
-        <p class="display">Recite, read and <em>learn</em> with the Sheikh</p>
-        <p class="si-text">Recite to the Sheikh, learn the Arabic letters, read our books, learn your du'as and the Sunnah. Choose your level to begin.</p>
-        <div class="si-doors" role="group" aria-label="Choose your level, or the adults' section">
-          <button type="button" class="si-door" data-door="1"><img class="si-door-pic" src={u('img/home/kinder.webp')} alt="" width="72" height="60" /><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span><b>Level 1</b><span>Little learners, ages 4 to 6</span></span></button>
-          <button type="button" class="si-door" data-door="2"><img class="si-door-pic" src={u('img/home/letters.webp')} alt="" width="72" height="60" /><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span><b>Level 2</b><span>Young readers, ages 6 to 8</span></span></button>
-          <button type="button" class="si-door" data-door="3"><span class="si-door-num" aria-hidden="true">3</span><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span><b>Level 3</b><span>Explorers, ages 8 to 11</span></span></button>
-          <button type="button" class="si-door" data-door="4"><span class="si-door-num" aria-hidden="true">4</span><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span><b>Level 4</b><span>Seekers, ages 11 to 16</span></span></button>
-          <a class="si-door si-door-adult" href={u('quran/app/')}><span class="si-door-w"><span class="si-door-ar" lang="ar" dir="rtl">ٱلْكِبَار</span><b>Adults · Quran Library</b><span>Read, listen, memorise and recite to the Sheikh. Your own account.</span></span><span class="si-door-go" aria-hidden="true">→</span></a>
-        </div>
-        <p class="si-door-msg" id="door-msg" aria-live="polite"></p>
+  <section class="screen signin ln" id="s-signin" aria-labelledby="ln-h">
+    <div class="ln-front">
+      <div class="ln-sky" id="ln-sky" aria-hidden="true"></div>
+      <header class="ln-bar">
+        <div class="brand"><img class="brand-logo" src={u('img/taaleem-logo.webp')} alt="Ta'aleem logo" width="44" height="46" /><span><b>Ta'aleem</b><small>Al-Huda Islamic Centre</small></span></div>
+        <nav aria-label="Ta'aleem"><a href="#ln-about">About</a><a href={u('quran/app/')}>Quran Library</a><a class="ln-btn ln-btn-sm" href="#ln-signin">Sign in</a></nav>
+      </header>
+      <div class="ln-hero">
+        <p class="ln-basmala" lang="ar" dir="rtl">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        <h1 class="ln-title" id="ln-h">Every child has <em>a door</em> into the deen</h1>
+        <p class="ln-lede">Choose your level and step inside: Qur'an with a listening Sheikh, stories, Arabic, salah and play.</p>
       </div>
-      <p class="si-foot">Works on a desktop or laptop with a camera and microphone, in Chrome or Edge.</p>
+      <div class="ln-row" role="group" aria-label="Choose your level, or the adults' section">
+        <button type="button" class="ln-door" data-door="1" data-name="Level 1 · Little learners" data-go="Enter Level 1"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/kinder.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">1</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span></span><b>Little learners</b><span class="ln-sub">Level 1 · ages 4 to 6</span></button>
+        <button type="button" class="ln-door" data-door="2" data-name="Level 2 · Young readers" data-go="Enter Level 2"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/letters.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">2</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span></span><b>Young readers</b><span class="ln-sub">Level 2 · ages 6 to 8</span></button>
+        <button type="button" class="ln-door" data-door="3" data-name="Level 3 · Explorers" data-go="Enter Level 3"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/adventures.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">3</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span></span><b>Explorers</b><span class="ln-sub">Level 3 · ages 8 to 11</span></button>
+        <button type="button" class="ln-door" data-door="4" data-name="Level 4 · Seekers" data-go="Enter Level 4"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/seerah.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">4</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span></span><b>Seekers</b><span class="ln-sub">Level 4 · ages 11 to 16</span></button>
+        <button type="button" class="ln-door ln-adult" data-adult={u('quran/app/')} data-name="Adults · The Quran Library" data-go="Enter the Quran Library"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/quran.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">✦</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْكِبَار</span></span><b>Adults</b><span class="ln-sub">The Quran Library</span></button>
+      </div>
     </div>
-    <div class="si-form-wrap">
+    <!-- after a door is chosen: that door, open, on the left; sign in / create account on the right -->
+    <div class="ln-stage" id="ln-stage">
+    <aside class="ln-chosen" aria-label="The door you chose">
+      <div class="ln-chosen-door" id="ln-chosen-door" aria-hidden="true"></div>
+      <p class="ln-chosen-k" id="ln-chosen-k"></p>
+      <h2 class="ln-chosen-name" id="ln-chosen-name"></h2>
+      <p class="si-door-msg ln-msg" id="door-msg" aria-live="polite"></p>
+      <button type="button" class="ln-other" id="ln-other">← Choose another door</button>
+    </aside>
+    <div class="si-form-wrap" id="ln-signin">
       <div class="si-form">
         <div class="si-tabs" role="tablist" aria-label="Sign in or create an account">
           <button type="button" role="tab" id="tab-in" aria-selected="true" aria-controls="signin">Sign in</button>
@@ -128,6 +142,27 @@ const levels = [
         </form>
         <p class="fine">When you join a session, a photo is taken from your camera and saved with your session record for your teacher. Video and audio are not recorded.</p>
         <button class="btn link st-link" type="button" id="open-studio">Teachers: record the Sheikh’s voice (Voice Studio)</button>
+      </div>
+    </div>
+    </div>
+    <section class="ln-trust" id="ln-about" aria-label="About Ta'aleem">
+      <div><b>From Al-Huda Islamic Centre</b><p>Made by our masjid for its families and students.</p></div>
+      <div><b>Every lesson sourced</b><p>Qur'an and hadith references on every lesson and question.</p></div>
+      <div><b>No ads, no selling</b><p>Nothing to buy, no rankings, and recitation is heard on the device.</p></div>
+    </section>
+    <footer class="ln-foot"><span>© Al-Huda Islamic Centre · Ta'aleem</span><span>Works best on a computer with a camera and microphone, in Chrome or Edge.</span></footer>
+    <div class="ln-welcome" id="ln-welcome" role="dialog" aria-modal="true" aria-labelledby="lw-ar" hidden>
+      <div class="lw-frame">
+        <div class="lw-orn" aria-hidden="true"></div>
+        <p class="lw-where" id="lw-where"></p>
+        <h2 class="lw-ar" id="lw-ar" lang="ar" dir="rtl"><span class="lw-l1">ٱلسَّلَامُ عَلَيْكُمْ</span><span class="lw-l2">أَهْلًا وَسَهْلًا بِالدُّخُولِ</span></h2>
+        <p class="lw-en">Assalamu alaikum, peace be upon you.<br />You are most welcome. Please, come in.</p>
+        <div class="lw-say" aria-hidden="true"><i></i><i></i><i></i><span>The welcome is playing</span></div>
+        <div class="lw-actions">
+          <button type="button" class="lw-go" id="lw-go">Come in →</button>
+          <button type="button" class="lw-again" id="lw-again">↻ Hear again</button>
+          <button type="button" class="lw-back" id="lw-back">Back to the doors</button>
+        </div>
       </div>
     </div>
   </section>
@@ -763,23 +798,109 @@ const levels = [
 
     // ── 1 · sign in ──────────────────────────────────────────
     const USER_RE = /^[a-z0-9][a-z0-9._-]{2,23}$/;
-    function setTab(which) {
+    function setTab(which, focus = true) {
       const up = which === 'new';
       $('tab-in').setAttribute('aria-selected', String(!up)); $('tab-new').setAttribute('aria-selected', String(up));
       $('signin').hidden = up; $('signup').hidden = !up;
-      (up ? $('up-name') : $('in-user')).focus();
+      if (focus) (up ? $('up-name') : $('in-user')).focus();
       if (up) loadClasses();
     }
     $('tab-in').addEventListener('click', () => setTab('in'));
-    // the level doors: remember the level, and choose it in "Create account"
-    document.querySelectorAll('[data-door]').forEach((d) => d.addEventListener('click', async () => {
-      const n = d.dataset.door;
-      document.querySelectorAll('[data-door]').forEach((x) => x.setAttribute('aria-pressed', String(x === d)));
-      store.set('door', n);
-      $('door-msg').textContent = `Level ${n}: sign in below. New here? Choose Create account, and your teacher will give you the Level ${n} class password.`;
-      if (!$('signup').hidden) { await loadClasses(); pickDoorClass(); }
-      (window.matchMedia('(max-width: 900px)').matches ? $('tab-in') : $('in-user')).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // the level doors: the welcome first (written, and spoken in Arabic then English), then remember the level,
+    // choose it in "Create account" and go to the sign-in form. The Adults' door goes on to the Quran Library.
+    // The front page shows only the doors. Choosing one opens the "stage": that door, open, on the left,
+    // and sign in / create account on the right. "Choose another door" goes back to the doors.
+    function openStage(n) {
+      const d = n && document.querySelector(`.ln-door[data-door="${n}"]`);
+      const box = $('ln-chosen-door');
+      if (d) {
+        box.innerHTML = d.querySelector('.ln-arch').outerHTML;
+        $('ln-chosen-k').textContent = `Level ${n} · ${d.querySelector('.ln-sub').textContent.split('·').pop().trim()}`;
+        $('ln-chosen-name').textContent = d.querySelector('b').textContent;
+        $('door-msg').textContent = `New here? Choose Create account. Your teacher gives you the Level ${n} class password.`;
+      } else {   // "Sign in" from the top bar, with no door chosen yet
+        box.innerHTML = `<span class="ln-arch ln-arch-home"><img src="${siteUrl('img/taaleem-logo.webp')}" alt="" /></span>`;
+        $('ln-chosen-k').textContent = 'Welcome back';
+        $('ln-chosen-name').textContent = "Ta'aleem";
+        $('door-msg').textContent = 'New here? Choose your door first, so you start in the right level.';
+      }
+      $('s-signin').classList.add('staged');
+      window.scrollTo({ top: 0 });
+      requestAnimationFrame(() => $('s-signin').classList.add('stage-in'));
+    }
+    function closeStage() {
+      $('s-signin').classList.remove('staged', 'stage-in');
+      window.scrollTo({ top: 0 });
+    }
+    $('ln-other').addEventListener('click', () => { closeStage(); document.querySelector('.ln-door[aria-pressed="true"]')?.focus({ preventScroll: true }); });
+    document.querySelectorAll('a[href="#ln-signin"]').forEach((a) => a.addEventListener('click', (e) => {
+      e.preventDefault(); setTab('in', false); openStage(store.get('door', '')); $('in-user').focus({ preventScroll: true });
     }));
+    async function chooseDoor(n) {
+      document.querySelectorAll('[data-door]').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.door === n)));
+      store.set('door', n);
+      openStage(n);
+      if (!$('signup').hidden) { await loadClasses(); pickDoorClass(); }
+      ($('signup').hidden ? $('in-user') : $('up-name')).focus({ preventScroll: true });
+    }
+    const welcome = (() => {
+      const W = $('ln-welcome'); document.body.append(W);   // above every screen
+      let door = null, clip = null, stopped = false;
+      const has = {};
+      const exists = (f) => (has[f] ??= fetch(f, { method: 'HEAD' }).then((r) => r.ok).catch(() => false));
+      const play = (f) => new Promise((res) => { const a = new Audio(f); clip = a; a.onended = a.onerror = () => res(); a.play().catch(() => res()); });
+      const tts = (text, lang) => new Promise((res) => {
+        if (!('speechSynthesis' in window)) return res();
+        const t = new SpeechSynthesisUtterance(text); t.lang = lang; t.rate = lang.startsWith('ar') ? 0.8 : 0.92; t.pitch = 0.9;
+        const v = speechSynthesis.getVoices().find((x) => x.lang.replace('_', '-').toLowerCase().startsWith(lang.slice(0, 2)) && (lang.startsWith('en') ? /GB/i.test(x.lang) : true));
+        if (v) t.voice = v;
+        t.onend = t.onerror = () => res(); speechSynthesis.speak(t);
+      });
+      function hush() { stopped = true; if (clip) { clip.pause(); clip = null; } try { speechSynthesis.cancel(); } catch {} W.classList.remove('speaking'); }
+      async function say() {
+        hush(); stopped = false; W.classList.add('speaking'); W.classList.remove('en-on');
+        const ar = siteUrl('voice/welcome-ar.mp3'), en = siteUrl('voice/welcome-en.mp3');
+        if (await exists(ar)) await play(ar); else await tts('السَّلامُ عَلَيْكُمْ. أَهْلاً وَسَهْلاً بِالدُّخُول', 'ar-SA');
+        if (stopped) return;
+        W.classList.add('en-on');
+        if (await exists(en)) await play(en); else await tts('Assalamu alaikum, peace be upon you. You are most welcome. Please, come in.', 'en-GB');
+        W.classList.remove('speaking');
+      }
+      function open(d) {
+        door = d;
+        $('lw-where').textContent = d.dataset.name || '';
+        $('lw-go').textContent = (d.dataset.go || 'Come in') + ' →';
+        W.hidden = false; W.classList.remove('show');
+        requestAnimationFrame(() => requestAnimationFrame(() => W.classList.add('show')));
+        document.documentElement.classList.add('ln-lock');
+        $('lw-go').focus({ preventScroll: true });
+        say();
+      }
+      function close(then) {
+        hush(); W.classList.remove('show'); document.documentElement.classList.remove('ln-lock');
+        setTimeout(() => { W.hidden = true; then ? then() : door?.focus(); }, 280);
+      }
+      $('lw-back').addEventListener('click', () => close());
+      $('lw-again').addEventListener('click', () => say());
+      $('lw-go').addEventListener('click', () => {
+        const d = door;
+        if (d?.dataset.adult) { hush(); location.href = d.dataset.adult; return; }
+        close(() => chooseDoor(d.dataset.door));
+      });
+      W.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+      if ('speechSynthesis' in window) speechSynthesis.getVoices();
+      return { open };
+    })();
+    document.querySelectorAll('.ln-door').forEach((d) => d.addEventListener('click', () => {
+      d.classList.add('opening');
+      setTimeout(() => { d.classList.remove('opening'); welcome.open(d); }, 650);
+    }));
+    // the stars over the doors (fixed places, so the sky is the same each visit)
+    (() => {
+      const sky = $('ln-sky'); if (!sky) return;
+      let seed = 7; const r = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      for (let i = 0; i < 110; i++) { const st = document.createElement('i'); st.style.left = r() * 100 + '%'; st.style.top = r() * 70 + '%'; st.style.opacity = String(0.3 + r() * 0.7); st.style.animationDelay = r() * 3.5 + 's'; sky.append(st); }
+    })();
     function pickDoorClass() {
       const n = store.get('door', ''); if (!n) return;
       const o = [...$('up-class').options].find((x) => /\d/.test(x.textContent) && levelNumber(x.textContent) === Number(n));
@@ -798,7 +919,7 @@ const levels = [
     }
     const saved = store.get('who', null);
     if (saved?.username) $('in-user').value = saved.username;
-    else if (!saved) setTimeout(() => setTab('new'), 0);
+    else if (!saved) setTimeout(() => setTab('new', false), 0);   // no focus: the front page opens at the top, on the doors
 
     function signedIn(r) {
       Object.assign(me, { name: r.name, username: r.username, gender: r.gender || '', classCode: r.classCode, className: r.className, token: r.token, loginTime: new Date() });
@@ -1560,7 +1681,7 @@ const levels = [
       if (b.dataset.go === 'home') { stopGame(); stopSound(); storyBook?.stop(); storyBook = null; libBook?.stop(); libBook = null; ebook?.stop(); ebook = null; deenView?.stop(); deenView = null; gameView?.stop(); gameView = null; goHome(); }
     }));
     document.querySelectorAll('[data-signout]').forEach((b) => b.addEventListener('click', () => signOut()));
-    function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in'); show('s-signin'); }
+    function signOut() { stopGame(); stopMedia(); stopSound(); Object.assign(me, { token: '', name: '', username: '', gender: '' }); progress = {}; setTab('in', false); show('s-signin'); openStage(store.get('door', '')); }
     $('go-lesson').addEventListener('click', () => openLesson(selLesson));
     $('go-game').addEventListener('click', () => startLessonGame(selLesson));
 
