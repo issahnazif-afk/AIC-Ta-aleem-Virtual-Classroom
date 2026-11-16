@@ -20,6 +20,11 @@ import { icon } from './home-icons.mjs';
 
 export const ACTIVITIES = [
   {
+    id: 'learn', worlds: ['quran'], kind: 'learn', icon: 'mushaf', group: 'hifz',
+    title: 'Learn Qur’an with the Sheikh', ar: 'تَعَلَّمِ ٱلْقُرْآنَ مَعَ ٱلشَّيْخ',
+    text: 'Read from the mushaf to the Sheikh: on your own, or he corrects you as in the halaqah, or he teaches you a page, ayah by ayah.',
+  },
+  {
     id: 'hifz', worlds: ['quran'], kind: 'recite', mode: 'hifz', icon: 'hifz', group: 'hifz',
     title: 'Hifz test', ar: 'اِخْتِبَارُ ٱلْحِفْظ',
     text: 'The Sheikh recites the opening of an ayah. You carry on from memory until he stops you.',

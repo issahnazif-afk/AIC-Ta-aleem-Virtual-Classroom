@@ -1,0 +1,39 @@
+---
+// Learn Qur'an with the Sheikh, for adults: the same room as the classroom's (src/lib/halaqah.mjs), in the Library.
+// Free reading, Sheikh corrects (as in a halaqah) or Teach me (page by page, ayah by ayah). Hafs, from the mushaf.
+import Base from '../../../quran/layouts/Base.astro';
+import siteCfg from '../../../../site.config.mjs';
+import '../../../styles/halaqah.css';
+const reciters = JSON.stringify(siteCfg.reciters);
+---
+<Base title="Learn Qur'an with the Sheikh" active="learn" description="Read from the mushaf to the Sheikh: freely, with the Sheikh correcting you as in a halaqah, or with him teaching you a page, ayah by ayah.">
+  <style is:global>
+    .lq { max-width: 1240px; margin: 0 auto; padding: 28px 20px 48px; }
+    .lq .hq-mode { background: var(--surface, #fff); }
+  </style>
+  <main class="lq" id="main">
+    <div id="hq-root" data-reciters={reciters} data-default={siteCfg.defaultReciter}></div>
+  </main>
+  <script>
+    import { mountHalaqah, LISTEN } from '../../../lib/halaqah.mjs';
+    import { me } from '../../../quran/lib/account.mjs';
+    import { u } from '../../../quran/lib/url.mjs';
+    const root = document.getElementById('hq-root')!;
+    const a = me();
+    mountHalaqah(root, {
+      audience: 'adult', gender: a?.gender ?? '', reciters: JSON.parse(root.dataset.reciters || '[]'), defaultReciter: root.dataset.default,
+      localAsr: !!document.body.dataset.localAsr,
+      onExit: () => { location.href = u('app/'); },
+      onDone: async (res) => {
+        const t = res.tally;
+        // the same record as the Hifz test, in the adult's own log (Base.astro sends it with their account)
+        document.dispatchEvent(new CustomEvent('ql:test-result', { detail: {
+          kind: `Learn with the Sheikh: ${LISTEN[res.listen]?.name ?? ''}`, passage: res.passage, questions: '', words: t.words, rightPct: res.pct,
+          prompts: t.prompt, hints: t.hint, grade: '',
+          revise: (res.pages ?? []).map((p) => `Page ${p.page}: ${p.first} mistakes first, ${p.passed ? 'read well' : 'to revise'}`).join('; ') || (res.weakAyahs ?? []).join(', '),
+        } }));
+        return a && !a.demo ? 'Saved to your account.' : '';
+      },
+    });
+  </script>
+</Base>

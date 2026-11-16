@@ -1,0 +1,137 @@
+/* "Learn Qur'an with the Sheikh" (src/lib/halaqah.mjs): the same room in the classroom and in the adults' Quran
+   Library. The mushaf page's word marks are repeated here (from classroom.css and aic.css), scoped to .hq, so the
+   room looks the same in the Library, which does not load the classroom's styles. */
+.hq {
+  --hq-green: #0E6B4E; --hq-green-d: #0A4F3A; --hq-gold: #B8913A; --hq-cream: #FBF7EC; --hq-line: #E3DACA; --hq-ink: #1D2A24; --hq-muted: #5E6B64;
+  --good: #13804F; --bad: #B3261E; --replay: rgba(19, 128, 79, .22);
+  color: var(--hq-ink); font-family: var(--font-ui, "Manrope", system-ui, sans-serif);
+}
+.hq [hidden] { display: none !important; }
+.hq-kicker { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--hq-gold); }
+.hq-h { margin: 4px 0 0; font-family: var(--font-display, "Lora", serif); font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; }
+.hq-ar { margin: 2px 0 0; font-family: "Amiri", serif; font-size: 24px; color: var(--hq-green); }
+.hq-lede { margin: 8px 0 0; font-size: 17px; color: var(--hq-muted); }
+.hq-h2 { margin: 26px 0 10px; font-size: 19px; }
+.hq-h3 { margin: 22px 0 8px; font-size: 18px; }
+.hq-setup, .hq-report { max-width: 1040px; margin: 0 auto; padding: 8px 0 40px; }
+
+/* the three ways to listen */
+.hq-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.hq-mode { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; padding: 18px 18px 18px 58px; border-radius: 16px; border: 2px solid var(--hq-line); background: #fff; color: inherit; font: inherit; cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s; }
+.hq-mode:hover { border-color: var(--hq-gold); transform: translateY(-1px); }
+.hq-mode[aria-checked="true"] { border-color: var(--hq-green); box-shadow: 0 0 0 3px rgba(14, 107, 78, .14); background: #F3FAF6; }
+.hq-mode-n { position: absolute; left: 16px; top: 18px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--hq-cream); border: 1.5px solid var(--hq-gold); font-weight: 800; color: var(--hq-gold); }
+.hq-mode[aria-checked="true"] .hq-mode-n { background: var(--hq-green); border-color: var(--hq-green); color: #fff; }
+.hq-mode b { font-size: 18px; }
+.hq-mode-ar { font-family: "Amiri", serif; font-size: 18px; color: var(--hq-green); }
+.hq-mode-t { font-size: 14.5px; line-height: 1.45; color: var(--hq-muted); }
+.hq-fields { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr 1fr; gap: 12px; }
+.hq-fld { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 700; color: var(--hq-muted); }
+.hq-fld select, .hq-fld input { height: 46px; padding: 0 10px; border-radius: 10px; border: 1.5px solid var(--hq-line); background: #fff; color: var(--hq-ink); font: 600 15px var(--font-ui, system-ui); }
+.hq-where { margin: 10px 0 0; font-weight: 600; color: var(--hq-green); }
+.hq-err { min-height: 1.2em; color: var(--bad); font-weight: 600; }
+.hq-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
+.hq-go { height: 52px; padding: 0 28px; border: 0; border-radius: 12px; background: var(--hq-green); color: #fff; font: 800 17px var(--font-ui, system-ui); cursor: pointer; }
+.hq-go:hover { background: var(--hq-green-d); }
+.hq-back { height: 52px; padding: 0 18px; border: 0; background: none; color: var(--hq-muted); font: 700 15px var(--font-ui, system-ui); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* the room */
+.hq-room { display: flex; flex-direction: column; gap: 10px; }
+.hq-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 10px 14px; border-radius: 14px; background: #fff; border: 1px solid var(--hq-line); }
+.hq-title { font-size: 17px; padding: 4px 12px; border-radius: 999px; background: var(--hq-green); color: #fff; }
+.hq-room[data-listen="free"] .hq-title { background: #4A5A52; }
+.hq-room[data-listen="teach"] .hq-title { background: var(--hq-gold); }
+.hq-step { font-weight: 700; color: var(--hq-muted); }
+.hq-size { display: inline-flex; margin-left: auto; border: 1px solid var(--hq-line); border-radius: 10px; overflow: hidden; }
+.hq-size-b { height: 36px; padding: 0 12px; border: 0; background: #fff; font: 700 14px var(--font-ui, system-ui); cursor: pointer; }
+.hq-size-b[aria-checked="true"] { background: var(--hq-cream); color: var(--hq-green); }
+.hq-clock { font-variant-numeric: tabular-nums; color: var(--hq-muted); }
+.hq-end { height: 38px; padding: 0 16px; border-radius: 10px; border: 1.5px solid var(--bad); background: #fff; color: var(--bad); font: 700 14px var(--font-ui, system-ui); cursor: pointer; }
+.hq-main { display: grid; grid-template-columns: minmax(260px, 330px) 1fr; gap: 14px; min-height: calc(100vh - 190px); }
+.hq-side { display: flex; flex-direction: column; gap: 12px; }
+.hq-sheikh { position: relative; padding: 18px; border-radius: 18px; background: linear-gradient(160deg, #0F4A39, #0A3529); color: #F4EEDD; min-height: 190px; }
+.hq-s-k { font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #E6C672; }
+.hq-s-ar { margin: 10px 0 4px; font-family: "Amiri", serif; font-size: 26px; line-height: 1.6; color: #fff; }
+.hq-sheikh[data-state="prompt"] .hq-s-ar { font-family: var(--font-quran, "KFGQPC Hafs", "Amiri", serif); font-size: 34px; color: #FFE7A3; }
+.hq-s-en { margin: 0; font-size: 15px; line-height: 1.45; color: #D9E6DF; }
+.hq-badge { position: absolute; right: 16px; top: 16px; display: flex; gap: 3px; align-items: center; height: 22px; }
+.hq-badge i { width: 4px; height: 6px; border-radius: 2px; background: #E6C672; opacity: .35; }
+.hq-sheikh[data-state="speaking"] .hq-badge i, .hq-sheikh[data-state="prompt"] .hq-badge i { opacity: 1; animation: hq-eq 1s ease-in-out infinite; }
+.hq-badge i:nth-child(2) { animation-delay: .15s !important; } .hq-badge i:nth-child(3) { animation-delay: .3s !important; }
+.hq-sheikh[data-state="listening"] .hq-badge i { opacity: 1; background: #74D69C; }
+@keyframes hq-eq { 50% { height: 20px; } }
+.hq-status { margin: 0; min-height: 3em; padding: 10px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--hq-line); font-weight: 600; }
+.hq-status[data-kind="bad"] { color: var(--bad); border-color: rgba(179, 38, 30, .35); background: #FFF6F5; }
+.hq-status[data-kind="good"] { color: var(--hq-green); }
+.hq-at { margin: 0; font-size: 14px; color: var(--hq-muted); }
+.hq-tools { display: flex; flex-direction: column; gap: 8px; }
+.hq-mic { height: 50px; border-radius: 999px; border: 0; background: #4A5A52; color: #fff; font: 800 16px var(--font-ui, system-ui); cursor: pointer; }
+.hq-mic[aria-pressed="true"] { background: #B3261E; }
+.hq-tool { height: 44px; border-radius: 10px; border: 1.5px solid var(--hq-line); background: #fff; color: var(--hq-ink); font: 700 14.5px var(--font-ui, system-ui); cursor: pointer; }
+.hq-tool:hover { border-color: var(--hq-gold); }
+.hq-legend { margin: 0; font-size: 13px; color: var(--hq-muted); }
+.hq-legend .g { color: var(--good); } .hq-legend .r { color: var(--bad); } .hq-legend .a { color: var(--hq-gold); }
+.hq-stage { display: flex; justify-content: center; min-height: 70vh; border-radius: 14px; background: var(--hq-cream); }
+
+/* the report */
+.hq-praise { margin: 6px 0 0; font-family: "Amiri", serif; font-size: 30px; color: var(--hq-green); }
+.hq-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+.hq-stat { padding: 14px; border-radius: 14px; background: #fff; border: 1px solid var(--hq-line); text-align: center; }
+.hq-stat b { display: block; font-size: 26px; color: var(--hq-green); }
+.hq-stat span { font-size: 13px; color: var(--hq-muted); }
+.hq-pages { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.hq-pages li { display: flex; gap: 12px; padding: 10px 14px; border-radius: 12px; background: #fff; border-left: 5px solid var(--good); }
+.hq-pages li.again { border-left-color: var(--hq-gold); }
+.hq-note { color: var(--hq-muted); }
+.hq-spots { display: flex; flex-wrap: wrap; gap: 8px; }
+.hq-spots .spot { display: inline-flex; flex-direction: column; align-items: center; padding: 8px 14px; border-radius: 12px; border: 1.5px solid var(--hq-line); background: #fff; cursor: pointer; }
+.hq-spots .spot span { font-family: var(--font-quran, "KFGQPC Hafs", "Amiri", serif); font-size: 26px; }
+.hq-spots .spot small { color: var(--hq-muted); }
+.hq-spots .spot.on { border-color: var(--hq-green); background: #F3FAF6; }
+
+@media (max-width: 900px) {
+  .hq-modes { grid-template-columns: 1fr; }
+  .hq-fields { grid-template-columns: 1fr 1fr; }
+  .hq-main { grid-template-columns: 1fr; }
+  .hq-stage { min-height: 60vh; }
+  .hq-stats { grid-template-columns: repeat(3, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { .hq-badge i { animation: none !important; } .hq-mode { transition: none; } }
+
+/* ── the mushaf page and its words, as in the classroom ── */
+@property --inkp { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+.hq .stage { container-type: size; overflow: hidden; align-items: center; padding: 4px 0; --paper: #FFFBF0; --paper-line: #B99A5B; --paper-ink: #6E5420; --marker: #9A7A2E; --accent: #0E6B4E; --accent-soft: #DDEFE5; --gold: #9A6B12; --muted: #6B776F; }
+body[data-paper] .hq .stage { --paper: unset; --paper-line: unset; --paper-ink: unset; --marker: unset; }   /* the classroom's reading themes win there */
+.hq .stage .paper { width: 100%; max-width: 680px; height: max-content; min-height: 100%; background: var(--paper, #FFFBF0); border: 1px solid var(--paper-line, #B99A5B); border-radius: 6px; padding: 22px clamp(14px, 3vw, 36px); display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; color: var(--q-ink, var(--hq-ink)); }
+.hq .stage .paper.mp-fixed { --frame: var(--paper-line, #B99A5B); width: min(100cqw, 100cqh * .7); height: min(100cqh, 100cqw / .7); max-width: none; min-height: 0; padding: 3.2% 4.6% 2.4%; gap: 0; border: 0; border-radius: 4px; position: relative;
+  box-shadow: 0 1px 2px rgba(20, 33, 27, .06), 0 12px 32px rgba(20, 33, 27, .10), inset 0 0 0 7px var(--paper, #FFFBF0), inset 0 0 0 8px var(--frame), inset 0 0 0 11px var(--paper, #FFFBF0), inset 0 0 0 13px var(--frame); }
+.hq .stage .paper.mp-fixed .mp-head { position: relative; padding: 0 1.4% .4%; font-size: clamp(11px, 1.6cqh, 15px); }
+.hq .stage .paper.mp-fixed .mp-lines { flex: 1; min-height: 0; display: grid; grid-auto-rows: calc(100% / 15); align-content: center; }
+.hq .stage .paper.mp-fixed .mp-line { line-height: 1; display: flex; align-items: center; justify-content: space-between; column-gap: .16em; min-width: 0; }
+.hq .stage .paper.mp-fixed .mp-line.c { justify-content: center; gap: .28em; }
+.hq .stage .paper.mp-fixed .mp-line > * { flex: none; }
+.hq .stage .paper.mp-fixed .mp-banner { justify-content: center; margin: .12em 4%; border: 0; border-radius: 999px; line-height: 1; font-size: .86em; color: var(--paper-ink, #6E5420); box-shadow: inset 0 0 0 1.5px var(--frame); }
+.hq .stage .paper.mp-fixed .mp-folio { position: relative; align-self: center; margin-top: .3%; min-width: 2.6em; padding: .1em .6em; font-size: clamp(11px, 1.5cqh, 15px); border-radius: 999px; box-shadow: inset 0 0 0 1px var(--frame); color: var(--paper-ink, #6E5420); }
+.hq .stage .paper.mp-big { width: 100%; max-width: none; min-height: 100%; height: max-content; padding: 2.5% 4%; }
+.hq .stage .paper.mp-big .mp-flow { line-height: 2.3; }
+.hq .stage .paper.mp-big[data-size="xl"] .mp-flow { line-height: 2.4; text-align: center; }
+.hq .stage .w { display: inline-block; padding: 0 .08em; margin: 0 -.08em; border-radius: 3px; color: var(--q-ink, var(--hq-ink)); transition: color .8s ease, background-color .6s ease; }
+.hq .stage .w.hidden { color: transparent; }
+.hq .stage .w.todo { color: var(--q-ink, var(--hq-ink)); }
+.hq .stage .w.read, .hq .stage .w.fresh { color: var(--good); }
+.hq .stage .w.fresh { transition: none; }
+.hq .stage .w.current { box-shadow: inset 0 -3px 0 var(--accent) !important; background: var(--accent-soft); }
+.hq .stage .w.current.wrong, .hq .stage .w.missed { box-shadow: inset 0 -3px 0 var(--bad) !important; background: rgba(179, 38, 30, .12); }
+.hq .stage .w.weak { color: var(--bad); box-shadow: inset 0 -2px 0 rgba(179, 38, 30, .35); }
+.hq .stage .w.tj { box-shadow: inset 0 -3px 0 #B96F50 !important; cursor: pointer; }
+.hq .stage .w.helped { color: var(--gold); }
+.hq .stage .w.unclear { background-image: radial-gradient(circle, var(--muted) 1px, transparent 1.6px); background-size: 6px 4px; background-repeat: repeat-x; background-position: 0 100%; }
+.hq .stage .w.replay { background: linear-gradient(transparent 24%, var(--replay) 24%, var(--replay) 84%, transparent 84%); }
+.hq .stage .w.live { box-shadow: inset 0 -3px 0 var(--accent); }
+/* the ayah the Sheikh is reciting for the student to repeat */
+.hq .stage .w.teaching { background: rgba(230, 198, 114, .35); }
+.hq .stage .out { color: transparent; }
+.hq .stage .paper.context .out { color: var(--muted); opacity: .45; }
+.hq .stage .mk { color: var(--marker, #9A7A2E); }
+.hq .stage .mk.hidden, .hq .stage .mk.out { color: transparent; }
+.hq .stage .paper.context .mk.out { color: var(--muted); }

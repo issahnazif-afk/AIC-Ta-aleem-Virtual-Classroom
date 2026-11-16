@@ -6,6 +6,13 @@
 //   reading  Mujawwadah: the mushaf page is shown; the student reads from the start of the range and
 //            each word turns green as it is read correctly. One pass through the range.
 //
+// The Sheikh listens in one of three ways (listen, for "Learn Qur'an with the Sheikh"):
+//   free     as above: he follows every word, stops the reader at a mistake once and helps when they stop
+//   correct  as a teacher in a halaqah: at each mistake he stops them and holds them at that word: "Intabih", then he
+//            says the word and has them say it, and only then gives it and lets them go on
+//   teach    page by page: they read the whole page; with 4 or more mistakes he teaches it (talqin): he recites each
+//            ayah and they repeat it after him (corrected as in "correct"), then they read the whole page again,
+//            until it is right (at most three rounds a page, then it is kept for next time)
 // All drawing outside the mushaf page is done by the page through the `ui` callbacks.
 import { getJson, pad, audioUrl, wordAudioUrl } from './client.mjs';
 import { tokenize, normalize, matchAt, THRESHOLDS } from './recite.mjs';
@@ -25,7 +32,9 @@ const STANDARD_WORDS = 60;   // roughly half a mushaf page
 
 // tajweed: null (the words only), or { checks: Set of the rules chosen, young: Level 3 wording }
 // young: Levels 1 and 2 (gentle correction); otherwise the Sheikh corrects as in a halaqah (see correct())
-export function createEngine({ stage, SR, level = 'intermediate', reciter, gender = '', speakInstructions = true, ui, tajweed = null, young = false }) {
+export const TEACH_AT = 4;          // mistakes on a page that make the Sheikh teach it
+const TEACH_ROUNDS = 3, AYAH_TRIES = 3;
+export function createEngine({ stage, SR, level = 'intermediate', reciter, gender = '', speakInstructions = true, ui, tajweed = null, young = false, listen: listenMode = 'free', teachReciter = 'Husary_Muallim_128kbps' }) {
   const L = LEVELS[level] ?? LEVELS.intermediate;
   const threshold = () => THRESHOLDS[L.checking] ?? THRESHOLDS.normal;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -45,6 +54,8 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
   const ayahMarks = new Map();   // "s:a" → { label, marks: Set }
   let inReplay = false;
   let startedAt = 0;
+  const strict = () => listenMode === 'correct' || (listenMode === 'teach' && !!q?.strict);
+  const pagesDone = [];   // teach: { page, first, rounds, passed }
 
   const markAyah = (w, kind) => {
     const it = w.item;
@@ -69,7 +80,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     for (let k = qn.start; k < scopeAyahs.length && k <= qn.end; k++) {
       const { s, sura, ay } = scopeAyahs[k];
       if (k > qn.start && ay.a === 1 && sura.bismillah && s !== 1) out.push(makeItem(s, sura, ay, true));
-      if (mode === 'reading' && k === qn.start && ay.a === 1 && sura.bismillah && s !== 1) out.push(makeItem(s, sura, ay, true));
+      if (mode === 'reading' && !qn.noBism && k === qn.start && ay.a === 1 && sura.bismillah && s !== 1) out.push(makeItem(s, sura, ay, true));
       const it = makeItem(s, sura, ay, false);
       out.push(it);
       ayahs++; words += it.words.length;
@@ -124,10 +135,14 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     scopeAyahs = await loadScope(range);
     if (!scopeAyahs.length) throw new Error('There are no ayahs in that range.');
     questions = [{ start: 0, end: scopeAyahs.length - 1 }];
+    if (listenMode === 'teach' && !hide) {   // one read-through per mushaf page
+      questions = [];
+      scopeAyahs.forEach((x, k) => { const last = questions[questions.length - 1]; if (last && last.page === x.ay.page) last.end = k; else questions.push({ kind: 'page', page: x.ay.page, start: k, end: k, round: 0 }); });
+    }
     qi = -1;
     startedAt = Date.now();
     nextQuestion();
-    return { questions: 1 };
+    return { questions: questions.length };
   }
 
   async function nextQuestion() {
@@ -141,16 +156,26 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     items = q.items; flat = items.flatMap((it) => it.words);
     q.flat = flat;
     pos = 0; wrongStreak = 0; queue.length = 0; follower.clearBack();
-    ui.progress?.({ qi, n: questions.length, mode: byHeart ? 'follow' : mode });
+    ui.progress?.({ qi, n: questions.length, mode: byHeart ? 'follow' : mode, step: q.kind ? { kind: q.kind, page: q.page, round: q.round ?? 0, tries: q.tries ?? 0, label: items.find((it) => it.a)?.label ?? '' } : null });
     await renderPage(flat[0].page, qi > 0);
     if (mode === 'hifz') await sheikhRecites();
+    else if (q.kind === 'ayah') await sheikhTeaches();
     else beginReading();
   }
 
   function beginReading() {
     phase = 'answer';
     const first = items.find((it) => it.a) ?? items[0];
-    if (byHeart) {
+    if (q?.kind === 'page' && q.round > 0) {
+      say('listening', 'read', `Now read the whole page to me again, from ${first.label}. I will stop you at any mistake.`);
+      status('Read the whole page again. The Sheikh stops you at each mistake.');
+    } else if (q?.kind === 'page') {
+      say('listening', 'read', `Read this page to me, from ${first.label}. If there are ${TEACH_AT} or more mistakes, we will learn it together.`);
+      status('Read the whole page. The Sheikh is listening.');
+    } else if (listenMode === 'correct') {
+      say('listening', 'read', `Read from ${first.label}. I will stop you at each mistake, as in the halaqah.`);
+      status('Read aloud. At a mistake the Sheikh stops you: try again, then say the word after him.');
+    } else if (byHeart) {
       say('listening', 'read', `Recite from memory, from ${first.label}. The Sheikh is following you.`);
       status('Recite from memory. Each word appears as you say it. If you stop, the Sheikh gives you the next word.');
     } else {
@@ -203,6 +228,32 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       say('listening', 'goahead', 'Go ahead. Recite that ayah from its start and carry on.');
       status('Your turn. Start from the beginning of the ayah you just heard.');
     }
+    phase = 'answer';
+    updateCurrent();
+    startListening();
+    armSilence();
+  }
+
+  // teach: the Sheikh recites the ayah (the teaching recitation), then the student repeats it after him
+  async function sheikhTeaches() {
+    phase = 'sheikh';
+    stopListening();
+    const it = items.find((x) => x.a) ?? items[0];
+    const p = say('speaking', 'listen', q.tries > 1 ? `Listen once more to ${it.label}, carefully.` : `Listen to ${it.label}, then repeat it after me.`);
+    status(q.tries > 1 ? 'Listen again carefully, then repeat it.' : 'The Sheikh recites the ayah. Listen, then repeat it after him.');
+    await speakP(p);
+    if (phase !== 'sheikh' || questions[qi] !== q) return;
+    items.forEach((x) => x.words.forEach((w) => w.el?.classList.add('teaching')));
+    sheikh('speaking', it.words.map((w) => w.display).join(' '), `The Sheikh recites ${it.label}.`);
+    let ok = await playAudio(audioUrl(teachReciter, it.s, it.a));
+    if (!ok && phase === 'sheikh' && teachReciter !== reciter) ok = await playAudio(audioUrl(reciter, it.s, it.a));
+    items.forEach((x) => x.words.forEach((w) => w.el?.classList.remove('teaching')));
+    if (phase !== 'sheikh' || questions[qi] !== q) return;
+    if (!ok) status('The recitation could not be played. Check your connection, then read the ayah from the page.', 'bad');
+    const r = say('listening', 'again', 'Now you: repeat the ayah after me.');
+    await speakP(r);
+    if (phase !== 'sheikh' || questions[qi] !== q) return;
+    status('Your turn: repeat the ayah. The Sheikh stops you at any mistake.', 'good');
     phase = 'answer';
     updateCurrent();
     startListening();
@@ -428,13 +479,33 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     stopListening();
     const back = () => { correcting = false; if (phase === 'sheikh') { phase = 'answer'; updateCurrent(); startListening(); armSilence(); } };
     try {
+      if (strict()) {
+        // "Sheikh corrects": 1. "Intabih", they try the word again; 2. he says the word and they say it after him;
+        // 3. he gives it and they carry on (Levels 3, 4 and adults: from the start of the ayah)
+        if (wrongStreak === 1) {
+          const p = say('listening', 'takecare', 'Stop. That is not right. Try that word again.');
+          await speakP(p);
+          status('The Sheikh stopped you. Try that word again.', 'bad');
+          return back();
+        }
+        if (wrongStreak === 2 && w.item.a) {
+          sheikh('prompt', w.display, 'Say it like this.');
+          status('Listen to the word, then say it yourself and carry on.');
+          const ok = await playAudio(wordAudioUrl(w.item.s, w.item.a, w.wi));
+          if (phase !== 'sheikh') return;
+          if (!ok) await wait(1200);
+          const p = say('listening', 'again', `Now you: ${w.display}.`);
+          await speakP(p);
+          return back();
+        }
+      }
       if (wrongStreak === 1) {
         const p = say('listening', 'takecare', 'Take care, that is not right. Try that word again.');
         await speakP(p);
         status('Try that word again.', 'bad');
         return back();
       }
-      if (wrongStreak === 2 && !young) {
+      if (wrongStreak === 2 && !young && !strict()) {
         // the run-up: up to three words before the mistake, in the same ayah, from the reciter
         const from = Math.max(0, w.wi - 3), run = w.item.words.slice(from, w.wi);
         if (run.length && w.item.a) {
@@ -488,7 +559,58 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     startListening();
     armSilence();
   }
+  // teach: what the Sheikh does when a page read-through or a repeated ayah is finished
+  const mistakesIn = (qq) => (qq.flat ?? []).filter((w) => w.mistake && w.item.a).length;
+  async function teachStops() {
+    phase = 'stopped';
+    clearSilence();
+    stopListening();
+    const m = mistakesIn(q);
+    ui.questionDone?.({ qi, n: questions.length });
+    const after = (list) => { questions.splice(qi + 1, 0, ...list); };
+    let p1 = null, p2 = null, en = '';
+    if (q.kind === 'page') {
+      const pg = pagesDone.find((x) => x.page === q.page) ?? (pagesDone.push({ page: q.page, first: m, rounds: 0, passed: false, last: m }), pagesDone[pagesDone.length - 1]);
+      pg.last = m;
+      if (m < TEACH_AT) {
+        pg.passed = true;
+        p1 = P(m === 0 ? 'mumtaz' : 'ahsant'); p2 = P('barakallah');
+        en = m === 0 ? 'The page is right, with no mistakes.' : `The page is good: ${m} mistake${m === 1 ? '' : 's'}, fewer than ${TEACH_AT}.`;
+      } else if (q.round < TEACH_ROUNDS) {
+        pg.rounds = q.round + 1;
+        // the first time: every ayah of the page; after that, the ayahs that still had mistakes
+        const weak = new Set((q.flat ?? []).filter((w) => w.mistake && w.item.a).map((w) => w.item.key));
+        const ks = [];
+        for (let k = q.start; k <= q.end; k++) { const x = scopeAyahs[k]; if (q.round === 0 || weak.has(`${x.s}:${x.ay.a}`)) ks.push(k); }
+        after([...ks.map((k) => ({ kind: 'ayah', page: q.page, start: k, end: k, strict: true, noBism: true, tries: 1, round: q.round + 1 })),
+          { kind: 'page', page: q.page, start: q.start, end: q.end, round: q.round + 1, strict: true }]);
+        p1 = P('listen');
+        en = `${m} mistakes on this page. Let us learn it together: I recite each ayah, and you repeat it after me.`;
+      } else {
+        p1 = P('revise');
+        en = 'We will come back to this page next time, in sha Allah. Keep going over it.';
+      }
+    } else {   // a repeated ayah
+      if (m > 0 && q.tries < AYAH_TRIES) {
+        after([{ ...q, tries: q.tries + 1, items: null, flat: null, stats: null }]);
+        p1 = P('again');
+        en = 'Once more. Listen again, then repeat it.';
+      } else {
+        p1 = P(m === 0 ? 'ahsant' : 'carryon');
+        en = m === 0 ? 'Well done. On to the next.' : 'Good effort. We go on, and it will come with practice.';
+      }
+    }
+    sheikh('stop', [p1?.ar, p2?.ar].filter(Boolean).join('، '), en);
+    status(en, m < TEACH_AT || q.kind === 'ayah' ? 'good' : '');
+    if (q.kind === 'page' && m < TEACH_AT) chime();
+    if (p1) await speakP(p1);
+    if (p2) await speakP(p2);
+    await wait(q.kind === 'page' ? 1800 : 900);
+    if (phase !== 'stopped' || questions[qi] !== q) return;
+    if (qi + 1 < questions.length) nextQuestion(); else finish();
+  }
   async function sheikhStops() {
+    if (listenMode === 'teach' && q?.kind) return teachStops();
     phase = 'stopped';
     clearSilence();
     stopListening();
@@ -560,7 +682,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     const passage = passageText();
     const perAyah = [...ayahMarks.values()].sort((a, b) => a.s - b.s || a.a - b.a).map((x) => ({ ...x, marks: [...x.marks] }));
     const weakAyahs = perAyah.filter((x) => x.marks.some((m) => m === 'wrong' || m === 'prompt')).map((x) => `${x.s}:${x.a}`);
-    ui.finished?.({ mode: byHeart ? 'follow' : mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, spots: spots.slice(0, 12), ms: Date.now() - startedAt });
+    ui.finished?.({ mode: byHeart ? 'follow' : mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, spots: spots.slice(0, 12), ms: Date.now() - startedAt, listen: listenMode, pages: pagesDone.map((x) => ({ ...x })) });
   }
 
   // ── the live cursor ─────────────────────────────────────────
@@ -602,6 +724,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     threshold,
     accept: (n, kind) => accept(n, kind),
     wrong: (heard) => reject(heard),
+    hold: () => strict(),
     replay: (idx) => {
       // going back because the Sheikh asked them to repeat the ayah is not a mistake
       if (!inReplay) { inReplay = true; if (!askedRepeat) { tally.back++; const w = flat[idx]; if (w) { markAyah(w, 'back'); note('back', w); } } }
@@ -694,6 +817,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     startHifz, startReading, startFollow, relayout,
     get phase() { return phase; },
     get mode() { return byHeart ? 'follow' : mode; },
+    get listen() { return listenMode; },
     get hintsAllowed() { return L.hints; },
     hint() { if (L.hints && phase === 'answer' && pos < flat.length) accept(1, 'help'); },
     async repeatOpening() { if (mode === 'hifz' && phase === 'answer') { clearSilence(); await sheikhRecites(true); } },

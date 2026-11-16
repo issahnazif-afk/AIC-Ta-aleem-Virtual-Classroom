@@ -21,6 +21,7 @@ import '@fontsource/playfair-display/500-italic.css';
 import '@fontsource/playfair-display/600.css';
 import '../styles/front.css';
 import '../styles/leaders.css';
+import '../styles/halaqah.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
 import TajweedRoom from '../components/TajweedRoom.astro';
@@ -404,6 +405,16 @@ const levels = [
       <h2 class="h2">Badges</h2>
       <div class="badges" id="aw-badges"></div>
     </div>
+  </section>
+
+  <!-- Learn Qur'an with the Sheikh (src/lib/halaqah.mjs): free reading, Sheikh corrects, or Teach me ─ -->
+  <section class="screen flow" id="s-learn" hidden aria-label="Learn Qur'an with the Sheikh">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · Learn Qur'an with the Sheikh</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" id="hq-home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main hq-wide"><div id="hq-root"></div></div>
   </section>
 
   <!-- The leaderboards, Levels 1 to 4 (src/lib/leaders.mjs) ─ -->
@@ -1495,6 +1506,39 @@ const levels = [
       nb.hidden = !(items.length && !nb.dataset.closed && NEWS_ON.some((id) => !$(id).hidden));
       if (fresh && items.length) setTimeout(() => flyIn(items[0], { onOpen: openLeaders }), 900);
     }
+    // ── Learn Qur'an with the Sheikh: the room, and the session sent to the teacher's class log like any recitation ──
+    let learnView = null;
+    async function openLearn() {
+      stopMedia(); stopSound();
+      document.querySelector('.news-fly')?.remove();
+      const { mountHalaqah, LISTEN } = await import('../lib/halaqah.mjs');
+      learnView?.stop();
+      show('s-learn');
+      learnView = mountHalaqah($('hq-root'), {
+        audience: 'kids', level: me.level || 1, gender: me.gender, reciters: [...$('su-voice').options].map((o) => ({ id: o.value, name: o.textContent })), defaultReciter: reciter(),
+        localAsr: !!document.body.dataset.localAsr,
+        onExit: () => { learnView?.stop(); goHome(); },
+        onDone: async (res) => {
+          const t = res.tally;
+          const end = new Date();
+          const entry = { token: me.token, snapshot: '', session: {
+            id: newSessionId(me.classCode), studentName: me.name, username: me.username, gender: me.gender, className: me.className,
+            loginTime: me.loginTime?.toISOString(), endTime: end.toISOString(), minutes: res.minutes,
+            mode: 'reading', level: `${LEVELS[res.check]?.name ?? ''} · Learn with the Sheikh: ${LISTEN[res.listen]?.name ?? ''}`,
+            surahs: res.passage, ayahs: res.ayahCount, questions: '', words: t.words, rightFirstPct: res.pct,
+            grade: gradeOf(t), mistakesTotal: res.mistakes, topMistakes: topMistakes(t).map((x) => `${x.label} ×${x.n}`).join('; '),
+            wrong: t.wrong, prompts: t.prompt, hints: t.hint, unclear: t.unclear, wentBack: t.back, lookAways: '',
+            review: (res.pages ?? []).map((p) => `Page ${p.page}: ${p.first} mistakes first, ${p.passed ? 'passed' : 'to revise'}${p.rounds ? ` after ${p.rounds} teaching round${p.rounds === 1 ? '' : 's'}` : ''}`).join('; ') || review(t, { mode: 'reading', passage: res.passage, weakAyahs: res.weakAyahs }),
+          } };
+          record(progress, { kind: 'reading', key: `learn:${res.listen}:${res.passage}`, score: res.pct, good: res.pct >= 80, gardenPalms: palms() });
+          renderDashboard();
+          saveProgress({ token: me.token, username: me.username, progress });
+          const r = await sendSession(entry);
+          return r.ok && r.demo ? 'Not saved (demo mode: the class log is not connected here).' : r.ok ? 'Sent to your teacher.' : r.queued ? 'It will be sent to your teacher when you are back online.' : 'Could not be sent to your teacher.';
+        },
+      });
+    }
+    $('hq-home').addEventListener('click', () => { learnView?.stop(); goHome(); });
     async function openLeaders(act) {
       if (act) lbView.act = act;
       document.querySelector('.news-fly')?.remove();
@@ -1541,6 +1585,7 @@ const levels = [
           Y('books', 'My books', 'كُتُبِي', 'books', '#DDF2E6', go('books')),
           Y('prophets', 'Stories of the Prophets', 'قَصَصُ ٱلْأَنْبِيَاء', 'prophets', '#DCEBFA', go('prophets')),
           ...(me.level >= 2 ? [Y('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', '#EDE4FA', go('library')), Y('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', '#FFF0C2', go('tawheed'))] : []),
+          Y('learn', 'Learn with the Sheikh', 'مَعَ ٱلشَّيْخ', 'mushaf', '#E8F4EC', go('learn'), { say: 'Learn the Quran with the Sheikh' }),
           Y('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFBEF', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
           ...(act('guardians') ? [Y('guardians', 'Guardians of Light', 'حُرَّاسُ ٱلنُّور', 'beacon', '#FFF0C2', go('guardians'))] : []),
           Y('games', 'Games', 'أَلْعَاب', 'match', '#FFE4CC', null, { children: games.map(YC) }),
@@ -1646,6 +1691,7 @@ const levels = [
         if (noCam) { stopMedia(); snap = ''; checkFast(); show('s-setup'); syncSetup(); }
         else { show('s-check'); startCheck(); }
       }
+      else if (a.kind === 'learn') openLearn();
       else if (a.kind === 'alifba') goHub();
       else if (a.kind === 'play') openPlay(a);
       else if (a.kind === 'seerah') openSeerah();

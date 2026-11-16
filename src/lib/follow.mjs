@@ -15,7 +15,10 @@ import { normalize, matchAt, similarity, THRESHOLDS } from './recite.mjs';
 const words = (alt) => normalize(alt.transcript).split(' ').filter(Boolean);
 
 export function createFollower(o) {
-  // o: { getFlat(), getPos(), threshold(), accept(count, kind), wrong(heard), replay(idx), endReplay(), skipOptional?(spoken, i, th) }
+  // o: { getFlat(), getPos(), threshold(), accept(count, kind), wrong(heard), replay(idx), endReplay(), skipOptional?(spoken, i, th), hold?() }
+  // hold(): true when the Sheikh stops the reader at a wrong word ("Sheikh corrects"): the word is not passed over and
+  // nothing after it is taken, so the reader carries on from that word once he has corrected it.
+  const held = () => !!o.hold?.();
   let used = {}, last = {}, back = null, misses = 0;
 
   function reset() { used = {}; last = {}; back = null; misses = 0; }
@@ -83,7 +86,7 @@ export function createFollower(o) {
         for (const t of res.track) {
           if (o.getPos() >= o.getFlat().length) break;
           clearBack(); misses = 0;
-          if (t.kind === 'missed') { o.wrong(t.heard ?? 'something else'); o.accept(1, 'unclear'); }
+          if (t.kind === 'missed') { o.wrong(t.heard ?? 'something else'); if (held()) return; o.accept(1, 'unclear'); }
           else o.accept(1, t.kind === 'weak' ? 'unclear' : undefined);
         }
         continue;
@@ -153,7 +156,7 @@ export function createFollower(o) {
           const t = (flat[pos].targets || [flat[pos].plain])[0];
           const lookAlike = th > THRESHOLDS.lenient && spoken[i].length >= 3 && similarity(spoken[i], t) >= 0.5;
           misses = 0; i++; commit(r, i, spoken);
-          if (lookAlike) o.wrong(spoken[i - 1]);
+          if (lookAlike) { o.wrong(spoken[i - 1]); if (held()) return; }
           o.accept(1, 'unclear'); continue;
         }
         if (runMatches(spoken, i + 1, flat, pos + 2, Math.max(2, need), th)) {   // garbled into one word, covering two
@@ -166,7 +169,7 @@ export function createFollower(o) {
         misses++;
         const close = similarity(spoken[i], flat[pos].plain) >= 0.4;
         i++; commit(r, i, spoken);
-        if (close || misses >= 2) { misses = 0; o.wrong(spoken[i - 1]); }
+        if (close || misses >= 2) { misses = 0; o.wrong(spoken[i - 1]); if (held()) return; }
       }
     }
   }
