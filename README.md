@@ -771,7 +771,7 @@ scripts/lessons/examples.py  copies the Alif Ba Qur'an examples from the Tanzil 
 sources/                     Tanzil text, QUL mushaf layout, surah names (never edited)
 src/pages/index.astro        every screen
 src/styles/classroom.css     classroom styles
-src/styles/aic.css           the Al-Huda look (alhudaislamiccentre.ca), the mushaf page and page colours, Alif Ba
+src/styles/aic.css           the school look (green and gold), the mushaf page and page colours, Alif Ba
 src/lib/lessons.mjs          the 18 Alif Ba lessons; src/data/alifba-examples.json, their Qur'an examples
 src/lib/games.mjs            Rain of Mercy, Mosaic Maker, Date Baskets, String of Pearls (lanterns.mjs: Noor Lanterns)
 src/lib/voice.mjs            the Sheikh's voice for letters: teacher recording, else clip, else browser voice

@@ -12,14 +12,14 @@ import Base from '../../../quran/layouts/Base.astro';
       <button type="button" role="tab" id="tab-in" aria-selected="true" aria-controls="f-in">Sign in</button>
       <button type="button" role="tab" id="tab-up" aria-selected="false" aria-controls="f-up">Create account</button>
     </div>
-    <p class="fine" id="demo-note" hidden>This copy of the site is not connected to the centre’s server, so your account is kept on this device only.</p>
+    <p class="fine" id="demo-note" hidden>This copy of the site is not connected to Ta'aleem's server, so your account is kept on this device only.</p>
 
     <form class="card" id="f-in" role="tabpanel" aria-labelledby="tab-in" novalidate>
       <label class="fld"><span>Username</span><input id="in-user" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required /></label>
       <label class="fld"><span>Password</span><input id="in-pass" type="password" autocomplete="current-password" required /></label>
       <p class="err" id="in-err" role="alert"></p>
       <button class="btn btn-primary" type="submit" id="in-go">Sign in</button>
-      <p class="fine">Forgot your password? Ask Al-Huda Islamic Centre to reset it.</p>
+      <p class="fine">Forgot your password? Ask your teacher or the Ta'aleem team to reset it.</p>
     </form>
 
     <form class="card" id="f-up" role="tabpanel" aria-labelledby="tab-up" novalidate hidden>
@@ -38,7 +38,7 @@ import Base from '../../../quran/layouts/Base.astro';
       <label class="trap" aria-hidden="true">Website<input id="up-web" type="text" tabindex="-1" autocomplete="off" /></label>
       <p class="err" id="up-err" role="alert"></p>
       <button class="btn btn-primary" type="submit" id="up-go">Create account</button>
-      <p class="fine">Your name, username and saved places are kept by Al-Huda Islamic Centre. See <a href="../privacy/">Privacy</a>.</p>
+      <p class="fine">Your name, username and saved places are kept by Ta'aleem. See <a href="../privacy/">Privacy</a>.</p>
     </form>
   </div>
 

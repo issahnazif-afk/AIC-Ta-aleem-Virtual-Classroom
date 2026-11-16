@@ -1,6 +1,6 @@
-/* the school look, matched to alhudaislamiccentre.ca.
+/* the school look: deep forest green and a muted gold.
    Loaded last, so it restyles the classroom without touching its logic.
-   Deep forest green, AIC green, a muted gold, a display serif for headings
+   Deep forest green, a brighter green, a muted gold, a display serif for headings
    and a light geometric sans for everything else. */
 
 :root, :root[data-theme="light"] {

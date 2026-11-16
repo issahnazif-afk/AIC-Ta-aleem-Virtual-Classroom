@@ -43,7 +43,7 @@ const levels = [
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{cfg.appName}</title>
   <meta name="description" content="A virtual classroom where the Sheikh listens to your recitation, for Hifz tests and reading from the mushaf." />
-  <meta name="theme-color" content="#0B1430" />
+  <meta name="theme-color" content="#0E6B4E" />
   <link rel="icon" href={u('favicon-64.png')} type="image/png" />
   <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
   <link rel="preload" href={u('fonts/UthmanicHafs_V22.ttf')} as="font" type="font/ttf" crossorigin />
@@ -54,22 +54,27 @@ const levels = [
   <!-- 1 · sign in ─────────────────────────────────────────── -->
   <section class="screen signin ln" id="s-signin" aria-labelledby="ln-h">
     <div class="ln-front">
-      <div class="ln-sky" id="ln-sky" aria-hidden="true"></div>
       <header class="ln-bar">
-        <div class="brand"><img class="brand-logo" src={u('img/taaleem-logo.webp')} alt="Ta'aleem logo" width="44" height="46" /><span><b>Ta'aleem</b><small>Al-Huda Islamic Centre</small></span></div>
+        <div class="brand"><img class="brand-logo" src={u('img/taaleem-logo.webp')} alt="Ta'aleem logo" width="44" height="46" /><span><b>Ta'aleem</b><small>Learn the deen, step by step</small></span></div>
         <nav aria-label="Ta'aleem"><a href="#ln-about">About</a><a href={u('quran/app/')}>Quran Library</a><a class="ln-btn ln-btn-sm" href="#ln-signin">Sign in</a></nav>
       </header>
       <div class="ln-hero">
         <p class="ln-basmala" lang="ar" dir="rtl">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-        <h1 class="ln-title" id="ln-h">Every child has <em>a door</em> into the deen</h1>
-        <p class="ln-lede">Choose your level and step inside: Qur'an with a listening Sheikh, stories, Arabic, salah and play.</p>
+        <h1 class="ln-title" id="ln-h">Your learning journey starts here</h1>
+        <p class="ln-lede">Find your level on the path and step in. Each door has Qur'an with a listening Sheikh, stories, Arabic, salah and play.</p>
       </div>
       <div class="ln-row" role="group" aria-label="Choose your level, or the adults' section">
-        <button type="button" class="ln-door" data-door="1" data-door-name="Level 1 · Little learners" data-go="Enter Level 1"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/kinder.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">1</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ١</span></span><b>Little learners</b><span class="ln-sub">Level 1 · ages 4 to 6</span></button>
-        <button type="button" class="ln-door" data-door="2" data-door-name="Level 2 · Young readers" data-go="Enter Level 2"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/letters.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">2</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٢</span></span><b>Young readers</b><span class="ln-sub">Level 2 · ages 6 to 8</span></button>
-        <button type="button" class="ln-door" data-door="3" data-door-name="Level 3 · Explorers" data-go="Enter Level 3"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/adventures.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">3</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٣</span></span><b>Explorers</b><span class="ln-sub">Level 3 · ages 8 to 11</span></button>
-        <button type="button" class="ln-door" data-door="4" data-door-name="Level 4 · Seekers" data-go="Enter Level 4"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/seerah.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">4</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْمُسْتَوَى ٤</span></span><b>Seekers</b><span class="ln-sub">Level 4 · ages 11 to 16</span></button>
-        <button type="button" class="ln-door ln-adult" data-adult={u('quran/app/')} data-door-name="Adults · The Quran Library" data-go="Enter the Quran Library"><i class="ln-lantern" aria-hidden="true"></i><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/quran.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /><span class="ln-leaf ln-l"></span><span class="ln-leaf ln-r"></span><i class="ln-seam"></i><span class="ln-num">✦</span><span class="ln-ar" lang="ar" dir="rtl">ٱلْكِبَار</span></span><b>Adults</b><span class="ln-sub">The Quran Library</span></button>
+        <div class="ln-trail" role="presentation">
+          <svg class="ln-path" viewBox="0 0 1100 430" preserveAspectRatio="none" aria-hidden="true"><path d="M132 300 C 250 290, 280 170, 374 172 S 520 290, 616 275 S 760 140, 858 146 S 1000 110, 1080 50" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" /><path d="M132 300 C 250 290, 280 170, 374 172 S 520 290, 616 275 S 760 140, 858 146 S 1000 110, 1080 50" fill="none" stroke="#0E6B4E" stroke-width="4" stroke-dasharray="2 16" stroke-linecap="round" /></svg>
+          <button type="button" class="ln-door ln-d1" data-door="1" data-door-name="Level 1 · Little learners" data-go="Enter Level 1"><span class="ln-arch" aria-hidden="true"><span class="ln-flag">1</span><img src={u('img/home/kinder.webp')} alt="" width="200" height="200" decoding="async" /></span><b>Little learners</b><span class="ln-sub">Level 1 · ages 4 to 6</span></button>
+          <button type="button" class="ln-door ln-d2" data-door="2" data-door-name="Level 2 · Young readers" data-go="Enter Level 2"><span class="ln-arch" aria-hidden="true"><span class="ln-flag">2</span><img src={u('img/home/letters.webp')} alt="" width="200" height="200" decoding="async" /></span><b>Young readers</b><span class="ln-sub">Level 2 · ages 6 to 8</span></button>
+          <button type="button" class="ln-door ln-d3" data-door="3" data-door-name="Level 3 · Explorers" data-go="Enter Level 3"><span class="ln-arch" aria-hidden="true"><span class="ln-flag">3</span><img src={u('img/home/l34/adventures.webp')} alt="" width="200" height="200" decoding="async" /></span><b>Explorers</b><span class="ln-sub">Level 3 · ages 8 to 11</span></button>
+          <button type="button" class="ln-door ln-d4" data-door="4" data-door-name="Level 4 · Seekers" data-go="Enter Level 4"><span class="ln-arch" aria-hidden="true"><span class="ln-flag">4</span><img src={u('img/home/l34/seerah.webp')} alt="" width="200" height="200" decoding="async" /></span><b>Seekers</b><span class="ln-sub">Level 4 · ages 11 to 16</span></button>
+        </div>
+        <svg class="ln-hills" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 C 240 10, 420 110, 720 60 S 1200 20, 1440 70 V120 H0Z" fill="#9FD0B5" /><path d="M0 90 C 300 50, 520 120, 860 84 S 1300 70, 1440 96 V120 H0Z" fill="#fff" /></svg>
+        <div class="ln-lib-row">
+          <button type="button" class="ln-door ln-adult" data-adult={u('quran/app/')} data-door-name="Adults · The Quran Library" data-go="Enter the Quran Library"><span class="ln-arch" aria-hidden="true"><img src={u('img/home/l34/quran.webp')} alt="" width="200" height="200" loading="lazy" decoding="async" /></span><span class="ln-lib-t"><b>Adults: the Quran Library</b><span class="ln-sub">Recite, read the mushaf, listen, learn tajweed, and learn Qur'an with the Sheikh.</span></span><span class="ln-go" aria-hidden="true">Enter →</span></button>
+        </div>
       </div>
     </div>
     <!-- after a door is chosen: that door, open, on the left; sign in / create account on the right -->
@@ -148,11 +153,11 @@ const levels = [
     </div>
     </div>
     <section class="ln-trust" id="ln-about" aria-label="About Ta'aleem">
-      <div><b>From Al-Huda Islamic Centre</b><p>Made by our masjid for its families and students.</p></div>
+      <div><b>Made for families</b><p>A classroom for children and adults to learn the Qur'an and the deen together.</p></div>
       <div><b>Every lesson sourced</b><p>Qur'an and hadith references on every lesson and question.</p></div>
       <div><b>No ads, no selling</b><p>Nothing to buy, and recitation is heard on the device. A friendly weekly race keeps everyone practising.</p></div>
     </section>
-    <footer class="ln-foot"><span>© Al-Huda Islamic Centre · Ta'aleem</span><span>Works best on a computer with a camera and microphone, in Chrome or Edge.</span></footer>
+    <footer class="ln-foot"><span>© Ta'aleem</span><span>Works best on a computer with a camera and microphone, in Chrome or Edge.</span></footer>
     <div class="ln-welcome" id="ln-welcome" role="dialog" aria-modal="true" aria-labelledby="lw-ar" hidden>
       <div class="lw-frame">
         <div class="lw-orn" aria-hidden="true"></div>

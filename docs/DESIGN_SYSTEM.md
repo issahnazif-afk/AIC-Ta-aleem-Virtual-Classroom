@@ -170,14 +170,14 @@ site's art, layout, characters or branding.
 - Arabic shapes correctly and reads right to left.
 - The games still play (`scratchpad` harnesses or a manual run), and sign-in and sessions still reach the class log.
 
-## The front page ("Lantern Night")
+## The front page ("Learning Path")
 
-The sign-in screen (`src/pages/index.astro`, styles in `src/styles/front.css`) has its own look, chosen by Al-Huda in
-November 2026 from five designs: midnight blue `#0B1430`, warm lantern amber `#F2B451` / `#FFD98A`, Playfair Display
-headings and DM Sans text. It opens with the Basmala. Five arched doors (Levels 1 to 4 and Adults) stand under swaying
-lanterns and open onto amber light. Choosing a door shows a welcome, ٱلسَّلَامُ عَلَيْكُمْ · أَهْلًا وَسَهْلًا بِالدُّخُولِ,
-written and spoken in Arabic, then in English (`public/voice/welcome-ar.mp3` and `welcome-en.mp3`, in the Sheikh's
-voice; the browser reads it while those files are missing). The front page itself never shows the sign-in form: after the welcome, the doors give way to that door, open, on the
-left, with sign in / create account in a column on the right ("Choose another door" goes back). Adults go on to
-the Quran Library. These colours belong to the front page only: the screens inside keep the standard and young
-learners' styles above.
+The sign-in screen (`src/pages/index.astro`, styles in `src/styles/front.css`) was chosen in November 2026 from five
+green designs. It keeps the site's own green (`#0E6B4E`, `#0B5A41`, mint `#E6F2EC`), with DM Sans in its heaviest weight
+for the headings. It opens with the Basmala over a light green sky; a dotted path climbs through green hills past four
+arched stops (Levels 1 to 4), and the adults' Quran Library is a card of its own below the hills. Choosing a door shows a
+welcome, ٱلسَّلَامُ عَلَيْكُمْ · أَهْلًا وَسَهْلًا بِالدُّخُولِ, written and spoken in Arabic, then in English
+(`public/voice/welcome-ar.mp3` and `welcome-en.mp3`, in the Sheikh's voice; the browser reads it while those files are
+missing). The front page itself never shows the sign-in form: after the welcome, the path gives way to that door on the
+left, in a green panel, with sign in / create account in a column on the right ("Choose another door" goes back). Adults
+go on to the Quran Library. The screens inside keep the standard and young learners' styles above.
