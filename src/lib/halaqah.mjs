@@ -4,8 +4,9 @@
 //   free     Free reading, as in Recite: the Sheikh follows every word and helps when the reader stops
 //   correct  Sheikh corrects: as in a halaqah, he stops the reader at each mistake, lets them try again,
 //            then says the word for them to say after him
-//   teach    Teach me: the reader reads a whole page; with 4 or more mistakes the Sheikh teaches it,
-//            reciting each ayah for them to repeat (correcting as above), then they read the page again
+//   teach    Teach me: the Sheikh recites each ayah and the reader repeats it after him, corrected as above;
+//            then they read the whole page to him, and he teaches again what still needs it (or, with "read
+//            the page first", he teaches only when that first reading has 4 or more mistakes)
 //
 // The listening itself is the classroom engine (engine.mjs, listen: free | correct | teach).
 //   mountHalaqah(root, { audience, level, gender, reciters, defaultReciter, localAsr, onDone(result), onExit })
@@ -16,13 +17,15 @@ import { getSpeechRecognition } from './speech.mjs';
 import { LEVELS, mistakesTotal } from './session.mjs';
 import { phrase, praiseFor, stopVoice } from './phrases.mjs';
 import { renderSpots } from './spots.mjs';
+import { sheikhAvatar } from './sheikh-avatar.mjs';
 
 export const LISTEN = {
   free: { name: 'Free reading', ar: 'قِرَاءَةٌ حُرَّة', text: 'Read on your own. The Sheikh follows every word and helps only when you stop.' },
   correct: { name: 'Sheikh corrects', ar: 'ٱلشَّيْخُ يُصَحِّح', text: 'As in the halaqah: at a mistake the Sheikh stops you, lets you try again, then says the word for you to say after him.' },
-  teach: { name: 'Teach me', ar: 'عَلِّمْنِي', text: `Read a whole page. With ${TEACH_AT} or more mistakes, the Sheikh teaches it: he recites each ayah, you repeat it, until the page is right.` },
+  teach: { name: 'Teach me', ar: 'عَلِّمْنِي', text: 'The Sheikh recites each ayah and you repeat it after him, as he listens and corrects you. Then you read him the whole page, until it is right.' },
 };
 const KEY = 'hq-last';
+const TAGS = { idle: 'Sheikh', speaking: 'Reciting', listening: 'Listening', prompt: 'Giving the word', stop: 'Stop' };
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const btn = (cls, text) => { const b = el('button', cls, text); b.type = 'button'; return b; };
 const sex = (g) => (/^f/i.test(String(g || '')) ? 'f' : /^m/i.test(String(g || '')) ? 'm' : '');
@@ -33,7 +36,7 @@ export function mountHalaqah(root, opts = {}) {
   const kids = audience === 'kids';
   const young = kids && level <= 2;
   let meta = null, engine = null, started = 0, timer = 0;
-  const last = { listen: 'correct', page: 1, pages: 1, reciter: defaultReciter, check: kids ? (young ? 'beginner' : 'intermediate') : 'advanced', ...store.get(KEY, {}) };
+  const last = { listen: 'correct', readFirst: false, page: 1, pages: 1, reciter: defaultReciter, check: kids ? (young ? 'beginner' : 'intermediate') : 'advanced', ...store.get(KEY, {}) };
   root.classList.add('hq');
   root.replaceChildren();
 
@@ -52,7 +55,11 @@ export function mountHalaqah(root, opts = {}) {
     b.addEventListener('click', () => pick(id));
     modes.append(b);
   });
-  const pick = (id) => { last.listen = id; modes.querySelectorAll('.hq-mode').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.listen === id))); };
+  const firstBox = el('label', 'hq-first');
+  const firstIn = Object.assign(el('input'), { type: 'checkbox', checked: !!last.readFirst });
+  firstBox.append(firstIn, el('span', null, `Teach me: let me read the page first. The Sheikh teaches it only if I make ${TEACH_AT} or more mistakes.`));
+  firstIn.addEventListener('change', () => { last.readFirst = firstIn.checked; });
+  const pick = (id) => { last.listen = id; firstBox.hidden = id !== 'teach'; modes.querySelectorAll('.hq-mode').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.listen === id))); };
   const fields = el('div', 'hq-fields');
   const fld = (label, input) => { const l = el('label', 'hq-fld'); l.append(el('span', null, label), input); fields.append(l); return input; };
   const surahSel = fld('Surah', el('select'));
@@ -70,7 +77,7 @@ export function mountHalaqah(root, opts = {}) {
   const err = el('p', 'hq-err'); err.setAttribute('role', 'alert');
   const go = btn('hq-go', 'Begin, bismillah'), back = btn('hq-back', 'Back');
   const row = el('div', 'hq-row'); row.append(go, back);
-  setup.append(head, el('h2', 'hq-h2', 'How should the Sheikh listen?'), modes, el('h2', 'hq-h2', 'What will you read?'), fields, where, err, row);
+  setup.append(head, el('h2', 'hq-h2', 'How should the Sheikh listen?'), modes, firstBox, el('h2', 'hq-h2', 'What will you read?'), fields, where, err, row);
 
   // the surah's first page, and the ayahs of a run of pages
   const pageOf = (s) => { let p = 1; meta.pages.forEach((x, i) => { if (x.s < s || (x.s === s && x.a <= 1)) p = i + 1; }); return p; };
@@ -113,10 +120,13 @@ export function mountHalaqah(root, opts = {}) {
   bar.append(title, step, size, clock, end);
   const side = el('aside', 'hq-side');
   const sheikhBox = el('div', 'hq-sheikh'); sheikhBox.dataset.state = 'idle';
-  const badge = el('div', 'hq-badge'); badge.setAttribute('aria-hidden', 'true'); badge.append(el('i'), el('i'), el('i'));
+  const avatar = sheikhAvatar();
+  const tag = el('span', 'hq-s-tag', 'Sheikh');
+  const face = el('div', 'hq-face'); face.append(avatar, tag);
   const sAr = el('p', 'hq-s-ar'); sAr.lang = 'ar'; sAr.dir = 'rtl';
   const sEn = el('p', 'hq-s-en');
-  sheikhBox.append(badge, el('span', 'hq-s-k', 'The Sheikh'), sAr, sEn);
+  const bubble = el('div', 'hq-bubble'); bubble.setAttribute('aria-live', 'polite'); bubble.append(sAr, sEn);
+  sheikhBox.append(face, bubble);
   const statusP = el('p', 'hq-status'); statusP.setAttribute('aria-live', 'polite');
   const whereP = el('p', 'hq-at');
   const tools = el('div', 'hq-tools');
@@ -135,7 +145,7 @@ export function mountHalaqah(root, opts = {}) {
   root.append(setup, room, report);
 
   const ui = {
-    sheikh(state, ar, en) { sheikhBox.dataset.state = state; sAr.textContent = ar ?? ''; sEn.textContent = en ?? ''; },
+    sheikh(state, ar, en) { sheikhBox.dataset.state = state; avatar.dataset.state = state; tag.textContent = TAGS[state] ?? 'Sheikh'; sAr.textContent = ar ?? ''; sEn.textContent = en ?? ''; },
     status(text, kind = '') { statusP.textContent = text; statusP.dataset.kind = kind; },
     where(w) { whereP.textContent = w?.label ?? ''; },
     mic(on) { mic.setAttribute('aria-pressed', String(!!on)); mic.textContent = on ? '● Listening' : 'Microphone paused'; },
@@ -163,7 +173,7 @@ export function mountHalaqah(root, opts = {}) {
     room.dataset.listen = last.listen;
     title.textContent = LISTEN[last.listen].name;
     hint.hidden = !LEVELS[last.check].hints;
-    engine = createEngine({ stage, SR, level: last.check, reciter: last.reciter, gender, ui, young, listen: last.listen });
+    engine = createEngine({ stage, SR, level: last.check, reciter: last.reciter, gender, ui, young, listen: last.listen, readFirst: !!last.readFirst });
     started = Date.now();
     clearInterval(timer);
     timer = setInterval(() => { const s = Math.floor((Date.now() - started) / 1000); clock.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; }, 1000);
@@ -195,10 +205,11 @@ export function mountHalaqah(root, opts = {}) {
       const ul = el('ul', 'hq-pages');
       for (const pg of res.pages) {
         const li = el('li', pg.passed ? 'ok' : 'again');
+        const mk = (n) => `${n} mistake${n === 1 ? '' : 's'}`;
         li.append(el('b', null, `Page ${pg.page}`), el('span', null,
-          pg.first < TEACH_AT ? `${pg.first} mistake${pg.first === 1 ? '' : 's'}: read well the first time`
-            : pg.passed ? `${pg.first} mistakes at first; taught (${pg.rounds} round${pg.rounds === 1 ? '' : 's'}), then read well`
-              : `${pg.first} mistakes at first; taught ${pg.rounds} rounds: go over it again next time`));
+          !pg.rounds ? `Read well the first time (${mk(pg.first)})`
+            : pg.passed ? `Taught ayah by ayah${pg.rounds > 1 ? ` (${pg.rounds} rounds)` : ''}, then read well (${mk(pg.last)})`
+              : `Taught ${pg.rounds} rounds; still ${mk(pg.last)}: go over it again next time`));
         ul.append(li);
       }
       report.append(el('h3', 'hq-h3', 'The pages'), ul);

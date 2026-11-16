@@ -49,16 +49,18 @@
 .hq-end { height: 38px; padding: 0 16px; border-radius: 10px; border: 1.5px solid var(--bad); background: #fff; color: var(--bad); font: 700 14px var(--font-ui, system-ui); cursor: pointer; }
 .hq-main { display: grid; grid-template-columns: minmax(260px, 330px) 1fr; gap: 14px; min-height: calc(100vh - 190px); }
 .hq-side { display: flex; flex-direction: column; gap: 12px; }
-.hq-sheikh { position: relative; padding: 18px; border-radius: 18px; background: linear-gradient(160deg, #0F4A39, #0A3529); color: #F4EEDD; min-height: 190px; }
-.hq-s-k { font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #E6C672; }
-.hq-s-ar { margin: 10px 0 4px; font-family: "Amiri", serif; font-size: 26px; line-height: 1.6; color: #fff; }
+.hq-sheikh { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px; border-radius: 18px; background: linear-gradient(160deg, #0F4A39, #0A3529); color: #F4EEDD; }
+.hq-face { position: relative; width: 100%; display: grid; place-items: center; }
+.hq-sheikh .sheikh { max-width: 170px; --accent-soft: #E3F0E8; --accent: #E6C672; }
+.hq-s-tag { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); padding: 3px 12px; border-radius: 999px; background: #0A3529; border: 1px solid #E6C672; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #E6C672; white-space: nowrap; }
+.hq-sheikh[data-state="listening"] .hq-s-tag { color: #74D69C; border-color: #74D69C; }
+.hq-sheikh[data-state="stop"] .hq-s-tag { color: #fff; background: #B3261E; border-color: #B3261E; }
+.hq-bubble { width: 100%; min-height: 84px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(230, 198, 114, .3); box-sizing: border-box; }
+.hq-first { display: flex; gap: 10px; align-items: flex-start; margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: #FFF8E6; border: 1px solid #EBD9A8; font-size: 15px; cursor: pointer; }
+.hq-first input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--hq-green); }
+.hq-s-ar { margin: 0 0 4px; font-family: "Amiri", serif; font-size: 26px; line-height: 1.6; color: #fff; }
 .hq-sheikh[data-state="prompt"] .hq-s-ar { font-family: var(--font-quran, "KFGQPC Hafs", "Amiri", serif); font-size: 34px; color: #FFE7A3; }
 .hq-s-en { margin: 0; font-size: 15px; line-height: 1.45; color: #D9E6DF; }
-.hq-badge { position: absolute; right: 16px; top: 16px; display: flex; gap: 3px; align-items: center; height: 22px; }
-.hq-badge i { width: 4px; height: 6px; border-radius: 2px; background: #E6C672; opacity: .35; }
-.hq-sheikh[data-state="speaking"] .hq-badge i, .hq-sheikh[data-state="prompt"] .hq-badge i { opacity: 1; animation: hq-eq 1s ease-in-out infinite; }
-.hq-badge i:nth-child(2) { animation-delay: .15s !important; } .hq-badge i:nth-child(3) { animation-delay: .3s !important; }
-.hq-sheikh[data-state="listening"] .hq-badge i { opacity: 1; background: #74D69C; }
 @keyframes hq-eq { 50% { height: 20px; } }
 .hq-status { margin: 0; min-height: 3em; padding: 10px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--hq-line); font-weight: 600; }
 .hq-status[data-kind="bad"] { color: var(--bad); border-color: rgba(179, 38, 30, .35); background: #FFF6F5; }
@@ -96,7 +98,7 @@
   .hq-stage { min-height: 60vh; }
   .hq-stats { grid-template-columns: repeat(3, 1fr); }
 }
-@media (prefers-reduced-motion: reduce) { .hq-badge i { animation: none !important; } .hq-mode { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .hq-mode { transition: none; } }
 
 /* ── the mushaf page and its words, as in the classroom ── */
 @property --inkp { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
@@ -135,3 +137,26 @@ body[data-paper] .hq .stage { --paper: unset; --paper-line: unset; --paper-ink: 
 .hq .stage .mk { color: var(--marker, #9A7A2E); }
 .hq .stage .mk.hidden, .hq .stage .mk.out { color: transparent; }
 .hq .stage .paper.context .mk.out { color: var(--muted); }
+
+/* the Sheikh (from src/components/Sheikh.astro): talking, listening, raising his hand to stop */
+.hq .sheikh { width: 100%; max-width: 220px; aspect-ratio: 240 / 250; }
+.hq .sheikh svg { width: 100%; height: 100%; display: block; }
+.hq .sheikh .sh-bg { fill: var(--accent-soft); }
+.hq .sheikh .sh-mouth, .hq .sheikh .sh-eyes, .hq .sheikh .sh-head { transform-box: fill-box; transform-origin: center; }
+.hq .sheikh .sh-head { transform-origin: 50% 100%; transition: transform .5s ease; }
+.hq .sheikh .sh-waves, .hq .sheikh .sh-listen, .hq .sheikh .sh-hand { opacity: 0; transition: opacity .3s ease, transform .3s ease; }
+.hq .sheikh .sh-hand { transform: translateY(30px); }
+
+.hq .sheikh[data-state="speaking"] .sh-mouth, .hq .sheikh[data-state="prompt"] .sh-mouth { animation: hq-sh-talk .32s ease-in-out infinite alternate; }
+.hq .sheikh[data-state="speaking"] .sh-waves, .hq .sheikh[data-state="prompt"] .sh-waves { opacity: 1; animation: hq-sh-pulse 1.2s ease-in-out infinite; }
+.hq .sheikh[data-state="listening"] .sh-listen { opacity: 1; animation: hq-sh-pulse 1.6s ease-in-out infinite; }
+.hq .sheikh[data-state="listening"] .sh-head { transform: rotate(-4deg); }
+.hq .sheikh[data-state="stop"] .sh-hand { opacity: 1; transform: none; }
+.hq .sheikh .sh-eyes { animation: hq-sh-blink 4.5s infinite; }
+
+@keyframes hq-sh-talk { from { transform: scaleY(.6); } to { transform: scaleY(2.4); } }
+@keyframes hq-sh-pulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@keyframes hq-sh-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@media (prefers-reduced-motion: reduce) {
+  .hq .sheikh * { animation: none !important; transition: none !important; }
+}
