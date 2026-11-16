@@ -13,3 +13,6 @@ public/audio/narration/
 # the adult Quran Library: made by scripts/quran/build-data.mjs (downloads cached in .cache/)
 public/quran/data/
 .cache/
+
+# clasp (npm run deploy:script): this PC's link to the Apps Script project
+apps-script/.clasp.json

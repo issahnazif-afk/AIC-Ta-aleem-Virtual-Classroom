@@ -14,7 +14,8 @@
     "books": "node scripts/stories/lint.mjs && node scripts/stories/quran.mjs && node scripts/stories/review-library.mjs && node scripts/books/lint.mjs",
     "seerah": "node scripts/seerah/lint.mjs",
     "deen": "node scripts/deen/check.mjs",
-    "games": "node scripts/games/check.mjs"
+    "games": "node scripts/games/check.mjs",
+    "deploy:script": "node scripts/deploy-apps-script.mjs"
   },
   "dependencies": {
     "@fontsource/amiri": "^5.3.0",
