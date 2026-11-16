@@ -21,7 +21,7 @@ import crypto from 'node:crypto';
 import { lintText } from '../books/writing.mjs';
 import { NAMES, refText, refUrl } from '../../src/lib/deen/refs.mjs';
 import { makeMaze, planShift, applyShift, isTree, reachable, neighbours } from '../../src/lib/games/maze-core.mjs';
-import { MAZES, mazeStages, STAGE_CAP } from '../../src/lib/games/mazes.mjs';
+import { MAZES, mazeTrack, LEVELS, TRACK_LEN, STAGE_INTROS } from '../../src/lib/games/mazes.mjs';
 import { simulate } from './maze-sim.mjs';
 
 // the data files of the games (no DOM): each may export REVIEW (entries to approve), TEXTS ([where, text, level])
@@ -97,36 +97,59 @@ for (const [where, t, level] of TEXTS) {
 }
 
 // ── 3. the maze: shifting walls never shut the way to the goal ──
-// every stage of every maze (the night maze has its own dark stages, so both ladders are checked)
-const LADDERS = Object.keys(MAZES).map((id) => [id, mazeStages(id)]);
+// every stage of every level track of every maze (the night maze has its own dark stages, so every track is checked)
+const TRACKS = Object.keys(MAZES).flatMap((id) => LEVELS.map((lv) => [id, lv, mazeTrack(id, lv)]));
 let shifts = 0;
-for (const L of LADDERS[0][1]) {
+for (const [, , st] of TRACKS.filter(([id]) => id === 'hijrah')) for (const L of st) {
   if (!L.every) continue;
-  for (let run = 0; run < 12; run++) {
+  for (let run = 0; run < 8; run++) {
     const m = makeMaze(L.size, L.size);
     let token = m.start;
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 100; i++) {
       applyShift(m, planShift(m, L.swaps, Math.random, { avoid: [token, m.start, m.goal], bias: L.bias, token }));
       shifts++;
-      if (!isTree(m)) { problems.push(`maze stage ${L.n}: a shift left the maze with a loop or a closed pocket`); break; }
-      if (!reachable(m, token, m.goal)) { problems.push(`maze stage ${L.n}: a shift cut the traveller off from the goal`); break; }
+      if (!isTree(m)) { problems.push(`maze L${L.level} stage ${L.n}: a shift left the maze with a loop or a closed pocket`); break; }
+      if (!reachable(m, token, m.goal)) { problems.push(`maze L${L.level} stage ${L.n}: a shift cut the traveller off from the goal`); break; }
       const nb = neighbours(m, token); token = nb[Math.floor(Math.random() * nb.length)];
     }
   }
 }
-// the ladder only grows: no stage is smaller than the one before it
-for (const [id, st] of LADDERS) for (let i = 1; i < st.length; i++) if (st[i].size < st[i - 1].size) problems.push(`maze ${id}: stage ${i + 1} is smaller than stage ${i}`);
-if (STAGE_CAP[4] !== LADDERS[0][1].length) problems.push('maze: Level 4 cannot reach the last stage');
+// every track has ten stages, the last is the Final, a track never gets smaller, and every intro has its card
+for (const [id, lv, st] of TRACKS) {
+  if (st.length !== TRACK_LEN) problems.push(`maze ${id} L${lv}: ${st.length} stages, not ${TRACK_LEN}`);
+  if (!st[st.length - 1].final) problems.push(`maze ${id} L${lv}: the last stage is not marked final`);
+  for (let i = 1; i < st.length; i++) if (st[i].size < st[i - 1].size) problems.push(`maze ${id} L${lv}: stage ${i + 1} is smaller than stage ${i}`);
+  for (const L of st) if (L.intro && !STAGE_INTROS[L.intro]) problems.push(`maze ${id} L${lv} stage ${L.n}: no card for "${L.intro}"`);
+}
 
-// whole games with the walls, the monsters, the key and the tunnels together, at a steady pace for each stage's age
-// (Levels 1 and 2 play stages 1 to 9 slowly; the later stages are for Levels 3 and 4)
-const paceOf = (n) => (n <= 6 ? 650 : n <= 9 ? 550 : 450), simLines = [];
-for (const [id, st] of LADDERS) for (const L of st) {
-  const rs = Array.from({ length: 50 }, () => simulate(L, { pace: paceOf(L.n) }));
+// the class server checks each ranked score against the size of its maze: its table must match the tracks
+{
+  const gs = fs.readFileSync(new URL('apps-script/Code.gs', root), 'utf8');
+  const sizes = JSON.parse((/const MAZE_SIZES = (\{[^;]+\});/.exec(gs)?.[1] ?? '{}').replace(/(\d):/g, '"$1":'));
+  const floors = JSON.parse((/const MAZE_FLOORS = (\{[^;]+\});/.exec(gs)?.[1] ?? '{}').replace(/(\d+):/g, '"$1":'));
+  for (const lv of LEVELS) {
+    const st = mazeTrack('hijrah', lv);
+    if (JSON.stringify(sizes[lv]) !== JSON.stringify(st.map((L) => L.size))) problems.push(`apps-script/Code.gs MAZE_SIZES for Level ${lv} does not match the track (${st.map((L) => L.size)})`);
+    for (const L of st) if ((floors[lv]?.[L.n] ?? 1) !== L.floors) problems.push(`apps-script/Code.gs MAZE_FLOORS: Level ${lv} stage ${L.n} has ${L.floors} floor(s)`);
+  }
+}
+
+// whole games with the walls, the Grumblies, the key, the tunnels, the floors, the storms, the doors and the powers
+// together, at a steady pace for each level's age. Fog only hides the maze, so a track that differs only in its fog
+// is played once.
+const paceOf = (lv) => ({ 1: 650, 2: 550, 3: 450, 4: 450 })[lv], simLines = [];
+const played = new Set();
+const RUNS = Number(process.env.MAZE_RUNS || 50);
+for (const [id, lv, st] of TRACKS) for (const L of st) {
+  const sig = JSON.stringify({ ...L, fog: 0, powers: [...L.powers] });
+  if (played.has(sig)) continue;
+  played.add(sig);
+  const rs = Array.from({ length: RUNS }, () => simulate(L, { pace: paceOf(lv) }));
   const won = rs.filter((r) => r.won), secs = won.map((r) => r.secs).sort((a, b) => a - b);
-  if (rs.some((r) => r.cutOff)) problems.push(`maze ${id} stage ${L.n}: in a simulated game the goal or the key was cut off`);
-  if (won.length < 45) problems.push(`maze ${id} stage ${L.n}: only ${won.length} of 50 simulated games were won in five minutes`);
-  simLines.push(`${id} ${L.n}: ${won.length}/50, median ${secs[secs.length >> 1] ?? '-'} s, ${(rs.reduce((a, r) => a + r.gobbles, 0) / rs.length).toFixed(1)} gobbles`);
+  const par = won.filter((r) => r.secs <= r.par).length;
+  if (rs.some((r) => r.cutOff)) problems.push(`maze ${id} L${lv} stage ${L.n}: in a simulated game the goal or the key was cut off`);
+  if (won.length < RUNS * 0.9) problems.push(`maze ${id} L${lv} stage ${L.n}: only ${won.length} of ${RUNS} simulated games were won in five minutes`);
+  simLines.push(`L${lv} ${String(L.n).padStart(2)}: ${won.length}/${RUNS} won, median ${secs[secs.length >> 1] ?? '-'} s (par ${Math.round(rs.reduce((a, r) => a + r.par, 0) / rs.length)} s, ${won.length ? Math.round((100 * par) / won.length) : 0}% within par), ${(rs.reduce((a, r) => a + r.bumps, 0) / rs.length).toFixed(1)} bumps, ${(rs.reduce((a, r) => a + r.said, 0) / rs.length).toFixed(1)} dhikr, stars ${(won.reduce((a, r) => a + r.stars, 0) / Math.max(1, won.length)).toFixed(1)}`);
 }
 
 // ── 4. each game's own checks ──
@@ -168,7 +191,7 @@ for (const g of groups) {
 fs.writeFileSync(new URL('docs/activities-review.md', root), md.join('\n'));
 
 console.log(`Play & Make: ${REVIEW.length} entries, ${cites.length} hadith references, ${TEXTS.length} lines of English, ${shifts} maze shifts checked.`);
-console.log('Simulated maze games (won of 50, median time, gobbles a game):' + simLines.map((x) => '\n  ' + x).join(''));
+console.log('Simulated Dhikr Maze games (each stage of each level track):' + simLines.map((x) => '\n  ' + x).join(''));
 console.log(approval ? `Approved by ${approval.by} on ${approval.date}: ${REVIEW.length - pending.length} of ${REVIEW.length}.` : `Not yet approved: ${pending.length} entries pending review.`);
 console.log(problems.length ? problems.join('\n') : 'No problems found.');
 process.exit(problems.length ? 1 : 0);

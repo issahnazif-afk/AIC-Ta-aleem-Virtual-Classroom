@@ -34,7 +34,9 @@ if (cmd === 'merge') {
       if (!old) { it.status = 'pending'; byId.set(it.id, it); added++; continue; }
       // the words of an approved item never change silently: a changed text goes back to review
       const changed = (old.text || old.draft_en) !== (it.text || it.draft_en);
-      Object.assign(old, { ...it, status: changed ? 'pending' : old.status, approved: changed ? undefined : old.approved });
+      // an approved item keeps its approved text (a Bidaya draft's English became its text when it was approved)
+      const keep = !changed && old.status === 'approved' && old.text ? { text: old.text } : {};
+      Object.assign(old, { ...it, ...keep, status: changed ? 'pending' : old.status, approved: changed ? undefined : old.approved });
       if (changed) updated++;
     }
   }

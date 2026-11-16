@@ -126,9 +126,10 @@ export async function logGame({ token, game }) {
 const DEMO_BOARD = 'qc-mazeboard';
 const short = (full) => { const p = String(full || '').trim().split(/\s+/); return p.length > 1 ? `${p[0]} ${p[p.length - 1][0].toUpperCase()}.` : p[0] || 'Student'; };
 function demoBoard() { try { return JSON.parse(localStorage.getItem(DEMO_BOARD) || '[]'); } catch { return []; } }
-export async function logMaze({ token, username, name, maze }) {
+// maze: { maze, track, stage, secs, moves, bumps, stars, points, best, par, size, floors, ranked } (one finished stage)
+export async function logMaze({ token, username, name, className, level, maze }) {
   if (isDemo()) {
-    const b = demoBoard(); b.push({ u: username, name: short(name), ...maze, at: Date.now() });
+    const b = demoBoard(); b.push({ u: username, name: short(name), cls: className, level, ...maze, at: Date.now() });
     try { localStorage.setItem(DEMO_BOARD, JSON.stringify(b.slice(-500))); } catch {}
     return { ok: true, demo: true };
   }
@@ -173,6 +174,46 @@ function demoLeaders(name, level) {
     champs[act] = { rank: 1, name: cn, level: cl, points: 180 + k * 7, me: false };
   });
   return { ok: true, demo: true, level, acts: out, champs, players: people.length + 1 };
+}
+
+// ── the leaderboards (src/lib/games/board.mjs; docs/games-plan.md section 4) ──
+// query: { board: 'stage' | 'game' | 'level' | 'all', game, stage, scope: 'class' | 'level', period: 'week' | 'all' }
+// Only ranked runs count (a student's own level track, with the microphone). In demo mode the boards are the players
+// on this device, worked out the same way as the class server does it (apps-script/Code.gs, gameBoard).
+const DEMO_HIDE = 'qc-board-hidden';
+const weekStart = (now = new Date()) => { const d = new Date(now); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.getTime(); };   // Monday, like the weekly practice board
+export function rankBoard(rows, q, me) {
+  const pick = rows.filter((x) => x.ranked !== false && x.track === x.level && (q.board !== 'all' || q.period !== 'week' || x.at >= weekStart()));
+  const best = {};   // the best run of each stage, for each student
+  for (const x of pick) {
+    if (q.board !== 'all' && x.track !== me.level) continue;
+    if ((q.board === 'stage' || q.board === 'game') && x.maze !== q.game) continue;
+    if (q.board === 'stage' && x.stage !== q.stage) continue;
+    const u = (best[x.u] ??= { u: x.u, name: x.name, level: x.level, cls: x.cls, stages: {} });
+    const s = (u.stages[`${x.maze}:${x.stage}`] ??= { points: 0, secs: Infinity });
+    s.points = Math.max(s.points, Number(x.points) || 0);
+    s.secs = Math.min(s.secs, Number(x.secs) || Infinity);
+  }
+  let list = Object.values(best);
+  if (q.board !== 'all') list = list.filter((x) => (q.scope === 'class' ? x.cls === me.cls : x.level === me.level));
+  const unit = q.board === 'stage' ? 'secs' : 'points';
+  for (const x of list) x.value = unit === 'secs' ? Math.min(...Object.values(x.stages).map((s) => s.secs)) : Object.values(x.stages).reduce((a, s) => a + s.points, 0);
+  list.sort((a, b) => (unit === 'secs' ? a.value - b.value : b.value - a.value));
+  const i = list.findIndex((x) => x.u === me.u);
+  return { ok: true, unit, total: list.length, rows: list.slice(0, 10).map((x, k) => ({ rank: k + 1, name: x.name, level: x.level, value: x.value, me: x.u === me.u })), mine: i >= 0 ? { rank: i + 1, value: list[i].value } : null };
+}
+export async function gameBoard({ token, username, className, level, query }) {
+  if (isDemo()) {
+    let hidden = false; try { hidden = localStorage.getItem(DEMO_HIDE + username) === '1'; } catch {}
+    const rows = demoBoard().filter((x) => x.track != null).map((x) => ({ ...x, level: x.level ?? x.track }));
+    const r = rankBoard(rows, query, { u: username, cls: className, level });
+    return { ...r, demo: true, label: 'This device', hidden };
+  }
+  try { return await post({ action: 'game-board', token, query }); } catch { return { ok: false, error: 'network' }; }
+}
+export async function boardName({ token, username, hide }) {
+  if (isDemo()) { try { localStorage.setItem(DEMO_HIDE + username, hide ? '1' : '0'); } catch {} return { ok: true, demo: true }; }
+  try { return await post({ action: 'board-name', token, hide: !!hide }); } catch { return { ok: false, error: 'network' }; }
 }
 
 // The approved questions from the "Question bank" tab of the admin sheet.

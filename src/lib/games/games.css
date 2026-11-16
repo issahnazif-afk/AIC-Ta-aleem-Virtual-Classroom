@@ -165,3 +165,63 @@
   .mz-stone { border-width: 2px; }
   .mz-intro { top: 10px; }
 }
+
+/* ── the Dhikr Maze: the level tracks, speak or practise, the Bismillah start, the dhikr powers, the shield,
+   the floors, the storms and the treasure doors (docs/games-plan.md, Game 1) ── */
+.mz-tracks, .mz-modes { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.mz-track, .mz-mode { border-radius: 8px; }
+.mz-track[aria-checked="true"], .mz-mode[aria-checked="true"] { background: var(--g-green); border-color: var(--g-green); color: #fff; }
+.mz-mode:disabled { opacity: .5; cursor: not-allowed; }
+.mz-yours { margin-left: 6px; padding: 0 6px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; background: var(--g-gold); color: #fff; }
+.mz-rank-note, .mz-mode-note { margin: 0; max-width: 540px; text-align: center; font-size: 14.5px; color: var(--g-muted); }
+.mz-floor { margin: 0; font-weight: 800; font-size: 14px; color: var(--g-gold); }
+.mz-floor:empty { display: none; }
+.mz-f1 { filter: saturate(.85) brightness(.97); }
+.mz-f2 { filter: saturate(.7) brightness(.94); }
+
+/* the dhikr: a card with the Arabic, the transliteration, the meaning and where it is taught */
+.mz-dhikr { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 14px; border-radius: 14px; background: var(--g-paper); border: 2px solid var(--g-line); }
+.mz-dhikr-ar { margin: 0; font-family: var(--font-ar-ui, 'Amiri', serif); font-size: 28px; line-height: 1.5; color: var(--g-green); }
+.mz-dhikr-tr { margin: 0; font-weight: 800; font-size: 17px; color: var(--g-ink); }
+.mz-dhikr-en { margin: 0; font-size: 15px; color: var(--g-muted); }
+.mz-dhikr-src { margin: 4px 0 0; font-size: 13px; color: var(--g-muted); }
+.mz-gate { position: absolute; left: 50%; top: 40px; transform: translateX(-50%); --tx: -50%; z-index: 3; width: min(440px, 94%); box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 20px; border-radius: 20px; background: #fff; border: 3px solid var(--g-gold); box-shadow: 0 16px 40px rgb(0 0 0 / .25); text-align: center; animation: gm-in .4s cubic-bezier(.2, 1.4, .4, 1); }
+.mz-gate-msg { margin: 0; min-height: 1.4em; font-weight: 700; color: var(--g-ink); }
+
+/* the power bar under the maze */
+.mz-powers { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; min-height: 64px; width: min(100%, 560px); }
+.mz-powers[hidden] { display: none; }
+.mz-pw { display: flex; flex-direction: column; align-items: center; gap: 0; min-width: 132px; min-height: 64px; padding: 6px 12px; border-radius: 14px; border: 3px solid var(--g-gold); background: #fff; color: var(--g-ink); font: inherit; cursor: pointer; box-shadow: 0 3px 0 var(--g-gold); touch-action: manipulation; }
+.mz-pw.ctx { border-color: var(--g-green); box-shadow: 0 3px 0 var(--g-green); animation: mz-call 1.1s ease-in-out infinite alternate; }
+.mz-pw:disabled { cursor: default; opacity: .55; box-shadow: none; animation: none; }
+.mz-pw:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--g-gold); }
+.mz-pw-ar { font-family: var(--font-ar-ui, 'Amiri', serif); font-size: 20px; line-height: 1.4; color: var(--g-green); }
+.mz-pw-tr { font-weight: 800; font-size: 14px; }
+.mz-pw-what { font-size: 12.5px; color: var(--g-muted); }
+@keyframes mz-call { to { transform: translateY(-2px); } }
+.mz-listen, .mz-practice { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 12px; padding: 8px 14px; border-radius: 14px; background: #fff; border: 3px solid var(--g-green); text-align: center; }
+.mz-listen .mz-dhikr-ar, .mz-practice .mz-dhikr-ar { font-size: 24px; }
+.mz-listen-msg, .mz-practice-k { margin: 0; font-weight: 800; }
+
+/* the shield and the other powers on the traveller */
+.mz-shield { fill: rgb(246 198 75 / .18); stroke: var(--g-gold); stroke-width: 3; opacity: 0; pointer-events: none; transition: opacity .2s, cx .16s ease-out, cy .16s ease-out; }
+.mz-shield.on { opacity: 1; animation: mz-glow 1s ease-in-out infinite alternate; }
+.mz-shield.hit { animation: mz-hit .35s ease-out; }
+@keyframes mz-glow { to { stroke-width: 5; } }
+@keyframes mz-hit { 50% { stroke-width: 9; } }
+.mz-token.light { opacity: .55; }
+.mz-token.fast > g { filter: drop-shadow(-4px 0 0 rgb(246 198 75 / .7)); }
+.mz-token.bumped { opacity: .35; transition: opacity .25s; }
+.mz-roamer.chaser .mon { filter: drop-shadow(0 0 3px #F2994A); }
+.mz-roamer.fast .mon { animation-duration: .5s; }
+.mz-storm > * { transform-box: fill-box; transform-origin: center; animation: mz-wobble 1.6s ease-in-out infinite alternate; }
+.mz-stairs > * { filter: drop-shadow(0 0 3px rgb(246 198 75 / .9)); }
+.mz-door.open { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .mz-pw.ctx, .mz-shield.on, .mz-shield.hit, .mz-storm > *, .mz-gate { animation: none; }
+  .mz-shield { transition: none; }
+}
+@media (max-width: 480px) {
+  .mz-pw { min-width: 104px; padding: 4px 8px; }
+  .mz-gate { top: 10px; }
+}

@@ -1,7 +1,8 @@
 // Ta'aleem Stars: one rewards system for every activity, kept in the student's progress (saved to the admin
 // sheet, where teachers see Stars, Badges and Day streak). Stars reward effort, improvement and steady practice,
 // and are never ranked. The weekly race between students is separate: the Leaderboards (src/lib/leaders.mjs), with
-// points worked out by the Apps Script.
+// points worked out by the Apps Script. The Play & Make game boards
+// (src/lib/games/board.mjs) rank game skill only, on the student's own level track; dhikr is never scored there.
 
 const today = () => new Date().toLocaleDateString('en-CA');   // 2026-10-31, in the student's own time zone
 

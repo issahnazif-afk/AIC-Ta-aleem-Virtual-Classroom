@@ -121,7 +121,7 @@ export const ACTIVITIES = [
   { id: 'maze-tarawih', worlds: ['dua'], kind: 'games', game: 'maze-tarawih', icon: 'mazeNight', group: 'play', suggested: [1, 2, 3, 4],
     title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', text: 'A Ramadan night maze: carry the lantern to the masjid, and keep away from the dead ends.' },
   { id: 'maze-board', worlds: ['seerah', 'dua'], kind: 'games', game: 'maze-board', icon: 'trophy', group: 'play', suggested: [1, 2, 3, 4],
-    title: 'Maze leaderboard', ar: 'لَوْحَةُ ٱلْأَبْطَالِ', text: 'See who in your class has reached the highest maze stage, and how fast.' },
+    title: 'Leaderboards', ar: 'لَوْحَةُ ٱلْأَبْطَالِ', text: 'The Dhikr Maze boards: your class, your level and the whole school.' },
   // Ta'aleem Adventure: a 3D game of its own (public/adventure/, also its own GitHub Pages project): runs, exploring with
   // knowledge gates, and a friendly physics arena across five lands. Opened with the class level, which sets its pace.
   { id: 'adventure', worlds: ['akhlaq', 'tawheed'], kind: 'adventure', icon: 'adventure', group: 'play', suggested: [1, 2, 3, 4],

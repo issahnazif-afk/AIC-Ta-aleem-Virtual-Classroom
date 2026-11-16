@@ -13,8 +13,8 @@ import { MAZES } from './mazes.mjs';
 const maze = (id) => () => import('./maze.mjs').then((mod) => (stage, ctx) => mod.mountMaze(stage, ctx, MAZES[id]));
 
 export const GAMES = {
-  'maze-hijrah': { title: 'Makkah to Madinah', ar: 'مِنْ مَكَّةَ إِلَى الْمَدِينَةِ', levels: [1, 2, 3, 4], stages: true, load: maze('hijrah'), help: 'How to play: guide the camel to Madinah with the arrow keys, a swipe or the arrow buttons. Each stage brings something new: dates to collect, moving walls, monsters, a key for the gate, a sandstorm and more. Finish a stage to open the next one.' },
-  'maze-tarawih': { title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', levels: [1, 2, 3, 4], stages: true, load: maze('tarawih'), help: 'How to play: carry the lantern to the masjid with the arrow keys, a swipe or the arrow buttons. Each stage brings something new: stars to collect, moving walls, monsters, a key for the gate, dark nights and more. Finish a stage to open the next one.' },
+  'maze-hijrah': { title: 'Makkah to Madinah', ar: 'مِنْ مَكَّةَ إِلَى الْمَدِينَةِ', levels: [1, 2, 3, 4], stages: true, load: maze('hijrah'), help: 'How to play: say Bismillah, then guide the camel to Madinah with the arrow keys, a swipe or the arrow buttons. Keep away from the Grumblies, or say SubhanAllah for a shield. Each stage brings something new: dates, moving walls, a key, stairs, storms and more.' },
+  'maze-tarawih': { title: 'To the masjid for Tarawih', ar: 'إِلَى صَلَاةِ التَّرَاوِيحِ', levels: [1, 2, 3, 4], stages: true, load: maze('tarawih'), help: 'How to play: say Bismillah, then carry the lantern to the masjid with the arrow keys, a swipe or the arrow buttons. Keep away from the Grumblies, or say SubhanAllah for a shield. Each stage brings something new: stars, moving walls, a key, dark nights, stairs and more.' },
 };
 
 export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onSave, onExit, record, leaderboard } = {}) {
@@ -65,10 +65,10 @@ export function mountGame(root, { id, level = 1, progress = {}, earn, flash, onS
       id, level: lv, own, progress, store, sfx, say: sayer(lv),
       earn: ({ kind = 'game', key, score = 1, good = false }) => { const e = earn?.(kind, key, score, good); flash?.(e); onSave?.(); return e; },
       save: () => onSave?.(),
-      // a finished maze stage: logged to the class sheet and the class leaderboard (index.astro)
+      // a finished maze stage: logged to the class sheet and, when ranked, to the leaderboards (index.astro)
       record: record ? (r) => record({ ...r, game: id }) : undefined,
-      // the class leaderboard for this game, shown over the game
-      leaderboard: leaderboard ? (key) => leaderboard(key ?? id, stage) : undefined,
+      // the leaderboards, shown over the game (opened at this game, this level track and this stage)
+      leaderboard: leaderboard ? (key, at = {}) => leaderboard(key ?? id, stage, at) : undefined,
       exit: () => onExit?.(),
     };
     game = mount(stage, ctx);

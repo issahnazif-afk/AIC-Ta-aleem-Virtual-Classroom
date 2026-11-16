@@ -77,6 +77,8 @@ contains words that are not for children, so for that one the game shows only it
   Points: 100 per star, plus a speed bonus of up to 100, for at most 400 a stage. The best run counts.
 - **Why the shape matters.** Every level has the same number of stages and points (6 games × 10 stages × 400 =
   24,000). So a Level 1 child on their track and a Level 4 child on theirs compete fairly on the all-levels board.
+  (As built: the Dhikr Maze's two mazes, Makkah to Madinah and Tarawih, each count as a game on the boards, so the
+  total is 7 × 10 × 400 = 28,000; it is the same for every level, so the board stays fair.)
 
 ## 4. Leaderboards
 

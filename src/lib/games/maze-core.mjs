@@ -235,16 +235,94 @@ export function placeTunnels(m, rnd = Math.random, taken = [], keep = 0.6) {
 export const tunnelEnd = (tunnels, c) => (tunnels ? (c === tunnels[0] ? tunnels[1] : c === tunnels[1] ? tunnels[0] : -1) : -1);
 // The way from a to b when a tunnel joins two cells. A tunnel is optional: the traveller stands on one end and
 // chooses to go through (one move), so it can never trap anyone. Returns the cells in order (a tunnel trip shows as
-// the far end straight after the near end), or null.
-export function pathWith(m, a, b, tunnels = null) {
+// the far end straight after the near end), or null. links: more pairs of cells joined both ways (open treasure doors).
+export function pathWith(m, a, b, tunnels = null, links = []) {
   const prev = new Int32Array(m.n).fill(-2); prev[a] = -1;
   const q = [a];
   for (let i = 0; i < q.length && prev[b] === -2; i++) {
     const c = q[i], o = tunnelEnd(tunnels, c);
-    for (const x of o >= 0 ? [...neighbours(m, c), o] : neighbours(m, c)) if (prev[x] === -2) { prev[x] = c; q.push(x); }
+    const next = o >= 0 ? [...neighbours(m, c), o] : neighbours(m, c);
+    for (const [x, y] of links) { if (x === c) next.push(y); else if (y === c) next.push(x); }
+    for (const x of next) if (prev[x] === -2) { prev[x] = c; q.push(x); }
   }
   if (prev[b] === -2) return null;
   const p = [];
   for (let c = b; c !== -1; c = prev[c]) p.push(c);
   return p.reverse();
+}
+
+// ── the Dhikr Maze (Levels 3 and 4): floors joined by stairs, Huff storms, treasure doors ──
+// A cell for the stairs between floor A and the floor above it (B): the same cell on both floors, safe on both (never a
+// dead end, never a corner where the maze starts or ends), and well away from where floor A is entered, so each floor
+// is a real part of the journey. toGoal: B is the top floor, so the stairs also keep away from its goal.
+export function placeStairs(mA, mB, entryA, rnd = Math.random, taken = [], toGoal = false) {
+  const busy = new Set(taken), dA = distances(mA, entryA), dB = distances(mB, mB.goal);
+  const want = Math.max(4, Math.round(mA.w * 0.9));
+  const ok = (c) => c !== mA.start && c !== mA.goal && degree(mA, c) >= 2 && degree(mB, c) >= 2 && !busy.has(c);
+  let pool = [];
+  for (let c = 0; c < mA.n; c++) if (ok(c) && dA[c] >= want && (!toGoal || dB[c] >= want)) pool.push(c);
+  if (!pool.length) for (let c = 0; c < mA.n; c++) if (ok(c) && dA[c] >= 3) pool.push(c);
+  if (!pool.length) for (let c = 0; c < mA.n; c++) if (ok(c)) pool.push(c);
+  return pool.length ? pool[Math.floor(rnd() * pool.length)] : -1;
+}
+// count storm cells on the way from `from` to `to`: corridor cells (never a dead end), not the first or last two
+// steps, not taken, and spaced apart. A storm blocks its cell until the traveller says A'udhu billah near it.
+export function placeStorms(m, from, to, count, rnd = Math.random, taken = []) {
+  const busy = new Set(taken), out = [];
+  const way = (pathBetween(m, from, to) ?? []).slice(2, -2).filter((c) => degree(m, c) >= 2 && c !== m.start && c !== m.goal);
+  for (let k = 0; k < count && way.length; k++) {
+    const pool = way.filter((c) => !busy.has(c) && out.every((s) => Math.abs(way.indexOf(s) - way.indexOf(c)) >= 3));
+    if (!pool.length) break;
+    const c = pool[Math.floor(rnd() * pool.length)];
+    out.push(c); busy.add(c);
+  }
+  return out;
+}
+// A treasure door: two cells side by side with a wall between them that are far apart along the passages, so opening
+// the door (La hawla wa la quwwata illa billah) is a real shortcut on the way from `from` to `to`. The wall stays a
+// wall in the maze itself (the maze is still a perfect maze); the open door is a link the traveller may cross.
+// Returns [a, b] or null.
+export function placeDoor(m, from, to, rnd = Math.random, taken = []) {
+  const busy = new Set(taken);
+  const plain = pathBetween(m, from, to)?.length ?? 0;
+  const ok = (c) => c !== m.start && c !== m.goal && degree(m, c) >= 2 && !busy.has(c);
+  let best = null;
+  const cells = Array.from({ length: m.n }, (_, i) => i).sort(() => rnd() - 0.5);
+  for (const a of cells) {
+    if (!ok(a)) continue;
+    for (const b of cellsAround(m, a)) {
+      if (b < a || !ok(b) || open(m, a, b)) continue;
+      const len = pathWith(m, from, to, null, [[a, b]])?.length ?? plain;
+      const save = plain - len;
+      if (save >= 4 && (!best || save > best[2] + rnd() * 2)) best = [a, b, save];
+    }
+  }
+  return best ? [best[0], best[1]] : null;
+}
+
+// The Grumblies' step, on a clock that ticks twice for each ordinary step: an ordinary Grumbly moves on every second
+// tick; a Fib Grumbly (fast) dashes on four ticks in a row and then rests for four (the same distance in the end, but
+// in bursts). They never walk into a blocked cell (a storm) or the start. Returns true when one reaches the traveller.
+export function grumbliesStep(m, mons, token, rnd = Math.random, slack = 0.35, tick = 0, blocked = null) {
+  const can = (c) => c !== m.start && !blocked?.has(c);
+  const roam = (x) => {
+    let opts = neighbours(m, x.cell).filter(can);
+    const fwd = opts.filter((c) => c !== x.from);
+    if (fwd.length) opts = fwd;
+    return opts.length ? opts[Math.floor(rnd() * opts.length)] : x.cell;
+  };
+  let hit = false;
+  for (const x of mons) {
+    const due = x.fast ? tick % 8 < 4 : tick % 2 === 0;
+    if (!due) continue;
+    let next;
+    if (x.chase && rnd() >= slack) {
+      const p = pathBetween(m, x.cell, token);
+      next = p && p.length > 1 && can(p[1]) ? p[1] : x.cell;
+    } else next = roam(x);
+    if (mons.some((o) => o !== x && o.cell === next)) next = x.cell;
+    if (next !== x.cell) { x.from = x.cell; x.cell = next; }
+    if (x.cell === token) hit = true;
+  }
+  return hit;
 }

@@ -1,5 +1,6 @@
 // The pictures for the Play & Make games, drawn in code from simple shapes (the school's own; nothing copied).
-// No people are ever drawn: travellers are a camel or a lantern, places are buildings and palms.
+// No people are ever drawn: travellers are a camel or a lantern, places are buildings and palms. The Grumblies are
+// clouds with cartoon faces (habits, not beings of the unseen): never ghosts, monsters with teeth or anything scary.
 // Each is SVG markup in a 64×64 box, centred on 32,32, so it can be placed with a transform.
 
 export const ART = {
@@ -18,15 +19,29 @@ export const ART = {
   home: '<g><path d="M8 32 L32 12 L56 32 V56 H8 Z" fill="#FFF9EC" stroke="#8A5A33" stroke-width="2.5" stroke-linejoin="round"/><rect x="26" y="38" width="12" height="18" rx="2" fill="#8A5A33"/><rect x="12" y="36" width="9" height="9" fill="#F6C64B" stroke="#8A5A33"/><rect x="43" y="36" width="9" height="9" fill="#F6C64B" stroke="#8A5A33"/></g>',
   masjid: '<g><rect x="12" y="32" width="40" height="24" fill="#FFF9EC" stroke="#2C3E73" stroke-width="2"/><path d="M18 32 Q32 8 46 32 Z" fill="#4A90D9" stroke="#2C3E73" stroke-width="2"/><path d="M32 12 V6" stroke="#C9A24A" stroke-width="2"/><path d="M34 4 a3 3 0 1 0 0 4 a2.4 2.4 0 1 1 0 -4z" fill="#C9A24A"/>'
     + '<rect x="52" y="16" width="7" height="40" fill="#E4ECFA" stroke="#2C3E73" stroke-width="1.5"/><path d="M52 16 L55.5 9 L59 16 Z" fill="#4A90D9"/><path d="M28 56 V46 Q32 40 36 46 V56" fill="#F6C64B"/><circle cx="20" cy="42" r="2.5" fill="#F6C64B"/><circle cx="44" cy="42" r="2.5" fill="#F6C64B"/></g>',
-  // the munching monster: round, googly-eyed, no teeth. mood: 'soft' (Level 1: a sleepy smile) or 'munch'
-  monster: (mood = 'munch') => `<g class="mon ${mood}"><ellipse cx="32" cy="58" rx="20" ry="4" fill="#000" opacity=".15"/>`
-    + `<path d="M8 40 Q6 14 32 12 Q58 14 56 40 Q56 56 32 56 Q8 56 8 40 Z" fill="${mood === 'soft' ? '#F7A8C8' : '#8E6CD9'}" stroke="${mood === 'soft' ? '#D9709D' : '#5B3FA8'}" stroke-width="2.5"/>`
-    + `<path d="M14 18 L10 8 L20 14 M50 18 L54 8 L44 14" fill="${mood === 'soft' ? '#F7A8C8' : '#8E6CD9'}" stroke="${mood === 'soft' ? '#D9709D' : '#5B3FA8'}" stroke-width="2" stroke-linejoin="round"/>`
-    + (mood === 'soft'
-      ? '<path d="M18 28 q5 -5 10 0 M36 28 q5 -5 10 0" stroke="#5A2440" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse class="mouth" cx="32" cy="40" rx="7" ry="4" fill="#5A2440"/><circle cx="16" cy="36" r="3.5" fill="#FF8FB8" opacity=".7"/><circle cx="48" cy="36" r="3.5" fill="#FF8FB8" opacity=".7"/>'
-      : '<circle cx="23" cy="27" r="8" fill="#fff" stroke="#5B3FA8" stroke-width="1.5"/><circle cx="41" cy="25" r="9" fill="#fff" stroke="#5B3FA8" stroke-width="1.5"/><circle class="pupil" cx="25" cy="29" r="3.5" fill="#1A1033"/><circle class="pupil" cx="39" cy="27" r="4" fill="#1A1033"/>'
-        + '<ellipse class="mouth" cx="32" cy="43" rx="12" ry="6" fill="#3B1F66"/><ellipse cx="32" cy="46" rx="6" ry="2.5" fill="#E85A71"/>')
-    + '</g>',
+  // The Grumblies: soft cartoon clouds of bad habits (no teeth; they bump, they never eat).
+  //   grumble (complaining) · snooze (laziness: naps in dead ends) · huff (anger: from Level 3) · fib (fibbing: Level 4)
+  grumbly: (kind = 'grumble') => {
+    const C = { grumble: ['#AFC3D6', '#5E7690'], snooze: ['#D4C6EE', '#8A74BF'], huff: ['#F5B39A', '#C0623B'], fib: ['#C6E3AE', '#6E9E50'] }[kind] ?? ['#AFC3D6', '#5E7690'];
+    const face = {
+      grumble: '<path d="M19 24 l9 3 M45 24 l-9 3" stroke="#2E3A48" stroke-width="2.4" stroke-linecap="round"/><circle class="pupil" cx="25" cy="31" r="3.4" fill="#2E3A48"/><circle class="pupil" cx="39" cy="31" r="3.4" fill="#2E3A48"/><path class="mouth" d="M25 42 Q32 37 39 42" stroke="#2E3A48" stroke-width="2.6" fill="none" stroke-linecap="round"/>',
+      snooze: '<path d="M20 31 q5 4 10 0 M34 31 q5 4 10 0" stroke="#3E2C66" stroke-width="2.6" fill="none" stroke-linecap="round"/><ellipse class="mouth" cx="32" cy="41" rx="4" ry="2.6" fill="#3E2C66"/><text x="48" y="14" font-size="11" font-weight="800" fill="#6A55A3" font-family="sans-serif">z</text><text x="54" y="7" font-size="8" font-weight="800" fill="#6A55A3" font-family="sans-serif">z</text>',
+      huff: '<path d="M19 26 l9 4 M45 26 l-9 4" stroke="#5A2412" stroke-width="2.6" stroke-linecap="round"/><circle class="pupil" cx="25" cy="33" r="3.2" fill="#5A2412"/><circle class="pupil" cx="39" cy="33" r="3.2" fill="#5A2412"/><circle cx="15" cy="38" r="4" fill="#EE7F5C" opacity=".8"/><circle cx="49" cy="38" r="4" fill="#EE7F5C" opacity=".8"/><path class="mouth" d="M27 43 h10" stroke="#5A2412" stroke-width="2.8" stroke-linecap="round"/><path d="M20 8 q-3 -4 1 -6 M44 8 q3 -4 -1 -6" stroke="#B5B5B5" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
+      fib: '<circle cx="25" cy="30" r="5.5" fill="#fff" stroke="#3F5E2C" stroke-width="1.5"/><circle cx="39" cy="30" r="5.5" fill="#fff" stroke="#3F5E2C" stroke-width="1.5"/><circle class="pupil" cx="28" cy="30" r="2.6" fill="#2A3F1C"/><circle class="pupil" cx="42" cy="30" r="2.6" fill="#2A3F1C"/><path class="mouth" d="M24 41 q3 -3 6 0 t6 0 t6 0" stroke="#2A3F1C" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
+    }[kind] ?? '';
+    return `<g class="mon gr-${kind}"><ellipse cx="32" cy="56" rx="20" ry="3.5" fill="#000" opacity=".13"/>`
+      + `<path d="M12 50 Q4 50 5 41 Q3 31 13 29 Q12 17 25 17 Q31 8 41 14 Q53 12 53 25 Q62 29 59 40 Q61 50 52 50 Z" fill="${C[0]}" stroke="${C[1]}" stroke-width="2.5" stroke-linejoin="round"/>`
+      + face + '</g>';
+  },
+  // a Huff storm (Levels 3 and 4): a swirling cloud that fills a corridor until A'udhu billah is said
+  storm: '<g class="art-storm"><ellipse cx="32" cy="57" rx="22" ry="3" fill="#000" opacity=".12"/><path d="M10 46 Q2 44 6 34 Q4 22 17 22 Q20 10 33 13 Q44 6 50 18 Q62 20 58 33 Q63 44 52 46 Z" fill="#9A8C93" stroke="#5E4D55" stroke-width="2.5" stroke-linejoin="round"/>'
+    + '<path d="M20 34 q6 -8 12 0 t12 0" stroke="#C0623B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 27 q4 -5 8 0 t8 0" stroke="#E08A5E" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M18 52 l-2 6 M30 52 l-2 6 M42 52 l-2 6" stroke="#7E6E76" stroke-width="2.4" stroke-linecap="round"/></g>',
+  // stairs between floors (an arrow shows the way)
+  stairsUp: '<g><rect x="8" y="8" width="48" height="48" rx="8" fill="#FFF4CC" stroke="#8A5A33" stroke-width="2.5"/><path d="M14 48 H24 V38 H34 V28 H44 V18 H50" fill="none" stroke="#8A5A33" stroke-width="4" stroke-linejoin="round"/><path d="M40 12 l8 -2 -2 8" fill="none" stroke="#173D32" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>',
+  stairsDown: '<g><rect x="8" y="8" width="48" height="48" rx="8" fill="#E9EEE4" stroke="#173D32" stroke-width="2.5"/><path d="M14 18 H24 V28 H34 V38 H44 V48 H50" fill="none" stroke="#173D32" stroke-width="4" stroke-linejoin="round"/><path d="M12 42 l-2 8 8 -2" fill="none" stroke="#8A5A33" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>',
+  // a treasure door in a wall (Level 4): shut until La hawla wa la quwwata illa billah is said
+  door: '<g><path d="M14 58 V26 Q32 4 50 26 V58 Z" fill="#B98A2E" stroke="#6B4A10" stroke-width="3" stroke-linejoin="round"/><path d="M22 58 V30 Q32 16 42 30 V58" fill="#8A5A12" stroke="#6B4A10" stroke-width="2"/><path d="M32 22 l2.4 5 5.4 .6 -4 3.6 1.2 5.4 -5 -2.8 -5 2.8 1.2 -5.4 -4 -3.6 5.4 -.6 Z" fill="#F6C64B"/><circle cx="38" cy="44" r="2" fill="#F6C64B"/></g>',
+  doorOpen: '<g><path d="M14 58 V26 Q32 4 50 26 V58" fill="#FFF4CC" fill-opacity=".55" stroke="#B98A2E" stroke-width="4" stroke-dasharray="5 4" stroke-linejoin="round"/><path d="M32 22 l2.4 5 5.4 .6 -4 3.6 1.2 5.4 -5 -2.8 -5 2.8 1.2 -5.4 -4 -3.6 5.4 -.6 Z" fill="#F6C64B" opacity=".8"/></g>',
   star: '<path d="M32 6 L39 24 L58 24 L43 36 L49 55 L32 44 L15 55 L21 36 L6 24 L25 24 Z" fill="#F6C64B" stroke="#C9A24A" stroke-width="2"/>',
   // the maze stages: things to pick up, the key, the lock on the gate, and the two kinds of tunnel end
   date: '<g><ellipse cx="32" cy="56" rx="12" ry="3" fill="#000" opacity=".12"/><path d="M32 10 C46 12 48 30 44 44 C41 54 23 54 20 44 C16 30 18 12 32 10 Z" fill="#8B4A1F" stroke="#5A2E10" stroke-width="2.5"/><path d="M26 18 C24 26 24 34 26 42" stroke="#C07A44" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/><path d="M32 10 V5" stroke="#4E7A2E" stroke-width="3" stroke-linecap="round"/></g>',

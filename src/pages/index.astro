@@ -760,7 +760,7 @@ const levels = [
   <script>
     import { configure, isDemo, login, register, listClasses, setGender, sendSession, flushOutbox } from '../lib/classlog.mjs';
     import { phrase, praiseFor, speak } from '../lib/phrases.mjs';
-    import { getProgress, saveProgress, logGame, logMaze, mazeBoard, sheikhOn, sheikhTalk, getBoard, boardAdd } from '../lib/classlog.mjs';
+    import { getProgress, saveProgress, logGame, logMaze, gameBoard, boardName, sheikhOn, sheikhTalk, getBoard, boardAdd } from '../lib/classlog.mjs';
     import { headlines, mountNews, flyIn, renderLeaders } from '../lib/leaders.mjs';
     import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, lookalikes } from '../lib/alifba.mjs';
     import { createLanterns } from '../lib/lanterns.mjs';
@@ -1676,7 +1676,12 @@ const levels = [
     // ── Play & Make (src/lib/games/): loaded only when a game is first opened ──
     let gamesMod = null, gameView = null;
     const MAZE_LIST = [{ id: 'hijrah', title: 'Makkah to Madinah' }, { id: 'tarawih', title: 'To the masjid for Tarawih' }];
-    const boardFetch = (maze) => mazeBoard({ token: me.token, username: me.username, maze });
+    // the leaderboards (src/lib/games/board.mjs): four boards; only ranked runs (own level track, with the microphone)
+    const boardOpts = (start = {}) => ({
+      games: MAZE_LIST, start,
+      fetch: (query) => gameBoard({ token: me.token, username: me.username, className: me.className, level: me.level || 1, query }),
+      setHidden: (hide) => boardName({ token: me.token, username: me.username, hide }),
+    });
     async function openGames(id) {
       stopSound();
       const { mountGame } = await (gamesMod ??= import('../lib/games/index.mjs'));
@@ -1686,10 +1691,10 @@ const levels = [
         const { showBoard } = await import('../lib/games/board.mjs');
         const root = $('gm-root'); root.replaceChildren(); root.className = 'gm';
         const h = document.createElement('div'); h.className = 'gm-head';
-        h.innerHTML = '<div class="gm-titles"><h2 class="gm-title">Maze leaderboard</h2><p class="gm-ar" lang="ar" dir="rtl">لَوْحَةُ ٱلْأَبْطَالِ</p></div>';
+        h.innerHTML = '<div class="gm-titles"><h2 class="gm-title">Leaderboards</h2><p class="gm-ar" lang="ar" dir="rtl">لَوْحَةُ ٱلْأَبْطَالِ</p></div>';
         root.append(h);
         gameView = { stop() {} };
-        showBoard(root, { mazes: MAZE_LIST, fetch: boardFetch });
+        showBoard(root, boardOpts({ board: 'level' }));
         return;
       }
       gameView = mountGame($('gm-root'), {
@@ -1698,11 +1703,14 @@ const levels = [
         flash: (e) => flash(e),
         onSave: () => saveProgress({ token: me.token, username: me.username, progress }),
         onExit: () => goHome(),
-        record: (r) => logMaze({ token: me.token, username: me.username, name: me.name, maze: { maze: r.maze, stage: r.stage, secs: r.secs, moves: r.moves, gobbles: r.gobbles, stars: r.stars } }),
-        leaderboard: async (key, host) => {
+        record: (r) => logMaze({ token: me.token, username: me.username, name: me.name, className: me.className, level: me.level || 1,
+          maze: { maze: r.maze, track: r.track, stage: r.stage, secs: r.secs, moves: r.moves, bumps: r.bumps, stars: r.stars, points: r.points, best: r.best, par: r.par, size: r.size, floors: r.floors, ranked: !!r.ranked } }),
+        leaderboard: async (key, host, at = {}) => {
           const { showBoard } = await import('../lib/games/board.mjs');
           const mz = String(key).replace(/^maze-/, '');
-          showBoard(host, { mazes: MAZE_LIST, start: MAZE_LIST.some((m) => m.id === mz) ? mz : MAZE_LIST[0].id, fetch: boardFetch, onClose: () => {} });
+          const game = MAZE_LIST.some((m) => m.id === mz) ? mz : MAZE_LIST[0].id;
+          // the stage board is for the student's own track: open it there when they were playing their own level
+          showBoard(host, { ...boardOpts({ game, stage: at.track === (me.level || 1) ? at.stage : undefined, board: at.track === (me.level || 1) && at.stage ? 'stage' : 'game' }), onClose: () => {} });
         },
       });
       renderDashboard();

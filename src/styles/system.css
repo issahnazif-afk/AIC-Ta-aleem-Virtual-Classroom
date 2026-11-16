@@ -507,7 +507,19 @@ body[data-age="young"].cr .gm-how { background: #FFF6DE; }
 .lb-stage { font-weight: 800; color: var(--forest, #173D32); }
 .lb-time { color: #5b6b63; font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: right; }
 .lb-note { margin: 12px 0 0; font-size: .82rem; color: #6a776f; }
-@media (max-width: 420px) { .lb-row { grid-template-columns: 30px 1fr auto; } .lb-time { grid-column: 2 / 4; text-align: left; font-size: .85rem; margin-top: -4px; } }
+/* the four boards: which game and stage, my class or my level, this week or all time; the level badge; hide my name */
+.lb-opts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 8px 0 2px; }
+.lb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.lb-chip { padding: 6px 12px; border-radius: var(--r-control, 8px); border: 1px solid var(--rule, #e3dccb); background: #fff; font: inherit; font-size: .9rem; font-weight: 700; color: var(--forest, #173D32); cursor: pointer; }
+.lb-chip[aria-checked="true"] { background: var(--sage-soft, #E9EEE4); border-color: var(--forest, #173D32); }
+.lb-stage { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--forest, #173D32); }
+.lb-stage select { font: inherit; padding: 5px 8px; border-radius: var(--r-control, 8px); border: 1px solid var(--rule, #e3dccb); background: #fff; }
+.lb-lv { min-width: 2.2em; padding: 1px 6px; border-radius: 6px; background: var(--sage-soft, #E9EEE4); color: var(--forest, #173D32); font-size: .78rem; font-weight: 800; text-align: center; }
+.lb-lv:empty { visibility: hidden; }
+.lb-own { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; font-weight: 700; color: var(--forest, #173D32); cursor: pointer; }
+.lb-own input { width: 20px; height: 20px; accent-color: var(--forest, #173D32); }
+.lb-chip:focus-visible, .lb-own input:focus-visible, .lb-stage select:focus-visible { outline: 3px solid var(--forest, #173D32); outline-offset: 2px; }
+@media (max-width: 420px) { .lb-row { grid-template-columns: 30px 1fr auto; } .lb-lv { grid-column: 3; grid-row: 1; } .lb-time { grid-column: 2 / 4; text-align: left; font-size: .85rem; margin-top: -4px; } }
 
 /* ── recitation set-up: how to recite (Hifz test, Follow my recitation, Read from the mushaf) ── */
 .su-modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }

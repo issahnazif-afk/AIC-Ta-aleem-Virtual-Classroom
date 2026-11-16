@@ -105,6 +105,8 @@ function doPost(e) {
     if (body.action === 'game') return json(logGame(body));
     if (body.action === 'maze') return json(logMaze(body));
     if (body.action === 'maze-board') return json(mazeBoard(body));
+    if (body.action === 'game-board') return json(gameBoard(body));
+    if (body.action === 'board-name') return json(boardName(body));
     if (body.action === 'adv-hello') return json(advHello(body));
     if (body.action === 'adv-run') return json(advRun(body));
     if (body.action === 'adv-ghosts') return json(advGhosts(body));
@@ -432,7 +434,7 @@ function logGame(body) {
 // class only: each classmate once, by first name and the first letter of the family name, ranked by the highest
 // stage reached, then the fewest seconds on that stage. (The weekly leaderboards for every activity are further down.)
 const MAZE_TAB = 'Maze board';
-const MAZE_HEADERS = ['When', 'Name', 'Username', 'Maze', 'Stage', 'Seconds', 'Moves', 'Gobbled', 'Stars'];
+const MAZE_HEADERS = ['When', 'Name', 'Username', 'Maze', 'Stage', 'Seconds', 'Moves', 'Bumps', 'Stars', 'Level track', 'Points', 'Ranked'];
 function mazeSheet(cls) {
   const ss = classLog(cls);
   let sh = ss.getSheetByName(MAZE_TAB);
@@ -442,6 +444,8 @@ function mazeSheet(cls) {
     sh.getRange(1, 1, 1, MAZE_HEADERS.length).setFontWeight('bold').setBackground('#FBE3A6');
     sh.setFrozenRows(1);
     sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+  } else if (sh.getLastColumn() < MAZE_HEADERS.length) {
+    sh.getRange(1, 1, 1, MAZE_HEADERS.length).setValues([MAZE_HEADERS]).setFontWeight('bold').setBackground('#FBE3A6');
   }
   return sh;
 }
@@ -457,16 +461,151 @@ function logMaze(body) {
   const g = body.maze || {};
   const n = (v) => (typeof v === 'number' && isFinite(v) ? v : '');
   if (!/^[a-z0-9-]{1,40}$/.test(String(g.maze || '')) || !(g.stage >= 1 && g.stage <= 99)) return { ok: false, error: 'bad-request' };
+  const level = classLevel(cls);
+  // a ranked run goes on the leaderboards too, if it could really have happened (scorePlausible)
+  const ranked = g.ranked === true && Number(g.track) === level && scorePlausible(g);
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
-    mazeSheet(cls).appendRow([new Date(), String(r.st.v[S.name]), String(r.st.v[S.user]), String(g.maze), n(g.stage), n(g.secs), n(g.moves), n(g.gobbles), n(g.stars)]);
+    mazeSheet(cls).appendRow([new Date(), String(r.st.v[S.name]), String(r.st.v[S.user]), String(g.maze), n(g.stage), n(g.secs), n(g.moves), n(g.bumps != null ? g.bumps : g.gobbles), n(g.stars), n(g.track), n(g.points), g.ranked === true ? (ranked ? 'yes' : 'not plausible') : 'practice']);
     boardAdd(r.st.v, cls, 'maze', 10 + 5 * Math.max(0, Math.min(3, Number(g.stars) || 0)));
+    if (ranked) scoresSheet().appendRow([new Date(), String(r.st.v[S.user]), String(r.st.v[S.name]), cls.code, level, String(g.maze), Number(g.track), Number(g.stage), Number(g.secs), Number(g.moves), Number(g.bumps) || 0, Number(g.stars), Number(g.points)]);
   } finally {
     lock.releaseLock();
   }
   CacheService.getScriptCache().remove('maze-board:' + cls.code + ':' + g.maze);
-  return { ok: true };
+  if (ranked) CacheService.getScriptCache().remove('game-scores');
+  return { ok: true, ranked: ranked };
+}
+
+// ── the leaderboards (src/lib/games/board.mjs; docs/games-plan.md section 4) ─────────────
+// Every ranked finished stage (a student's own level track, played with the microphone) is one row in the "Game
+// scores" tab of this admin sheet, so the boards can span classes and levels. The boards:
+//   stage   the best time on one stage of the viewer's level track     my class / my level
+//   game    the points in one game on the viewer's level track          my class / my level
+//   level   the points across every game on the viewer's level track    my class / my level
+//   all     the points across every game, every level: the whole school, this week (from Monday, like the weekly practice board) or all time
+// A student's points: the best run of each stage, added up. Names: first name and initial, or "a Ta'aleem student" when
+// the "Leaderboard name" column of the Students tab says hidden. The top ten and the viewer's own row only.
+// Recitation and dhikr are never ranked: only maze runs come here.
+const SCORES_TAB = 'Game scores';
+const SCORES_HEADERS = ['When', 'Username', 'Name', 'Class', 'Level', 'Game', 'Level track', 'Stage', 'Seconds', 'Moves', 'Bumps', 'Stars', 'Points'];
+const BOARD_NAME_COL = 15;   // the Students tab's "Leaderboard name" column (after "Last activity")
+// the maze size of each stage of each level track (src/lib/games/mazes.mjs TRACKS), and the floors
+const MAZE_SIZES = { 1: [5, 5, 6, 6, 6, 7, 7, 7, 8, 8], 2: [6, 7, 7, 8, 8, 8, 9, 9, 9, 10], 3: [9, 9, 9, 10, 10, 10, 11, 11, 11, 12], 4: [11, 11, 11, 12, 12, 12, 13, 13, 13, 14] };
+const MAZE_FLOORS = { 3: { 2: 2, 4: 2, 5: 2, 8: 2, 10: 2 }, 4: { 5: 3, 10: 2 } };
+function scoresSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(SCORES_TAB);
+  if (!sh) {
+    sh = ss.insertSheet(SCORES_TAB);
+    sh.appendRow(SCORES_HEADERS);
+    sh.getRange(1, 1, 1, SCORES_HEADERS.length).setFontWeight('bold').setBackground('#FBE3A6');
+    sh.setFrozenRows(1);
+    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+  }
+  return sh;
+}
+// "Level 2", "LEVEL-2" → 2 (the first digit of the class name or code; 1 if none, as on the website)
+function classLevel(cls) {
+  const m = /(\d)/.exec(String(cls.name || '') + ' ' + String(cls.code || ''));
+  return Math.min(4, Math.max(1, m ? Number(m[1]) : 1));
+}
+// Could this run have happened? The fewest moves any maze of that size allows (corner to corner, a tunnel keeps at
+// least 60% of the way, one move a stair), a time that is not faster than a child can press, stars 1 to 3, and points
+// that are 100 a star plus a speed bonus of at most 100.
+function scorePlausible(g) {
+  const t = Number(g.track), s = Number(g.stage);
+  if (!(t >= 1 && t <= 4 && s >= 1 && s <= 10)) return false;
+  const size = MAZE_SIZES[t][s - 1], floors = (MAZE_FLOORS[t] && MAZE_FLOORS[t][s]) || 1;
+  const minMoves = Math.floor(0.6 * 2 * (size - 1)) + (floors - 1);
+  const stars = Number(g.stars), points = Number(g.points), secs = Number(g.secs), moves = Number(g.moves);
+  if (!(stars >= 1 && stars <= 3 && Math.round(stars) === stars)) return false;
+  if (!(moves >= minMoves && moves < 5000)) return false;
+  if (!(secs >= Math.max(2, minMoves * 0.1) && secs < 3600)) return false;
+  return points >= stars * 100 && points <= stars * 100 + 100;
+}
+function weekStartMs() {
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));   // back to Monday, like the weekly practice board
+  return d.getTime();
+}
+function hiddenNames() {
+  const cache = CacheService.getScriptCache();
+  const hit = cache.get('board-hidden');
+  if (hit) return JSON.parse(hit);
+  const sh = studentsSheet();
+  const out = {};
+  if (sh.getLastColumn() >= BOARD_NAME_COL && sh.getLastRow() > 1) {
+    const users = sh.getRange(2, S.user + 1, sh.getLastRow() - 1, 1).getValues();
+    const flags = sh.getRange(2, BOARD_NAME_COL, sh.getLastRow() - 1, 1).getValues();
+    users.forEach(function (u, i) { if (/hid/i.test(String(flags[i][0]))) out[String(u[0]).trim().toLowerCase()] = 1; });
+  }
+  // a student a teacher has taken off the weekly practice board (its "Hidden" list) is hidden here too
+  try { const lb = boardHidden(boardSheet()); for (const u in lb) out[u] = 1; } catch (e) {}
+  cache.put('board-hidden', JSON.stringify(out), 120);
+  return out;
+}
+function gameBoard(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const cls = findClass(r.st.v[S.cls]);
+  if (!cls) return { ok: false, error: 'class-removed' };
+  const q = body.query || {};
+  const board = ['stage', 'game', 'level', 'all'].indexOf(q.board) >= 0 ? q.board : 'game';
+  const scope = q.scope === 'class' ? 'class' : 'level', period = q.period === 'all' ? 'all' : 'week';
+  const game = String(q.game || ''), stage = Number(q.stage) || 1;
+  const level = classLevel(cls), me = String(r.st.v[S.user]).trim().toLowerCase();
+  const cache = CacheService.getScriptCache();
+  let rows = null;
+  const hit = cache.get('game-scores');
+  if (hit) rows = JSON.parse(hit);
+  else {
+    const sh = scoresSheet();
+    const data = sh.getLastRow() > 1 ? sh.getRange(2, 1, sh.getLastRow() - 1, SCORES_HEADERS.length).getValues() : [];
+    rows = data.map(function (v) { return [new Date(v[0]).getTime(), String(v[1]).trim().toLowerCase(), shortName(v[2]), String(v[3]), Number(v[4]), String(v[5]), Number(v[6]), Number(v[7]), Number(v[8]), Number(v[11]), Number(v[12])]; });
+    try { cache.put('game-scores', JSON.stringify(rows), 60); } catch (err) { /* too big for the cache: read it each time */ }
+  }
+  const since = period === 'week' && board === 'all' ? weekStartMs() : 0;
+  const best = {};
+  rows.forEach(function (x) {
+    const at = x[0], u = x[1], name = x[2], code = x[3], lv = x[4], gm = x[5], track = x[6], st = x[7], secs = x[8], points = x[10];
+    if (at < since || track !== lv) return;
+    if (board !== 'all') {
+      if (track !== level) return;
+      if (scope === 'class' ? code !== cls.code : lv !== level) return;
+    }
+    if ((board === 'stage' || board === 'game') && gm !== game) return;
+    if (board === 'stage' && st !== stage) return;
+    const b = best[u] || (best[u] = { u: u, name: name, level: lv, stages: {} });
+    const k = gm + ':' + st, s = b.stages[k] || (b.stages[k] = { points: 0, secs: Infinity });
+    s.points = Math.max(s.points, points || 0); s.secs = Math.min(s.secs, secs || Infinity);
+  });
+  const unit = board === 'stage' ? 'secs' : 'points';
+  const hidden = hiddenNames();
+  const list = Object.keys(best).map(function (u) {
+    const b = best[u], ss = Object.keys(b.stages).map(function (k) { return b.stages[k]; });
+    b.value = unit === 'secs' ? Math.min.apply(null, ss.map(function (s) { return s.secs; })) : ss.reduce(function (a, s) { return a + s.points; }, 0);
+    return b;
+  }).sort(function (a, b) { return unit === 'secs' ? a.value - b.value : b.value - a.value; });
+  const mine = list.findIndex(function (x) { return x.u === me; });
+  const label = board === 'all' ? (period === 'week' ? 'The whole school, this week' : 'The whole school, all time') : (scope === 'class' ? cls.name : 'Level ' + level);
+  return {
+    ok: true, unit: unit, label: label, total: list.length, hidden: !!hidden[me],
+    rows: list.slice(0, 10).map(function (x, i) { return { rank: i + 1, name: hidden[x.u] ? 'a Ta\'aleem student' : x.name, level: x.level, value: x.value, me: x.u === me }; }),
+    mine: mine >= 0 ? { rank: mine + 1, value: list[mine].value } : null,
+  };
+}
+// a student (or a parent at home) hides the name on the leaderboards, or shows it again; a teacher can also type
+// "hidden" in the Students tab's "Leaderboard name" column
+function boardName(body) {
+  const r = student(body);
+  if (r.error) return { ok: false, error: r.error };
+  const sh = r.sh;
+  if (String(sh.getRange(1, BOARD_NAME_COL).getValue()) !== 'Leaderboard name') sh.getRange(1, BOARD_NAME_COL).setValue('Leaderboard name').setFontWeight('bold');
+  sh.getRange(r.st.row, BOARD_NAME_COL).setValue(body.hide ? 'hidden' : '');
+  CacheService.getScriptCache().remove('board-hidden');
+  return { ok: true, hidden: !!body.hide };
 }
 function mazeBoard(body) {
   const r = student(body);
