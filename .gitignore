@@ -16,3 +16,6 @@ public/quran/data/
 
 # clasp (npm run deploy:script): this PC's link to the Apps Script project
 apps-script/.clasp.json
+
+# Python bytecode
+__pycache__/
