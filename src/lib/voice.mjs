@@ -34,12 +34,16 @@ let teacher = null, made = null;
 const teacherSet = () => (teacher ??= list('audio/letters/recordings.json'));
 const madeSet = () => (made ??= list('audio/voice/index.json'));
 
-let current = null;
-export function stopSound() { try { current?.pause(); } catch {} current = null; try { speechSynthesis.cancel(); } catch {} }
+// run counts up with every new sound (and every stop), so a say() that was cut off does not go on to its next
+// source: the same letter from two sources a moment apart is heard as an echo
+let current = null, run = 0;
+function halt() { try { current?.pause(); } catch {} current = null; try { speechSynthesis.cancel(); } catch {} }
+export function stopSound() { run++; halt(); }
 
 // Play one audio file; resolves when it ends (or fails, or after a safe time).
-export function playUrl(url, maxMs = 30000) {
-  stopSound();
+export function playUrl(url, maxMs = 30000) { run++; return start(url, maxMs); }
+function start(url, maxMs) {
+  halt();
   const a = new Audio(url);
   current = a;
   return new Promise((resolve) => {
@@ -56,11 +60,12 @@ export async function hasClip(id) { return (await teacherSet()).has(id) || (awai
 
 // Say a clip by id. `fallbackAr` is spoken by the browser voice only if there is no file at all.
 export async function say(id, fallbackAr = '') {
+  const me = ++run, on = () => me === run;
   const rec = await studioUrl(id);
-  if (rec && (await playUrl(rec, 8000))) return true;
-  if ((await teacherSet()).has(id) && (await playUrl(u(`audio/letters/${id}.mp3`), 8000))) return true;
-  if ((await madeSet()).has(id) && (await playUrl(u(`audio/voice/${id}.mp3`), 8000))) return true;
-  return browserSay(fallbackAr);
+  if (rec && on() && (await start(rec, 8000))) return true;
+  if (on() && (await teacherSet()).has(id) && on() && (await start(u(`audio/letters/${id}.mp3`), 8000))) return true;
+  if (on() && (await madeSet()).has(id) && on() && (await start(u(`audio/voice/${id}.mp3`), 8000))) return true;
+  return on() ? browserSay(fallbackAr) : false;
 }
 
 let voice = null;

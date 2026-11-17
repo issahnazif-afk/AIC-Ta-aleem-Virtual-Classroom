@@ -87,7 +87,11 @@ export async function narrate(text, { voice = 'story', words = [], onEnd, studio
     a.addEventListener('timeupdate', () => light?.(a.currentTime));
     a.addEventListener('ended', finish);
     mine.stop = () => { ended = true; a.pause(); words.forEach((w) => w.classList.remove('on')); };
-    try { await a.play(); return mine; } catch { /* blocked or missing: use the browser voice */ }
+    try { await a.play(); return mine; } catch (e) {
+      // stopped before it began (a newer line, or hush()): stop here, or the browser's voice would read this line
+      // over the next one. Only a clip that cannot play (blocked or missing) falls back to the browser's voice.
+      if (ended || current !== mine || e?.name === 'AbortError') return mine;
+    }
   }
   const b = browserSay(text, words, onEnd, { voice, where });
   mine.stop = b.stop;

@@ -894,7 +894,9 @@ const levels = [
     }
     const welcome = (() => {
       const W = $('ln-welcome'); document.body.append(W);   // above every screen
-      let door = null, clip = null, stopped = false;
+      // run counts up with every new welcome (and every stop), so a welcome that was cut off never goes on to its
+      // next clip: two welcomes playing a moment apart are heard as an echo
+      let door = null, clip = null, run = 0;
       const has = {};
       const exists = (f) => (has[f] ??= fetch(f, { method: 'HEAD' }).then((r) => r.ok).catch(() => false));
       const play = (f) => new Promise((res) => { const a = new Audio(f); clip = a; a.onended = a.onerror = () => res(); a.play().catch(() => res()); });
@@ -905,15 +907,17 @@ const levels = [
         if (v) t.voice = v;
         t.onend = t.onerror = () => res(); speechSynthesis.speak(t);
       });
-      function hush() { stopped = true; if (clip) { clip.pause(); clip = null; } try { speechSynthesis.cancel(); } catch {} W.classList.remove('speaking'); }
+      function hush() { run++; if (clip) { clip.pause(); clip = null; } try { speechSynthesis.cancel(); } catch {} W.classList.remove('speaking'); }
       async function say() {
-        hush(); stopped = false; W.classList.add('speaking'); W.classList.remove('en-on');
+        hush();
+        const me = run, on = () => me === run;
+        W.classList.add('speaking'); W.classList.remove('en-on');
         const ar = siteUrl('voice/welcome-ar.mp3'), en = siteUrl('voice/welcome-en.mp3');
-        if (await exists(ar)) await play(ar); else await tts('السَّلامُ عَلَيْكُمْ. أَهْلاً وَسَهْلاً بِالدُّخُول', 'ar-SA');
-        if (stopped) return;
+        if (await exists(ar)) { if (on()) await play(ar); } else if (on()) await tts('السَّلامُ عَلَيْكُمْ. أَهْلاً وَسَهْلاً بِالدُّخُول', 'ar-SA');
+        if (!on()) return;
         W.classList.add('en-on');
-        if (await exists(en)) await play(en); else await tts('Assalamu alaikum, peace be upon you. You are most welcome. Please, come in.', 'en-GB');
-        W.classList.remove('speaking');
+        if (await exists(en)) { if (on()) await play(en); } else if (on()) await tts('Assalamu alaikum, peace be upon you. You are most welcome. Please, come in.', 'en-GB');
+        if (on()) W.classList.remove('speaking');
       }
       function open(d) {
         door = d;
@@ -941,6 +945,7 @@ const levels = [
       return { open };
     })();
     document.querySelectorAll('.ln-door').forEach((d) => d.addEventListener('click', () => {
+      if (d.classList.contains('opening') || !$('ln-welcome').hidden) return;   // a second tap while it opens
       d.classList.add('opening');
       setTimeout(() => { d.classList.remove('opening'); welcome.open(d); }, 650);
     }));
