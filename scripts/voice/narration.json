@@ -33739,57 +33739,68 @@
   ]
  },
  {
-  "key": "242dd0ac",
+  "key": "b0f07650",
   "reader": "story",
-  "text": "Help the camel travel from Makkah to Madinah. Use the arrows to move.",
+  "text": "Help the camel travel from Makkah to Madinah. Say Bismillah, then use the arrows to move.",
   "parts": [
    [
     "narrator",
-    "Help the camel travel from {mˈakka} to Madinah. Use the arrows to move."
+    "Help the camel travel from {mˈakka} to Madinah. Say {bismillˈɑːh}, then use the arrows to move."
    ]
   ]
  },
  {
-  "key": "615db44a",
+  "key": "157a4a7e",
   "reader": "story",
-  "text": "Help the lantern find the way to the masjid for Tarawih. Use the arrows to move.",
+  "text": "Help the lantern find the way to the masjid for Tarawih. Say Bismillah, then use the arrows to move.",
   "parts": [
    [
     "narrator",
-    "Help the lantern find the way to the {mˈasdʒid} for Tarawih. Use the arrows to move."
+    "Help the lantern find the way to the {mˈasdʒid} for Tarawih. Say {bismillˈɑːh}, then use the arrows to move."
    ]
   ]
  },
  {
-  "key": "4fca5e88",
+  "key": "c22d25ba",
   "reader": "story",
-  "text": "Oops! The munching monster lives in that dead end. Try another way.",
+  "text": "Oops! A sleepy Grumbly naps in that dead end. Try another way.",
   "parts": [
    [
     "narrator",
-    "Oops! The munching monster lives in that dead end. Try another way."
+    "Oops! A sleepy Grumbly naps in that dead end. Try another way."
    ]
   ]
  },
  {
-  "key": "a09b5818",
+  "key": "1cdbf51f",
   "reader": "story",
-  "text": "Oops! Silly monster. Let's try another way.",
+  "text": "That is a dead end. Go back and try another way.",
   "parts": [
    [
     "narrator",
-    "Oops! Silly monster. Let's try another way."
+    "That is a dead end. Go back and try another way."
    ]
   ]
  },
  {
-  "key": "2fa53778",
+  "key": "cf03b0f8",
   "reader": "story",
-  "text": "Gulp! A monster caught you. Now it is full, so it goes home.",
+  "text": "Bump! A Grumbly bumped into you. Off it goes home.",
   "parts": [
    [
     "narrator",
-    "Gulp! A monster caught you. Now it is full, so it goes home."
+    "Bump! A Grumbly bumped into you. Off it goes home."
+   ]
+  ]
+ },
+ {
+  "key": "f92a987d",
+  "reader": "story",
+  "text": "SubhanAllah! Your shield is up.",
+  "parts": [
+   [
+    "narrator",
+    "{sˌʊbhɑːnallˈɑːh}! Your shield is up."
    ]
   ]
  },
@@ -33816,35 +33827,46 @@
   ]
  },
  {
-  "key": "fb17c95d",
+  "key": "c80a2bbb",
   "reader": "story",
-  "text": "Pick up the dates on the way. Find them all for three stars!",
+  "text": "Say Bismillah to set off. Then use the arrows to move.",
   "parts": [
    [
     "narrator",
-    "Pick up the dates on the way. Find them all for three stars!"
+    "Say {bismillˈɑːh} to set off. Then use the arrows to move."
    ]
   ]
  },
  {
-  "key": "da3e5578",
+  "key": "0c6ad0c3",
   "reader": "story",
-  "text": "Watch the walls! Every few seconds one shimmers and moves, so the way can change.",
+  "text": "Pick up the dates on the way. Find them all for two stars!",
   "parts": [
    [
     "narrator",
-    "Watch the walls! Every few seconds one shimmers and moves, so the way can change."
+    "Pick up the dates on the way. Find them all for two stars!"
    ]
   ]
  },
  {
-  "key": "ed4cde5e",
+  "key": "54a02b21",
   "reader": "story",
-  "text": "A monster now roams the corridors. Keep away from it, or wait for it to pass.",
+  "text": "A sleepy Grumbly naps in every dead end. If you wake him, he bumps you back. Try another way!",
   "parts": [
    [
     "narrator",
-    "A monster now roams the corridors. Keep away from it, or wait for it to pass."
+    "A sleepy Grumbly naps in every dead end. If you wake him, he bumps you back. Try another way!"
+   ]
+  ]
+ },
+ {
+  "key": "916ecf3a",
+  "reader": "story",
+  "text": "A Grumbly is out walking. If it comes near, say SubhanAllah. A bubble shield keeps you safe for a short time.",
+  "parts": [
+   [
+    "narrator",
+    "A Grumbly is out walking. If it comes near, say {sˌʊbhɑːnallˈɑːh}. A bubble shield keeps you safe for a short time."
    ]
   ]
  },
@@ -33860,6 +33882,28 @@
   ]
  },
  {
+  "key": "da3e5578",
+  "reader": "story",
+  "text": "Watch the walls! Every few seconds one shimmers and moves, so the way can change.",
+  "parts": [
+   [
+    "narrator",
+    "Watch the walls! Every few seconds one shimmers and moves, so the way can change."
+   ]
+  ]
+ },
+ {
+  "key": "3d23e52b",
+  "reader": "story",
+  "text": "Two Grumblies are out now. Keep away, or say SubhanAllah for your shield.",
+  "parts": [
+   [
+    "narrator",
+    "Two Grumblies are out now. Keep away, or say {sˌʊbhɑːnallˈɑːh} for your shield."
+   ]
+  ]
+ },
+ {
   "key": "32b24e8f",
   "reader": "story",
   "text": "A sandstorm! You can only see close to the camel. Remember the way.",
@@ -33867,6 +33911,17 @@
    [
     "narrator",
     "A sandstorm! You can only see close to the camel. Remember the way."
+   ]
+  ]
+ },
+ {
+  "key": "d4b44a9b",
+  "reader": "story",
+  "text": "When you pick up a date, say Alhamdulillah. You will glide fast along the paths for a few seconds.",
+  "parts": [
+   [
+    "narrator",
+    "When you pick up a date, say {alhˌamdulillˈɑːh}. You will glide fast along the paths for a few seconds."
    ]
   ]
  },
@@ -33882,24 +33937,57 @@
   ]
  },
  {
-  "key": "5e2b10e9",
+  "key": "69daa906",
   "reader": "story",
-  "text": "From now on, a gobble sends you all the way back to the start. Take care!",
+  "text": "Some Grumblies follow you now! They lose the way sometimes, and your shield still works.",
   "parts": [
    [
     "narrator",
-    "From now on, a gobble sends you all the way back to the start. Take care!"
+    "Some Grumblies follow you now! They lose the way sometimes, and your shield still works."
    ]
   ]
  },
  {
-  "key": "65918ef6",
+  "key": "54ab5d2c",
   "reader": "story",
-  "text": "The orange monsters hunt you! They follow you, but sometimes they lose the way.",
+  "text": "This maze has two floors. On the stairs, say Allahu Akbar to go up and SubhanAllah to go down.",
   "parts": [
    [
     "narrator",
-    "The orange monsters hunt you! They follow you, but sometimes they lose the way."
+    "This maze has two floors. On the stairs, say {allˌɑːhu ˈakbaɹ} to go up and {sˌʊbhɑːnallˈɑːh} to go down."
+   ]
+  ]
+ },
+ {
+  "key": "cdf25d36",
+  "reader": "story",
+  "text": "A Huff storm blocks the way. Stand near it and say A'udhu billah, and the storm clears.",
+  "parts": [
+   [
+    "narrator",
+    "A Huff storm blocks the way. Stand near it and say A'udhu billah, and the storm clears."
+   ]
+  ]
+ },
+ {
+  "key": "08a56874",
+  "reader": "story",
+  "text": "The key is on the first floor. Find it before you climb, or the gate of Madinah stays shut.",
+  "parts": [
+   [
+    "narrator",
+    "The key is on the first floor. Find it before you climb, or the gate of Madinah stays shut."
+   ]
+  ]
+ },
+ {
+  "key": "cce5ca3b",
+  "reader": "story",
+  "text": "From now on, a bump sends you back to the start of the floor. Take care!",
+  "parts": [
+   [
+    "narrator",
+    "From now on, a bump sends you back to the start of the floor. Take care!"
    ]
   ]
  },
@@ -33915,13 +34003,68 @@
   ]
  },
  {
-  "key": "3c157419",
+  "key": "484508da",
   "reader": "story",
-  "text": "Pick up the stars on the way. Find them all for three stars!",
+  "text": "A treasure door is a shortcut through a wall. Stand next to it and say La hawla wa la quwwata illa billah to open it.",
   "parts": [
    [
     "narrator",
-    "Pick up the stars on the way. Find them all for three stars!"
+    "A treasure door is a shortcut through a wall. Stand next to it and say La hawla wa la quwwata illa billah to open it."
+   ]
+  ]
+ },
+ {
+  "key": "177e92f5",
+  "reader": "story",
+  "text": "Now, when you pick up a date, say Alhamdulillah. You can walk lightly past the Grumblies for a few seconds.",
+  "parts": [
+   [
+    "narrator",
+    "Now, when you pick up a date, say {alhˌamdulillˈɑːh}. You can walk lightly past the Grumblies for a few seconds."
+   ]
+  ]
+ },
+ {
+  "key": "0ef8b656",
+  "reader": "story",
+  "text": "Fib Grumblies dash fast, then stop to rest. Wait for the rest, then slip past.",
+  "parts": [
+   [
+    "narrator",
+    "Fib Grumblies dash fast, then stop to rest. Wait for the rest, then slip past."
+   ]
+  ]
+ },
+ {
+  "key": "42071739",
+  "reader": "story",
+  "text": "Three floors now! Find the stairs on each floor.",
+  "parts": [
+   [
+    "narrator",
+    "Three floors now! Find the stairs on each floor."
+   ]
+  ]
+ },
+ {
+  "key": "68344e99",
+  "reader": "story",
+  "text": "The Final! Once in this stage, you may say Hasbunallahu wa ni'mal wakil for a long shield.",
+  "parts": [
+   [
+    "narrator",
+    "The Final! Once in this stage, you may say Hasbunallahu wa ni'mal wakil for a long shield."
+   ]
+  ]
+ },
+ {
+  "key": "65d9381f",
+  "reader": "story",
+  "text": "Pick up the stars on the way. Find them all for two stars!",
+  "parts": [
+   [
+    "narrator",
+    "Pick up the stars on the way. Find them all for two stars!"
    ]
   ]
  },
@@ -33948,6 +34091,28 @@
   ]
  },
  {
+  "key": "5b8008b3",
+  "reader": "story",
+  "text": "When you pick up a star, say Alhamdulillah. You will glide fast along the paths for a few seconds.",
+  "parts": [
+   [
+    "narrator",
+    "When you pick up a star, say {alhˌamdulillˈɑːh}. You will glide fast along the paths for a few seconds."
+   ]
+  ]
+ },
+ {
+  "key": "3072961a",
+  "reader": "story",
+  "text": "The key is on the first floor. Find it before you climb, or the gate of the masjid stays shut.",
+  "parts": [
+   [
+    "narrator",
+    "The key is on the first floor. Find it before you climb, or the gate of the {mˈasdʒid} stays shut."
+   ]
+  ]
+ },
+ {
   "key": "19f08701",
   "reader": "story",
   "text": "A challenge: reach the masjid in a few moves and a short time for three stars.",
@@ -33955,6 +34120,17 @@
    [
     "narrator",
     "A challenge: reach the {mˈasdʒid} in a few moves and a short time for three stars."
+   ]
+  ]
+ },
+ {
+  "key": "ba3ecdbd",
+  "reader": "story",
+  "text": "Now, when you pick up a star, say Alhamdulillah. You can walk lightly past the Grumblies for a few seconds.",
+  "parts": [
+   [
+    "narrator",
+    "Now, when you pick up a star, say {alhˌamdulillˈɑːh}. You can walk lightly past the Grumblies for a few seconds."
    ]
   ]
  },
@@ -41043,17 +41219,6 @@
   ]
  },
  {
-  "key": "87a6b536",
-  "reader": "sheikh",
-  "text": "Ibn Dinar reported that a desert Arab met Abdullah b. 'Umar on the way to Mecca. 'Abdullah greeted him and mounted him upon the donkey on which he had been riding and gave him the turban that he had on his head. Ibn Dinar (further) reported: We said to him ('Abdullah b. 'Umar): May Allah do good to you, these are desert Arabs and they are satisfied even with meagre (things). Thereupon Abdullah said: His father was loved dearly by 'Umar b. Khattib and I heard Allah's Messenger ﷺ as saying: The finest act of goodness on the part of a son is to treat kindly the loved ones of his father",
-  "parts": [
-   [
-    "narrator",
-    "{ˈibn} Dinar reported that a desert Arab met Abdullah b. 'Umar on the way to Mecca. 'Abdullah greeted him and mounted him upon the donkey on which he had been riding and gave him the turban that he had on his head. {ˈibn} Dinar (further) reported: We said to him ('Abdullah b. 'Umar): May {allˈɑːh} do good to you, these are desert Arabs and they are satisfied even with meagre (things). Thereupon Abdullah said: His father was loved dearly by 'Umar b. Khattib and I heard {allˈɑːhz} Messenger , peace be upon him, as saying: The finest act of goodness on the part of a son is to treat kindly the loved ones of his father"
-   ]
-  ]
- },
- {
   "key": "9aa17590",
   "reader": "sheikh",
   "text": "Nawwas b. Sam'an al-Ansari reported: I asked Allah's Messenger ﷺ about virtue and vice. He said: Virtue is a kind disposition and vice is what rankles in your heart and that you disapprove that people should come to know of it",
@@ -42473,17 +42638,6 @@
   ]
  },
  {
-  "key": "58e62939",
-  "reader": "sheikh",
-  "text": "It was narrated that Umm Hisham bin Harithah bin An-Nu'man said: \"Our oven and the oven of the Messenger of Allah ﷺ were the same for two years, or for one year and part of a year. And I only learned \"Surah Qaf. By the Glorious Quran\" from the tongue of the Messenger of Allah ﷺ, who used to recited it every Friday from the Minbar, when he addresses the people\"",
-  "parts": [
-   [
-    "narrator",
-    "It was narrated that {ˈʊmm} Hisham bin Harithah bin An-Nu'man said: \"Our oven and the oven of the Messenger of {allˈɑːh} , peace be upon him, were the same for two years, or for one year and part of a year. And I only learned \"{sˈuːɹa} Qaf. By the Glorious {kʊɹˈɑːn}\" from the tongue of the Messenger of {allˈɑːh} , peace be upon him,, who used to recited it every Friday from the Minbar, when he addresses the people\""
-   ]
-  ]
- },
- {
   "key": "d383852d",
   "reader": "sheikh",
   "text": "Narrated Abdullah: Allah's Messenger ﷺ said, \"Do not wish to be like anyone, except in two cases: (1) A man whom Allah has given wealth and he spends it righteously. (2) A man whom Allah has given wisdom (knowledge of the Qur'an and the Hadith) and he acts according to it and teaches it to others\"",
@@ -42711,17 +42865,6 @@
    [
     "narrator",
     "Narrated {ˈabuː} Huraira: I heard {allˈɑːhz} Messenger , peace be upon him, saying.\" By {allˈɑːh}! I ask for forgiveness from {allˈɑːh} and turn to Him in repentance more than seventy times a day\""
-   ]
-  ]
- },
- {
-  "key": "a6a2ab14",
-  "reader": "sheikh",
-  "text": "Al-Agharr al-Muzani who was from amongst the Companions of Allah's Apostle ﷺ reported that Ibn 'Umar stated to him that Allah's Messenger (may peace 'be upon him) said: O people, seek repentance from Allah. Verily, I seek repentance from Him a hundred times a day",
-  "parts": [
-   [
-    "narrator",
-    "Al-Agharr al-Muzani who was from amongst the Companions of {allˈɑːhz} Apostle , peace be upon him, reported that {ˈibn} 'Umar stated to him that {allˈɑːhz} Messenger (may peace 'be upon him) said: O people, seek repentance from {allˈɑːh}. Verily, I seek repentance from Him a hundred times a day"
    ]
   ]
  },

@@ -313,7 +313,11 @@ export const LINE_LEVELS = Object.fromEntries(Object.keys(COUNSEL_LINES).map((id
 //  - nothing with a known flaw in its English (a typo, two hadith run together, unbalanced quotation marks).
 // A held-back quotation is for no level: the Sheikh never says it.
 export const NAWAWI_FROM_SAHIHAYN = new Set([3, 6, 7, 10, 13, 15, 16, 20, 21, 22, 23, 26, 37]);
-export const HELD_BACK = new Set(['h-b5032', 'h-m2168', 'h-m1734', 'h-m1914', 'h-b6129', 'h-b6465', 'h-b6340', 'h-b4835']);
+export const HELD_BACK = new Set(['h-b5032', 'h-m2168', 'h-m1734', 'h-m1914', 'h-b6129', 'h-b6465', 'h-b6340', 'h-b4835',
+  'h-m873',     // "Umm Hisham bin Harithah" (bint), "used to recited it", and it stops mid-sentence
+  'h-m2702',    // "(may peace 'be upon him)"
+  'h-m2552',    // "'Umar b. Khattib" (Khattab)
+]);
 export function heldBack(x) {
   if (HELD_BACK.has(x.id) || x.draft || x.kind === 'wisdom') return true;
   if (x.kind !== 'hadith') return false;
