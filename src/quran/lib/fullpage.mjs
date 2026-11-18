@@ -79,7 +79,7 @@ export function onMistake({ key, word } = {}) {
 // ── the sheet ────────────────────────────────────────────────────
 // mode: 'mushaf' | 'listen' | 'recite' | 'hifz'. settings: the page's own settings (moved into the sheet).
 // start: what "Get started" does. Returns { open, close }.
-export function mistakesSheet({ mode, settings = null, scope = '', start, startLabel = 'Bismillah, begin' }) {
+export function mistakesSheet({ mode, settings = null, scope = '', start, startLabel = 'Bismillah, begin', tajweed = true }) {
   const bg = el('div', 'qsheet-bg'); bg.hidden = true;
   const sh = el('section', 'qsheet');
   sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-modal', 'true'); sh.setAttribute('aria-labelledby', 'qs-title');
@@ -134,7 +134,7 @@ export function mistakesSheet({ mode, settings = null, scope = '', start, startL
   // tajweed: whether the Sheikh checks the rules too (the same choice as in Recite and the Hifz test)
   const tjBox = el('div', 'qs-tj');
   g1.append(tjBox);
-  if (!settings) tajweedPicker(tjBox, { aud: 'adult', key: 'ql-tjcheck', progKey: 'ql-tjc' });
+  if (!settings && tajweed) tajweedPicker(tjBox, { aud: 'adult', key: 'ql-tjcheck', progKey: 'ql-tjc' });   // (a page with its own choice says tajweed: false)
 
   const o = mistakeOpts.get();
   const g2 = group('When you slip');

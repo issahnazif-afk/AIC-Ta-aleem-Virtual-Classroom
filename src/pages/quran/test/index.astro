@@ -141,6 +141,8 @@ const meta = getMeta();
       .hifz .examiner { position: static; flex-direction: row; align-items: center; }
       .hifz .examiner .sheikh { max-width: 110px; flex: none; }
     }
+    /* the app: the setup page keeps a margin from the screen's edges (the test itself fills the screen) */
+    html[data-app]:not(.qfull) .practice.hifz { padding: 16px clamp(16px, 3vw, 28px) 32px; box-sizing: border-box; }
   </style>
 
   <div class="narrow page practice hifz" style="max-width:1120px">
@@ -330,10 +332,14 @@ const meta = getMeta();
 
     const $ = (id) => document.getElementById(id);
     const SR = getSpeechRecognition();
-    // the app: the test's settings, and how mistakes are shown, live in the Mistakes sheet, over the full page
-    const sheet = document.documentElement.dataset.app === '1'
-      ? mistakesSheet({ mode: 'hifz', settings: $('setup'), scope: 'practice hifz', startLabel: 'Bismillah, start the test', start: () => $('setup').requestSubmit() })
-      : null;
+    // the app: the test opens on its own setup page (from surah to surah, or ayah to ayah within a surah), as the
+    // Quran Library always had it; the full-page mushaf comes once the test starts. How mistakes are shown is in the
+    // Mistakes sheet, over the test.
+    const app = document.documentElement.dataset.app === '1';
+    const sheet = app ? mistakesSheet({ mode: 'hifz', tajweed: false, startLabel: 'Done' }) : null;
+    let fitted = false;
+    const fullOn = () => { if (!app) return; document.documentElement.classList.add('qfull'); if (!fitted) { fitted = true; fullPage({ stage: $('stage'), bottoms: ['.hifz .toolbar'] }); } else dispatchEvent(new Event('resize')); };
+    const setupOn = () => { if (!app) return; document.documentElement.classList.remove('qfull'); $('exam').hidden = true; };
     const AR = '٠١٢٣٤٥٦٧٨٩';
     const arNum = (n) => String(n).replace(/\d/g, (d) => AR[d]);
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -408,7 +414,7 @@ const meta = getMeta();
       if (phase !== 'idle' && phase !== 'done') return;
       setScope('ayahs'); tS.value = String(e.detail.s); syncAyahs();
       $('t-a1').value = String(e.detail.a);
-      $('setup').hidden = false; $('intro').hidden = false; $('results').hidden = true;
+      setupOn(); $('setup').hidden = false; $('intro').hidden = false; $('results').hidden = true;
       $('setup').scrollIntoView({ block: 'start' });
     });
     fillReciters();
@@ -478,9 +484,10 @@ const meta = getMeta();
       for (let k = questions.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [questions[k], questions[j]] = [questions[j], questions[k]]; }
       qi = -1;
 
-      if (!sheet) $('setup').hidden = true;
+      $('setup').hidden = true;
       $('intro').hidden = true; $('results').hidden = true;
       $('exam').hidden = false;
+      fullOn();
       renderDots();
       window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
       nextQuestion();
@@ -956,7 +963,7 @@ const meta = getMeta();
       if (q && !q.stats) q.stats = { words: 0, first: 0, prompts: 0, help: 0, skipped: true };
       if (q?.stats && q.flat && pos < q.flat.length && !q.stats.skipped) q.stats.ended = true;
       $('exam').hidden = true;
-      $('results').hidden = false;
+      $('results').hidden = false; if (app) document.documentElement.classList.remove('qfull');   // the results scroll below the test
       const asked = questions.filter((x) => x.stats);
       const rows = $('rows');
       rows.replaceChildren();
@@ -996,7 +1003,7 @@ const meta = getMeta();
       $('results').scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
     }
     $('again').addEventListener('click', () => $('setup').requestSubmit());
-    $('change').addEventListener('click', () => { $('results').hidden = true; if (sheet) { sheet.open(); return; } $('setup').hidden = false; $('intro').hidden = false; });
+    $('change').addEventListener('click', () => { $('results').hidden = true; setupOn(); $('setup').hidden = false; $('intro').hidden = false; window.scrollTo({ top: 0 }); });
 
 
     // ── swipe to look at the page before or after; recitation brings you back ──
@@ -1162,28 +1169,16 @@ const meta = getMeta();
     // Before the test starts, the page where the reader last was fills the screen; the microphone starts the test
     // with the settings in the settings sheet (opened by itself each time the page opens).
     if (sheet) {
-      $('exam').hidden = false;
-      fullPage({ stage: $('stage'), bottoms: ['.hifz .toolbar'] });
+      // the setup page first; the test's toolbar keeps the Mistakes pill for when the test is running
       trayPills($('h-pills'), { sheet });
-      sheikh('idle', 'بِسْمِ اللّٰه', 'Press the microphone to start the test. Choose its surahs or ayahs under Test settings.');
+      sheikh('idle', 'بِسْمِ اللّٰه', 'Press the microphone to start the test.');
       $('qcount').textContent = '';
-      (async () => {
-        try {
-          const lr = lastRead.get() ?? { s: 1, a: 1 };
-          const sura = await getJson(`surah/${pad(lr.s)}.json`);
-          const paper = await buildPaper(sura.ayahs[(lr.a || 1) - 1]?.page ?? 1, { getJson, pad, riwayah: curRw() });
-          if (phase !== 'idle') return;
-          paper.classList.add('preview');
-          $('stage').replaceChildren(paper);
-          await fitPaper(paper);
-        } catch {}
-      })();
+      $('exam').hidden = true;
       $('t-mic').addEventListener('click', (e) => {
         if (phase !== 'idle' && phase !== 'done') return;
         e.stopImmediatePropagation();
         $('setup').requestSubmit();
       }, true);
-      setTimeout(() => sheet.open(), 400);   // the test's range, every time the page opens
     }
   </script>
 </Base>
