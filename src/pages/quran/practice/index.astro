@@ -7,7 +7,7 @@ const meta = getMeta();
 <Base title="Recite from memory" active="practice" description="Recite the Quran onto a blank mushaf page. Each word appears only when you say it correctly.">
   <style is:global>
     .practice .w { position: relative; }
-    .practice .w.live::after { content: ''; position: absolute; right: 0; bottom: -1px; height: 4px; width: calc(var(--p, 0) * 100%); background: var(--accent); opacity: .9; transition: width .08s linear; border-radius: 2px; pointer-events: none; }
+    .practice .w.live::after { content: ''; position: absolute; right: 0; bottom: -1px; height: 4px; width: 100%; transform: scaleX(var(--p, 0)); transform-origin: right; background: var(--accent); opacity: .9; /* moved about 8 times a second: no transition, which restyled it every frame */ border-radius: 2px; pointer-events: none; }
 
     @property --ink { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
 
@@ -670,14 +670,16 @@ const meta = getMeta();
     function follow(node) {
       if (!node) return;
       const now = Date.now();
-      if (now - lastFollow < 250) return;
+      // the full-page view never scrolls; elsewhere measure at most four times a second (each measurement makes the
+      // browser lay the whole page out again, which froze slower devices while the reader recited)
+      if (now - lastFollow < 250 || document.documentElement.classList.contains('qfull')) return;
+      lastFollow = now;
       const r = node.getBoundingClientRect();
       const bar = document.querySelector('.practice .toolbar');
       const fixedBar = bar && getComputedStyle(bar).position === 'fixed';
       const topLimit = (fixedBar ? (document.querySelector('.appbar')?.getBoundingClientRect().bottom ?? 0) : (bar ? bar.getBoundingClientRect().bottom : 80)) + 24;
       const bottomLimit = innerHeight - (fixedBar ? bar.offsetHeight + 24 : 120);
       if (r.top < topLimit || r.bottom > bottomLimit) {
-        lastFollow = now;
         window.scrollBy({ top: r.top - (topLimit + (bottomLimit - topLimit) * 0.35), behavior: reduceMotion ? 'auto' : 'smooth' });
       }
     }
@@ -883,7 +885,9 @@ const meta = getMeta();
       say('Loading the Qāf model (once, about 55 MB)…');
       modelLoading.then(() => say('Qāf model ready. Press the microphone and recite.'), () => say('The Qāf model could not load. Switch Listening to Phone / browser speech.', 'bad'));
     }
-    window.addEventListener('ql:asr', (e) => { const h = document.getElementById('asr-heard'); if (h) h.textContent = e.detail.text ? 'Model hears: ' + e.detail.text : ''; });
+    // what the free-text model heard (not the tracker's timing, which is only for testing), written only when it changes
+    let heardLast = '';
+    window.addEventListener('ql:asr', (e) => { const t = e.detail.text || ''; if ((t.startsWith('Qāf tracker') && !window.__qaafDebug) || t === heardLast) return; heardLast = t; const h = document.getElementById('asr-heard'); if (h) h.textContent = t ? 'Model hears: ' + t : ''; });
     // the Qāf tracker heard a few words that are not the next words (only a hint: a word is marked wrong once the
     // reader goes on past it)
     window.addEventListener('ql:offtext', () => { if (listening) say('That did not sound like the next words. Carry on from the highlighted word.', 'bad'); });
@@ -1122,13 +1126,14 @@ const meta = getMeta();
 
     // ── the app: the full page, straight away ─────────────────
     // The page opens at once, filling the screen between the app bar and the controls. The settings, and how mistakes
-    // are shown, are in the Mistakes sheet (opened by itself the first time). Following a recitation from any ayah
+    // are shown, are in the settings sheet (opened by itself each time the page opens). Following a recitation from any ayah
     // needs the microphone at once, so that one waits for "Get started".
     if (sheet) {
       fullPage({ stage: $('stage'), bottoms: ['#toolbar'] });
       trayPills($('r-pills'), { sheet });
       if (mode === 'follow') sheet.open();
-      else { $('setup').requestSubmit(); if (!sheet.seen) setTimeout(() => sheet.open(), 400); }
+      // the last surah opens behind, and the choice of what to recite opens over it every time (not only the first time)
+      else { $('setup').requestSubmit(); setTimeout(() => sheet.open(), 400); }
     }
   </script>
 </Base>

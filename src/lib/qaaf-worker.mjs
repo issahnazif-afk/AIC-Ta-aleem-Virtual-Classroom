@@ -37,8 +37,25 @@ async function load({ model, features, vocab: vurl, ort: ortUrl }) {
 
 // audio at any rate → 16 kHz, kept as the last 4 s
 let tape = null;     // diagnostics: everything heard, at 16 kHz ({ type: 'tape' } turns it on, { type: 'dump' } sends it)
+// Before a higher rate is brought down to 16 kHz, the sounds above 7 kHz are filtered out (a low-pass biquad, its
+// state carried from chunk to chunk); without it they fold back into the voice as noise (an iPhone or iPad records at
+// 48 kHz). In place, on a copy.
+let lp = null;
+function lowpass(x, r) {
+  if (!lp || lp.r !== r) {
+    const w = 2 * Math.PI * 7000 / r, c = Math.cos(w), al = Math.sin(w) / (2 * Math.SQRT1_2), a0 = 1 + al;
+    lp = { r, b0: (1 - c) / 2 / a0, b1: (1 - c) / a0, b2: (1 - c) / 2 / a0, a1: -2 * c / a0, a2: (1 - al) / a0, x1: 0, x2: 0, y1: 0, y2: 0 };
+  }
+  const y = new Float32Array(x.length), f = lp;
+  for (let i = 0; i < x.length; i++) {
+    const v = f.b0 * x[i] + f.b1 * f.x1 + f.b2 * f.x2 - f.a1 * f.y1 - f.a2 * f.y2;
+    f.x2 = f.x1; f.x1 = x[i]; f.y2 = f.y1; f.y1 = v; y[i] = v;
+  }
+  return y;
+}
 function take(x, r) {
   let y = x;
+  if (r > SR * 1.2) x = lowpass(x, r);
   if (r !== SR) {
     // carry: where the next output sample falls, measured from the start of this chunk (it can be just before it,
     // between the previous chunk's last sample and this chunk's first: prevLast fills that gap)
@@ -90,7 +107,7 @@ async function look() {
 onmessage = (e) => {
   const m = e.data;
   if (m.type === 'load') load(m);
-  else if (m.type === 'mic') { rate = m.rate || SR; carry = 0; prevLast = 0; m.port.onmessage = (ev) => take(ev.data, rate); }
+  else if (m.type === 'mic') { rate = m.rate || SR; carry = 0; prevLast = 0; lp = null; m.port.onmessage = (ev) => take(ev.data, rate); }
   else if (m.type === 'audio') take(m.data, m.rate || SR);
   else if (m.type === 'start') {
     tracker = createTracker({ letters: vocab.letters, blank: vocab.blank, words: m.words });

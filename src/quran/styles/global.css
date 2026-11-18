@@ -240,7 +240,7 @@ html[data-app] .player { display: none !important; }
 html[data-app] body { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important; }
 
 /* Recite and Hifz in app mode: the controls sit at the bottom, the microphone in the middle */
-html[data-app] body:has(.practice) { padding-bottom: calc(210px + env(safe-area-inset-bottom, 0px)) !important; }
+html[data-app] body.q-practice { padding-bottom: calc(210px + env(safe-area-inset-bottom, 0px)) !important; }
 html[data-app] .practice #intro, html[data-app] .practice .note { display: none; }
 html[data-app] .practice.page { padding-top: 8px; }
 html[data-app] .practice .toolbar { position: fixed; top: auto; bottom: 0; left: 0; right: 0; z-index: 32; border-radius: 18px 18px 0 0; border: none; border-top: 1px solid var(--chrome-line); background: var(--chrome); color: var(--chrome-ink); padding: 10px 12px calc(14px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -4px 16px rgba(0,0,0,.08); }
@@ -379,9 +379,9 @@ html[data-paper] .surah-page .ayah .key { color: var(--paper-ink); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --desk: #0F211B; --desk-deep: #0A1813; } }
 
 /* the desk */
-html body:has(.practice, .mushaf-v2) { background: var(--desk); }
-html body:has(.practice, .mushaf-v2) .site-footer { background: var(--desk-deep); border-color: var(--desk-line); color: var(--desk-muted); }
-html body:has(.practice, .mushaf-v2) .site-footer a { color: var(--desk-gold); }
+html body.q-desk { background: var(--desk); }
+html body.q-desk .site-footer { background: var(--desk-deep); border-color: var(--desk-line); color: var(--desk-muted); }
+html body.q-desk .site-footer a { color: var(--desk-gold); }
 .practice > h1, .practice #intro h1 { color: var(--desk-ink); }
 .practice #intro .muted, .practice > .lead { color: var(--desk-muted); }
 .practice .note { color: var(--desk-muted); }
@@ -409,12 +409,12 @@ html body:has(.practice, .mushaf-v2) .site-footer a { color: var(--desk-gold); }
 .mushaf-v2 .mp-line .sel { background: color-mix(in srgb, var(--paper-line) 22%, transparent); }
 
 /* the app bar over the desk */
-html body:has(.practice, .mushaf-v2) .appbar { background: var(--desk-deep); border-bottom-color: var(--desk-line); color: var(--desk-ink); }
-html body:has(.practice, .mushaf-v2) .appbar .ab-card { background: rgba(247, 244, 234, .07); border-color: var(--desk-line); }
-html body:has(.practice, .mushaf-v2) .appbar .ab-text span { color: var(--desk-muted); }
-html body:has(.practice, .mushaf-v2) .appbar .ab-mark { color: rgba(247, 244, 234, .45); }
-html body:has(.practice, .mushaf-v2) .appbar .ab-mark[aria-pressed="true"] { color: var(--desk-gold); }
-html body:has(.practice, .mushaf-v2) .appbar :focus-visible { outline-color: var(--desk-gold); }
+html body.q-desk .appbar { background: var(--desk-deep); border-bottom-color: var(--desk-line); color: var(--desk-ink); }
+html body.q-desk .appbar .ab-card { background: rgba(247, 244, 234, .07); border-color: var(--desk-line); }
+html body.q-desk .appbar .ab-text span { color: var(--desk-muted); }
+html body.q-desk .appbar .ab-mark { color: rgba(247, 244, 234, .45); }
+html body.q-desk .appbar .ab-mark[aria-pressed="true"] { color: var(--desk-gold); }
+html body.q-desk .appbar :focus-visible { outline-color: var(--desk-gold); }
 
 /* Listen and Mushaf: the dock */
 html[data-app] .app-dock { background: var(--desk-deep); border-top-color: var(--desk-line); }
@@ -447,8 +447,9 @@ html[data-app] .app-dock { background: var(--desk-deep); border-top-color: var(-
 .practice .toolbar .mic { background: var(--desk-gold) !important; border-color: var(--desk-gold) !important; color: #0F2A22 !important; font-weight: 800; }
 .practice .toolbar .mic[aria-pressed="true"] { background: #FFFFFF !important; border-color: #FFFFFF !important; color: #B3261E !important; box-shadow: 0 0 0 6px rgba(179, 38, 30, .28) !important; }
 @media (prefers-reduced-motion: no-preference) {
-  .practice .toolbar .mic[aria-pressed="true"] { animation: ql-listen 1.6s ease-in-out infinite; }
-  @keyframes ql-listen { 0%, 100% { box-shadow: 0 0 0 5px rgba(179, 38, 30, .30); } 50% { box-shadow: 0 0 0 11px rgba(179, 38, 30, .10); } }
+  /* listening: a steady ring (a pulsing one restyled the page on every frame, which froze slower devices) */
+  .practice .toolbar .mic[aria-pressed="true"] { box-shadow: 0 0 0 5px rgba(179, 38, 30, .30); }
+  @keyframes ql-listen { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.08); opacity: .35; } }
 }
 html[data-app] .practice .toolbar { background: var(--desk-deep); border-top: 1px solid var(--desk-line); color: var(--desk-ink); }
 html[data-app] .practice .tool-row .btn { background: rgba(247, 244, 234, .08); color: var(--desk-ink); border: 1px solid var(--desk-line); box-shadow: none; }
@@ -520,7 +521,7 @@ html[data-app] .mushaf-v2 ~ .app-dock, html[data-app] #dock.app-dock { display: 
 .app-dock .dk-btn:disabled { opacity: .35; cursor: default; }
 .app-dock .dk-btn[aria-pressed="true"] { background: var(--desk-gold); border-color: var(--desk-gold); color: #0F2A22; }
 .app-dock .dk-loop small { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); padding: 0 5px; border-radius: 999px; background: var(--desk-deep); color: var(--desk-gold); border: 1px solid var(--desk-gold); font-size: 10px; font-weight: 700; line-height: 14px; white-space: nowrap; }
-html[data-app] body:has(.mushaf-v2) { padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)) !important; }
+html[data-app] body.q-mushaf { padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)) !important; }
 html[data-app] .trbox { bottom: calc(158px + env(safe-area-inset-bottom, 0px)); }
 /* Recite and Hifz on narrow phones: the whole control row fits without scrolling sideways */
 @media (max-width: 440px) { html[data-app] .practice .tool-row { gap: 4px; } html[data-app] .practice .tool-row .btn { padding: 0 7px; font-size: 12px; } html[data-app] .practice .mic { width: 60px; height: 60px; } }
@@ -532,17 +533,15 @@ html[data-app] .trbox { bottom: calc(158px + env(safe-area-inset-bottom, 0px)); 
    fitPaper() sizes the text to the page's height as well as its width. */
 html.qfull, html.qfull body { overflow: hidden; overscroll-behavior: none; }
 html.qfull body { padding-bottom: 0 !important; }
-html.qfull .paper.mp { height: var(--q-avail) !important; min-height: 0 !important; aspect-ratio: auto !important; width: min(100%, calc(var(--q-avail) * .72)) !important; max-width: 100% !important; margin: 0 auto; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; }
+html.qfull .paper.mp { height: var(--q-avail) !important; min-height: 0 !important; aspect-ratio: auto !important; width: 100% !important; /* Madani Classic: fitPaper narrows it to its longest line */ max-width: 100% !important; margin: 0 auto; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; }
 html.qfull .mp .mp-lines { flex: 1 1 auto; min-height: 0; justify-content: space-between; }
-html.qfull .mp .mp-line { line-height: 1.9; }
+html.qfull .mp .mp-line { line-height: 1.62; }   /* the spare height is spread between the lines (space-between) */
 html.qfull .mp .mp-folio { min-width: 1.9em; height: 1.9em; font-size: 13px; }
 html.qfull .mushaf-v2 .spread { padding: 3px 0 0 !important; gap: 6px; }
 html.qfull .mushaf-v2 .info, html.qfull .mushaf-v2 .tj-legend, html.qfull .mushaf-v2 .hintline { display: none !important; }
-/* a landscape laptop or tablet shows two pages side by side, as an open mushaf */
-@media (min-width: 1100px) and (orientation: landscape) {
-  html.qfull .mushaf-v2.can-spread .paper.partner { display: flex !important; }
-  html.qfull .mushaf-v2.can-spread .paper { flex: 0 1 auto; margin: 0 !important; }
-}
+/* Madani Classic: one page on every screen, a laptop too (no two-page spread) */
+html.qfull .mushaf-v2 .paper.partner { display: none !important; }
+html.qfull .mushaf-v2 .paper { flex: 0 1 auto !important; }   /* (flex-grow would stretch it back to the full width) */
 html.qfull .app-dock { padding: 6px 10px calc(8px + env(safe-area-inset-bottom, 0px)) !important; gap: 4px !important; }
 html.qfull .app-dock .dock-top { min-height: 34px; }
 html.qfull .app-dock .dock-hint { display: none; }

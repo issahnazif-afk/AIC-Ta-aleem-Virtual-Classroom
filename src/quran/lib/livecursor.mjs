@@ -10,7 +10,7 @@ let aligned = null;
 if (typeof window !== 'undefined') window.addEventListener('ql:align', (e) => { aligned = e.detail; });
 
 export function createLiveCursor({ getFlat, getPos, onPage }) {
-  let ctx = null, stream = null, analyser = null, buf = null, raf = 0, on = false;
+  let ctx = null, stream = null, analyser = null, buf = null, raf = 0, on = false, alignOn = null, staleT = 0;
   let voiced = 0, lastT = 0, lastLoud = 0, floor = 0.006;
   let spl = 0.11;                 // seconds of voice per letter (learnt)
   const hist = [];                // [t, voiced] samples, for looking back LAG seconds
@@ -22,7 +22,11 @@ export function createLiveCursor({ getFlat, getPos, onPage }) {
     for (let i = hist.length - 1; i >= 0; i--) if (hist[i][0] <= t) return hist[i][1];
     return hist.length ? hist[0][1] : 0;
   };
-  const clear = () => { if (shown) { shown.classList.remove('live'); shown.style.removeProperty('--p'); shown = null; } };
+  const clear = () => { if (shown) { shown.classList.remove('live'); shown.style.removeProperty('--p'); shown = null; lastP = -1; } };
+  // the bar's position, written only when it moves by a visible step: writing it on every animation frame made the
+  // browser restyle the page 60 times a second, which froze slower phones and tablets while the reader recited
+  let lastP = -1;
+  const setP = (v) => { const p = Math.round(Math.min(1, Math.max(0.08, v)) * 50) / 50; if (shown && p !== lastP) { lastP = p; shown.style.setProperty('--p', String(p)); } };
 
   function frame(ts) {
     if (!on) return;
@@ -58,7 +62,7 @@ export function createLiveCursor({ getFlat, getPos, onPage }) {
       const wA = flat[k];
       const elA = wA && wA.state !== 'shown' && onPage(wA) ? wA.el : null;
       if (elA !== shown) { clear(); if (elA) { elA.classList.add('live'); shown = elA; } }
-      if (shown) shown.style.setProperty('--p', Math.min(1, Math.max(0.08, aligned.frac)).toFixed(3));
+      setP(aligned.frac);
       raf = requestAnimationFrame(frame);
       return;
     }
@@ -71,7 +75,7 @@ export function createLiveCursor({ getFlat, getPos, onPage }) {
     const w = flat[i];
     const el = w && w.state !== 'shown' && onPage(w) ? w.el : null;
     if (el !== shown) { clear(); if (el) { el.classList.add('live'); shown = el; } }
-    if (shown) shown.style.setProperty('--p', Math.min(1, Math.max(0.08, p)).toFixed(3));
+    setP(p);
     raf = requestAnimationFrame(frame);
   }
 
@@ -83,6 +87,8 @@ export function createLiveCursor({ getFlat, getPos, onPage }) {
       try { eng = JSON.parse(localStorage.getItem('ql-engine') || '"track"'); } catch {}
       if ((eng === 'track' || eng === 'align') && document.body.dataset.localAsr === '1') {
         on = true;
+        // driven by the tracker's own updates (about 8 a second) and a slow timer to clear a stale cursor, not by every
+        // animation frame: on slower phones and tablets every bit of work while the reader recites counts
         const loop = () => {
           if (!on) return;
           const flat = getFlat(), pos = getPos();
@@ -90,19 +96,19 @@ export function createLiveCursor({ getFlat, getPos, onPage }) {
             const w = flat[pos + aligned.offset];
             const el = w && (w.state !== 'shown' || aligned.offset < 0) && onPage(w) ? w.el : null;
             if (el !== shown) { clear(); if (el) { el.classList.add('live'); shown = el; } }
-            if (shown) shown.style.setProperty('--p', Math.min(1, Math.max(0.08, aligned.frac)).toFixed(3));
+            setP(aligned.frac);
             // going back to repeat: the repeated words light up again while the page waits at the reader's place
             if (aligned.offset < 0 && el) { el.classList.add('replay'); back.add(el); }
             else if (aligned.offset >= 0 && back.size) { const old = [...back]; back.clear(); setTimeout(() => old.forEach((x) => x.classList.remove('replay')), 900); }
           } else clear();
-          raf = requestAnimationFrame(loop);
         };
-        raf = requestAnimationFrame(loop);
+        alignOn = loop; window.addEventListener('ql:align', loop); staleT = setInterval(loop, 300);
         return;
       }
       // inside the Android/iOS app the phone's recogniser owns the microphone: no live cursor there
       // ...and in a phone's browser too: a second microphone stream there stops the recogniser
-      if (window.Capacitor?.isNativePlatform?.() || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || !navigator.mediaDevices?.getUserMedia) return;
+      // (an iPad's Safari calls itself a Mac: a touch screen gives it away)
+      if (window.Capacitor?.isNativePlatform?.() || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1) || !navigator.mediaDevices?.getUserMedia) return;
       try {
         stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
         const AC = window.AudioContext || window.webkitAudioContext;
@@ -116,6 +122,7 @@ export function createLiveCursor({ getFlat, getPos, onPage }) {
     },
     stop() {
       on = false; cancelAnimationFrame(raf); clear();
+      if (alignOn) { window.removeEventListener('ql:align', alignOn); alignOn = null; } clearInterval(staleT);
       stream?.getTracks().forEach((x) => x.stop()); stream = null;
       ctx?.close().catch(() => {}); ctx = null;
     },

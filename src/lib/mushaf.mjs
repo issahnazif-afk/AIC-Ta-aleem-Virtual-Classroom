@@ -1,6 +1,7 @@
 // Builds a mushaf page in the browser from the QUL line layout (604 pages × 15 lines),
 // so every line breaks exactly where it does in the printed Madani mushaf.
 import { tokenize, qpc } from './recite.mjs';
+import { classicFit, flexLineWidth } from './mushaf-fit.mjs';
 
 const AR = '٠١٢٣٤٥٦٧٨٩';
 export const arNum = (n) => String(n).replace(/\d/g, (d) => AR[d]);
@@ -120,6 +121,24 @@ async function buildFlowPaper(p, layout, suras, { getJson, pad, items = new Map(
   return paper;
 }
 
+// Madani Classic: a font that finishes loading after the fit (the ayah markers' glyphs) can widen a line past the
+// frame, most of all on a phone, where the page is as wide as the screen. Look again once the fonts are in, and
+// shortly after, and fit once more if any word sits outside the page. (A right-to-left flex line overflows to the
+// left, which scrollWidth does not count, so the words themselves are measured.)
+const lineOut = (box) => {
+  const br = box.getBoundingClientRect();
+  for (const l of box.querySelectorAll('.mp-line')) {
+    for (const c of l.children) { const r = c.getBoundingClientRect(); if (r.width && (r.left < br.left - 1 || r.right > br.right + 1)) return true; }
+  }
+  return false;
+};
+function refitLate(paper, box) {
+  const again = () => { if (paper.isConnected && lineOut(box)) classicFit(paper, box, { natural: flexLineWidth }); };
+  document.fonts?.ready.then(again, () => {});
+  setTimeout(again, 400);
+  setTimeout(again, 1500);
+}
+
 // Choose the largest text size at which no line of the page overflows its width.
 export async function fitPaper(paper) {
   if (!paper?.isConnected) return;
@@ -133,6 +152,8 @@ export async function fitPaper(paper) {
     paper.style.setProperty('--mfs', `${fs}px`);
     return;
   }
+  // the standard page in sessions (Recite, Hifz, Learn with the Sheikh): Madani Classic, the whole page on the screen
+  if (paper.classList.contains('mp-fixed')) { classicFit(paper, box, { natural: flexLineWidth }); refitLate(paper, box); return; }
   const lines = [...box.querySelectorAll('.mp-line:not(.mp-banner)')];
   // each of the 15 lines has its own row of the page: the text must fit its row's height too
   const rowH = paper.classList.contains('mp-fixed') ? box.clientHeight / 15 : Infinity;

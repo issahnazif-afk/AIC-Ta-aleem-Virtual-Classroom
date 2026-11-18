@@ -137,6 +137,9 @@ const more = [
   <AppBar />
   <main id="main">
     <slot />
+    <!-- page kinds as classes on body, set once (a body:has() rule made the browser restyle the whole page on every
+         change inside it, several times a second while the reader recited) -->
+    <script is:inline>(function (b) { var p = !!document.querySelector('.practice'), m = !!document.querySelector('.mushaf-v2'); if (p) b.classList.add('q-practice'); if (m) b.classList.add('q-mushaf'); if (p || m) b.classList.add('q-desk'); })(document.body);</script>
   </main>
   <footer class="site-footer">
     <div class="wrap">

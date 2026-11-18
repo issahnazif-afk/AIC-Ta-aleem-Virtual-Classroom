@@ -110,7 +110,7 @@ export function mountHalaqah(root, opts = {}) {
   const bar = el('div', 'hq-bar');
   const title = el('b', 'hq-title'), step = el('span', 'hq-step'), clock = el('span', 'hq-clock', '00:00');
   const size = el('div', 'hq-size'); size.setAttribute('role', 'radiogroup'); size.setAttribute('aria-label', 'Text size');
-  let textSize = store.get('hq-size', young ? 'large' : 'page');
+  let textSize = store.get('hq-size', 'page');   // Madani Classic, the whole page, for every level; A+ and A++ are the reader's choice
   [['page', 'Page'], ['large', 'A+'], ['xl', 'A++']].forEach(([id, t]) => {
     const b = btn('hq-size-b', t); b.setAttribute('role', 'radio'); b.dataset.size = id; b.setAttribute('aria-checked', String(id === textSize));
     b.addEventListener('click', () => { textSize = id; store.set('hq-size', id); size.querySelectorAll('button').forEach((x) => x.setAttribute('aria-checked', String(x.dataset.size === id))); engine?.relayout(); });

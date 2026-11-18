@@ -99,9 +99,15 @@ export function mistakesSheet({ mode, settings = null, scope = '', start, startL
   const main = el('div', 'qs-panel');
   // Ta'aleem's own arch, with the microphone the Sheikh listens through
   const badge = el('div', 'qs-badge'); badge.innerHTML = svg('<rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path>', 30);
-  const kicker = el('p', 'qs-kicker', 'كيف يستمع الشيخ'); kicker.lang = 'ar'; kicker.dir = 'rtl';
-  const title = el('h2', null, 'How the Sheikh listens'); title.id = 'qs-title';
-  main.append(badge, kicker, title, el('p', 'qs-lede', 'Recite from memory and the Sheikh follows you word by word, as a teacher would sitting beside you. Ta’aleem never records or keeps your voice.'));
+  // Recite and the Hifz test lead with what to read (from surah to surah, or ayah to ayah; or following the reader):
+  // readers took the sheet for a list of mistake settings and could not find their choice of surahs
+  const HEAD = {
+    recite: ['ماذا تقرأ', 'What will you recite?', 'Choose a surah and the ayahs, or let the Sheikh follow your recitation from wherever you begin. He follows you word by word, as a teacher would sitting beside you. Ta’aleem never records or keeps your voice.'],
+    hifz: ['اختبار الحفظ', 'Set up your Hifz test', 'Choose what the test covers: from surah to surah, or from ayah to ayah within a surah. The Sheikh recites an opening; you carry on from memory. Ta’aleem never records or keeps your voice.'],
+  }[settings ? mode : ''] ?? ['كيف يستمع الشيخ', 'How the Sheikh listens', 'Recite from memory and the Sheikh follows you word by word, as a teacher would sitting beside you. Ta’aleem never records or keeps your voice.'];
+  const kicker = el('p', 'qs-kicker', HEAD[0]); kicker.lang = 'ar'; kicker.dir = 'rtl';
+  const title = el('h2', null, HEAD[1]); title.id = 'qs-title';
+  main.append(badge, kicker, title, el('p', 'qs-lede', HEAD[2]));
 
   const group = (label) => { const g = el('div', 'qs-group'); g.append(el('h3', null, label)); main.append(g); return g; };
   const row = (g, icon, text, { on, locked, soon, note, onChange } = {}) => {
@@ -116,7 +122,7 @@ export function mistakesSheet({ mode, settings = null, scope = '', start, startL
   };
   // the page's own settings (what to recite, how strictly) come first
   if (settings) {
-    const g4 = group(mode === 'hifz' ? 'Your test' : 'What to recite');
+    const g4 = group(mode === 'hifz' ? 'What the test covers' : 'What to recite');
     if (scope) g4.className += ' ' + scope;   // the page's own styles for its settings still apply
     g4.append(settings);
     settings.hidden = false;
@@ -227,7 +233,7 @@ export function mistakesSheet({ mode, settings = null, scope = '', start, startL
   bg.addEventListener('click', (e) => { if (e.target === bg) shut(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !bg.hidden) shut(); });
   go.addEventListener('click', () => { store.set('mistakes-seen', true); shut(); start?.(); });
-  return { open, close: shut, get seen() { return store.get('mistakes-seen', false); } };
+  return { open, close: shut, mode, hasSettings: !!settings, get seen() { return store.get('mistakes-seen', false); } };
 }
 
 function ago(t) {
@@ -240,7 +246,8 @@ export function trayPills(box, { sheet, extra = [] } = {}) {
   const make = (label, icon) => { const b = el('button', 'qp'); b.type = 'button'; b.innerHTML = icon; b.append(el('span', null, label)); return b; };
   const out = {};
   if (sheet) {
-    out.mistakes = make('Mistakes', svg('<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path>', 16));
+    // with the page's own settings in it, the pill says what it holds: the surahs and ayahs come first there
+    out.mistakes = make(sheet.hasSettings ? (sheet.mode === 'hifz' ? 'Test settings' : 'Surah & ayahs') : 'Mistakes', svg('<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path>', 16));
     out.mistakes.addEventListener('click', () => sheet.open());
     box.append(out.mistakes);
   }

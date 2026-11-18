@@ -1,6 +1,7 @@
 // Builds a mushaf page in the browser from the QUL line layout (604 pages × 15 lines),
 // so every line breaks exactly where it does in the printed Madani mushaf.
 import { tokenize, qpc } from '../../lib/recite.mjs';
+import { classicFit } from '../../lib/mushaf-fit.mjs';
 
 const AR = '٠١٢٣٤٥٦٧٨٩';
 export const arNum = (n) => String(n).replace(/\d/g, (d) => AR[d]);
@@ -125,6 +126,18 @@ export async function fitPaper(paper) {
   if (!box) return;
   if (paper.classList.contains('mp-flowpage')) { paper.style.setProperty('--mfs', `${Math.min(32, Math.max(18, box.clientWidth / 18))}px`); fitHeight(paper, box, Math.min(32, Math.max(18, box.clientWidth / 18))); return; }
   const lines = [...box.querySelectorAll('.mp-line:not(.mp-banner)')];
+  // the full-page view (Mushaf, Listen, Recite, the Hifz test): Madani Classic, the whole page on the screen with
+  // its words as large as the screen allows (src/lib/mushaf-fit.mjs)
+  if (paper.closest('html.qfull')) {
+    lines.forEach((l) => { l.style.fontSize = ''; });
+    const fit = () => classicFit(paper, box, { rows: Math.max(8, box.querySelectorAll('.mp-line').length), natural: (l) => l.getBoundingClientRect().width, measure: (on) => box.classList.toggle('mp-measure', on) });
+    fit();
+    // a font that finishes loading after the fit can widen a line past the page: look again, and fit once more if so
+    const again = () => { if (paper.isConnected && lines.some((l) => l.scrollWidth > l.clientWidth + 1)) fit(); };
+    document.fonts?.ready.then(again, () => {});
+    setTimeout(again, 400); setTimeout(again, 1500);
+    return;
+  }
   const W = box.clientWidth;
   if (!W || !lines.length) return;
   const fs0 = Math.min(44, Math.max(14, W / 13));   // 44px: large on a laptop, while a page is not many screens tall

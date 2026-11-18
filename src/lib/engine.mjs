@@ -805,7 +805,7 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
       if (!goingBack) { goingBack = true; status('Going back over it…', 'good'); }
       if (elw) elw.classList.add('replay');
     } else if (goingBack && d.offset >= 0) { goingBack = false; setTimeout(() => stage.querySelectorAll('.w.replay').forEach((x) => x.classList.remove('replay')), 900); }
-    if (liveEl) liveEl.style.setProperty('--p', Math.min(1, Math.max(0.1, d.frac)).toFixed(3));
+    if (liveEl) { const p = (Math.round(Math.min(1, Math.max(0.1, d.frac)) * 50) / 50).toString(); if (liveEl.style.getPropertyValue('--p') !== p) liveEl.style.setProperty('--p', p); }   // only when it moves (each write restyles the page)
     // the reader is still reciting (the cursor is moving through the text): the Sheikh does not step in
     const at = `${d.offset}:${d.frac.toFixed(2)}`;
     if (at !== lastAt && !d.filler) { lastAt = at; armSilence(); }

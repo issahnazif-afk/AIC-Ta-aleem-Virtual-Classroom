@@ -9,7 +9,7 @@ const meta = getMeta();
 <Base title="Hifz test" active="test" description="The Sheikh recites a random ayah. You continue from it, from memory, until he asks you to stop.">
   <style is:global>
     .practice .w { position: relative; }
-    .practice .w.live::after { content: ''; position: absolute; right: 0; bottom: -1px; height: 4px; width: calc(var(--p, 0) * 100%); background: var(--accent); opacity: .9; transition: width .08s linear; border-radius: 2px; pointer-events: none; }
+    .practice .w.live::after { content: ''; position: absolute; right: 0; bottom: -1px; height: 4px; width: 100%; transform: scaleX(var(--p, 0)); transform-origin: right; background: var(--accent); opacity: .9; /* moved about 8 times a second: no transition, which restyled it every frame */ border-radius: 2px; pointer-events: none; }
 
     @property --ink { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
 
@@ -1052,7 +1052,9 @@ const meta = getMeta();
       status('Loading the Qāf model (once, about 55 MB)…');
       modelLoading.then(() => status('Qāf model ready. Press the microphone and recite.'), () => status('The Qāf model could not load. Switch Listening to Phone / browser speech.', 'bad'));
     }
-    window.addEventListener('ql:asr', (e) => { const h = document.getElementById('asr-heard'); if (h) h.textContent = e.detail.text ? 'Model hears: ' + e.detail.text : ''; });
+    // what the free-text model heard (not the tracker's timing, which is only for testing), written only when it changes
+    let heardLast = '';
+    window.addEventListener('ql:asr', (e) => { const t = e.detail.text || ''; if ((t.startsWith('Qāf tracker') && !window.__qaafDebug) || t === heardLast) return; heardLast = t; const h = document.getElementById('asr-heard'); if (h) h.textContent = t ? 'Model hears: ' + t : ''; });
     // the Qāf tracker heard a few words that are not the next words (only a hint: a word is marked wrong once the
     // reader goes on past it)
     window.addEventListener('ql:offtext', () => { if (listening) status('That did not sound like the next words. Carry on from the highlighted word.', 'bad'); });
@@ -1158,12 +1160,12 @@ const meta = getMeta();
 
     // ── the app: the full page, straight away ─────────────────
     // Before the test starts, the page where the reader last was fills the screen; the microphone starts the test
-    // with the settings in the Mistakes sheet (opened by itself the first time).
+    // with the settings in the settings sheet (opened by itself each time the page opens).
     if (sheet) {
       $('exam').hidden = false;
       fullPage({ stage: $('stage'), bottoms: ['.hifz .toolbar'] });
       trayPills($('h-pills'), { sheet });
-      sheikh('idle', 'بِسْمِ اللّٰه', 'Press the microphone to start the test. Your settings are under Mistakes.');
+      sheikh('idle', 'بِسْمِ اللّٰه', 'Press the microphone to start the test. Choose its surahs or ayahs under Test settings.');
       $('qcount').textContent = '';
       (async () => {
         try {
@@ -1181,7 +1183,7 @@ const meta = getMeta();
         e.stopImmediatePropagation();
         $('setup').requestSubmit();
       }, true);
-      if (!sheet.seen) setTimeout(() => sheet.open(), 400);
+      setTimeout(() => sheet.open(), 400);   // the test's range, every time the page opens
     }
   </script>
 </Base>

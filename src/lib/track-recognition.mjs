@@ -39,6 +39,13 @@ export const trackerReady = () => !!worker && !!ready;
 // diagnostics (tests): keep and fetch the audio the tracker heard
 if (typeof window !== 'undefined') { window.__qaafTapeOn = () => getWorker().then((w) => w.postMessage({ type: 'tape' })); window.__qaafDump = () => worker?.postMessage({ type: 'dump' }); }
 
+// Apple's browsers (Safari, and every browser on an iPhone or iPad, which all use Safari's engine) record badly in a
+// 16 kHz audio context: the microphone is used at its own rate there, and the worker converts it. An iPad's Safari
+// calls itself a Mac, so a touch screen is the tell.
+export const appleWebKit = () => typeof navigator !== 'undefined' && (!!globalThis.__qaafNativeRate || /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1) || (/Safari\//.test(navigator.userAgent) && !/Chrome|Chromium|Edg|Firefox|OPR/.test(navigator.userAgent)));
+// the tracker's microphone, for the tajweed ear to share (a second microphone on an iPhone or iPad cuts off the first)
+export const sharedMic = () => (current?.stream?.active ? current.stream : null);
+
 // The microphone, at 16 kHz where the device allows; an AudioWorklet posts it straight to the worker.
 const WORKLET = `class QaafMic extends AudioWorkletProcessor {
   constructor() { super(); this.b = new Float32Array(1024); this.n = 0; this.out = null; this.port.onmessage = (e) => { this.out = e.data; }; }
@@ -55,10 +62,23 @@ export class TrackRecognition {
     this.running = false;
   }
 
+  // The audio context is made and started here, in the reader's tap: an iPhone or iPad only lets audio start from a
+  // tap, and by the time the model has loaded and the microphone was allowed, the tap was long gone (the context
+  // then stayed paused and heard nothing). Paused again until the tracker needs it.
+  prepareAudio() {
+    if (this.ctx && this.ctx.state !== 'closed') return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try { this.ctx = appleWebKit() ? new AC() : new AC({ sampleRate: 16000 }); } catch { this.ctx = new AC(); }
+    const c = this.ctx;
+    c.resume?.().then(() => { if (!this.stream && c === this.ctx && c.state === 'running') c.suspend().catch(() => {}); }, () => {});
+  }
+
   async start() {
     if (this.running) return;
     this.running = true;
     this.results = [];
+    this.prepareAudio();
     // No text to follow yet (the Recite page's "start anywhere"): the browser's own speech recognition finds the
     // place, and the tracker takes over by itself as soon as the page knows what comes next.
     // The same while the model is still loading (the first visit downloads it): the browser listens meanwhile, so
@@ -91,7 +111,19 @@ export class TrackRecognition {
         this.results = []; this.track();
       }
     };
-    r.onerror = (e) => { if (e.error !== 'no-speech' && e.error !== 'aborted') this.onerror?.(e); };
+    r.onerror = (e) => {
+      if (e.error === 'no-speech' || e.error === 'aborted') return;
+      // The browser's own recogniser is not available here (on an iPhone or iPad with dictation or Siri turned off it
+      // refuses at once). That is not the microphone: with the text known, wait for the on-device model instead of
+      // telling the reader the microphone is blocked. The model asks for the microphone itself, and reports a real refusal.
+      if (!failed && this.getExpected().length && this.proxy === r) {
+        this.proxy = null; r.onend = null; try { r.abort(); } catch {}
+        getWorker().then(() => { if (this.running && !this.proxy) { this.results = []; this.track(); } },
+          () => { if (this.running) { this.running = false; this.onerror?.(e); this.onend?.(); } });
+        return;
+      }
+      this.onerror?.(e);
+    };
     // restart when it ends; one that keeps ending at once (no speech service here) waits a little longer each
     // time, so it never loops tightly (the tracker still takes over when the model is ready)
     let last = Date.now(), quick = 0;
@@ -120,8 +152,8 @@ export class TrackRecognition {
     // the microphone taken away (the phone locked, a call, another app): end, so the page starts listening again
     this.stream.getAudioTracks().forEach((t) => { t.onended = () => { if (this.running) this.stop(); }; });
     const AC = window.AudioContext || window.webkitAudioContext;
-    try { this.ctx = new AC({ sampleRate: 16000 }); } catch { this.ctx = new AC(); }
-    if (this.ctx.state === 'suspended') { try { await this.ctx.resume(); } catch {} }
+    this.prepareAudio();
+    if (this.ctx.state !== 'running') { try { await this.ctx.resume(); } catch {} }
     this.ctx.onstatechange = () => { if (this.running && this.ctx && /suspended|interrupted/.test(this.ctx.state)) this.ctx.resume().catch(() => {}); };
     let src;
     try { src = this.ctx.createMediaStreamSource(this.stream); }
@@ -201,8 +233,8 @@ export class TrackRecognition {
     if (this.proxy) { const r = this.proxy; this.proxy = null; r.onend = null; try { r.stop(); } catch {} }
     if (current === this) { current = null; worker?.postMessage({ type: 'stop' }); }
     try { this.node?.disconnect(); this.proc?.disconnect(); } catch {}
-    this.stream?.getTracks().forEach((t) => t.stop());
-    this.ctx?.close().catch(() => {});
+    this.stream?.getTracks().forEach((t) => t.stop()); this.stream = null;
+    this.ctx?.close().catch(() => {}); this.ctx = null;
     setTimeout(() => this.onend?.(), 0);
   }
   abort() { this.stop(); }

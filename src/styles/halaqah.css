@@ -74,6 +74,8 @@
 .hq-legend { margin: 0; font-size: 13px; color: var(--hq-muted); }
 .hq-legend .g { color: var(--good); } .hq-legend .r { color: var(--bad); } .hq-legend .a { color: var(--hq-gold); }
 .hq-stage { display: flex; justify-content: center; min-height: 70vh; border-radius: 14px; background: var(--hq-cream); }
+/* Madani Classic: the page panel is the height of the screen under the bars, so the whole page is always in view */
+.hq-room .hq-stage:has(.mp-fixed) { min-height: 360px; height: calc(100vh - 168px); height: calc(100dvh - 168px); }
 
 /* the report */
 .hq-praise { margin: 6px 0 0; font-family: "Amiri", serif; font-size: 30px; color: var(--hq-green); }
@@ -105,7 +107,7 @@
 .hq .stage { container-type: size; overflow: hidden; align-items: center; padding: 4px 0; --paper: #FFFBF0; --paper-line: #B99A5B; --paper-ink: #6E5420; --marker: #9A7A2E; --accent: #0E6B4E; --accent-soft: #DDEFE5; --gold: #9A6B12; --muted: #6B776F; }
 body[data-paper] .hq .stage { --paper: unset; --paper-line: unset; --paper-ink: unset; --marker: unset; }   /* the classroom's reading themes win there */
 .hq .stage .paper { width: 100%; max-width: 680px; height: max-content; min-height: 100%; background: var(--paper, #FFFBF0); border: 1px solid var(--paper-line, #B99A5B); border-radius: 6px; padding: 22px clamp(14px, 3vw, 36px); display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; color: var(--q-ink, var(--hq-ink)); }
-.hq .stage .paper.mp-fixed { --frame: var(--paper-line, #B99A5B); width: min(100cqw, 100cqh * .7); height: min(100cqh, 100cqw / .7); max-width: none; min-height: 0; padding: 3.2% 4.6% 2.4%; gap: 0; border: 0; border-radius: 4px; position: relative;
+.hq .stage .paper.mp-fixed { --frame: var(--paper-line, #B99A5B); width: 100cqw; height: 100cqh; /* Madani Classic: src/lib/mushaf-fit.mjs narrows it to its longest line */ max-width: none; min-height: 0; padding: clamp(20px, 3.2cqh, 30px) clamp(20px, 3cqw, 40px) clamp(10px, 1.6cqh, 18px); gap: 0; border: 0; border-radius: 4px; position: relative;
   box-shadow: 0 1px 2px rgba(20, 33, 27, .06), 0 12px 32px rgba(20, 33, 27, .10), inset 0 0 0 7px var(--paper, #FFFBF0), inset 0 0 0 8px var(--frame), inset 0 0 0 11px var(--paper, #FFFBF0), inset 0 0 0 13px var(--frame); }
 .hq .stage .paper.mp-fixed .mp-head { position: relative; padding: 0 1.4% .4%; font-size: clamp(11px, 1.6cqh, 15px); }
 .hq .stage .paper.mp-fixed .mp-lines { flex: 1; min-height: 0; display: grid; grid-auto-rows: calc(100% / 15); align-content: center; }
@@ -114,6 +116,14 @@ body[data-paper] .hq .stage { --paper: unset; --paper-line: unset; --paper-ink: 
 .hq .stage .paper.mp-fixed .mp-line > * { flex: none; }
 .hq .stage .paper.mp-fixed .mp-banner { justify-content: center; margin: .12em 4%; border: 0; border-radius: 999px; line-height: 1; font-size: .86em; color: var(--paper-ink, #6E5420); box-shadow: inset 0 0 0 1.5px var(--frame); }
 .hq .stage .paper.mp-fixed .mp-folio { position: relative; align-self: center; margin-top: .3%; min-width: 2.6em; padding: .1em .6em; font-size: clamp(11px, 1.5cqh, 15px); border-radius: 999px; box-shadow: inset 0 0 0 1px var(--frame); color: var(--paper-ink, #6E5420); }
+/* narrow screens (phones): a slimmer frame, so the words keep the width */
+@container (max-width: 600px) {
+  .hq .stage .paper.mp-fixed .mp-line { column-gap: .1em; }
+  .hq .stage .paper.mp-fixed { padding: 12px 12px 6px; box-shadow: 0 1px 2px rgba(20, 33, 27, .06), inset 0 0 0 3px var(--paper, #FFFBF0), inset 0 0 0 4px var(--frame), inset 0 0 0 6px var(--paper, #FFFBF0), inset 0 0 0 7px var(--frame); }
+  .hq .stage .paper.mp-fixed::before { display: none; }
+  .hq .stage .paper.mp-fixed .mp-banner { margin: .08em 2%; }
+}
+
 .hq .stage .paper.mp-big { width: 100%; max-width: none; min-height: 100%; height: max-content; padding: 2.5% 4%; }
 .hq .stage .paper.mp-big .mp-flow { line-height: 2.3; }
 .hq .stage .paper.mp-big[data-size="xl"] .mp-flow { line-height: 2.4; text-align: center; }
@@ -159,4 +169,33 @@ body[data-paper] .hq .stage { --paper: unset; --paper-line: unset; --paper-ink: 
 @keyframes hq-sh-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
 @media (prefers-reduced-motion: reduce) {
   .hq .sheikh * { animation: none !important; transition: none !important; }
+}
+
+/* ── phones and tablets in portrait: the page first ──────────────
+   A small strip for the Sheikh, then the whole Madani page sized to the screen, then the buttons pinned to the
+   bottom, so nothing has to be scrolled during the lesson. */
+@media (max-width: 900px) {
+  .hq-bar { padding: 6px 8px; gap: 6px 8px; border-radius: 10px; }
+  .hq-title { font-size: 14px; padding: 3px 10px; }
+  .hq-step { font-size: 13px; }
+  .hq-size-b { height: 30px; padding: 0 9px; font-size: 13px; }
+  .hq-end { height: 32px; padding: 0 12px; font-size: 13px; }
+  .hq-room:not([hidden]) { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; gap: 6px; padding: 6px 6px 0; background: var(--hq-bg, #F7F4EA); }   /* the lesson takes the whole screen; End leads back */
+  .hq-main { flex: 1 1 auto; display: flex; flex-direction: column; gap: 6px; min-height: 0; }
+  .hq-side { display: contents; }
+  .hq-sheikh { order: 1; flex-direction: row; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 12px; }
+  .hq-face { width: 54px; flex: none; }
+  .hq-sheikh .sheikh { max-width: 54px; }
+  .hq-s-tag { display: none; }
+  .hq-bubble { min-height: 0; padding: 6px 8px; border-radius: 10px; }
+  .hq-s-ar { font-size: 18px; line-height: 1.4; margin: 0; }
+  .hq-sheikh[data-state=prompt] .hq-s-ar { font-size: 22px; }
+  .hq-s-en { font-size: 12.5px; line-height: 1.35; }
+  .hq-stage { order: 2; flex: 1 1 auto; min-height: 0; height: auto; border-radius: 10px; }
+  .hq-sheikh, .hq-status, .hq-tools, .hq-bar { flex-shrink: 0; }
+  .hq-status { order: 3; min-height: 0; padding: 6px 10px; font-size: 13px; border-radius: 10px; }
+  .hq-at, .hq-legend { display: none; }
+  .hq-tools { order: 4; flex-direction: row; padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px)); background: var(--hq-bg, #F7F4EA); }
+  .hq-mic { flex: 1.3; height: 44px; font-size: 14px; }
+  .hq-tool { flex: 1; height: 44px; font-size: 12.5px; line-height: 1.15; padding: 0 6px; }
 }

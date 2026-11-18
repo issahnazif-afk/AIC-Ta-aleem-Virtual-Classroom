@@ -164,8 +164,8 @@ body.cr { font-family: var(--font-ui); background: var(--bg); color: var(--ink);
 .stage { container-type: size; overflow: hidden; align-items: center; padding: 4px 0; }
 .stage .paper.mp-fixed {
   --frame: var(--paper-line);
-  width: min(100cqw, 100cqh * .7); height: min(100cqh, 100cqw / .7); max-width: none; min-height: 0;
-  padding: 3.2% 4.6% 2.4%; gap: 0; border: 0; border-radius: 4px; position: relative;
+  width: 100cqw; height: 100cqh; /* Madani Classic: src/lib/mushaf-fit.mjs narrows it to its longest line */ max-width: none; min-height: 0;
+  padding: clamp(20px, 3.2cqh, 30px) clamp(20px, 3cqw, 40px) clamp(10px, 1.6cqh, 18px); gap: 0; border: 0; border-radius: 4px; position: relative;
   background: var(--paper);
   box-shadow: 0 1px 2px rgba(20, 33, 27, .06), 0 12px 32px rgba(20, 33, 27, .10),
     inset 0 0 0 7px var(--paper), inset 0 0 0 8px var(--frame), inset 0 0 0 11px var(--paper), inset 0 0 0 13px var(--frame);
@@ -187,6 +187,14 @@ body.cr { font-family: var(--font-ui); background: var(--bg); color: var(--ink);
   position: relative; align-self: center; margin-top: .3%; min-width: 2.6em; padding: .1em .6em; font-size: clamp(11px, 1.5cqh, 15px);
   border-radius: 999px; box-shadow: inset 0 0 0 1px var(--frame); color: var(--paper-ink);
 }
+/* narrow screens (phones): a slimmer frame, so the words keep the width */
+@container (max-width: 600px) {
+  .stage .paper.mp-fixed .mp-line { column-gap: .1em; }
+  .stage .paper.mp-fixed { padding: 12px 12px 6px; box-shadow: 0 1px 2px rgba(20, 33, 27, .06), inset 0 0 0 3px var(--paper), inset 0 0 0 4px var(--frame), inset 0 0 0 6px var(--paper), inset 0 0 0 7px var(--frame); }
+  .stage .paper.mp-fixed::before { display: none; }
+  .stage .paper.mp-fixed .mp-banner { margin: .08em 2%; }
+}
+
 
 /* ── reading themes: the reader chooses (Mujawwadah, Hifz and Alif Ba) ──
    Each theme sets the paper, the ink and the colours of the reading marks together, so the marks stay
@@ -849,7 +857,8 @@ figure.mk figcaption { display: grid; gap: 4px; font-size: 14px; line-height: 1.
 .room-tools .seg button { border: 0; background: none; padding: 7px 11px; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--muted); cursor: pointer; min-height: 36px; }
 .room-tools .seg button sup { font-size: 9px; }
 .room-tools .seg button[aria-checked="true"] { background: var(--aic-green); color: #fff; }
-.room-tools .icon-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; min-height: 36px; font-size: 13.5px; }
+.room-tools .icon-btn { display: inline-flex; width: auto; height: auto; align-items: center; gap: 6px; padding: 7px 12px; min-height: 36px; font-size: 13.5px; }
+.room-tools .icon-btn svg { flex: none; }   /* (the icon was squeezed to nothing by the general 44px icon button) */
 .room-tools .icon-btn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
 .room-tools .icon-btn b { font-weight: 700; color: var(--bad); }
 .room-tools .icon-btn b:empty { display: none; }
@@ -863,8 +872,9 @@ figure.mk figcaption { display: grid; gap: 4px; font-size: 14px; line-height: 1.
 .room .room-left .notes { display: none; }
 .room[data-notes] .room-left .notes { display: flex; position: absolute; right: 14px; top: 62px; bottom: 12px; width: clamp(260px, 24vw, 380px); z-index: 4; box-shadow: 0 10px 30px rgba(20, 33, 27, .16); }
 .room .room-right { position: relative; gap: 0; }
-.room .stage { padding: 0 0 70px; }          /* room for the floating controls under the page */
-.room-dock { position: absolute; left: 0; right: 0; bottom: 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; pointer-events: none; z-index: 3; }
+.room .stage { padding: 0 0 106px; }          /* room for the floating controls under the page (and the status line above them), so they never cover a line */
+.room-dock { position: absolute; left: 0; right: 0; bottom: 6px; display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; gap: 4px 6px; pointer-events: none; z-index: 3; }
+.room-dock .controls { grid-column: 1 / -1; justify-self: center; }   /* the status and where you are share one line above the controls */
 .room-dock > * { pointer-events: auto; }
 .room-dock .status, .room-dock .where { margin: 0; padding: 2px 12px; border-radius: 999px; background: rgba(255, 255, 255, .86); backdrop-filter: blur(6px); min-height: 0; }
 .room-dock .status:empty, .room-dock .where:empty { display: none; }
@@ -996,3 +1006,33 @@ body[data-paper="night"] .stage .w.live { background-image: linear-gradient(to l
 .sq-roots-end.in { background: #3FA7D6; color: #fff; }
 .sq-roots-end.out { background: #6B4A2E; color: #fff; }
 @media (prefers-reduced-motion: reduce) { .sq-pat { transition: none; } .sq-pat.lit { transform: none; } }
+
+/* ── phones: Madani Classic gets the screen ─────────────────────────
+   One slim bar, a small strip for the Sheikh, and the controls under the page instead of over it, so the whole
+   page is visible and its words take the full width of the phone. */
+@media (max-width: 600px) {
+  .room-bar { flex-wrap: nowrap; padding: 4px 6px; min-height: 44px; gap: 6px; }
+  .room-bar .brand-logo, .room-bar #c-level { display: none; }
+  .room-bar .rb-title { min-width: 0; flex: 1 1 auto; }
+  .room-bar .rb-title b { display: block; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .room-bar .timer { font-size: 12px; }
+  .room-tools { gap: 4px; flex: none; }
+  .room-tools .seg button { padding: 4px 7px; min-height: 32px; font-size: 12px; }
+  .room-tools .icon-btn { padding: 4px 7px; min-height: 32px; }
+  .room-tools #c-full { display: none; }   /* phones keep the page on the screen already, and most cannot go full screen */
+  .room-bar #c-end { flex: none; padding: 5px 9px; min-height: 32px; font-size: 12.5px; }
+  .room .room-main { padding: 4px 4px 0; gap: 4px; }
+  .room .room-left .tiles { grid-template-columns: repeat(2, 54px); gap: 6px; }
+  .room .room-left .tile-tag { font-size: 10px; padding: 1px 4px; }
+  .room .room-left .bubble { padding: 4px 8px; }
+  .room .room-left .bubble .ar { font-size: 17px; }
+  .room .room-left .bubble .en { font-size: 11.5px; line-height: 1.3; }
+  .room .room-right { display: flex; flex-direction: column; min-height: 0; }
+  .room .stage { flex: 1 1 auto; min-height: 0; padding: 0; }
+  .room-dock { position: static; grid-template-columns: minmax(0, 1fr); padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px)); }
+  .room-dock .where { display: none; }
+  .room-dock .status { font-size: 12px; line-height: 1.3; text-align: center; justify-self: center; max-width: 100%; }
+  .room-dock .controls { flex-wrap: nowrap; border-radius: 14px; padding: 4px; gap: 4px; max-width: 100%; }
+  .room-dock .controls .btn { min-height: 38px; padding: 5px 9px; font-size: 13px; white-space: nowrap; }
+  .room-dock .controls .mic { min-width: 0; height: 40px; }
+}

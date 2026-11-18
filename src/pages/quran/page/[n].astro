@@ -194,13 +194,13 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
 
     // ── two-page spreads on wide screens ──────────────────────
     spreadToggle.checked = store.get('spread', true);
-    // The app's full-page view: the whole page fits the screen between the app bar and the controls (two pages side
-    // by side on a landscape laptop or tablet, as an open mushaf)
+    // The app's full-page view is Madani Classic: one standard 15-line page, always whole on the screen and as large
+    // as the screen allows, on a phone, a tablet or a laptop alike (no two-page spread)
     const full = document.documentElement.dataset.app === '1';
-    if (full) { fullPage({ stage: box, bottoms: ['#dock'] }); root.classList.add('can-spread'); }
-    const spreading = () => wide.matches && (full || (spreadToggle.checked && document.documentElement.dataset.app !== '1'));
+    if (full) fullPage({ stage: box, bottoms: ['#dock'] });
+    const spreading = () => wide.matches && !full && spreadToggle.checked;
     function applySpread() {
-      root.classList.toggle('can-spread', full || spreadToggle.checked);
+      root.classList.toggle('can-spread', !full && spreadToggle.checked);
       spreadToggle.closest('label').hidden = !wide.matches;
       render(n, 0);
     }
@@ -462,7 +462,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
     (async () => {
       const k = new URLSearchParams(location.search).get('k');
       // The first page is already in the HTML; redraw it only if it needs tajweed colours or the second page.
-      root.classList.toggle('can-spread', spreadToggle.checked);
+      root.classList.toggle('can-spread', !full && spreadToggle.checked);
       spreadToggle.closest('label').hidden = !wide.matches;
       if (script() === 'tajweed' || riwayah() !== 'hafs' || spreading()) await render(n, 0);
       else { fitAll(); afterRender(); }

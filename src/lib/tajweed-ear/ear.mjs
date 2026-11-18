@@ -8,6 +8,7 @@
 //   onState('loading' | 'ready' | 'error', message)
 // Words in flat: { item: { s, a (0: the Bismillah) }, wi, helped?, state }.
 import { judge, sliceRefs, opcodes } from './judge.mjs';
+import { sharedMic, appleWebKit } from '../track-recognition.mjs';
 
 const BASE = (import.meta.env?.BASE_URL ?? '/').replace(/\/?$/, '/');
 export const MODEL_URL = BASE + 'models/tajweed-v2.onnx';
@@ -163,11 +164,13 @@ export function createTajweedEar({ checks, getFlat, getPos, onRemarks, onState }
       if (running) return;
       running = true;
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: false, noiseSuppression: false, autoGainControl: true } });
+        // share the tracker's microphone when it has one: a second microphone on an iPhone or iPad cuts off the first
+        const shared = sharedMic();
+        stream = shared ? shared.clone() : await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: false, noiseSuppression: false, autoGainControl: true } });
       } catch { running = false; onState?.('error', 'microphone'); return; }
       if (!running) { stream.getTracks().forEach((t) => t.stop()); return; }
       const AC = window.AudioContext || window.webkitAudioContext;
-      try { ctx = new AC({ sampleRate: SR }); } catch { ctx = new AC(); }
+      try { ctx = appleWebKit() ? new AC() : new AC({ sampleRate: SR }); } catch { ctx = new AC(); }
       if (ctx.state === 'suspended') { try { await ctx.resume(); } catch {} }
       ratio = ctx.sampleRate / SR;
       const src = ctx.createMediaStreamSource(stream);
