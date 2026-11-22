@@ -26,6 +26,7 @@ export async function buildPaper(p, opts) {
   }
   const paint = (span, s, a, wi) => {
     span.dataset.k = `${s}:${a}`;
+    span.dataset.w = wi;   // the word's place in the āyah, for the word-by-word highlight ('ql:word')
     const h = tj.get(s)?.[a]?.[wi];
     if (h) { span.innerHTML = h; span.classList.add('tj'); }
     return span;

@@ -2,6 +2,7 @@
 import cfg from '../config.mjs';
 import { u } from './url.mjs';
 import { recitersFor, reciterFor, chooseReciter, clipFor, playClip, stopClips, riwayahName } from './rw-audio.mjs';
+import { isSaved, savedUrl, offlineButton } from './offline-audio.mjs';
 
 export const pad = (n) => String(n).padStart(3, '0');
 export const dataUrl = (p) => u('data/' + p);
@@ -71,7 +72,7 @@ export function initPlayer({ lazy = false } = {}) {
   const reciterSel = bar.querySelector('[data-p="reciter"]');
   const err = bar.querySelector('[data-p="error"]');
   const errText = err.textContent;
-  let queue = [], idx = -1, repeat = false, loopAll = false, clip = null, loadNo = 0;
+  let queue = [], idx = -1, repeat = false, loopAll = false, clip = null, loadNo = 0, blobUrl = null;
   // past the end of the queue: back to its start when looping it all
   const after = (i) => (i >= queue.length && loopAll ? 0 : i);
   const speeds = [1, 1.25, 1.5, 0.75];
@@ -112,10 +113,19 @@ export function initPlayer({ lazy = false } = {}) {
     document.dispatchEvent(new CustomEvent('ql:ayah', { detail: { key: `${item.s}:${item.a}` } }));
     if (r === 'hafs') {
       clip = null; stopClips();
-      audio.src = audioUrl(settings.reciter, item.s, item.a);
+      follow(item);
+      if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+      // saved on this device (src/quran/lib/offline-audio.mjs): play the stored file; otherwise stream it
+      if (isSaved(settings.reciter, item.s)) {
+        const local = await savedUrl(settings.reciter, item.s, item.a);
+        if (mine !== loadNo) { if (local) URL.revokeObjectURL(local); return; }
+        blobUrl = local;
+      }
+      audio.src = blobUrl ?? audioUrl(settings.reciter, item.s, item.a);
       audio.play().catch(() => {});
       return;
     }
+    follow(null);
     // another riwāyah: its reciter, cut to this āyah
     const rec = recitersFor(r).find((x) => x.id === reciterSel.value) ?? reciterFor(r);
     if (!rec) { clip = null; failed(`No recitation of ${riwayahName(r)} is openly available yet: the text is shown, without audio.`); return; }
@@ -138,10 +148,42 @@ export function initPlayer({ lazy = false } = {}) {
     loadNo++; stopClips();
     audio.pause();
     setPlaying(false);
+    follow(null);
     document.dispatchEvent(new CustomEvent('ql:ayah', { detail: { key: null } }));
   }
 
-  audio.addEventListener('play', () => setPlaying(true));
+  // ── word by word: 'ql:word' { key: "s:a", w } names the word being recited (w = -1 between words, key null when
+  // stopped). Times come from scripts/quran/timings.mjs, Ḥafṣ reciters only. One event per change of word, so the
+  // page restyles a few times a second at most, never every frame.
+  const timings = new Map();   // "reciter/sss" → promise of that surah's timings
+  let segs = null, segKey = null, lastW = null, raf = 0;
+  function emitWord(key, w) {
+    const id = key ? `${key}/${w}` : null;
+    if (id === lastW) return;
+    lastW = id;
+    document.dispatchEvent(new CustomEvent('ql:word', { detail: { key, w } }));
+  }
+  async function follow(item) {
+    segs = null; segKey = item ? `${item.s}:${item.a}` : null;
+    emitWord(null, -1);
+    if (!item) return;
+    const k = `${settings.reciter}/${pad(item.s)}`;
+    if (!timings.has(k)) timings.set(k, getJson(`timings/${k}.json`).catch(() => null));
+    const t = await timings.get(k);
+    if (segKey === `${item.s}:${item.a}`) { segs = t?.[item.a] ?? null; tick(); }
+  }
+  function tick() {
+    cancelAnimationFrame(raf); raf = 0;
+    if (!segs || audio.paused) return;
+    const ms = audio.currentTime * 1000;
+    // the last word that has started; nothing in a pause longer than half a second after a word ends
+    let w = -1;
+    for (const [i, a, b] of segs) { if (a > ms) break; w = ms <= b + 500 ? i : -1; }
+    emitWord(segKey, w);
+    raf = requestAnimationFrame(tick);
+  }
+
+  audio.addEventListener('play', () => { setPlaying(true); tick(); });
   audio.addEventListener('pause', () => setPlaying(false));
   audio.addEventListener('timeupdate', () => {
     const [a0, a1] = clip ? [clip.start ?? 0, clip.end ?? audio.duration] : [0, audio.duration];
@@ -185,6 +227,18 @@ export function initPlayer({ lazy = false } = {}) {
     if (idx >= 0) { if (playing) load(idx); else { stop(); err.hidden = true; } }
   });
 
+  // Save offline: the surah being heard, for the chosen reciter (Ḥafṣ only; other riwāyāt are cut from long files)
+  let surahNames = null;
+  const offBtn = bar.querySelector('[data-p="offline"]');
+  const off = offBtn ? offlineButton(offBtn, () => {
+    const it = queue[idx];
+    if (!it || rw() !== 'hafs') return null;
+    return { reciter: settings.reciter, s: it.s, name: surahNames?.[it.s - 1]?.en ? `Surah ${surahNames[it.s - 1].en}` : `Surah ${it.s}` };
+  }) : null;
+  getJson('meta.json').then((m) => { surahNames = m.surahs; off?.refresh(); }).catch(() => {});
+  document.addEventListener('ql:ayah', () => off?.refresh());
+  reciterSel.addEventListener('change', () => off?.refresh());
+  document.addEventListener('ql:riwayah', () => off?.refresh());
   const show = () => { bar.hidden = false; document.body.classList.add('has-player'); };
   if (!lazy) show();
 
@@ -200,6 +254,7 @@ export function initPlayer({ lazy = false } = {}) {
       if (i >= 0) load(i);
     },
     playAll() { load(0); },
+    current() { return queue[idx] ?? null; },
     // for the app's own controls at the bottom of the screen
     toggle() { playBtn.click(); },
     prev() { if (idx >= 0) load(Math.max(idx - 1, 0)); },

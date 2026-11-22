@@ -52,6 +52,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
     .mushaf-v2 .mp-line [data-k] { cursor: pointer; border-radius: 4px; }
     .mushaf-v2 .mp-line .sel { background: var(--accent-soft); }
     .mushaf-v2 .mp-line .playing { background: var(--mark); }
+    .mushaf-v2 .mp-line .word-on { background: color-mix(in srgb, var(--gold, #B99A5B) 55%, transparent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold, #B99A5B) 55%, transparent); }
     .mushaf-v2 .info { max-width: 640px; margin: 0 auto 24px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
     .mushaf-v2 .info-actions { display: flex; flex-wrap: wrap; gap: 8px; }
     .mushaf-v2 .hintline { text-align: center; font-size: 13px; color: var(--muted); margin: -12px 0 16px; }
@@ -147,6 +148,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
     <div class="dock-top">
       <div class="qpills" id="dk-pills"></div>
       <button type="button" class="qp" id="dk-tr" aria-pressed="false" hidden>Translation</button>
+      <button type="button" class="qp" id="dk-off" aria-pressed="false" hidden>Save offline</button>
       <span class="dock-hint" id="dk-hint">Swipe right for the next page</span>
     </div>
     <div class="dock-main">
@@ -175,7 +177,8 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
   <QuranBar mode="mushaf" s={here.ayahs[0][0]} a={here.ayahs[0][1]} />
 
   <script>
-    import { initPlayer, lastRead, store, getJson, pad } from '../../../quran/lib/client.mjs';
+    import { initPlayer, lastRead, store, getJson, pad, settings } from '../../../quran/lib/client.mjs';
+    import { offlineButton } from '../../../quran/lib/offline-audio.mjs';
     import { buildPaper, fitPaper, arNum } from '../../../quran/lib/mushaf.mjs';
     import { attachSwipe } from '../../../quran/lib/swipe.mjs';
     import { u } from '../../../quran/lib/url.mjs';
@@ -357,6 +360,15 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
     document.getElementById('play-page').addEventListener('click', async () => { started = true; playFrom(await visibleQueue()); });
     document.getElementById('info-play').addEventListener('click', async () => { if (!selKey) return; player.setQueue(await visibleQueue()); player.playAt(selKey); });
     document.addEventListener('ql:ayah', (e) => mark('playing', e.detail.key));
+    // word by word while listening: the word the reciter is on (src/quran/lib/client.mjs). Only the old and new word
+    // change class, so this stays cheap on slow devices.
+    let wordOn = null;
+    document.addEventListener('ql:word', (e) => {
+      const { key, w } = e.detail;
+      wordOn?.classList.remove('word-on');
+      wordOn = key && w >= 0 ? box.querySelector(`[data-k="${key}"][data-w="${w}"]`) : null;
+      wordOn?.classList.add('word-on');
+    });
 
     // ── app dock: Tajweed, Translation (Listen only), and one big play button ──
     const listenMode = new URLSearchParams(location.search).get('listen') === '1';
@@ -375,8 +387,23 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
         location.href = u(`practice/?s=${s}&from=${a}&to=${meta.surahs[s - 1].ayahs}`);
       },
     });
-    trayPills(document.getElementById('dk-pills'), { sheet, extra: [dkTr] });
+    const dkOff = document.getElementById('dk-off');
+    trayPills(document.getElementById('dk-pills'), { sheet, extra: [dkTr, dkOff] });
     dkTr.hidden = !listenMode;
+    // Save offline (Listen): the surah being heard, or the one this page opens on (src/quran/lib/offline-audio.mjs)
+    dkOff.hidden = !listenMode;
+    if (listenMode) {
+      let names = null;
+      const off = offlineButton(dkOff, () => {
+        if ((document.documentElement.dataset.riwayah || 'hafs') !== 'hafs') return null;
+        const it = player?.current?.(), key = it ? `${it.s}:${it.a}` : startKey || box.querySelector('[data-k]')?.dataset.k;
+        if (!key) return null;
+        const s = +key.split(':')[0];
+        return { reciter: settings.reciter, s, name: names?.[s - 1]?.en ? `Surah ${names[s - 1].en}` : `Surah ${s}` };
+      });
+      getJson('meta.json').then((m) => { names = m.surahs; off.refresh(); }).catch(() => {});
+      for (const ev of ['ql:ayah', 'ql:riwayah']) document.addEventListener(ev, () => off.refresh());
+    }
     const trOn = () => dkTr.getAttribute('aria-pressed') === 'true';
     dkTr.addEventListener('click', () => { dkTr.setAttribute('aria-pressed', String(!trOn())); if (!trOn()) trBox.hidden = true; });
     if (listenMode) document.getElementById('dk-hint').textContent = 'The page follows the reciter';
