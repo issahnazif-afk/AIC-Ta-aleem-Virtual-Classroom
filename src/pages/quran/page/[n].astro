@@ -52,6 +52,13 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
     .mushaf-v2 .mp-line [data-k] { cursor: pointer; border-radius: 4px; }
     .mushaf-v2 .mp-line .sel { background: var(--accent-soft); }
     .mushaf-v2 .mp-line .playing { background: var(--mark); }
+    .mushaf-v2 .mp-line .word-hear { background: color-mix(in srgb, var(--accent, #1F5C4A) 30%, transparent); box-shadow: 0 0 0 2px var(--accent, #1F5C4A); }
+    .word-card { position: fixed; z-index: 60; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; max-width: min(420px, calc(100vw - 16px)); padding: 8px 10px; background: var(--surface, #fff); color: var(--ink, #1c1c1c); border: 1px solid var(--line, #ddd); border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+    .word-card[hidden] { display: none; }
+    .word-card .wc-text { font-family: var(--font-quran); font-size: 32px; line-height: 1.6; padding: 0 6px; flex: 1 1 100%; text-align: center; }
+    .word-card button { min-height: 40px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line, #ddd); background: var(--accent-soft, #EEF3EF); color: inherit; font: inherit; font-size: 14px; cursor: pointer; }
+    .word-card button:disabled { opacity: .45; cursor: default; }
+    .word-card [data-c="close"] { margin-left: auto; min-width: 40px; padding: 0; }
     .mushaf-v2 .mp-line .word-on { background: color-mix(in srgb, var(--gold, #B99A5B) 55%, transparent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold, #B99A5B) 55%, transparent); }
     .mushaf-v2 .info { max-width: 640px; margin: 0 auto 24px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
     .mushaf-v2 .info-actions { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -179,6 +186,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
   <script>
     import { initPlayer, lastRead, store, getJson, pad, settings } from '../../../quran/lib/client.mjs';
     import { offlineButton } from '../../../quran/lib/offline-audio.mjs';
+    import { wordCard } from '../../../quran/lib/word-audio.mjs';
     import { buildPaper, fitPaper, arNum } from '../../../quran/lib/mushaf.mjs';
     import { attachSwipe } from '../../../quran/lib/swipe.mjs';
     import { u } from '../../../quran/lib/url.mjs';
@@ -326,7 +334,10 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
       lastRead.set({ s, a });
       document.dispatchEvent(new CustomEvent('ql:pos', { detail: { s, a } }));
     }
-    box.addEventListener('click', (e) => { const w = e.target.closest('[data-k]'); if (w) select(w.dataset.k); });
+    // tap a word: its ayah is selected as before, and the word is heard on its own, with a card to repeat it or grow it
+    // into a phrase (src/quran/lib/word-audio.mjs); the page's recitation pauses meanwhile
+    const words = wordCard(box, { onStart: () => player?.pause() });
+    box.addEventListener('click', (e) => { const w = e.target.closest('[data-k]'); if (w) { select(w.dataset.k); words.tap(w); } });
 
     // ── the bottom bar: go to a surah and ayah, change the script ──
     document.addEventListener('ql:goto', async (e) => {

@@ -255,6 +255,7 @@ export function initPlayer({ lazy = false } = {}) {
     },
     playAll() { load(0); },
     current() { return queue[idx] ?? null; },
+    pause() { if (!audio.paused) audio.pause(); },
     // for the app's own controls at the bottom of the screen
     toggle() { playBtn.click(); },
     prev() { if (idx >= 0) load(Math.max(idx - 1, 0)); },
