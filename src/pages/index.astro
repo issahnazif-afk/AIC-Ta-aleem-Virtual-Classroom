@@ -1624,15 +1624,15 @@ const levels = [
           subject('dua', 'Du’a & Salah', 'salah', 'sage'),
           adventures.length ? P('adventures', 'Adventures', 'مُغَامَرَات', 'adventures', 'gold', null, { text: 'Read, explore and restore: the 3D adventures and the mazes.', children: adventures.map((a) => C(a, 'gold')) }) : null,
           games.length ? P('games', 'Games', 'أَلْعَاب', 'games', 'sand', null, { text: 'Short games for letters, ayat, salah and good character.', children: games.map((a) => C(a, 'sand')) }) : null,
-          P('missions', 'Today’s missions', 'مَهَامُّ ٱلْيَوْم', 'missions', 'stone', () => { show('s-home'); setTimeout(() => document.querySelector('.daily')?.scrollIntoView({ block: 'start' }), 60); }),
-          P('awards', 'My achievements', 'إِنْجَازَاتِي', 'awards', 'gold', () => openAwards()),
+          // today's missions and My achievements are in the side column (the missions box and the student card)
           P('leaders', 'Leaderboards', 'ٱلْأَبْطَال', 'awards', 'gold', () => openLeaders(), { text: 'Who is leading each activity this week, in your level and across Levels 1 to 4.' }),
           P('garden', 'My Jannah Garden', 'حَدِيقَتِي', 'garden', 'sage', () => openGarden()),
         ].filter(Boolean);
-        // each subject's painting (public/img/home/l34/); its name pops up on hover
+        // each subject's picture card (public/img/home/l34/night/, cut from the night mockup; the last three are the
+        // earlier paintings set on a landscape card)
         const ART34 = { 'w-quran': 'quran', 'w-arabic': 'arabic', 'w-tawheed': 'tawheed', 'w-seerah': 'seerah', 'w-hadith': 'hadith', 'w-akhlaq': 'akhlaq',
-          'w-dua': 'salah', adventures: 'adventures', games: 'games', missions: 'missions', awards: 'awards', leaders: 'awards', garden: 'garden' };
-        for (const p of places) if (ART34[p.id]) p.art = siteUrl(`img/home/l34/${ART34[p.id]}.webp`);
+          'w-dua': 'dua', adventures: 'adventures', games: 'games', leaders: 'awards', garden: 'garden' };
+        for (const p of places) if (ART34[p.id]) p.art = siteUrl(`img/home/l34/night/${ART34[p.id]}.webp`);
       }
       const last = act(store.get('lastAct', ''));
       // the picture for "Play again" (Levels 1 and 2): the place the activity belongs to
@@ -1647,7 +1647,7 @@ const levels = [
         const ms = todaysMissions(progress, [{ prompt: `Sunnah of the day: ${sn.title}. ${sn.do}` }], me.username);
         missions = { list: ms.map((m) => ({ title: m.title, text: m.text, done: !!m.done })), open: () => { show('s-home'); setTimeout(() => document.querySelector('.daily')?.scrollIntoView({ block: 'start' }), 60); } };
         const r = rewardsOf(progress);
-        card = { name: me.name, level: `Level ${me.level} · ${me.level === 3 ? 'Explorers' : 'Seekers'}`, stars: r.stars, badges: Object.keys(r.badges).length, palms: palms() };
+        card = { name: me.name, level: `Level ${me.level} · ${me.level === 3 ? 'Explorers' : 'Seekers'}`, stars: r.stars, badges: Object.keys(r.badges).length, palms: palms(), open: () => openAwards() };
       } catch (e) { console.warn('[home] missions or card', e);
       }
       kidsHome?.stop();
