@@ -1,0 +1,127 @@
+---
+// Noor Trail: a demo of a 3D endless runner for Ta'aleem's Play & Learn. Not linked from the site yet.
+const base = import.meta.env.BASE_URL;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex" />
+  <title>Noor Trail · Ta'aleem (demo)</title>
+  <link rel="icon" href={`${base}favicon-64.png`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style is:global>
+    :root { --ink: #2B2118; --gold: #E2B84F; --teal: #1F7A80; --cream: #FFF8EC; --glass: rgba(255, 248, 236, 0.9); }
+    html, body { margin: 0; height: 100%; background: #1d2a40; overflow: hidden; overscroll-behavior: none; }
+    body { font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--ink); -webkit-user-select: none; user-select: none; }
+    #rn { position: fixed; inset: 0; }
+    #rn-canvas { display: block; width: 100%; height: 100%; touch-action: none; outline: none; }
+    button { font: inherit; cursor: pointer; }
+    .hud { position: absolute; top: max(12px, env(safe-area-inset-top)); left: 12px; right: 12px; display: flex; gap: 8px; align-items: center; pointer-events: none; }
+    .pill { background: var(--glass); border-radius: 999px; padding: 7px 14px; font-weight: 800; font-size: 17px; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+    .pill small { font-weight: 600; opacity: .7; }
+    .pill.star { color: #8a5a00; }
+    .pill.star svg { width: 16px; height: 16px; vertical-align: -2px; fill: #F0A81E; }
+    .hud .grow { flex: 1; }
+    .round { pointer-events: auto; width: 42px; height: 42px; border: 0; border-radius: 50%; background: var(--glass); box-shadow: 0 4px 14px rgba(0,0,0,.18); font-weight: 800; color: var(--ink); }
+    .panel { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; pointer-events: none; }
+    .panel[hidden], .hud[hidden], .toast[hidden] { display: none; }
+    .card { pointer-events: auto; background: var(--glass); backdrop-filter: blur(8px); border-radius: 22px; padding: 22px 24px; max-width: 380px; width: 100%; box-shadow: 0 18px 50px rgba(30, 20, 10, .3); text-align: center; }
+    #rn-title { place-items: end start; }
+    #rn-title .card { text-align: left; margin: 0 0 4vh 3vw; }
+    h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 34px; margin: 0; line-height: 1.05; }
+    h1 .tag { display: inline-block; font-family: 'Manrope', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; background: var(--teal); color: #fff; border-radius: 6px; padding: 3px 7px; vertical-align: middle; margin-left: 6px; }
+    p { margin: 8px 0; line-height: 1.45; font-size: 14.5px; }
+    .muted { opacity: .72; font-size: 13px; }
+    .go { display: block; width: 100%; margin-top: 14px; border: 0; border-radius: 14px; padding: 14px; background: linear-gradient(180deg, #F2C65A, #D99A26); color: #3a2400; font-weight: 800; font-size: 18px; box-shadow: 0 6px 0 #A8701A, 0 10px 20px rgba(0,0,0,.2); }
+    .go:active { transform: translateY(3px); box-shadow: 0 3px 0 #A8701A; }
+    .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+    .row > span { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; opacity: .65; width: 56px; }
+    .chip { border: 2px solid transparent; background: rgba(43,33,24,.08); border-radius: 999px; padding: 6px 12px; font-weight: 700; font-size: 14px; color: var(--ink); }
+    .chip[aria-pressed="true"] { border-color: var(--teal); background: #fff; }
+    .sw { width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(0,0,0,.15); padding: 0; }
+    .sw[aria-pressed="true"] { outline: 3px solid var(--teal); outline-offset: 2px; }
+    .keys { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; text-align: left; font-size: 13px; margin-top: 10px; }
+    kbd { font-family: inherit; font-weight: 800; background: #fff; border-radius: 6px; padding: 1px 6px; box-shadow: 0 2px 0 rgba(0,0,0,.15); font-size: 12px; }
+    .stats { display: flex; justify-content: center; gap: 22px; margin: 12px 0 4px; }
+    .stats b { display: block; font-size: 30px; font-weight: 800; }
+    .stats span { font-size: 12px; opacity: .7; text-transform: uppercase; letter-spacing: .8px; }
+    .corner { position: absolute; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; gap: 6px; }
+    .corner .chip { background: var(--glass); box-shadow: 0 4px 14px rgba(0,0,0,.18); padding: 7px 11px; font-size: 13px; }
+    .toast { position: absolute; left: 50%; top: 70px; transform: translateX(-50%); background: rgba(30,25,20,.85); color: #fff; padding: 8px 14px; border-radius: 10px; font-size: 13px; }
+    .secondary { margin-top: 8px; border: 0; background: none; text-decoration: underline; font-weight: 700; color: var(--ink); }
+    @media (max-width: 600px) {
+      #rn-title { place-items: end center; }
+      #rn-title .card { margin: 0 0 70px; padding: 16px 18px; }
+      h1 { font-size: 28px; }
+      .keys { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="rn">
+    <canvas id="rn-canvas" tabindex="0" aria-label="Noor Trail game"></canvas>
+
+    <div class="hud" id="rn-hud" hidden>
+      <div class="pill"><span id="rn-dist">0</span> <small>m</small></div>
+      <div class="pill star"><svg viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9 2.3-5.6 6.4-6.4 5.6-2.3 9 0 5.6 2.3 6.4 6.4 2.3 5.6 0 9-2.3 5.6-6.4 6.4-5.6 2.3-9 0-5.6-2.3-6.4-6.4-2.3-5.6Z"/></svg> <span id="rn-stars">0</span></div>
+      <div class="grow"></div>
+      <button class="round" type="button" data-act="pause" aria-label="Pause">II</button>
+    </div>
+
+    <div class="panel" id="rn-title">
+      <div class="card">
+        <h1>Noor Trail <span class="tag">Demo</span></h1>
+        <p>Run the lantern-lit trail, collect the golden stars, and dodge whatever is in your way.</p>
+        <div class="row"><span>Runner</span><button class="chip" type="button" data-who="boy">Boy</button><button class="chip" type="button" data-who="girl">Girl</button></div>
+        <div class="row" id="rn-outfits"><span>Outfit</span></div>
+        <div class="keys">
+          <span><kbd>←</kbd> <kbd>→</kbd></span><span>change lane</span>
+          <span><kbd>↑</kbd></span><span>jump the rails</span>
+          <span><kbd>↓</kbd></span><span>slide under banners</span>
+        </div>
+        <p class="muted" style="margin-top:8px">On a phone or tablet: swipe left, right, up or down.</p>
+        <button class="go" type="button" data-act="go">Start running</button>
+        <p class="muted" id="rn-best" style="text-align:center"></p>
+      </div>
+    </div>
+
+    <div class="panel" id="rn-over" hidden>
+      <div class="card">
+        <h1>Well run!</h1>
+        <div class="stats">
+          <div><b id="rn-over-dist">0</b><span>metres</span></div>
+          <div><b id="rn-over-stars">0</b><span>stars</span></div>
+          <div><b id="rn-over-best">0</b><span>best</span></div>
+        </div>
+        <button class="go" type="button" data-act="go">Run again</button>
+        <button class="secondary" type="button" data-act="menu">Change runner</button>
+      </div>
+    </div>
+
+    <div class="panel" id="rn-paused" hidden>
+      <div class="card">
+        <h1>Paused</h1>
+        <button class="go" type="button" data-act="resume">Keep running</button>
+        <button class="secondary" type="button" data-act="menu">Back to start</button>
+      </div>
+    </div>
+
+    <div class="toast" id="rn-toast" role="status" hidden></div>
+
+    <div class="corner">
+      <button class="chip" type="button" data-q="hd" title="Shadows, glow and sharper picture">HD</button>
+      <button class="chip" type="button" data-q="lite" title="Faster on older laptops and phones">Lite</button>
+      <button class="chip" type="button" data-act="sound" id="rn-sound" aria-label="Sound">♪</button>
+      <button class="chip" type="button" data-act="full" aria-label="Full screen">⛶</button>
+    </div>
+  </div>
+  <script>
+    import { startRunner } from '../../../lib/runner/game.mjs';
+    startRunner(document.getElementById('rn'));
+  </script>
+</body>
+</html>
