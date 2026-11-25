@@ -11,7 +11,8 @@
 @keyframes news-pulse { 50% { opacity: .25; } }
 .news-view { flex: 1; overflow: hidden; height: 100%; mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
 .news-track { display: flex; width: max-content; height: 100%; animation: news-run var(--news-secs, 60s) linear infinite; }
-.news-view:hover .news-track { animation-play-state: paused; }
+/* a mouse pauses it to read; on touch screens a tap would leave :hover stuck and the news frozen, so only real hover */
+@media (hover: hover) and (pointer: fine) { .news-view:hover .news-track { animation-play-state: paused; } }
 @keyframes news-run { to { transform: translateX(-50%); } }
 .news-item { display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 28px; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; white-space: nowrap; }
 .news-item::after { content: "✦"; margin-left: 28px; color: #F2B451; opacity: .7; }
@@ -92,8 +93,9 @@ body:has(.news:not([hidden])) #s-home, body:has(.news:not([hidden])) #s-kids { p
   .lb-list .lb-lv { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .news-track { animation: none; overflow-x: auto; }
-  .news-view { overflow-x: auto; }
+  /* the news still runs right to left (many school tablets and laptops have animations turned off), only more slowly */
+  /* (stronger than system.css's `.cr *` rule, which sets every animation to 0 ms and froze the ticker) */
+  .news .news-track { animation-duration: calc(var(--news-secs, 60s) * 1.6) !important; }
   .news-dot, .lb-pod-1 .lb-medal { animation: none; }
   .news-fly, .news-fly.out { transition: none; }
 }
