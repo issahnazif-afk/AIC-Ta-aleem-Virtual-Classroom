@@ -45,6 +45,7 @@ import Player from '../../../quran/components/Player.astro';
           <a class="btn" data-x="prev">Previous ayah</a>
           <button class="btn btn-primary" type="button" data-x="play">Play</button>
           <button class="btn" type="button" data-x="save" aria-pressed="false">Bookmark</button>
+          <a class="btn" data-x="tafsir">Tafsir</a>
           <a class="btn" data-x="recite">Recite from memory</a>
           <a class="btn" data-x="next">Next ayah</a>
         </div>
@@ -136,6 +137,7 @@ import Player from '../../../quran/components/Player.astro';
       nextKey ? (x('next').href = u(`ayah/?k=${nextKey}`)) : x('next').remove();
 
       x('recite').href = u(`practice/?s=${s}&from=${a}&to=${a}`);
+      x('tafsir').href = u(`tafsir/?k=${s}:${a}`);
       const saveBtn = x('save');
       saveBtn.setAttribute('aria-pressed', String(bookmarks.has(`${s}:${a}`)));
       saveBtn.addEventListener('click', () => saveBtn.setAttribute('aria-pressed', String(bookmarks.toggle(`${s}:${a}`))));

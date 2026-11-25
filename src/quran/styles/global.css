@@ -67,7 +67,7 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; }
 
 /* header */
 .site-header { background: var(--bg); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
-.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-top: 12px; padding-bottom: 12px; }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding-top: 12px; padding-bottom: 12px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 18px; }
 .brand-logo { width: 38px; height: 40px; object-fit: contain; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
@@ -347,7 +347,7 @@ html[data-paper] .surah-page .ayah .key { color: var(--paper-ink); }
 .acct-name { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .acct-name b { color: var(--ink); max-width: 12ch; overflow: hidden; text-overflow: ellipsis; }
 .acct-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-.site-nav a { padding-left: 11px; padding-right: 11px; }
+.site-nav a { padding-left: 9px; padding-right: 9px; }
 .acct-out { min-height: 36px; padding: 0 12px; font-size: 14px; }
 @media (max-width: 720px) { .acct-name, .acct-out-text { display: none; } .acct-out { width: 44px; padding: 0; } .site-header .brand { font-size: 16px; } }
 .auth { max-width: 480px; margin: 0 auto; padding: 40px 16px 56px; display: flex; flex-direction: column; gap: 18px; }

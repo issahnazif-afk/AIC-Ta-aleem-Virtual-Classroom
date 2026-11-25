@@ -14,6 +14,7 @@ const ways = [
   { key: 'listen', ar: 'الاستماع', title: 'Listen', text: 'Choose a reciter and follow word by word', href: u('page/1/?app=1&listen=1') },
   { key: 'recite', ar: 'التلاوة', title: 'Recite to the Sheikh', text: 'He follows every word and helps only when you stop', href: u('practice/?app=1') },
   { key: 'learn', ar: 'مع الشيخ', title: 'Learn with the Sheikh', text: 'Read freely, let him correct you, or let him teach you a page', href: u('learn/?app=1') },
+  { key: 'tafsir', ar: 'التفسير', title: 'Tafsir', text: 'Ibn Kathir in English or Arabic, and Ibn ʿUthaymin', href: u('tafsir/') },
   { key: 'hifz', ar: 'اختبار الحفظ', title: 'Hifz test', text: 'The Sheikh starts an ayah; you carry on from memory', href: u('test/?app=1') },
   { key: 'tajweed', ar: 'التجويد', title: 'Learn tajweed', text: 'The rules one by one, by the way of ash-Shāṭibiyyah', href: u('tajweed/?app=1') },
 ];
@@ -189,6 +190,7 @@ const ways = [
                         {w.key === 'listen' && <><path d="M4 15v-3a8 8 0 0 1 16 0v3"></path><rect x="3" y="14" width="4" height="6" rx="1.5"></rect><rect x="17" y="14" width="4" height="6" rx="1.5"></rect></>}
                         {w.key === 'recite' && <><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"></path></>}
                         {w.key === 'learn' && <><path d="M3 6c2.5-.8 5-.8 8 .8v13c-3-1.6-5.5-1.6-8-.8z"></path><path d="M11 6.8c1.2-.6 2.4-.9 3.6-.9"></path><circle cx="18" cy="8" r="3"></circle><path d="M14 20c0-3 1.8-5 4-5s4 2 4 5"></path></>}
+                        {w.key === 'tafsir' && <><path d="M2 5c3-1 6-1 10 1 4-2 7-2 10-1v9"></path><path d="M2 5v14c3-1 6-1 10 1"></path><path d="M12 6v8"></path><circle cx="17.5" cy="17.5" r="3"></circle><path d="m20 20 2 2"></path></>}
                         {w.key === 'hifz' && <><circle cx="12" cy="9" r="6"></circle><path d="M9 14.5 7 22l5-3 5 3-2-7.5"></path><path d="m9.5 9 1.8 1.8L14.8 7.3"></path></>}
                         {w.key === 'tajweed' && <><rect x="2" y="4" width="20" height="13" rx="1.5"></rect><path d="M6 9.5c1.6-1.2 3.2 1.2 4.8 0M13 9.5h5M6 13h12"></path><path d="M7 17l-2 4M17 17l2 4"></path></>}
                       </g>
@@ -239,6 +241,7 @@ const ways = [
           <div><dt>Page</dt><dd id="fig-page">1</dd></div>
         </dl>
         <nav class="lib-more" aria-label="More">
+          <a href={u('tafsir/')}>Tafsir</a>
           <a href={u('saved/')}>Saved ayahs</a>
           <a href={u('search/')}>Search</a>
           <a href={u('letters/')}>Arabic letters</a>

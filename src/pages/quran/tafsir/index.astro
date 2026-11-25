@@ -1,0 +1,335 @@
+---
+// Tafsir: what an āyah means, in the words of the scholars, shown verbatim and never summarised or rewritten.
+//  · Tafsir Ibn Kathir: English (Darussalam's abridged edition, which still explains every āyah) or the full Arabic
+//    original, read from the Quran.com API v4 while the adult reads (the English is Darussalam's text, so it is shown
+//    from Quran.com, not copied into the site).
+//  · Tafsir Ibn ʿUthaymin (Arabic): from tafsir.app, built into data/tafsir/uthaymeen/ by scripts/quran/tafsir.mjs.
+// Address: tafsir/?k=2:255&t=kathir|uthaymeen&lang=en|ar
+import Base from '../../../quran/layouts/Base.astro';
+import { u } from '../../../quran/lib/url.mjs';
+import { getMeta } from '../../../quran/lib/data.mjs';
+const surahs = getMeta().surahs;
+---
+<Base title="Tafsir" active="tafsir" description="Tafsir Ibn Kathir (English and Arabic) and Tafsir Ibn ʿUthaymin, āyah by āyah.">
+  <style is:global>
+    .tf.page { padding-top: 32px; padding-bottom: 64px; display: flex; flex-direction: column; gap: 22px; }
+    .tf-kicker { margin: 0 0 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-text); }
+    .tf-head h1 { margin: 0; font-size: clamp(30px, 4vw, 44px); line-height: 1.1; }
+    .tf-head p { margin: 10px 0 0; max-width: 640px; color: var(--muted); font-size: 17px; line-height: 1.6; }
+
+    .tf-pick { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+    .tf-pick label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: var(--muted); }
+    .tf-pick select { min-height: 44px; padding: 0 12px; border-radius: var(--r-control); border: 1px solid var(--field); background: var(--surface); color: var(--ink); font: inherit; font-size: 15px; }
+    .tf-pick .tf-s { min-width: min(320px, 100%); }
+    .tf-pick .tf-go { display: flex; gap: 8px; margin-left: auto; }
+
+    .tf-ayah { padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; }
+    .tf-ayah-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .tf-ayah-top h2 { margin: 0; font-size: 20px; }
+    .tf-ayah-top a { font-size: 14px; font-weight: 600; }
+    .tf-ar { margin: 0; text-align: center; font-size: clamp(26px, 4vw, 38px); line-height: 2.1; }
+    .tf-tr { margin: 0; text-align: center; font-size: 17px; line-height: 1.6; color: var(--muted); }
+
+    .tf-tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .tf-tab { min-height: 48px; padding: 0 18px; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; background: none; color: var(--muted); font: 700 15px var(--font-ui); cursor: pointer; display: flex; align-items: center; gap: 10px; }
+    .tf-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--gold); }
+    .tf-tab .ar-ui { font-size: 18px; font-weight: 400; }
+
+    .tf-body { padding: 26px 32px 30px; display: flex; flex-direction: column; gap: 16px; }
+    .tf-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    .tf-span { margin: 0; font-size: 14px; color: var(--muted); }
+    .tf-lang { display: inline-flex; border: 1px solid var(--field); border-radius: var(--r-control); overflow: hidden; }
+    .tf-lang button { min-height: 40px; padding: 0 16px; border: 0; background: var(--surface); color: var(--accent-strong); font: 700 14px var(--font-ui); cursor: pointer; }
+    .tf-lang button + button { border-left: 1px solid var(--field); }
+    .tf-lang button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+    .tf-lang .ar-ui { font-size: 17px; font-weight: 400; }
+
+    .tf-text { font-size: 18px; line-height: 1.8; max-width: 760px; overflow-wrap: anywhere; }
+    .tf-text h1, .tf-text h2, .tf-text h3, .tf-text h4 { font-size: 20px; line-height: 1.4; margin: 26px 0 8px; color: var(--accent-strong); }
+    .tf-text > :first-child { margin-top: 0; }
+    .tf-text p { margin: 0 0 14px; }
+    .tf-text [lang="ar"], .tf-text .qpc-hafs { font-family: var(--font-ar-ui); font-size: 1.25em; line-height: 2; }
+    .tf-text p[lang="ar"] { direction: rtl; text-align: right; }
+    .tf-text[dir="rtl"] { font-family: var(--font-ar-ui); font-size: 22px; line-height: 2.1; text-align: right; max-width: none; }
+    .tf-text[dir="rtl"] h1, .tf-text[dir="rtl"] h2, .tf-text[dir="rtl"] h3, .tf-text[dir="rtl"] h4 { font-family: var(--font-ar-ui); font-size: 24px; }
+    .tf-text[dir="rtl"] [lang="ar"], .tf-text[dir="rtl"] .qpc-hafs { font-size: 1em; }
+    .tf-text .tf-q { color: var(--accent-strong); }
+    .tf-text sup a { text-decoration: none; font-size: .7em; padding: 0 2px; }
+    .tf-notes { margin: 8px 0 0; padding: 16px 0 0; border-top: 1px solid var(--line); font-size: 17px; line-height: 1.9; }
+    .tf-notes li { margin-bottom: 4px; }
+    .tf-more { align-self: flex-start; }
+    .tf-src { margin: 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .tf-none { margin: 0; font-size: 17px; line-height: 1.7; }
+    .tf-cover { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tf-err { color: var(--terracotta-text); }
+    @media (max-width: 640px) {
+      .tf-ayah, .tf-body { padding: 20px 18px; }
+      .tf-pick .tf-go { margin-left: 0; width: 100%; }
+      .tf-pick .tf-go .btn { flex: 1; }
+      .tf-tab { padding: 0 12px; }
+      .tf-text[dir="rtl"] { font-size: 20px; }
+    }
+  </style>
+
+  <div class="wrap page tf">
+    <header class="tf-head">
+      <p class="tf-kicker">Tafsir · التفسير</p>
+      <h1>Understand what you recite</h1>
+      <p>Choose an āyah and read what the scholars said about it: Ibn Kathir in English or in his own Arabic, and Shaykh Ibn ʿUthaymin in Arabic. Their words are shown exactly as written.</p>
+    </header>
+
+    <form class="tf-pick" id="pick" aria-label="Choose an āyah">
+      <label>Surah
+        <select class="tf-s" id="sel-s">
+          {surahs.map((s) => <option value={s.n}>{s.n}. {s.en} · {s.ar}</option>)}
+        </select>
+      </label>
+      <label>Āyah
+        <select id="sel-a"></select>
+      </label>
+      <div class="tf-go">
+        <button class="btn" type="button" id="prev">← Previous</button>
+        <button class="btn" type="button" id="next">Next →</button>
+      </div>
+    </form>
+
+    <section class="card tf-ayah" aria-live="polite">
+      <div class="tf-ayah-top">
+        <h2 id="ay-title">Al-Faatiha 1:1</h2>
+        <a id="ay-study" href={u('ayah/?k=1:1')}>Words and grammar →</a>
+      </div>
+      <p class="quran tf-ar" lang="ar" dir="rtl" id="ay-ar"></p>
+      <p class="tf-tr" id="ay-tr"></p>
+    </section>
+
+    <section class="card">
+      <div class="tf-tabs" role="tablist" aria-label="Tafsir">
+        <button class="tf-tab" role="tab" type="button" id="tab-kathir" data-t="kathir" aria-selected="true" aria-controls="tf-panel">Ibn Kathir <span class="ar-ui" lang="ar">ابن كثير</span></button>
+        <button class="tf-tab" role="tab" type="button" id="tab-uthaymeen" data-t="uthaymeen" aria-selected="false" aria-controls="tf-panel">Ibn ʿUthaymin <span class="ar-ui" lang="ar">ابن عثيمين</span></button>
+      </div>
+      <div class="tf-body" id="tf-panel" role="tabpanel">
+        <div class="tf-bar">
+          <p class="tf-span" id="tf-span"></p>
+          <div class="tf-lang" id="tf-lang" role="group" aria-label="Language">
+            <button type="button" data-lang="en" aria-pressed="true">English</button>
+            <button type="button" data-lang="ar" aria-pressed="false"><span class="ar-ui" lang="ar">العربية</span></button>
+          </div>
+        </div>
+        <div class="tf-text" id="tf-text"><p class="muted">Loading…</p></div>
+        <button class="btn tf-more" type="button" id="tf-more" hidden>Read on →</button>
+        <p class="tf-src" id="tf-src"></p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import cfg from '../../../quran/config.mjs';
+    import { getJson, pad, lastRead } from '../../../quran/lib/client.mjs';
+    import { qpc } from '../../../lib/recite.mjs';
+    import { u } from '../../../quran/lib/url.mjs';
+
+    const $ = (id) => document.getElementById(id);
+    const el = (tag, props = {}, text) => { const e = Object.assign(document.createElement(tag), props); if (text != null) e.textContent = text; return e; };
+    const AR = '٠١٢٣٤٥٦٧٨٩';
+    const arNum = (n) => String(n).replace(/\d/g, (d) => AR[d]);
+    const pref = { get(k, d) { try { return localStorage.getItem('ql-tafsir-' + k) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem('ql-tafsir-' + k, v); } catch {} } };
+
+    // Quran.com API v4 tafsir ids: 169 Ibn Kathir (Abridged, English, Darussalam), 14 Tafsir Ibn Kathir (Arabic)
+    const KATHIR = { en: 169, ar: 14 };
+    const SOURCES = {
+      kathir: {
+        en: 'Tafsir Ibn Kathir (abridged), English translation by Darussalam, under the supervision of Shaykh Safiur-Rahman al-Mubarakpuri. Text from the <a href="https://quran.com" rel="noopener">Quran.com</a> API (Quran Foundation), shown as published.',
+        ar: 'تفسير القرآن العظيم، للحافظ ابن كثير (ت ٧٧٤ هـ). Text from the <a href="https://quran.com" rel="noopener">Quran.com</a> API (Quran Foundation), shown as published.',
+      },
+      uthaymeen: 'تفسير القرآن الكريم، لفضيلة الشيخ محمد بن صالح العثيمين رحمه الله (ت ١٤٢١ هـ). Rights: the Shaykh Muhammad ibn Salih al-ʿUthaymin Charitable Foundation. Text from <a href="https://tafsir.app/ibn-uthaymeen" rel="noopener">tafsir.app</a>, shown verbatim, for free non-commercial study.',
+    };
+
+    let meta, sura, S = 1, A = 1, span = [1, 1];
+    let tab = pref.get('tab', 'kathir') === 'uthaymeen' ? 'uthaymeen' : 'kathir';
+    let lang = pref.get('lang', 'en') === 'ar' ? 'ar' : 'en';
+    let token = 0;
+
+    // ── Ibn Kathir from Quran.com: an āyah explained together with the āyāt before it comes back empty, so look back
+    // for the passage that holds it ──
+    const qc = new Map();
+    function qcGet(id, key) {
+      const k = id + '|' + key;
+      if (!qc.has(k)) qc.set(k, fetch(`https://api.quran.com/api/v4/tafsirs/${id}/by_ayah/${key}`).then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then((j) => j.tafsir).catch((e) => { qc.delete(k); throw e; }));
+      return qc.get(k);
+    }
+    async function kathir(s, a, id) {
+      for (let b = a; b >= Math.max(1, a - 30); b--) {
+        const t = await qcGet(id, `${s}:${b}`);
+        const keys = Object.keys(t.verses ?? {}).map((x) => Number(x.split(':')[1])).filter((n) => n);
+        const has = !keys.length || keys.includes(a) || b === a;
+        if (t.text?.trim() && has) return { html: t.text, from: keys.length ? Math.min(...keys) : b, to: keys.length ? Math.max(...keys) : b };
+        if (t.text?.trim() && b !== a) break;   // the nearest passage before does not hold this āyah
+      }
+      return null;
+    }
+
+    // Only plain reading markup is kept from the API's HTML: headings, paragraphs, emphasis, lists and Arabic spans.
+    const KEEP = new Set(['H1', 'H2', 'H3', 'H4', 'P', 'STRONG', 'B', 'EM', 'I', 'SPAN', 'DIV', 'BR', 'UL', 'OL', 'LI', 'BLOCKQUOTE', 'SUP', 'SUB']);
+    function clean(html) {
+      const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html');
+      const walk = (node, out) => {
+        for (const c of [...node.childNodes]) {
+          if (c.nodeType === 3) { out.append(document.createTextNode(c.textContent)); continue; }
+          if (c.nodeType !== 1) continue;
+          if (!KEEP.has(c.tagName)) { walk(c, out); continue; }
+          const e = document.createElement(c.tagName === 'DIV' ? 'p' : c.tagName.toLowerCase());
+          const ar = c.getAttribute('lang') === 'ar' || /\b(arabic|qpc-hafs|ar)\b/.test(c.className) || /^[؀-ۿ\s\p{P}\d]+$/u.test(c.textContent.trim()) && /[؀-ۿ]/.test(c.textContent);
+          if (ar) { e.lang = 'ar'; e.dir = 'rtl'; if (/qpc-hafs/.test(c.className)) e.className = 'qpc-hafs'; }
+          walk(c, e); out.append(e);
+        }
+      };
+      const frag = document.createDocumentFragment();
+      walk(doc.body.firstChild, frag);
+      return frag;
+    }
+
+    // ── Ibn ʿUthaymin: passages built from tafsir.app; [[…]] are the editors' footnotes, ﴿…﴾ the Qur'an ──
+    function uthaymeenText(text) {
+      const notes = [];
+      const frag = document.createDocumentFragment();
+      for (const para of text.split(/\n+/)) {
+        if (!para.trim()) continue;
+        const p = el('p');
+        for (const bit of para.split(/(\[\[[\s\S]*?\]\]|﴿[^﴾]*﴾)/)) {
+          if (!bit) continue;
+          if (bit.startsWith('[[')) {
+            notes.push(bit.slice(2, -2));
+            const n = notes.length;
+            const sup = el('sup'); sup.append(el('a', { href: `#tf-n${n}`, id: `tf-r${n}`, title: bit.slice(2, -2) }, `(${arNum(n)})`)); p.append(sup);
+          } else if (bit.startsWith('﴿')) p.append(el('span', { className: 'tf-q' }, bit));
+          else p.append(document.createTextNode(bit));
+        }
+        frag.append(p);
+      }
+      if (notes.length) {
+        const ol = el('ol', { className: 'tf-notes' });
+        notes.forEach((t, i) => ol.append(el('li', { id: `tf-n${i + 1}` }, t)));
+        frag.append(ol);
+      }
+      return frag;
+    }
+    let uIndex = null;
+    const uthIndex = () => (uIndex ??= getJson('tafsir/uthaymeen/index.json').catch(() => ({ surahs: {} })));
+
+    // long passages (some lessons run to tens of thousands of words) open a part at a time
+    const CHUNK = 40;
+    function showParts(frag) {
+      const box = $('tf-text'), more = $('tf-more');
+      const kids = [...frag.childNodes];
+      let i = 0;
+      const step = () => { box.append(...kids.slice(i, i + CHUNK)); i += CHUNK; more.hidden = i >= kids.length; };
+      box.replaceChildren(); step();
+      more.onclick = step;
+    }
+
+    const rng = (s, f, t) => (f === t ? `${s}:${f}` : `${s}:${f}–${t}`);
+    async function renderTafsir() {
+      const my = ++token;
+      const box = $('tf-text');
+      box.replaceChildren(el('p', { className: 'muted' }, 'Loading…'));
+      $('tf-more').hidden = true;
+      $('tf-lang').hidden = tab !== 'kathir';
+      document.querySelectorAll('.tf-tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.t === tab)));
+      document.querySelectorAll('#tf-lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+      const rtl = tab === 'uthaymeen' || lang === 'ar';
+      box.dir = rtl ? 'rtl' : 'ltr'; box.lang = rtl ? 'ar' : 'en';
+      $('tf-src').innerHTML = tab === 'kathir' ? SOURCES.kathir[lang] : SOURCES.uthaymeen;
+      try {
+        if (tab === 'kathir') {
+          const r = await kathir(S, A, KATHIR[lang]);
+          if (my !== token) return;
+          if (!r) { span = [A, A]; $('tf-span').textContent = ''; box.replaceChildren(el('p', { className: 'tf-none' }, 'There is no commentary for this āyah in this edition.')); return; }
+          span = [r.from, r.to];
+          $('tf-span').textContent = r.from === r.to ? `On āyah ${S}:${A}` : `Ibn Kathir explains āyāt ${rng(S, r.from, r.to)} together`;
+          showParts(clean(r.html));
+        } else {
+          const idx = await uthIndex();
+          const parts = idx.surahs?.[S] ?? [];
+          const hit = parts.find(([f, t]) => A >= f && A <= t);
+          if (my !== token) return;
+          if (!hit) {
+            span = [A, A];
+            $('tf-span').textContent = '';
+            const covered = Object.keys(idx.surahs ?? {}).map(Number);
+            box.dir = 'ltr'; box.lang = 'en';
+            const msg = parts.length
+              ? `Shaykh Ibn ʿUthaymin's tafsir of ${sura.en} has no passage for āyah ${A}. Use Previous or Next to read the passages around it.`
+              : `Shaykh Ibn ʿUthaymin did not explain ${sura.en} in this tafsir (he passed away, raḥimahullāh, before completing the whole Qur'an). The surahs he explained:`;
+            const out = [el('p', { className: 'tf-none' }, msg)];
+            if (!parts.length && covered.length) {
+              const list = el('div', { className: 'tf-cover' });
+              for (const n of covered) { const s = meta.surahs[n - 1]; const b = el('button', { type: 'button', className: 'chip' }, `${n}. ${s.en}`); b.addEventListener('click', () => go(n, idx.surahs[n][0][0])); list.append(b); }
+              out.push(list);
+            }
+            box.replaceChildren(...out);
+            return;
+          }
+          const p = await getJson(`tafsir/uthaymeen/${pad(S)}/${pad(hit[0])}.json`);
+          if (my !== token) return;
+          span = [p.from, p.to];
+          $('tf-span').textContent = p.from === p.to ? `On āyah ${S}:${A}` : `This lesson explains āyāt ${rng(S, p.from, p.to)}`;
+          showParts(uthaymeenText(p.text));
+        }
+      } catch (e) {
+        if (my !== token) return;
+        box.dir = 'ltr';
+        box.replaceChildren(el('p', { className: 'tf-err' }, navigator.onLine === false ? 'You are offline. The tafsir needs a connection.' : 'The tafsir could not be loaded just now. Please try again in a moment.'));
+      }
+    }
+
+    async function go(s, a, { push = true } = {}) {
+      S = Math.min(114, Math.max(1, s));
+      sura = await getJson(`surah/${pad(S)}.json`);
+      A = Math.min(sura.ayahs.length, Math.max(1, a));
+      const sel = $('sel-a');
+      if (sel.dataset.s !== String(S)) {
+        sel.replaceChildren(...sura.ayahs.map((x) => el('option', { value: x.a }, String(x.a))));
+        sel.dataset.s = String(S);
+      }
+      $('sel-s').value = String(S); sel.value = String(A);
+      const ay = sura.ayahs[A - 1];
+      $('ay-title').textContent = `${sura.en} ${S}:${A}`;
+      $('ay-ar').replaceChildren(document.createTextNode(qpc(ay.ar) + ' '), el('span', { className: 'marker' }, `﴿${arNum(A)}﴾`));
+      $('ay-tr').textContent = ay.tr ? Object.values(ay.tr)[0] ?? '' : '';
+      $('ay-study').href = u(`ayah/?k=${S}:${A}`);
+      document.title = `Tafsir ${S}:${A} | ${cfg.appName}`;
+      const q = `?k=${S}:${A}&t=${tab}${tab === 'kathir' ? `&lang=${lang}` : ''}`;
+      if (push) history.replaceState(null, '', q);
+      renderTafsir();
+    }
+
+    // Previous / Next move by passage, so a lesson on āyāt 1–8 is not shown eight times
+    $('next').addEventListener('click', () => {
+      const n = span[1] + 1;
+      if (n <= sura.ayahs.length) go(S, n); else if (S < 114) go(S + 1, 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    $('prev').addEventListener('click', () => {
+      const p = span[0] - 1;
+      if (p >= 1) go(S, p); else if (S > 1) go(S - 1, meta.surahs[S - 2].ayahs);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    $('sel-s').addEventListener('change', (e) => go(Number(e.target.value), 1));
+    $('sel-a').addEventListener('change', (e) => go(S, Number(e.target.value)));
+    $('pick').addEventListener('submit', (e) => e.preventDefault());
+    document.querySelectorAll('.tf-tab').forEach((b) => b.addEventListener('click', () => { tab = b.dataset.t; pref.set('tab', tab); go(S, A); }));
+    document.querySelectorAll('#tf-lang button').forEach((b) => b.addEventListener('click', () => { lang = b.dataset.lang; pref.set('lang', lang); go(S, A); }));
+
+    (async () => {
+      meta = await getJson('meta.json');
+      const ps = new URLSearchParams(location.search);
+      if (ps.get('t') === 'uthaymeen' || ps.get('t') === 'kathir') tab = ps.get('t');
+      if (ps.get('lang') === 'ar' || ps.get('lang') === 'en') lang = ps.get('lang');
+      const m = /^(\d{1,3}):(\d{1,3})$/.exec(ps.get('k') ?? '');
+      const lr = lastRead.get();
+      if (m) go(Number(m[1]), Number(m[2]), { push: false });
+      else if (lr?.s) go(lr.s, lr.a ?? 1);
+      else go(1, 1);
+    })();
+  </script>
+</Base>
