@@ -1505,7 +1505,7 @@ const levels = [
     async function loadLeaders(fresh) {
       const nb = $('news');
       if (fresh) { leaders = null; delete nb.dataset.closed; }
-      if (!(me.level >= 1 && me.level <= 4)) { nb.hidden = true; nb.replaceChildren(); return; }
+      if (!me.token) { nb.hidden = true; nb.replaceChildren(); return; }   // every signed-in student sees the headlines
       if (!leaders || Date.now() - leadersAt > 120000) {
         const r = await getBoard({ token: me.token, name: me.name, level: me.level });
         if (!me.token) return;   // signed out meanwhile
@@ -1597,6 +1597,7 @@ const levels = [
           ...(me.level >= 2 ? [Y('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', '#EDE4FA', go('library')), Y('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', '#FFF0C2', go('tawheed'))] : []),
           Y('learn', 'Learn with the Sheikh', 'مَعَ ٱلشَّيْخ', 'mushaf', '#E8F4EC', go('learn'), { say: 'Learn the Quran with the Sheikh' }),
           Y('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFBEF', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
+          ...(act('trail') ? [Y('trail', 'Noor Trail', 'دَرْبُ ٱلنُّور', 'beacon', '#FFE4CC', go('trail'), { say: 'Noor Trail' })] : []),
           ...(act('guardians') ? [Y('guardians', 'Guardians of Light', 'حُرَّاسُ ٱلنُّور', 'beacon', '#FFF0C2', go('guardians'))] : []),
           Y('games', 'Games', 'أَلْعَاب', 'match', '#FFE4CC', null, { children: games.map(YC) }),
           Y('garden', 'My garden', 'حَدِيقَتِي', 'garden', '#DDF2D6', () => openGarden()),
@@ -1612,7 +1613,7 @@ const levels = [
           const list = mine.filter((a) => (a.worlds ?? []).includes(wid));
           return list.length ? P('w-' + wid, title, W[wid]?.ar, ic, tone, null, { text: text ?? W[wid]?.text, children: list.map((a) => C(a, tone)) }) : null;
         };
-        const adventures = ['guardians', 'seerah', 'maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean);
+        const adventures = ['trail', 'guardians', 'seerah', 'maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean);
         places = [
           subject('quran', 'Qur’an', 'quran', 'sage', 'Recite to the Sheikh, memorise, revise and build the ayat.'),
           subject('arabic', 'Arabic', 'arabic', 'sand'),
@@ -1712,6 +1713,12 @@ const levels = [
       else if (a.kind === 'deen') openDeen(a.view);
       else if (a.kind === 'games') openGames(a.game);
       else if (a.kind === 'tajweed') openTajweed();
+      else if (a.kind === 'trail') {
+        stopMedia(); stopSound();
+        // Noor Trail is a page of its own: it gets the sign-in for this tab only, and the Alif Ba palms for Garden points
+        try { sessionStorage.setItem('trail-me', JSON.stringify({ token: me.token, username: me.username, name: me.name.split(' ')[0], level: me.level || 1, gender: me.gender || '', palms: palms(), url: document.body.dataset.logUrl || '' })); } catch {}
+        location.href = siteUrl('play/trail/');
+      }
       else if (a.kind === 'adventure') {
         stopMedia(); stopSound();
         // the game is a page of its own: it gets the student's sign-in for this tab only (sessionStorage), so it can

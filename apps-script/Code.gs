@@ -651,9 +651,9 @@ function mazeBoard(body) {
 // "hidden" in the Students tab's "Leaderboard name" column, or by a username in this tab's "Hidden" list (column I).
 const BOARD_TAB = 'Leaderboard';
 const BOARD_HEADERS = ['When', 'Week (Monday)', 'Username', 'Name', 'Level', 'Activity', 'Points', '', 'Hidden (usernames)'];
-const BOARD_ACTS = ['hifz', 'recite', 'alifba', 'learn', 'stories', 'reading', 'seerah', 'guardians', 'maze', 'adventure', 'deen', 'games'];
+const BOARD_ACTS = ['hifz', 'recite', 'alifba', 'learn', 'stories', 'reading', 'seerah', 'guardians', 'maze', 'adventure', 'trail', 'deen', 'games'];
 const BOARD_FROM_GAME = { alifba: 1, learn: 1, stories: 1, reading: 1, seerah: 1, guardians: 1 };   // sent with a game row
-const BOARD_FROM_CLIENT = { deen: 1, games: 1 };   // activities that keep no other row: the website sends 'board-add'
+const BOARD_FROM_CLIENT = { deen: 1, games: 1, trail: 1 };   // activities that keep no other row (Noor Trail: one per finished stage): the website sends 'board-add'
 const BOARD_DAY_CAP = 100;
 function boardSheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -733,7 +733,7 @@ function leaderboard(body) {
   const r = student(body);
   if (r.error) return { ok: false, error: r.error };
   const lvl = boardLevel(findClass(r.st.v[S.cls]));
-  if (!lvl) return { ok: true, level: 0, acts: {}, champs: {} };
+  // a student outside Levels 1 to 4 still sees the boards across all levels (their own level's board is empty)
   const me = String(r.st.v[S.user]).toLowerCase();
   const now = new Date(), prev = new Date(now.getTime() - 7 * 864e5);
   const week = advWeek(now), lastWeek = advWeek(prev);

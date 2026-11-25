@@ -19,6 +19,7 @@ export const ACTS = {
   guardians: { title: 'Guardians of Light', icon: '🏮' },
   maze: { title: 'Mazes', icon: '🧭' },
   adventure: { title: "Ta'aleem Adventure", icon: '⛰️' },
+  trail: { title: 'Noor Trail', icon: '🗺️' },
   deen: { title: 'My Deen', icon: '🤲' },
   games: { title: 'Play & Make', icon: '🎨' },
 };
@@ -29,33 +30,35 @@ const lv = (x) => `Level ${x.level}`;
 
 // ── the headlines ──
 export function headlines(data) {
-  if (!data?.ok || !data.level) return [];
-  const out = [], mine = [];
+  // every student sees the leader of every activity across all levels (the "headline" lines, always all of them, in
+  // the activities' order), then their own news, then a few extras (their level's leader, close races, last week's champions)
+  if (!data?.ok || !data.acts) return [];
+  const lead = [], mine = [], extra = [];
+  const L = data.level >= 1 && data.level <= 4 ? data.level : 0;
   for (const act of ORDER) {
     const b = data.acts?.[act]; if (!b) continue;
     const { title, icon } = ACTS[act];
-    const top = b.all[0], second = b.all[1];
+    const top = b.all?.[0], second = b.all?.[1];
     if (top?.me) mine.push({ icon: '🌟', act, text: `MashaAllah! You lead ${title} across all four levels this week, with ${top.points} points.` });
-    else if (top) out.push({ icon, act, text: `${top.name} (${lv(top)}) leads ${title} across all levels: ${top.points} points.` });
-    const lt = b.level[0];
-    if (lt && lt.me && !top?.me) mine.push({ icon: '🌟', act, text: `You are top of Level ${data.level} in ${title}! Keep it up.` });
-    else if (lt && !lt.me && lt.name !== top?.name) out.push({ icon, act, text: `In Level ${data.level}, ${lt.name} is top of ${title}.` });
+    if (top) lead.push({ icon, act, text: `${title}: ${top.me ? 'you lead' : `${top.name} (${lv(top)}) leads`} across all levels with ${top.points} points.` });
+    const lt = b.level?.[0];
+    if (L && lt && lt.me && !top?.me) mine.push({ icon: '🌟', act, text: `You are top of Level ${L} in ${title}! Keep it up.` });
+    else if (L && lt && !lt.me && lt.name !== top?.name) extra.push({ icon, act, text: `In Level ${L}, ${lt.name} is top of ${title}.` });
     if (top && second && top.points - second.points <= 10 && top.points > 0)
-      out.push({ icon: '🔥', act, text: `Neck and neck in ${title}: ${top.name} and ${second.name} are only ${top.points - second.points || 'a few'} points apart!` });
-    if (b.me && b.me.rankLevel > 1) {
+      extra.push({ icon: '🔥', act, text: `Neck and neck in ${title}: ${top.name} and ${second.name} are only ${top.points - second.points || 'a few'} points apart!` });
+    if (L && b.me && b.me.rankLevel > 1) {
       const ahead = b.level.find((x) => x.rank === b.me.rankLevel - 1) ?? b.level[b.me.rankLevel - 2];
       const gap = ahead ? ahead.points - b.me.points : 0;
-      mine.push({ icon: '🚀', act, text: gap > 0 ? `You are ${ord(b.me.rankLevel)} in Level ${data.level} for ${title}, just ${gap} points behind ${ord(b.me.rankLevel - 1)}. You can do it!` : `You are ${ord(b.me.rankLevel)} in Level ${data.level} for ${title}. Keep going!` });
+      mine.push({ icon: '🚀', act, text: gap > 0 ? `You are ${ord(b.me.rankLevel)} in Level ${L} for ${title}, just ${gap} points behind ${ord(b.me.rankLevel - 1)}. You can do it!` : `You are ${ord(b.me.rankLevel)} in Level ${L} for ${title}. Keep going!` });
     }
   }
   for (const act of ORDER) {
     const c = data.champs?.[act];
-    if (c) out.push({ icon: '👑', act, text: `Last week's ${ACTS[act].title} champion: ${c.name} (${lv(c)}). MashaAllah!` });
+    if (c) extra.push({ icon: '👑', act, text: `Last week's ${ACTS[act].title} champion: ${c.name} (${lv(c)}). MashaAllah!` });
   }
-  if (data.players > 1) out.push({ icon: '🌙', act: null, text: `${data.players} students are racing to do good this week. May Allah reward every one of them.` });
-  // a few of the student's own lines first, then the rest, shuffled so each visit reads a little differently
+  if (data.players > 1) extra.push({ icon: '🌙', act: null, text: `${data.players} students are racing to do good this week. May Allah reward every one of them.` });
   const shuffle = (a) => a.map((x) => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map((p) => p[1]);
-  return [...shuffle(mine).slice(0, 3), ...shuffle(out).slice(0, 12)];
+  return [...shuffle(mine).slice(0, 3), ...lead, ...shuffle(extra).slice(0, 8)];
 }
 
 // ── the ticker along the bottom ──

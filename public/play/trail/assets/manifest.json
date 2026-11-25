@@ -1,0 +1,438 @@
+{
+  "_notes": {
+    "license": "All assets CC0 1.0. See CREDITS.md.",
+    "sunAzimuthDeg": "Measured from the brightest region of each 1k HDR: azimuth = u*360 where u is the horizontal equirect coordinate (0..1, left edge = 0). sunDir is the matching unit vector in three.js world space for an un-rotated scene.environment/background (three.js equirect: u = atan2(z,x)/2pi + 0.5). If you rotate the env (backgroundRotation/environmentRotation), rotate sunDir the same way.",
+    "tex": "All 1k JPG. nor = OpenGL normal (+Y). arm = glTF-style packed AO (R) / Roughness (G) / Metalness (B): use it as aoMap + roughnessMap + metalnessMap in three.js. rough = greyscale roughness. metres = real-world width one tile covers (ambientCG sizes approximate).",
+    "models": "Meshopt + WebP compressed: three.js GLTFLoader needs setMeshoptDecoder(MeshoptDecoder) from three/examples/jsm/libs/meshopt_decoder.module.js. sizeM = real-world bounding box [w,h,d] in metres at scale 1 (origin at base). Several props are small in real life (rock 7cm, basket, plant) - scale them up in-game.",
+    "hdri2k": "2k .hdr versions were NOT downloaded (would add ~31 MB and break the 40 MB budget). 2k sizes are in each entry (size2kMB); URL pattern https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/<id>_2k.hdr"
+  },
+  "hdri": {
+    "oasis": {
+      "file": "hdri/oasis.hdr",
+      "source": "kloofendal_43d_clear_puresky",
+      "url": "https://polyhaven.com/a/kloofendal_43d_clear_puresky",
+      "note": "clear sunny midday sky, sun high; pure sky (no ground)",
+      "sunElevationDeg": 43,
+      "sunAzimuthDeg": 216,
+      "sunDir": [
+        0.592,
+        0.682,
+        0.43
+      ],
+      "size1kMB": 1.185,
+      "size2kMB": 4.62
+    },
+    "dunes": {
+      "file": "hdri/dunes.hdr",
+      "source": "syferfontein_6d_clear_puresky",
+      "url": "https://polyhaven.com/a/syferfontein_6d_clear_puresky",
+      "note": "clear golden-hour sky, sun 6 deg above horizon, warm long shadows; pure sky",
+      "sunElevationDeg": 6,
+      "sunAzimuthDeg": 216,
+      "sunDir": [
+        0.805,
+        0.105,
+        0.585
+      ],
+      "size1kMB": 1.13,
+      "size2kMB": 4.65
+    },
+    "bazaar": {
+      "file": "hdri/bazaar.hdr",
+      "source": "qwantani_dusk_2_puresky",
+      "url": "https://polyhaven.com/a/qwantani_dusk_2_puresky",
+      "note": "dusk after sunset, warm pink/violet horizon, no visible sun (brightest = horizon glow); pure sky",
+      "sunElevationDeg": 13,
+      "sunAzimuthDeg": 216,
+      "sunDir": [
+        0.785,
+        0.225,
+        0.578
+      ],
+      "size1kMB": 1.166,
+      "size2kMB": 4.61
+    },
+    "caves": {
+      "file": "hdri/caves.hdr",
+      "source": "hikers_cave",
+      "url": "https://polyhaven.com/a/hikers_cave",
+      "note": "real rock-cave interior, dim; bright cave mouth (green forest outside) is the key light",
+      "sunElevationDeg": 12,
+      "sunAzimuthDeg": 216,
+      "sunDir": [
+        0.795,
+        0.208,
+        0.57
+      ],
+      "size1kMB": 1.845,
+      "size2kMB": 7.29
+    },
+    "cliffs": {
+      "file": "hdri/cliffs.hdr",
+      "source": "kloofendal_48d_partly_cloudy_puresky",
+      "url": "https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky",
+      "note": "bright day, partly cloudy with puffy clouds, sun high; pure sky",
+      "sunElevationDeg": 48,
+      "sunAzimuthDeg": 214,
+      "sunDir": [
+        0.553,
+        0.743,
+        0.376
+      ],
+      "size1kMB": 1.435,
+      "size2kMB": 5.45
+    },
+    "light": {
+      "file": "hdri/light.hdr",
+      "source": "qwantani_moonrise_puresky",
+      "url": "https://polyhaven.com/a/qwantani_moonrise_puresky",
+      "note": "night / blue hour, deep blue sky with bright moon low on horizon (moon is the key light); pure sky",
+      "sunElevationDeg": 14,
+      "sunAzimuthDeg": 216,
+      "sunDir": [
+        0.785,
+        0.242,
+        0.57
+      ],
+      "size1kMB": 1.273,
+      "size2kMB": 4.92
+    }
+  },
+  "tex": {
+    "path": {
+      "diff": "tex/path_diff.jpg",
+      "nor": "tex/path_nor.jpg",
+      "arm": "tex/path_arm.jpg",
+      "metres": 2,
+      "source": "cobblestone_floor_08",
+      "site": "polyhaven",
+      "url": "https://polyhaven.com/a/cobblestone_floor_08",
+      "note": "grey/beige rectangular cobblestones"
+    },
+    "wall": {
+      "diff": "tex/wall_diff.jpg",
+      "nor": "tex/wall_nor.jpg",
+      "arm": "tex/wall_arm.jpg",
+      "metres": 3,
+      "source": "sandstone_blocks_08",
+      "site": "polyhaven",
+      "url": "https://polyhaven.com/a/sandstone_blocks_08",
+      "note": "warm sandstone ashlar blocks"
+    },
+    "sand": {
+      "diff": "tex/sand_diff.jpg",
+      "nor": "tex/sand_nor.jpg",
+      "rough": "tex/sand_rough.jpg",
+      "metres": 2,
+      "source": "Ground093C",
+      "site": "ambientcg",
+      "url": "https://ambientcg.com/view?id=Ground093C",
+      "note": "cream desert/dune sand with ripples (tint warmer for golden dunes)"
+    },
+    "wood": {
+      "diff": "tex/wood_diff.jpg",
+      "nor": "tex/wood_nor.jpg",
+      "arm": "tex/wood_arm.jpg",
+      "metres": 2,
+      "source": "weathered_planks",
+      "site": "polyhaven",
+      "url": "https://polyhaven.com/a/weathered_planks",
+      "note": "weathered wood planks"
+    },
+    "clay": {
+      "diff": "tex/clay_diff.jpg",
+      "nor": "tex/clay_nor.jpg",
+      "arm": "tex/clay_arm.jpg",
+      "metres": 2,
+      "source": "clay_plaster",
+      "site": "polyhaven",
+      "url": "https://polyhaven.com/a/clay_plaster",
+      "note": "terracotta-brown clay plaster"
+    },
+    "rock": {
+      "diff": "tex/rock_diff.jpg",
+      "nor": "tex/rock_nor.jpg",
+      "arm": "tex/rock_arm.jpg",
+      "metres": 1.83,
+      "source": "cliff_side",
+      "site": "polyhaven",
+      "url": "https://polyhaven.com/a/cliff_side",
+      "note": "grey cliff rock face"
+    },
+    "marble": {
+      "diff": "tex/marble_diff.jpg",
+      "nor": "tex/marble_nor.jpg",
+      "rough": "tex/marble_rough.jpg",
+      "metres": 2,
+      "source": "Marble021",
+      "site": "ambientcg",
+      "url": "https://ambientcg.com/view?id=Marble021",
+      "note": "bright white polished marble, faint veins"
+    },
+    "grass": {
+      "diff": "tex/grass_diff.jpg",
+      "nor": "tex/grass_nor.jpg",
+      "arm": "tex/grass_arm.jpg",
+      "metres": 2,
+      "source": "leafy_grass",
+      "site": "polyhaven",
+      "url": "https://polyhaven.com/a/leafy_grass",
+      "note": "grass with leaves (garden ground)"
+    }
+  },
+  "models": {
+    "boulder": {
+      "file": "models/boulder.glb",
+      "source": "namaqualand_boulder_02",
+      "url": "https://polyhaven.com/a/namaqualand_boulder_02",
+      "sizeM": [
+        2.53,
+        0.88,
+        1.23
+      ],
+      "use": "tall-obstacle",
+      "lands": [
+        "dunes",
+        "caves",
+        "cliffs",
+        "oasis"
+      ],
+      "note": "cluster of desert boulders (mesh simplified to ~20%)",
+      "sizeKB": 708
+    },
+    "rock": {
+      "file": "models/rock.glb",
+      "source": "rock_09",
+      "url": "https://polyhaven.com/a/rock_09",
+      "sizeM": [
+        0.07,
+        0.03,
+        0.14
+      ],
+      "use": "low-obstacle",
+      "lands": [
+        "dunes",
+        "caves",
+        "cliffs",
+        "oasis"
+      ],
+      "note": "single rock - real size is a pebble, scale ~8-10x",
+      "sizeKB": 324
+    },
+    "crate": {
+      "file": "models/crate.glb",
+      "source": "wooden_crate_01",
+      "url": "https://polyhaven.com/a/wooden_crate_01",
+      "sizeM": [
+        0.83,
+        0.35,
+        0.41
+      ],
+      "use": "low-obstacle",
+      "lands": [
+        "bazaar",
+        "cliffs",
+        "oasis"
+      ],
+      "note": "old wooden chest/crate",
+      "sizeKB": 315
+    },
+    "barrel": {
+      "file": "models/barrel.glb",
+      "source": "wooden_barrels_01",
+      "url": "https://polyhaven.com/a/wooden_barrels_01",
+      "sizeM": [
+        0.74,
+        0.92,
+        0.74
+      ],
+      "use": "tall-obstacle",
+      "lands": [
+        "bazaar",
+        "cliffs",
+        "oasis"
+      ],
+      "note": "single intact wooden barrel extracted from the barrel set",
+      "sizeKB": 361
+    },
+    "pot": {
+      "file": "models/pot.glb",
+      "source": "planter_pot_clay",
+      "url": "https://polyhaven.com/a/planter_pot_clay",
+      "sizeM": [
+        0.27,
+        0.22,
+        0.26
+      ],
+      "use": "low-obstacle",
+      "lands": [
+        "oasis",
+        "bazaar",
+        "dunes",
+        "light"
+      ],
+      "note": "terracotta clay pot",
+      "sizeKB": 195
+    },
+    "vase": {
+      "file": "models/vase.glb",
+      "source": "antique_ceramic_vase_01",
+      "url": "https://polyhaven.com/a/antique_ceramic_vase_01",
+      "sizeM": [
+        0.26,
+        0.44,
+        0.26
+      ],
+      "use": "scenery",
+      "lands": [
+        "bazaar",
+        "light"
+      ],
+      "note": "tall blue-and-white glazed ceramic vase (floral pattern)",
+      "sizeKB": 173
+    },
+    "log": {
+      "file": "models/log.glb",
+      "source": "dead_tree_trunk",
+      "url": "https://polyhaven.com/a/dead_tree_trunk",
+      "sizeM": [
+        3.05,
+        0.29,
+        0.28
+      ],
+      "use": "low-obstacle",
+      "lands": [
+        "oasis",
+        "caves",
+        "cliffs"
+      ],
+      "note": "fallen dead tree log (mesh simplified to ~20%)",
+      "sizeKB": 515
+    },
+    "deadtree": {
+      "file": "models/deadtree.glb",
+      "source": "dead_quiver_trunk",
+      "url": "https://polyhaven.com/a/dead_quiver_trunk",
+      "sizeM": [
+        0.31,
+        1.99,
+        0.27
+      ],
+      "use": "tall-obstacle",
+      "lands": [
+        "dunes"
+      ],
+      "note": "dead desert tree trunk standing upright",
+      "sizeKB": 389
+    },
+    "lantern": {
+      "file": "models/lantern.glb",
+      "source": "wooden_lantern_01",
+      "url": "https://polyhaven.com/a/wooden_lantern_01",
+      "sizeM": [
+        0.22,
+        0.53,
+        0.24
+      ],
+      "use": "scenery",
+      "lands": [
+        "bazaar",
+        "light",
+        "caves"
+      ],
+      "note": "wooden candle lantern with glass panes",
+      "sizeKB": 467
+    },
+    "plant": {
+      "file": "models/plant.glb",
+      "source": "potted_plant_04",
+      "url": "https://polyhaven.com/a/potted_plant_04",
+      "sizeM": [
+        0.17,
+        0.27,
+        0.18
+      ],
+      "use": "scenery",
+      "lands": [
+        "oasis",
+        "bazaar",
+        "light"
+      ],
+      "note": "aloe/succulent in a white pot",
+      "sizeKB": 390
+    },
+    "basket": {
+      "file": "models/basket.glb",
+      "source": "wicker_basket_01",
+      "url": "https://polyhaven.com/a/wicker_basket_01",
+      "sizeM": [
+        0.38,
+        0.12,
+        0.3
+      ],
+      "use": "scenery",
+      "lands": [
+        "bazaar",
+        "oasis"
+      ],
+      "note": "shallow wicker basket (market goods)",
+      "sizeKB": 463
+    }
+  },
+  "characters": {
+    "hero": {
+      "file": "models/hero.glb",
+      "source": "KayKit Character Pack: Adventures 1.0 - Rogue_Hooded (weapons removed, clips trimmed)",
+      "author": "Kay Lousberg",
+      "url": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+      "licenceUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/blob/main/addons/kaykit_character_pack_adventures/LICENSE.txt",
+      "licence": "CC0 1.0",
+      "bones": 41,
+      "heightUnits": 2.25,
+      "note": "Stylised low-poly hooded traveller with cape; single 1024 colour atlas. Skinned bbox reported by inspect is not meaningful; bind-pose height ~2.25 units (scale ~0.6 for a 1.35 m child).",
+      "clips": [
+        "Idle",
+        "Unarmed_Idle",
+        "Walking_A",
+        "Running_A",
+        "Running_B",
+        "Jump_Start",
+        "Jump_Idle",
+        "Jump_Land",
+        "Jump_Full_Short",
+        "Jump_Full_Long",
+        "Dodge_Left",
+        "Dodge_Right",
+        "Dodge_Forward",
+        "Hit_A",
+        "Death_A",
+        "Cheer",
+        "Interact",
+        "PickUp"
+      ],
+      "sizeKB": 531
+    },
+    "bug": {
+      "file": "models/bug.glb",
+      "source": "OpenGameArt \"Alien Bug animated\"",
+      "author": "CDmir",
+      "url": "https://opengameart.org/content/alien-bug-animated",
+      "licenceUrl": "https://opengameart.org/content/alien-bug-animated",
+      "licence": "CC0 1.0",
+      "bones": 30,
+      "sizeM": [
+        0.86,
+        0.57,
+        0.54
+      ],
+      "note": "Cartoon spider-legged bug with a scorpion tail, brown/black, big eyes. Low poly (700 verts). Feet at y=0 in bind pose.",
+      "clips": [
+        "Idle",
+        "Run",
+        "Attack.000",
+        "Attack.001"
+      ],
+      "sizeKB": 141
+    }
+  }
+}

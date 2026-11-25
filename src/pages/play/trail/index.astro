@@ -1,0 +1,222 @@
+---
+// Noor Trail: Ta'aleem's treasure-hunt runner (src/lib/runner/trail.mjs). Opened from the home screen, which hands
+// over the student's sign-in for this tab; opened on its own, it plays as a guest.
+const base = import.meta.env.BASE_URL;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Noor Trail · Ta'aleem</title>
+  <meta name="description" content="Noor Trail: a treasure-hunt adventure across six lands, with a Sheikh or Ustadh guiding every stage." />
+  <link rel="icon" href={`${base}favicon-64.png`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style is:global>
+    :root { --ink: #2B2118; --gold: #E2B84F; --teal: #1F7A80; --glass: rgba(255, 248, 236, 0.93); --line: rgba(43,33,24,.12); }
+    html, body { margin: 0; height: 100%; background: #101826; overflow: hidden; overscroll-behavior: none; }
+    body { font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--ink); -webkit-user-select: none; user-select: none; }
+    #tr { position: fixed; inset: 0; }
+    #tr-canvas { display: block; width: 100%; height: 100%; touch-action: none; outline: none; }
+    button { font: inherit; cursor: pointer; color: inherit; }
+    button:disabled { cursor: default; opacity: .5; }
+    [hidden] { display: none !important; }
+    h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; margin: 0; line-height: 1.1; }
+    p { margin: 8px 0; line-height: 1.45; font-size: 14.5px; }
+    .muted { opacity: .72; font-size: 13px; }
+
+    /* HUD */
+    .hud { position: absolute; inset: 0; pointer-events: none; }
+    .hud .top { position: absolute; top: max(10px, env(safe-area-inset-top)); left: 10px; right: 10px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .pill { background: var(--glass); border-radius: 999px; padding: 6px 12px; font-weight: 800; font-size: 15px; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+    .grow { flex: 1; }
+    .round { pointer-events: auto; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--glass); box-shadow: 0 4px 14px rgba(0,0,0,.2); font-weight: 800; }
+    .bar { position: absolute; top: max(58px, calc(env(safe-area-inset-top) + 50px)); left: 50%; transform: translateX(-50%); width: min(460px, 70vw); height: 8px; background: rgba(0,0,0,.35); border-radius: 99px; }
+    .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #F2C65A, #FFE7A0); border-radius: 99px; }
+    .bar .cp { position: absolute; top: -4px; width: 4px; height: 16px; background: #fff; border-radius: 2px; }
+    .bar::after { content: '🏁'; position: absolute; right: -22px; top: -7px; font-size: 16px; }
+    .shieldbtn { pointer-events: auto; position: absolute; right: 12px; bottom: max(64px, calc(env(safe-area-inset-bottom) + 56px)); border: 0; border-radius: 20px; padding: 10px 16px 10px 12px; display: flex; gap: 8px; align-items: center; background: linear-gradient(180deg, #FFF1C9, #F2C65A); box-shadow: 0 6px 0 #B98A22, 0 10px 24px rgba(0,0,0,.3); font-weight: 800; max-width: 60vw; text-align: left; }
+    .shieldbtn span { font-size: 26px; }
+    .shieldbtn[data-state="listening"] { background: linear-gradient(180deg, #D7F6FF, #7FD3F0); box-shadow: 0 6px 0 #3C93B5, 0 0 0 6px rgba(127,211,240,.35); animation: pulse 1s infinite; }
+    .shieldbtn[data-state="on"] { background: linear-gradient(180deg, #FFF7DA, #FFD45A); box-shadow: 0 6px 0 #C9951E, 0 0 30px 8px rgba(255,212,90,.7); }
+    .shieldbtn[data-state="cool"] { filter: grayscale(.7); opacity: .8; }
+    @keyframes pulse { 50% { box-shadow: 0 6px 0 #3C93B5, 0 0 0 14px rgba(127,211,240,.15); } }
+    .powers { position: absolute; left: 12px; bottom: max(64px, calc(env(safe-area-inset-bottom) + 56px)); display: flex; gap: 6px; }
+    .powers button { pointer-events: auto; border: 0; border-radius: 14px; background: var(--glass); padding: 8px 10px; font-weight: 800; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+    .powers i { font-style: normal; font-size: 12px; opacity: .7; margin-left: 3px; }
+    .compass, .chase { position: absolute; left: 50%; transform: translateX(-50%); top: max(78px, calc(env(safe-area-inset-top) + 72px)); background: rgba(20,30,40,.78); color: #fff; border-radius: 10px; padding: 5px 10px; font-size: 13px; font-weight: 700; }
+    .chase { top: auto; bottom: 22vh; background: rgba(140,20,20,.85); animation: blink .6s infinite; }
+    @keyframes blink { 50% { opacity: .55; } }
+    .hint { position: absolute; left: 12px; top: max(92px, calc(env(safe-area-inset-top) + 86px)); max-width: min(420px, 80vw); pointer-events: none; transition: opacity .35s, transform .35s; }
+    .hint.out { opacity: 0; transform: translateY(-8px); }
+    .hint .gcard { background: var(--glass); border-radius: 18px; padding: 8px 12px 8px 8px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+    .hint .gface svg { width: 64px; height: auto; }
+    .toast { position: absolute; left: 50%; top: 34%; transform: translateX(-50%); background: rgba(25,20,15,.85); color: #fff; padding: 9px 16px; border-radius: 12px; font-size: 15px; font-weight: 700; text-align: center; max-width: 86vw; }
+
+    /* guide card */
+    .gcard { display: flex; gap: 12px; align-items: flex-start; text-align: left; }
+    .gface { flex: none; border-radius: 50%; overflow: hidden; }
+    .gname { display: block; font-size: 15px; }
+    .gtrait { display: block; font-size: 12px; opacity: .65; }
+    .gcard p { margin: 4px 0 0; }
+
+    /* panels */
+    .panel { position: absolute; inset: 0; display: grid; place-items: center; padding: 14px; overflow: auto; }
+    .card { background: var(--glass); backdrop-filter: blur(8px); border-radius: 22px; padding: 20px 22px; width: min(560px, 100%); box-shadow: 0 18px 50px rgba(20, 12, 5, .35); }
+    .card.wide { width: min(980px, 100%); }
+    .btn { border: 0; border-radius: 14px; padding: 13px 18px; font-weight: 800; font-size: 16px; background: rgba(43,33,24,.08); }
+    .btn.gold { background: linear-gradient(180deg, #F2C65A, #D99A26); color: #3a2400; box-shadow: 0 5px 0 #A8701A, 0 8px 18px rgba(0,0,0,.2); }
+    .btn.gold:active { transform: translateY(3px); box-shadow: 0 2px 0 #A8701A; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+    .goals { margin: 10px 0; padding-left: 20px; font-size: 14px; line-height: 1.6; }
+    .bigstars { font-size: 44px; color: #E8A317; letter-spacing: 6px; text-align: center; }
+    .stats { display: flex; justify-content: center; gap: 22px; margin: 10px 0; text-align: center; }
+    .stats b { display: block; font-size: 26px; }
+    .stats span { font-size: 12px; opacity: .7; }
+    .fact { background: rgba(31,122,128,.1); border-radius: 12px; padding: 8px 12px; }
+
+    /* the quest map */
+    #tr-map { place-items: start center; background: linear-gradient(180deg, rgba(10,16,30,.55), rgba(10,16,30,.25)); }
+    .maphead { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: #fff; margin: 6px 0 12px; }
+    .maphead h1 { font-size: 34px; }
+    .maphead .grow { flex: 1; }
+    .maphead .btn { background: var(--glass); color: var(--ink); }
+    .lands { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+    .land { background: var(--glass); border-radius: 18px; padding: 12px 14px; box-shadow: 0 8px 22px rgba(0,0,0,.25); border-top: 6px solid var(--teal); }
+    .land-oasis { border-color: #3C8D5A; } .land-dunes { border-color: #D9A441; } .land-bazaar { border-color: #B0577A; } .land-caves { border-color: #36C8FF; } .land-cliffs { border-color: #3C7CC4; } .land-light { border-color: #7C8CD0; }
+    .land.locked { opacity: .55; }
+    .land header { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+    .land .ln { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; opacity: .6; }
+    .land h3 { font-size: 20px; }
+    .land .piece { font-size: 12px; font-weight: 700; color: #8a5a00; }
+    .land .tag { font-size: 13px; opacity: .75; margin: 4px 0 8px; }
+    .nodes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .node { border: 2px solid var(--line); background: #fff; border-radius: 12px; padding: 6px 2px; display: flex; flex-direction: column; align-items: center; gap: 1px; min-height: 74px; }
+    .node .nn { font-weight: 800; font-size: 18px; }
+    .node .ns { font-size: 11px; color: #E8A317; letter-spacing: 1px; }
+    .node .nt { font-size: 10px; line-height: 1.15; text-align: center; opacity: .75; padding: 0 2px; }
+    .node.done { border-color: #E2B84F; background: #FFF6DC; }
+    .node.boss { border-color: #8E2C3C; }
+    .node:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.15); }
+
+    /* shop and look */
+    .power { display: flex; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding: 10px 0; }
+    .power p { margin: 2px 0; font-size: 13px; }
+    .buy { border: 0; border-radius: 12px; padding: 10px 14px; font-weight: 800; background: linear-gradient(180deg, #CFF3D6, #67C27E); min-width: 82px; }
+    .wallet { font-weight: 800; font-size: 18px; }
+    .sw { width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(0,0,0,.15); padding: 0; }
+    .sw[aria-pressed="true"] { outline: 3px solid var(--teal); outline-offset: 2px; }
+    .chip { border: 2px solid transparent; background: rgba(43,33,24,.08); border-radius: 999px; padding: 7px 14px; font-weight: 700; }
+    .chip[aria-pressed="true"] { border-color: var(--teal); background: #fff; }
+    #tr-look { place-items: end start; }
+    #tr-look .card { width: min(380px, 100%); margin: 0 0 6vh 3vw; }
+    .loading { color: #fff; text-align: center; }
+    .spin { width: 46px; height: 46px; border-radius: 50%; border: 4px solid rgba(255,255,255,.25); border-top-color: var(--gold); animation: sp 0.9s linear infinite; margin: 0 auto 14px; }
+    @keyframes sp { to { transform: rotate(360deg); } }
+    .corner { position: absolute; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); display: flex; gap: 5px; }
+    .corner .chip { background: var(--glass); padding: 6px 10px; font-size: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.2); }
+    @media (max-width: 600px) {
+      .maphead h1 { font-size: 26px; }
+      #tr-look { place-items: end center; }
+      #tr-look .card { margin: 0 0 60px; }
+      .shieldbtn b { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="tr">
+    <canvas id="tr-canvas" tabindex="0" aria-label="Noor Trail"></canvas>
+
+    <div class="hud" id="tr-hud" hidden>
+      <div class="top">
+        <div class="pill" id="tr-hearts" aria-label="Hearts"></div>
+        <div class="pill">⭐ <span id="tr-stars">0</span></div>
+        <div class="pill" id="tr-tre" hidden></div>
+        <div class="grow"></div>
+        <button class="round" type="button" data-act="pause" aria-label="Pause">II</button>
+      </div>
+      <div class="bar"><i id="tr-bar-fill"></i><span class="cp" id="tr-cp0"></span><span class="cp" id="tr-cp1"></span></div>
+      <div class="compass" id="tr-compass" hidden></div>
+      <div class="chase" id="tr-chase" hidden>🕷️ The giant spider is right behind you!</div>
+      <div class="hint" id="tr-hint" hidden></div>
+      <div class="powers">
+        <button type="button" data-act="p2" id="tr-p2" hidden title="Double Stars (key 2)">✨×2<i></i></button>
+        <button type="button" data-act="p3" id="tr-p3" hidden title="Slow Steps (key 3)">🐢<i></i></button>
+      </div>
+      <button class="shieldbtn" type="button" data-act="shield" id="tr-shield" data-state="ready" title="Shield of light (Q)"><span>🛡️</span><b>Say “SubhanAllah”</b></button>
+    </div>
+    <div class="toast" id="tr-toast" role="status" hidden></div>
+
+    <div class="panel" id="tr-loading"><div class="loading"><div class="spin"></div><p><b>Preparing the trail…</b></p><p id="tr-tip" style="max-width:420px"></p></div></div>
+
+    <div class="panel" id="tr-map" hidden>
+      <div class="card wide" style="background:none;box-shadow:none;backdrop-filter:none;padding:4px">
+        <div class="maphead">
+          <div><h1>Noor Trail</h1><span id="tr-who" class="muted" style="color:#fff;opacity:.85"></span></div>
+          <div class="grow"></div>
+          <button class="btn" type="button" data-act="look">🧒 My runner</button>
+          <button class="btn gold" type="button" data-act="shop">🌱 Powers</button>
+          <button class="btn" type="button" data-act="home">🏠 Ta'aleem</button>
+        </div>
+        <p id="tr-map-stats" style="color:#fff;margin:-6px 0 12px;font-weight:700"></p>
+        <div class="lands" id="tr-lands"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="tr-brief" hidden>
+      <div class="card">
+        <h2 id="tr-brief-h"></h2>
+        <div id="tr-brief-body" style="margin-top:12px"></div>
+        <div class="row"><button class="btn gold" type="button" data-act="go">Bismillah, let's go!</button><button class="btn" type="button" data-act="shop">🌱 Powers</button><button class="btn" type="button" data-act="map">Map</button></div>
+      </div>
+    </div>
+
+    <div class="panel" id="tr-win" hidden>
+      <div class="card"><h2 id="tr-win-h"></h2><div id="tr-win-body"></div>
+        <div class="row"><button class="btn gold" type="button" id="tr-win-next">Next stage</button><button class="btn" type="button" id="tr-win-map">Quest map</button></div></div>
+    </div>
+
+    <div class="panel" id="tr-lose" hidden>
+      <div class="card"><h2>Not this time…</h2><div id="tr-lose-body" style="margin-top:10px"></div>
+        <div class="row"><button class="btn gold" type="button" id="tr-lose-cp">Try again from the checkpoint</button><button class="btn" type="button" id="tr-lose-again">Start the stage again</button><button class="btn" type="button" data-act="map">Map</button></div></div>
+    </div>
+
+    <div class="panel" id="tr-pause" hidden>
+      <div class="card"><h2>Paused</h2><p class="muted">Arrows or swipes to run · Q or the shield button for the shield of light · 2 and 3 for powers.</p>
+        <div class="row"><button class="btn gold" type="button" data-act="resume">Keep running</button><button class="btn" type="button" data-act="map">Quest map</button></div></div>
+    </div>
+
+    <div class="panel" id="tr-shop" hidden>
+      <div class="card"><h2>🌱 Powers from your garden</h2>
+        <p class="wallet" id="tr-wallet"></p><p class="muted" id="tr-shop-note"></p>
+        <div id="tr-shop-list"></div>
+        <div class="row"><button class="btn gold" type="button" id="tr-shop-close">Done</button></div></div>
+    </div>
+
+    <div class="panel" id="tr-story" hidden>
+      <div class="card"><h2 id="tr-story-h"></h2><div id="tr-story-body"></div><div class="row"><button class="btn gold" type="button" id="tr-story-go">Continue</button></div></div>
+    </div>
+
+    <div class="panel" id="tr-look" hidden>
+      <div class="card"><h2>My runner</h2>
+        <div class="row"><button class="chip" type="button" data-who="boy">Boy</button><button class="chip" type="button" data-who="girl">Girl</button></div>
+        <div class="row" id="tr-outfits"></div>
+        <div class="row" id="tr-skins"></div>
+        <div class="row"><button class="btn gold" type="button" data-act="look-done">Done</button></div></div>
+    </div>
+
+    <div class="corner">
+      <button class="chip" type="button" data-q="hd" title="Shadows, glow and sharper picture">HD</button>
+      <button class="chip" type="button" data-q="lite" title="Faster on older laptops and phones">Lite</button>
+      <button class="chip" type="button" data-act="sound" id="tr-sound" aria-label="Sound">♪</button>
+      <button class="chip" type="button" data-act="full" aria-label="Full screen">⛶</button>
+    </div>
+  </div>
+  <script>
+    import { startTrail } from '../../../lib/runner/trail.mjs';
+    startTrail(document.getElementById('tr'), { base: import.meta.env.BASE_URL });
+  </script>
+</body>
+</html>
