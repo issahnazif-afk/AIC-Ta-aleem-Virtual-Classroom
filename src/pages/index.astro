@@ -1589,7 +1589,7 @@ const levels = [
         // Canva pictures (public/img/home/) where there is one, the colourful drawn icons for the rest, each on its own
         // soft colour. Pointing at a tile says its name, and it bounces.
         // the school's storybook pictures (public/img/home/): the place's own picture; three of them carry their name
-        const ART = { letters: 'letters', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', stories: 'stories', books: 'books', prophets: 'prophets', library: 'morals', tawheed: 'kinder', quran: 'quran', games: 'games', garden: 'garden', stars: 'stars' };
+        const ART = { letters: 'letters', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', stories: 'stories', books: 'books', prophets: 'prophets', library: 'morals', tawheed: 'kinder', quran: 'quran', games: 'games', garden: 'garden', stars: 'stars', trail: 'trail' };
         const LOGO = new Set(['books', 'duas', 'garden']);
         const Y = (id, title, ar, ic, color, open, extra = {}) => ({ id, title, ar, color, open, ...extra,
           logo: LOGO.has(id), pic: !!ART[id],
@@ -1601,12 +1601,13 @@ const levels = [
           Y('sunnah', 'Sunnah of the day', 'سُنَّةُ الْيَوْمِ', 'sunnah', '#FFF0C2', () => openDeen('sunnah'), { shelf: true }),
           Y('prophet', 'Our Prophet ﷺ', 'نَبِيُّنَا ﷺ', 'prophet', '#DCEBFA', () => openDeen('prophet'), { shelf: true }),
           Y('stories', 'Stories', 'قِصَص', 'stories', '#FCE1E8', go('stories')),
+          // Noor Trail near the top, with a picture of the game (public/img/home/trail.webp, a frame of the game itself)
+          ...(act('trail') ? [Y('trail', 'Noor Trail', 'دَرْبُ ٱلنُّور', 'beacon', '#FFE4CC', go('trail'), { say: 'Noor Trail' })] : []),
           Y('books', 'My books', 'كُتُبِي', 'books', '#DDF2E6', go('books')),
           Y('prophets', 'Stories of the Prophets', 'قَصَصُ ٱلْأَنْبِيَاء', 'prophets', '#DCEBFA', go('prophets')),
           ...(me.level >= 2 ? [Y('library', 'Reading Library', 'ٱلْمَكْتَبَة', 'library', '#EDE4FA', go('library')), Y('tawheed', 'Knowing Allah', 'ٱلتَّوْحِيد', 'tawheed', '#FFF0C2', go('tawheed'))] : []),
           Y('learn', 'Learn with the Sheikh', 'مَعَ ٱلشَّيْخ', 'mushaf', '#E8F4EC', go('learn'), { say: 'Learn the Quran with the Sheikh' }),
           Y('quran', 'Qur’an', 'ٱلْقُرْآن', 'mushaf', '#FFFBEF', go(me.level >= 2 ? 'ayah' : 'recite'), { say: "Qur'an" }),
-          ...(act('trail') ? [Y('trail', 'Noor Trail', 'دَرْبُ ٱلنُّور', 'beacon', '#FFE4CC', go('trail'), { say: 'Noor Trail' })] : []),
           ...(act('guardians') ? [Y('guardians', 'Guardians of Light', 'حُرَّاسُ ٱلنُّور', 'beacon', '#FFF0C2', go('guardians'))] : []),
           Y('games', 'Games', 'أَلْعَاب', 'match', '#FFE4CC', null, { children: games.map(YC) }),
           Y('garden', 'My garden', 'حَدِيقَتِي', 'garden', '#DDF2D6', () => openGarden()),
