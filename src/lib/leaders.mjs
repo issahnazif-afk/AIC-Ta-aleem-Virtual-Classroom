@@ -36,11 +36,12 @@ export function headlines(data) {
   const lead = [], mine = [], extra = [];
   const L = data.level >= 1 && data.level <= 4 ? data.level : 0;
   for (const act of ORDER) {
-    const b = data.acts?.[act]; if (!b) continue;
+    const b = data.acts?.[act] ?? { all: [], level: [] };
     const { title, icon } = ACTS[act];
     const top = b.all?.[0], second = b.all?.[1];
     if (top?.me) mine.push({ icon: '🌟', act, text: `MashaAllah! You lead ${title} across all four levels this week, with ${top.points} points.` });
     if (top) lead.push({ icon, act, text: `${title}: ${top.me ? 'you lead' : `${top.name} (${lv(top)}) leads`} across all levels with ${top.points} points.` });
+    else lead.push({ icon, act, text: `${title}: no leader yet this week. Be the first!` });
     const lt = b.level?.[0];
     if (L && lt && lt.me && !top?.me) mine.push({ icon: '🌟', act, text: `You are top of Level ${L} in ${title}! Keep it up.` });
     else if (L && lt && !lt.me && lt.name !== top?.name) extra.push({ icon, act, text: `In Level ${L}, ${lt.name} is top of ${title}.` });
@@ -61,18 +62,24 @@ export function headlines(data) {
   return [...shuffle(mine).slice(0, 3), ...lead, ...shuffle(extra).slice(0, 8)];
 }
 
+// the news shown at once on signing in, before the boards arrive (or when they cannot be reached)
+export function waitingNews() {
+  return [{ icon: '📣', act: null, text: 'Live leaderboard news is on its way…' },
+    ...ORDER.map((act) => ({ icon: ACTS[act].icon, act, text: `${ACTS[act].title}: every activity you finish this week earns points. Can you lead it?` }))];
+}
+
 // ── the ticker along the bottom ──
 export function mountNews(bar, items, { onOpen } = {}) {
   bar.replaceChildren();
   if (!items.length) { bar.hidden = true; return; }
   const label = el('button', 'news-label'); label.type = 'button';
-  label.append(el('span', 'news-dot'), document.createTextNode('Headlines'));
+  label.append(el('span', 'news-dot'), document.createTextNode('LIVE · Leaderboard'));
   label.title = 'See the leaderboards'; label.addEventListener('click', () => onOpen?.());
   const view = el('div', 'news-view'); view.setAttribute('aria-hidden', 'true');
   const track = el('div', 'news-track');
   const line = () => items.map((it) => { const b = el('button', 'news-item'); b.type = 'button'; b.tabIndex = -1; b.append(el('span', 'news-ic', it.icon), document.createTextNode(it.text)); b.addEventListener('click', () => onOpen?.(it.act)); return b; });
   track.append(...line(), ...line());   // twice, so the loop is seamless
-  track.style.setProperty('--news-secs', `${Math.max(30, items.length * 9)}s`);
+  track.style.setProperty('--news-secs', `${Math.max(25, items.length * 7)}s`);
   view.append(track);
   // screen readers: the same news as a plain list, read on request
   const sr = el('ul', 'sr-only'); sr.setAttribute('aria-label', 'Leaderboard headlines'); items.forEach((it) => sr.append(el('li', '', it.text)));

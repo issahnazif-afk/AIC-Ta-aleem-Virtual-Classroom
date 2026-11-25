@@ -777,7 +777,7 @@ const levels = [
     import { configure, isDemo, login, register, listClasses, setGender, sendSession, flushOutbox } from '../lib/classlog.mjs';
     import { phrase, praiseFor, speak } from '../lib/phrases.mjs';
     import { getProgress, saveProgress, logGame, logMaze, gameBoard, boardName, sheikhOn, sheikhTalk, getBoard, boardAdd } from '../lib/classlog.mjs';
-    import { headlines, mountNews, flyIn, renderLeaders } from '../lib/leaders.mjs';
+    import { headlines, mountNews, flyIn, renderLeaders, waitingNews } from '../lib/leaders.mjs';
     import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, lookalikes } from '../lib/alifba.mjs';
     import { createLanterns } from '../lib/lanterns.mjs';
     import { LESSONS, GAMES, SPEEDS, STOPS, DUAS, SURAHS, examples, forms, syllable, syllableItems, basketsFor } from '../lib/lessons.mjs';
@@ -1493,29 +1493,38 @@ const levels = [
       $('dest-kids').hidden = false;
       const kids = !store.get(classicKey(), false);
       if (kids) showKids(); else show('s-home');
+      loadLeaders(fresh);   // the headlines start at once, before progress and questions load
       if (fresh) {
         progress = await getProgress({ token: me.token, username: me.username });
         await loadBank(me.token);
       }
       renderDashboard();
-      loadLeaders(fresh);
     }
     // ── the leaderboards (Levels 1 to 4): headlines on the home screens, and the leaderboards screen ──
     let leaders = null, leadersAt = 0, lbView = { act: '', scope: 'level' };
+    // The headlines run along the bottom of the home screens for every signed-in student, like live news: at once on
+    // signing in (the last news seen on this device, or a starter line), then the live boards, refreshed every two minutes.
     async function loadLeaders(fresh) {
       const nb = $('news');
       if (fresh) { leaders = null; delete nb.dataset.closed; }
-      if (!me.token) { nb.hidden = true; nb.replaceChildren(); return; }   // every signed-in student sees the headlines
+      if (!me.token) { nb.hidden = true; nb.replaceChildren(); return; }
+      const cacheKey = 'leaders-last-' + me.username;
+      const paint = (items, fly) => {
+        mountNews(nb, items, { onOpen: openLeaders });
+        nb.hidden = !(items.length && !nb.dataset.closed && NEWS_ON.some((id) => !$(id).hidden));
+        if (fly && items.length) { document.querySelector('.news-fly')?.remove(); setTimeout(() => flyIn(items[0], { onOpen: openLeaders }), 500); }
+      };
       if (!leaders || Date.now() - leadersAt > 120000) {
+        if (fresh || !nb.childElementCount) { const old = headlines(store.get(cacheKey, null)); paint(old.length ? old : waitingNews(), false); }
         const r = await getBoard({ token: me.token, name: me.name, level: me.level });
         if (!me.token) return;   // signed out meanwhile
-        leaders = r; leadersAt = Date.now();
+        if (r?.ok) { leaders = r; leadersAt = Date.now(); store.set(cacheKey, r); }
+        else if (!leaders) { leaders = store.get(cacheKey, null); leadersAt = Date.now(); }
       }
       const items = headlines(leaders);
-      mountNews(nb, items, { onOpen: openLeaders });
-      nb.hidden = !(items.length && !nb.dataset.closed && NEWS_ON.some((id) => !$(id).hidden));
-      if (fresh && items.length) setTimeout(() => flyIn(items[0], { onOpen: openLeaders }), 900);
+      paint(items.length ? items : waitingNews(), fresh);
     }
+    setInterval(() => { if (me.token && NEWS_ON.some((id) => !$(id).hidden)) loadLeaders(false); }, 120000);
     // ── Learn Qur'an with the Sheikh: the room, and the session sent to the teacher's class log like any recitation ──
     let learnView = null;
     async function openLearn() {
