@@ -787,6 +787,8 @@ export function createEngine({ stage, SR, level = 'intermediate', reciter, gende
     const passage = passageText();
     const perAyah = [...ayahMarks.values()].sort((a, b) => a.s - b.s || a.a - b.a).map((x) => ({ ...x, marks: [...x.marks] }));
     const weakAyahs = perAyah.filter((x) => x.marks.some((m) => m === 'wrong' || m === 'prompt')).map((x) => `${x.s}:${x.a}`);
+    // the reading tracker (src/lib/reading.mjs) counts every ayah recited, for children and adults alike
+    try { if (perAyah.length) globalThis.dispatchEvent?.(new CustomEvent('ta:recited', { detail: { keys: perAyah.map((x) => `${x.s}:${x.a}`) } })); } catch {}
     ui.finished?.({ mode: byHeart ? 'follow' : mode, tally: { ...tally }, questions: asked.length, passage: passage.text, ayahCount: passage.count, perAyah, weakAyahs, spots: spots.slice(0, 12), ms: Date.now() - startedAt, listen: listenMode, pages: pagesDone.map((x) => ({ ...x })) });
   }
 

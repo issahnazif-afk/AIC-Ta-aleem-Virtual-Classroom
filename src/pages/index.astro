@@ -21,6 +21,7 @@ import '@fontsource/playfair-display/500-italic.css';
 import '@fontsource/playfair-display/600.css';
 import '../styles/front.css';
 import '../styles/leaders.css';
+import '../styles/my-quran.css';
 import '../styles/halaqah.css';
 import Sheikh from '../components/Sheikh.astro';
 import PaperPick from '../components/PaperPick.astro';
@@ -423,6 +424,19 @@ const levels = [
   </section>
 
   <!-- The leaderboards, Levels 1 to 4 (src/lib/leaders.mjs) ─ -->
+  <section class="screen flow" id="s-myquran" hidden aria-labelledby="mq-h">
+    <header class="topbar">
+      <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · My Qur'an</small></span></div>
+      <nav class="tabs-nav" aria-label="Sections"><button type="button" class="navb" data-go="home">‹ Classroom</button></nav>
+      <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
+    </header>
+    <div class="flow-main">
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Qur'an</p>
+      <h1 id="mq-h">Your Qur'an journey</h1>
+      <div id="mq-root" aria-live="polite"></div>
+    </div>
+  </section>
+
   <section class="screen flow" id="s-leaders" hidden aria-labelledby="lb-h">
     <header class="topbar">
       <div class="brand"><img class="brand-logo" src={u('logo-160.png')} alt="Ta'aleem logo" width="44" height="44" /><span><b>Ta'aleem</b><small>Classroom · Leaderboards</small></span></div>
@@ -778,6 +792,8 @@ const levels = [
     import { phrase, praiseFor, speak } from '../lib/phrases.mjs';
     import { getProgress, saveProgress, logGame, logMaze, gameBoard, boardName, sheikhOn, sheikhTalk, getBoard, boardAdd } from '../lib/classlog.mjs';
     import { headlines, mountNews, flyIn, renderLeaders, waitingNews } from '../lib/leaders.mjs';
+    import { renderMyQuran } from '../lib/my-quran.mjs';
+    import { markRead, normalise as normaliseReading } from '../lib/reading.mjs';
     import { LETTERS, LEVEL_GAME, levelNumber, lessonState, MASTERED, lookalikes } from '../lib/alifba.mjs';
     import { createLanterns } from '../lib/lanterns.mjs';
     import { LESSONS, GAMES, SPEEDS, STOPS, DUAS, SURAHS, examples, forms, syllable, syllableItems, basketsFor } from '../lib/lessons.mjs';
@@ -1558,6 +1574,20 @@ const levels = [
       });
     }
     $('hq-home').addEventListener('click', () => { learnView?.stop(); goHome(); });
+    // ── My Qur'an: the reading tracker (src/lib/reading.mjs). Every ayah recited to the Sheikh in any activity is counted
+    // (the engine announces them when a session ends, before the session's progress is saved) ──
+    addEventListener('ta:recited', (e) => {
+      if (!me.token || !e.detail?.keys?.length) return;
+      progress.reading = normaliseReading(progress.reading);
+      markRead(progress.reading, e.detail.keys, { keepDays: 60 });   // the class log keeps a child's progress under 40,000 characters
+      clearTimeout(readingSave); readingSave = setTimeout(() => saveProgress({ token: me.token, username: me.username, progress }), 4000);
+    });
+    let readingSave = 0;
+    function openMyQuran() {
+      show('s-myquran');
+      const recite = forLevel(me.level).find((a) => a.id === 'recite' || a.kind === 'recite');
+      renderMyQuran($('mq-root'), progress.reading, SURAH_META, { young: me.level <= 2, onRecite: recite ? () => openActivity(recite) : null });
+    }
     async function openLeaders(act) {
       if (act) lbView.act = act;
       document.querySelector('.news-fly')?.remove();
@@ -1579,7 +1609,7 @@ const levels = [
       const act = (id) => mine.find((a) => a.id === id);
       const go = (id) => () => { const a = act(id); if (a) openActivity(a); };
       // one family of line icons in muted medallions (src/lib/home-icons.mjs)
-      const ICON_OF = { hifz: 'hifz', reading: 'reading', recite: 'recite', alifba: 'letters', stories: 'stories', library: 'library', tawheed: 'tawheed', prophets: 'prophets', books: 'books', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', days: 'days', detective: 'detective', ayah: 'ayah', match: 'match', journey: 'journey', salah: 'salah', akhlaq: 'akhlaq', 'maze-hijrah': 'mazes', 'maze-tarawih': 'mazes', 'maze-board': 'trophy', seerah: 'seerah', guardians: 'guardians', tajweed: 'tajweed' };
+      const ICON_OF = { myquran: 'quran', hifz: 'hifz', reading: 'reading', recite: 'recite', alifba: 'letters', stories: 'stories', library: 'library', tawheed: 'tawheed', prophets: 'prophets', books: 'books', duas: 'duas', sunnah: 'sunnah', prophet: 'prophet', days: 'days', detective: 'detective', ayah: 'ayah', match: 'match', journey: 'journey', salah: 'salah', akhlaq: 'akhlaq', 'maze-hijrah': 'mazes', 'maze-tarawih': 'mazes', 'maze-board': 'trophy', seerah: 'seerah', guardians: 'guardians', tajweed: 'tajweed' };
       const P = (id, title, ar, ic, tone, open, extra = {}) => ({ id, title, ar, icon: homeIcon(ic, tone), open, ...extra });
       const C = (a, tone) => P(a.id, a.title, a.ar, ICON_OF[a.id] ?? 'stories', tone, () => openActivity(a), { text: a.text });
       const games = mine.filter((a) => a.group === 'play' && (!a.suggested || a.suggested.includes(me.level)));
@@ -1614,6 +1644,7 @@ const levels = [
           Y('mazes', 'Mazes', 'مَتَاهَات', 'maze', '#F6E3BC', null, { shelf: true, children: ['maze-hijrah', 'maze-tarawih', 'maze-board'].map(act).filter(Boolean).map(YC) }),
           Y('days', 'Special days', 'أَيَّامٌ مُبَارَكَة', 'calendar', '#E0E6FA', () => openDeen('days'), { shelf: true }),
           Y('stars', 'My stars', 'نُجُومِي', 'awards', '#FFF0C2', () => openAwards(), { shelf: true }),
+          Y('myquran', 'My Qur’an', 'قُرْآنِي', 'mushaf', '#E8F4EC', () => openMyQuran(), { shelf: true, say: 'My Quran' }),
           Y('leaders', 'Leaderboard', 'ٱلْأَبْطَال', 'awards', '#FFE9A8', () => openLeaders(), { shelf: true, say: 'Leaderboard' }),
         ];
       } else {
@@ -1723,6 +1754,7 @@ const levels = [
       else if (a.kind === 'deen') openDeen(a.view);
       else if (a.kind === 'games') openGames(a.game);
       else if (a.kind === 'tajweed') openTajweed();
+      else if (a.kind === 'myquran') openMyQuran();
       else if (a.kind === 'trail') {
         stopMedia(); stopSound();
         // Noor Trail is a page of its own: it gets the sign-in for this tab only, and the Alif Ba palms for Garden points

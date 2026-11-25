@@ -1,0 +1,38 @@
+/* My Qur'an (src/lib/my-quran.mjs): the children's reading record. Classroom tokens from system.css. */
+#mq-root { display: flex; flex-direction: column; gap: 16px; }
+.mq-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.mq-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 18px 10px; border-radius: var(--r-large, 20px); background: var(--white, #fff); border: 1px solid var(--line, #E2DACB); text-align: center; }
+.mq-stat b { font: 700 34px var(--font-display, serif); color: var(--forest, #0E6B4E); line-height: 1.1; }
+.mq-stat span { font-size: 14px; color: var(--muted, #666); }
+.mq-empty { margin: 8px 0; padding: 22px; border-radius: var(--r-large, 20px); background: var(--white, #fff); border: 1px dashed var(--line, #E2DACB); font-size: 17px; text-align: center; }
+.mq-h { margin: 10px 0 0; font-size: 22px; }
+.mq-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.mq-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; align-items: center; padding: 16px 18px; border-radius: var(--r-large, 20px); background: var(--white, #fff); border: 1px solid var(--line, #E2DACB); }
+.mq-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; grid-column: 1; }
+.mq-top b { font-size: 17px; }
+.mq-ar { font-family: var(--font-ar-ui, serif); font-size: 20px; color: var(--muted, #666); }
+.mq-bar { grid-column: 1; height: 10px; border-radius: 99px; background: var(--rule, #EDE6D6); overflow: hidden; }
+.mq-bar i { display: block; height: 100%; border-radius: 99px; background: var(--forest, #0E6B4E); }
+.mq-note { grid-column: 1; color: var(--muted, #666); font-size: 13.5px; }
+.mq-go { grid-column: 2; grid-row: 1 / span 3; min-height: 44px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--forest, #0E6B4E); color: #fff; font: 700 15px var(--font-ui, system-ui); cursor: pointer; }
+.mq-go:hover { background: var(--forest-deep, #0A5039); }
+.mq-done { display: flex; flex-wrap: wrap; gap: 8px; }
+.mq-chip { padding: 8px 14px; border-radius: 999px; background: var(--gold-soft, #FBE3A6); color: var(--ink, #222); font-weight: 700; font-size: 14.5px; }
+.mq-star { color: var(--gold-text, #8A6416); }
+.mq-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; align-items: end; height: 150px; padding: 14px 16px; border-radius: var(--r-large, 20px); background: var(--white, #fff); border: 1px solid var(--line, #E2DACB); }
+.mq-day { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%; }
+.mq-day i { display: block; width: 100%; max-width: 34px; border-radius: 8px 8px 3px 3px; background: var(--forest, #0E6B4E); }
+.mq-day i.zero { background: var(--rule, #EDE6D6); }
+.mq-day small { font-size: 12px; color: var(--muted, #666); }
+.mq-day .mq-n { font-weight: 700; color: var(--ink, #222); }
+/* Levels 1 and 2: bigger and brighter */
+body[data-age="young"] .mq-stat b { font-size: 40px; }
+body[data-age="young"] .mq-item, body[data-age="young"] .mq-stat { border-width: 2px; }
+body[data-age="young"] .mq-go { background: var(--gold-soft, #FBE3A6); color: var(--ink, #222); border: 2px solid var(--gold, #C9A24A); font-size: 17px; }
+@media (max-width: 600px) {
+  .mq-stats { gap: 8px; }
+  .mq-stat b { font-size: 28px; }
+  .mq-item { grid-template-columns: 1fr; }
+  .mq-go { grid-column: 1; grid-row: auto; justify-self: start; }
+  .mq-days { gap: 5px; }
+}

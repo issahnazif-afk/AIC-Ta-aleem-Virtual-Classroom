@@ -1,0 +1,247 @@
+---
+// My reading: what the adult has read (surahs complete and in progress, pages, days), and the khatm quest: finish the
+// whole Qur'an in 1, 2, 3, 6 or 12 months, with today's pages and this week's pages. The record and the plan are in
+// src/lib/reading.mjs; this browser's copy (saved to the account) in src/quran/lib/reading.mjs.
+import Base from '../../../quran/layouts/Base.astro';
+import { u } from '../../../quran/lib/url.mjs';
+import { getMeta } from '../../../quran/lib/data.mjs';
+const names = getMeta().surahs.map((s) => ({ en: s.en, ar: s.ar }));
+---
+<Base title="My reading" active="reading" description="Your Qur'an reading, and a plan to complete the whole Qur'an.">
+  <style is:global>
+    .rd.page { padding-top: 32px; padding-bottom: 64px; display: flex; flex-direction: column; gap: 28px; }
+    .rd-kicker { margin: 0 0 8px; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-text); }
+    .rd h1 { margin: 0; font-size: clamp(30px, 4vw, 44px); line-height: 1.1; }
+    .rd-lede { margin: 10px 0 0; max-width: 640px; color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .rd h2 { margin: 0; font-size: 24px; }
+    .rd-label { margin: 0; font-family: var(--font-ui); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .rd-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-surface); padding: 26px 28px; display: flex; flex-direction: column; gap: 18px; }
+
+    .rd-quest { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 9%, var(--surface)), var(--surface)); }
+    .rd-choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+    .rd-choice { display: flex; flex-direction: column; gap: 4px; padding: 16px; border: 1px solid var(--field); border-radius: var(--r-control); background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+    .rd-choice b { font-family: var(--font-display); font-size: 22px; }
+    .rd-choice span { font-size: 14px; color: var(--muted); }
+    .rd-choice[aria-pressed="true"] { border: 2px solid var(--accent); background: var(--accent-soft); padding: 15px; }
+    .rd-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+    .rd-top { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+    .rd-status { padding: 6px 12px; border-radius: var(--r-tag); font-size: 14px; font-weight: 700; background: var(--accent-soft); color: var(--accent-strong); white-space: nowrap; }
+    .rd-status.behind { background: color-mix(in srgb, var(--terracotta) 14%, var(--surface)); color: var(--terracotta-text); }
+    .rd-status.ahead { background: color-mix(in srgb, var(--gold) 22%, var(--surface)); color: var(--gold-text); }
+    .rd-bar { height: 10px; border-radius: 99px; background: var(--rule); overflow: hidden; }
+    .rd-bar > span { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+    .rd-bar.gold > span { background: var(--gold); }
+    .rd-meta { margin: 0; color: var(--muted); font-size: 15px; }
+    .rd-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .rd-card { border: 1px solid var(--line); border-radius: var(--r-control); padding: 18px; background: var(--surface); display: flex; flex-direction: column; gap: 8px; }
+    .rd-card .big { font-family: var(--font-display); font-size: 26px; font-weight: 600; line-height: 1.2; margin: 0; }
+    .rd-card p { margin: 0; }
+    .rd-weeks { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; max-height: 360px; overflow: auto; }
+    .rd-weeks li { display: grid; grid-template-columns: 76px 1fr 120px 80px; gap: 10px; align-items: center; font-size: 14px; padding: 6px 8px; border-radius: 8px; }
+    .rd-weeks li.now { background: var(--accent-soft); font-weight: 700; }
+    .rd-weeks li.past { color: var(--muted); }
+    .rd-weeks .rd-bar { height: 6px; }
+    .rd details summary { cursor: pointer; font-weight: 700; color: var(--accent-strong); }
+
+    .rd-log { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+    .rd-log label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
+    .rd-log input { width: 96px; min-height: 44px; padding: 0 10px; border: 1px solid var(--field); border-radius: var(--r-control); background: var(--surface); color: var(--ink); font: inherit; font-size: 16px; }
+    .rd-note { margin: 0; font-size: 14px; color: var(--muted); }
+
+    .rd-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 0; }
+    .rd-stats div { border: 1px solid var(--line); border-radius: var(--r-control); padding: 14px 16px; background: var(--surface); }
+    .rd-stats dt { font-size: 13px; color: var(--muted); }
+    .rd-stats dd { margin: 2px 0 0; font-family: var(--font-display); font-size: 28px; font-weight: 600; }
+    .rd-days { display: grid; grid-template-columns: repeat(14, 1fr); gap: 6px; align-items: end; height: 110px; }
+    .rd-days div { display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+    .rd-days i { display: block; width: 100%; max-width: 28px; border-radius: 6px 6px 2px 2px; background: var(--accent); min-height: 3px; }
+    .rd-days i.zero { background: var(--rule); }
+    .rd-days small { font-size: 11px; color: var(--muted); }
+
+    .rd-prog { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .rd-prog li { display: grid; grid-template-columns: minmax(0, 1fr) 160px auto; gap: 14px; align-items: center; }
+    .rd-prog .nm { display: flex; gap: 10px; align-items: baseline; min-width: 0; }
+    .rd-prog .nm b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rd-prog .ar { font-family: var(--font-ar-ui); font-size: 18px; color: var(--muted); }
+    .rd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 6px; }
+    .rd-grid a { aspect-ratio: 1; border-radius: 8px; display: grid; place-items: center; font-size: 13px; font-weight: 700; text-decoration: none; color: var(--ink);
+      background: color-mix(in srgb, var(--accent) calc(var(--p) * 1%), var(--surface)); border: 1px solid var(--line); }
+    .rd-grid a.full { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+    .rd-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+    .rd-legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; background: var(--c); border: 1px solid var(--line); }
+    .rd-done { text-align: center; align-items: center; }
+    @media (max-width: 640px) {
+      .rd-box { padding: 20px 16px; }
+      .rd-weeks li { grid-template-columns: 62px 1fr 70px; }
+      .rd-weeks li .rd-bar { display: none; }
+      .rd-prog li { grid-template-columns: minmax(0, 1fr) 90px; }
+      .rd-prog li a.btn { grid-column: 1 / -1; justify-self: start; }
+      .rd-days { gap: 3px; }
+    }
+  </style>
+
+  <div class="wrap page rd" data-names={JSON.stringify(names)}>
+    <header>
+      <p class="rd-kicker">My reading</p>
+      <h1>Your journey through the Qur'an</h1>
+      <p class="rd-lede">Every page you read in the mushaf, every ayah you listen to the end, and every ayah you recite to the Sheikh is counted here. Set yourself a quest to complete the whole Qur'an, and follow your pages day by day.</p>
+    </header>
+
+    <section class="rd-box rd-quest" id="quest" aria-labelledby="q-h"></section>
+
+    <section class="rd-box" aria-labelledby="log-h">
+      <h2 id="log-h">Read from a paper mushaf?</h2>
+      <p class="rd-note">Add the pages here. They count towards your quest. Page numbers are those of the standard Madinah mushaf of 604 pages.</p>
+      <form class="rd-log" id="log">
+        <label>From page <input type="number" id="log-a" min="1" max="604" inputmode="numeric" required /></label>
+        <label>To page <input type="number" id="log-b" min="1" max="604" inputmode="numeric" /></label>
+        <button class="btn btn-primary" type="submit">Add these pages</button>
+      </form>
+      <p class="rd-note" id="log-msg" role="status"></p>
+    </section>
+
+    <section class="rd-box" aria-labelledby="all-h">
+      <h2 id="all-h">All your reading</h2>
+      <dl class="rd-stats" id="stats"></dl>
+      <div>
+        <p class="rd-label">The last 14 days (ayahs)</p>
+        <div class="rd-days" id="days" aria-label="Ayahs read on each of the last 14 days"></div>
+      </div>
+    </section>
+
+    <section class="rd-box" aria-labelledby="prog-h">
+      <h2 id="prog-h">Surahs in progress</h2>
+      <ul class="rd-prog" id="prog"></ul>
+    </section>
+
+    <section class="rd-box" aria-labelledby="grid-h">
+      <h2 id="grid-h">Every surah</h2>
+      <div class="rd-legend"><span style="--c:var(--surface)">Not started</span><span style="--c:color-mix(in srgb, var(--accent) 45%, var(--surface))">In progress</span><span style="--c:var(--accent)">Complete</span></div>
+      <div class="rd-grid" id="grid"></div>
+    </section>
+  </div>
+
+  <script>
+    import * as R from '../../../lib/reading.mjs';
+    import { record, activeQuest, quest as storedQuest, startQuest, endQuest, readPages } from '../../../quran/lib/reading.mjs';
+    import { u } from '../../../quran/lib/url.mjs';
+
+    const NAMES = JSON.parse(document.querySelector('.rd').dataset.names);
+    const $ = (id) => document.getElementById(id);
+    const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); for (const k of kids.flat()) if (k != null && k !== false) e.append(k); return e; };
+    const fmtDay = (s, opts = { weekday: 'short', day: 'numeric', month: 'short' }) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString(undefined, opts); };
+    const pg = (n) => `${n} page${n === 1 ? '' : 's'}`;
+    const round1 = (x) => (x >= 10 ? String(Math.round(x)) : String(Math.round(x * 10) / 10));
+    const where = (p) => { const k = R.pageFirst(p); return `${NAMES[k.s - 1].en} ${k.s}:${k.a}, juz ${R.juzOfPage(p)}`; };
+    const bar = (pct, gold) => el('div', { className: `rd-bar${gold ? ' gold' : ''}` }, el('span', { style: `width:${Math.max(0, Math.min(100, pct))}%` }));
+    const LABEL = { 1: '1 month', 2: '2 months', 3: '3 months', 6: '6 months', 12: '1 year' };
+
+    // ── the quest ──
+    let pick = 3;
+    function drawQuest() {
+      const box = $('quest'), q = activeQuest();
+      box.replaceChildren();
+      if (!q) {
+        const past = storedQuest()?.history ?? [];
+        box.append(el('h2', { id: 'q-h' }, 'Complete the Qur\'an: a khatm quest'),
+          el('p', { className: 'rd-note' }, 'Choose how long you would like to take. You will get your pages for each day and each week, and the plan adjusts if you fall behind.'));
+        const choices = el('div', { className: 'rd-choices', role: 'group', 'aria-label': 'How long' });
+        for (const m of R.QUEST_MONTHS) {
+          const end = R.addMonths(R.dayOf(), m), D = R.daysBetween(R.dayOf(), end);
+          const b = el('button', { type: 'button', className: 'rd-choice' }, el('b', {}, LABEL[m]), el('span', {}, `${round1(604 / D)} pages a day`), el('span', {}, `about ${Math.round((604 * 7) / D)} pages a week`), el('span', {}, `done by ${fmtDay(end, { day: 'numeric', month: 'long', year: 'numeric' })}`));
+          b.setAttribute('aria-pressed', String(m === pick));
+          b.addEventListener('click', () => { pick = m; drawQuest(); });
+          choices.append(b);
+        }
+        const go = el('button', { type: 'button', className: 'btn btn-primary' }, `Begin: complete the Qur'an in ${LABEL[pick]}`);
+        go.addEventListener('click', () => { startQuest(pick); drawAll(); $('quest').scrollIntoView({ block: 'start', behavior: 'smooth' }); });
+        box.append(choices, el('div', { className: 'rd-row' }, go));
+        const done = past.filter((h) => h.finished);
+        if (past.length) box.append(el('p', { className: 'rd-note' }, `Past quests: ${past.length}${done.length ? `, ${done.length} completed, alhamdulillah` : ''}.`));
+        return;
+      }
+      const p = R.questPlan(q);
+      if (p.finished) {
+        const days = R.daysBetween(q.start, p.finished) + 1;
+        box.classList.add('rd-done');
+        const again = el('button', { type: 'button', className: 'btn btn-primary' }, 'Begin another quest');
+        again.addEventListener('click', () => { endQuest(); drawAll(); });
+        box.append(el('p', { className: 'rd-label' }, 'Quest complete'), el('h2', { id: 'q-h' }, 'You completed the whole Qur\'an. Alhamdulillah!'),
+          el('p', { className: 'rd-meta' }, `All 604 pages in ${days} day${days === 1 ? '' : 's'}, from ${fmtDay(q.start)} to ${fmtDay(p.finished)}. May Allah accept it from you.`), again);
+        return;
+      }
+      const status = p.behind > 0 ? el('span', { className: 'rd-status behind' }, `${pg(p.behind)} behind`) : p.behind < 0 ? el('span', { className: 'rd-status ahead' }, `${pg(-p.behind)} ahead`) : el('span', { className: 'rd-status' }, 'On track');
+      box.append(
+        el('div', { className: 'rd-top' },
+          el('div', {}, el('p', { className: 'rd-label' }, `Khatm quest · ${LABEL[q.months]}`), el('h2', { id: 'q-h' }, `Day ${p.dayNo} of ${p.D}`),
+            el('p', { className: 'rd-meta' }, `${p.done} of 604 pages (${p.pct}%) · finishes ${fmtDay(q.end, { day: 'numeric', month: 'long', year: 'numeric' })}`)),
+          status),
+        bar(p.pct, true));
+      if (p.over) box.append(el('p', { className: 'rd-note' }, `The planned time is over, with ${pg(p.left)} still to read. Keep going at your own pace, or begin a new quest.`));
+      const today = el('div', { className: 'rd-card' },
+        el('p', { className: 'rd-label' }, 'Today'),
+        el('p', { className: 'big' }, p.needToday ? `${pg(p.needToday)} to read` : 'Today\'s pages are done'),
+        el('p', { className: 'rd-meta' }, p.next ? `Carry on from page ${p.next}: ${where(p.next)}` : ''),
+        el('p', { className: 'rd-note' }, `The plan for today: pages ${p.todayFrom} to ${p.todayTo}. Read today so far: ${pg(p.doneToday)}.`),
+        p.behind > 0 && p.catchUp < p.needToday + p.doneToday ? el('p', { className: 'rd-note' }, `Or catch up gently: ${pg(p.catchUp)} a day from today finishes on time.`) : null,
+        p.next ? el('div', { className: 'rd-row' }, el('a', { className: 'btn btn-primary', href: u(`page/${p.next}/`) }, `Open page ${p.next}`)) : null);
+      const week = el('div', { className: 'rd-card' },
+        el('p', { className: 'rd-label' }, `This week · week ${p.weekNo} of ${p.weeks}`),
+        el('p', { className: 'big' }, `${p.weekDone} of ${pg(p.weekPlan)}`),
+        bar(p.weekPlan ? (100 * p.weekDone) / p.weekPlan : 0),
+        el('p', { className: 'rd-note' }, `${fmtDay(p.wStart)} to ${fmtDay(p.wEnd)}. The steady pace is ${round1(p.perDay)} pages a day, about ${Math.round(p.perWeek)} a week.`));
+      box.append(el('div', { className: 'rd-two' }, today, week));
+      // every week of the plan
+      const list = el('ul', { className: 'rd-weeks' });
+      for (const w of R.questWeeks(q)) {
+        const planned = w.planTo - w.planFrom + 1;
+        list.append(el('li', { className: w.now ? 'now' : w.past ? 'past' : '' }, el('span', {}, `Week ${w.n}`), el('span', {}, `${fmtDay(w.from, { day: 'numeric', month: 'short' })}: pages ${w.planFrom} to ${w.planTo}`), bar(planned ? (100 * w.done) / planned : 0), el('span', {}, `${w.done} / ${planned}`)));
+      }
+      const det = el('details', {}, el('summary', {}, 'The plan, week by week'), list);
+      const stop = el('button', { type: 'button', className: 'btn' }, 'Stop this quest');
+      stop.addEventListener('click', () => { if (confirm('Stop this quest? Your reading stays counted, and you can begin a new quest.')) { endQuest(); drawAll(); } });
+      box.append(det, el('div', { className: 'rd-row' }, stop));
+      setTimeout(() => list.querySelector('.now')?.scrollIntoView({ block: 'nearest' }), 0);
+    }
+
+    // ── pages read in a paper mushaf ──
+    $('log').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const a = Math.min(604, Math.max(1, Number($('log-a').value) || 0));
+      const b = Math.min(604, Math.max(a, Number($('log-b').value) || a));
+      if (!$('log-a').value) return;
+      readPages(Array.from({ length: b - a + 1 }, (_, i) => a + i));
+      $('log-msg').textContent = a === b ? `Page ${a} added.` : `Pages ${a} to ${b} added.`;
+      $('log-a').value = ''; $('log-b').value = '';
+      drawAll();
+    });
+
+    // ── everything read ──
+    function drawRecord() {
+      const s = R.summary(record());
+      const stat = (t, v) => el('div', {}, el('dt', {}, t), el('dd', {}, v));
+      $('stats').replaceChildren(
+        stat('Of the Qur\'an', `${Math.round((100 * s.read) / s.total)}%`), stat('Ayahs read', String(s.read)), stat('Pages complete', `${s.pages}`),
+        stat('Surahs complete', `${s.complete.length}`), stat('Days in a row', String(s.streak)), stat('Ayahs today', String(s.today)));
+      const max = Math.max(1, ...s.recent.map((x) => x.n));
+      $('days').replaceChildren(...s.recent.map((x) => el('div', { title: `${fmtDay(x.d)}: ${x.n} ayahs` }, el('i', { className: x.n ? '' : 'zero', style: `height:${x.n ? Math.max(6, (100 * x.n) / max) : 3}%` }), el('small', {}, fmtDay(x.d, { weekday: 'narrow' })))));
+      const prog = $('prog');
+      prog.replaceChildren();
+      if (!s.inProgress.length) prog.append(el('li', {}, el('p', { className: 'rd-note' }, s.read ? 'No surah is half-way just now.' : 'Nothing yet. Open the mushaf or a surah, and your reading will show here.')));
+      for (const x of [...s.inProgress].sort((a, b) => b.read / b.total - a.read / a.total).slice(0, 12)) {
+        const firstUnread = (() => { const bits = R.unpack(record().bits), [a] = R.surahRange(x.s); for (let i = 0; i < x.total; i++) if (!((bits[(a + i) >> 3] >> ((a + i) & 7)) & 1)) return i + 1; return 1; })();
+        prog.append(el('li', {}, el('span', { className: 'nm' }, el('b', {}, `${x.s}. ${NAMES[x.s - 1].en}`), el('span', { className: 'ar', lang: 'ar' }, NAMES[x.s - 1].ar)),
+          el('span', {}, bar((100 * x.read) / x.total), el('small', { className: 'rd-note' }, `${x.read} of ${x.total} ayahs`)),
+          el('a', { className: 'btn', href: u(`surah/${x.s}/#a${firstUnread}`) }, 'Continue')));
+      }
+      $('grid').replaceChildren(...s.surahs.map((x) => {
+        const p = Math.round((100 * x.read) / x.total);
+        return el('a', { href: u(`surah/${x.s}/`), className: p === 100 ? 'full' : '', style: `--p:${p ? 15 + p * 0.6 : 0}`, title: `${x.s}. ${NAMES[x.s - 1].en}: ${x.read} of ${x.total} ayahs` }, String(x.s));
+      }));
+    }
+    function drawAll() { drawQuest(); drawRecord(); }
+    drawAll();
+    document.addEventListener('ql:reading', drawRecord);
+  </script>
+</Base>

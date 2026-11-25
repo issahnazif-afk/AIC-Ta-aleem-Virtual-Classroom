@@ -189,6 +189,7 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
     import { wordCard } from '../../../quran/lib/word-audio.mjs';
     import { buildPaper, fitPaper, arNum } from '../../../quran/lib/mushaf.mjs';
     import { attachSwipe } from '../../../quran/lib/swipe.mjs';
+    import { dwell } from '../../../quran/lib/reading.mjs';
     import { u } from '../../../quran/lib/url.mjs';
     import { fullPage, mistakesSheet, trayPills } from '../../../quran/lib/fullpage.mjs';
 
@@ -257,7 +258,13 @@ const trOf = (s, a) => getSurah(s).ayahs[a - 1].tr[cfg.defaultTranslation] ?? ''
       } finally { busy = false; }
     }
 
+    // the reading tracker: the page (or both pages of a spread) counts as read after 30 seconds in view
+    let stopDwell = null;
     async function afterRender() {
+      stopDwell?.();
+      // only the pages on screen (the second page of a spread is in the page but hidden on narrow screens)
+      const shown = () => [...box.querySelectorAll('.paper')].filter((x) => getComputedStyle(x).display !== 'none');
+      stopDwell = dwell(() => [...new Set(shown().flatMap((x) => [...x.querySelectorAll('[data-k]')].map((w) => w.dataset.k)))], 30000 * Math.max(1, shown().length));
       document.getElementById('pg').value = String(n);
       document.title = document.title.replace(/page \d+/, `page ${n}`);
       if (location.pathname !== u(`page/${n}/`)) {

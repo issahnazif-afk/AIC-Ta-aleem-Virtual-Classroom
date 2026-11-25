@@ -37,6 +37,7 @@ const nav = [
 ];
 // quieter places, under "More"
 const more = [
+  ['reading', 'My reading', 'reading/'],
   ['saved', 'Saved ayahs', 'saved/'],
   ['letters', 'Arabic letters', 'letters/'],
   ['resources', 'Resources', 'resources/'],
@@ -151,6 +152,7 @@ const more = [
   <script>
     import { u } from '../lib/url.mjs';
     import { me, save, signOut, logTest } from '../lib/account.mjs';
+    import { read as readAyahs } from '../lib/reading.mjs';
     // the welcome fades away by itself (CSS); a tap closes it at once
     {
       const w = document.getElementById('welcome');
@@ -188,6 +190,15 @@ const more = [
       addEventListener('pagehide', () => save({ leaving: true }));
       document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save({ leaving: true }); });
       document.addEventListener('ql:test-result', (e) => logTest(e.detail));
+      // the reading tracker (src/quran/lib/reading.mjs): every ayah recited to the Sheikh, and every ayah heard to its end
+      // in Listen (it counts when the next one starts, after at least 3 seconds of this one)
+      addEventListener('ta:recited', (e) => readAyahs(e.detail?.keys ?? []));
+      let heard = null, heardAt = 0;
+      document.addEventListener('ql:ayah', (e) => {
+        const k = e.detail?.key ?? null;
+        if (heard && k !== heard && Date.now() - heardAt >= 3000 && document.visibilityState !== 'hidden') readAyahs([heard]);
+        heard = k; heardAt = Date.now();
+      });
     }
 
     if ('serviceWorker' in navigator && !import.meta.env.PUBLIC_APP_BUILD) {

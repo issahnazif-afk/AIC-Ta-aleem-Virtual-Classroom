@@ -135,6 +135,7 @@ const juz = s.ayahs[0].juz;
 
   <script>
     import { initPlayer, bookmarks, lastRead, settings, getJson, pad } from '../../../quran/lib/client.mjs';
+    import { read as readAyahs } from '../../../quran/lib/reading.mjs';
 
     const articles = [...document.querySelectorAll('article.ayah')];
     const surah = Number(articles[0].dataset.s);
@@ -258,5 +259,17 @@ const juz = s.ayahs[0].juz;
       }
     }, { rootMargin: '-40% 0px -55% 0px' });
     articles.forEach((el) => io.observe(el));
+    // the reading tracker: an ayah counts as read after 4 seconds in view (src/quran/lib/reading.mjs)
+    {
+      const timers = new Map();
+      const seen = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          const k = `${surah}:${e.target.dataset.a}`;
+          if (e.isIntersecting && !timers.has(k)) timers.set(k, setTimeout(() => { if (document.visibilityState === 'visible') readAyahs([k]); }, 4000));
+          else if (!e.isIntersecting && timers.has(k)) { clearTimeout(timers.get(k)); timers.delete(k); }
+        }
+      }, { threshold: 0.6 });
+      articles.forEach((el) => seen.observe(el));
+    }
   </script>
 </Base>

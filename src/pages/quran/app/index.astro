@@ -48,6 +48,12 @@ const ways = [
     .lib-actions { display: flex; flex-wrap: wrap; gap: 12px; }
     .lib-actions .btn { min-height: 48px; padding: 0 22px; font-size: 15px; }
 
+    .lib-quest { display: flex; flex-direction: column; gap: 6px; padding: 20px 24px; border-radius: var(--r-surface); text-decoration: none; color: var(--ink); border: 1px solid color-mix(in srgb, var(--gold) 55%, var(--line)); background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 10%, var(--surface)), var(--surface)); }
+    .lib-quest:hover { border-color: var(--gold); }
+    .lib-quest b { font-family: var(--font-display); font-size: 21px; font-weight: 600; }
+    .lib-quest-meta { color: var(--muted); font-size: 15px; }
+    .lib-quest-bar { height: 8px; border-radius: 99px; background: var(--rule); overflow: hidden; margin-top: 4px; }
+    .lib-quest-bar > span { display: block; height: 100%; background: var(--gold); }
     .lib-ways { display: flex; flex-direction: column; }
     .lib-ways .lib-label { margin-bottom: 6px; }
     .lib-ways-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
@@ -166,6 +172,13 @@ const ways = [
           </div>
         </div>
 
+        <a class="lib-quest" id="quest" href={u('reading/')}>
+          <span class="lib-label" id="quest-label">Khatm quest</span>
+          <b id="quest-title">Complete the Qur'an in 1 month to 1 year</b>
+          <span class="lib-quest-meta" id="quest-meta">Get your pages for each day and week, and see everything you have read.</span>
+          <span class="lib-quest-bar" id="quest-bar" hidden><span></span></span>
+        </a>
+
         <section class="lib-ways" aria-labelledby="ways-h">
           <div class="lib-ways-head">
             <h2 class="lib-label" id="ways-h">Ways to practise</h2>
@@ -241,6 +254,7 @@ const ways = [
           <div><dt>Page</dt><dd id="fig-page">1</dd></div>
         </dl>
         <nav class="lib-more" aria-label="More">
+          <a href={u('reading/')}>My reading</a>
           <a href={u('tafsir/')}>Tafsir</a>
           <a href={u('saved/')}>Saved ayahs</a>
           <a href={u('search/')}>Search</a>
@@ -255,9 +269,22 @@ const ways = [
 
   <script>
     import { lastRead, bookmarks, settings, getJson, pad, audioUrl } from '../../../quran/lib/client.mjs';
+    import { activeQuest } from '../../../quran/lib/reading.mjs';
+    import { questPlan } from '../../../lib/reading.mjs';
     import { u } from '../../../quran/lib/url.mjs';
     import { me, signOut } from '../../../quran/lib/account.mjs';
     const $ = (id) => document.getElementById(id);
+    // the khatm quest card: today's pages, or an invitation to begin one
+    {
+      const q = activeQuest();
+      if (q) {
+        const p = questPlan(q);
+        $('quest-label').textContent = p.finished ? 'Khatm quest complete' : `Khatm quest · day ${p.dayNo} of ${p.D}`;
+        $('quest-title').textContent = p.finished ? 'You completed the whole Qur’an. Alhamdulillah!' : p.needToday ? `Today: ${p.needToday} page${p.needToday === 1 ? '' : 's'}, from page ${p.next}` : 'Today’s pages are done. MashaAllah!';
+        $('quest-meta').textContent = p.finished ? 'Begin another quest when you are ready.' : `${p.done} of 604 pages · ${p.behind > 0 ? `${p.behind} pages behind` : p.behind < 0 ? `${-p.behind} pages ahead` : 'on track'}`;
+        $('quest-bar').hidden = false; $('quest-bar').firstElementChild.style.width = `${p.pct}%`;
+      }
+    }
 
     // greeting and today's date (with the Hijri date where the browser knows it)
     const who = me();

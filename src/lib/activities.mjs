@@ -24,6 +24,12 @@ export const ACTIVITIES = [
     title: 'Learn Qur’an with the Sheikh', ar: 'تَعَلَّمِ ٱلْقُرْآنَ مَعَ ٱلشَّيْخ',
     text: 'Read from the mushaf to the Sheikh: on your own, or he corrects you as in the halaqah, or he teaches you a page, ayah by ayah.',
   },
+  // My Qur'an: every ayah recited to the Sheikh, surahs complete and in progress (src/lib/my-quran.mjs, src/lib/reading.mjs)
+  {
+    id: 'myquran', worlds: ['quran'], kind: 'myquran', icon: 'quran', group: 'hifz',
+    title: 'My Qur’an', ar: 'قُرْآنِي',
+    text: 'Every surah and ayah you have recited: the ones you finished, and the ones to carry on.',
+  },
   {
     id: 'hifz', worlds: ['quran'], kind: 'recite', mode: 'hifz', icon: 'hifz', group: 'hifz',
     title: 'Hifz test', ar: 'اِخْتِبَارُ ٱلْحِفْظ',
