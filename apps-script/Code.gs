@@ -11,7 +11,7 @@
  *   • keeps ONE folder per class in your shared Drive folder ("Level 1"), holding that class's
  *     Google Sheet ("Level 1 · session log") and a "Snapshots" folder with the login photos,
  *   • adds one row per finished session to the class's sheet,
- *   • keeps the weekly leaderboards for Levels 1 to 4 ("Leaderboard" tab): points for practice in every activity,
+ *   • keeps the all-time leaderboards for Levels 1 to 4 ("Leaderboard" tab): points for practice in every activity,
  *   • keeps the adults' accounts for the Quran Library (taaleem.ca/quran/) in their own "Adults" tab.
  *
  * Set up once (full steps in apps-script/README.md):
@@ -484,7 +484,7 @@ function logMaze(body) {
 //   stage   the best time on one stage of the viewer's level track     my class / my level
 //   game    the points in one game on the viewer's level track          my class / my level
 //   level   the points across every game on the viewer's level track    my class / my level
-//   all     the points across every game, every level: the whole school, this week (from Monday, like the weekly practice board) or all time
+//   all     the points across every game, every level: the whole school, all time (period 'week' still gives this week)
 // A student's points: the best run of each stage, added up. Names: first name and initial, or "a Ta'aleem student" when
 // the "Leaderboard name" column of the Students tab says hidden. The top ten and the viewer's own row only.
 // Recitation and dhikr are never ranked: only maze runs come here.
@@ -553,7 +553,7 @@ function gameBoard(body) {
   if (!cls) return { ok: false, error: 'class-removed' };
   const q = body.query || {};
   const board = ['stage', 'game', 'level', 'all'].indexOf(q.board) >= 0 ? q.board : 'game';
-  const scope = q.scope === 'class' ? 'class' : 'level', period = q.period === 'all' ? 'all' : 'week';
+  const scope = q.scope === 'class' ? 'class' : 'level', period = q.period === 'week' ? 'week' : 'all';
   const game = String(q.game || ''), stage = Number(q.stage) || 1;
   const level = classLevel(cls), me = String(r.st.v[S.user]).trim().toLowerCase();
   const cache = CacheService.getScriptCache();
@@ -606,7 +606,7 @@ function boardName(body) {
   sh.getRange(r.st.row, BOARD_NAME_COL).setValue(body.hide ? 'hidden' : '');
   const c = CacheService.getScriptCache();
   c.remove('board-hidden');
-  c.removeAll(['board:' + advWeek(new Date()), 'board:' + advWeek(new Date(Date.now() - 7 * 864e5))]);   // the weekly practice boards too
+  c.remove('board:all');   // the practice leaderboards too
   return { ok: true, hidden: !!body.hide };
 }
 function mazeBoard(body) {
@@ -645,7 +645,8 @@ function mazeBoard(body) {
 //   Hifz test, Recite    10, + 2 per ayah (up to 40), + 1 per minute (up to 30), + 10 for 80% right first time
 //   every other activity 10 for finishing, + 5 for a strong result (maze and Adventure: + 5 per star)
 // A student earns at most 100 points per activity per day, so steady practice wins, not one long sitting.
-// Boards run Monday to Sunday and start again each week; last week's leaders are kept as "Champions of the week".
+// The boards are all-time: points add up across every day, week and year and never reset, so the more a student
+// practises, the higher they climb.
 // Students see their own level's board and the board across all four levels, by first name and initial.
 // A name can be hidden (shown as "a Ta'aleem student"): by the student or a parent (board-name), by a teacher typing
 // "hidden" in the Students tab's "Leaderboard name" column, or by a username in this tab's "Hidden" list (column I).
@@ -679,7 +680,7 @@ function boardAdd(v, cls, act, pts) {
   try {
     const now = new Date();
     boardSheet().appendRow([now, advWeek(now), String(v[S.user]), String(v[S.name]), lvl, act, Math.max(0, Math.round(pts))]);
-    CacheService.getScriptCache().remove('board:' + advWeek(now));
+    CacheService.getScriptCache().remove('board:all');
   } catch (err) { /* the board must never stop a session being saved */ }
 }
 function boardAddFor(body) {
@@ -696,31 +697,32 @@ function boardHidden(sh) {
   sh.getRange(2, 9, sh.getLastRow() - 1, 1).getValues().forEach(function (x) { const u = String(x[0]).trim().toLowerCase(); if (u) out[u] = true; });
   return out;
 }
-// one week's totals: { act: { username: { n: 'Maryam A.', l: 2, p: 120 } } }, cached for two minutes
-function boardWeek(week) {
+// the all-time totals: { act: { username: { n: 'Maryam A.', l: 2, p: 120 } } }, cached for two minutes. Every row
+// counts (still at most 100 points per activity per day); the name and level are the student's latest.
+function boardTotals() {
   const cache = CacheService.getScriptCache();
-  const hit = cache.get('board:' + week);
+  const hit = cache.get('board:all');
   if (hit) return JSON.parse(hit);
   const sh = boardSheet();
   // a hidden name (the Students tab's "Leaderboard name", the student's own choice, or this tab's Hidden list) shows as
   // "a Ta'aleem student", as on the game boards
   const hidden = hiddenNames();
   const last = sh.getLastRow();
-  const from = Math.max(2, last - 30000);
-  const rows = last >= 2 ? sh.getRange(from, 1, last - from + 1, 7).getValues() : [];
+  const rows = last >= 2 ? sh.getRange(2, 1, last - 1, 7).getValues() : [];
   const out = {}, day = {};
   rows.forEach(function (v) {
-    if (String(v[1]) !== week) return;
     const u = String(v[2]).toLowerCase(), act = String(v[5]);
     if (!u || BOARD_ACTS.indexOf(act) < 0) return;
     const d = u + '|' + act + '|' + (v[0] instanceof Date ? Utilities.formatDate(v[0], Session.getScriptTimeZone(), 'yyyy-MM-dd') : '');
     const p = Math.max(0, Math.min(Number(v[6]) || 0, BOARD_DAY_CAP - (day[d] || 0)));
     day[d] = (day[d] || 0) + p;
     const a = out[act] = out[act] || {};
-    const x = a[u] = a[u] || { n: hidden[u] ? "a Ta'aleem student" : shortName(v[3]), l: Number(v[4]) || 0, p: 0 };
+    const x = a[u] = a[u] || { n: '', l: 0, p: 0 };
+    x.n = hidden[u] ? "a Ta'aleem student" : shortName(v[3]);
+    x.l = Number(v[4]) || x.l;
     x.p += p;
   });
-  cache.put('board:' + week, JSON.stringify(out), 120);
+  try { cache.put('board:all', JSON.stringify(out), 120); } catch (err) { /* over the cache's size limit: worked out each time */ }
   return out;
 }
 function boardRank(list) {   // standard competition ranking: equal points share a place
@@ -735,11 +737,9 @@ function leaderboard(body) {
   const lvl = boardLevel(findClass(r.st.v[S.cls]));
   // a student outside Levels 1 to 4 still sees the boards across all levels (their own level's board is empty)
   const me = String(r.st.v[S.user]).toLowerCase();
-  const now = new Date(), prev = new Date(now.getTime() - 7 * 864e5);
-  const week = advWeek(now), lastWeek = advWeek(prev);
-  const cur = boardWeek(week), old = boardWeek(lastWeek);
+  const cur = boardTotals();
   const view = function (x) { return { rank: x.rank, name: x.n, level: x.l, points: x.p, me: x.u === me }; };
-  const acts = {}, champs = {};
+  const acts = {};
   let players = {};
   BOARD_ACTS.forEach(function (act) {
     const all = boardRank(Object.keys(cur[act] || {}).map(function (u) { const x = cur[act][u]; players[u] = 1; return { u: u, n: x.n, l: x.l, p: x.p }; }));
@@ -750,10 +750,8 @@ function leaderboard(body) {
       all: all.slice(0, 10).map(view), level: mine.slice(0, 10).map(view), players: all.length, levelPlayers: mine.length,
       me: meAll ? { points: meAll.p, rankAll: meAll.rank, rankLevel: meLvl ? meLvl.rank : 0 } : null,
     };
-    const prevAll = boardRank(Object.keys(old[act] || {}).map(function (u) { const x = old[act][u]; return { u: u, n: x.n, l: x.l, p: x.p }; }));
-    if (prevAll.length) champs[act] = view(prevAll[0]);
   });
-  return { ok: true, week: week, level: lvl, acts: acts, champs: champs, players: Object.keys(players).length };
+  return { ok: true, allTime: true, level: lvl, acts: acts, players: Object.keys(players).length };
 }
 
 // ── Ta'aleem Adventure (public/adventure/): the class online ─────────────

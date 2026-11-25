@@ -1,7 +1,8 @@
-// The weekly leaderboards for Levels 1 to 4: healthy competition in every activity.
+// The all-time leaderboards for Levels 1 to 4: healthy competition in every activity.
 // "So for this let the competitors compete" (al-Mutaffifin 83:26).
 // Points are for practice (worked out by the Apps Script, see apps-script/Code.gs "the leaderboards"): finishing,
-// steady work and a strong result, at most 100 per activity per day. Boards start again every Monday.
+// steady work and a strong result, at most 100 per activity per day. Points never reset: the more a student practises,
+// the higher they climb.
 //
 //   headlines(data)                  → [{ icon, text, act }]: the news that flies around after signing in
 //   mountNews(bar, items, { onOpen }) the ticker along the bottom of the home screens
@@ -31,7 +32,7 @@ const lv = (x) => `Level ${x.level}`;
 // ── the headlines ──
 export function headlines(data) {
   // every student sees the leader of every activity across all levels (the "headline" lines, always all of them, in
-  // the activities' order), then their own news, then a few extras (their level's leader, close races, last week's champions)
+  // the activities' order), then their own news, then a few extras (their level's leader, close races)
   if (!data?.ok || !data.acts) return [];
   const lead = [], mine = [], extra = [];
   const L = data.level >= 1 && data.level <= 4 ? data.level : 0;
@@ -39,9 +40,9 @@ export function headlines(data) {
     const b = data.acts?.[act] ?? { all: [], level: [] };
     const { title, icon } = ACTS[act];
     const top = b.all?.[0], second = b.all?.[1];
-    if (top?.me) mine.push({ icon: '🌟', act, text: `MashaAllah! You lead ${title} across all four levels this week, with ${top.points} points.` });
+    if (top?.me) mine.push({ icon: '🌟', act, text: `MashaAllah! You lead ${title} across all four levels, with ${top.points} points.` });
     if (top) lead.push({ icon, act, text: `${title}: ${top.me ? 'you lead' : `${top.name} (${lv(top)}) leads`} across all levels with ${top.points} points.` });
-    else lead.push({ icon, act, text: `${title}: no leader yet this week. Be the first!` });
+    else lead.push({ icon, act, text: `${title}: no leader yet. Be the first!` });
     const lt = b.level?.[0];
     if (L && lt && lt.me && !top?.me) mine.push({ icon: '🌟', act, text: `You are top of Level ${L} in ${title}! Keep it up.` });
     else if (L && lt && !lt.me && lt.name !== top?.name) extra.push({ icon, act, text: `In Level ${L}, ${lt.name} is top of ${title}.` });
@@ -53,11 +54,7 @@ export function headlines(data) {
       mine.push({ icon: '🚀', act, text: gap > 0 ? `You are ${ord(b.me.rankLevel)} in Level ${L} for ${title}, just ${gap} points behind ${ord(b.me.rankLevel - 1)}. You can do it!` : `You are ${ord(b.me.rankLevel)} in Level ${L} for ${title}. Keep going!` });
     }
   }
-  for (const act of ORDER) {
-    const c = data.champs?.[act];
-    if (c) extra.push({ icon: '👑', act, text: `Last week's ${ACTS[act].title} champion: ${c.name} (${lv(c)}). MashaAllah!` });
-  }
-  if (data.players > 1) extra.push({ icon: '🌙', act: null, text: `${data.players} students are racing to do good this week. May Allah reward every one of them.` });
+  if (data.players > 1) extra.push({ icon: '🌙', act: null, text: `${data.players} students are racing to do good. May Allah reward every one of them.` });
   const shuffle = (a) => a.map((x) => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map((p) => p[1]);
   return [...shuffle(mine).slice(0, 3), ...lead, ...shuffle(extra).slice(0, 8)];
 }
@@ -65,7 +62,7 @@ export function headlines(data) {
 // the news shown at once on signing in, before the boards arrive (or when they cannot be reached)
 export function waitingNews() {
   return [{ icon: '📣', act: null, text: 'Live leaderboard news is on its way…' },
-    ...ORDER.map((act) => ({ icon: ACTS[act].icon, act, text: `${ACTS[act].title}: every activity you finish this week earns points. Can you lead it?` }))];
+    ...ORDER.map((act) => ({ icon: ACTS[act].icon, act, text: `${ACTS[act].title}: every activity you finish earns points, and they never run out. Can you lead it?` }))];
 }
 
 // ── the ticker along the bottom ──
@@ -107,7 +104,7 @@ export function renderLeaders(root, data, { act, scope = 'level', onChange } = {
   if (!data.level) { root.append(el('p', 'muted', 'The leaderboards are for Levels 1 to 4.')); return; }
   const acts = ORDER.filter((a) => data.acts?.[a]);
   if (data.demo) root.append(el('p', 'lb-demo', 'Sample board: the class log is not connected here, so these names and points are made up.'));
-  if (!acts.length) { root.append(el('p', 'lb-empty', 'No points yet this week. Finish any activity to be the first on the board, in sha Allah!')); return; }
+  if (!acts.length) { root.append(el('p', 'lb-empty', 'No points yet. Finish any activity to be the first on the board, in sha Allah!')); return; }
   act = acts.includes(act) ? act : acts[0];
   const b = data.acts[act];
 
@@ -129,9 +126,9 @@ export function renderLeaders(root, data, { act, scope = 'level', onChange } = {
   const list = scope === 'all' ? b.all : b.level;
   const card = el('section', 'lb-card'); card.setAttribute('aria-label', `${ACTS[act].title}, ${scope === 'all' ? 'all levels' : 'Level ' + data.level}`);
   const head = el('div', 'lb-head');
-  head.append(el('span', 'lb-big-ic', ACTS[act].icon), el('h2', 'lb-title', ACTS[act].title), el('span', 'lb-count', `${scope === 'all' ? b.players : b.levelPlayers} taking part this week`));
+  head.append(el('span', 'lb-big-ic', ACTS[act].icon), el('h2', 'lb-title', ACTS[act].title), el('span', 'lb-count', `${scope === 'all' ? b.players : b.levelPlayers} taking part`));
   card.append(head);
-  if (!list.length) card.append(el('p', 'lb-empty', `No one in Level ${data.level} has points here yet this week. Be the first!`));
+  if (!list.length) card.append(el('p', 'lb-empty', `No one in Level ${data.level} has points here yet. Be the first!`));
   // the podium: the top three
   const pod = el('div', 'lb-podium');
   const medal = ['🥇', '🥈', '🥉'];
@@ -158,21 +155,8 @@ export function renderLeaders(root, data, { act, scope = 'level', onChange } = {
     const ahead = meRank > 1 ? list.find((x) => x.rank === meRank - 1) : null;
     you.textContent = meRank === 1 ? `You are ${ord(1)} with ${m.points} points. MashaAllah! Stay humble and keep going.`
       : `You are ${ord(meRank)} with ${m.points} points${ahead && ahead.points > m.points ? `, ${ahead.points - m.points} behind ${ord(meRank - 1)}` : ''}.`;
-  } else you.textContent = `You have no points in ${ACTS[act].title} yet this week. Finish it once to join the race!`;
+  } else you.textContent = `You have no points in ${ACTS[act].title} yet. Finish it once to join the race!`;
   card.append(you);
   root.append(card);
 
-  // last week's champions
-  const champs = ORDER.filter((a) => data.champs?.[a]);
-  if (champs.length) {
-    const sec = el('section', 'lb-champs'); sec.setAttribute('aria-labelledby', 'lb-ch-h');
-    const h = el('h2', 'h2', "Last week's champions"); h.id = 'lb-ch-h';
-    const grid = el('div', 'lb-ch-grid');
-    for (const a of champs) {
-      const c = data.champs[a]; const d = el('div', 'lb-ch');
-      d.append(el('span', 'lb-ch-ic', ACTS[a].icon), el('span', 'lb-ch-act', ACTS[a].title), el('b', 'lb-ch-name', `👑 ${c.name}`), el('span', 'lb-ch-lv', `${lv(c)} · ${c.points} pts`));
-      grid.append(d);
-    }
-    sec.append(h, grid); root.append(sec);
-  }
 }

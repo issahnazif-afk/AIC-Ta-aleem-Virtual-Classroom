@@ -146,7 +146,7 @@ export async function mazeBoard({ token, username, maze }) {
   try { return await post({ action: 'maze-board', token, maze }); } catch { return { ok: false, error: 'network' }; }
 }
 
-// ── the weekly leaderboards, Levels 1 to 4 (Apps Script "board"; points are worked out there) ──
+// ── the all-time leaderboards, Levels 1 to 4 (Apps Script "board"; points are worked out there) ──
 // In demo mode (no web app address) a clearly marked sample board, so the screens can be seen.
 export async function getBoard({ token, name = '', level = 1 }) {
   if (isDemo()) return demoLeaders(name, level);
@@ -161,7 +161,7 @@ function demoLeaders(name, level) {
   const me = short(name) || 'You';
   const people = [['Aisha K.', 3], ['Yusuf M.', 2], ['Maryam A.', 2], ['Ibrahim S.', 4], ['Khadija O.', 1], ['Bilal R.', 3], ['Zainab H.', 2], ['Umar F.', 1], ['Safiya N.', 4]];
   const acts = ['hifz', 'recite', 'alifba', 'learn', 'stories', 'reading', 'seerah', 'maze', 'adventure', 'deen', 'games'];
-  const out = {}, champs = {};
+  const out = {};
   acts.forEach((act, k) => {
     const list = people.map(([n, l], i) => ({ name: n, level: l, points: 40 + ((i * 37 + k * 53) % 260), me: false }));
     list.push({ name: me, level, points: 60 + ((k * 71) % 200), me: true });
@@ -170,14 +170,12 @@ function demoLeaders(name, level) {
     const mineL = list.filter((x) => x.level === level).map((x, i) => ({ ...x, rank: i + 1 }));
     const m = list.find((x) => x.me);
     out[act] = { all: list.slice(0, 10), level: mineL.slice(0, 10), players: list.length, levelPlayers: mineL.length, me: { points: m.points, rankAll: m.rank, rankLevel: mineL.find((x) => x.me).rank } };
-    const [cn, cl] = people[(k * 4) % people.length];
-    champs[act] = { rank: 1, name: cn, level: cl, points: 180 + k * 7, me: false };
   });
-  return { ok: true, demo: true, level, acts: out, champs, players: people.length + 1 };
+  return { ok: true, demo: true, allTime: true, level, acts: out, players: people.length + 1 };
 }
 
 // ── the leaderboards (src/lib/games/board.mjs; docs/games-plan.md section 4) ──
-// query: { board: 'stage' | 'game' | 'level' | 'all', game, stage, scope: 'class' | 'level', period: 'week' | 'all' }
+// query: { board: 'stage' | 'game' | 'level' | 'all', game, stage, scope: 'class' | 'level', period: 'all' }
 // Only ranked runs count (a student's own level track, with the microphone). In demo mode the boards are the players
 // on this device, worked out the same way as the class server does it (apps-script/Code.gs, gameBoard).
 const DEMO_HIDE = 'qc-board-hidden';

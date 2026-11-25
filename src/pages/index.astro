@@ -155,7 +155,7 @@ const levels = [
     <section class="ln-trust" id="ln-about" aria-label="About Ta'aleem">
       <div><b>Made for families</b><p>A classroom for children and adults to learn the Qur'an and the deen together.</p></div>
       <div><b>Every lesson sourced</b><p>Qur'an and hadith references on every lesson and question.</p></div>
-      <div><b>No ads, no selling</b><p>Nothing to buy, and recitation is heard on the device. A friendly weekly race keeps everyone practising.</p></div>
+      <div><b>No ads, no selling</b><p>Nothing to buy, and recitation is heard on the device. A friendly all-time race keeps everyone practising.</p></div>
     </section>
     <footer class="ln-foot"><span>© Ta'aleem</span><span>Works best on a computer with a camera and microphone, in Chrome or Edge.</span></footer>
     <div class="ln-welcome" id="ln-welcome" role="dialog" aria-modal="true" aria-labelledby="lw-ar" hidden>
@@ -404,7 +404,7 @@ const levels = [
     <div class="flow-main">
       <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>My Achievements</p>
       <h1 id="aw-h">Your stars and badges</h1>
-      <p class="muted lead">Stars are for finishing, for doing better than last time, and for practising often. They are yours alone. (The weekly race is on the Leaderboards.)</p>
+      <p class="muted lead">Stars are for finishing, for doing better than last time, and for practising often. They are yours alone. (The all-time race is on the Leaderboards.)</p>
       <div class="aw-stats" id="aw-stats"></div>
       <section class="daily card"><div class="daily-head"><p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Today's Ta'aleem Challenge</p></div><ol class="missions" data-missions></ol></section>
       <h2 class="h2">Badges</h2>
@@ -430,7 +430,7 @@ const levels = [
       <span class="push who"><span class="pill star-pill" data-stars>★ 0</span><span class="pill gold" data-level-pill>Level 1</span><span data-fullname></span></span>
     </header>
     <div class="flow-main">
-      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Leaderboards · this week</p>
+      <p class="eyebrow dark"><span class="star" aria-hidden="true"></span>Leaderboards · all time</p>
       <h1 id="lb-h">The race to do good</h1>
       <figure class="lb-ayah">
         <p lang="ar" dir="rtl">وَفِي ذَٰلِكَ فَلْيَتَنَافَسِ ٱلْمُتَنَافِسُونَ</p>
@@ -1634,7 +1634,7 @@ const levels = [
           adventures.length ? P('adventures', 'Adventures', 'مُغَامَرَات', 'adventures', 'gold', null, { text: 'Read, explore and restore: the 3D adventures and the mazes.', children: adventures.map((a) => C(a, 'gold')) }) : null,
           games.length ? P('games', 'Games', 'أَلْعَاب', 'games', 'sand', null, { text: 'Short games for letters, ayat, salah and good character.', children: games.map((a) => C(a, 'sand')) }) : null,
           // today's missions and My achievements are in the side column (the missions box and the student card)
-          P('leaders', 'Leaderboards', 'ٱلْأَبْطَال', 'awards', 'gold', () => openLeaders(), { text: 'Who is leading each activity this week, in your level and across Levels 1 to 4.' }),
+          P('leaders', 'Leaderboards', 'ٱلْأَبْطَال', 'awards', 'gold', () => openLeaders(), { text: 'Who is leading each activity of all time, in your level and across Levels 1 to 4.' }),
           P('garden', 'My Jannah Garden', 'حَدِيقَتِي', 'garden', 'sage', () => openGarden()),
         ].filter(Boolean);
         // each subject's picture card (public/img/home/l34/night/, cut from the night mockup; the last three are the

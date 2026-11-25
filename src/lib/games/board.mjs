@@ -2,14 +2,14 @@
 //   Stage       the best time on one stage of my level's track        my class / my level
 //   Game        the points in one game, on my level's track            my class / my level
 //   My level    the points across every game, on my level's track      my class / my level
-//   All levels  the points across every game, every level              the whole school: this week / all time
+//   All levels  the points across every game, every level              the whole school, all time
 // Every level has the same number of stages and points, so the all-levels board is fair. Only ranked runs count: a
 // student's own level track, played with the microphone. Dhikr and recitation are never ranked.
 // Names: first name and initial with a level badge; a name hidden by a parent or teacher shows as "a Ta'aleem student".
 // The top ten and your own row; the bottom of a board is never shown.
 //   showBoard(host, { games: [{ id, title }], start: { game, stage, board }, fetch(query) → Promise<result>,
 //                     setHidden(hide) → Promise<{ ok }>, onClose })
-//   query: { board: 'stage' | 'game' | 'level' | 'all', game, stage, scope: 'class' | 'level', period: 'week' | 'all' }
+//   query: { board: 'stage' | 'game' | 'level' | 'all', game, stage, scope: 'class' | 'level', period: 'all' (all time; 'week' still works) }
 //   result: { ok, rows: [{ rank, name, level, value, me }], mine: { rank, value } | null, total, unit: 'secs' | 'points',
 //             label, hidden, error }
 // `host` gets an overlay (inside a game) or the page itself (onClose omitted: a full page, e.g. from the home).
@@ -33,7 +33,7 @@ export function showBoard(host, { games, start = {}, fetch, setHidden, onClose }
   const head = el('div', 'lb-head');
   head.append(el('h3', 'lb-h', 'Leaderboards'));
   if (overlay) { const x = btn('lb-close', '×', 'Close the leaderboard'); x.addEventListener('click', close); head.append(x); }
-  const q = { board: start.board ?? (start.stage ? 'stage' : 'game'), game: start.game ?? games[0].id, stage: start.stage ?? 1, scope: 'level', period: 'week' };
+  const q = { board: start.board ?? (start.stage ? 'stage' : 'game'), game: start.game ?? games[0].id, stage: start.stage ?? 1, scope: 'level', period: 'all' };
   const tabs = el('div', 'lb-tabs'); tabs.setAttribute('role', 'tablist'); tabs.setAttribute('aria-label', 'Which board');
   const opts = el('div', 'lb-opts');
   const body = el('div', 'lb-body'); body.setAttribute('aria-live', 'polite');
@@ -70,8 +70,7 @@ export function showBoard(host, { games, start = {}, fetch, setHidden, onClose }
       sel.addEventListener('change', () => { q.stage = Number(sel.value); load(); });
       lab.append('Stage ', sel); opts.append(lab);
     }
-    if (q.board === 'all') opts.append(chips('When', [['week', 'This week'], ['all', 'All time']], () => q.period, (v) => { q.period = v; }));
-    else opts.append(chips('Who', [['class', 'My class'], ['level', 'My level']], () => q.scope, (v) => { q.scope = v; }));
+    if (q.board !== 'all') opts.append(chips('Who', [['class', 'My class'], ['level', 'My level']], () => q.scope, (v) => { q.scope = v; }));
   }
   tick.addEventListener('change', async () => {
     tick.disabled = true;
